@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+	<!-- Page Infomation -->
+    <title>예약관리 | 반짝</title>
+    <meta name="Description" content="">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="format-detection" content="telephone=no">
+    <!-- SNS Basic -->
+    <meta property="og:title" content="타이틀">
+    <meta property="og:description" content="설명 100자내외">
+    <meta property="og:type" content="website">
+    <meta property="og:url"    content="">
+    <meta property="og:image" content="이미지 경로">
+	<!-- SNS Twitter -->
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="타이틀">
+	<meta name="twitter:description" content="설명 100자내외">
+	<meta name="twitter:image" content="이미지 경로">
+    <link rel="icon" href="../assets/images/common/favicon.png">
+	<link rel="canonical" href="대표도메인">
+    <!-- custom css -->
+    <link href="../assets/css/style.css" rel="stylesheet">
+	<!-- jquery js -->
+	<script src="../assets/js/jquery-3.4.1.min.js"></script>   
+	<script src="../assets/js/swiper.min.js"></script>
+  </head>
+<body>        
+
+<!-- wrap -->
+<div id="wrap">
+	<!-- header -->
+	<header id="header"></header>
+	<!-- //header -->
+	<!-- gnb -->
+	<nav id="gnb"></nav>
+	<!-- //gnb -->
+    <!-- container -->
+    <section id="container">     
+		<!-- contents -->
+		<section id="contents">
+			<!-- view -->
+			<div class="view">
+				<div class="data-row">
+					<div class="data-col-left">
+						<div class="basic-data-card-group">
+							<!-- 오늘의 미용 예약 -->
+							<div class="basic-data-card reserve-today fluid"><!-- 20220519 수정 : fluid 클래스 추가 -->
+								<div class="card-header">
+									<div class="card-header-title">오늘의 미용 예약<div class="card-header-label">5</div></div>
+								</div>
+								<div class="card-body">
+									<!-- 내용이 있을 때 -->
+									<div class="customer-card-list">
+										<div class="customer-card-list-cell">
+											<a href="#" class="customer-card-item small transparent">
+												<div class="item-info-wrap">
+													<div class="item-thumb"><div class="user-thumb small"></div><div class="item-kind"><span>부분목욕</span></div></div>
+													<div class="item-data">
+														<div class="item-data-inner">
+															<div class="item-name">김춘식<div class="pet-name">말티즈</div></div>
+															<div class="item-phone">010-1234-5678</div>
+															<div class="item-option">
+																<div class="option-cell"><div class="icon icon-size-16 icon-time-purple"></div>오전 11:00 ~ 오후 12:00</div>
+																<div class="option-cell">줄리아</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</a>
+										</div>
+										<div class="customer-card-list-cell">
+											<a href="#" class="customer-card-item small transparent">
+												<div class="item-info-wrap">
+													<div class="item-thumb"><div class="user-thumb small"></div><div class="item-kind"><span>부분목욕</span></div></div>
+													<div class="item-data">
+														<div class="item-data-inner">
+															<div class="item-name">김춘식<div class="pet-name">말티즈</div></div>
+															<div class="item-phone">010-1234-5678</div>
+															<div class="item-option">
+																<div class="option-cell"><div class="icon icon-size-16 icon-time-purple"></div>오전 11:00 ~ 오후 12:00</div>
+																<div class="option-cell">줄리아</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</a>
+										</div>
+										<div class="customer-card-list-cell">
+											<a href="#" class="customer-card-item small transparent">
+												<div class="item-info-wrap">
+													<div class="item-thumb"><div class="user-thumb small"></div><div class="item-kind"><span>부분목욕</span></div></div>
+													<div class="item-data">
+														<div class="item-data-inner">
+															<div class="item-name">김춘식<div class="pet-name">말티즈</div></div>
+															<div class="item-phone">010-1234-5678</div>
+															<div class="item-option">
+																<div class="option-cell"><div class="icon icon-size-16 icon-time-purple"></div>오전 11:00 ~ 오후 12:00</div>
+																<div class="option-cell">줄리아</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</a>
+										</div>
+										<div class="customer-card-list-cell">
+											<a href="#" class="customer-card-item small transparent">
+												<div class="item-info-wrap">
+													<div class="item-thumb"><div class="user-thumb small"></div><div class="item-kind"><span>부분목욕</span></div></div>
+													<div class="item-data">
+														<div class="item-data-inner">
+															<div class="item-name">김춘식<div class="pet-name">말티즈</div></div>
+															<div class="item-phone">010-1234-5678</div>
+															<div class="item-option">
+																<div class="option-cell"><div class="icon icon-size-16 icon-time-purple"></div>오전 11:00 ~ 오후 12:00</div>
+																<div class="option-cell">줄리아</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</a>
+										</div>
+									</div>
+									<!-- //내용이 있을 때 -->
+									<!-- 내용이 없을 때 -->
+									<div class="common-none-data type-2">
+										<div class="none-inner">
+											<div class="item-visual"><img src="../assets/images/icon/img-illust-3@2x.png" alt="" width="103"></div>
+											<div class="item-info">오늘의 내용이 없습니다.</span></div>
+										</div>
+									</div>
+									<!-- //내용이 없을 때 -->
+								</div>
+							</div>					
+							<!-- //오늘의 미용 예약 -->
+							<!-- 오늘의 예약 총 횟수 -->
+							<div class="basic-data-card reserve-total">
+								<div class="card-header">
+									<div class="card-header-title">2022.04</div>
+								</div>
+								<div class="card-body">
+									<div class="total-text-group">
+										<div class="total-text-cell"><div class="item-title">총 미용 예약</div><div class="item-value">50건</div></div>
+										<div class="total-text-cell"><div class="item-title">예약 취소</div><div class="item-value">8건</div></div>
+										<div class="total-text-cell"><div class="item-title">NO SHOW</div><div class="item-value">2건</div></div>
+									</div>
+								</div>
+							</div>					
+							<!-- //오늘의 예약 총 횟수 -->
+							<!-- 빈시간 판매하기 -->
+							<div class="basic-data-card transparent">
+								<button type="button" class="btn btn-outline-purple btn-basic-full btn-box-shadow"><strong>빈시간 판매하기</strong></button>
+							</div>					
+							<!-- //빈시간 판매하기 -->
+						</div>					
+					</div>
+					<div class="data-col-middle">
+						<div class="basic-data-card reserve-calendar-view">
+							<div class="card-header">
+								<!-- 캘린더 상단 -->
+								<div class="reserve-calendar-top">
+									<div class="sort-left">
+										<select>
+											<option value="" selected>미용</option>
+											<option value="">호텔</option>
+											<option value="">유치원</option>
+										</select>
+									</div>
+									<div class="reserve-calendar-select">
+										<button type="button" class="btn-reserve-calendar-ui btn-month-prev"><span class="icon icon-calendar-prev-small"></span></button>
+										<div class="reserve-calendar-title">
+											<button type="button" class="txt">2021.11</button>
+										</div>
+										<button type="button" class="btn-reserve-calendar-ui btn-month-next"><span class="icon icon-calendar-next-small"></span></button>
+										<!-- calendar-title-sort 클래스에 actived클래스 추가시 활성화 -->
+										<div class="calendar-title-sort">
+											<div class="simple-calendar-wrap">
+												<div class="simple-calendar-top">
+													<button type="button" class="btn-simple-calendar-ui btn-simple-calendar-prev">이전</button>
+													<div class="top-title">2022</div>
+													<button type="button" class="btn-simple-calendar-ui btn-simple-calendar-next">다음</button>
+												</div>
+												<div class="simple-calendar-body">
+													<div class="simple-calendar-month-group">
+														<div class="simple-calendar-month-row">
+															<!-- btn-simple-calendar-month-nav 클래스에 actived클래스 추가시 활성화 -->
+															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">1</button></div>
+															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">2</button></div>
+															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">3</button></div>
+															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav actived">4</button></div>
+															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">5</button></div>
+															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">6</button></div>
+															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">7</button></div>
+															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">8</button></div>
+															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">9</button></div>
+															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">10</button></div>
+															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">11</button></div>
+															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">12</button></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="sort-right">
+										<!-- actived클래스 추가시 활성화 -->
+										<button type="button" class="btn-reserve-calendar-sort actived">월</button>
+										<button type="button" class="btn-reserve-calendar-sort">주</button>
+										<button type="button" class="btn-reserve-calendar-sort">일</button>
+										<button type="button" class="btn-reserve-calendar-sort"><span class="icon icon-type-list-gray off"></span><span class="icon icon-type-list-white on"></span></button>
+									</div>
+								</div>
+								<!-- //캘린더 상단 -->
+							</div>
+							<div class="card-body">							
+								<!-- 캘린더 상세 -->
+								<div>
+									<div class="reserve-calendar-data">
+										<div class="reserve-calendar-inner">
+											<!--
+											// calendar-month-header-col 클래스 정의
+											//	sunday : 일요일
+											//	saturday : 토요일
+
+											// calendar-month-body-col 클래스 정의
+											// before : 이전월
+											// after : 다음월
+											//	sunday : 일요일
+											//	saturday : 토요일
+											//	break :휴무
+											//	holiday :공휴일
+											// today : 오늘
+											// calendar-drag-item-group : 드래그 가능한 영역
+											// calendar-drag-item : 드래그 아이템
+											-->
+											<!--
+											// calendar-week-time-item 상황별 클래스값
+											// yellow : 앱-선결제
+											// purple : 앱-매장결제
+											// green : 매장예약
+											// red : NoShow
+											// gray : 승인대기
+											-->
+											<div class="calendar-month-wrap">
+												<div class="calendar-month-header">
+													<div class="calendar-month-header-row">
+														<div class="calendar-month-header-col sunday">일</div>
+														<div class="calendar-month-header-col">월</div>
+														<div class="calendar-month-header-col">화</div>
+														<div class="calendar-month-header-col">수</div>
+														<div class="calendar-month-header-col">목</div>
+														<div class="calendar-month-header-col">금</div>
+														<div class="calendar-month-header-col saturday">토</div>
+													</div>
+												</div>
+												<div class="calendar-month-body">
+													<div class="calendar-month-body-row">
+														<div class="calendar-month-body-col before break sunday">
+															<div class="calendar-col-inner">		
+																<div class="calendar-day-value"><div class="number">28</div><div class="state"></div></div>
+																<div class="calendar-drag-item-group"><a href="#add" class="btn-calendar-add">등록하기</a></div>
+																<div class="calendar-total-value"></div>
+															</div>
+														</div>
+														<div class="calendar-month-body-col before">
+															<div class="calendar-col-inner">		
+																<div class="calendar-day-value"><div class="number">29</div><div class="state"></div></div>
+																<div class="calendar-drag-item-group"><a href="#add" class="btn-calendar-add">등록하기</a></div>
+																<div class="calendar-total-value"></div>
+															</div>
+														</div>
+														<div class="calendar-month-body-col before">
+															<div class="calendar-col-inner">		
+																<div class="calendar-day-value"><div class="number">30</div><div class="state"></div></div>
+																<div class="calendar-drag-item-group"><a href="#add" class="btn-calendar-add">등록하기</a></div>
+																<div class="calendar-total-value"></div>
+															</div>
+														</div>
+														<div class="calendar-month-body-col">
+															<div class="calendar-col-inner">									
+																<div class="calendar-day-value"><div class="number">1</div><div class="state">마감</div></div>
+																<div class="calendar-drag-item-group">
+																	<a href="#add" class="btn-calendar-add">등록하기</a>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item yellow"><div class="calendar-month-day-item-name"><strong>이름이름이름</strong><span>(종류종류종류종류종류)</span></div></a></div>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item purple"><div class="calendar-month-day-item-name"><strong>이름</strong><span>(종류)</span></div></a></div>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item purple"><div class="calendar-month-day-item-name"><strong>이름</strong><span>(종류)</span></div></a></div>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item purple"><div class="calendar-month-day-item-name"><strong>이름</strong><span>(종류)</span></div></a></div>
+																</div>
+																<div class="calendar-total-value">총 6건</div>
+															</div>
+														</div>
+														<div class="calendar-month-body-col">
+															<div class="calendar-col-inner">									
+																<div class="calendar-day-value"><div class="number">2</div><div class="state"></div></div>
+																<div class="calendar-drag-item-group">
+																	<a href="#add" class="btn-calendar-add">등록하기</a>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item yellow"><div class="calendar-month-day-item-name"><strong>이름</strong><span>(종류)</span></div></a></div>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item purple"><div class="calendar-month-day-item-name"><strong>이름</strong><span>(종류)</span></div></a></div>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item green"><div class="calendar-month-day-item-name"><strong>이름</strong><span>(종류)</span></div></a></div>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item red"><div class="calendar-month-day-item-name"><strong>이름</strong><span>(종류)</span></div></a></div>
+																</div>
+																<div class="calendar-total-value">총 4건</div>
+															</div>
+														</div>
+														<div class="calendar-month-body-col break">
+															<div class="calendar-col-inner">
+																<div class="calendar-day-value"><div class="number">3</div><div class="state">정휴</div></div>
+																<div class="calendar-drag-item-group"><a href="#add" class="btn-calendar-add">등록하기</a></div>
+																<div class="calendar-total-value"></div>
+															</div>
+														</div>
+														<div class="calendar-month-body-col">
+															<div class="calendar-col-inner">
+																<div class="calendar-day-value"><div class="number">4</div><div class="state"></div></div>
+																<div class="calendar-drag-item-group">
+																	<a href="#add" class="btn-calendar-add">등록하기</a>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item yellow"><div class="calendar-month-day-item-name"><strong>이름</strong><span>(종류)</span></div></a></div>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item purple"><div class="calendar-month-day-item-name"><strong>이름</strong><span>(종류)</span></div></a></div>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item green"><div class="calendar-month-day-item-name"><strong>이름</strong><span>(종류)</span></div></a></div>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item red"><div class="calendar-month-day-item-name"><strong>이름</strong><span>(종류)</span></div></a></div>
+																</div>
+																<div class="calendar-total-value">총 4건</div>
+															</div>
+														</div>
+													</div>
+													<div class="calendar-month-body-row">
+														<div class="calendar-month-body-col break sunday">
+															<div class="calendar-col-inner">		
+																<div class="calendar-day-value"><div class="number">5</div><div class="state">정휴</div></div>
+																<div class="calendar-drag-item-group"><a href="#add" class="btn-calendar-add">등록하기</a></div>
+																<div class="calendar-total-value"></div>
+															</div>
+														</div>
+														<div class="calendar-month-body-col">
+															<div class="calendar-col-inner">		
+																<div class="calendar-day-value"><div class="number">6</div><div class="state"></div></div>
+																<div class="calendar-drag-item-group">
+																	<a href="#add" class="btn-calendar-add">등록하기</a>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item yellow"><div class="calendar-month-day-item-name"><strong>이름</strong><span>(종류)</span></div></a></div>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item purple"><div class="calendar-month-day-item-name"><strong>이름</strong><span>(종류)</span></div></a></div>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item green"><div class="calendar-month-day-item-name"><strong>이름</strong><span>(종류)</span></div></a></div>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item red"><div class="calendar-month-day-item-name"><strong>이름</strong><span>(종류)</span></div></a></div>
+																</div>
+																<div class="calendar-total-value">총 3건</div>
+															</div>
+														</div>
+														<div class="calendar-month-body-col">
+															<div class="calendar-col-inner">		
+																<div class="calendar-day-value"><div class="number">7</div><div class="state"></div></div>
+																<div class="calendar-drag-item-group">
+																	<a href="#add" class="btn-calendar-add">등록하기</a>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item yellow"><div class="calendar-month-day-item-name"><strong>이름</strong><span>(종류)</span></div></a></div>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item purple"><div class="calendar-month-day-item-name"><strong>이름</strong><span>(종류)</span></div></a></div>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item green"><div class="calendar-month-day-item-name"><strong>이름</strong><span>(종류)</span></div></a></div>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item red"><div class="calendar-month-day-item-name"><strong>이름</strong><span>(종류)</span></div></a></div>
+																</div>
+																<div class="calendar-total-value">총 3건</div>
+															</div>
+														</div>
+														<div class="calendar-month-body-col today">
+															<div class="calendar-col-inner">									
+																<div class="calendar-day-value"><div class="number">8</div><div class="state">마감</div></div>
+																<div class="calendar-month-day-item wait"> 대기 2건</div>
+																<div class="calendar-drag-item-group">
+																	<a href="#add" class="btn-calendar-add">등록하기</a>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item yellow"><div class="calendar-month-day-item-name"><strong>이름</strong><span>(종류)</span></div></a></div>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item purple"><div class="calendar-month-day-item-name"><strong>이름</strong><span>(종류)</span></div></a></div>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item green"><div class="calendar-month-day-item-name"><strong>이름</strong><span>(종류)</span></div></a></div>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item red"><div class="calendar-month-day-item-name"><strong>이름</strong><span>(종류)</span></div></a></div>
+																</div>
+																<div class="calendar-total-value">총 5건</div>
+															</div>
+														</div>
+														<div class="calendar-month-body-col">
+															<div class="calendar-col-inner">									
+																<div class="calendar-day-value"><div class="number">9</div><div class="state">마감</div></div>
+																<div class="calendar-drag-item-group">
+																	<a href="#add" class="btn-calendar-add">등록하기</a>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item yellow"><div class="calendar-month-day-item-name"><strong>이름</strong><span>(종류)</span></div></a></div>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item purple"><div class="calendar-month-day-item-name"><strong>이름</strong><span>(종류)</span></div></a></div>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item green"><div class="calendar-month-day-item-name"><strong>이름</strong><span>(종류)</span></div></a></div>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item red"><div class="calendar-month-day-item-name"><strong>이름</strong><span>(종류)</span></div></a></div>
+																</div>
+																<div class="calendar-total-value">총 4건</div>
+															</div>
+														</div>
+														<div class="calendar-month-body-col break">
+															<div class="calendar-col-inner">
+																<div class="calendar-day-value"><div class="number">10</div><div class="state">정휴</div></div>
+																<div class="calendar-drag-item-group"><a href="#add" class="btn-calendar-add">등록하기</a></div>
+																<div class="calendar-total-value"></div>
+															</div>
+														</div>
+														<div class="calendar-month-body-col">
+															<div class="calendar-col-inner">
+																<div class="calendar-day-value"><div class="number">11</div><div class="state">마감</div></div>
+																<div class="calendar-drag-item-group">
+																	<a href="#add" class="btn-calendar-add">등록하기</a>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item yellow"><div class="calendar-month-day-item-name"><strong>이름</strong><span>(종류)</span></div></a></div>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item purple"><div class="calendar-month-day-item-name"><strong>이름</strong><span>(종류)</span></div></a></div>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item green"><div class="calendar-month-day-item-name"><strong>이름</strong><span>(종류)</span></div></a></div>
+																	<div class="calendar-drag-item"><a href="#1" class="calendar-month-day-item red"><div class="calendar-month-day-item-name"><strong>이름</strong><span>(종류)</span></div></a></div>
+																</div>
+																<div class="calendar-total-value">총 4건</div>
+															</div>
+														</div>
+													</div>
+													<div class="calendar-month-body-row">
+														<div class="calendar-month-body-col break sunday">
+															<div class="calendar-col-inner">		
+																<div class="calendar-day-value"><div class="number">12</div><div class="state">정휴</div></div>
+																<div class="calendar-drag-item-group"><a href="#add" class="btn-calendar-add">등록하기</a></div>
+																<div class="calendar-total-value"></div>
+															</div>
+														</div>
+														<div class="calendar-month-body-col">
+															<div class="calendar-col-inner">		
+																<div class="calendar-day-value"><div class="number">13</div><div class="state"></div></div>
+																<div class="calendar-drag-item-group"><a href="#add" class="btn-calendar-add">등록하기</a></div>
+																<div class="calendar-total-value"></div>
+															</div>
+														</div>
+														<div class="calendar-month-body-col">
+															<div class="calendar-col-inner">		
+																<div class="calendar-day-value"><div class="number">14</div><div class="state"></div></div>
+																<div class="calendar-drag-item-group"><a href="#add" class="btn-calendar-add">등록하기</a></div>
+																<div class="calendar-total-value"></div>
+															</div>
+														</div>
+														<div class="calendar-month-body-col">
+															<div class="calendar-col-inner">									
+																<div class="calendar-day-value"><div class="number">15</div><div class="state"></div></div>
+																<div class="calendar-drag-item-group"><a href="#add" class="btn-calendar-add">등록하기</a></div>
+																<div class="calendar-total-value"></div>
+															</div>
+														</div>
+														<div class="calendar-month-body-col">
+															<div class="calendar-col-inner">									
+																<div class="calendar-day-value"><div class="number">16</div><div class="state"></div></div>
+																<div class="calendar-drag-item-group"><a href="#add" class="btn-calendar-add">등록하기</a></div>
+																<div class="calendar-total-value"></div>
+															</div>
+														</div>
+														<div class="calendar-month-body-col break">
+															<div class="calendar-col-inner">
+																<div class="calendar-day-value"><div class="number">17</div><div class="state">정휴</div></div>
+																<div class="calendar-drag-item-group"><a href="#add" class="btn-calendar-add">등록하기</a></div>
+																<div class="calendar-total-value"></div>
+															</div>
+														</div>
+														<div class="calendar-month-body-col">
+															<div class="calendar-col-inner">
+																<div class="calendar-day-value"><div class="number">18</div><div class="state"></div></div>
+																<div class="calendar-drag-item-group"><a href="#add" class="btn-calendar-add">등록하기</a></div>
+																<div class="calendar-total-value"></div>
+															</div>
+														</div>
+													</div>
+													<div class="calendar-month-body-row">
+														<div class="calendar-month-body-col break sunday">
+															<div class="calendar-col-inner">		
+																<div class="calendar-day-value"><div class="number">19</div><div class="state">정휴</div></div>
+																<div class="calendar-drag-item-group"><a href="#add" class="btn-calendar-add">등록하기</a></div>
+																<div class="calendar-total-value"></div>
+															</div>
+														</div>
+														<div class="calendar-month-body-col">
+															<div class="calendar-col-inner">		
+																<div class="calendar-day-value"><div class="number">20</div><div class="state"></div></div>
+																<div class="calendar-drag-item-group"><a href="#add" class="btn-calendar-add">등록하기</a></div>
+																<div class="calendar-total-value"></div>
+															</div>
+														</div>
+														<div class="calendar-month-body-col">
+															<div class="calendar-col-inner">		
+																<div class="calendar-day-value"><div class="number">21</div><div class="state"></div></div>
+																<div class="calendar-drag-item-group"><a href="#add" class="btn-calendar-add">등록하기</a></div>
+																<div class="calendar-total-value"></div>
+															</div>
+														</div>
+														<div class="calendar-month-body-col">
+															<div class="calendar-col-inner">									
+																<div class="calendar-day-value"><div class="number">22</div><div class="state"></div></div>
+																<div class="calendar-drag-item-group"><a href="#add" class="btn-calendar-add">등록하기</a></div>
+																<div class="calendar-total-value"></div>
+															</div>
+														</div>
+														<div class="calendar-month-body-col">
+															<div class="calendar-col-inner">									
+																<div class="calendar-day-value"><div class="number">23</div><div class="state"></div></div>
+																<div class="calendar-drag-item-group"><a href="#add" class="btn-calendar-add">등록하기</a></div>
+																<div class="calendar-total-value"></div>
+															</div>
+														</div>
+														<div class="calendar-month-body-col break">
+															<div class="calendar-col-inner">
+																<div class="calendar-day-value"><div class="number">24</div><div class="state">정휴</div></div>
+																<div class="calendar-drag-item-group"><a href="#add" class="btn-calendar-add">등록하기</a></div>
+																<div class="calendar-total-value"></div>
+															</div>
+														</div>
+														<div class="calendar-month-body-col">
+															<div class="calendar-col-inner">
+																<div class="calendar-day-value"><div class="number">25</div><div class="state"></div></div>
+																<div class="calendar-drag-item-group"><a href="#add" class="btn-calendar-add">등록하기</a></div>
+																<div class="calendar-total-value"></div>
+															</div>
+														</div>
+													</div>
+													<div class="calendar-month-body-row">
+														<div class="calendar-month-body-col break sunday">
+															<div class="calendar-col-inner">		
+																<div class="calendar-day-value"><div class="number">26</div><div class="state">정휴</div></div>
+																<div class="calendar-drag-item-group"><a href="#add" class="btn-calendar-add">등록하기</a></div>
+																<div class="calendar-total-value"></div>
+															</div>
+														</div>
+														<div class="calendar-month-body-col">
+															<div class="calendar-col-inner">		
+																<div class="calendar-day-value"><div class="number">27</div><div class="state"></div></div>
+																<div class="calendar-drag-item-group"><a href="#add" class="btn-calendar-add">등록하기</a></div>
+																<div class="calendar-total-value"></div>
+															</div>
+														</div>
+														<div class="calendar-month-body-col">
+															<div class="calendar-col-inner">		
+																<div class="calendar-day-value"><div class="number">28</div><div class="state"></div></div>
+																<div class="calendar-drag-item-group"><a href="#add" class="btn-calendar-add">등록하기</a></div>
+																<div class="calendar-total-value"></div>
+															</div>
+														</div>
+														<div class="calendar-month-body-col">
+															<div class="calendar-col-inner">									
+																<div class="calendar-day-value"><div class="number">29</div><div class="state"></div></div>
+																<div class="calendar-drag-item-group"><a href="#add" class="btn-calendar-add">등록하기</a></div>
+																<div class="calendar-total-value"></div>
+															</div>
+														</div>
+														<div class="calendar-month-body-col">
+															<div class="calendar-col-inner">									
+																<div class="calendar-day-value"><div class="number">30</div><div class="state"></div></div>
+																<div class="calendar-drag-item-group"><a href="#add" class="btn-calendar-add">등록하기</a></div>
+																<div class="calendar-total-value"></div>
+															</div>
+														</div>
+														<div class="calendar-month-body-col break after">
+															<div class="calendar-col-inner">
+																<div class="calendar-day-value"><div class="number">1</div><div class="state">정휴</div></div>
+																<div class="calendar-drag-item-group"><a href="#add" class="btn-calendar-add">등록하기</a></div>
+																<div class="calendar-total-value"></div>
+															</div>
+														</div>
+														<div class="calendar-month-body-col after">
+															<div class="calendar-col-inner">
+																<div class="calendar-day-value"><div class="number">2</div><div class="state"></div></div>
+																<div class="calendar-drag-item-group"><a href="#add" class="btn-calendar-add">등록하기</a></div>
+																<div class="calendar-total-value"></div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- //캘린더 상세 -->
+								<!-- 캘린더 라벨 -->
+								<div class="reserve-calendar-label">
+									<div class="grid-layout reserve-calendar-label-group">
+										<div class="grid-layout-inner">
+											<div class="grid-layout-cell"><div class="reserve-calendar-label-items"><div class="reserve-calendar-label-state yellow"></div>앱-선결제</div></div>
+											<div class="grid-layout-cell"><div class="reserve-calendar-label-items"><div class="reserve-calendar-label-state purple"></div>앱-매장결제</div></div>
+											<div class="grid-layout-cell"><div class="reserve-calendar-label-items"><div class="reserve-calendar-label-state green"></div>매장예약</div></div>
+											<div class="grid-layout-cell"><div class="reserve-calendar-label-items"><div class="reserve-calendar-label-state red"></div>NoShow</div></div>
+										</div>
+									</div>	
+								</div>
+								<!-- //캘린더 라벨 -->	
+							</div>
+						</div>			
+					</div>
+				</div>
+			</div>
+			<!-- //view -->
+			<button type="button" class="btn-broswer-mode" onclick="darkMode();">
+				<span class="off"><span class="icons"></span>다크 모드 보기</span>
+				<span class="on"><span class="icons"></span>라이트 모드 보기</span>
+			</button>
+		</section>
+		<!-- //contents -->
+    </section>
+    <!-- //container -->
+</div>
+<!-- //wrap -->
+<script src="../assets/js/common.js"></script>
+<script src="../assets/js/Sortable.min.js"></script>
+<script>
+$(function(){
+	/*
+	$( "#sortable" ).sortable({
+		placeholder: "ui-state-highlight",
+		cancel:''
+    });
+	$( "#sortable" ).disableSelection();
+	*/
+
+	//https://github.com/SortableJS/Sortable
+
+	$('.calendar-month-body-col').each(function(){
+		if(!$(this).hasClass('break')){
+			//휴무가 아닐 경우 드래그앤 드롭 가능 처리
+			var sortable = Sortable.create($(this).find('.calendar-drag-item-group')[0] , {
+				group : 'shared',
+				delay : 0,
+				delayOnTouchOnly : true,
+				ghostClass: 'guide',
+				draggable : '.calendar-drag-item',
+				onStart : function(evt){
+					//드래그 시작 
+					console.log('drag start');
+				},
+				onEnd : function(evt){
+					//드래그 끝
+					console.log('drag end');
+					//evt.to;    // 현재 아이템
+					//evt.from;  // 이전 아이템
+					//evt.oldIndex;  // 이전 인덱스값
+					//evt.newIndex;  // 새로운 인덱스값
+				},
+				onUpdate : function(evt){
+					console.log('update');
+				},
+				onUpdate : function(evt){
+					console.log('onChange');
+				},
+				onRemove: function (/**Event*/evt) {
+					console.log('remove');
+				}
+				
+			});
+		}
+	});
+
+});
+</script>
+</body>
+</html>

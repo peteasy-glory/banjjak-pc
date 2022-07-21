@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+	<!-- Page Infomation -->
+    <title>멤버 | 반짝</title>
+    <meta name="Description" content="">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="format-detection" content="telephone=no">
+    <!-- SNS Basic -->
+    <meta property="og:title" content="타이틀">
+    <meta property="og:description" content="설명 100자내외">
+    <meta property="og:type" content="website">
+    <meta property="og:url"    content="">
+    <meta property="og:image" content="이미지 경로">
+	<!-- SNS Twitter -->
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="타이틀">
+	<meta name="twitter:description" content="설명 100자내외">
+	<meta name="twitter:image" content="이미지 경로">
+    <link rel="icon" href="../assets/images/common/favicon.png">
+	<link rel="canonical" href="대표도메인">
+    <!-- custom css -->
+    <link href="../assets/css/style.css" rel="stylesheet">
+	<!-- jquery js -->
+	<script src="../assets/js/jquery-3.4.1.min.js"></script>   
+	<script src="../assets/js/swiper.min.js"></script>
+  </head>
+<body>        
+
+<!-- wrap -->
+<div id="wrap">
+	<div class="member-header">	
+		<div class="member-header-inner">				
+			<h1><a href="#">반짝 반려미용샵의 단짝</a></h1>
+		</div>
+	</div>
+    <div class="member-wrap">
+		<div class="member-inner">
+			<div class="member-view">
+				<div class="member-view-inner">
+					<div class="member-find-wrap">
+						<button type="button" class="btn btn-purple" onclick="pop.open('minorAgree');"><em>14세 미만 팝업</em></button>
+						<button type="button" class="btn btn-purple" onclick="pop.open('rightConfirm');"><em>권한 팝업</em></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- //wrap -->
+<!--  14세 미만 팝업 -->
+<article id="minorAgree" class="layer-pop-wrap">
+	<div class="layer-pop-parent">
+		<div class="layer-pop-children">
+			<div class="pop-data alert-pop-data middle">
+				<div class="pop-body">
+					<div class="msg-txt">정보통신망 이용촉진 및 정보보호 등의 관한 법률에는 만 14세미만 아동의 개인정보 수집시 법정대리인의 동의를 받도록 규정하고 있으며, 만 14세 미만 아동이 법정대리인 동의없이 회원가입을 하는 경우 회원탈퇴 또는 서비스 이용이 제한 될 수 있습니다.</div>
+				</div>
+				<div class="pop-footer">
+					<button type="button" class="btn btn-confirm" onclick="pop.close();">확인</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</article>
+<!-- //14세 미만 팝업 -->
+<!--  권한 -->
+<article id="rightConfirm" class="layer-pop-wrap">
+	<div class="layer-pop-parent">
+		<div class="layer-pop-children">
+			<div class="pop-data data-pop-view">
+				<div class="pop-header"></div>
+				<div class="pop-body">	
+					<div class="access-wait-wrap">
+						<h3 class="con-title">잠깐만요<br>권한부여 대기중입니다.</h3>								
+						<div class="access-info-list">
+							<div class="list-cell">
+								<div class="access-info-item">
+									<div class="item-subject">점주님이신가요?</div>
+									<div class="item-desc">입점 신청 후 사용하실 수 있습니다.</div>
+									<div class="item-btns"><a href="#" class="btn btn-purple">입점 신청하기</a></div>
+								</div>
+							</div>
+							<div class="list-cell">
+								<div class="access-info-item">
+									<div class="item-subject">직원이신가요?</div>
+									<div class="item-desc">점주님에게 권한설정을 요청하세요.</div>
+									<div class="item-msg">상세설정 &gt; 권한설정에서 설정하실 수 있습니다.</div>
+								</div>
+							</div>
+						</div>							
+					</div>
+				</div>
+				<button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
+			</div>
+		</div>
+	</div>
+</article>
+<!-- //권한 -->
+<script src="../assets/js/common.js"></script>
+</body>
+</html>

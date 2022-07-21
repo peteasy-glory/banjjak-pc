@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+	<!-- Page Infomation -->
+    <title>메인 | 반짝</title>
+    <meta name="Description" content="">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="format-detection" content="telephone=no">
+    <!-- SNS Basic -->
+    <meta property="og:title" content="타이틀">
+    <meta property="og:description" content="설명 100자내외">
+    <meta property="og:type" content="website">
+    <meta property="og:url"    content="">
+    <meta property="og:image" content="이미지 경로">
+	<!-- SNS Twitter -->
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="타이틀">
+	<meta name="twitter:description" content="설명 100자내외">
+	<meta name="twitter:image" content="이미지 경로">
+    <link rel="icon" href="../assets/images/common/favicon.png">
+	<link rel="canonical" href="대표도메인">
+    <!-- custom css -->
+    <link href="../assets/css/style.css" rel="stylesheet">
+	<!-- jquery js -->
+	<script src="../assets/js/jquery-3.4.1.min.js"></script>   
+	<script src="../assets/js/swiper.min.js"></script>
+  </head>
+<body>        
+
+<!-- wrap -->
+<div id="wrap">
+	<!-- header -->
+	<header id="header"></header>
+	<!-- //header -->
+	<!-- gnb -->
+	<nav id="gnb"></nav>
+	<!-- //gnb -->
+    <!-- container -->
+    <section id="container">     
+		<!-- contents -->
+		<section id="contents">
+			<!-- view -->
+			<div class="view">
+				<div class="basic-data-group">
+					<div class="data-row">
+						<div class="data-col-middle">
+							<div class="basic-data-card">
+								<div style="padding:20px;">
+									<button type="button" class="btn btn-inline btn-purple" onclick="pop.open('importRequest1');"><em>반짝입점 신청_시작하기</em></button>
+									<button type="button" class="btn btn-inline btn-purple" onclick="pop.open('importRequest2');"><em>반짝입점 신청_사업자입력</em></button>
+									<button type="button" class="btn btn-inline btn-purple" onclick="pop.open('importRequest3');"><em>반짝입점 신청_개인입력</em></button>
+									<button type="button" class="btn btn-inline btn-purple" onclick="pop.open('importRequest4');"><em>반짝입점 신청_완료</em></button>
+									<button type="button" class="btn btn-inline btn-purple" onclick="pop.open('allianceRequest');"><em>제휴문의</em></button>
+								</div>
+							</div>			
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- //view -->
+		</section>
+		<!-- //contents -->
+    </section>
+    <!-- //container -->
+
+	<!-- 반짝입점 신청_시작하기 팝업 -->
+	<article id="importRequest1" class="layer-pop-wrap">
+		<div class="layer-pop-parent">
+			<div class="layer-pop-children">
+				<div class="pop-data data-pop-view">
+					<div class="pop-header">
+						<h4 class="con-title">반짝 입점 신청하기</h4>
+					</div>
+					<div class="pop-body">
+						<div class="import-request-ready">
+							<div class="import-request-slider">
+								<div class="slider-inner">
+									<div class="swiper-container">
+										<div class="swiper-wrapper">
+											<div class="swiper-slide"><div class="slider-item"><img src="../assets/images/import_banner_sample.png" alt=""/></div></div>
+											<div class="swiper-slide"><div class="slider-item"><img src="../assets/images/import_banner_sample.png" alt=""/></div></div>
+											<div class="swiper-slide"><div class="slider-item"><img src="../assets/images/import_banner_sample.png" alt=""/></div></div>
+										</div>
+									</div>
+								</div>
+								<div class="swiper-pagination"></div>
+							</div>
+							
+							<div class="import-request-info">아래 버튼을 선택하여<br>반짝 입점 신청을 진행해 주세요!</div>
+						</div>
+					</div>
+					<div class="pop-footer">
+						<div class="grid-layout btn-grid-group">
+							<div class="grid-layout-inner">
+								<div class="grid-layout-cell grid-2"><a href="#" class="btn btn-outline-purple"><strong>개인</strong></a></div>
+								<div class="grid-layout-cell grid-2"><a href="#" class="btn btn-outline-purple"><strong>사업자</strong></a></div>
+							</div>
+						</div>
+					</div>
+					<button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
+				</div>
+			</div>
+		</div>
+		<script>
+		$(function(){
+			var importSlider = new Swiper($('.import-request-slider').find('.swiper-container')[0] , {
+				loop : true,
+				slidesPerView : 1 ,
+				spaceBetween : 0,
+				simulateTouch : true,
+				speed : 450,
+				autoplay : {
+					delay : 3000,		
+					disableOnInteraction:false
+				},
+				pagination: {
+					el:$('.import-request-slider').find('.swiper-pagination')[0],
+					clickable:true
+				}
+			});	
+
+		});
+		</script>
+	</article>
+	<!-- //반짝입점 신청_시작하기 팝업 -->
+
+	<!-- 반짝입점 신청_사업자입력 팝업 -->
+	<article id="importRequest2" class="layer-pop-wrap">
+		<div class="layer-pop-parent">
+			<div class="layer-pop-children">
+				<div class="pop-data data-pop-view">
+					<div class="pop-header">
+						<h4 class="con-title">반짝 입점 신청하기</h4>
+					</div>
+					<div class="pop-body">
+						<div class="form-group">
+							<div class="grid-layout margin-14-17">
+								<div class="grid-layout-inner">
+									<div class="grid-layout-cell grid-1">
+										<div class="form-group-item">
+											<div class="form-item-label">사업자명 (사업자 등록상 이름)</div>
+											<div class="form-item-data">
+												<input type="text" class="form-control">
+											</div>
+										</div>
+									</div>
+									<div class="grid-layout-cell grid-1">
+										<div class="form-group-item">
+											<div class="form-item-label">사업자 번호</div>
+											<div class="form-item-data">
+												<div class="form-cell-group">	
+													<div class="form-cell-group-inner">	
+														<input type="text" class="form-control flex-2">
+														<input type="text" class="form-control flex-1">
+														<input type="text" class="form-control flex-3">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="grid-layout-cell grid-1">
+										<div class="form-group-item">
+											<div class="form-item-label">사업자 등록증 업로드</div>
+											<div class="form-item-data type-2">
+												<div class="picture-add-data">
+													<!-- 사진 없을 때 -->
+													<div style="display:block">
+														<a href="#" class="btn-picture-add">	
+															<div>
+																<div class="icon icon-size-24 icon-camera-gray"></div>
+																<div class="add-label">이미지 첨부</div>
+															</div>
+														</a>
+													</div>
+													<!-- 사진 있을 때 -->
+													<div style="display:block">
+														<div class="picture-view-wrap">
+															<div class="picture-view">
+																<img src="../assets/images/user_thumb.png" alt=""/>
+															</div>
+															<a href="#" class="btn-picture-mod"><div class="icon icon-size-24 icon-camera-gray"></div>이미지 수정</a>
+														</div>
+													</div>
+												</div>		
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="pop-footer">
+						<!-- btn-page-bottom 클래스에 disabled 클래스 추가시 비활성화 또는 button 태그일 시 disabled 속성 추가시 비활성화 -->
+						<button type="button" class="btn btn-yellow"><strong>다음</strong></button>
+					</div>
+					<button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
+				</div>
+			</div>
+		</div>
+	</article>
+	<!-- //반짝입점 신청_사업자입력 팝업 -->
+
+	<!-- 반짝입점 신청_개인입력 팝업 -->
+	<article id="importRequest3" class="layer-pop-wrap">
+		<div class="layer-pop-parent">
+			<div class="layer-pop-children">
+				<div class="pop-data data-pop-view">
+					<div class="pop-header">
+						<h4 class="con-title">반짝 입점 신청하기</h4>
+					</div>
+					<div class="pop-body">
+						<div class="form-group">
+							<div class="grid-layout margin-14-17">
+								<div class="grid-layout-inner">
+									<div class="grid-layout-cell grid-1">
+										<div class="form-group-item">
+											<div class="form-item-label">이름</div>
+											<div class="form-item-data">
+												<input type="text" class="form-control">
+											</div>
+										</div>
+									</div>
+									<div class="grid-layout-cell grid-1">
+										<div class="form-group-item">
+											<div class="form-item-label">전화번호</div>
+											<div class="form-item-data">
+												<input type="text" class="form-control">
+											</div>
+										</div>
+									</div>
+									<div class="grid-layout-cell grid-1">
+										<div class="form-group-item">
+											<div class="form-item-label">영업 가능 지역 선택</div>
+											<div class="form-item-data type-2">
+												<div class="form-detail-group">	
+													<select>
+														<option value="">지역을 선택해 주세요.</option>
+													</select>
+												</div>
+												<div class="form-detail-group">	
+													<select disabled="">
+														<option value="">세부 지역을 선택해 주세요.</option>
+													</select>
+												</div>
+												<div class="form-bottom-info">*대표적인 지역만 선택하시면 됩니다. 추후 상세 설정 과정이 있습니다.</div>
+											</div>
+										</div>
+									</div>
+									<div class="grid-layout-cell grid-1">
+										<div class="form-group-item">
+											<div class="form-item-label">제공 서비스 선택 (복수 선택 가능)</div>
+											<div class="form-item-data type-2">
+												<div class="grid-layout toggle-button-group">
+													<div class="grid-layout-inner">
+														<div class="grid-layout-cell grid-3"><label class="form-toggle-box middle auto" for="cate1"><input type="checkbox" name="cate" id="cate1"><em>미용</em></label></div>
+														<div class="grid-layout-cell grid-3"><label class="form-toggle-box middle auto" for="cate2"><input type="checkbox" name="cate" id="cate2"><em>호텔</em></label></div>
+														<div class="grid-layout-cell grid-3"><label class="form-toggle-box middle auto" for="cate3"><input type="checkbox" name="cate" id="cate3"><em>유치원</em></label></div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="grid-layout-cell grid-1">
+										<div class="form-group-item">
+											<div class="form-item-label">오프라인 매장 유/무</div>
+											<div class="form-item-data type-5">
+												<div class="form-check-group">
+													<div class="form-check-inner">
+														<div class="check-cell"><label for="off1" class="form-radiobox"><input type="radio" id="off1" name="off"><span class="form-check-icon"><em>유</em></span></label></div>
+														<div class="check-cell"><label for="off2" class="form-radiobox"><input type="radio" id="off2" name="off"><span class="form-check-icon"><em>무</em></span></label></div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>	
+									<div class="grid-layout-cell grid-1">
+										<div class="form-group-item">
+											<div class="form-item-label">매장주소</div>
+											<div class="form-item-data">
+												<div class="form-icon">
+													<input type="text" class="form-control" placeholder="주소찾기 (선택해 주세요.)">
+													<div class="icon icon-size-24 icon-page-map"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="grid-layout-cell grid-1">
+										<div class="form-group-item">
+											<div class="form-item-label">매장명</div>
+											<div class="form-item-data">
+												<input type="text" class="form-control">
+											</div>
+										</div>
+									</div>
+									<div class="grid-layout-cell grid-1">
+										<div class="form-group-item">
+											<div class="form-item-label">매장번호</div>
+											<div class="form-item-data">
+												<input type="text" class="form-control">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="pop-footer">
+						<!-- btn-page-bottom 클래스에 disabled 클래스 추가시 비활성화 또는 button 태그일 시 disabled 속성 추가시 비활성화 -->
+						<button type="button" class="btn btn-yellow"><strong>입점을 신청합니다.</strong></button>
+					</div>
+					<button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
+				</div>
+			</div>
+		</div>
+	</article>
+	<!-- //반짝입점 신청_개인입력 팝업 -->
+
+	<!-- 반짝입점 신청_완료 팝업 -->
+	<article id="importRequest4" class="layer-pop-wrap">
+		<div class="layer-pop-parent">
+			<div class="layer-pop-children">
+				<div class="pop-data data-pop-view">
+					<div class="pop-header">
+						<h4 class="con-title">입점 신청 완료</h4>
+					</div>
+					<div class="pop-body">
+						<div class="import-request-complete">
+							<div class="item-visual"><img src="../assets/images/icon/img-illust-1@2x.png" alt="" width="103"/></div>
+							<div class="item-info">입점 신청을 해주셔서 감사합니다.</div>
+							<div class="item-value">신청이 승인되면 카톡으로 오픈에 필요한 정보를 요청해드립니다. 이후 정보를 전달해주신 날로부터 1영업일내에 오픈해드리고 있습니다.<br>감사합니다.</div>
+							<div class="app-download-code">
+								<div class="code-title">반짝 펫샵 전용 앱 다운로드</div>
+								<div class="code-list">
+									<div class="code-items">
+										<div class="code-visual"><img src="../assets/images/icon/icon-qr-code-aos.png" width="88" alt=""/></div>
+										<div class="code-label">Android</div>
+									</div>
+									<div class="code-items">
+										<div class="code-visual"><img src="../assets/images/icon/icon-qr-code-ios.png" width="88" alt=""/></div>
+										<div class="code-label">IOS</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="agree-check-arrow">
+							<div class="agree-check-input">
+								<label class="form-checkbox"><input type="checkbox"><span class="form-check-icon"><em>(필수) 개인정보 수집 및 이용에 동의합니다.</em></span></label>
+							</div>
+							<a href="#" class="btn-agree-check-arrow"></a>
+						</div>			
+					</div>
+					<div class="pop-footer">
+						<!-- btn-page-bottom 클래스에 disabled 클래스 추가시 비활성화 또는 button 태그일 시 disabled 속성 추가시 비활성화 -->
+						<button type="button" class="btn btn-yellow"><strong>반짝 입점신청 완료</strong></button>
+					</div>
+					<button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
+				</div>
+			</div>
+		</div>
+	</article>
+	<!-- //반짝입점 신청_완료 팝업 -->
+
+	<!-- 제휴문의 팝업 -->
+	<article id="allianceRequest" class="layer-pop-wrap">
+		<div class="layer-pop-parent">
+			<div class="layer-pop-children">
+				<div class="pop-data data-pop-view">
+					<div class="pop-header">
+						<h4 class="con-title">상품입점 / 제휴문의</h4>
+					</div>
+					<div class="pop-body">
+						<div class="form-group">
+							<div class="grid-layout margin-14-17">
+								<div class="grid-layout-inner">
+									<div class="grid-layout-cell grid-1">
+										<div class="form-group-item">
+											<div class="form-item-label">항목 선택 (복수 선택 가능)</div>
+											<div class="form-item-data type-2">
+												<div class="grid-layout toggle-button-group">
+													<div class="grid-layout-inner">
+														<div class="grid-layout-cell grid-3"><label class="form-toggle-box middle auto" for="cate1"><input type="checkbox" name="cate" id="cate1"><em>상품입점</em></label></div>
+														<div class="grid-layout-cell grid-3"><label class="form-toggle-box middle auto" for="cate2"><input type="checkbox" name="cate" id="cate2"><em>제휴</em></label></div>
+														<div class="grid-layout-cell grid-3"><label class="form-toggle-box middle auto" for="cate3"><input type="checkbox" name="cate" id="cate3"><em>광고</em></label></div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="grid-layout-cell grid-1">
+										<div class="form-group-item">
+											<div class="form-item-label">상호</div>
+											<div class="form-item-data">
+												<input type="text" class="form-control">
+											</div>
+										</div>
+									</div>
+									<div class="grid-layout-cell grid-1">
+										<div class="form-group-item">
+											<div class="form-item-label">브랜드명</div>
+											<div class="form-item-data">
+												<input type="text" class="form-control">
+											</div>
+										</div>
+									</div>
+									<div class="grid-layout-cell grid-1">
+										<div class="form-group-item">
+											<div class="form-item-label">전화번호</div>
+											<div class="form-item-data">
+												<input type="text" class="form-control" placeholder="'-' 없이 숫자">
+											</div>
+										</div>
+									</div>
+									<div class="grid-layout-cell grid-1">
+										<div class="form-group-item">
+											<div class="form-item-label">이메일</div>
+											<div class="form-item-data">
+												<input type="text" class="form-control" placeholder="user@email.com">
+											</div>
+										</div>
+									</div>
+									<div class="grid-layout-cell grid-1">
+										<div class="form-group-item">
+											<div class="form-item-label">문의 내용</div>
+											<div class="form-item-data">
+												<input type="text" class="form-control">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="pop-footer">
+						<!-- btn-page-bottom 클래스에 disabled 클래스 추가시 비활성화 또는 button 태그일 시 disabled 속성 추가시 비활성화 -->
+						<button type="button" class="btn btn-yellow"><strong>문의 접수</strong></button>
+					</div>
+					<button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
+				</div>
+			</div>
+		</div>
+	</article>
+	<!-- //제휴문의 팝업 -->
+</div>
+<!-- //wrap -->
+<script src="../assets/js/common.js"></script>
+</body>
+</html>

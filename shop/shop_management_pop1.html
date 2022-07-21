@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+	<!-- Page Infomation -->
+    <title>샵 관리 | 반짝</title>
+    <meta name="Description" content="">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="format-detection" content="telephone=no">
+    <!-- SNS Basic -->
+    <meta property="og:title" content="타이틀">
+    <meta property="og:description" content="설명 100자내외">
+    <meta property="og:type" content="website">
+    <meta property="og:url"    content="">
+    <meta property="og:image" content="이미지 경로">
+	<!-- SNS Twitter -->
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="타이틀">
+	<meta name="twitter:description" content="설명 100자내외">
+	<meta name="twitter:image" content="이미지 경로">
+    <link rel="icon" href="../assets/images/common/favicon.png">
+	<link rel="canonical" href="대표도메인">
+    <!-- custom css -->
+    <link href="../assets/css/style.css" rel="stylesheet">
+	<!-- jquery js -->
+	<script src="../assets/js/jquery-3.4.1.min.js"></script>   
+	<script src="../assets/js/swiper.min.js"></script>
+  </head>
+<body>        
+
+<!-- wrap -->
+<div id="wrap">
+	<!-- header -->
+	<header id="header"></header>
+	<!-- //header -->
+	<!-- gnb -->
+	<nav id="gnb"></nav>
+	<!-- //gnb -->
+    <!-- container -->
+    <section id="container">     
+		<!-- contents -->
+		<section id="contents">
+			<!-- view -->
+			<div class="view">
+				<div class="basic-data-group">
+					<div class="data-row">
+						<div class="data-col-middle">
+							<div class="basic-data-card">
+								<div style="padding:20px;">
+									<button type="button" class="btn btn-inline btn-purple" onclick="pop.open('licenseAdd1');"><em>보유자격증 등록 팝업</em></button>
+									<button type="button" class="btn btn-inline btn-purple" onclick="pop.open('licenseAdd2');"><em>수상경력 등록 팝업</em></button>
+								</div>
+							</div>			
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- //view -->
+		</section>
+		<!-- //contents -->
+    </section>
+    <!-- //container -->
+
+	<!-- 보유자격증 등록 팝업 -->
+	<article id="licenseAdd1" class="layer-pop-wrap">
+		<div class="layer-pop-parent">
+			<div class="layer-pop-children">
+				<div class="pop-data data-pop-view">
+					<div class="pop-header">
+						<h4 class="con-title">보유 자격증 등록</h4>
+					</div>
+					<div class="pop-body">
+						<div class="license-add-wrap">
+							<div class="con-title-group">
+								<h5 class="con-title">주의사항</h5>
+							</div>
+							<div class="line-text-list">
+								<div class="list-cell">주민번호 등의 개인정보는 지운 후 올려주세요.</div>
+								<div class="list-cell">깔끔하게 스캔 및 촬영된 사진을 올려주세요.</div>
+							</div>			
+							<div class="form-group">
+								<div class="form-group-cell">
+									<div class="picture-add-group">						
+										<div class="picture-add-data">
+											<!-- 사진 없을 때 -->
+											<div style="display:block">
+												<a href="#" class="btn-picture-add">	
+													<div>
+														<div class="icon icon-size-24 icon-camera-gray"></div>
+														<div class="add-label">사진첨부</div>
+													</div>
+												</a>
+											</div>
+											<!-- 사진 있을 때 -->
+											<div style="display:none">
+												<div class="picture-view">
+													<img src="/static/pub/images/user_thumb.png" alt="">
+												</div>
+											</div>
+										</div>						
+									</div>
+								</div>
+								<div class="form-group-cell">
+									<div class="form-group-item">
+										<div class="form-item-label">자격증 공식 명칭</div>
+										<div class="form-item-data">
+											<input type="text" class="form-control">
+										</div>
+									</div>
+								</div>
+								<div class="form-group-cell">
+									<div class="form-group-item">
+										<div class="form-item-label">발행처</div>
+										<div class="form-item-data">
+											<input type="text" class="form-control">
+										</div>
+									</div>
+								</div>
+								<div class="form-group-cell">
+									<div class="form-group-item">
+										<div class="form-item-label">자격증 획득 일자</div>
+										<div class="form-item-data type-2">
+											<div class="form-cell-group">	
+												<div class="form-cell-group-inner">	
+													<select>
+														<option value="">2021년</option>
+													</select>
+													<select>
+														<option value="">01월</option>
+													</select>
+													<select>
+														<option value="">01일</option>
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>	
+							</div>
+						</div>
+					</div>
+					<div class="pop-footer">
+						<button type="button" class="btn btn-purple"><strong>등록하기</strong></button>
+					</div>
+					<button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
+				</div>
+			</div>
+		</div>
+	</article>
+	<!-- //보유자격증 등록 팝업 -->
+
+	<!-- 수상경력 등록 팝업 -->
+	<article id="licenseAdd2" class="layer-pop-wrap">
+		<div class="layer-pop-parent">
+			<div class="layer-pop-children">
+				<div class="pop-data data-pop-view">
+					<div class="pop-header">
+						<h4 class="con-title">수상경력 등록</h4>
+					</div>
+					<div class="pop-body">
+						<div class="license-add-wrap">
+							<div class="con-title-group">
+								<h5 class="con-title">주의사항</h5>
+							</div>
+							<div class="line-text-list">
+								<div class="list-cell">주민번호 등의 개인정보는 지운 후 올려주세요.</div>
+								<div class="list-cell">깔끔하게 스캔 및 촬영된 사진을 올려주세요.</div>
+							</div>			
+							<div class="form-group">
+								<div class="form-group-cell">
+									<div class="picture-add-group">						
+										<div class="picture-add-data">
+											<!-- 사진 없을 때 -->
+											<div style="display:block">
+												<a href="#" class="btn-picture-add">	
+													<div>
+														<div class="icon icon-size-24 icon-camera-gray"></div>
+														<div class="add-label">사진첨부</div>
+													</div>
+												</a>
+											</div>
+											<!-- 사진 있을 때 -->
+											<div style="display:none">
+												<div class="picture-view">
+													<img src="/static/pub/images/user_thumb.png" alt="">
+												</div>
+											</div>
+										</div>						
+									</div>
+								</div>
+								<div class="form-group-cell">
+									<div class="form-group-item">
+										<div class="form-item-label">수상 명칭</div>
+										<div class="form-item-data">
+											<input type="text" class="form-control">
+										</div>
+									</div>
+								</div>
+								<div class="form-group-cell">
+									<div class="form-group-item">
+										<div class="form-item-label">주관처</div>
+										<div class="form-item-data">
+											<input type="text" class="form-control">
+										</div>
+									</div>
+								</div>
+								<div class="form-group-cell">
+									<div class="form-group-item">
+										<div class="form-item-label">받은 일자</div>
+										<div class="form-item-data type-2">
+											<div class="form-cell-group">	
+												<div class="form-cell-group-inner">	
+													<select>
+														<option value="">2021년</option>
+													</select>
+													<select>
+														<option value="">01월</option>
+													</select>
+													<select>
+														<option value="">01일</option>
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>	
+							</div>
+						</div>
+					</div>
+					<div class="pop-footer">
+						<button type="button" class="btn btn-purple"><strong>등록하기</strong></button>
+					</div>
+					<button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
+				</div>
+			</div>
+		</div>
+	</article>
+	<!-- //수상경력 등록 팝업 -->
+</div>
+<!-- //wrap -->
+<script src="../assets/js/common.js"></script>
+</body>
+</html>

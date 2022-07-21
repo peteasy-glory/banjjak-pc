@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+	<!-- Page Infomation -->
+    <title>예약관리 | 반짝</title>
+    <meta name="Description" content="">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="format-detection" content="telephone=no">
+    <!-- SNS Basic -->
+    <meta property="og:title" content="타이틀">
+    <meta property="og:description" content="설명 100자내외">
+    <meta property="og:type" content="website">
+    <meta property="og:url"    content="">
+    <meta property="og:image" content="이미지 경로">
+	<!-- SNS Twitter -->
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="타이틀">
+	<meta name="twitter:description" content="설명 100자내외">
+	<meta name="twitter:image" content="이미지 경로">
+    <link rel="icon" href="../assets/images/common/favicon.png">
+	<link rel="canonical" href="대표도메인">
+    <!-- custom css -->
+    <link href="../assets/css/style.css" rel="stylesheet">
+	<!-- jquery js -->
+	<script src="../assets/js/jquery-3.4.1.min.js"></script>   
+	<script src="../assets/js/swiper.min.js"></script>
+  </head>
+<body>        
+
+<!-- wrap -->
+<div id="wrap">
+	<!-- header -->
+	<header id="header"></header>
+	<!-- //header -->
+	<!-- gnb -->
+	<nav id="gnb"></nav>
+	<!-- //gnb -->
+    <!-- container -->
+    <section id="container">     
+		<!-- contents -->
+		<section id="contents">
+			<!-- view -->
+			<div class="view">
+				<div class="basic-data-group">
+					<div class="data-row">
+						<div class="data-col-middle">
+							<div class="basic-data-card">
+								<div style="padding:20px;">
+									<button type="button" class="btn btn-inline btn-purple" onclick="pop.open('msgLoad');"><em>메시지 불러오기 팝업</em></button>
+								</div>
+							</div>			
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- //view -->
+		</section>
+		<!-- //contents -->
+    </section>
+    <!-- //container -->
+
+	<!-- 메시지 불러오기 팝업 -->
+	<article id="msgLoad" class="layer-pop-wrap">
+		<div class="layer-pop-parent">
+			<div class="layer-pop-children">
+				<div class="pop-data data-pop-view large">
+					<div class="pop-header">
+						<h4 class="con-title">메시지 불러오기</h4>
+					</div>
+					<div class="pop-body">
+						<div class="basic-data-group vsmall">
+							<div class="msg-select-group">
+								<div class="msg-item">
+									<div class="item-check"><label class="form-radiobox"><input type="radio" name="r1"><span class="form-check-icon"><em>기본 판매</em></span></label></div>
+									<div class="item-value">비비숑 펫살롱 고객님 안녕하세요? <br>우리 아이 미용할 때가 되었나요? 지금 아래의 시간에 예약하시면 미용 가능하세요. </div>
+								</div>
+								<div class="msg-item">
+									<div class="item-check"><label class="form-radiobox"><input type="radio" name="r1"><span class="form-check-icon"><em>기본 판매</em></span></label></div>
+									<div class="item-value">비비숑 펫살롱 고객님 안녕하세요? <br>우리 아이 미용할 때가 되었나요? 지금 아래의 시간에 예약하시면 미용 가능하세요. </div>
+								</div>
+								<div class="msg-item">
+									<div class="item-check"><label class="form-radiobox"><input type="radio" name="r1"><span class="form-check-icon"><em>기본 판매</em></span></label></div>
+									<div class="item-value">비비숑 펫살롱 고객님 안녕하세요? <br>우리 아이 미용할 때가 되었나요? 지금 아래의 시간에 예약하시면 미용 가능하세요. </div>
+								</div>
+								<div class="msg-item">
+									<div class="item-check"><label class="form-radiobox"><input type="radio" name="r1"><span class="form-check-icon"><em>기본 판매</em></span></label></div>
+									<div class="item-value">비비숑 펫살롱 고객님 안녕하세요? <br>우리 아이 미용할 때가 되었나요? 지금 아래의 시간에 예약하시면 미용 가능하세요. </div>
+								</div>
+								<div class="msg-item">
+									<div class="item-check"><label class="form-radiobox"><input type="radio" name="r1"><span class="form-check-icon"><em>기본 판매</em></span></label></div>
+									<div class="item-value">비비숑 펫살롱 고객님 안녕하세요? <br>우리 아이 미용할 때가 되었나요? 지금 아래의 시간에 예약하시면 미용 가능하세요. </div>
+								</div>
+								<div class="msg-item">
+									<div class="item-check"><label class="form-radiobox"><input type="radio" name="r1"><span class="form-check-icon"><em>기본 판매</em></span></label></div>
+									<div class="item-value">비비숑 펫살롱 고객님 안녕하세요? <br>우리 아이 미용할 때가 되었나요? 지금 아래의 시간에 예약하시면 미용 가능하세요. </div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="pop-footer">
+						<button type="button" class="btn btn-purple">메세지 선택하기</button>
+					</div>
+					<button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
+				</div>
+			</div>
+		</div>
+	</article>
+	<!-- //메시지 불러오기 팝업 -->
+</div>
+<!-- //wrap -->
+<script src="../assets/js/common.js"></script>
+</body>
+</html>

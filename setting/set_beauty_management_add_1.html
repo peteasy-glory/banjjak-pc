@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+	<!-- Page Infomation -->
+    <title>상세설정 | 반짝</title>
+    <meta name="Description" content="">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="format-detection" content="telephone=no">
+    <!-- SNS Basic -->
+    <meta property="og:title" content="타이틀">
+    <meta property="og:description" content="설명 100자내외">
+    <meta property="og:type" content="website">
+    <meta property="og:url"    content="">
+    <meta property="og:image" content="이미지 경로">
+	<!-- SNS Twitter -->
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="타이틀">
+	<meta name="twitter:description" content="설명 100자내외">
+	<meta name="twitter:image" content="이미지 경로">
+    <link rel="icon" href="../assets/images/common/favicon.png">
+	<link rel="canonical" href="대표도메인">
+    <!-- custom css -->
+    <link href="../assets/css/style.css" rel="stylesheet">
+	<!-- jquery js -->
+	<script src="../assets/js/jquery-3.4.1.min.js"></script>   
+	<script src="../assets/js/swiper.min.js"></script>
+  </head>
+<body>        
+
+<!-- wrap -->
+<div id="wrap">
+	<!-- header -->
+	<header id="header"></header>
+	<!-- //header -->
+	<!-- gnb -->
+	<nav id="gnb"></nav>
+	<!-- //gnb -->
+    <!-- container -->
+    <section id="container">     
+		<!-- contents -->
+		<section id="contents">
+			<!-- view -->
+			<div class="view">
+				<div class="data-row">
+					<div class="data-col-middle wide">
+						<div class="basic-data-card">
+							<div class="card-header">
+								<h3 class="card-header-title">미용상품 등록/수정</h3>
+							</div>
+							<div class="card-body">
+								<div class="card-body-inner">
+									<div class="product-management">
+										<div class="basic-data-group small">											
+											<div class="con-title-group">
+												<h4 class="con-title">상품분류</h4>
+											</div>
+											<div class="wide-tab">
+												<div class="wide-tab-inner">
+													<!-- 활성화시 actived클래스 추가 -->
+													<div class="tab-cell actived"><button type="button" class="btn-tab-item">강아지</button></div>
+													<div class="tab-cell"><button type="button" class="btn-tab-item">고양이</button></div>
+												</div>
+											</div>
+											<div class="basic-data-group vmiddle">
+												<div class="basic-data-group">
+													<div class="grid-layout margin-14-17">
+														<div class="grid-layout-inner">
+															<div class="grid-layout-cell grid-3">
+																<div class="form-group-item">
+																	<div class="form-item-label">제공방식</div>
+																	<div class="form-item-data type-2">
+																		<div class="grid-layout toggle-button-group">
+																			<div class="grid-layout-inner">
+																				<div class="grid-layout-cell grid-3"><label class="form-toggle-box middle auto"><input type="radio" name="offer"><em>매장상품</em></label></div>
+																				<div class="grid-layout-cell grid-3"><label class="form-toggle-box middle auto"><input type="radio" name="offer"><em>출장상품</em></label></div>
+																				<div class="grid-layout-cell grid-3"><label class="form-toggle-box middle auto"><input type="radio" name="offer"><em>출장/매장</em></label></div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="grid-layout-cell grid-3">
+																<div class="form-group-item">
+																	<div class="form-item-label">상품명</div>
+																	<div class="form-item-data type-2">
+																		<select>
+																			<option value="">소형견미용</option>
+																			<option value="">중형견미용</option>
+																			<option value="">대형견미용</option>
+																			<option value="">특수견미용</option>
+																			<option value="">직접입력</option>
+																		</select>
+																	</div>
+																</div>
+															</div>
+															<!-- 직접 입력시 -->
+															<div class="grid-layout-cell grid-3" style="display:block;">
+																<div class="form-group-item">
+																	<div class="form-item-data type-2">
+																		<input type="text" placeholder="입력"/>
+																	</div>
+																</div>
+															</div>
+															<!-- //직접 입력시 -->
+														</div>
+													</div>
+												</div>
+												<div class="basic-data-group">										
+													<div class="con-title-group">
+														<h4 class="con-title">미용구분(옵션1)</h4>
+													</div>
+													<div class="basic-info" style="display:block;">목욕 · 부분미용</div>
+													<div class="basic-data-group vsmall">
+														<div class="grid-layout margin-14-17">
+															<div class="grid-layout-inner">
+																<div class="grid-layout-cell grid-3">
+																	<button type="button" class="btn btn-outline-purple btn-basic-full">미용구분 선택</button>
+																</div>
+															</div>
+														</div>
+													</div>
+													<!-- 옵션목록이 없을 경우 -->
+													<div class="basic-data-group vmiddle" style="display:block;">
+														<div class="form-group-item">
+															<div class="form-item-label">옵션목록</div>
+															<div class="form-item-data type-3">
+																<div class="basic-info font-color-black">미용구분이 선택되지 않았습니다.</div>
+															</div>
+														</div>
+													</div>
+													<!-- //옵션목록이 없을 경우 -->
+													<!-- 옵션목록이 있을 경우 -->
+													<div class="basic-data-group vmiddle" style="display:block;">
+														<div class="basic-data-group middle">
+															<div class="form-group-item">
+																<div class="form-item-label">
+																	옵션목록
+																	<div class="grid-layout btn-grid-group">
+																		<div class="grid-layout-inner justify-content-end">
+																			<div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-gray btn-small-size btn-basic-small">구간추가</button></div>
+																			<div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-gray btn-small-size btn-basic-small">구간삭제</button></div>
+																		</div>
+																	</div>		
+																</div>
+																<div class="form-item-data type-2">		
+																	<div class="read-table">
+																		<table>
+																			<colgroup>
+																				<col style="width:auto;">
+																				<col style="width:auto;">
+																				<col style="width:auto;">
+																				<col style="width:auto;">
+																				<col style="width:auto;">
+																				<col style="width:auto;">
+																				<col style="width:auto;">
+																			</colgroup>
+																			<thead>
+																				<tr>
+																					<th>목욕</th>
+																					<th>부분 미용</th>
+																					<th>부분 목욕</th>
+																					<th>전체 미용</th>
+																					<th>스포팅</th>
+																					<th>가위컷</th>
+																					<th>썸머컷</th>
+																				</tr>
+																			</thead>
+																			<tbody>
+																				<tr>
+																					<td class="no-padding">
+																						<div class="form-table-select">
+																							<select>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																							</select>
+																						</div>
+																					</td>
+																					<td class="no-padding">
+																						<div class="form-table-select">
+																							<select>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																							</select>
+																						</div>
+																					</td>
+																					<td class="no-padding">
+																						<div class="form-table-select">
+																							<select>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																							</select>
+																						</div>
+																					</td>
+																					<td class="no-padding">
+																						<div class="form-table-select">
+																							<select>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																							</select>
+																						</div>
+																					</td>
+																					<td class="no-padding">
+																						<div class="form-table-select">
+																							<select>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																							</select>
+																						</div>
+																					</td>
+																					<td class="no-padding">
+																						<div class="form-table-select">
+																							<select>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																							</select>
+																						</div>
+																					</td>
+																					<td class="no-padding">
+																						<div class="form-table-select">
+																							<select>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																							</select>
+																						</div>
+																					</td>
+																				</tr>
+																				<tr>
+																					<td class="no-padding">
+																						<div class="form-table-select">
+																							<select>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																							</select>
+																							<label class="form-checkbox"><input type="checkbox" name="check"><span class="form-check-icon"><em>상담</em></span></label>
+																						</div>
+																					</td>
+																					<td class="no-padding">
+																						<div class="form-table-select">
+																							<select>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																							</select>
+																							<label class="form-checkbox"><input type="checkbox" name="check"><span class="form-check-icon"><em>상담</em></span></label>
+																						</div>
+																					</td>
+																					<td class="no-padding">
+																						<div class="form-table-select">
+																							<select>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																							</select>
+																							<label class="form-checkbox"><input type="checkbox" name="check"><span class="form-check-icon"><em>상담</em></span></label>
+																						</div>
+																					</td>
+																					<td class="no-padding">
+																						<div class="form-table-select">
+																							<select>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																							</select>
+																							<label class="form-checkbox"><input type="checkbox" name="check"><span class="form-check-icon"><em>상담</em></span></label>
+																						</div>
+																					</td>
+																					<td class="no-padding">
+																						<div class="form-table-select">
+																							<select>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																							</select>
+																							<label class="form-checkbox"><input type="checkbox" name="check"><span class="form-check-icon"><em>상담</em></span></label>
+																						</div>
+																					</td>
+																					<td class="no-padding">
+																						<div class="form-table-select">
+																							<select>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																							</select>
+																							<label class="form-checkbox"><input type="checkbox" name="check"><span class="form-check-icon"><em>상담</em></span></label>
+																						</div>
+																					</td>
+																					<td class="no-padding">
+																						<div class="form-table-select">
+																							<select>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																							</select>
+																							<label class="form-checkbox"><input type="checkbox" name="check"><span class="form-check-icon"><em>상담</em></span></label>
+																						</div>
+																					</td>
+																				</tr>
+																				<tr>
+																					<td class="no-padding">
+																						<div class="form-table-select">
+																							<select disabled>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																							</select>
+																							<label class="form-checkbox"><input type="checkbox" name="check"><span class="form-check-icon"><em>상담</em></span></label>
+																						</div>
+																					</td>
+																					<td class="no-padding">
+																						<div class="form-table-select">
+																							<select disabled>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																							</select>
+																							<label class="form-checkbox"><input type="checkbox" name="check"><span class="form-check-icon"><em>상담</em></span></label>
+																						</div>
+																					</td>
+																					<td class="no-padding">
+																						<div class="form-table-select">
+																							<select disabled>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																							</select>
+																							<label class="form-checkbox"><input type="checkbox" name="check"><span class="form-check-icon"><em>상담</em></span></label>
+																						</div>
+																					</td>
+																					<td class="no-padding">
+																						<div class="form-table-select">
+																							<select>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																							</select>
+																							<label class="form-checkbox"><input type="checkbox" name="check"><span class="form-check-icon"><em>상담</em></span></label>
+																						</div>
+																					</td>
+																					<td class="no-padding">
+																						<div class="form-table-select">
+																							<select>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																							</select>
+																							<label class="form-checkbox"><input type="checkbox" name="check"><span class="form-check-icon"><em>상담</em></span></label>
+																						</div>
+																					</td>
+																					<td class="no-padding">
+																						<div class="form-table-select">
+																							<select>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																							</select>
+																							<label class="form-checkbox"><input type="checkbox" name="check"><span class="form-check-icon"><em>상담</em></span></label>
+																						</div>
+																					</td>
+																					<td class="no-padding">
+																						<div class="form-table-select">
+																							<select>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																								<option value="">선택</option>
+																							</select>
+																							<label class="form-checkbox"><input type="checkbox" name="check"><span class="form-check-icon"><em>상담</em></span></label>
+																						</div>
+																					</td>
+																				</tr>
+																			</tbody>
+																		</table>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="basic-data-group middle">
+															<div class="form-group-item">
+																<div class="form-item-label">Kg당 추가요금설정(추가옵션1)</div>
+																<div class="form-item-data type-2">									
+																	<div class="form-check-group">
+																		<div class="form-check-inner">
+																			<div class="check-cell"><label class="form-radiobox"><input type="radio" name="time2"><span class="form-check-icon"><em>설정</em></span></label></div>
+																			<div class="check-cell"><label class="form-radiobox"><input type="radio" name="time2"><span class="form-check-icon"><em>설정안함</em></span></label></div>
+																		</div>
+																	</div>
+																	<div class="form-bottom-info type-2 font-color-black">*위 가격표에 표시된 무게가 넘는 아이를 위한 kg당 추가요금이 있을 경우</div>
+																</div>
+															</div>
+														</div>
+														<!-- 설정일 경우 -->
+														<div class="basic-data-group middle" style="display:block;">
+															<div class="grid-layout margin-14-17">
+																<div class="grid-layout-inner">
+																	<div class="grid-layout-cell grid-3">
+																		<div class="form-group-item">
+																			<div class="form-item-label">무게입력</div>
+																			<div class="form-item-data">									
+																				<div class="form-char">
+																					<input type="text" class="form-control" placeholder="숫자 및 '.'만 입력가능">
+																					<div class="char">Kg 당</div>
+																				</div>
+																				<div class="form-input-info">최대 8자까지 입력가능합니다.</div>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="grid-layout-cell grid-3">
+																		<div class="form-group-item">
+																			<div class="form-item-label">금액입력</div>
+																			<div class="form-item-data">									
+																				<div class="form-char">
+																					<div class="char-input">										
+																						<input type="text" class="form-control" placeholder="숫자 및 '.'만 입력가능">
+																						<div class="form-input-info">최대 8자까지 입력가능합니다.</div>
+																					</div>
+																					<div class="char">원 추가</div>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<!-- //설정일 경우 -->
+													</div>
+													<!-- //옵션목록이 있을 경우 -->
+												</div>												
+												<div class="basic-data-group">			
+													<div class="form-group-item">
+														<div class="form-item-label">추가설명</div>
+														<div class="form-item-data type-2">
+															<textarea style="height:100px;" placeholder="입력"></textarea>
+															<div class="form-input-info">0/1000</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="card-footer">
+								<!-- btn-page-bottom 클래스에 disabled 클래스 추가시 비활성화 또는 button 태그일 시 disabled 속성 추가시 비활성화 -->
+								<a href="#" class="btn-page-bottom">저장하기</a>
+							</div>
+						</div>			
+					</div>
+				</div>
+			</div>
+			<!-- //view -->
+		</section>
+		<!-- //contents -->
+    </section>
+    <!-- //container -->
+</div>
+<!-- //wrap -->
+<script src="../assets/js/common.js"></script>
+</body>
+</html>

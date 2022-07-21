@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+	<!-- Page Infomation -->
+    <title>예약관리 | 반짝</title>
+    <meta name="Description" content="">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="format-detection" content="telephone=no">
+    <!-- SNS Basic -->
+    <meta property="og:title" content="타이틀">
+    <meta property="og:description" content="설명 100자내외">
+    <meta property="og:type" content="website">
+    <meta property="og:url"    content="">
+    <meta property="og:image" content="이미지 경로">
+	<!-- SNS Twitter -->
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="타이틀">
+	<meta name="twitter:description" content="설명 100자내외">
+	<meta name="twitter:image" content="이미지 경로">
+    <link rel="icon" href="../assets/images/common/favicon.png">
+	<link rel="canonical" href="대표도메인">
+    <!-- custom css -->
+    <link href="../assets/css/style.css" rel="stylesheet">
+	<!-- jquery js -->
+	<script src="../assets/js/jquery-3.4.1.min.js"></script>   
+	<script src="../assets/js/swiper.min.js"></script>
+  </head>
+<body>        
+
+<!-- wrap -->
+<div id="wrap">
+	<!-- header -->
+	<header id="header"></header>
+	<!-- //header -->
+	<!-- gnb -->
+	<nav id="gnb"></nav>
+	<!-- //gnb -->
+    <!-- container -->
+    <section id="container">     
+		<!-- contents -->
+		<section id="contents">
+			<!-- view -->
+			<div class="view">
+				<div class="data-row">
+					<div class="data-col-middle">
+						<div class="basic-data-card">
+							<div class="card-header">
+								<h3 class="card-header-title">작업 / 결제관리</h3>
+								<div class="card-header-right">
+									<div class="label label-outline-purple large round"><em>예약확정</em></div>
+								</div>
+							</div>
+							<div class="card-body">
+								<div class="card-body-inner">
+									<div class="wide-tab">
+										<div class="wide-tab-inner">
+											<!-- 활성화시 actived클래스 추가 -->
+											<div class="tab-cell"><a href="#" class="btn-tab-item">작업 관리</a></div>
+											<div class="tab-cell actived"><a href="#" class="btn-tab-item">결제 관리</a></div>
+										</div>
+									</div>
+									<div class="basic-data-group vsmall">
+										<div class="con-title-group">
+											<h4 class="con-title">결제정보</h4>
+										</div>
+										<div class="wide-tab">
+											<div class="wide-tab-inner">
+												<!-- 활성화시 actived클래스 추가 -->
+												<!-- 변경사항 있을 경우 hit클래스 추가 -->
+												<div class="tab-cell hit actived"><button type="button" class="btn-tab-item"><span>기본 서비스</span></button></div>
+												<div class="tab-cell hit"><button type="button" class="btn-tab-item"><span>추가</span></button></div>
+												<div class="tab-cell"><button type="button" class="btn-tab-item"><span>쿠폰상품</span></button></div>
+												<div class="tab-cell"><button type="button" class="btn-tab-item"><span>제품</span></button></div>
+											</div>
+										</div>
+										<div class="basic-data-group vmiddle tab-data-group">
+											<!-- tab-data-cell 클래스에 actived클래스 추가시 활성화
+											<!-- 기본 서비스 -->
+											<div class="tab-data-cell actived">
+												<div class="grid-layout basic">
+													<div class="grid-layout-inner">
+														<div class="grid-layout-cell grid-5">
+															<div class="form-group-item">
+																<div class="form-item-label">크기 선택</div>
+																<div class="form-item-data type-2">
+																	<div class="toggle-button-group vertical">
+																		<div class="toggle-button-cell"><label class="form-toggle-box large"><input type="radio" name="size"><em>소형견 미용</em></label></div>
+																		<div class="toggle-button-cell"><label class="form-toggle-box large"><input type="radio" name="size"><em>중형견 미용</em></label></div>
+																		<div class="toggle-button-cell"><label class="form-toggle-box large"><input type="radio" name="size"><em>대형견 미용</em></label></div>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="grid-layout-cell grid-5">
+															<div class="form-group-item">
+																<div class="form-item-label">서비스</div>
+																<div class="form-item-data type-2">
+																	<div class="toggle-button-group vertical">
+																		<div class="toggle-button-cell"><label class="form-toggle-box large"><input type="radio" name="s1"><em>선택 안함</em></label></div>
+																		<div class="toggle-button-cell"><label class="form-toggle-box large"><input type="radio" name="s1"><em>목욕</em></label></div>
+																		<div class="toggle-button-cell"><label class="form-toggle-box large"><input type="radio" name="s1"><em>부분 미용</em></label></div>
+																		<div class="toggle-button-cell"><label class="form-toggle-box large"><input type="radio" name="s1"><em>전체 미용</em></label></div>
+																		<div class="toggle-button-cell"><label class="form-toggle-box large"><input type="radio" name="s1"><em>스포팅</em></label></div>
+																		<div class="toggle-button-cell"><label class="form-toggle-box large"><input type="radio" name="s1"><em>가위</em></label></div>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="grid-layout-cell grid-5">
+															<div class="form-group-item">
+																<div class="form-item-label">무게</div>
+																<div class="form-item-data type-2">
+																	<div class="toggle-button-group vertical">
+																		<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" name="s2"><em><span>선택 안함</span></em></label></div>
+																		<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" name="s2"><em><span>~4Kg</span><strong>20,000원</strong></em></label></div>
+																		<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" name="s2"><em><span>~6Kg</span><strong>20,000원</strong></em></label></div>
+																		<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" name="s2"><em><span>~8Kg</span><strong>20,000원</strong></em></label></div>
+																		<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" name="s2"><em><span>~10Kg</span><strong>20,000원</strong></em></label></div>
+																		<div class="toggle-button-cell">
+																			<div class="form-toggle-options">
+																				<input type="checkbox" name="options1">
+																				<div class="form-toggle-options-data">
+																					<div class="options-labels"><span>옵션 선택 형</span><strong>3,500원</strong></div>
+																					<div class="form-amount-input">
+																						<button type="button" class="btn-form-amount-minus">감소</button>
+																						<div class="form-amount-info">
+																							<input type="number" readonly="" value="1" class="form-amount-val">
+																							<div class="form-amount-label">kg</div>
+																						</div>
+																						<button type="button" class="btn-form-amount-plus">증가</button>
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="grid-layout-cell grid-5">
+															<div class="form-group-item">
+																<div class="form-item-label">털특징</div>
+																<div class="form-item-data type-2">
+																	<div class="toggle-button-group vertical">
+																		<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large" for="hair1"><input type="checkbox" name="hair" id="hair1"><em><span>장모_목욕</span><strong>+5,000원</strong></em></label></div>
+																		<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large" for="hair2"><input type="checkbox" name="hair" id="hair2"><em><span>이중모_목욕</span><strong>+5,000원</strong></em></label></div>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="grid-layout-cell grid-5">
+															<div class="form-group-item">
+																<div class="form-item-label">미용털길이</div>
+																<div class="form-item-data type-2">
+																	<div class="toggle-button-group vertical">
+																		<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large" for="hairBeauty1"><input type="checkbox" name="hairBeauty" id="hairBeauty1"><em><span>선택안함</span><strong>0원</strong></em></label></div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- //기본 서비스 -->
+											<!-- 추가 -->
+											<div class="tab-data-cell actived">
+												<div class="grid-layout basic">
+													<div class="grid-layout-inner">
+														<div class="grid-layout-cell grid-5">
+															<div class="form-group-item">
+																<div class="form-item-label">얼굴컷</div>
+																<div class="form-item-data type-2">
+																	<div class="toggle-button-group vertical">
+																		<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" for="add1-1"><input type="radio" name="add1" id="add1-1"><em><span>선택안함</span><strong>0원</strong></em></label></div>
+																		<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" for="add1-2"><input type="radio" name="add1" id="add1-2"><em><span>기본 얼굴컷</span><strong>+3,500원</strong></em></label></div>
+																		<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" for="add1-3"><input type="radio" name="add1" id="add1-3"><em><span>브로컬리컷</span><strong>+6,000원</strong></em></label></div>
+																		<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" for="add1-4"><input type="radio" name="add1" id="add1-4"><em><span>하이바컷</span><strong>+4,000원</strong></em></label></div>
+																		<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" for="add1-5"><input type="radio" name="add1" id="add1-5"><em><span>곰돌이컷</span><strong>+6,000원</strong></em></label></div>
+																	</div>										
+																</div>
+															</div>
+														</div>
+														<div class="grid-layout-cell grid-5">
+															<div class="form-group-item">
+																<div class="form-item-label">다리</div>
+																<div class="form-item-data type-2">
+																	<div class="toggle-button-group vertical">
+																		<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" for="add2-1"><input type="radio" name="add2" id="add2-1"><em><span>발톱</span><strong>+500원</strong></em></label></div>
+																		<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" for="add2-2"><input type="radio" name="add2" id="add2-2"><em><span>장화</span><strong>+1,000원</strong></em></label></div>
+																		<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" for="add2-2"><input type="radio" name="add2" id="add2-2"><em><span>방울</span><strong>+2,000원</strong></em></label></div>
+																	</div>										
+																</div>
+															</div>
+														</div>
+														<div class="grid-layout-cell grid-5">
+															<div class="form-group-item">
+																<div class="form-item-label">스파</div>
+																<div class="form-item-data type-2">
+																	<div class="toggle-button-group vertical">
+																		<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" for="add3-1"><input type="radio" name="add3" id="add3-1"><em><span>스파1</span><strong>+500원</strong></em></label></div>
+																		<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" for="add3-2"><input type="radio" name="add3" id="add3-2"><em><span>스파2</span><strong>+1,000원</strong></em></label></div>
+																		<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" for="add3-2"><input type="radio" name="add3" id="add3-2"><em><span>스파3</span><strong>+2,000원</strong></em></label></div>
+																	</div>										
+																</div>
+															</div>
+														</div>
+														<div class="grid-layout-cell grid-5">
+															<div class="form-group-item">
+																<div class="form-item-label">염색</div>
+																<div class="form-item-data type-2">
+																	<div class="toggle-button-group vertical">
+																		<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" for="add4-1"><input type="radio" name="add4" id="add4-1"><em><span>염색1</span><strong>+500원</strong></em></label></div>
+																		<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" for="add4-2"><input type="radio" name="add4" id="add4-2"><em><span>염색2</span><strong>+1,000원</strong></em></label></div>
+																		<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" for="add4-2"><input type="radio" name="add4" id="add4-2"><em><span>염색3</span><strong>+2,000원</strong></em></label></div>
+																	</div>										
+																</div>
+															</div>
+														</div>
+														<div class="grid-layout-cell grid-5">
+															<div class="form-group-item">
+																<div class="form-item-label">기타</div>
+																<div class="form-item-data type-2">
+																	<div class="toggle-button-group vertical">
+																		<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" for="add5-1"><input type="radio" name="add5" id="add5-1"><em><span>기타1</span><strong>+500원</strong></em></label></div>
+																		<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" for="add5-2"><input type="radio" name="add5" id="add5-2"><em><span>기타2</span><strong>+1,000원</strong></em></label></div>
+																		<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" for="add5-2"><input type="radio" name="add5" id="add5-2"><em><span>기타3</span><strong>+2,000원</strong></em></label></div>
+																	</div>										
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- //추가 -->
+											<!-- 쿠폰상품 -->
+											<div class="tab-data-cell actived">
+												<div class="grid-layout basic">
+													<div class="grid-layout-inner">
+														<div class="grid-layout-cell grid-2">
+															<div class="form-group-item">
+																<div class="form-item-label">쿠폰상품</div>
+																<div class="form-item-data type-2">
+																	<div class="toggle-button-group vertical">
+																		<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" for="cp1-1"><input type="checkbox" name="cp1" id="cp1-1"><em><span>7일 이용권</span><strong>+10,000원</strong></em></label></div>
+																	</div>										
+																</div>
+															</div>
+														</div>
+														<div class="grid-layout-cell grid-2">
+															<div class="form-group-item">
+																<div class="form-item-label">정액상품</div>
+																<div class="form-item-data type-2">
+																	<div class="toggle-button-group vertical">
+																		<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" for="cp2-1"><input type="checkbox" name="cp2" id="cp2-1"><em><span>한달 이용권</span><strong>+100,000원</strong></em></label></div>
+																	</div>										
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- //쿠폰상품 -->
+											<!-- 제품 -->
+											<div class="tab-data-cell actived">
+												<div class="grid-layout basic">
+													<div class="grid-layout-inner">
+														<div class="grid-layout-cell grid-4">
+															<div class="form-group-item">
+																<div class="form-item-label">용품</div>
+																<div class="form-item-data type-2">
+																	<div class="toggle-button-group vertical">
+																		<div class="toggle-button-cell">
+																			<div class="form-toggle-options">
+																				<input type="checkbox" name="options1-1">
+																				<div class="form-toggle-options-data">
+																					<div class="options-labels"><span>용품1</span><strong>10,000원</strong></div>
+																					<div class="form-amount-input">
+																						<button type="button" class="btn-form-amount-minus">감소</button>
+																						<div class="form-amount-info">
+																							<!-- readonly , disabled 속성 추가하여도 상관 없음 -->
+																							<input type="number" value="1" class="form-amount-val">
+																						</div>
+																						<button type="button" class="btn-form-amount-plus">증가</button>
+																					</div>
+																				</div>
+																			</div>		
+																		</div>
+																		<div class="toggle-button-cell">
+																			<div class="form-toggle-options">
+																				<input type="checkbox" name="options1-1">
+																				<div class="form-toggle-options-data">
+																					<div class="options-labels"><span>용품2</span><strong>10,000원</strong></div>
+																					<div class="form-amount-input">
+																						<button type="button" class="btn-form-amount-minus">감소</button>
+																						<div class="form-amount-info">
+																							<input type="number" value="1" class="form-amount-val">
+																						</div>
+																						<button type="button" class="btn-form-amount-plus">증가</button>
+																					</div>
+																				</div>
+																			</div>		
+																		</div>
+																	</div>										
+																</div>
+															</div>
+														</div>
+														<div class="grid-layout-cell grid-4">
+															<div class="form-group-item">
+																<div class="form-item-label">간식</div>
+																<div class="form-item-data type-2">
+																	<div class="toggle-button-group vertical">
+																		<div class="toggle-button-cell">
+																			<div class="form-toggle-options">
+																				<input type="checkbox" name="options2-1">
+																				<div class="form-toggle-options-data">
+																					<div class="options-labels"><span>간식1</span><strong>+500원</strong></div>
+																					<div class="form-amount-input">
+																						<button type="button" class="btn-form-amount-minus">감소</button>
+																						<div class="form-amount-info">
+																							<input type="number" value="1" class="form-amount-val">
+																						</div>
+																						<button type="button" class="btn-form-amount-plus">증가</button>
+																					</div>
+																				</div>
+																			</div>		
+																		</div>
+																		<div class="toggle-button-cell">
+																			<div class="form-toggle-options">
+																				<input type="checkbox" name="options2-1">
+																				<div class="form-toggle-options-data">
+																					<div class="options-labels"><span>간식2</span><strong>+500원</strong></div>
+																					<div class="form-amount-input">
+																						<button type="button" class="btn-form-amount-minus">감소</button>
+																						<div class="form-amount-info">
+																							<input type="number" value="1" class="form-amount-val">
+																						</div>
+																						<button type="button" class="btn-form-amount-plus">증가</button>
+																					</div>
+																				</div>
+																			</div>		
+																		</div>
+																	</div>										
+																</div>
+															</div>
+														</div>
+														<div class="grid-layout-cell grid-4">
+															<div class="form-group-item">
+																<div class="form-item-label">사료</div>
+																<div class="form-item-data type-2">
+																	<div class="toggle-button-group vertical">
+																		<div class="toggle-button-cell">
+																			<div class="form-toggle-options">
+																				<input type="checkbox" name="options3-1">
+																				<div class="form-toggle-options-data">
+																					<div class="options-labels"><span>사료1</span><strong>+500원</strong></div>
+																					<div class="form-amount-input">
+																						<button type="button" class="btn-form-amount-minus">감소</button>
+																						<div class="form-amount-info">
+																							<input type="number" value="1" class="form-amount-val">
+																						</div>
+																						<button type="button" class="btn-form-amount-plus">증가</button>
+																					</div>
+																				</div>
+																			</div>		
+																		</div>
+																		<div class="toggle-button-cell">
+																			<div class="form-toggle-options">
+																				<input type="checkbox" name="options3-1">
+																				<div class="form-toggle-options-data">
+																					<div class="options-labels"><span>사료2</span><strong>+500원</strong></div>
+																					<div class="form-amount-input">
+																						<button type="button" class="btn-form-amount-minus">감소</button>
+																						<div class="form-amount-info">
+																							<input type="number" value="1" class="form-amount-val">
+																						</div>
+																						<button type="button" class="btn-form-amount-plus">증가</button>
+																					</div>
+																				</div>
+																			</div>		
+																		</div>
+																	</div>										
+																</div>
+															</div>
+														</div>
+														<div class="grid-layout-cell grid-4">
+															<div class="form-group-item">
+																<div class="form-item-label">기타</div>
+																<div class="form-item-data type-2">
+																	<div class="toggle-button-group vertical">
+																		<div class="toggle-button-cell">
+																			<div class="form-toggle-options">
+																				<input type="checkbox" name="options4-1">
+																				<div class="form-toggle-options-data">
+																					<div class="options-labels"><span>기타1</span><strong>+500원</strong></div>
+																					<div class="form-amount-input">
+																						<button type="button" class="btn-form-amount-minus">감소</button>
+																						<div class="form-amount-info">
+																							<input type="number" value="1" class="form-amount-val">
+																						</div>
+																						<button type="button" class="btn-form-amount-plus">증가</button>
+																					</div>
+																				</div>
+																			</div>		
+																		</div>
+																		<div class="toggle-button-cell">
+																			<div class="form-toggle-options">
+																				<input type="checkbox" name="options4-1">
+																				<div class="form-toggle-options-data">
+																					<div class="options-labels"><span>기타2</span><strong>+500원</strong></div>
+																					<div class="form-amount-input">
+																						<button type="button" class="btn-form-amount-minus">감소</button>
+																						<div class="form-amount-info">
+																							<input type="number" value="1" class="form-amount-val">
+																						</div>
+																						<button type="button" class="btn-form-amount-plus">증가</button>
+																					</div>
+																				</div>
+																			</div>		
+																		</div>
+																	</div>										
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- //제품 -->
+										</div>										
+									</div>
+								</div>
+							</div>
+							<div class="card-footer line">
+								<div class="grid-layout btn-grid-group">
+									<div class="grid-layout-inner">
+										<div class="grid-layout-cell grid-1"><a href="#" class="btn btn-outline-purple"><strong>변경</strong></a></div>
+									</div>
+								</div>
+							</div>
+						</div>			
+					</div>
+					<div class="data-col-right">
+						<div class="basic-data-card">
+							<div class="card-header">
+								<h3 class="card-header-title">서비스 내역</h3>								
+							</div>
+							<div class="card-body">
+								<div class="card-body-inner">
+									<div class="user-receipt-item total">
+										<div class="receipt-buy-detail">
+											<div class="item-data-list">
+												<div class="list-cell">
+													<div class="list-title">소형견미용/목욕/~3Kg</div>
+													<div class="list-value">20,000원</div>
+												</div>
+												<div class="list-cell">
+													<div class="list-title">장모_목욕</div>
+													<div class="list-value">5,000원</div>
+												</div>
+												<div class="list-cell">
+													<div class="list-title">기본얼굴컷</div>
+													<div class="list-value">5,000원</div>
+												</div>
+												<div class="list-cell">
+													<div class="list-title">장화</div>
+													<div class="list-value">10,000원</div>
+												</div>
+											</div>
+										</div>
+										<div class="receipt-buy-detail total-price">
+											<div class="item-data-list">
+												<div class="list-cell">
+													<div class="list-title"><strong>합산 금액</strong></div>
+													<div class="list-value"><strong>40,000원</strong></div>
+												</div>
+												<div class="list-cell">
+													<div class="list-title"><strong>부가세 10%</strong></div>
+													<div class="list-value"><strong>4,000원</strong></div>
+												</div>
+											</div>
+										</div>
+										<div class="receipt-buy-detail result-price">
+											<div class="item-data-list">
+												<div class="list-cell">
+													<div class="list-title font-color-purple"><strong>총 결제 합산 금액</strong></div>
+													<div class="list-value font-color-purple"><strong>44,000원</strong></div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="pay-accordion-group">
+										<div class="pay-accordion-items">
+											<div class="items-header">
+												<div class="items-title">보유 쿠폰</div>
+												<div class="items-value">4개 보유</div>
+												<button type="button" class="btn-data-view">열기</button>
+											</div>
+											<div class="items-body">
+												<div class="form-group">
+													<div class="form-group-cell small">
+														<div class="form-group-item">
+															<div class="form-item-label">쿠폰 명</div>
+															<div class="form-item-data type-2">
+																<div class="form-control-btns small">
+																	<select>
+																		<option value="">쿠폰명1</option>
+																		<option value="">쿠폰명2</option>
+																		<option value="">쿠폰명3</option>
+																	</select>
+																	<div class="btn btn-gray btn-inline">보유 4</div>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="form-group-cell small">
+														<div class="form-group-item">
+															<div class="form-item-label">쿠폰 차감</div>
+															<div class="form-item-data type-2">
+																<div class="form-control-btns small">
+																	<select>
+																		<option value="">1</option>
+																		<option value="">2</option>
+																		<option value="">3</option>
+																	</select>
+																	<button type="button" class="btn btn-outline-gray btn-inline">적용</button>
+																</div>
+																<div class="form-bottom-info font-color-purple text-align-right">적용 후 잔액 3회</div>
+															</div>			
+														</div>
+													</div>
+												</div>												
+											</div>
+										</div>
+										<div class="pay-accordion-items">
+											<div class="items-header">
+												<div class="items-title">단골 고객 확인</div>
+												<button type="button" class="btn-data-view">열기</button>
+											</div>
+											<div class="items-body">
+												<div class="items-info">*원하시는 할인방법을 선택하신 후 적용을 누르세요.</div>		
+												<div class="regular-user-confirm-select">
+													<div class="regular-user-confirm-input">
+														<div class="item-check"><label class="form-radiobox"><input type="radio" name="regular"><span class="form-check-icon"><em>퍼센트할인</em></span></label></div>
+														<div class="item-data">
+															<select>
+																<option value="">4</option>
+																<option value="">4</option>
+																<option value="">4</option>
+															</select>
+															<div class="unit">%</div>
+														</div>
+													</div>
+													<div class="regular-user-confirm-input">
+														<div class="item-check"><label class="form-radiobox"><input type="radio" name="regular"><span class="form-check-icon"><em>금액할인</em></span></label></div>
+														<div class="item-data">
+															<select disabled="">
+																<option value="">4</option>
+																<option value="">4</option>
+																<option value="">4</option>
+															</select>
+															<div class="unit">원</div>
+														</div>
+													</div>
+												</div>			
+												<div class="form-bottom-info font-color-purple text-align-right">할인금액 : 600원</div>				
+											</div>
+										</div>
+										<div class="pay-accordion-items">
+											<div class="items-header">
+												<div class="items-title">펫샵 적립금<button type="button" class="btn-data-helper">도움말</button></div>
+												<div class="items-value">44,000원</div>
+												<button type="button" class="btn-data-view">열기</button>
+											</div>
+											<div class="items-body">	
+												<div class="receipt-buy-detail">
+													<div class="item-data-list">
+														<div class="list-cell">
+															<div class="list-title"><strong>현 적립금</strong></div>
+															<div class="list-value"><strong class="large">44,000원</strong></div>
+														</div>
+													</div>
+												</div>
+												<div class="basic-data-group vsmall line">
+													<div class="form-group">
+														<div class="form-group-cell">
+															<div class="form-group-item">
+																<div class="form-item-label">사용적립금</div>
+																<div class="form-item-data type-2">
+																	<div class="form-point-input">
+																		<input type="text" class="" placeholder="">											
+																		<div class="char">원</div>
+																		<button type="button" class="btn btn-outline-gray btn-round btn-inline">전액 사용</button>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>									
+												</div>									
+												<div class="basic-data-group vsmall">
+													<button type="button" class="btn btn-outline-gray btn-middle-size btn-basic-full">적용</button>
+												</div>
+												<div class="form-bottom-info font-color-purple text-align-right">본 예약의 적립금이 아직 지급되지 않았습니다.</div>
+											</div>
+										</div>
+										<div class="pay-accordion-total">
+											<div class="receipt-buy-detail">
+												<div class="item-data-list">
+													<div class="list-cell">
+														<div class="list-title"><strong>할인금액</strong></div>
+														<div class="list-value"><strong>(-)660원</strong></div>
+													</div>
+													<div class="list-cell">
+														<div class="list-title"><strong>적립금 사용</strong></div>
+														<div class="list-value"><strong>(-)260원</strong></div>
+													</div>
+												</div>
+											</div>
+											<div class="receipt-buy-detail result-price">
+												<div class="item-data-list">
+													<div class="list-cell">
+														<div class="list-title font-color-purple"><strong>최종 결제액</strong></div>
+														<div class="list-value font-color-purple"><strong>49,500원</strong></div>
+													</div>
+												</div>
+											</div>
+											<div class="basic-data-group vmiddle">
+												<div class="form-change-wrap">
+													<div class="form-change-item">
+														<div class="form-change-label"><strong>카드</strong> (단위:원)</div>
+														<div class="form-change-data"><input type="text"></div>
+													</div>
+													<button type="button" class="btn-data-change">전환하기</button>
+													<div class="form-change-item">
+														<div class="form-change-label"><strong>현금</strong> (단위:원)</div>
+														<div class="form-change-data"><input type="text"></div>
+													</div>
+												</div>
+											</div>									
+											<div class="basic-data-group vsmall">
+												<button type="button" class="btn btn-outline-gray btn-middle-size btn-basic-full">적용</button>
+											</div>
+										</div>
+									</div>
+									<div class="basic-data-group none">
+										<div class="con-title-group">
+											<h5 class="con-title">결제완료 처리</h5>
+											<label for="switch-toggle" class="form-switch-toggle"><input type="checkbox" id="switch-toggle"><span class="bar"></span></label>
+										</div>
+									</div>
+								</div>
+							</div>												
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- //view -->
+		</section>
+		<!-- //contents -->
+    </section>
+    <!-- //container -->
+</div>
+<!-- //wrap -->
+<script src="../assets/js/common.js"></script>
+</body>
+</html>

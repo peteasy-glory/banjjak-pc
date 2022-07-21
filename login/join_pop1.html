@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+	<!-- Page Infomation -->
+    <title>멤버 | 반짝</title>
+    <meta name="Description" content="">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="format-detection" content="telephone=no">
+    <!-- SNS Basic -->
+    <meta property="og:title" content="타이틀">
+    <meta property="og:description" content="설명 100자내외">
+    <meta property="og:type" content="website">
+    <meta property="og:url"    content="">
+    <meta property="og:image" content="이미지 경로">
+	<!-- SNS Twitter -->
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="타이틀">
+	<meta name="twitter:description" content="설명 100자내외">
+	<meta name="twitter:image" content="이미지 경로">
+    <link rel="icon" href="../assets/images/common/favicon.png">
+	<link rel="canonical" href="대표도메인">
+    <!-- custom css -->
+    <link href="../assets/css/style.css" rel="stylesheet">
+	<!-- jquery js -->
+	<script src="../assets/js/jquery-3.4.1.min.js"></script>   
+	<script src="../assets/js/swiper.min.js"></script>
+  </head>
+<body>        
+
+<!-- wrap -->
+<div id="wrap">
+	<div class="member-header">	
+		<div class="member-header-inner">				
+			<h1><a href="#">반짝 반려미용샵의 단짝</a></h1>
+		</div>
+	</div>
+    <div class="member-wrap">
+		<div class="member-inner">
+			<div class="member-view">
+				<div class="member-view-inner">
+					<button type="button" class="btn btn-purple" onclick="common.toastPopOpen('confirmNumSend');"><em>인증번호 발송</em></button>
+					<button type="button" class="btn btn-purple" onclick="common.toastPopOpen('confirmNumError');"><em>인증번호 틀림</em></button>
+					<button type="button" class="btn btn-purple" onclick="common.toastPopOpen('confirmNumComplete');"><em>인증번호 완료</em></button>
+					<button type="button" class="btn btn-purple" onclick="common.toastPopOpen('quitId');"><em>탈퇴한 아이디</em></button>
+					<button type="button" class="btn btn-purple" onclick="common.toastPopOpen('noneId');"><em>아이디 존재</em></button>
+					<button type="button" class="btn btn-purple" onclick="common.toastPopOpen('useId');"><em>사용 가능한 아이디</em></button>
+
+					<!-- 인증번호 발송완료 팝업 -->
+					<div id="confirmNumSend" class="toast-pop-wrap">
+						<div class="toast-pop-data">인증번호를 발송하였습니다.</div>
+					</div>
+					<!-- //인증번호 발송완료 팝업 -->
+
+					<!-- 인증번호 발송틀림 팝업 -->
+					<div id="confirmNumError" class="toast-pop-wrap red">
+						<div class="toast-pop-data">인증번호가 틀립니다.<br>다시 확인해 주세요.</div>
+					</div>
+					<!-- //인증번호 발송틀림 팝업 -->
+
+					<!-- 인증번호 완료 팝업 -->
+					<div id="confirmNumComplete" class="toast-pop-wrap">
+						<div class="toast-pop-data">인증되었습니다.<br>하단에 다음 버튼을 눌러주세요.</div>
+					</div>
+					<!-- //인증번호 완료 팝업 -->
+					<!-- 탈퇴한 아이디 팝업 -->
+					<div id="quitId" class="toast-pop-wrap red">
+						<div class="toast-pop-data">탈퇴한 이메일 계정은<br>재사용이 불가합니다. </div>
+					</div>
+					<!-- //탈퇴한 아이디 팝업 -->
+
+					<!-- 아이디존재 팝업 -->
+					<div id="noneId" class="toast-pop-wrap red">
+						<div class="toast-pop-data">아이디가 이미 존재합니다.</div>
+					</div>
+					<!-- //아이디존재 팝업 -->
+
+					<!-- 사용가능 아이디 팝업 -->
+					<div id="useId" class="toast-pop-wrap">
+						<div class="toast-pop-data">사용 가능한 아이디입니다.</div>
+					</div>
+					<!-- //사용가능 아이디 팝업 -->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- //wrap -->
+<script src="../assets/js/common.js"></script>
+</body>
+</html>

@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+	<!-- Page Infomation -->
+    <title>고객 관리 | 반짝</title>
+    <meta name="Description" content="">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="format-detection" content="telephone=no">
+    <!-- SNS Basic -->
+    <meta property="og:title" content="타이틀">
+    <meta property="og:description" content="설명 100자내외">
+    <meta property="og:type" content="website">
+    <meta property="og:url"    content="">
+    <meta property="og:image" content="이미지 경로">
+	<!-- SNS Twitter -->
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="타이틀">
+	<meta name="twitter:description" content="설명 100자내외">
+	<meta name="twitter:image" content="이미지 경로">
+    <link rel="icon" href="../assets/images/common/favicon.png">
+	<link rel="canonical" href="대표도메인">
+    <!-- custom css -->
+    <link href="../assets/css/style.css" rel="stylesheet">
+	<!-- jquery js -->
+	<script src="../assets/js/jquery-3.4.1.min.js"></script>   
+	<script src="../assets/js/swiper.min.js"></script>
+  </head>
+<body>        
+
+<!-- wrap -->
+<div id="wrap">
+	<!-- header -->
+	<header id="header"></header>
+	<!-- //header -->
+	<!-- gnb -->
+	<nav id="gnb"></nav>
+	<!-- //gnb -->
+    <!-- container -->
+    <section id="container">     
+		<!-- contents -->
+		<section id="contents">
+			<!-- view -->
+			<div class="view">
+				<div class="basic-data-group">
+					<div class="data-row">
+						<div class="data-col-middle">
+							<div class="basic-data-card">
+								<div style="padding:20px;">
+									<div class="basic-data-group large">
+										<div class="con-title-group">
+											<h4 class="con-title">메세지 팝업</h4>
+										</div>
+										<div>
+											<button type="button" class="btn btn-inline btn-purple" onclick="pop.open('memberGradeAddPop');"><em>회원등급부여</em></button>
+											<button type="button" class="btn btn-inline btn-purple" onclick="pop.open('allMemberGradeAddPop');"><em>전체회원등급부여</em></button>
+											<button type="button" class="btn btn-inline btn-purple" onclick="pop.open('phoneConfirm');"><em>견주에게 핸드폰 건네주세요</em></button>
+										</div>
+									</div>
+									<div class="basic-data-group large">
+										<div class="con-title-group">
+											<h4 class="con-title">페이지 팝업</h4>
+										</div>
+										<div>
+											<button type="button" class="btn btn-inline btn-purple" onclick="pop.open('numberAddPop');"><em>전화번호 추가</em></button>
+											<button type="button" class="btn btn-inline btn-purple" onclick="pop.open('petAddPop');"><em>펫 추가하기</em></button>
+											<button type="button" class="btn btn-inline btn-purple" onclick="pop.open('beautyAgreeWritePop');"><em>미용동의서 작성</em></button>
+											<button type="button" class="btn btn-inline btn-purple" onclick="pop.open('beautyAgreeViewPop');"><em>미용동의서 보기</em></button>
+											<button type="button" class="btn btn-inline btn-purple" onclick="pop.open('hotelAgreeWritePop');"><em>호텔동의서 작성</em></button>
+											<button type="button" class="btn btn-inline btn-purple" onclick="pop.open('hotelAgreeViewPop');"><em>호텔동의서 보기</em></button>
+											<button type="button" class="btn btn-inline btn-purple" onclick="pop.open('customerAlarmInquiryPop');"><em>알림톡발송조회</em></button>
+										</div>
+									</div>
+								</div>
+							</div>			
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- //view -->
+		</section>
+		<!-- //contents -->
+    </section>
+    <!-- //container -->	
+
+	<!-- 알림톡발송조회 팝업 -->
+	<article id="customerAlarmInquiryPop" class="layer-pop-wrap">
+		<div class="layer-pop-parent">
+			<div class="layer-pop-children">
+				<div class="pop-data data-pop-view large">
+					<div class="pop-header">
+						<h4 class="con-title">알림톡 발송이력 조회</h4>
+					</div>
+					<div class="pop-body">
+						<div class="customer-alarm-inquiry">
+							<div class="basic-data-group">
+								<div class="board-sort-wrap">
+									<div class="left">
+										<div class="form-datepicker-group">
+											<div class="form-datepicker"><input type="text" class="datepicker-start"></div>
+											<div class="form-unit">~</div>
+											<div class="form-datepicker"><input type="text" class="datepicker-end"></div>
+										</div>
+									</div>
+									<div class="right">
+										<div class="board-sort-btns">
+											<button type="button" class="btn-data-refresh">초기화</button>
+											<a href="#" class="btn btn-purple btn-inline btn-basic-small">조회</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="basic-data-group vvsmall3">
+								<div class="con-title-group">
+									<h5 class="con-title">010-1234-1776 고객님의 발송이력 조회입니다.</h5>
+								</div>
+								<div>
+									<!-- 검색결과 있을 때 -->
+									<div class="customer-alarm-result">
+										<table class="customer-table">
+											<colgroup>
+												<col style="width:20%">
+												<col style="width:15%">
+												<col style="width:46%">
+												<col style="width:19%">
+											</colgroup>
+											<thead>
+												<tr>
+													<th>발송시간</th>
+													<th>구분</th>
+													<th>내용</th>
+													<th>결과</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td class="">2021.12.25<br>13:25</td>
+													<td class="">예약등록</td>
+													<td class="text-align-left">1776님의 범shop 예약이 내일이네요^^<br><br>반려생황읠 단짝, 반짝에서 내일 예약 내용을 알려드립니다.<br><br>-예약펫샵: 글로리<br>-예약일시: 2021년 9월26일 9시 0분<br><br>예약내용 상세 확인과 변경은 반려생활의 단짝, 반짝에서도 간능합니다.<br>알림톡 발송</td>
+													<td class="">알림톡 발송</td>
+												</tr>
+												<tr>
+													<td class="">2021.12.25<br>13:25</td>
+													<td class="">예약등록</td>
+													<td class="text-align-left">1776님의 범shop 예약이 내일이네요^^<br><br>반려생황읠 단짝, 반짝에서 내일 예약 내용을 알려드립니다.<br><br>-예약펫샵: 글로리<br>-예약일시: 2021년 9월26일 9시 0분<br><br>예약내용 상세 확인과 변경은 반려생활의 단짝, 반짝에서도 간능합니다.<br>알림톡 발송</td>
+													<td class="">알림톡 발송</td>
+												</tr>
+												<tr>
+													<td class="">2021.12.25<br>13:25</td>
+													<td class="">예약등록</td>
+													<td class="text-align-left">1776님의 범shop 예약이 내일이네요^^<br><br>반려생황읠 단짝, 반짝에서 내일 예약 내용을 알려드립니다.<br><br>-예약펫샵: 글로리<br>-예약일시: 2021년 9월26일 9시 0분<br><br>예약내용 상세 확인과 변경은 반려생활의 단짝, 반짝에서도 간능합니다.<br>알림톡 발송</td>
+													<td class="">알림톡 발송</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<!-- //검색결과 있을 때 -->
+									<!-- 검색결과 없을 때 -->
+									<div class="list-none-data">검색 결과가 없습니다.</div>
+									<!-- //검색결과 없을 때 -->
+								</div>
+							</div>							
+						</div>
+					</div>
+					<button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
+				</div>
+			</div>
+		</div>
+	</article>
+	<!-- //알림톡발송조회 팝업 -->
+
+	<!-- 호텔 동의서 작성 팝업 -->
+	<article id="hotelAgreeWritePop" class="layer-pop-wrap">
+		<div class="layer-pop-parent">
+			<div class="layer-pop-children">
+				<div class="pop-data data-pop-view large">
+					<div class="pop-header">
+						<h4 class="con-title">호텔 동의서 작성</h4>
+					</div>
+					<div class="pop-body">
+						<div class="basic-data-group">
+							<div class="con-title-group">
+								<h4 class="con-title">고객 정보</h4>
+							</div>
+							<div class="form-group">
+								<div class="grid-layout margin-14-17">
+									<div class="grid-layout-inner">
+										<div class="grid-layout-cell grid-2">
+											<div class="form-group-item">
+												<div class="form-item-label">고객명</div>
+												<div class="form-item-data">
+													<input type="text" class="form-control" placeholder="입력">
+												</div>
+											</div>
+										</div>							
+										<div class="grid-layout-cell grid-2">
+											<div class="form-group-item">
+												<div class="form-item-label">연락처</div>
+												<div class="form-item-data">
+													<input type="text" class="form-control" placeholder="입력">
+												</div>
+											</div>
+										</div>							
+									</div>							
+								</div>							
+							</div>							
+						</div>							
+						<div class="basic-data-group">
+							<div class="con-title-group">
+								<h4 class="con-title">펫 정보</h4>
+							</div>
+							<div class="form-group">
+								<div class="grid-layout margin-14-17">
+									<div class="grid-layout-inner">
+										<div class="grid-layout-cell grid-1">
+											<div class="form-group-item">
+												<div class="form-item-label">품종</div>
+												<div class="form-item-data type-2">
+													<div class="pet-breed-select-wrap">
+														<div class="pet-breed-select">
+															<div class="breed-select">
+																<label class="form-toggle-box" for="breed1"><input type="radio" name="breed" id="breed1"><em><span>강아지</span></em></label>
+																<label class="form-toggle-box" for="breed2"><input type="radio" name="breed" id="breed2"><em><span>고양이</span></em></label>
+															</div>															
+														</div>
+														<div class="pet-breed-sort">
+															<!-- 강아지 -->
+															<div style="display:block">
+																<select>
+																	<option value="">말티즈</option>
+																</select>
+																<div class="pet-breed-other"  style="display:block">
+																	<input type="text" placeholder="입력" class="form-control">
+																</div>	
+															</div>
+															<!-- //강아지 -->
+															<!-- 고양이 -->
+															<div style="display:none">
+																<select>
+																	<option value="">고양이</option>
+																</select>
+																<div class="pet-breed-other"  style="display:block">
+																	<input type="text" placeholder="입력" class="form-control">
+																</div>	
+															</div>
+															<!-- //고양이 -->	
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>							
+										<div class="grid-layout-cell grid-2">
+											<div class="form-group-item">
+												<div class="form-item-label">생일</div>
+												<div class="form-item-data type-2">
+													<div class="grid-layout margin-12">
+														<div class="grid-layout-inner">
+															<div class="grid-layout-cell grid-3">
+																<select>
+																	<option value="">2021 년</option>
+																	<option value="">2021 년</option>
+																	<option value="">2021 년</option>
+																	<option value="">2021 년</option>
+																</select>
+															</div>
+															<div class="grid-layout-cell grid-3">
+																<select>
+																	<option value="">02 월</option>
+																</select>
+															</div>
+															<div class="grid-layout-cell grid-3">
+																<select>
+																	<option value="">02 일</option>
+																</select>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>								
+										<div class="grid-layout-cell grid-2">
+											<div class="form-group-item">
+												<div class="form-item-label">성별 선택</div>
+												<div class="form-item-data type-2">
+													<div class="grid-layout toggle-button-group">
+														<div class="grid-layout-inner">
+															<div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="gender1"><input type="radio" name="gender" id="gender1"><em>남아</em></label></div>
+															<div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="gender2"><input type="radio" name="gender" id="gender2"><em>여아</em></label></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>							
+										<div class="grid-layout-cell grid-2">
+											<div class="form-group-item">
+												<div class="form-item-label">중성화</div>
+												<div class="form-item-data type-2">
+													<div class="grid-layout toggle-button-group">
+														<div class="grid-layout-inner">
+															<div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="neutralize1"><input type="radio" name="neutralize" id="neutralize1"><em>X</em></label></div>
+															<div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="neutralize2"><input type="radio" name="neutralize" id="neutralize2"><em>O</em></label></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>						
+										<div class="grid-layout-cell grid-2">
+											<div class="form-group-item">
+												<div class="form-item-label">예방 접종</div>
+												<div class="form-item-data type-2">
+													<select>
+														<option value="">2회</option>
+														<option value="">2회</option>
+														<option value="">2회</option>
+														<option value="">2회</option>
+													</select>
+												</div>
+											</div>
+										</div>						
+										<div class="grid-layout-cell grid-1">
+											<div class="form-group-item">
+												<div class="form-item-label">질병기록</div>
+												<div class="form-item-data type-2">
+													<div class="grid-layout toggle-button-group">
+														<div class="grid-layout-inner">
+															<div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="disease1"><input type="checkbox" name="disease" id="disease1"><em>없음</em></label></div>
+															<div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="disease2"><input type="checkbox" name="disease" id="disease2"><em>심장 질환</em></label></div>
+															<div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="disease3"><input type="checkbox" name="disease" id="disease3"><em>피부병</em></label></div>
+															<div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="disease4"><input type="checkbox" name="disease" id="disease4"><em>기타</em></label></div>
+															<div class="grid-layout-cell grid-1">
+																<select>
+																	<option value="">없음</option>
+																	<option value="">선택</option>
+																	<option value="">선택</option>
+																</select>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>				
+										<div class="grid-layout-cell grid-1">
+											<div class="form-group-item">
+												<div class="form-item-label">특이사항</div>
+												<div class="form-item-data type-2">
+													<div class="grid-layout toggle-button-group">
+														<div class="grid-layout-inner">
+															<div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special1"><input type="checkbox" name="special" id="special1"><em>피부병</em></label></div>
+															<div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special2"><input type="checkbox" name="special" id="special2"><em>심장질환</em></label></div>
+															<div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special3"><input type="checkbox" name="special" id="special3"><em>마킹</em></label></div>
+															<div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special3"><input type="checkbox" name="special" id="special3"><em>마운팅</em></label></div>
+															<div class="grid-layout-cell grid-1">
+																<textarea style="height:60px;" placeholder="입력"></textarea>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>						
+									</div>							
+								</div>											
+							</div>											
+						</div>
+						<div class="basic-data-group customer-view-agree">
+							<div class="con-title-group">
+								<h4 class="con-title">호텔동의서 상세내용</h4>
+							</div>
+							<div class="customer-view-agree-info">가게이름 은(는) 호텔이용견의 나이가 10세 이상인 노령견이나, 질병이 있는 경우 건강상태를 고려하여 안내사항을 말씀드리고, 호텔 동의서를 받고자 합니다.</div>
+							<div class="pay-card-group">
+								<div class="pay-card-cell all"><label class="form-checkbox"><input type="checkbox" name="payCard"><span class="form-check-icon"><em><strong>모두 동의</strong></em></span></label></div>
+								<div class="pay-card-cell rule">
+									<div class="pay-card-rule-wrap">
+										<div class="pay-card-check">
+											<label class="form-checkbox"><input type="checkbox" name="payCard"><span class="form-check-icon"><em>호텔 동의서</em></span></label>
+											<button type="button" class="btn-pay-card-toggle">자세히 보기</button>
+										</div>
+										<div class="pay-card-rule">
+											<div class="pay-card-agree">
+											1. 백내장, 치주염, 관절염, 당뇨병, 심장질환 등과 같이 노령견에서 흔히 발생하는 질병은 미용시에 노령견에게 쇼크 및 스트레스의 원인이 될 수 있으며,증상이 심각할 경우 사망까지 이를 수 있습니다.2. 노령견이나, 예민한 견의 경우 미용 시 받는 스트레스가 더 심할 수 있습니다. 또한, 미용 및 목욕 시 평소보다 오래 서 있게 되어, 관절에 무리가 올 수 있으며, 이런 경우 미용 후에 일시적으로 다리를 절 수 있습니다. 3. 당일 반려견의 컨디션이 좋지 않거나, 구토, 설사, 
+											1. 백내장, 치주염, 관절염, 당뇨병, 심장질환 등과 같이 노령견에서 흔히 발생하는 질병은 미용시에 노령견에게 쇼크 및 스트레스의 원인이 될 수 있으며,증상이 심각할 경우 사망까지 이를 수 있습니다.2. 노령견이나, 예민한 견의 경우 미용 시 받는 스트레스가 더 심할 수 있습니다. 또한, 미용 및 목욕 시 평소보다 오래 서 있게 되어, 관절에 무리가 올 수 있으며, 이런 경우 미용 후에 일시적으로 다리를 절 수 있습니다. 3. 당일 반려견의 컨디션이 좋지 않거나, 구토, 설사, 
+											1. 백내장, 치주염, 관절염, 당뇨병, 심장질환 등과 같이 노령견에서 흔히 발생하는 질병은 미용시에 노령견에게 쇼크 및 스트레스의 원인이 될 수 있으며,증상이 심각할 경우 사망까지 이를 수 있습니다.2. 노령견이나, 예민한 견의 경우 미용 시 받는 스트레스가 더 심할 수 있습니다. 또한, 미용 및 목욕 시 평소보다 오래 서 있게 되어, 관절에 무리가 올 수 있으며, 이런 경우 미용 후에 일시적으로 다리를 절 수 있습니다. 3. 당일 반려견의 컨디션이 좋지 않거나, 구토, 설사, 
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="pay-card-cell rule">
+									<div class="pay-card-rule-wrap">
+										<div class="pay-card-check">
+											<label class="form-checkbox"><input type="checkbox" name="payCard"><span class="form-check-icon"><em>개인정보 수집 및 허용</em></span></label>
+											<button type="button" class="btn-pay-card-toggle">자세히 보기</button>
+										</div>
+										<div class="pay-card-rule">
+											<div class="pay-card-agree">
+											1. 백내장, 치주염, 관절염, 당뇨병, 심장질환 등과 같이 노령견에서 흔히 발생하는 질병은 미용시에 노령견에게 쇼크 및 스트레스의 원인이 될 수 있으며,증상이 심각할 경우 사망까지 이를 수 있습니다.2. 노령견이나, 예민한 견의 경우 미용 시 받는 스트레스가 더 심할 수 있습니다. 또한, 미용 및 목욕 시 평소보다 오래 서 있게 되어, 관절에 무리가 올 수 있으며, 이런 경우 미용 후에 일시적으로 다리를 절 수 있습니다. 3. 당일 반려견의 컨디션이 좋지 않거나, 구토, 설사, 
+											1. 백내장, 치주염, 관절염, 당뇨병, 심장질환 등과 같이 노령견에서 흔히 발생하는 질병은 미용시에 노령견에게 쇼크 및 스트레스의 원인이 될 수 있으며,증상이 심각할 경우 사망까지 이를 수 있습니다.2. 노령견이나, 예민한 견의 경우 미용 시 받는 스트레스가 더 심할 수 있습니다. 또한, 미용 및 목욕 시 평소보다 오래 서 있게 되어, 관절에 무리가 올 수 있으며, 이런 경우 미용 후에 일시적으로 다리를 절 수 있습니다. 3. 당일 반려견의 컨디션이 좋지 않거나, 구토, 설사, 
+											1. 백내장, 치주염, 관절염, 당뇨병, 심장질환 등과 같이 노령견에서 흔히 발생하는 질병은 미용시에 노령견에게 쇼크 및 스트레스의 원인이 될 수 있으며,증상이 심각할 경우 사망까지 이를 수 있습니다.2. 노령견이나, 예민한 견의 경우 미용 시 받는 스트레스가 더 심할 수 있습니다. 또한, 미용 및 목욕 시 평소보다 오래 서 있게 되어, 관절에 무리가 올 수 있으며, 이런 경우 미용 후에 일시적으로 다리를 절 수 있습니다. 3. 당일 반려견의 컨디션이 좋지 않거나, 구토, 설사, 
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="customer-view-agree-date">
+								<div class="item-date">2021.09.22</div>
+								<div class="item-name">고객명 자동입력</div>
+							</div>
+						</div>
+						<div class="basic-data-group small">
+							<div class="con-title-group">
+								<h4 class="con-title">서명</h4>
+							</div>
+							<div class="user-sign-wrap">
+							</div>
+						</div>
+					</div>
+					<div class="pop-footer type-2">
+						<!-- btn-page-bottom 클래스에 disabled 클래스 추가시 비활성화 또는 button 태그일 시 disabled 속성 추가시 비활성화 -->
+						<a href="#" class="btn-page-bottom">저장</a>
+					</div>
+					<button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
+				</div>
+			</div>
+		</div>
+	</article>
+	<!-- //호텔 동의서 작성 팝업 -->
+
+	<!-- 호텔 동의서 보기 팝업 -->
+	<article id="hotelAgreeViewPop" class="layer-pop-wrap">
+		<div class="layer-pop-parent">
+			<div class="layer-pop-children">
+				<div class="pop-data data-pop-view large">
+					<div class="pop-header">
+						<h4 class="con-title">호텔 동의서</h4>
+					</div>
+					<div class="pop-body">
+						<div class="basic-data-group">
+							<div class="con-title-group">
+								<h4 class="con-title">고객 정보</h4>
+							</div>
+							<div class="form-group">
+								<div class="grid-layout margin-14-17">
+									<div class="grid-layout-inner">
+										<div class="grid-layout-cell grid-2">
+											<div class="form-group-item">
+												<div class="form-item-label">고객명</div>
+												<div class="form-item-data">
+													<input type="text" class="form-control" placeholder="입력" value="김반짝" readonly>
+												</div>
+											</div>
+										</div>							
+										<div class="grid-layout-cell grid-2">
+											<div class="form-group-item">
+												<div class="form-item-label">연락처</div>
+												<div class="form-item-data">
+													<input type="text" class="form-control" placeholder="입력" value="010-1234-1234" readonly>
+												</div>
+											</div>
+										</div>							
+									</div>							
+								</div>							
+							</div>							
+						</div>							
+						
+						<div class="basic-data-group large">
+							<div class="con-title-group">
+								<h4 class="con-title">예약동물 정보</h4>
+							</div>
+							<div class="customer-view-pet-info">
+								<div class="item-thumb">
+									<div class="user-thumb large"><!--<img src="../assets/images/user_thumb.png" alt="">--></div>
+								</div>
+								<div class="item-user-data">
+									<div class="grid-layout flex-table">
+										<div class="grid-layout-inner">
+											<div class="grid-layout-cell grid-2">
+												<div class="flex-table-item">
+													<div class="flex-table-title"><div class="txt">이름</div></div>
+													<div class="flex-table-data">
+														<div class="flex-table-data-inner">
+															콩이
+														</div>																
+													</div>
+												</div>
+											</div>
+											<div class="grid-layout-cell grid-2">
+												<div class="flex-table-item">
+													<div class="flex-table-title"><div class="txt">품종</div></div>
+													<div class="flex-table-data">
+														<div class="flex-table-data-inner">
+															포메라이언
+														</div>																
+													</div>
+												</div>
+											</div>
+											<div class="grid-layout-cell grid-2">
+												<div class="flex-table-item">
+													<div class="flex-table-title"><div class="txt">성별</div></div>
+													<div class="flex-table-data">
+														<div class="flex-table-data-inner">
+															남아
+														</div>																
+													</div>
+												</div>
+											</div>
+											<div class="grid-layout-cell grid-2">
+												<div class="flex-table-item">
+													<div class="flex-table-title"><div class="txt">중성화</div></div>
+													<div class="flex-table-data">
+														<div class="flex-table-data-inner">
+															O
+														</div>																
+													</div>
+												</div>
+											</div>
+											<div class="grid-layout-cell grid-2">
+												<div class="flex-table-item">
+													<div class="flex-table-title"><div class="txt">예방접종</div></div>
+													<div class="flex-table-data">
+														<div class="flex-table-data-inner">
+															O
+														</div>																
+													</div>
+												</div>
+											</div>
+											<div class="grid-layout-cell grid-2">
+												<div class="flex-table-item">
+													<div class="flex-table-title"><div class="txt">질병기록</div></div>
+													<div class="flex-table-data">
+														<div class="flex-table-data-inner">
+															없음
+														</div>																
+													</div>
+												</div>
+											</div>
+											<div class="grid-layout-cell grid-2">
+												<div class="flex-table-item">
+													<div class="flex-table-title"><div class="txt">특이사항</div></div>
+													<div class="flex-table-data">
+														<div class="flex-table-data-inner">
+															없음
+														</div>																
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="basic-data-group customer-view-agree">
+							<div class="con-title-group">
+								<h4 class="con-title">호텔동의서 상세내용</h4>
+							</div>
+							<div class="customer-view-agree-info">가게이름 은(는) 호텔이용견의 나이가 10세 이상인 노령견이나, 질병이 있는 경우 건강상태를 고려하여 안내사항을 말씀드리고, 호텔 동의서를 받고자 합니다.</div>
+							<div class="pay-card-group">
+								<div class="pay-card-cell all"><label class="form-checkbox"><input type="checkbox" name="payCard"  checked disabled><span class="form-check-icon"><em><strong>모두 동의</strong></em></span></label></div>
+								<div class="pay-card-cell rule">
+									<div class="pay-card-rule-wrap">
+										<div class="pay-card-check">
+											<label class="form-checkbox"><input type="checkbox" name="payCard"  checked disabled><span class="form-check-icon"><em>호텔 동의서</em></span></label>
+											<button type="button" class="btn-pay-card-toggle">자세히 보기</button>
+										</div>
+										<div class="pay-card-rule">
+											<div class="pay-card-agree">
+											1. 백내장, 치주염, 관절염, 당뇨병, 심장질환 등과 같이 노령견에서 흔히 발생하는 질병은 미용시에 노령견에게 쇼크 및 스트레스의 원인이 될 수 있으며,증상이 심각할 경우 사망까지 이를 수 있습니다.2. 노령견이나, 예민한 견의 경우 미용 시 받는 스트레스가 더 심할 수 있습니다. 또한, 미용 및 목욕 시 평소보다 오래 서 있게 되어, 관절에 무리가 올 수 있으며, 이런 경우 미용 후에 일시적으로 다리를 절 수 있습니다. 3. 당일 반려견의 컨디션이 좋지 않거나, 구토, 설사, 
+											1. 백내장, 치주염, 관절염, 당뇨병, 심장질환 등과 같이 노령견에서 흔히 발생하는 질병은 미용시에 노령견에게 쇼크 및 스트레스의 원인이 될 수 있으며,증상이 심각할 경우 사망까지 이를 수 있습니다.2. 노령견이나, 예민한 견의 경우 미용 시 받는 스트레스가 더 심할 수 있습니다. 또한, 미용 및 목욕 시 평소보다 오래 서 있게 되어, 관절에 무리가 올 수 있으며, 이런 경우 미용 후에 일시적으로 다리를 절 수 있습니다. 3. 당일 반려견의 컨디션이 좋지 않거나, 구토, 설사, 
+											1. 백내장, 치주염, 관절염, 당뇨병, 심장질환 등과 같이 노령견에서 흔히 발생하는 질병은 미용시에 노령견에게 쇼크 및 스트레스의 원인이 될 수 있으며,증상이 심각할 경우 사망까지 이를 수 있습니다.2. 노령견이나, 예민한 견의 경우 미용 시 받는 스트레스가 더 심할 수 있습니다. 또한, 미용 및 목욕 시 평소보다 오래 서 있게 되어, 관절에 무리가 올 수 있으며, 이런 경우 미용 후에 일시적으로 다리를 절 수 있습니다. 3. 당일 반려견의 컨디션이 좋지 않거나, 구토, 설사, 
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="pay-card-cell rule">
+									<div class="pay-card-rule-wrap">
+										<div class="pay-card-check">
+											<label class="form-checkbox"><input type="checkbox" name="payCard" checked disabled><span class="form-check-icon"><em>개인정보 수집 및 허용</em></span></label>
+											<button type="button" class="btn-pay-card-toggle">자세히 보기</button>
+										</div>
+										<div class="pay-card-rule">
+											<div class="pay-card-agree">
+											1. 백내장, 치주염, 관절염, 당뇨병, 심장질환 등과 같이 노령견에서 흔히 발생하는 질병은 미용시에 노령견에게 쇼크 및 스트레스의 원인이 될 수 있으며,증상이 심각할 경우 사망까지 이를 수 있습니다.2. 노령견이나, 예민한 견의 경우 미용 시 받는 스트레스가 더 심할 수 있습니다. 또한, 미용 및 목욕 시 평소보다 오래 서 있게 되어, 관절에 무리가 올 수 있으며, 이런 경우 미용 후에 일시적으로 다리를 절 수 있습니다. 3. 당일 반려견의 컨디션이 좋지 않거나, 구토, 설사, 
+											1. 백내장, 치주염, 관절염, 당뇨병, 심장질환 등과 같이 노령견에서 흔히 발생하는 질병은 미용시에 노령견에게 쇼크 및 스트레스의 원인이 될 수 있으며,증상이 심각할 경우 사망까지 이를 수 있습니다.2. 노령견이나, 예민한 견의 경우 미용 시 받는 스트레스가 더 심할 수 있습니다. 또한, 미용 및 목욕 시 평소보다 오래 서 있게 되어, 관절에 무리가 올 수 있으며, 이런 경우 미용 후에 일시적으로 다리를 절 수 있습니다. 3. 당일 반려견의 컨디션이 좋지 않거나, 구토, 설사, 
+											1. 백내장, 치주염, 관절염, 당뇨병, 심장질환 등과 같이 노령견에서 흔히 발생하는 질병은 미용시에 노령견에게 쇼크 및 스트레스의 원인이 될 수 있으며,증상이 심각할 경우 사망까지 이를 수 있습니다.2. 노령견이나, 예민한 견의 경우 미용 시 받는 스트레스가 더 심할 수 있습니다. 또한, 미용 및 목욕 시 평소보다 오래 서 있게 되어, 관절에 무리가 올 수 있으며, 이런 경우 미용 후에 일시적으로 다리를 절 수 있습니다. 3. 당일 반려견의 컨디션이 좋지 않거나, 구토, 설사, 
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="customer-view-agree-date">
+								<div class="item-date">2021.09.22</div>
+								<div class="item-name">고객명 자동입력</div>
+							</div>
+						</div>
+						<div class="basic-data-group small">
+							<div class="con-title-group">
+								<h4 class="con-title">서명</h4>
+							</div>
+							<div class="user-sign-wrap">
+							</div>
+						</div>
+					</div>
+					<div class="pop-footer line">
+						<div class="grid-layout btn-grid-group">
+							<div class="grid-layout-inner">
+								<div class="grid-layout-cell grid-2"><a href="#" class="btn btn-outline-purple"><strong>다운로드</strong></a></div>
+								<div class="grid-layout-cell grid-2"><a href="#" class="btn btn-outline-purple"><strong>수정</strong></a></div>
+							</div>
+						</div>
+					</div>
+					<button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
+				</div>
+			</div>
+		</div>
+	</article>
+	<!-- //호텔 동의서 보기 팝업 -->
+
+	<!-- 미용 동의서 작성 팝업 -->
+	<article id="beautyAgreeWritePop" class="layer-pop-wrap">
+		<div class="layer-pop-parent">
+			<div class="layer-pop-children">
+				<div class="pop-data data-pop-view large">
+					<div class="pop-header">
+						<h4 class="con-title">미용 동의서 작성</h4>
+					</div>
+					<div class="pop-body">
+						<div class="basic-data-group">
+							<div class="con-title-group">
+								<h4 class="con-title">고객 정보</h4>
+							</div>
+							<div class="form-group">
+								<div class="grid-layout margin-14-17">
+									<div class="grid-layout-inner">
+										<div class="grid-layout-cell grid-2">
+											<div class="form-group-item">
+												<div class="form-item-label">고객명</div>
+												<div class="form-item-data">
+													<input type="text" class="form-control" placeholder="입력">
+												</div>
+											</div>
+										</div>							
+										<div class="grid-layout-cell grid-2">
+											<div class="form-group-item">
+												<div class="form-item-label">연락처</div>
+												<div class="form-item-data">
+													<input type="text" class="form-control" placeholder="입력">
+												</div>
+											</div>
+										</div>							
+									</div>							
+								</div>							
+							</div>							
+						</div>							
+						<div class="basic-data-group">
+							<div class="con-title-group">
+								<h4 class="con-title">펫 정보</h4>
+							</div>
+							<div class="form-group">
+								<div class="grid-layout margin-14-17">
+									<div class="grid-layout-inner">
+										<div class="grid-layout-cell grid-1">
+											<div class="form-group-item">
+												<div class="form-item-label">품종</div>
+												<div class="form-item-data type-2">
+													<div class="pet-breed-select-wrap">
+														<div class="pet-breed-select">
+															<div class="breed-select">
+																<label class="form-toggle-box" for="breed1"><input type="radio" name="breed" id="breed1"><em><span>강아지</span></em></label>
+																<label class="form-toggle-box" for="breed2"><input type="radio" name="breed" id="breed2"><em><span>고양이</span></em></label>
+															</div>															
+														</div>
+														<div class="pet-breed-sort">
+															<!-- 강아지 -->
+															<div style="display:block">
+																<select>
+																	<option value="">말티즈</option>
+																</select>
+																<div class="pet-breed-other"  style="display:block">
+																	<input type="text" placeholder="입력" class="form-control">
+																</div>	
+															</div>
+															<!-- //강아지 -->
+															<!-- 고양이 -->
+															<div style="display:none">
+																<select>
+																	<option value="">고양이</option>
+																</select>
+																<div class="pet-breed-other"  style="display:block">
+																	<input type="text" placeholder="입력" class="form-control">
+																</div>	
+															</div>
+															<!-- //고양이 -->	
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>							
+										<div class="grid-layout-cell grid-2">
+											<div class="form-group-item">
+												<div class="form-item-label">생일</div>
+												<div class="form-item-data type-2">
+													<div class="grid-layout margin-12">
+														<div class="grid-layout-inner">
+															<div class="grid-layout-cell grid-3">
+																<select>
+																	<option value="">2021 년</option>
+																	<option value="">2021 년</option>
+																	<option value="">2021 년</option>
+																	<option value="">2021 년</option>
+																</select>
+															</div>
+															<div class="grid-layout-cell grid-3">
+																<select>
+																	<option value="">02 월</option>
+																</select>
+															</div>
+															<div class="grid-layout-cell grid-3">
+																<select>
+																	<option value="">02 일</option>
+																</select>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>								
+										<div class="grid-layout-cell grid-2">
+											<div class="form-group-item">
+												<div class="form-item-label">성별 선택</div>
+												<div class="form-item-data type-2">
+													<div class="grid-layout toggle-button-group">
+														<div class="grid-layout-inner">
+															<div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="gender1"><input type="radio" name="gender" id="gender1"><em>남아</em></label></div>
+															<div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="gender2"><input type="radio" name="gender" id="gender2"><em>여아</em></label></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>							
+										<div class="grid-layout-cell grid-2">
+											<div class="form-group-item">
+												<div class="form-item-label">중성화</div>
+												<div class="form-item-data type-2">
+													<div class="grid-layout toggle-button-group">
+														<div class="grid-layout-inner">
+															<div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="neutralize1"><input type="radio" name="neutralize" id="neutralize1"><em>X</em></label></div>
+															<div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="neutralize2"><input type="radio" name="neutralize" id="neutralize2"><em>O</em></label></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>						
+										<div class="grid-layout-cell grid-2">
+											<div class="form-group-item">
+												<div class="form-item-label">예방 접종</div>
+												<div class="form-item-data type-2">
+													<select>
+														<option value="">2회</option>
+														<option value="">2회</option>
+														<option value="">2회</option>
+														<option value="">2회</option>
+													</select>
+												</div>
+											</div>
+										</div>						
+										<div class="grid-layout-cell grid-1">
+											<div class="form-group-item">
+												<div class="form-item-label">질병기록</div>
+												<div class="form-item-data type-2">
+													<div class="grid-layout toggle-button-group">
+														<div class="grid-layout-inner">
+															<div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="disease1"><input type="checkbox" name="disease" id="disease1"><em>없음</em></label></div>
+															<div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="disease2"><input type="checkbox" name="disease" id="disease2"><em>심장 질환</em></label></div>
+															<div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="disease3"><input type="checkbox" name="disease" id="disease3"><em>피부병</em></label></div>
+															<div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="disease4"><input type="checkbox" name="disease" id="disease4"><em>기타</em></label></div>
+															<div class="grid-layout-cell grid-1">
+																<select>
+																	<option value="">없음</option>
+																	<option value="">선택</option>
+																	<option value="">선택</option>
+																</select>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>				
+										<div class="grid-layout-cell grid-1">
+											<div class="form-group-item">
+												<div class="form-item-label">특이사항</div>
+												<div class="form-item-data type-2">
+													<div class="grid-layout toggle-button-group">
+														<div class="grid-layout-inner">
+															<div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special1"><input type="checkbox" name="special" id="special1"><em>피부병</em></label></div>
+															<div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special2"><input type="checkbox" name="special" id="special2"><em>심장질환</em></label></div>
+															<div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special3"><input type="checkbox" name="special" id="special3"><em>마킹</em></label></div>
+															<div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special3"><input type="checkbox" name="special" id="special3"><em>마운팅</em></label></div>
+															<div class="grid-layout-cell grid-1">
+																<textarea style="height:60px;" placeholder="입력"></textarea>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>						
+									</div>							
+								</div>											
+							</div>											
+						</div>
+						<div class="basic-data-group customer-view-agree">
+							<div class="con-title-group">
+								<h4 class="con-title">미용동의서 상세내용</h4>
+							</div>
+							<div class="customer-view-agree-info">가게이름 은(는) 미용요청견의 나이가 10세 이상인 노령견이나, 질병이 있는 경우 건강상태를 고려하여 안내사항을 말씀드리고, 미용 동의서를 받고자 합니다.</div>
+							<div class="pay-card-group">
+								<div class="pay-card-cell all"><label class="form-checkbox"><input type="checkbox" name="payCard"><span class="form-check-icon"><em><strong>모두 동의</strong></em></span></label></div>
+								<div class="pay-card-cell rule">
+									<div class="pay-card-rule-wrap">
+										<div class="pay-card-check">
+											<label class="form-checkbox"><input type="checkbox" name="payCard"><span class="form-check-icon"><em>미용 동의서</em></span></label>
+											<button type="button" class="btn-pay-card-toggle">자세히 보기</button>
+										</div>
+										<div class="pay-card-rule">
+											<div class="pay-card-agree">
+											1. 백내장, 치주염, 관절염, 당뇨병, 심장질환 등과 같이 노령견에서 흔히 발생하는 질병은 미용시에 노령견에게 쇼크 및 스트레스의 원인이 될 수 있으며,증상이 심각할 경우 사망까지 이를 수 있습니다.2. 노령견이나, 예민한 견의 경우 미용 시 받는 스트레스가 더 심할 수 있습니다. 또한, 미용 및 목욕 시 평소보다 오래 서 있게 되어, 관절에 무리가 올 수 있으며, 이런 경우 미용 후에 일시적으로 다리를 절 수 있습니다. 3. 당일 반려견의 컨디션이 좋지 않거나, 구토, 설사, 
+											1. 백내장, 치주염, 관절염, 당뇨병, 심장질환 등과 같이 노령견에서 흔히 발생하는 질병은 미용시에 노령견에게 쇼크 및 스트레스의 원인이 될 수 있으며,증상이 심각할 경우 사망까지 이를 수 있습니다.2. 노령견이나, 예민한 견의 경우 미용 시 받는 스트레스가 더 심할 수 있습니다. 또한, 미용 및 목욕 시 평소보다 오래 서 있게 되어, 관절에 무리가 올 수 있으며, 이런 경우 미용 후에 일시적으로 다리를 절 수 있습니다. 3. 당일 반려견의 컨디션이 좋지 않거나, 구토, 설사, 
+											1. 백내장, 치주염, 관절염, 당뇨병, 심장질환 등과 같이 노령견에서 흔히 발생하는 질병은 미용시에 노령견에게 쇼크 및 스트레스의 원인이 될 수 있으며,증상이 심각할 경우 사망까지 이를 수 있습니다.2. 노령견이나, 예민한 견의 경우 미용 시 받는 스트레스가 더 심할 수 있습니다. 또한, 미용 및 목욕 시 평소보다 오래 서 있게 되어, 관절에 무리가 올 수 있으며, 이런 경우 미용 후에 일시적으로 다리를 절 수 있습니다. 3. 당일 반려견의 컨디션이 좋지 않거나, 구토, 설사, 
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="pay-card-cell rule">
+									<div class="pay-card-rule-wrap">
+										<div class="pay-card-check">
+											<label class="form-checkbox"><input type="checkbox" name="payCard"><span class="form-check-icon"><em>개인정보 수집 및 허용</em></span></label>
+											<button type="button" class="btn-pay-card-toggle">자세히 보기</button>
+										</div>
+										<div class="pay-card-rule">
+											<div class="pay-card-agree">
+											1. 백내장, 치주염, 관절염, 당뇨병, 심장질환 등과 같이 노령견에서 흔히 발생하는 질병은 미용시에 노령견에게 쇼크 및 스트레스의 원인이 될 수 있으며,증상이 심각할 경우 사망까지 이를 수 있습니다.2. 노령견이나, 예민한 견의 경우 미용 시 받는 스트레스가 더 심할 수 있습니다. 또한, 미용 및 목욕 시 평소보다 오래 서 있게 되어, 관절에 무리가 올 수 있으며, 이런 경우 미용 후에 일시적으로 다리를 절 수 있습니다. 3. 당일 반려견의 컨디션이 좋지 않거나, 구토, 설사, 
+											1. 백내장, 치주염, 관절염, 당뇨병, 심장질환 등과 같이 노령견에서 흔히 발생하는 질병은 미용시에 노령견에게 쇼크 및 스트레스의 원인이 될 수 있으며,증상이 심각할 경우 사망까지 이를 수 있습니다.2. 노령견이나, 예민한 견의 경우 미용 시 받는 스트레스가 더 심할 수 있습니다. 또한, 미용 및 목욕 시 평소보다 오래 서 있게 되어, 관절에 무리가 올 수 있으며, 이런 경우 미용 후에 일시적으로 다리를 절 수 있습니다. 3. 당일 반려견의 컨디션이 좋지 않거나, 구토, 설사, 
+											1. 백내장, 치주염, 관절염, 당뇨병, 심장질환 등과 같이 노령견에서 흔히 발생하는 질병은 미용시에 노령견에게 쇼크 및 스트레스의 원인이 될 수 있으며,증상이 심각할 경우 사망까지 이를 수 있습니다.2. 노령견이나, 예민한 견의 경우 미용 시 받는 스트레스가 더 심할 수 있습니다. 또한, 미용 및 목욕 시 평소보다 오래 서 있게 되어, 관절에 무리가 올 수 있으며, 이런 경우 미용 후에 일시적으로 다리를 절 수 있습니다. 3. 당일 반려견의 컨디션이 좋지 않거나, 구토, 설사, 
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="customer-view-agree-date">
+								<div class="item-date">2021.09.22</div>
+								<div class="item-name">고객명 자동입력</div>
+							</div>
+						</div>
+						<div class="basic-data-group small">
+							<div class="con-title-group">
+								<h4 class="con-title">서명</h4>
+							</div>
+							<div class="user-sign-wrap">
+							</div>
+						</div>
+					</div>
+					<div class="pop-footer type-2">
+						<!-- btn-page-bottom 클래스에 disabled 클래스 추가시 비활성화 또는 button 태그일 시 disabled 속성 추가시 비활성화 -->
+						<a href="#" class="btn-page-bottom">저장</a>
+					</div>
+					<button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
+				</div>
+			</div>
+		</div>
+	</article>
+	<!-- //미용 동의서 작성 팝업 -->
+
+	<!-- 미용 동의서 보기 팝업 -->
+	<article id="beautyAgreeViewPop" class="layer-pop-wrap">
+		<div class="layer-pop-parent">
+			<div class="layer-pop-children">
+				<div class="pop-data data-pop-view large">
+					<div class="pop-header">
+						<h4 class="con-title">미용 동의서</h4>
+					</div>
+					<div class="pop-body">
+						<div class="basic-data-group">
+							<div class="con-title-group">
+								<h4 class="con-title">고객 정보</h4>
+							</div>
+							<div class="form-group">
+								<div class="grid-layout margin-14-17">
+									<div class="grid-layout-inner">
+										<div class="grid-layout-cell grid-2">
+											<div class="form-group-item">
+												<div class="form-item-label">고객명</div>
+												<div class="form-item-data">
+													<input type="text" class="form-control" placeholder="입력" value="김반짝" readonly>
+												</div>
+											</div>
+										</div>							
+										<div class="grid-layout-cell grid-2">
+											<div class="form-group-item">
+												<div class="form-item-label">연락처</div>
+												<div class="form-item-data">
+													<input type="text" class="form-control" placeholder="입력" value="010-1234-1234" readonly>
+												</div>
+											</div>
+										</div>							
+									</div>							
+								</div>							
+							</div>							
+						</div>							
+						
+						<div class="basic-data-group large">
+							<div class="con-title-group">
+								<h4 class="con-title">예약동물 정보</h4>
+							</div>
+							<div class="customer-view-pet-info">
+								<div class="item-thumb">
+									<div class="user-thumb large"><!--<img src="../assets/images/user_thumb.png" alt="">--></div>
+								</div>
+								<div class="item-user-data">
+									<div class="grid-layout flex-table">
+										<div class="grid-layout-inner">
+											<div class="grid-layout-cell grid-2">
+												<div class="flex-table-item">
+													<div class="flex-table-title"><div class="txt">이름</div></div>
+													<div class="flex-table-data">
+														<div class="flex-table-data-inner">
+															콩이
+														</div>																
+													</div>
+												</div>
+											</div>
+											<div class="grid-layout-cell grid-2">
+												<div class="flex-table-item">
+													<div class="flex-table-title"><div class="txt">품종</div></div>
+													<div class="flex-table-data">
+														<div class="flex-table-data-inner">
+															포메라이언
+														</div>																
+													</div>
+												</div>
+											</div>
+											<div class="grid-layout-cell grid-2">
+												<div class="flex-table-item">
+													<div class="flex-table-title"><div class="txt">성별</div></div>
+													<div class="flex-table-data">
+														<div class="flex-table-data-inner">
+															남아
+														</div>																
+													</div>
+												</div>
+											</div>
+											<div class="grid-layout-cell grid-2">
+												<div class="flex-table-item">
+													<div class="flex-table-title"><div class="txt">중성화</div></div>
+													<div class="flex-table-data">
+														<div class="flex-table-data-inner">
+															O
+														</div>																
+													</div>
+												</div>
+											</div>
+											<div class="grid-layout-cell grid-2">
+												<div class="flex-table-item">
+													<div class="flex-table-title"><div class="txt">예방접종</div></div>
+													<div class="flex-table-data">
+														<div class="flex-table-data-inner">
+															O
+														</div>																
+													</div>
+												</div>
+											</div>
+											<div class="grid-layout-cell grid-2">
+												<div class="flex-table-item">
+													<div class="flex-table-title"><div class="txt">질병기록</div></div>
+													<div class="flex-table-data">
+														<div class="flex-table-data-inner">
+															없음
+														</div>																
+													</div>
+												</div>
+											</div>
+											<div class="grid-layout-cell grid-2">
+												<div class="flex-table-item">
+													<div class="flex-table-title"><div class="txt">특이사항</div></div>
+													<div class="flex-table-data">
+														<div class="flex-table-data-inner">
+															없음
+														</div>																
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="basic-data-group customer-view-agree">
+							<div class="con-title-group">
+								<h4 class="con-title">미용동의서 상세내용</h4>
+							</div>
+							<div class="customer-view-agree-info">가게이름 은(는) 미용요청견의 나이가 10세 이상인 노령견이나, 질병이 있는 경우 건강상태를 고려하여 안내사항을 말씀드리고, 미용 동의서를 받고자 합니다.</div>
+							<div class="pay-card-group">
+								<div class="pay-card-cell all"><label class="form-checkbox"><input type="checkbox" name="payCard"  checked disabled><span class="form-check-icon"><em><strong>모두 동의</strong></em></span></label></div>
+								<div class="pay-card-cell rule">
+									<div class="pay-card-rule-wrap">
+										<div class="pay-card-check">
+											<label class="form-checkbox"><input type="checkbox" name="payCard"  checked disabled><span class="form-check-icon"><em>미용 동의서</em></span></label>
+											<button type="button" class="btn-pay-card-toggle">자세히 보기</button>
+										</div>
+										<div class="pay-card-rule">
+											<div class="pay-card-agree">
+											1. 백내장, 치주염, 관절염, 당뇨병, 심장질환 등과 같이 노령견에서 흔히 발생하는 질병은 미용시에 노령견에게 쇼크 및 스트레스의 원인이 될 수 있으며,증상이 심각할 경우 사망까지 이를 수 있습니다.2. 노령견이나, 예민한 견의 경우 미용 시 받는 스트레스가 더 심할 수 있습니다. 또한, 미용 및 목욕 시 평소보다 오래 서 있게 되어, 관절에 무리가 올 수 있으며, 이런 경우 미용 후에 일시적으로 다리를 절 수 있습니다. 3. 당일 반려견의 컨디션이 좋지 않거나, 구토, 설사, 
+											1. 백내장, 치주염, 관절염, 당뇨병, 심장질환 등과 같이 노령견에서 흔히 발생하는 질병은 미용시에 노령견에게 쇼크 및 스트레스의 원인이 될 수 있으며,증상이 심각할 경우 사망까지 이를 수 있습니다.2. 노령견이나, 예민한 견의 경우 미용 시 받는 스트레스가 더 심할 수 있습니다. 또한, 미용 및 목욕 시 평소보다 오래 서 있게 되어, 관절에 무리가 올 수 있으며, 이런 경우 미용 후에 일시적으로 다리를 절 수 있습니다. 3. 당일 반려견의 컨디션이 좋지 않거나, 구토, 설사, 
+											1. 백내장, 치주염, 관절염, 당뇨병, 심장질환 등과 같이 노령견에서 흔히 발생하는 질병은 미용시에 노령견에게 쇼크 및 스트레스의 원인이 될 수 있으며,증상이 심각할 경우 사망까지 이를 수 있습니다.2. 노령견이나, 예민한 견의 경우 미용 시 받는 스트레스가 더 심할 수 있습니다. 또한, 미용 및 목욕 시 평소보다 오래 서 있게 되어, 관절에 무리가 올 수 있으며, 이런 경우 미용 후에 일시적으로 다리를 절 수 있습니다. 3. 당일 반려견의 컨디션이 좋지 않거나, 구토, 설사, 
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="pay-card-cell rule">
+									<div class="pay-card-rule-wrap">
+										<div class="pay-card-check">
+											<label class="form-checkbox"><input type="checkbox" name="payCard" checked disabled><span class="form-check-icon"><em>개인정보 수집 및 허용</em></span></label>
+											<button type="button" class="btn-pay-card-toggle">자세히 보기</button>
+										</div>
+										<div class="pay-card-rule">
+											<div class="pay-card-agree">
+											1. 백내장, 치주염, 관절염, 당뇨병, 심장질환 등과 같이 노령견에서 흔히 발생하는 질병은 미용시에 노령견에게 쇼크 및 스트레스의 원인이 될 수 있으며,증상이 심각할 경우 사망까지 이를 수 있습니다.2. 노령견이나, 예민한 견의 경우 미용 시 받는 스트레스가 더 심할 수 있습니다. 또한, 미용 및 목욕 시 평소보다 오래 서 있게 되어, 관절에 무리가 올 수 있으며, 이런 경우 미용 후에 일시적으로 다리를 절 수 있습니다. 3. 당일 반려견의 컨디션이 좋지 않거나, 구토, 설사, 
+											1. 백내장, 치주염, 관절염, 당뇨병, 심장질환 등과 같이 노령견에서 흔히 발생하는 질병은 미용시에 노령견에게 쇼크 및 스트레스의 원인이 될 수 있으며,증상이 심각할 경우 사망까지 이를 수 있습니다.2. 노령견이나, 예민한 견의 경우 미용 시 받는 스트레스가 더 심할 수 있습니다. 또한, 미용 및 목욕 시 평소보다 오래 서 있게 되어, 관절에 무리가 올 수 있으며, 이런 경우 미용 후에 일시적으로 다리를 절 수 있습니다. 3. 당일 반려견의 컨디션이 좋지 않거나, 구토, 설사, 
+											1. 백내장, 치주염, 관절염, 당뇨병, 심장질환 등과 같이 노령견에서 흔히 발생하는 질병은 미용시에 노령견에게 쇼크 및 스트레스의 원인이 될 수 있으며,증상이 심각할 경우 사망까지 이를 수 있습니다.2. 노령견이나, 예민한 견의 경우 미용 시 받는 스트레스가 더 심할 수 있습니다. 또한, 미용 및 목욕 시 평소보다 오래 서 있게 되어, 관절에 무리가 올 수 있으며, 이런 경우 미용 후에 일시적으로 다리를 절 수 있습니다. 3. 당일 반려견의 컨디션이 좋지 않거나, 구토, 설사, 
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="customer-view-agree-date">
+								<div class="item-date">2021.09.22</div>
+								<div class="item-name">고객명 자동입력</div>
+							</div>
+						</div>
+						<div class="basic-data-group small">
+							<div class="con-title-group">
+								<h4 class="con-title">서명</h4>
+							</div>
+							<div class="user-sign-wrap">
+							</div>
+						</div>
+					</div>
+					<div class="pop-footer line">
+						<div class="grid-layout btn-grid-group">
+							<div class="grid-layout-inner">
+								<div class="grid-layout-cell grid-2"><a href="#" class="btn btn-outline-purple"><strong>다운로드</strong></a></div>
+								<div class="grid-layout-cell grid-2"><a href="#" class="btn btn-outline-purple"><strong>수정</strong></a></div>
+							</div>
+						</div>
+					</div>
+					<button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
+				</div>
+			</div>
+		</div>
+	</article>
+	<!-- //미용 동의서 보기 팝업 -->
+
+	<!-- 펫 추가하기 팝업 -->
+	<article id="petAddPop" class="layer-pop-wrap">
+		<div class="layer-pop-parent">
+			<div class="layer-pop-children">
+				<div class="pop-data data-pop-view large">
+					<div class="pop-header">
+						<h4 class="con-title">펫 추가하기</h4>
+					</div>
+					<div class="pop-body">
+						<div class="basic-data-group">
+							<div class="con-title-group">
+								<h4 class="con-title">펫 정보</h4>
+							</div>
+							<div class="form-group">
+								<div class="grid-layout margin-14-17">
+									<div class="grid-layout-inner">
+										<div class="grid-layout-cell grid-1">
+											<div class="form-group-item">
+												<div class="form-item-label"><em class="need">*</em>펫 이름</div>
+												<div class="form-item-data">
+													<input type="text" class="form-control" value="잭" placeholder="펫 이름 입력">
+												</div>
+											</div>
+										</div>	
+										<div class="grid-layout-cell grid-1">
+											<div class="form-group-item">
+												<div class="form-item-label"><em class="need">*</em>품종</div>
+												<div class="form-item-data type-2">
+													<div class="pet-breed-select-wrap">
+														<div class="pet-breed-select">
+															<div class="breed-select">
+																<label class="form-toggle-box" for="breed1"><input type="radio" name="breed" id="breed1"><em><span>강아지</span></em></label>
+																<label class="form-toggle-box" for="breed2"><input type="radio" name="breed" id="breed2"><em><span>고양이</span></em></label>
+															</div>															
+														</div>
+														<div class="pet-breed-sort">
+															<!-- 강아지 -->
+															<div style="display:block">
+																<select>
+																	<option value="">말티즈</option>
+																</select>
+																<div class="pet-breed-other"  style="display:block">
+																	<input type="text" placeholder="입력" class="form-control">
+																</div>	
+															</div>
+															<!-- //강아지 -->
+															<!-- 고양이 -->
+															<div style="display:none">
+																<select>
+																	<option value="">고양이</option>
+																</select>
+																<div class="pet-breed-other"  style="display:block">
+																	<input type="text" placeholder="입력" class="form-control">
+																</div>	
+															</div>
+															<!-- //고양이 -->	
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>							
+										<div class="grid-layout-cell grid-2">
+											<div class="form-group-item">
+												<div class="form-item-label">생일</div>
+												<div class="form-item-data type-2">
+													<div class="grid-layout margin-12">
+														<div class="grid-layout-inner">
+															<div class="grid-layout-cell grid-3">
+																<select>
+																	<option value="">2021 년</option>
+																	<option value="">2021 년</option>
+																	<option value="">2021 년</option>
+																	<option value="">2021 년</option>
+																</select>
+															</div>
+															<div class="grid-layout-cell grid-3">
+																<select>
+																	<option value="">02 월</option>
+																</select>
+															</div>
+															<div class="grid-layout-cell grid-3">
+																<select>
+																	<option value="">02 일</option>
+																</select>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>								
+										<div class="grid-layout-cell grid-2">
+											<div class="form-group-item">
+												<div class="form-item-label">성별 선택</div>
+												<div class="form-item-data type-2">
+													<div class="grid-layout toggle-button-group">
+														<div class="grid-layout-inner">
+															<div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="gender1"><input type="radio" name="gender" id="gender1"><em>남아</em></label></div>
+															<div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="gender2"><input type="radio" name="gender" id="gender2"><em>여아</em></label></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>							
+										<div class="grid-layout-cell grid-2">
+											<div class="form-group-item">
+												<div class="form-item-label">중성화</div>
+												<div class="form-item-data type-2">
+													<div class="grid-layout toggle-button-group">
+														<div class="grid-layout-inner">
+															<div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="neutralize1"><input type="radio" name="neutralize" id="neutralize1"><em>X</em></label></div>
+															<div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="neutralize2"><input type="radio" name="neutralize" id="neutralize2"><em>O</em></label></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>							
+										<div class="grid-layout-cell grid-2">
+											<div class="form-group-item">
+												<div class="form-item-label"><em class="need">*</em>몸무게</div>
+												<div class="form-item-data type-2">
+													<div class="form-flex">
+														<select class="inline-block">
+															<option value="">0</option>
+															<option value="">0</option>
+															<option value="">0</option>
+															<option value="">0</option>
+														</select>
+														<div class="form-unit-point">.</div>
+														<select class="inline-block">
+															<option value="">0</option>
+															<option value="">0</option>
+															<option value="">0</option>
+															<option value="">0</option>
+														</select>
+														<div class="form-unit-label">kg</div>
+													</div>
+												</div>
+											</div>
+										</div>							
+										<div class="grid-layout-cell grid-2">
+											<div class="form-group-item">
+												<div class="form-item-label">미용 경험</div>
+												<div class="form-item-data type-2">
+													<select>
+														<option value="">2회</option>
+														<option value="">2회</option>
+														<option value="">2회</option>
+														<option value="">2회</option>
+													</select>
+												</div>
+											</div>
+										</div>							
+										<div class="grid-layout-cell grid-2">
+											<div class="form-group-item">
+												<div class="form-item-label">예방 접종</div>
+												<div class="form-item-data type-2">
+													<select>
+														<option value="">2회</option>
+														<option value="">2회</option>
+														<option value="">2회</option>
+														<option value="">2회</option>
+													</select>
+												</div>
+											</div>
+										</div>							
+										<div class="grid-layout-cell grid-2">
+											<div class="form-group-item">
+												<div class="form-item-label">입질</div>
+												<div class="form-item-data type-2">
+													<select>
+														<option value="">2회</option>
+														<option value="">2회</option>
+														<option value="">2회</option>
+														<option value="">2회</option>
+													</select>
+												</div>
+											</div>
+										</div>							
+										<div class="grid-layout-cell grid-2">
+											<div class="form-group-item">
+												<div class="form-item-label">슬개골 탈구</div>
+												<div class="form-item-data type-2">
+													<select>
+														<option value="">2회</option>
+														<option value="">2회</option>
+														<option value="">2회</option>
+														<option value="">2회</option>
+													</select>
+												</div>
+											</div>
+										</div>							
+										<div class="grid-layout-cell grid-1">
+											<div class="form-group-item">
+												<div class="form-item-label">특이사항</div>
+												<div class="form-item-data type-2">
+													<div class="grid-layout toggle-button-group">
+														<div class="grid-layout-inner">
+															<div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special1"><input type="checkbox" name="special" id="special1"><em>피부병</em></label></div>
+															<div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special2"><input type="checkbox" name="special" id="special2"><em>심장질환</em></label></div>
+															<div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special3"><input type="checkbox" name="special" id="special3"><em>마킹</em></label></div>
+															<div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special3"><input type="checkbox" name="special" id="special3"><em>마운팅</em></label></div>
+															<div class="grid-layout-cell grid-1">
+																<textarea style="height:60px;" placeholder="입력"></textarea>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>						
+									</div>							
+								</div>											
+							</div>											
+						</div>
+					</div>
+					<div class="pop-footer type-2">
+						<!-- btn-page-bottom 클래스에 disabled 클래스 추가시 비활성화 또는 button 태그일 시 disabled 속성 추가시 비활성화 -->
+						<a href="#" class="btn-page-bottom">저장</a>
+					</div>
+					<button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
+				</div>
+			</div>
+		</div>
+	</article>
+	<!-- //펫 추가하기 팝업 -->
+
+	<!-- 전화번호 추가 팝업 -->
+	<article id="numberAddPop" class="layer-pop-wrap">
+		<div class="layer-pop-parent">
+			<div class="layer-pop-children">
+				<div class="pop-data data-pop-view">
+					<div class="pop-header">
+						<h4 class="con-title">전화번호 추가</h4>
+					</div>
+					<div class="pop-body">
+						<div class="phone-add-wrap">
+							<div class="phone-add-list">
+								<!--
+								//	- phone-add-item 클래스에 new 클래스 추가시 새이름 입력필드
+								//	- phone-add-item 클래스에 actived클래스 추가시 활성화
+								-->
+								<div class="phone-add-item actived">
+									<div class="item-check"><label for="phone1" class="form-radiobox"><input type="radio" id="phone1" name="phone"><span class="form-check-icon"><em>대표</em></span></label></div>
+									<div class="item-data">
+										<div class="phone-add-item-value">
+											<div class="phone-add-name"><div class="ellipsis">고객고객고객고객고객고객고객고객고객고객고객고객</div></div>
+											<div class="phone-add-num"><div class="ellipsis">010-1234-1234</div></div>
+										</div>
+									</div>
+									<div class="item-ui">
+										<button type="button" class="btn-phone-del"><span class="icon icon-phone-add-del"></span></button>
+									</div>
+								</div>
+								<div class="phone-add-item">
+									<div class="item-check"><label for="phone2" class="form-radiobox"><input type="radio" id="phone2" name="phone"><span class="form-check-icon"><em>대표</em></span></label></div>
+									<div class="item-data">
+										<div class="phone-add-item-value">
+											<div class="phone-add-name"><div class="ellipsis">고객</div></div>
+											<div class="phone-add-num"><div class="ellipsis">010-1234-1234</div></div>
+										</div>
+									</div>
+									<div class="item-ui">
+										<button type="button" class="btn-phone-del"><span class="icon icon-phone-add-del"></span></button>
+									</div>
+								</div>
+								<div class="phone-add-item">
+									<div class="item-check"><label for="phone3" class="form-radiobox"><input type="radio" id="phone3" name="phone"><span class="form-check-icon"><em>대표</em></span></label></div>
+									<div class="item-data">
+										<div class="phone-add-item-value">
+											<div class="phone-add-name"><div class="ellipsis">고객</div></div>
+											<div class="phone-add-num"><div class="ellipsis">010-1234-1234</div></div>
+										</div>
+									</div>
+									<div class="item-ui">
+										<button type="button" class="btn-phone-del"><span class="icon icon-phone-add-del"></span></button>
+									</div>
+								</div>
+								<div class="phone-add-item new">
+									<div class="item-check"><label for="phone4" class="form-radiobox"><input type="radio" id="phone4" name="phone" disabled=""><span class="form-check-icon"><em>대표</em></span></label></div>
+									<div class="item-data">
+										<div class="phone-add-item-value">
+											<div class="phone-add-name"><div class="ellipsis">새 이름</div></div>
+											<div class="phone-add-num"><div class="ellipsis">새 번호</div></div>
+										</div>
+									</div>
+									<div class="item-ui">
+										<button type="button" class="btn-phone-del"><span class="icon icon-phone-add-del"></span></button>
+									</div>
+								</div>
+							</div>
+							<!-- 입력 불가시 phone-add-input 클래스에 disabled 클래스 추가 및 input태그에 disabled속성 추가 -->
+							<div class="phone-add-input disabled">
+								<div class="form-group">
+									<div class="form-group-cell">
+										<div class="form-group-item">
+											<div class="form-item-label">등록이름</div>
+											<div class="form-item-data type-6">
+												<input type="text" class="" placeholder="입력" disabled/>										
+											</div>
+										</div>
+									</div>
+									<div class="form-group-cell">
+										<div class="form-group-item">
+											<div class="form-item-label">전화번호</div>
+											<div class="form-item-data type-6">
+												<input type="text" class="" placeholder="'-' 제외하고 입력" disabled/>										
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-input-info">*보조연락처는 3개까지 등록 가능합니다.</div>
+							</div>
+						</div>
+					</div>
+					<div class="pop-footer">
+						<button type="button" class="btn btn-purple"><strong>등록하기</strong></button>
+					</div>
+					<button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
+				</div>
+			</div>
+		</div>
+	</article>
+	<!-- //전화번호 추가 팝업 -->
+	<!-- 회원등급부여 -->
+	<article id="memberGradeAddPop" class="layer-pop-wrap">
+		<div class="layer-pop-parent">
+			<div class="layer-pop-children">
+				<div class="pop-data alert-pop-data">
+					<div class="pop-header">
+						<h4 class="con-title">회원등급 부여</h4>
+					</div>
+					<div class="pop-body">
+						<div class="msg-txt">현재 까미 (010-6481-5987)고객님의 등급은 VIP 입니다.</div>
+						<div class="form-group">
+							<div class="form-group-item">
+								<select>
+									<option value="">VIP</option>
+									<option value="">Normal</option>
+									<option value="">Normal_B</option>
+								</select>
+								<div class="form-input-info">선택 후 저장하시면 반영됩니다.</div>
+							</div>
+						</div>
+					</div>
+					<div class="pop-footer">
+						<button type="button" class="btn btn-confirm" onclick="pop.close();">저장</button>
+						<button type="button" class="btn btn-confirm" onclick="pop.close();">취소</button>
+					</div>
+					<button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
+				</div>
+			</div>
+		</div>
+	</article>
+	<!-- //회원등급부여 -->
+	
+	<article id="allMemberGradeAddPop" class="layer-pop-wrap">
+		<div class="layer-pop-parent">
+			<div class="layer-pop-children">
+				<div class="pop-data alert-pop-data">
+					<div class="pop-header">
+						<h4 class="con-title">전체회원 등급부여</h4>
+					</div>
+					<div class="pop-body">
+						<div class="msg-txt">모든 고객님의 등급을<br>하나의 등급으로 반영합니다.</div>
+						<div class="form-group">
+							<div class="form-group-item">
+								<select>
+									<option value="">VIP</option>
+									<option value="">Normal</option>
+									<option value="">Normal_B</option>
+								</select>
+								<div class="form-input-info">선택 후 저장하시면 반영됩니다.</div>
+							</div>
+						</div>
+					</div>
+					<div class="pop-footer">
+						<button type="button" class="btn btn-confirm" onclick="pop.close();">저장</button>
+						<button type="button" class="btn btn-confirm" onclick="pop.close();">취소</button>
+					</div>
+					<button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
+				</div>
+			</div>
+		</div>
+	</article>
+	<!-- //회원등급부여 -->
+	<!-- 견주에게 핸드폰 건네주세요 -->
+	<article id="phoneConfirm" class="layer-pop-wrap">
+		<div class="layer-pop-parent">
+			<div class="layer-pop-children">
+				<div class="pop-data alert-pop-data">
+					<div class="pop-body">
+						<div class="msg-txt">견주에게 핸드폰을 건네주세요.<br>견주가 직접 작성/동의/서명하는 곳입니다.<br><br>(PC의 경우 터치스크린 기능이 있는 화면에서만 가능)</div>
+					</div>
+					<div class="pop-footer">
+						<button type="button" class="btn btn-confirm" onclick="pop.close();">확인</button>
+						<button type="button" class="btn btn-confirm" onclick="pop.close();">취소</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</article>
+	<!-- //견주에게 핸드폰 건네주세요 -->
+</div>
+<!-- //wrap -->
+<script src="../assets/js/common.js"></script>
+<script src="../assets/js/jquery-ui.min.js"></script>   
+<script>
+	$(".datepicker-start").datepicker({
+		showOn: "both",
+		buttonImage: "../assets/images/icon/icon-datepicker_black.png",
+		buttonImageOnly: true,
+		dateFormat: 'yy-mm-dd',//포맷 설정
+		prevText: '이전 달',//이전 버튼
+		nextText: '다음 달', //다음달 버튼
+		monthNames: ['1','2','3','4','5','6','7','8','9','10','11','12'],//월 설정
+		monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'], //월 설정
+		dayNames: ['일','월','화','수','목','금','토'],//주 타이틀 설정
+		dayNamesShort: ['일','월','화','수','목','금','토'],//주 타이틀 설정
+		dayNamesMin: ['일','월','화','수','목','금','토'], //주 타이틀 설정
+		showMonthAfterYear: true, // 년도가 앞으로 설정
+		yearSuffix: '.', //년도 뒤 블릿 설정
+		changeMonth: false, //월 선택 불가
+		changeYear: false, //년 선택 불가
+		showOtherMonths:true, //이전 , 다음 달 일수 활성화
+	});
+
+	$(".datepicker-end").datepicker({
+		showOn: "both",
+		buttonImage: "../assets/images/icon/icon-datepicker_black.png",
+		buttonImageOnly: true,
+		dateFormat: 'yy-mm-dd',//포맷 설정
+		prevText: '이전 달',//이전 버튼
+		nextText: '다음 달', //다음달 버튼
+		monthNames: ['1','2','3','4','5','6','7','8','9','10','11','12'],//월 설정
+		monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'], //월 설정
+		dayNames: ['일','월','화','수','목','금','토'],//주 타이틀 설정
+		dayNamesShort: ['일','월','화','수','목','금','토'],//주 타이틀 설정
+		dayNamesMin: ['일','월','화','수','목','금','토'], //주 타이틀 설정
+		showMonthAfterYear: true, // 년도가 앞으로 설정
+		yearSuffix: '.', //년도 뒤 블릿 설정
+		changeMonth: false, //월 선택 불가
+		changeYear: false, //년 선택 불가
+		showOtherMonths:true, //이전 , 다음 달 일수 활성화
+	});
+</script>
+</body>
+</html>

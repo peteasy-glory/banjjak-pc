@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+	<!-- Page Infomation -->
+    <title>멤버 | 반짝</title>
+    <meta name="Description" content="">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="format-detection" content="telephone=no">
+    <!-- SNS Basic -->
+    <meta property="og:title" content="타이틀">
+    <meta property="og:description" content="설명 100자내외">
+    <meta property="og:type" content="website">
+    <meta property="og:url"    content="">
+    <meta property="og:image" content="이미지 경로">
+	<!-- SNS Twitter -->
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="타이틀">
+	<meta name="twitter:description" content="설명 100자내외">
+	<meta name="twitter:image" content="이미지 경로">
+    <link rel="icon" href="../assets/images/common/favicon.png">
+	<link rel="canonical" href="대표도메인">
+    <!-- custom css -->
+    <link href="../assets/css/style.css" rel="stylesheet">
+	<!-- jquery js -->
+	<script src="../assets/js/jquery-3.4.1.min.js"></script>   
+	<script src="../assets/js/swiper.min.js"></script>
+  </head>
+<body>        
+
+<!-- wrap -->
+<div id="wrap">
+	<div class="member-header">	
+		<div class="member-header-inner">				
+			<h1><a href="#">반짝 반려미용샵의 단짝</a></h1>
+		</div>
+	</div>
+    <div class="member-wrap">
+		<div class="member-inner">
+			<div class="member-view">
+				<div class="member-view-inner">
+					<div class="member-find-wrap">
+						<button type="button" class="btn btn-purple" onclick="pop.open('pwChangeComplete');"><em>비밀번호 변경 완료 팝업</em></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- //wrap -->
+<!--  비밀번호 변경 완료 -->
+<article id="pwChangeComplete" class="layer-pop-wrap">
+	<div class="layer-pop-parent">
+		<div class="layer-pop-children">
+			<div class="pop-data alert-pop-data">
+				<div class="pop-body">
+					<div class="msg-txt">비밀번호가 변경되었습니다.<br>로그인 화면으로 이동합니다.</div>
+				</div>
+				<div class="pop-footer">
+					<button type="button" class="btn btn-confirm" onclick="pop.close();">확인</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</article>
+<!-- //비밀번호 변경 완료 -->
+<script src="../assets/js/common.js"></script>
+</body>
+</html>

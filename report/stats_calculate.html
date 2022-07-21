@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+	<!-- Page Infomation -->
+    <title>판매실적 | 반짝</title>
+    <meta name="Description" content="">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="format-detection" content="telephone=no">
+    <!-- SNS Basic -->
+    <meta property="og:title" content="타이틀">
+    <meta property="og:description" content="설명 100자내외">
+    <meta property="og:type" content="website">
+    <meta property="og:url"    content="">
+    <meta property="og:image" content="이미지 경로">
+	<!-- SNS Twitter -->
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="타이틀">
+	<meta name="twitter:description" content="설명 100자내외">
+	<meta name="twitter:image" content="이미지 경로">
+    <link rel="icon" href="../assets/images/common/favicon.png">
+	<link rel="canonical" href="대표도메인">
+    <!-- custom css -->
+    <link href="../assets/css/style.css" rel="stylesheet">
+	<!-- jquery js -->
+	<script src="../assets/js/jquery-3.4.1.min.js"></script>   
+	<script src="../assets/js/swiper.min.js"></script>
+  </head>
+<body>        
+
+<!-- wrap -->
+<div id="wrap">
+	<!-- header -->
+	<header id="header"></header>
+	<!-- //header -->
+	<!-- gnb -->
+	<nav id="gnb"></nav>
+	<!-- //gnb -->
+    <!-- container -->
+    <section id="container">     
+		<!-- contents -->
+		<section id="contents">
+			<!-- view -->
+			<div class="view">
+				<div class="data-row">
+					<div class="data-col-middle wide">
+						<div class="basic-data-card">
+							<div class="card-header">
+								<h3 class="card-header-title">판매실적/정산조회</h3>
+							</div>
+							<div class="card-body">
+								<div class="card-body-inner">
+									<div class="wide-tab">
+										<div class="wide-tab-inner">
+											<!-- 활성화시 actived클래스 추가 -->
+											<div class="tab-cell"><a href="#" class="btn-tab-item">판매실적</a></div>
+											<div class="tab-cell actived"><a href="#" class="btn-tab-item">정산조회</a></div>
+										</div>
+									</div>
+									<div class="basic-data-group vsmall">
+										<div class="con-title-group">
+											<h4 class="con-title">정산차수</h4>
+										</div>
+										<div class="basic-data-group vvsmall2">
+											<select class="grid-3">
+												<option value="">2021.09 3차 (21일 - 말일)</option>
+											</select>
+										</div>
+									</div>
+									<div class="basic-data-group">
+										<div class="con-title-group">
+											<h4 class="con-title">기본정보</h4>
+											<div class="unit">(단위:원)</div>
+										</div>
+										<div class="stats-calculate-table">
+											<table class="customer-table">
+												<colgroup>
+													<col style="width:20%">
+													<col style="width:17%">
+													<col style="width:auto">
+													<col style="width:auto">
+													<col style="width:auto">
+													<col style="width:17%">
+												</colgroup>
+												<thead>
+													<tr>
+														<th rowspan="2">판매일</th>
+														<th rowspan="2">판매액</th>
+														<th colspan="3">정산차감액</th>
+														<th rowspan="2">이번차수정산액</th>
+													</tr>
+													<tr>
+														<th>개인 원천징수</th>
+														<th>카드 수수료</th>
+														<th>수수료 VAT</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>2021.12.25</td>
+														<td>200</td>
+														<td>6.6</td>
+														<td>6</td>
+														<td>20</td>
+														<td>167.4</td>
+													</tr>
+													<tr>
+														<td>2021.12.25</td>
+														<td>200</td>
+														<td>6.6</td>
+														<td>6</td>
+														<td>20</td>
+														<td>167.4</td>
+													</tr>
+													<tr class="total">
+														<th>합계</th>
+														<td>200</td>
+														<td>6.6</td>
+														<td>6</td>
+														<td>20</td>
+														<td>167.4</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div class="basic-data-group">
+										<div class="con-title-group">
+											<h4 class="con-title">정산 후 예약 취소건 차감</h4>
+											<div class="unit">(단위:원)</div>
+										</div>
+										<div class="stats-calculate-table">
+											<table class="customer-table">
+												<colgroup>
+													<col style="width:25%">
+													<col style="width:25%">
+													<col style="width:25%">
+													<col style="width:25%">
+												</colgroup>
+												<thead>
+													<tr>
+														<th>판매일</th>
+														<th>정산일</th>
+														<th>예약취소일</th>
+														<th>정산금액</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>2021.12.25</td>
+														<td>2021.12.25</td>
+														<td>2021.12.25</td>
+														<td>156,000</td>
+													</tr>
+													<tr>
+														<td>2021.12.25</td>
+														<td>2021.12.25</td>
+														<td>2021.12.25</td>
+														<td>156,000</td>
+													</tr>
+													<tr class="total">
+														<th  colspan="2">합계</th>
+														<td  colspan="2">11,556,000</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div class="basic-data-group">
+										<div class="con-title-group">
+											<h4 class="con-title">차감 후 정산액</h4>
+										</div>
+										<div class="stats-calculate-table">
+											<table class="customer-table">
+												<colgroup>
+													<col style="width:36%">
+													<col style="width:auto">
+												</colgroup>
+												<tbody>
+													<tr>
+														<th>차감후 정산액</th>
+														<td>11,556,000원</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div class="basic-data-group">
+										<div class="grid-layout margin-5-12">
+											<div class="grid-layout-inner">
+												<div class="grid-layout-cell grid-2">
+													<div class="con-title-group">
+														<h4 class="con-title">정산조정(+)</h4>
+														<div class="unit">(단위:원)</div>
+													</div>
+													<div class="stats-calculate-table">
+														<table class="customer-table">
+															<colgroup>
+																<col style="width:36%">
+																<col style="width:auto">
+															</colgroup>
+															<tbody>
+																<tr>
+																	<th>차감후 정산액</th>
+																	<td>520,000</td>
+																</tr>
+																<tr>
+																	<td>내용</td>
+																	<td>0</td>
+																</tr>
+																<tr class="total">
+																	<th>합계</th>
+																	<td>0</td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+												<div class="grid-layout-cell grid-2">
+													<div class="con-title-group">
+														<h4 class="con-title">정산조정(-)</h4>
+														<div class="unit">(단위:원)</div>
+													</div>
+													<div class="stats-calculate-table">
+														<table class="customer-table">
+															<colgroup>
+																<col style="width:36%">
+																<col style="width:auto">
+															</colgroup>
+															<tbody>
+																<tr>
+																	<th>차감후 정산액</th>
+																	<td>520,000</td>
+																</tr>
+																<tr>
+																	<td>내용</td>
+																	<td>0</td>
+																</tr>
+																<tr class="total">
+																	<th>합계</th>
+																	<td>0</td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+										</div>										
+									</div>
+									<div class="basic-data-group">
+										<div class="con-title-group">
+											<h4 class="con-title">조정 후 최종정산액</h4>
+											<div class="unit">(단위:원)</div>
+										</div>
+										<div class="stats-calculate-table">
+											<table class="customer-table">
+												<colgroup>
+													<col style="width:36%">
+													<col style="width:auto">
+												</colgroup>
+												<tbody>
+													<tr>
+														<th><strong>금액</strong></th>
+														<td><strong>11,556,000원</strong></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>			
+					</div>
+				</div>
+			</div>
+			<!-- //view -->
+		</section>
+		<!-- //contents -->
+    </section>
+    <!-- //container -->
+</div>
+<!-- //wrap -->
+<script src="../assets/js/common.js"></script>
+</body>
+</html>

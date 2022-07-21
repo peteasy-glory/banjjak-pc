@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+	<!-- Page Infomation -->
+    <title>상세설정 | 반짝</title>
+    <meta name="Description" content="">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="format-detection" content="telephone=no">
+    <!-- SNS Basic -->
+    <meta property="og:title" content="타이틀">
+    <meta property="og:description" content="설명 100자내외">
+    <meta property="og:type" content="website">
+    <meta property="og:url"    content="">
+    <meta property="og:image" content="이미지 경로">
+	<!-- SNS Twitter -->
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="타이틀">
+	<meta name="twitter:description" content="설명 100자내외">
+	<meta name="twitter:image" content="이미지 경로">
+    <link rel="icon" href="../assets/images/common/favicon.png">
+	<link rel="canonical" href="대표도메인">
+	<!-- Web Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">	
+    <!-- custom css -->
+    <link href="../assets/css/style.css" rel="stylesheet">
+	<!-- jquery js -->
+	<script src="../assets/js/jquery-3.4.1.min.js"></script>   
+	<script src="../assets/js/swiper.min.js"></script>
+  </head>
+<body>        
+
+<!-- wrap -->
+<div id="wrap">
+	<!-- header -->
+	<header id="header"></header>
+	<!-- //header -->
+	<!-- gnb -->
+	<nav id="gnb"></nav>
+	<!-- //gnb -->
+    <!-- container -->
+    <section id="container">     
+		<!-- contents -->
+		<section id="contents">
+			<!-- view -->
+			<div class="view">
+				<div class="basic-data-group">
+					<div class="data-row">
+						<div class="data-col-middle">
+							<div class="basic-data-card">
+								<div style="padding:20px;">
+									<button type="button" class="btn btn-purple btn-inline" onclick="pop.open('teacherSet');"><em>미용사 등록/수정</em></button>
+								</div>
+							</div>			
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- //view -->
+		</section>
+		<!-- //contents -->
+    </section>
+    <!-- //container -->
+	<!-- 미용사 등록/수정 팝업 -->
+	<article id="teacherSet" class="layer-pop-wrap">
+		<div class="layer-pop-parent">
+			<div class="layer-pop-children">
+				<div class="pop-data data-pop-view">
+					<div class="pop-header">
+						<h4 class="con-title">미용사 등록/수정</h4>
+					</div>
+					<div class="pop-body">
+						<!-- set-teacher-add -->  
+						<div class="set-teacher-add">
+							<div class="basic-data-group">
+								<div class="form-group">
+									<div class="form-group-cell middle">
+										<div class="form-group-item">
+											<div class="form-item-label">이름</div>
+											<div class="form-item-data">
+												<input type="text" class="form-control" placeholder="입력">
+											</div>
+										</div>
+									</div>
+									<div class="form-group-cell middle">
+										<div class="form-group-item">
+											<div class="form-item-label">닉네임</div>
+											<div class="form-item-data">
+												<input type="text" class="form-control" placeholder="입력">
+												<div class="form-bottom-info">닉네임은 고객에게 보여지는 명칭입니다.</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="basic-data-group">
+								<div class="con-title-group">
+									<h4 class="con-title">업무요일/시간</h4>
+								</div>
+								<div class="basic-data-group vvsmall4">
+									<div class="schedule-day-list">
+										<div class="schedule-day-item input">
+											<div class="item-check">
+												<label class="form-radiobox week"><input type="checkbox" name="check" checked><span class="form-check-icon"><em>월</em></span></label>
+											</div>
+											<div class="item-input">
+												<div class="form-datepicker-group">
+													<div class="form-datepicker">
+														<select>
+															<option value="">오전 09:00</option>
+															<option value="">오전 09:00</option>
+															<option value="">오전 09:00</option>
+														</select>
+													</div>
+													<div class="form-unit">~</div>
+													<div class="form-datepicker">
+														<select>
+															<option value="">오후 09:00</option>
+															<option value="">오후 09:00</option>
+															<option value="">오후 09:00</option>
+														</select>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="schedule-day-item input">
+											<div class="item-check">
+												<label class="form-radiobox week"><input type="checkbox" name="check"><span class="form-check-icon"><em>화</em></span></label>
+											</div>
+											<div class="item-input">
+												<div class="form-datepicker-group">
+													<div class="form-datepicker">
+														<select disabled>
+															<option value="">오전 09:00</option>
+															<option value="">오전 09:00</option>
+															<option value="">오전 09:00</option>
+														</select>
+													</div>
+													<div class="form-unit">~</div>
+													<div class="form-datepicker">
+														<select disabled>
+															<option value="">오후 09:00</option>
+															<option value="">오후 09:00</option>
+															<option value="">오후 09:00</option>
+														</select>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="schedule-day-item input">
+											<div class="item-check">
+												<label class="form-radiobox week"><input type="checkbox" name="check"><span class="form-check-icon"><em>수</em></span></label>
+											</div>
+											<div class="item-input">
+												<div class="form-datepicker-group">
+													<div class="form-datepicker">
+														<select disabled>
+															<option value="">오전 09:00</option>
+															<option value="">오전 09:00</option>
+															<option value="">오전 09:00</option>
+														</select>
+													</div>
+													<div class="form-unit">~</div>
+													<div class="form-datepicker">
+														<select disabled>
+															<option value="">오후 09:00</option>
+															<option value="">오후 09:00</option>
+															<option value="">오후 09:00</option>
+														</select>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="schedule-day-item input">
+											<div class="item-check">
+												<label class="form-radiobox week"><input type="checkbox" name="check"><span class="form-check-icon"><em>목</em></span></label>
+											</div>
+											<div class="item-input">
+												<div class="form-datepicker-group">
+													<div class="form-datepicker">
+														<select disabled>
+															<option value="">오전 09:00</option>
+															<option value="">오전 09:00</option>
+															<option value="">오전 09:00</option>
+														</select>
+													</div>
+													<div class="form-unit">~</div>
+													<div class="form-datepicker">
+														<select disabled>
+															<option value="">오후 09:00</option>
+															<option value="">오후 09:00</option>
+															<option value="">오후 09:00</option>
+														</select>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="schedule-day-item input">
+											<div class="item-check">
+												<label class="form-radiobox week"><input type="checkbox" name="check"><span class="form-check-icon"><em>금</em></span></label>
+											</div>
+											<div class="item-input">
+												<div class="form-datepicker-group">
+													<div class="form-datepicker">
+														<select disabled>
+															<option value="">오전 09:00</option>
+															<option value="">오전 09:00</option>
+															<option value="">오전 09:00</option>
+														</select>
+													</div>
+													<div class="form-unit">~</div>
+													<div class="form-datepicker">
+														<select disabled>
+															<option value="">오후 09:00</option>
+															<option value="">오후 09:00</option>
+															<option value="">오후 09:00</option>
+														</select>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="schedule-day-item input">
+											<div class="item-check">
+												<label class="form-radiobox week"><input type="checkbox" name="check"><span class="form-check-icon"><em>토</em></span></label>
+											</div>
+											<div class="item-input">
+												<div class="form-datepicker-group">
+													<div class="form-datepicker">
+														<select disabled>
+															<option value="">오전 09:00</option>
+															<option value="">오전 09:00</option>
+															<option value="">오전 09:00</option>
+														</select>
+													</div>
+													<div class="form-unit">~</div>
+													<div class="form-datepicker">
+														<select disabled>
+															<option value="">오후 09:00</option>
+															<option value="">오후 09:00</option>
+															<option value="">오후 09:00</option>
+														</select>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="schedule-day-item input">
+											<div class="item-check">
+												<label class="form-radiobox week"><input type="checkbox" name="check"><span class="form-check-icon"><em>일</em></span></label>
+											</div>
+											<div class="item-input">
+												<div class="form-datepicker-group">
+													<div class="form-datepicker">
+														<select disabled>
+															<option value="">오전 09:00</option>
+															<option value="">오전 09:00</option>
+															<option value="">오전 09:00</option>
+														</select>
+													</div>
+													<div class="form-unit">~</div>
+													<div class="form-datepicker">
+														<select disabled>
+															<option value="">오후 09:00</option>
+															<option value="">오후 09:00</option>
+															<option value="">오후 09:00</option>
+														</select>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- //set-teacher-add -->  
+					</div>
+					<div class="pop-footer">
+						<a href="#" class="btn btn-purple"><strong>저장하기</strong></a>
+					</div>
+					<button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
+				</div>
+			</div>
+		</div>
+	</article>
+	<!-- //미용사 등록/수정 팝업 -->
+</div>
+<!-- //wrap -->
+<script src="../assets/js/common.js"></script>
+</body>
+</html>

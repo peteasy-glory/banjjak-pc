@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+	<!-- Page Infomation -->
+    <title>예약 관리 | 반짝</title>
+    <meta name="Description" content="">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="format-detection" content="telephone=no">
+    <!-- SNS Basic -->
+    <meta property="og:title" content="타이틀">
+    <meta property="og:description" content="설명 100자내외">
+    <meta property="og:type" content="website">
+    <meta property="og:url"    content="">
+    <meta property="og:image" content="이미지 경로">
+	<!-- SNS Twitter -->
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="타이틀">
+	<meta name="twitter:description" content="설명 100자내외">
+	<meta name="twitter:image" content="이미지 경로">
+    <link rel="icon" href="../assets/images/common/favicon.png">
+	<link rel="canonical" href="대표도메인">
+    <!-- custom css -->
+    <link href="../assets/css/style.css" rel="stylesheet">
+	<!-- jquery js -->
+	<script src="../assets/js/jquery-3.4.1.min.js"></script>   
+	<script src="../assets/js/swiper.min.js"></script>
+  </head>
+<body>        
+
+<!-- wrap -->
+<div id="wrap">
+	<!-- header -->
+	<header id="header"></header>
+	<!-- //header -->
+	<!-- gnb -->
+	<nav id="gnb"></nav>
+	<!-- //gnb -->
+    <!-- container -->
+    <section id="container">     
+		<!-- contents -->
+		<section id="contents">
+			<!-- view -->
+			<div class="view">
+				<div class="basic-data-group">
+					<div class="data-row">
+						<div class="data-col-middle">
+							<div class="basic-data-card">
+								<div style="padding:20px;">
+									<button type="button" class="btn btn-purple btn-inline" onclick="pop.open('reserveAdviceMsg1');"><em>첫이용 상담 안내</em></button>
+									<button type="button" class="btn btn-purple btn-inline" onclick="pop.open('reserveAdviceMsg2');"><em>예약거부</em></button>
+									<button type="button" class="btn btn-purple btn-inline" onclick="pop.open('reserveAdviceMsg3');"><em>상담완료</em></button>
+								</div>
+							</div>			
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- //view -->
+		</section>
+		<!-- //contents -->
+    </section>
+    <!-- //container -->	
+	
+	<!--  첫이용 상담 안내 -->
+	<article id="reserveAdviceMsg1" class="layer-pop-wrap">
+		<div class="layer-pop-parent">
+			<div class="layer-pop-children">
+				<div class="pop-data alert-pop-data middle">
+					<div class="pop-body">
+						<div class="msg-title"> 첫이용 상담 안내</div>
+						<div class="dot-text-list text-align-left purple">
+							<div class="list-cell">미용이 가능한 강아지로 판단되시면 “상담완료”를 꼭 눌러주세요.</div>
+							<div class="list-cell">아래 정보로 미용 가능 판단이 부족하시면 통화나 문자아이콘을 눌러 상담해 주세요</div>
+							<div class="list-cell"> 부득이한 경우 “예약거부”를 누르시면 됩니다. 이때 견주에게는 거부로 날아가지 않으니 안심하셔도 됩니다. 다만 이 고객의 재방문 가능성은 매우 낮아집니다.</div>
+							<div class="list-cell">자동취소나 거부했던 지난 이용상담도 원하시면 언제든 “상담완료”처리 하실수 있습니다.</div>
+						</div>
+					</div>
+					<div class="pop-footer">
+						<button type="button" class="btn btn-confirm" onclick="pop.close();">닫기</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</article>
+	<!-- //첫이용 상담 안내 -->
+	
+	<!--  예약거부 -->
+	<article id="reserveAdviceMsg2" class="layer-pop-wrap">
+		<div class="layer-pop-parent">
+			<div class="layer-pop-children">
+				<div class="pop-data alert-pop-data">
+					<div class="pop-body">
+						<div class="msg-txt">이 고객이 예약하는 것을 거부합니다.</div>
+					</div>
+					<div class="pop-footer">
+						<button type="button" class="btn btn-confirm" onclick="pop.close();">확인</button>
+						<button type="button" class="btn btn-confirm" onclick="pop.close();">취소</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</article>
+	<!-- //예약거부 -->
+
+	<!--  상담완료 -->
+	<article id="reserveAdviceMsg3" class="layer-pop-wrap">
+		<div class="layer-pop-parent">
+			<div class="layer-pop-children">
+				<div class="pop-data alert-pop-data">
+					<div class="pop-body">
+						<div class="msg-txt">이 고객의 상담을 완료합니다.</div>
+					</div>
+					<div class="pop-footer">
+						<button type="button" class="btn btn-confirm" onclick="pop.close();">확인</button>
+						<button type="button" class="btn btn-confirm" onclick="pop.close();">취소</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</article>
+	<!-- //상담완료 -->
+	
+</div>
+<!-- //wrap -->
+<script src="../assets/js/common.js"></script>
+</body>
+</html>

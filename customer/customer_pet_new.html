@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+	<!-- Page Infomation -->
+    <title>고객관리 | 반짝</title>
+    <meta name="Description" content="">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="format-detection" content="telephone=no">
+    <!-- SNS Basic -->
+    <meta property="og:title" content="타이틀">
+    <meta property="og:description" content="설명 100자내외">
+    <meta property="og:type" content="website">
+    <meta property="og:url"    content="">
+    <meta property="og:image" content="이미지 경로">
+	<!-- SNS Twitter -->
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="타이틀">
+	<meta name="twitter:description" content="설명 100자내외">
+	<meta name="twitter:image" content="이미지 경로">
+    <link rel="icon" href="../assets/images/common/favicon.png">
+	<link rel="canonical" href="대표도메인">
+    <!-- custom css -->
+    <link href="../assets/css/style.css" rel="stylesheet">
+	<!-- jquery js -->
+	<script src="../assets/js/jquery-3.4.1.min.js"></script>   
+	<script src="../assets/js/swiper.min.js"></script>
+  </head>
+<body>        
+
+<!-- wrap -->
+<div id="wrap">
+	<!-- header -->
+	<header id="header"></header>
+	<!-- //header -->
+	<!-- gnb -->
+	<nav id="gnb"></nav>
+	<!-- //gnb -->
+    <!-- container -->
+    <section id="container">     
+		<!-- contents -->
+		<section id="contents">
+			<!-- view -->
+			<div class="view">
+				<div class="data-row">
+					<div class="data-col-middle">
+						<div class="basic-data-card">
+							<div class="card-header">
+								<h3 class="card-header-title">신규 등록</h3>
+							</div>
+							<div class="card-body">
+								<div class="card-body-inner">
+									<div class="basic-data-group">
+										<div class="form-group">
+											<div class="grid-layout margin-14-17">
+												<div class="grid-layout-inner">
+													<div class="grid-layout-cell grid-2">
+														<div class="form-group-item">
+															<div class="form-item-label"><em class="need">*</em>전화번호</div>
+															<div class="form-item-data">
+																<div class="form-control-btns">
+																	<input type="text" class="form-control" placeholder="입력">											
+																	<button type="button" class="btn btn-outline-purple btn-inline">중복확인</button>
+																</div>
+															</div>
+														</div>
+													</div>	
+													<div class="grid-layout-cell grid-2">
+														<div class="form-group-item">
+															<div class="form-item-label"><em class="need">*</em>펫 이름</div>
+															<div class="form-item-data">
+																<input type="text" class="form-control" value="잭" placeholder="펫 이름 입력">
+															</div>
+														</div>
+													</div>					
+													<div class="grid-layout-cell grid-1">
+														<div class="form-group-item">
+															<div class="form-item-label"><em class="need">*</em>품종</div>
+															<div class="form-item-data type-2">
+																<div class="pet-breed-select-wrap">
+																	<div class="pet-breed-select">
+																		<div class="breed-select">
+																			<label class="form-toggle-box" for="breed1"><input type="radio" name="breed" id="breed1"><em><span>강아지</span></em></label>
+																			<label class="form-toggle-box" for="breed2"><input type="radio" name="breed" id="breed2"><em><span>고양이</span></em></label>
+																		</div>															
+																	</div>
+																	<div class="pet-breed-sort">
+																		<!-- 강아지 -->
+																		<div style="display:block">
+																			<select>
+																				<option value="">말티즈</option>
+																			</select>
+																			<div class="pet-breed-other"  style="display:block">
+																				<input type="text" placeholder="입력" class="form-control">
+																			</div>	
+																		</div>
+																		<!-- //강아지 -->
+																		<!-- 고양이 -->
+																		<div style="display:none">
+																			<select>
+																				<option value="">고양이</option>
+																			</select>
+																			<div class="pet-breed-other"  style="display:block">
+																				<input type="text" placeholder="입력" class="form-control">
+																			</div>	
+																		</div>
+																		<!-- //고양이 -->	
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>							
+													<div class="grid-layout-cell grid-2">
+														<div class="form-group-item">
+															<div class="form-item-label">생일</div>
+															<div class="form-item-data type-2">
+																<div class="grid-layout margin-12">
+																	<div class="grid-layout-inner">
+																		<div class="grid-layout-cell grid-3">
+																			<select>
+																				<option value="">2021 년</option>
+																				<option value="">2021 년</option>
+																				<option value="">2021 년</option>
+																				<option value="">2021 년</option>
+																			</select>
+																		</div>
+																		<div class="grid-layout-cell grid-3">
+																			<select>
+																				<option value="">02 월</option>
+																			</select>
+																		</div>
+																		<div class="grid-layout-cell grid-3">
+																			<select>
+																				<option value="">02 일</option>
+																			</select>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>								
+													<div class="grid-layout-cell grid-2">
+														<div class="form-group-item">
+															<div class="form-item-label">성별 선택</div>
+															<div class="form-item-data type-2">
+																<div class="grid-layout toggle-button-group">
+																	<div class="grid-layout-inner">
+																		<div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="gender1"><input type="radio" name="gender" id="gender1"><em>남아</em></label></div>
+																		<div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="gender2"><input type="radio" name="gender" id="gender2"><em>여아</em></label></div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>							
+													<div class="grid-layout-cell grid-2">
+														<div class="form-group-item">
+															<div class="form-item-label">중성화</div>
+															<div class="form-item-data type-2">
+																<div class="grid-layout toggle-button-group">
+																	<div class="grid-layout-inner">
+																		<div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="neutralize1"><input type="radio" name="neutralize" id="neutralize1"><em>X</em></label></div>
+																		<div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="neutralize2"><input type="radio" name="neutralize" id="neutralize2"><em>O</em></label></div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>							
+													<div class="grid-layout-cell grid-2">
+														<div class="form-group-item">
+															<div class="form-item-label"><em class="need">*</em>몸무게</div>
+															<div class="form-item-data type-2">
+																<div class="form-flex">
+																	<select class="inline-block">
+																		<option value="">0</option>
+																		<option value="">0</option>
+																		<option value="">0</option>
+																		<option value="">0</option>
+																	</select>
+																	<div class="form-unit-point">.</div>
+																	<select class="inline-block">
+																		<option value="">0</option>
+																		<option value="">0</option>
+																		<option value="">0</option>
+																		<option value="">0</option>
+																	</select>
+																	<div class="form-unit-label">kg</div>
+																</div>
+															</div>
+														</div>
+													</div>							
+												</div>							
+											</div>															
+										</div>											
+									</div>
+									
+									<div class="basic-data-group">
+										<div class="more-toggle-parents">
+											<div class="con-title-group">
+												<h4 class="con-title">추가 사항 입력</h4>
+												<button class="btn-side btn-more-toggle-nav"><span class="txt">추가정보 더보기</span></button>
+											</div>
+											<div class="more-toggle-data">											
+												<div class="form-group">
+													<div class="grid-layout margin-14-17">
+														<div class="grid-layout-inner">						
+															<div class="grid-layout-cell grid-2">
+																<div class="form-group-item">
+																	<div class="form-item-label">미용 경험</div>
+																	<div class="form-item-data type-2">
+																		<select>
+																			<option value="">2회</option>
+																			<option value="">2회</option>
+																			<option value="">2회</option>
+																			<option value="">2회</option>
+																		</select>
+																	</div>
+																</div>
+															</div>							
+															<div class="grid-layout-cell grid-2">
+																<div class="form-group-item">
+																	<div class="form-item-label">예방 접종</div>
+																	<div class="form-item-data type-2">
+																		<select>
+																			<option value="">2회</option>
+																			<option value="">2회</option>
+																			<option value="">2회</option>
+																			<option value="">2회</option>
+																		</select>
+																	</div>
+																</div>
+															</div>							
+															<div class="grid-layout-cell grid-2">
+																<div class="form-group-item">
+																	<div class="form-item-label">입질</div>
+																	<div class="form-item-data type-2">
+																		<select>
+																			<option value="">2회</option>
+																			<option value="">2회</option>
+																			<option value="">2회</option>
+																			<option value="">2회</option>
+																		</select>
+																	</div>
+																</div>
+															</div>							
+															<div class="grid-layout-cell grid-2">
+																<div class="form-group-item">
+																	<div class="form-item-label">슬개골 탈구</div>
+																	<div class="form-item-data type-2">
+																		<select>
+																			<option value="">2회</option>
+																			<option value="">2회</option>
+																			<option value="">2회</option>
+																			<option value="">2회</option>
+																		</select>
+																	</div>
+																</div>
+															</div>							
+															<div class="grid-layout-cell grid-1">
+																<div class="form-group-item">
+																	<div class="form-item-label">특이사항</div>
+																	<div class="form-item-data type-2">
+																		<div class="grid-layout toggle-button-group">
+																			<div class="grid-layout-inner">
+																				<div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special1"><input type="checkbox" name="special" id="special1"><em>피부병</em></label></div>
+																				<div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special2"><input type="checkbox" name="special" id="special2"><em>심장질환</em></label></div>
+																				<div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special3"><input type="checkbox" name="special" id="special3"><em>마킹</em></label></div>
+																				<div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special3"><input type="checkbox" name="special" id="special3"><em>마운팅</em></label></div>
+																				<div class="grid-layout-cell grid-1">
+																					<textarea style="height:60px;" placeholder="입력"></textarea>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>							
+															<div class="grid-layout-cell grid-1">
+																<div class="form-group-item">
+																	<div class="form-item-label">메모</div>
+																	<div class="form-item-data type-2">
+																		<textarea style="height:60px;" placeholder="입력"></textarea>
+																		<div class="form-input-info">*필수항목만 입력해도 예약등록 가능</div>		
+																	</div>
+																</div>
+															</div>						
+														</div>							
+													</div>															
+												</div>				
+												<div class="basic-data-group middle">
+													<label class="form-checkbox"><input type="checkbox" name=""><span class="form-check-icon"><em><strong>등록 후 즉시예약</strong></em></span></label>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>							
+							<div class="card-footer">
+								<!-- btn-page-bottom 클래스에 disabled 클래스 추가시 비활성화 또는 button 태그일 시 disabled 속성 추가시 비활성화 -->
+								<a href="#" class="btn-page-bottom">저장하기</a>
+							</div>
+						</div>			
+					</div>
+				</div>
+			</div>
+			<!-- //view -->
+		</section>
+		<!-- //contents -->
+    </section>
+    <!-- //container -->
+</div>
+<!-- //wrap -->
+<script src="../assets/js/common.js"></script>
+</body>
+</html>

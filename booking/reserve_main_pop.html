@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+	<!-- Page Infomation -->
+    <title>예약 관리 | 반짝</title>
+    <meta name="Description" content="">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="format-detection" content="telephone=no">
+    <!-- SNS Basic -->
+    <meta property="og:title" content="타이틀">
+    <meta property="og:description" content="설명 100자내외">
+    <meta property="og:type" content="website">
+    <meta property="og:url"    content="">
+    <meta property="og:image" content="이미지 경로">
+	<!-- SNS Twitter -->
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="타이틀">
+	<meta name="twitter:description" content="설명 100자내외">
+	<meta name="twitter:image" content="이미지 경로">
+    <link rel="icon" href="../assets/images/common/favicon.png">
+	<link rel="canonical" href="대표도메인">
+    <!-- custom css -->
+    <link href="../assets/css/style.css" rel="stylesheet">
+	<!-- jquery js -->
+	<script src="../assets/js/jquery-3.4.1.min.js"></script>   
+	<script src="../assets/js/swiper.min.js"></script>
+  </head>
+<body>        
+
+<!-- wrap -->
+<div id="wrap">
+	<!-- header -->
+	<header id="header"></header>
+	<!-- //header -->
+	<!-- gnb -->
+	<nav id="gnb"></nav>
+	<!-- //gnb -->
+    <!-- container -->
+    <section id="container">     
+		<!-- contents -->
+		<section id="contents">
+			<!-- view -->
+			<div class="view">
+				<div class="basic-data-group">
+					<div class="data-row">
+						<div class="data-col-middle">
+							<div class="basic-data-card">
+								<div style="padding:20px;">
+									<button type="button" class="btn btn-inline btn-purple" onclick="pop.open('reserveCalendarPop1');"><em>승인대기중 벳지확인</em></button>
+									<button type="button" class="btn btn-inline btn-purple" onclick="pop.open('reserveCalendarPop2');"><em>예약등록</em></button>
+									<button type="button" class="btn btn-inline btn-purple" onclick="pop.open('reserveCalendarPop3');"><em>예약금지설정</em></button>
+									<button type="button" class="btn btn-inline btn-purple" onclick="pop.open('reserveCalendarPop4');"><em>예약변경</em></button>
+									<button type="button" class="btn btn-inline btn-purple" onclick="pop.open('reserveCalendarPop5');"><em>예약변경 불가</em></button>
+									<button type="button" class="btn btn-inline btn-purple" onclick="pop.open('reserveCalendarPop6');"><em>등원 등록 팝업</em></button>
+									<button type="button" class="btn btn-inline btn-purple" onclick="pop.open('reserveCalendarPop7');"><em>등원일 관리 팝업</em></button>
+								</div>
+							</div>			
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- //view -->
+			<button type="button" class="btn-broswer-mode" onclick="darkMode();">
+				<span class="off"><span class="icons"></span>다크 모드 보기</span>
+				<span class="on"><span class="icons"></span>라이트 모드 보기</span>
+			</button>
+		</section>
+		<!-- //contents -->
+    </section>
+    <!-- //container -->
+
+	<!--  승인대기중 벳지확인 -->
+	<article id="reserveCalendarPop1" class="layer-pop-wrap">
+		<div class="layer-pop-parent">
+			<div class="layer-pop-children">
+
+				<div class="pop-data alert-pop-data">
+					<div class="pop-body">
+						<div class="msg-txt">승인대기중인 예약이 2건 있습니다.<br>승인대기 벳지를 확인해주세요.</div>
+					</div>
+					<div class="pop-footer">
+						<button type="button" class="btn btn-confirm" onclick="pop.close();">확인</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</article>
+	<!-- //승인대기중 벳지확인 -->
+	
+	<!--  아이템 클릭시 -->
+	<article id="reserveCalendarPop2" class="layer-pop-wrap">
+		<div class="layer-pop-parent">
+			<div class="layer-pop-children">
+				<div class="pop-data alert-pop-data">
+					<div class="pop-header">
+						<h4 class="con-title">실장</h4>
+					</div>
+					<div class="pop-body type-3">
+						<div class="msg-txt">2021.09.08&nbsp;&nbsp;&nbsp;&nbsp;오후 01:30</div>
+					</div>
+					<div class="pop-footer">
+						<button type="button" class="btn btn-confirm" onclick="pop.close();">예약금지설정</button>
+						<button type="button" class="btn btn-confirm" onclick="pop.close();">예약접수</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</article>
+	<!-- //아이템 클릭시 -->
+
+	<!-- 예약금지설정 -->
+	<article id="reserveCalendarPop3" class="layer-pop-wrap">
+		<div class="layer-pop-parent">
+			<div class="layer-pop-children">
+
+				<div class="pop-data alert-pop-data">
+					<div class="pop-header">
+						<h4 class="con-title">예약금지 설정</h4>
+					</div>
+					<div class="pop-body type-3">
+						<div class="form-group">
+							<div class="form-group-cell">
+								<div class="form-group-item">
+									<div class="form-item-label">시간</div>
+									<div class="form-item-data type-2">
+										<div class="form-datepicker-group">
+											<div class="form-datepicker">
+												<select>
+													<option value="">오전 11:30</option>
+												</select>
+											</div>
+											<div class="form-unit">~</div>
+											<div class="form-datepicker">
+												<select>
+													<option value="">오후 11:30</option>
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="pop-footer">
+						<button type="button" class="btn btn-confirm" onclick="pop.close();">저장</button>
+						<button type="button" class="btn btn-confirm" onclick="pop.close();">취소</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</article>
+	<!-- //예약금지설정 -->
+	
+	<!-- 예약변경 -->
+	<article id="reserveCalendarPop4" class="layer-pop-wrap">
+		<div class="layer-pop-parent">
+			<div class="layer-pop-children">
+				<div class="pop-data alert-pop-data">
+					<div class="pop-header">
+						<h4 class="con-title">실장</h4>
+					</div>
+					<div class="pop-body type-3">
+						<div class="msg-txt">2021.09.08&nbsp;&nbsp;&nbsp;&nbsp;오후 01:30<br><br>선택한 예약을<br>이 곳으로 변경합니다.</div>
+					</div>
+					<div class="pop-footer">
+						<button type="button" class="btn btn-confirm" onclick="pop.close();">확인</button>
+						<button type="button" class="btn btn-confirm" onclick="pop.close();">예약변경취소</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</article>
+	<!-- //예약변경 -->
+
+	<!-- 예약변경 불가 -->
+	<article id="reserveCalendarPop5" class="layer-pop-wrap">
+		<div class="layer-pop-parent">
+			<div class="layer-pop-children">
+				<div class="pop-data alert-pop-data">
+					<div class="pop-body">
+						<div class="msg-txt">해당 스케줄에 일정이 있어 스케줄 변경이 불가합니다.</div>
+					</div>
+					<div class="pop-footer">
+						<button type="button" class="btn btn-confirm" onclick="pop.close();">확인</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</article>
+	<!-- //예약변경 불가 -->
+	
+
+	<!-- 등원 등록 팝업 -->
+	<article id="reserveCalendarPop6" class="layer-pop-wrap">
+		<div class="layer-pop-parent">
+			<div class="layer-pop-children">
+				<div class="pop-data data-pop-view">
+					<div class="pop-header">
+						<h4 class="con-title">등원 등록</h4>
+					</div>
+					<div class="pop-body">
+						<div class="inner-add-wrap">
+							<div class="inner-add-date">09.08 (수)</div>
+							<div class="inner-add-list">
+								<div class="inner-add-item">
+									<div class="item-check"><label class="form-radiobox small"><input type="checkbox" name="r1"><span class="form-check-icon"><em></em></span></label></div>
+									<div class="item-data">
+										<div class="inner-add-item-value">
+											<div class="inner-add-name"><strong>골댕이</strong> / 골든리트리버</div>
+											<div class="inner-add-num">010-1234-1234</div>
+											<div class="inner-add-option">남은횟수 10 / 15</div>
+										</div>
+										<div class="inner-add-item-ui"><button type="button" class="btn-phone-del"><span class="icon icon-phone-add-tel"></span></button></div>
+									</div>
+								</div>
+								<div class="inner-add-item">
+									<div class="item-check"><label class="form-radiobox small"><input type="checkbox" name="r1"><span class="form-check-icon"><em></em></span></label></div>
+									<div class="item-data">
+										<div class="inner-add-item-value">
+											<div class="inner-add-name"><strong>골댕이</strong> / 골든리트리버</div>
+											<div class="inner-add-num">010-1234-1234</div>
+											<div class="inner-add-option">남은횟수 10 / 15</div>
+										</div>
+										<div class="inner-add-item-ui"><button type="button" class="btn-phone-del"><span class="icon icon-phone-add-tel"></span></button></div>
+									</div>
+								</div>
+								<div class="inner-add-item">
+									<div class="item-check"><label class="form-radiobox small"><input type="checkbox" name="r1"><span class="form-check-icon"><em></em></span></label></div>
+									<div class="item-data">
+										<div class="inner-add-item-value">
+											<div class="inner-add-name"><strong>골댕이</strong> / 골든리트리버</div>
+											<div class="inner-add-num">010-1234-1234</div>
+											<div class="inner-add-option">남은횟수 10 / 15</div>
+										</div>
+										<div class="inner-add-item-ui"><button type="button" class="btn-phone-del"><span class="icon icon-phone-add-tel"></span></button></div>
+									</div>
+								</div>
+								<div class="inner-add-item">
+									<div class="item-check"><label class="form-radiobox small"><input type="checkbox" name="r1"><span class="form-check-icon"><em></em></span></label></div>
+									<div class="item-data">
+										<div class="inner-add-item-value">
+											<div class="inner-add-name"><strong>골댕이</strong> / 골든리트리버</div>
+											<div class="inner-add-num">010-1234-1234</div>
+											<div class="inner-add-option">남은횟수 10 / 15</div>
+										</div>
+										<div class="inner-add-item-ui"><button type="button" class="btn-phone-del"><span class="icon icon-phone-add-tel"></span></button></div>
+									</div>
+								</div>
+								<div class="inner-add-item">
+									<div class="item-check"><label class="form-radiobox small"><input type="checkbox" name="r1"><span class="form-check-icon"><em></em></span></label></div>
+									<div class="item-data">
+										<div class="inner-add-item-value">
+											<div class="inner-add-name"><strong>골댕이</strong> / 골든리트리버</div>
+											<div class="inner-add-num">010-1234-1234</div>
+											<div class="inner-add-option">남은횟수 10 / 15</div>
+										</div>
+										<div class="inner-add-item-ui"><button type="button" class="btn-phone-del"><span class="icon icon-phone-add-tel"></span></button></div>
+									</div>
+								</div>
+								<div class="inner-add-item">
+									<div class="item-check"><label class="form-radiobox small"><input type="checkbox" name="r1"><span class="form-check-icon"><em></em></span></label></div>
+									<div class="item-data">
+										<div class="inner-add-item-value">
+											<div class="inner-add-name"><strong>골댕이</strong> / 골든리트리버</div>
+											<div class="inner-add-num">010-1234-1234</div>
+											<div class="inner-add-option">남은횟수 10 / 15</div>
+										</div>
+										<div class="inner-add-item-ui"><button type="button" class="btn-phone-del"><span class="icon icon-phone-add-tel"></span></button></div>
+									</div>
+								</div>
+								<div class="inner-add-item">
+									<div class="item-check"><label class="form-radiobox small"><input type="checkbox" name="r1"><span class="form-check-icon"><em></em></span></label></div>
+									<div class="item-data">
+										<div class="inner-add-item-value">
+											<div class="inner-add-name"><strong>골댕이</strong> / 골든리트리버</div>
+											<div class="inner-add-num">010-1234-1234</div>
+											<div class="inner-add-option">남은횟수 10 / 15</div>
+										</div>
+										<div class="inner-add-item-ui"><button type="button" class="btn-phone-del"><span class="icon icon-phone-add-tel"></span></button></div>
+									</div>
+								</div>
+								<div class="inner-add-item">
+									<div class="item-check"><label class="form-radiobox small"><input type="checkbox" name="r1"><span class="form-check-icon"><em></em></span></label></div>
+									<div class="item-data">
+										<div class="inner-add-item-value">
+											<div class="inner-add-name"><strong>골댕이</strong> / 골든리트리버</div>
+											<div class="inner-add-num">010-1234-1234</div>
+											<div class="inner-add-option">남은횟수 10 / 15</div>
+										</div>
+										<div class="inner-add-item-ui"><button type="button" class="btn-phone-del"><span class="icon icon-phone-add-tel"></span></button></div>
+									</div>
+								</div>
+								<div class="inner-add-item">
+									<div class="item-check"><label class="form-radiobox small"><input type="checkbox" name="r1"><span class="form-check-icon"><em></em></span></label></div>
+									<div class="item-data">
+										<div class="inner-add-item-value">
+											<div class="inner-add-name"><strong>골댕이</strong> / 골든리트리버</div>
+											<div class="inner-add-num">010-1234-1234</div>
+											<div class="inner-add-option">남은횟수 10 / 15</div>
+										</div>
+										<div class="inner-add-item-ui"><button type="button" class="btn-phone-del"><span class="icon icon-phone-add-tel"></span></button></div>
+									</div>
+								</div>
+								<div class="inner-add-item">
+									<div class="item-check"><label class="form-radiobox small"><input type="checkbox" name="r1"><span class="form-check-icon"><em></em></span></label></div>
+									<div class="item-data">
+										<div class="inner-add-item-value">
+											<div class="inner-add-name"><strong>골댕이</strong> / 골든리트리버</div>
+											<div class="inner-add-num">010-1234-1234</div>
+											<div class="inner-add-option">남은횟수 10 / 15</div>
+										</div>
+										<div class="inner-add-item-ui"><button type="button" class="btn-phone-del"><span class="icon icon-phone-add-tel"></span></button></div>
+									</div>
+								</div>
+								<div class="inner-add-item">
+									<div class="item-check"><label class="form-radiobox small"><input type="checkbox" name="r1"><span class="form-check-icon"><em></em></span></label></div>
+									<div class="item-data">
+										<div class="inner-add-item-value">
+											<div class="inner-add-name"><strong>골댕이</strong> / 골든리트리버</div>
+											<div class="inner-add-num">010-1234-1234</div>
+											<div class="inner-add-option">남은횟수 10 / 15</div>
+										</div>
+										<div class="inner-add-item-ui"><button type="button" class="btn-phone-del"><span class="icon icon-phone-add-tel"></span></button></div>
+									</div>
+								</div>
+								<div class="inner-add-item">
+									<div class="item-check"><label class="form-radiobox small"><input type="checkbox" name="r1"><span class="form-check-icon"><em></em></span></label></div>
+									<div class="item-data">
+										<div class="inner-add-item-value">
+											<div class="inner-add-name"><strong>골댕이</strong> / 골든리트리버</div>
+											<div class="inner-add-num">010-1234-1234</div>
+											<div class="inner-add-option">남은횟수 10 / 15</div>
+										</div>
+										<div class="inner-add-item-ui"><button type="button" class="btn-phone-del"><span class="icon icon-phone-add-tel"></span></button></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="pop-footer">
+						<button type="button" class="btn btn-purple"><strong>출석확인</strong></button>
+					</div>
+					<button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
+				</div>
+			</div>
+		</div>
+	</article>
+	<!-- //등원 등록 팝업 -->
+	
+
+	<!-- 등원일 관리 팝업 -->
+	<article id="reserveCalendarPop7" class="layer-pop-wrap">
+		<div class="layer-pop-parent">
+			<div class="layer-pop-children">
+				<div class="pop-data data-pop-view large">
+					<div class="pop-header">
+						<h4 class="con-title">등원일 관리</h4>
+					</div>
+					<div class="pop-body">
+						<div class="con-title-group">
+							<h4 class="con-title">예약동물 정보</h4>
+						</div>
+						<div class="basic-data-group vvsmall4">
+							<div class="customer-card-item none type3">
+								<div class="item-info-wrap">
+									<div class="item-thumb">
+										<div class="user-thumb smiddle"><img src="../assets/images/user_thumb.png" alt=""></div>
+									</div>
+									<div class="item-data">
+										<div class="item-data-inner">
+											<div class="item-pet-name"><strong>밥풀이</strong><span class="label label-yellow middle"><strong>웰시코기</strong></span></div>
+											<div class="item-pet-phone">010-1234-5678</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="basic-data-group vvsmall">
+							<!-- 캘린더 상단 -->
+							<div class="reserve-calendar-top">
+								<div class="reserve-calendar-select">
+									<button type="button" class="btn-reserve-calendar-ui btn-month-prev"><span class="icon icon-calendar-prev-small"></span></button>
+									<div class="reserve-calendar-title">
+										<button type="button" class="txt">2021.11</button>
+									</div>
+									<button type="button" class="btn-reserve-calendar-ui btn-month-next"><span class="icon icon-calendar-next-small"></span></button>
+									<!-- calendar-title-sort 클래스에 actived클래스 추가시 활성화 -->
+									<div class="calendar-title-sort">
+										<div class="simple-calendar-wrap">
+											<div class="simple-calendar-top">
+												<button type="button" class="btn-simple-calendar-ui btn-simple-calendar-prev">이전</button>
+												<div class="top-title">2022</div>
+												<button type="button" class="btn-simple-calendar-ui btn-simple-calendar-next">다음</button>
+											</div>
+											<div class="simple-calendar-body">
+												<div class="simple-calendar-month-group">
+													<div class="simple-calendar-month-row">
+														<!-- btn-simple-calendar-month-nav 클래스에 actived클래스 추가시 활성화 -->
+														<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">1</button></div>
+														<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">2</button></div>
+														<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">3</button></div>
+														<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav actived">4</button></div>
+														<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">5</button></div>
+														<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">6</button></div>
+														<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">7</button></div>
+														<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">8</button></div>
+														<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">9</button></div>
+														<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">10</button></div>
+														<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">11</button></div>
+														<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">12</button></div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- //캘린더 상산 -->
+							<div class="reserve-calendar-label-info">*해당 날짜를 누르면 등원이 완료되며, 두번 누를 시 등원이 취소됩니다.</div>
+							<!-- 캘린더 상세 -->
+							<div>
+								<div class="reserve-calendar-data">
+									<div class="reserve-calendar-inner">
+										<!--
+										// calendar-month-header-col 클래스 정의
+										//	sunday : 일요일
+										//	saturday : 토요일
+
+										// calendar-month-body-col 클래스 정의
+										// before : 이전월
+										// after : 다음월
+										//	sunday : 일요일
+										//	saturday : 토요일
+										//	break :휴무
+										//	holiday :공휴일
+										// today : 오늘
+										// calendar-drag-item-group : 드래그 가능한 영역
+										// calendar-drag-item : 드래그 아이템
+										-->
+										<!--
+										// calendar-week-time-item 상황별 클래스값
+										// yellow : 앱-선결제
+										// purple : 앱-매장결제
+										// green : 매장예약
+										// red : NoShow
+										// gray : 승인대기
+										-->
+										<div class="calendar-month-wrap">
+											<div class="calendar-month-header">
+												<div class="calendar-month-header-row">
+													<div class="calendar-month-header-col sunday">일</div>
+													<div class="calendar-month-header-col">월</div>
+													<div class="calendar-month-header-col">화</div>
+													<div class="calendar-month-header-col">수</div>
+													<div class="calendar-month-header-col">목</div>
+													<div class="calendar-month-header-col">금</div>
+													<div class="calendar-month-header-col saturday">토</div>
+												</div>
+											</div>
+											<div class="calendar-month-body">
+												<div class="calendar-month-body-row">
+													<div class="calendar-month-body-col before break sunday">
+														<div class="calendar-col-inner">		
+															<div class="calendar-day-value"><div class="number">28</div><div class="state"></div></div>
+															<div class="calendar-check-value"></div>
+														</div>
+													</div>
+													<div class="calendar-month-body-col before">
+														<div class="calendar-col-inner">		
+															<div class="calendar-day-value"><div class="number">29</div><div class="state"></div></div>
+															<div class="calendar-check-value"></div>
+														</div>
+													</div>
+													<div class="calendar-month-body-col before">
+														<div class="calendar-col-inner">		
+															<div class="calendar-day-value"><div class="number">30</div><div class="state"></div></div>
+															<div class="calendar-check-value"></div>
+														</div>
+													</div>
+													<div class="calendar-month-body-col">
+														<div class="calendar-col-inner">									
+															<div class="calendar-day-value"><div class="number">1</div><div class="state"></div></div>
+															<div class="calendar-check-value"><label class="form-radiobox large"><input type="checkbox" name="check"><span class="form-check-icon"><em></em></span></label></div>
+														</div>
+													</div>
+													<div class="calendar-month-body-col">
+														<div class="calendar-col-inner">									
+															<div class="calendar-day-value"><div class="number">2</div><div class="state"></div></div>
+															<div class="calendar-check-value"><label class="form-radiobox large"><input type="checkbox" name="check"><span class="form-check-icon"><em></em></span></label></div>
+														</div>
+													</div>
+													<div class="calendar-month-body-col break">
+														<div class="calendar-col-inner">
+															<div class="calendar-day-value"><div class="number">3</div><div class="state">정휴</div></div>
+															<div class="calendar-check-value"><label class="form-radiobox large"><input type="checkbox" name="check"><span class="form-check-icon"><em></em></span></label></div>
+														</div>
+													</div>
+													<div class="calendar-month-body-col">
+														<div class="calendar-col-inner">
+															<div class="calendar-day-value"><div class="number">4</div><div class="state"></div></div>
+															<div class="calendar-check-value"><label class="form-radiobox large"><input type="checkbox" name="check"><span class="form-check-icon"><em></em></span></label></div>
+														</div>
+													</div>
+												</div>
+												<div class="calendar-month-body-row">
+													<div class="calendar-month-body-col break sunday">
+														<div class="calendar-col-inner">		
+															<div class="calendar-day-value"><div class="number">5</div><div class="state">정휴</div></div>
+															<div class="calendar-check-value"><label class="form-radiobox large"><input type="checkbox" name="check"><span class="form-check-icon"><em></em></span></label></div>
+														</div>
+													</div>
+													<div class="calendar-month-body-col">
+														<div class="calendar-col-inner">		
+															<div class="calendar-day-value"><div class="number">6</div><div class="state"></div></div>
+															<div class="calendar-check-value"><label class="form-radiobox large"><input type="checkbox" name="check"><span class="form-check-icon"><em></em></span></label></div>
+														</div>
+													</div>
+													<div class="calendar-month-body-col">
+														<div class="calendar-col-inner">		
+															<div class="calendar-day-value"><div class="number">7</div><div class="state"></div></div>
+															<div class="calendar-check-value"><label class="form-radiobox large"><input type="checkbox" name="check"><span class="form-check-icon"><em></em></span></label></div>
+														</div>
+													</div>
+													<div class="calendar-month-body-col today">
+														<div class="calendar-col-inner">									
+															<div class="calendar-day-value"><div class="number">8</div><div class="state"></div></div>
+															<div class="calendar-check-value"><label class="form-radiobox large"><input type="checkbox" name="check"><span class="form-check-icon"><em></em></span></label></div>
+														</div>
+													</div>
+													<div class="calendar-month-body-col">
+														<div class="calendar-col-inner">									
+															<div class="calendar-day-value"><div class="number">9</div><div class="state"></div></div>
+															<div class="calendar-check-value"><label class="form-radiobox large"><input type="checkbox" name="check"><span class="form-check-icon"><em></em></span></label></div>
+														</div>
+													</div>
+													<div class="calendar-month-body-col break">
+														<div class="calendar-col-inner">
+															<div class="calendar-day-value"><div class="number">10</div><div class="state">정휴</div></div>
+															<div class="calendar-check-value"><label class="form-radiobox large"><input type="checkbox" name="check"><span class="form-check-icon"><em></em></span></label></div>
+														</div>
+													</div>
+													<div class="calendar-month-body-col">
+														<div class="calendar-col-inner">
+															<div class="calendar-day-value"><div class="number">11</div><div class="state"></div></div>
+															<div class="calendar-check-value"><label class="form-radiobox large"><input type="checkbox" name="check"><span class="form-check-icon"><em></em></span></label></div>
+														</div>
+													</div>
+												</div>
+												<div class="calendar-month-body-row">
+													<div class="calendar-month-body-col break sunday">
+														<div class="calendar-col-inner">		
+															<div class="calendar-day-value"><div class="number">12</div><div class="state">정휴</div></div>
+															<div class="calendar-check-value"><label class="form-radiobox large"><input type="checkbox" name="check"><span class="form-check-icon"><em></em></span></label></div>
+														</div>
+													</div>
+													<div class="calendar-month-body-col">
+														<div class="calendar-col-inner">		
+															<div class="calendar-day-value"><div class="number">13</div><div class="state"></div></div>
+															<div class="calendar-check-value"><label class="form-radiobox large"><input type="checkbox" name="check"><span class="form-check-icon"><em></em></span></label></div>
+														</div>
+													</div>
+													<div class="calendar-month-body-col">
+														<div class="calendar-col-inner">		
+															<div class="calendar-day-value"><div class="number">14</div><div class="state"></div></div>
+															<div class="calendar-check-value"><label class="form-radiobox large"><input type="checkbox" name="check"><span class="form-check-icon"><em></em></span></label></div>
+														</div>
+													</div>
+													<div class="calendar-month-body-col">
+														<div class="calendar-col-inner">									
+															<div class="calendar-day-value"><div class="number">15</div><div class="state"></div></div>
+															<div class="calendar-check-value"><label class="form-radiobox large"><input type="checkbox" name="check"><span class="form-check-icon"><em></em></span></label></div>
+														</div>
+													</div>
+													<div class="calendar-month-body-col">
+														<div class="calendar-col-inner">									
+															<div class="calendar-day-value"><div class="number">16</div><div class="state"></div></div>
+															<div class="calendar-check-value"><label class="form-radiobox large"><input type="checkbox" name="check"><span class="form-check-icon"><em></em></span></label></div>
+														</div>
+													</div>
+													<div class="calendar-month-body-col break">
+														<div class="calendar-col-inner">
+															<div class="calendar-day-value"><div class="number">17</div><div class="state">정휴</div></div>
+															<div class="calendar-check-value"><label class="form-radiobox large"><input type="checkbox" name="check"><span class="form-check-icon"><em></em></span></label></div>
+														</div>
+													</div>
+													<div class="calendar-month-body-col">
+														<div class="calendar-col-inner">
+															<div class="calendar-day-value"><div class="number">18</div><div class="state"></div></div>
+															<div class="calendar-check-value"><label class="form-radiobox large"><input type="checkbox" name="check"><span class="form-check-icon"><em></em></span></label></div>
+														</div>
+													</div>
+												</div>
+												<div class="calendar-month-body-row">
+													<div class="calendar-month-body-col break sunday">
+														<div class="calendar-col-inner">		
+															<div class="calendar-day-value"><div class="number">19</div><div class="state">정휴</div></div>
+															<div class="calendar-check-value"><label class="form-radiobox large"><input type="checkbox" name="check"><span class="form-check-icon"><em></em></span></label></div>
+														</div>
+													</div>
+													<div class="calendar-month-body-col">
+														<div class="calendar-col-inner">		
+															<div class="calendar-day-value"><div class="number">20</div><div class="state"></div></div>
+															<div class="calendar-check-value"><label class="form-radiobox large"><input type="checkbox" name="check"><span class="form-check-icon"><em></em></span></label></div>
+														</div>
+													</div>
+													<div class="calendar-month-body-col">
+														<div class="calendar-col-inner">		
+															<div class="calendar-day-value"><div class="number">21</div><div class="state"></div></div>
+															<div class="calendar-check-value"><label class="form-radiobox large"><input type="checkbox" name="check"><span class="form-check-icon"><em></em></span></label></div>
+														</div>
+													</div>
+													<div class="calendar-month-body-col">
+														<div class="calendar-col-inner">									
+															<div class="calendar-day-value"><div class="number">22</div><div class="state"></div></div>
+															<div class="calendar-check-value"><label class="form-radiobox large"><input type="checkbox" name="check"><span class="form-check-icon"><em></em></span></label></div>
+														</div>
+													</div>
+													<div class="calendar-month-body-col">
+														<div class="calendar-col-inner">									
+															<div class="calendar-day-value"><div class="number">23</div><div class="state"></div></div>
+															<div class="calendar-check-value"><label class="form-radiobox large"><input type="checkbox" name="check"><span class="form-check-icon"><em></em></span></label></div>
+														</div>
+													</div>
+													<div class="calendar-month-body-col break">
+														<div class="calendar-col-inner">
+															<div class="calendar-day-value"><div class="number">24</div><div class="state">정휴</div></div>
+															<div class="calendar-check-value"><label class="form-radiobox large"><input type="checkbox" name="check"><span class="form-check-icon"><em></em></span></label></div>
+														</div>
+													</div>
+													<div class="calendar-month-body-col">
+														<div class="calendar-col-inner">
+															<div class="calendar-day-value"><div class="number">25</div><div class="state"></div></div>
+															<div class="calendar-check-value"><label class="form-radiobox large"><input type="checkbox" name="check"><span class="form-check-icon"><em></em></span></label></div>
+														</div>
+													</div>
+												</div>
+												<div class="calendar-month-body-row">
+													<div class="calendar-month-body-col break sunday">
+														<div class="calendar-col-inner">		
+															<div class="calendar-day-value"><div class="number">26</div><div class="state">정휴</div></div>
+															<div class="calendar-check-value"><label class="form-radiobox large"><input type="checkbox" name="check"><span class="form-check-icon"><em></em></span></label></div>
+														</div>
+													</div>
+													<div class="calendar-month-body-col">
+														<div class="calendar-col-inner">		
+															<div class="calendar-day-value"><div class="number">27</div><div class="state"></div></div>
+															<div class="calendar-check-value"><label class="form-radiobox large"><input type="checkbox" name="check"><span class="form-check-icon"><em></em></span></label></div>
+														</div>
+													</div>
+													<div class="calendar-month-body-col">
+														<div class="calendar-col-inner">		
+															<div class="calendar-day-value"><div class="number">28</div><div class="state"></div></div>
+															<div class="calendar-check-value"><label class="form-radiobox large"><input type="checkbox" name="check"><span class="form-check-icon"><em></em></span></label></div>
+														</div>
+													</div>
+													<div class="calendar-month-body-col">
+														<div class="calendar-col-inner">									
+															<div class="calendar-day-value"><div class="number">29</div><div class="state"></div></div>
+															<div class="calendar-check-value"><label class="form-radiobox large"><input type="checkbox" name="check"><span class="form-check-icon"><em></em></span></label></div>
+														</div>
+													</div>
+													<div class="calendar-month-body-col">
+														<div class="calendar-col-inner">									
+															<div class="calendar-day-value"><div class="number">30</div><div class="state"></div></div>
+															<div class="calendar-check-value"><label class="form-radiobox large"><input type="checkbox" name="check"><span class="form-check-icon"><em></em></span></label></div>
+														</div>
+													</div>
+													<div class="calendar-month-body-col break after">
+														<div class="calendar-col-inner">
+															<div class="calendar-day-value"><div class="number">1</div><div class="state">정휴</div></div>
+														</div>
+													</div>
+													<div class="calendar-month-body-col after">
+														<div class="calendar-col-inner">
+															<div class="calendar-day-value"><div class="number">2</div><div class="state"></div></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- //캘린더 상세 -->
+						</div>
+						<div class="basic-data-group middle">
+							<div class="basic-data-group vvsmall">
+								<div class="con-title-group">
+									<h4 class="con-title">이용내역</h4>
+								</div>
+								<div class="card-link-list">
+									<div class="grid-layout-inner">
+										<div class="grid-layout-cell grid-2">
+											<div class="card-link-item">
+												<div class="item-value"><div class="use-value">횟수<br><strong>15회</strong></div></div>
+												<div class="item-data">
+													<div class="item-code">K164808992607</div>
+													<div class="item-price">평일 15회 종일 / 140,000원</div>
+													<div class="item-date">2022.03.24  11:30:01</div>
+												</div>
+												<div class="item-ui">
+													<a href="#" class="btn-data-arrow-gray">바로가기</a>
+												</div>
+											</div>
+										</div>
+										<div class="grid-layout-cell grid-2">
+											<div class="card-link-item">
+												<div class="item-value"><div class="use-value">횟수<br><strong>15회</strong></div></div>
+												<div class="item-data">
+													<div class="item-code">K164808992607</div>
+													<div class="item-price">평일 15회 종일 / 140,000원</div>
+													<div class="item-date">2022.03.24  11:30:01</div>
+												</div>
+												<div class="item-ui">
+													<a href="#" class="btn-data-arrow-gray">바로가기</a>
+												</div>
+											</div>
+										</div>
+										<div class="grid-layout-cell grid-2">
+											<div class="card-link-item">
+												<div class="item-value"><div class="use-value">횟수<br><strong>15회</strong></div></div>
+												<div class="item-data">
+													<div class="item-code">K164808992607</div>
+													<div class="item-price">평일 15회 종일 / 140,000원</div>
+													<div class="item-date">2022.03.24  11:30:01</div>
+												</div>
+												<div class="item-ui">
+													<a href="#" class="btn-data-arrow-gray">바로가기</a>
+												</div>
+											</div>
+										</div>
+										<div class="grid-layout-cell grid-2">
+											<div class="card-link-item">
+												<div class="item-value"><div class="use-value">횟수<br><strong>15회</strong></div></div>
+												<div class="item-data">
+													<div class="item-code">K164808992607</div>
+													<div class="item-price">평일 15회 종일 / 140,000원</div>
+													<div class="item-date">2022.03.24  11:30:01</div>
+												</div>
+												<div class="item-ui">
+													<a href="#" class="btn-data-arrow-gray">바로가기</a>
+												</div>
+											</div>
+										</div>
+										<div class="grid-layout-cell grid-2">
+											<div class="card-link-item">
+												<div class="item-value"><div class="use-value">횟수<br><strong>15회</strong></div></div>
+												<div class="item-data">
+													<div class="item-code">K164808992607</div>
+													<div class="item-price">평일 15회 종일 / 140,000원</div>
+													<div class="item-date">2022.03.24  11:30:01</div>
+												</div>
+												<div class="item-ui">
+													<a href="#" class="btn-data-arrow-gray">바로가기</a>
+												</div>
+											</div>
+										</div>
+										<div class="grid-layout-cell grid-2">
+											<div class="card-link-item">
+												<div class="item-value"><div class="use-value">횟수<br><strong>15회</strong></div></div>
+												<div class="item-data">
+													<div class="item-code">K164808992607</div>
+													<div class="item-price">평일 15회 종일 / 140,000원</div>
+													<div class="item-date">2022.03.24  11:30:01</div>
+												</div>
+												<div class="item-ui">
+													<a href="#" class="btn-data-arrow-gray">바로가기</a>
+												</div>
+											</div>
+										</div>
+										<div class="grid-layout-cell grid-2">
+											<div class="card-link-item">
+												<div class="item-value"><div class="use-value">횟수<br><strong>15회</strong></div></div>
+												<div class="item-data">
+													<div class="item-code">K164808992607</div>
+													<div class="item-price">평일 15회 종일 / 140,000원</div>
+													<div class="item-date">2022.03.24  11:30:01</div>
+												</div>
+												<div class="item-ui">
+													<a href="#" class="btn-data-arrow-gray">바로가기</a>
+												</div>
+											</div>
+										</div>
+										<div class="grid-layout-cell grid-2">
+											<div class="card-link-item">
+												<div class="item-value"><div class="use-value">횟수<br><strong>15회</strong></div></div>
+												<div class="item-data">
+													<div class="item-code">K164808992607</div>
+													<div class="item-price">평일 15회 종일 / 140,000원</div>
+													<div class="item-date">2022.03.24  11:30:01</div>
+												</div>
+												<div class="item-ui">
+													<a href="#" class="btn-data-arrow-gray">바로가기</a>
+												</div>
+											</div>
+										</div>
+										<div class="grid-layout-cell grid-2">
+											<div class="card-link-item">
+												<div class="item-value"><div class="use-value">횟수<br><strong>15회</strong></div></div>
+												<div class="item-data">
+													<div class="item-code">K164808992607</div>
+													<div class="item-price">평일 15회 종일 / 140,000원</div>
+													<div class="item-date">2022.03.24  11:30:01</div>
+												</div>
+												<div class="item-ui">
+													<a href="#" class="btn-data-arrow-gray">바로가기</a>
+												</div>
+											</div>
+										</div>
+										<div class="grid-layout-cell grid-2">
+											<div class="card-link-item">
+												<div class="item-value"><div class="use-value">횟수<br><strong>15회</strong></div></div>
+												<div class="item-data">
+													<div class="item-code">K164808992607</div>
+													<div class="item-price">평일 15회 종일 / 140,000원</div>
+													<div class="item-date">2022.03.24  11:30:01</div>
+												</div>
+												<div class="item-ui">
+													<a href="#" class="btn-data-arrow-gray">바로가기</a>
+												</div>
+											</div>
+										</div>
+										<div class="grid-layout-cell grid-2">
+											<div class="card-link-item">
+												<div class="item-value"><div class="use-value">횟수<br><strong>15회</strong></div></div>
+												<div class="item-data">
+													<div class="item-code">K164808992607</div>
+													<div class="item-price">평일 15회 종일 / 140,000원</div>
+													<div class="item-date">2022.03.24  11:30:01</div>
+												</div>
+												<div class="item-ui">
+													<a href="#" class="btn-data-arrow-gray">바로가기</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="pop-footer type-2">
+						<a href="#" class="btn-page-bottom">5일 선택완료 (10/15)</a>
+					</div>
+					<button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
+				</div>
+			</div>
+		</div>
+	</article>
+	<!-- //등원일 관리 팝업 -->
+</div>
+<!-- //wrap -->
+<script src="../assets/js/common.js"></script>
+</body>
+</html>
