@@ -1,1 +1,2 @@
-# banjjak_sol-shop-pc
+# 반짝 파트너 PC 웹사이트
+
