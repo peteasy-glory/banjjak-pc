@@ -434,8 +434,8 @@ button.btn-point-underline {display:inline-block; color:#6840b1; font-size:14px;
 .btn-red.press , a.btn-red.press , input[type=submit].btn-red.press , button.btn-red.press {color:#fff; border-color:#f03939; background-color:#f03939;}
 */
 .btn-black:hover , a.btn-black:hover , input[type=submit].btn-black:hover , button.btn-black:hover {color:#fff; border-color:#292929; background-color:#292929;}
-.btn-purple:hover , a.btn-purple:hover , input[type=submit].btn-purple:hover , button.btn-purple:hover {color:#fff; border-color:#5931a2; background-color:#5931a2;}
-.btn-yellow:hover , a.btn-yellow:hover , input[type=submit].btn-yellow:hover , button.btn-yellow:hover {color:#000; border-color:#eeca3f; background-color:#eeca3f;}
+/*.btn-purple:hover , a.btn-purple:hover , input[type=submit].btn-purple:hover , button.btn-purple:hover {color:#fff; border-color:#5931a2; background-color:#5931a2;}*/
+/*.btn-yellow:hover , a.btn-yellow:hover , input[type=submit].btn-yellow:hover , button.btn-yellow:hover {color:#000; border-color:#eeca3f; background-color:#eeca3f;}*/
 .btn-gray:hover , a.btn-gray:hover , input[type=submit].btn-gray:hover , button.btn-gray:hover {color:#000; border-color:#e5e5e5; background-color:#e5e5e5;}
 .btn-red:hover , a.btn-red:hover , input[type=submit].btn-red:hover , button.btn-red:hover {color:#fff; border-color:#f03939; background-color:#f03939;}
 
@@ -802,9 +802,14 @@ a.btn-page-bottom:disabled,
 /* 사용자 사진 */
 .user-thumb {position:relative; width:56px; height:56px; border-radius:50%; overflow:hidden; box-sizing:border-box; border:1px solid rgba(0, 0, 0, 0.02); background-color:#fafafa; background-repeat:no-repeat; background-position:center center;}
 .user-thumb > img {position:absolute;top:0;left:0;width:100%;height:100%; object-fit:cover;z-index:0;}
-.user-thumb {background-image:url(../images/icon/icon-none-thumb-small.png); background-size:40px auto;}
+/*.user-thumb {background-image:url(../images/icon/icon-none-thumb-small.png); background-size:40px auto;}*/
 .user-thumb.small {width:42px; height:42px; background-image:url(../images/icon/icon-none-user.png); background-size:30px auto;}
-.user-thumb.middle {width:72px; height:72px; background-image:url(../images/icon/icon-none-thumb-small.png); background-size:40px auto;}
+.user-thumb.middle {width:72px; height:72px;
+	/*background-image:url(../images/icon/icon-none-thumb-small.png); */
+	/*background-size:40px auto;*/
+}
+
+
 .user-thumb.smiddle {width:64px; height:64px; background-image:url(../images/icon/icon-none-thumb-middle.png); background-size:34px auto;}
 .user-thumb.large {width:90px; height:90px; background-image:url(../images/icon/icon-none-thumb-middle.png); background-size:64px auto;}
 
@@ -2070,13 +2075,13 @@ body {background:#fafafa;}
 .main-calendar-month-body-col .main-calendar-month-cate-group .main-calendar-drag-item-group {height:auto;}
 .main-calendar-month-body-col .main-calendar-month-cate-title {font-size:12px; line-height:15px; color:#666; width:100%; padding:4px 0; width:100%; text-align:center;}
 .main-calendar-month-body-col .main-calendar-drag-item-group {width:100%; height:100%; flex:1; padding:0 2px; box-sizing:border-box;}
-.main-calendar-month-body-col.break {background:#fafafa;}
+.main-calendar-month-body-col.break {background:#fafafa; transition:0.5s}
 .main-calendar-month-body-col.before .main-calendar-day-value,
-.main-calendar-month-body-col.after .main-calendar-day-value {opacity:0.2;}
+.main-calendar-month-body-col.after .main-calendar-day-value {display:none;}
 .main-calendar-month-body-col.today .main-calendar-day-value {background:#e3e3e3;}
 .main-calendar-month-body-col.today .main-calendar-day-value .number {color:#202020; font-weight:500;}
 .main-calendar-month-body-col.today .main-calendar-day-value .value {color:#999;}
-.main-calendar-month-body-col .main-calendar-day-value:hover {background:#6840b1; color:#fff;}
+.main-calendar-month-body-col .main-calendar-day-value:hover {background:#6840b1; color:#fff; transition: 0.5s}
 .main-calendar-month-body-col .main-calendar-day-value:hover .number {color:#fff; font-weight:500;}
 .main-calendar-month-body-col .main-calendar-day-value:hover .value {color:#fff;}
 /*
@@ -4498,3 +4503,5 @@ button.btn-surtax-set{height:26px;  padding:0 10px 0 4px; border-radius:13px;}
 .dark .card-link-item .item-code {color:#d8d8d8;}
 .dark .card-link-item .item-price {color:#8f8f8f;}
 .dark .card-link-item .item-date {color:#8f8f8f;}
+
+

@@ -6,3 +6,43 @@
 @import url(common.css);
 @import url(form.css);
 @import url(insight.min.css);
+
+
+/*disabled 커서 기본으로 변경*/
+.disabled {
+    cursor: default !important;
+}
+
+/*2022.07.28 메인페이지 */
+
+    /*스크롤 숨기기*/
+        body {
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+        body::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera*/
+        }
+
+    /*    .gnb-menu-list {*/
+    /*        -ms-overflow-style: none; !* IE and Edge *!*/
+    /*        scrollbar-width: none; !* Firefox *!*/
+    /*    }*/
+    /*    .gnb-menu-list::-webkit-scrollbar {*/
+    /*        display: none; !* Chrome, Safari, Opera*!*/
+    /*    }*/
+
+    /*    .card-body {*/
+    /*        -ms-overflow-style: none; !* IE and Edge *!*/
+    /*        scrollbar-width: none; !* Firefox *!*/
+    /*    }*/
+    /*    .card-body::-webkit-scrollbar {*/
+    /*        display: none; !* Chrome, Safari, Opera*!*/
+    /*    }*/
+
+    .swiper-slide {
+        max-height: 160px;
+    }
+
+
+
