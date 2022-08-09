@@ -40,7 +40,7 @@ function am_pm_check2(date){
 
     let _date = date_[1].split(':');
 
-    return `${date_[0]} ${am_pm_check(_date[0])}:${_date[1]}:${_date[2]}`
+    return `${date_[0]} ${am_pm_check(_date[0])}:${_date[1]}`
 
 }
 
@@ -563,6 +563,8 @@ function renderCalendar_mini() {
 }
 
 function _renderCalendar_mini(){
+
+
     renderCalendar_mini()
         .then(function (div_dates){
             for (let i = 0; i < div_dates.length; i++) {
@@ -694,9 +696,10 @@ function schedule_render(){
                 reserve_schedule().then(function(){
                     cols().then(function (){
 
+
                         let color;
                         body.forEach(function (el){
-                            console.log(el);
+
 
                             Array.from(document.getElementsByClassName('calendar-day-body-col')).forEach(function (el_){
 
@@ -708,6 +711,9 @@ function schedule_render(){
                                         default : color = ''; break;
 
                                     }
+
+                                    el_.setAttribute('data-pay',el.product.payment_idx)
+
                                     let multiple = (new Date(el.product.date.booking_fi).getTime() - new Date(el.product.date.booking_st).getTime())/1800000;
                                     el_.innerHTML = `<div class="calendar-drag-item-group">
                                                                         <a href="#" class="btn-calendar-add">등록하기</a>
@@ -744,6 +750,8 @@ function schedule_render(){
 
 
                         })
+
+                        day_drag();
                     });
                 });
 
@@ -1584,9 +1592,9 @@ function cols(){
 
 
                     })
-                    console.log(break_times);
 
                     body.forEach(function (el){
+
                         if(el.is_show && !el.is_leave){
                             el.work.forEach(function (el_){
                                 if(parseInt(el_.week) === date.getDay() ){
@@ -1841,4 +1849,82 @@ function break_time(){
 
         }
     })
+}
+
+
+
+function day_drag(){
+    $('.calendar-day-body-col').each(function(){
+        $(this).on('click',function(){
+        })
+        if(!$(this).hasClass('break') && !$(this).hasClass('time')){
+            //휴무가 아닐 경우 드래그앤 드롭 가능 처리
+            var sortable = Sortable.create($(this).find('.calendar-drag-item-group')[0] , {
+                group : 'shared',
+                delay : 250,
+                delayOnTouchOnly : true,
+                ghostClass: 'guide',
+                draggable : '.calendar-week-time-item',
+                onStart : function(evt){
+                    //드래그 시작
+                    console.log('drag start');
+                },
+                onEnd : function(evt){
+                    //드래그 끝
+                    console.log('drag end');
+                    //evt.to;    // 현재 아이템
+                    //evt.from;  // 이전 아이템
+                    //evt.oldIndex;  // 이전 인덱스값
+                    //evt.newIndex;  // 새로운 인덱스값
+
+                    if(evt.from != evt.to){
+                        console.log($(evt.from).parent().attr("data-nick"));
+                        _thisWorker = $(evt.from).parent().attr("data-nick");
+                        _thisYear = $(evt.from).parent().attr("data-year");
+                        _thisMonth = $(evt.from).parent().attr("data-month")
+                        _thisDate = $(evt.from).parent().attr("data-date");
+                        _thisHour = $(evt.from).parent().attr("data-hour");
+                        _thisMinutes = $(evt.from).parent().attr("data-minutes")
+                        _thisTimeStart   = $(evt.from).parent().attr("data-time-to");
+                        _thisTimeEnd   = $(evt.from).parent().attr("data-time-from");
+                        thisLogSeq = $(evt.from).parent().attr("data-pay");
+
+
+                        thisWorker = $(evt.to).parent().attr("data-nick");
+                        thisYear = $(evt.to).parent().attr("data-year");
+                        thisMonth = $(evt.to).parent().attr("data-month")
+                        thisDate = $(evt.to).parent().attr("data-date");
+                        thisHour = $(evt.to).parent().attr("data-hour");
+                        thisMinutes = $(evt.to).parent().attr("data-minutes")
+                        thisTimeStart   = $(evt.to).parent().attr("data-time-to");
+                        thisTimeEnd   = $(evt.to).parent().attr("data-time-from");
+                        thisWorker2 = $(evt.to).parent().attr("data-name");
+
+                        $("#reserveCalendarPop4 .con-title").text(thisWorker);
+                        $("#reserveCalendarPop4 .msg-text-date").text(am_pm_check2(`${thisYear}.${fill_zero(parseInt(thisMonth)+1)}.${fill_zero(thisDate)} ${fill_zero(thisHour)}:${fill_zero(thisMinutes)}`));
+
+                        $("#reserveCalendarPop4 input[name='log_type']").val("week");
+                        $("#reserveCalendarPop4 input[name='log_seq']").val(thisLogSeq);
+                        $("#reserveCalendarPop4 input[name='log_worker']").val(thisWorker2);
+                        $("#reserveCalendarPop4 input[name='log_date']").val(thisDate);
+                        $("#reserveCalendarPop4 input[name='log_start_time']").val(thisTimeStart);
+                        $("#reserveCalendarPop4 input[name='log_end_time']").val(thisTimeEnd);
+                        $("#reserveCalendarPop4 input[name='log_move_start_time']").val(thisHour);
+
+                        pop.open('reserveCalendarPop4');
+                    }
+                },
+                onUpdate : function(evt){
+                    console.log('update');
+                },
+                onUpdate : function(evt){
+                    console.log('onChange');
+                },
+                onRemove: function (/**Event*/evt) {
+                    console.log('remove');
+                }
+
+            });
+        }
+    });
 }

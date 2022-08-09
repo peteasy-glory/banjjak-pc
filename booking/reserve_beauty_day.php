@@ -224,7 +224,24 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 		<div class="tooltip-desc">내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. </div>
 	</div>
 </div>
-
+<article id="reserveCalendarPop4" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data alert-pop-data">
+                <div class="pop-header">
+                    <h4 class="con-title"></h4>
+                </div>
+                <div class="pop-body type-3">
+                    <div class="msg-txt"><span class="msg-text-date"></span><br><br>선택한 예약을<br>이 곳으로 변경합니다.</div>
+                </div>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm" onclick="pop.close();">확인</button>
+                    <button type="button" class="btn btn-confirm" onclick="location.reload();">예약변경취소</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
 
 <script src="../static/js/common.js"></script>
 <script src="../static/js/Sortable.min.js"></script>
@@ -243,11 +260,12 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
         btn_month_simple()
         mini_calendar_init()
             .then(function(){
-                _renderCalendar_mini();
+                _renderCalendar_mini()
+
+                })
 
 
 
-             })
         gnb_actived('gnb_reserve_wrap','gnb_beauty');
         btn_schedule();
 
@@ -266,40 +284,12 @@ $(function(){
 
 	//https://github.com/SortableJS/Sortable
 
-	$('.calendar-day-body-col').each(function(){
-		if(!$(this).hasClass('break') && !$(this).hasClass('time')){
-			//휴무가 아닐 경우 드래그앤 드롭 가능 처리
-			var sortable = Sortable.create($(this).find('.calendar-drag-item-group')[0] , {
-				group : 'shared',
-				delay : 250,
-				delayOnTouchOnly : true,
-				ghostClass: 'guide',
-				draggable : '.calendar-week-time-item',
-				onStart : function(evt){
-					//드래그 시작
-					console.log('drag start');
-				},
-				onEnd : function(evt){
-					//드래그 끝
-					console.log('drag end');
-					//evt.to;    // 현재 아이템
-					//evt.from;  // 이전 아이템
-					//evt.oldIndex;  // 이전 인덱스값
-					//evt.newIndex;  // 새로운 인덱스값
-				},
-				onUpdate : function(evt){
-					console.log('update');
-				},
-				onUpdate : function(evt){
-					console.log('onChange');
-				},
-				onRemove: function (/**Event*/evt) {
-					console.log('remove');
-				}
 
-			});
-		}
-	});
+
+
+
+
+
 
 
 
