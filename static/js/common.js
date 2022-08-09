@@ -16,7 +16,7 @@ var include = {
     },
     header: function () {
         var _html = `<div class="header-wrap">
-                        <h1><a href="#">반짝 반려미용샵의 단짝</a></h1>
+                        <h1><a href="http://localhost:83/home/index.php">반짝 반려미용샵의 단짝</a></h1>
                         <div class="header-menu-wrap">
                             <div class="header-menu">
                                 <!--header-menu-cell 클래스에 actived 클랫 추가시 활성화 -->
@@ -30,7 +30,7 @@ var include = {
                                     <a href="#">예약 접수하기</a>
                                 </div>
                                 <div class="header-menu-cell">
-                                    <a href="#">상담대기
+                                    <a href="../booking/reserve_advice_view.php">상담대기
                                         <div class="label label-pink consulting_count"></div>
                                     </a>
                                 </div>
@@ -172,7 +172,7 @@ var include = {
                             <div class="gnb-menu-list">
                                 <div class="gnb-menu-inner">
                                     <!-- gnb-menu-cell 클래스에 페이지 진입시 actived클래스와 actived클래스 추가시 활성화-->
-                                    <div class="gnb-menu-cell">
+                                    <div class="gnb-menu-cell" id="gnb_home">
                                         <a href="./index.php" class="btn-gnb-nav">
                                             <span class="nav-icons">
                                                 <span class="icon icon-size-24 icon-gnb-menu-home-black off"></span>
@@ -181,7 +181,7 @@ var include = {
                                             <span class="nav-txt">홈</span>
                                         </a>
                                     </div>
-                                    <div class="gnb-menu-cell">
+                                    <div class="gnb-menu-cell " id="gnb_reserve_wrap">
                                         <a href="#" class="btn-gnb-nav">
                                             <span class="nav-icons">
                                                 <span class="icon icon-size-24 icon-calendar-black off"></span>
@@ -190,36 +190,36 @@ var include = {
                                             <span class="nav-txt">예약 관리</span>
                                         </a>
                                         <!-- 2뎁스 메뉴가 있을 시 아래 구조로 처리 요망 -->
-                                        <div class="snb-menu-list">
+                                        <div class="snb-menu-list" >
                                         <!-- snb-menu-cell 클래스에 actived클래스 추가시 활성화 -->
-                                            <div class="snb-menu-cell">
+                                            <div class="snb-menu-cell" id="gnb_beauty">
                                                 <a href="#" class="btn-snb-nav">
                                                     <div class="txt">미용 예약 관리</div>
                                                 </a>
                                             </div>
-                                            <div class="snb-menu-cell">
+                                            <div class="snb-menu-cell" id="gnb_hotel">
                                                 <a href="#" class="btn-snb-nav">
                                                     <div class="txt">호텔 예약 관리</div>
                                                 </a>
                                             </div>
-                                            <div class="snb-menu-cell">
+                                            <div class="snb-menu-cell" id="gnb_kindergarden">
                                                 <a href="#" class="btn-snb-nav">
                                                 <div class="txt">유치원 예약 관리</div>
                                                 </a>
                                             </div>
-                                            <div class="snb-menu-cell">
-                                                <a href="#" class="btn-snb-nav">
+                                            <div class="snb-menu-cell" id="gnb_consulting">
+                                                <a href="../booking/reserve_advice_view.php" class="btn-snb-nav">
                                                     <div class="txt">상담 대기</div>
                                                 </a>
                                             </div>
-                                            <div class="snb-menu-cell">
+                                            <div class="snb-menu-cell" id="gnb_reserve">
                                                 <a href="#" class="btn-snb-nav">
                                                     <div class="txt">예약 접수하기</div>
                                                 </a>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="gnb-menu-cell">
+                                    <div class="gnb-menu-cell " id="gnb_customer_wrap">
                                         <a href="#" class="btn-gnb-nav">
                                             <span class="nav-icons">
                                                 <span class="icon icon-size-24 icon-dubble-user-black off"></span>
@@ -227,30 +227,30 @@ var include = {
                                             </span>
                                             <span class="nav-txt">고객 관리</span>
                                         </a>
-                                        <div class="snb-menu-list">
-                                            <div class="snb-menu-cell">
+                                        <div class="snb-menu-list" >
+                                            <div class="snb-menu-cell" id="gnb_inquire">
                                                 <a href="#" class="btn-snb-nav">
                                                     <div class="txt">빠른 조회하기</div>
                                                 </a>
                                             </div>
-                                            <div class="snb-menu-cell">
+                                            <div class="snb-menu-cell" id="gnb_inquire_all">
                                                 <a href="#" class="btn-snb-nav">
                                                     <div class="txt">전체 고객 조회</div>
                                                 </a>
                                             </div>
-                                            <div class="snb-menu-cell">
+                                            <div class="snb-menu-cell" id="gnb_new">
                                                 <a href="#" class="btn-snb-nav">
                                                     <div class="txt">신규 등록</div>
                                                 </a>
                                             </div>
-                                            <div class="snb-menu-cell">
+                                            <div class="snb-menu-cell" id="gnb_grade">
                                                 <a href="#" class="btn-snb-nav">
                                                     <div class="txt">회원 등급 설정</div>
                                                 </a>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="gnb-menu-cell">
+                                    <div class="gnb-menu-cell" id="gnb_shop_wrap">
                                         <a href="#" class="btn-gnb-nav">
                                             <span class="nav-icons">
                                                 <span class="icon icon-size-24 icon-shop-black off"></span>
@@ -258,35 +258,35 @@ var include = {
                                             </span>
                                             <span class="nav-txt">샵 관리</span>
                                         </a>
-                                        <div class="snb-menu-list">
+                                        <div class="snb-menu-list" id="gnb_front">
                                             <div class="snb-menu-cell">
                                                 <a href="#" class="btn-snb-nav">
                                                     <div class="txt">샵 대문 관리</div>
                                                 </a>
                                             </div>
-                                            <div class="snb-menu-cell">
+                                            <div class="snb-menu-cell" id="gnb_info">
                                                 <a href="#" class="btn-snb-nav">
                                                     <div class="txt">샵 정보 관리</div>
                                                 </a>
                                             </div>
-                                            <div class="snb-menu-cell">
+                                            <div class="snb-menu-cell" id="gnb_portfolio">
                                                 <a href="#" class="btn-snb-nav">
                                                     <div class="txt">포트폴리오 관리</div>
                                                 </a>
                                             </div>
-                                            <div class="snb-menu-cell">
+                                            <div class="snb-menu-cell" id="gnb_review">
                                                 <a href="#" class="btn-snb-nav">
                                                     <div class="txt">샵 후기 관리</div>
                                                 </a>
                                             </div>
-                                            <div class="snb-menu-cell">
+                                            <div class="snb-menu-cell" id="gnb_blog">
                                                 <a href="#" class="btn-snb-nav">
                                                     <div class="txt">샵 연동 블로그 관리</div>
                                                 </a>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="gnb-menu-cell">
+                                    <div class="gnb-menu-cell" id="gnb_detail_wrap">
                                         <a href="#" class="btn-gnb-nav">
                                             <span class="nav-icons">
                                                 <span class="icon icon-size-24 icon-set-black off"></span>
@@ -294,40 +294,40 @@ var include = {
                                             </span>
                                             <span class="nav-txt">상세 설정</span>
                                         </a>
-                                        <div class="snb-menu-list">
+                                        <div class="snb-menu-list" id="gnb_schedule">
                                             <div class="snb-menu-cell">
                                                 <a href="#" class="btn-snb-nav">
                                                     <div class="txt">일정 관리</div>
                                                 </a>
                                             </div>
-                                            <div class="snb-menu-cell">
+                                            <div class="snb-menu-cell" id="gnb_authority">
                                                 <a href="#" class="btn-snb-nav">
                                                     <div class="txt">권한 설정</div>
                                                 </a>
                                             </div>
-                                            <div class="snb-menu-cell">
+                                            <div class="snb-menu-cell" id="gnb_artist">
                                                 <a href="#" class="btn-snb-nav">
                                                     <div class="txt">미용사 관리</div>
                                                 </a>
                                             </div>
-                                            <div class="snb-menu-cell">
+                                            <div class="snb-menu-cell" id="gnb_merchandise">
                                                 <a href="#" class="btn-snb-nav">
                                                     <div class="txt">판매 상품 관리</div>
                                                 </a>
                                             </div>
-                                            <div class="snb-menu-cell">
+                                            <div class="snb-menu-cell" id="gnb_keep">
                                                 <a href="#" class="btn-snb-nav">
                                                     <div class="txt">적립금 설정</div>
                                                 </a>
                                             </div>
-                                            <div class="snb-menu-cell">
+                                            <div class="snb-menu-cell" id="gnb_payment">
                                                 <a href="#" class="btn-snb-nav">
                                                     <div class="txt">결제 방식</div>
                                                 </a>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="gnb-menu-cell">
+                                    <div class="gnb-menu-cell" id="gnb_stats_wrap">
                                         <a href="#" class="btn-gnb-nav">
                                             <span class="nav-icons">
                                                 <span class="icon icon-size-24 icon-money-black off"></span>
@@ -335,7 +335,7 @@ var include = {
                                             </span>
                                             <span class="nav-txt">판매 실적</span>
                                         </a>
-                                        <div class="snb-menu-list">
+                                        <div class="snb-menu-list" id="gnb_stats">
                                             <div class="snb-menu-cell">
                                                 <a href="#" class="btn-snb-nav">
                                                     <div class="txt">판매실적 조회</div>
@@ -343,7 +343,7 @@ var include = {
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="gnb-menu-cell">
+                                    <div class="gnb-menu-cell" id="gnb_etc_wrap">
                                         <a href="#" class="btn-gnb-nav">
                                             <span class="nav-icons">
                                                 <span class="icon icon-size-24 icon-other off"></span>
@@ -352,17 +352,17 @@ var include = {
                                             <span class="nav-txt">기타</span>
                                         </a>
                                         <div class="snb-menu-list">
-                                            <div class="snb-menu-cell">
+                                            <div class="snb-menu-cell" id="gnb_notice">
                                                 <a href="#" class="btn-snb-nav">
                                                     <div class="txt">공지사항</div>
                                                 </a>
                                             </div>
-                                            <div class="snb-menu-cell">
+                                            <div class="snb-menu-cell" id="gnb_ask">
                                                 <a href="#" class="btn-snb-nav">
                                                     <div class="txt">문의하기</div>
                                                 </a>
                                             </div>
-                                            <div class="snb-menu-cell">
+                                            <div class="snb-menu-cell" id="gnb_profile">
                                                 <a href="#" class="btn-snb-nav">
                                                     <div class="txt">회원정보 관리</div>
                                                 </a>
@@ -865,4 +865,23 @@ function input_enter(form_el,btn_el){
     })
 
 
+}
+
+function phone_edit(phone){
+
+    return phone.replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`)
+}
+
+function gnb_actived(element1,element2) {
+
+    switch (arguments.length){
+
+        case 1 :document.getElementById(element1).classList.add('actived','current'); break;
+
+        case 2 : document.getElementById(element1).classList.add('actived','current');
+                 document.getElementById(element2).classList.add('actived');
+                 break;
+
+
+    }
 }

@@ -21,24 +21,74 @@
             scrollbar-width: none; /* Firefox */
         }
         body::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, Opera*/
+            width:4px;
+            /*display: none; !* Chrome, Safari, Opera*!*/
+            background: #b4b4b4;
+        }
+        body::-webkit-scrollbar-thumb {
+            /*display: none; !* Chrome, Safari, Opera*!*/
+            background:#FDD94E;
+        }
+        body::-webkit-scrollbar-track {
+            /*display: none; !* Chrome, Safari, Opera*!*/
+            background: #b4b4b4;
         }
 
-    /*    .gnb-menu-list {*/
-    /*        -ms-overflow-style: none; !* IE and Edge *!*/
-    /*        scrollbar-width: none; !* Firefox *!*/
-    /*    }*/
-    /*    .gnb-menu-list::-webkit-scrollbar {*/
-    /*        display: none; !* Chrome, Safari, Opera*!*/
-    /*    }*/
+        .gnb-menu-list {
+            /*-ms-overflow-style: none; !* IE and Edge *!*/
+            /*scrollbar-width: none; !* Firefox *!*/
+        }
 
-    /*    .card-body {*/
-    /*        -ms-overflow-style: none; !* IE and Edge *!*/
-    /*        scrollbar-width: none; !* Firefox *!*/
-    /*    }*/
-    /*    .card-body::-webkit-scrollbar {*/
-    /*        display: none; !* Chrome, Safari, Opera*!*/
-    /*    }*/
+        .gnb-menu-list::-webkit-scrollbar {
+            width:3px;
+            /*display: none; !* Chrome, Safari, Opera*!*/
+            background: #b4b4b4;
+        }
+
+        .gnb-menu-list::-webkit-scrollbar-thumb {
+            /*display: none; !* Chrome, Safari, Opera*!*/
+            background:#FDD94E;
+        }
+        .gnb-menu-list::-webkit-scrollbar-track {
+            /*display: none; !* Chrome, Safari, Opera*!*/
+            background: #b4b4b4;
+        }
+
+        .card-body {
+            /*-ms-overflow-style: none; !* IE and Edge *!*/
+            /*scrollbar-width: none; !* Firefox *!*/
+        }
+        .card-body::-webkit-scrollbar {
+            width:3px;
+            /*display: none; !* Chrome, Safari, Opera*!*/
+            background: #b4b4b4;
+        }
+        .card-body::-webkit-scrollbar-thumb {
+            /*display: none; !* Chrome, Safari, Opera*!*/
+            background: white;
+            background:#FDD94E;
+        }
+        .card-body::-webkit-scrollbar-track {
+            /*display: none; !* Chrome, Safari, Opera*!*/
+            background: white;
+            background: #b4b4b4;
+        }
+
+        select::-webkit-scrollbar {
+            width:3px;
+            /*display: none; !* Chrome, Safari, Opera*!*/
+            background: #b4b4b4;
+        }
+        select::-webkit-scrollbar-thumb {
+            /*display: none; !* Chrome, Safari, Opera*!*/
+            background: white;
+            background:#FDD94E;
+        }
+        select::-webkit-scrollbar-track {
+            /*display: none; !* Chrome, Safari, Opera*!*/
+            background: white;
+            background: #b4b4b4;
+        }
 
     .swiper-slide {
         max-height: 160px;

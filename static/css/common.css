@@ -811,7 +811,7 @@ a.btn-page-bottom:disabled,
 
 
 .user-thumb.smiddle {width:64px; height:64px; background-image:url(../images/icon/icon-none-thumb-middle.png); background-size:34px auto;}
-.user-thumb.large {width:90px; height:90px; background-image:url(../images/icon/icon-none-thumb-middle.png); background-size:64px auto;}
+.user-thumb.large {width:90px; height:90px; }
 
 /* 컨텐츠 사진 */
 .content-thumb {position:relative; width:105px; height:105px; border-radius:12px; overflow:hidden; box-sizing:border-box; border:1px solid rgba(0, 0, 0, 0.02);background-color:#fafafa; background-repeat:no-repeat; background-position:center center;}
@@ -1057,7 +1057,7 @@ button.btn-basic-item-ui-item:hover {background:#fbfbfb;}
 .thema-gray-item .item-state2 {font-size:14px; padding:0 8px; font-weight:500; box-sizing:border-box; text-align:center; min-width:80px;}
 .thema-gray-item + .thema-gray-item {margin-top:10px;}
 .thema-gray-item.white {background:#fff; border:1px solid #ebebeb;}
-.thema-gray-item.white.actived {border:2px solid #6840b1;}
+.thema-gray-item.white.actived {border:2px solid #6840b1; padding: 23px; }
 .thema-gray-item:hover {background-color:#fbfbfb;}
 
 /* 상품형 리스트 아이템 */
@@ -1822,7 +1822,7 @@ body {background:#fafafa;}
 .data-col-left > .basic-data-card {flex:0 0 auto;}
 .data-col-left > .basic-data-card + .basic-data-card {margin-top:20px;}
 .data-col-left > .basic-data-card.fuild {}
-.data-col-right {flex:0 0 403px;  display:flex; flex-direction:column; padding:0 14px; box-sizing:border-box; max-height:calc( 100vh - 129px );}
+.data-col-right {flex:0 0 403px;  display:flex; flex-direction:column; padding:0 14px; box-sizing:border-box; max-height:calc( 100vh - 129px ); transition: 0.3s}
 .data-col-right > .basic-data-card {/*max-height:100%;*/ height:100%; display:flex; flex-direction:column;}
 .data-col-right > .basic-data-card > .card-body {flex:1; min-height:0px; height:100%; overflow-x:hidden; overflow-y:auto;}
 .data-col-right > .basic-data-card > .card-header {flex:0 0 auto;}
@@ -2142,7 +2142,8 @@ body {background:#fafafa;}
 .mini-calendar-month-body-col .mini-calendar-drag-item-group {width:100%; height:100%; flex:1; padding:0 2px; box-sizing:border-box;}
 .mini-calendar-month-body-col.break {background:#fafafa;}
 .mini-calendar-month-body-col.before .mini-calendar-day-value,
-.mini-calendar-month-body-col.after .mini-calendar-day-value {opacity:0.2;}
+.mini-calendar-month-body-col.after .mini-calendar-day-value {display:none;}
+
 /*
 .mini-calendar-month-body-col.current .mini-calendar-day-value {background:#e3e3e3;}
 .mini-calendar-month-body-col.current .mini-calendar-day-value .number {color:#202020; font-weight:500;}
@@ -2157,7 +2158,7 @@ body {background:#fafafa;}
 .mini-calendar-month-body-col.actived .mini-calendar-day-value {background:#6840b1;  color:#fff;}
 .mini-calendar-month-body-col.actived .mini-calendar-day-value .number {color:#fff; font-weight:500;}
 .mini-calendar-month-body-col.actived .mini-calendar-day-value .value {color:#fff;}
-.mini-calendar-month-body-col .mini-calendar-day-value:hover {background:#6840b1; color:#fff;}
+.mini-calendar-month-body-col .mini-calendar-day-value:hover {background:#6840b1; color:#fff; transition:0.5s;}
 .mini-calendar-month-body-col .mini-calendar-day-value:hover .number {color:#fff; font-weight:500;}
 .mini-calendar-month-body-col .mini-calendar-day-value:hover .value {color:#fff;}
 .mini-calendar-month-body-col.before .mini-calendar-day-value:hover {background:transparent; color:#202020;}
@@ -2832,8 +2833,23 @@ table.terms-table > tbody > tr > td {padding:10px 10px; font-size:14px; line-hei
 .reserve-calendar-label-state.whitemint {background:#99e8ca;}
 .reserve-calendar-label-state.whiteblue {background:#b3c0e2;}
 
-.calendar-title-sort {position:absolute; top:100%; left:50%; display:none; z-index:15; transform:translate(-50% , 0%); }
-.calendar-title-sort.actived {display:block;}
+.calendar-title-sort {
+	display:none;
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	z-index: 15;
+	transform: translate(-50% , 0%);
+	/*opacity: 0;*/
+	/*transition: 0.3s;*/
+	/*visibility: hidden;*/
+}
+.calendar-title-sort.actived {
+	display:block;
+	/*opacity: 1;*/
+	/*transition: 0.3s;*/
+	/*visibility: visible;*/
+}
 .calendar-title-sort .simple-calendar-wrap {width:260px; margin-top:8px;}
 
 .simple-calendar-wrap {border-radius: 8px;  box-shadow: 3px 5px 8px 0 rgba(0, 0, 0, 0.2);  border: solid 1px #e5e5e5;  background-color: #fff;}
