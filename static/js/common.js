@@ -35,114 +35,114 @@ var include = {
                                     </a>
                                 </div>
                             </div>
-                            <div class="header-alarm">
-                                <!-- 알람 있을때 btn-page-alarm 클래스에 actived클래스 추가시 활성화 -->
-                                <button type="button" class="btn-page-ui btn-page-alarm btn-header-alarm-toggle actived">
-                                    <span class="icon icon-size-24 icon-page-alarm">알람</span>
-                                </button>
-                                <div class="header-alarm-wrap">
-                                    <div class="header-alarm-top">
-                                        <div class="header-alarm-title">반짝 알림</div>
-                                        <button type="button" class="btn-header-alarm-toggle btn-header-alarm-close">닫기</button>
-                                    </div>
-                                    <div class="header-alarm-body">
-                                        <!-- 데이타 있을 때 -->
-                                        <div class="alarm-list-wrap">
-                                            <div class="list-cell">
-                                                <div class="alarm-list-item">
-                                                    <div class="logo"></div>
-                                                    <div class="info-wrap">
-                                                        <div class="info-inner">
-                                                            <div class="item-subject">반짝, 미용 예약 안내</div>
-                                                            <div class="item-info">예약일 (3월10일) 3일전입니다. 고객님의 귀여운 아이들 뷰티를 위해 최선을 다하도록 하겠습니다.</div>
-                                                            <div class="item-date">3일전</div>
-                                                        </div>
-                                                    </div>
-                                                    <button type="button" class="btn-alarm-del">삭제</button>
-                                                </div>
-                                            </div>
-                                            <div class="list-cell">
-                                                <div class="alarm-list-item">
-                                                    <div class="logo"></div>
-                                                    <div class="info-wrap">
-                                                        <div class="info-inner">
-                                                            <div class="item-subject">반짝, 미용 예약 안내</div>
-                                                            <div class="item-info">예약일 (3월10일) 3일전입니다. 고객님의 귀여운 아이들 뷰티를 위해 최선을 다하도록 하겠습니다.</div>
-                                                            <div class="item-date">3일전</div>
-                                                        </div>
-                                                    </div>
-                                                    <button type="button" class="btn-alarm-del">삭제</button>
-                                                </div>
-                                            </div>
-                                            <div class="list-cell">
-                                                <div class="alarm-list-item">
-                                                    <div class="logo"></div>
-                                                    <div class="info-wrap">
-                                                        <div class="info-inner">
-                                                            <div class="item-subject">반짝, 미용 예약 안내</div>
-                                                            <div class="item-info">예약일 (3월10일) 3일전입니다. 고객님의 귀여운 아이들 뷰티를 위해 최선을 다하도록 하겠습니다.</div>
-                                                            <div class="item-date">3일전</div>
-                                                        </div>
-                                                    </div>
-                                                    <button type="button" class="btn-alarm-del">삭제</button>
-                                                </div>
-                                            </div>
-                                            <div class="list-cell">
-                                                <div class="alarm-list-item">
-                                                    <div class="logo"></div>
-                                                    <div class="info-wrap">
-                                                        <div class="info-inner">
-                                                            <div class="item-subject">반짝, 미용 예약 안내</div>
-                                                            <div class="item-info">예약일 (3월10일) 3일전입니다. 고객님의 귀여운 아이들 뷰티를 위해 최선을 다하도록 하겠습니다.</div>
-                                                            <div class="item-date">3일전</div>
-                                                        </div>
-                                                    </div>
-                                                    <button type="button" class="btn-alarm-del">삭제</button>
-                                                </div>
-                                            </div>
-                                            <div class="list-cell">
-                                                <div class="alarm-list-item">
-                                                    <div class="logo"></div>
-                                                    <div class="info-wrap">
-                                                        <div class="info-inner">
-                                                            <div class="item-subject">반짝, 미용 예약 안내</div>
-                                                            <div class="item-info">예약일 (3월10일) 3일전입니다. 고객님의 귀여운 아이들 뷰티를 위해 최선을 다하도록 하겠습니다.</div>
-                                                            <div class="item-date">3일전</div>
-                                                        </div>
-                                                    </div>
-                                                    <button type="button" class="btn-alarm-del">삭제</button>
-                                                </div>
-                                            </div>
-                                            <div class="list-cell">
-                                                <div class="alarm-list-item">
-                                                    <div class="logo"></div>
-                                                    <div class="info-wrap">
-                                                        <div class="info-inner">
-                                                            <div class="item-subject">반짝, 미용 예약 안내</div>
-                                                                <div class="item-info">예약일 (3월10일) 3일전입니다. 고객님의 귀여운 아이들 뷰티를 위해 최선을 다하도록 하겠습니다.</div>
-                                                                <div class="item-date">3일전</div>
-                                                            </div>
-                                                        </div>
-                                                        <button type="button" class="btn-alarm-del">삭제</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- //데이타 있을 때 -->
-                                            
-                                            <!-- 데이타 없을 때 -->
-                                            <div class="common-none-data">
-                                                <div class="none-inner">
-                                                    <div class="item-visual">
-                                                        <img src="../../static/images/icon/img-illust-3@2x.png" alt="" width="103">
-                                                    </div>
-                                                    <div class="item-info">알림이 없습니다.</div>
-                                                </div>
-                                            </div>
-                                            <!-- //데이타 없을 때 -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+<!--                            <div class="header-alarm">-->
+<!--                                &lt;!&ndash; 알람 있을때 btn-page-alarm 클래스에 actived클래스 추가시 활성화 &ndash;&gt;-->
+<!--                                <button type="button" class="btn-page-ui btn-page-alarm btn-header-alarm-toggle actived">-->
+<!--                                    <span class="icon icon-size-24 icon-page-alarm">알람</span>-->
+<!--                                </button>-->
+<!--                                <div class="header-alarm-wrap">-->
+<!--                                    <div class="header-alarm-top">-->
+<!--                                        <div class="header-alarm-title">반짝 알림</div>-->
+<!--                                        <button type="button" class="btn-header-alarm-toggle btn-header-alarm-close">닫기</button>-->
+<!--                                    </div>-->
+<!--                                    <div class="header-alarm-body">-->
+<!--                                        &lt;!&ndash; 데이타 있을 때 &ndash;&gt;-->
+<!--                                        <div class="alarm-list-wrap">-->
+<!--                                            <div class="list-cell">-->
+<!--                                                <div class="alarm-list-item">-->
+<!--                                                    <div class="logo"></div>-->
+<!--                                                    <div class="info-wrap">-->
+<!--                                                        <div class="info-inner">-->
+<!--                                                            <div class="item-subject">반짝, 미용 예약 안내</div>-->
+<!--                                                            <div class="item-info">예약일 (3월10일) 3일전입니다. 고객님의 귀여운 아이들 뷰티를 위해 최선을 다하도록 하겠습니다.</div>-->
+<!--                                                            <div class="item-date">3일전</div>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                    <button type="button" class="btn-alarm-del">삭제</button>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <div class="list-cell">-->
+<!--                                                <div class="alarm-list-item">-->
+<!--                                                    <div class="logo"></div>-->
+<!--                                                    <div class="info-wrap">-->
+<!--                                                        <div class="info-inner">-->
+<!--                                                            <div class="item-subject">반짝, 미용 예약 안내</div>-->
+<!--                                                            <div class="item-info">예약일 (3월10일) 3일전입니다. 고객님의 귀여운 아이들 뷰티를 위해 최선을 다하도록 하겠습니다.</div>-->
+<!--                                                            <div class="item-date">3일전</div>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                    <button type="button" class="btn-alarm-del">삭제</button>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <div class="list-cell">-->
+<!--                                                <div class="alarm-list-item">-->
+<!--                                                    <div class="logo"></div>-->
+<!--                                                    <div class="info-wrap">-->
+<!--                                                        <div class="info-inner">-->
+<!--                                                            <div class="item-subject">반짝, 미용 예약 안내</div>-->
+<!--                                                            <div class="item-info">예약일 (3월10일) 3일전입니다. 고객님의 귀여운 아이들 뷰티를 위해 최선을 다하도록 하겠습니다.</div>-->
+<!--                                                            <div class="item-date">3일전</div>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                    <button type="button" class="btn-alarm-del">삭제</button>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <div class="list-cell">-->
+<!--                                                <div class="alarm-list-item">-->
+<!--                                                    <div class="logo"></div>-->
+<!--                                                    <div class="info-wrap">-->
+<!--                                                        <div class="info-inner">-->
+<!--                                                            <div class="item-subject">반짝, 미용 예약 안내</div>-->
+<!--                                                            <div class="item-info">예약일 (3월10일) 3일전입니다. 고객님의 귀여운 아이들 뷰티를 위해 최선을 다하도록 하겠습니다.</div>-->
+<!--                                                            <div class="item-date">3일전</div>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                    <button type="button" class="btn-alarm-del">삭제</button>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <div class="list-cell">-->
+<!--                                                <div class="alarm-list-item">-->
+<!--                                                    <div class="logo"></div>-->
+<!--                                                    <div class="info-wrap">-->
+<!--                                                        <div class="info-inner">-->
+<!--                                                            <div class="item-subject">반짝, 미용 예약 안내</div>-->
+<!--                                                            <div class="item-info">예약일 (3월10일) 3일전입니다. 고객님의 귀여운 아이들 뷰티를 위해 최선을 다하도록 하겠습니다.</div>-->
+<!--                                                            <div class="item-date">3일전</div>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                    <button type="button" class="btn-alarm-del">삭제</button>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <div class="list-cell">-->
+<!--                                                <div class="alarm-list-item">-->
+<!--                                                    <div class="logo"></div>-->
+<!--                                                    <div class="info-wrap">-->
+<!--                                                        <div class="info-inner">-->
+<!--                                                            <div class="item-subject">반짝, 미용 예약 안내</div>-->
+<!--                                                                <div class="item-info">예약일 (3월10일) 3일전입니다. 고객님의 귀여운 아이들 뷰티를 위해 최선을 다하도록 하겠습니다.</div>-->
+<!--                                                                <div class="item-date">3일전</div>-->
+<!--                                                            </div>-->
+<!--                                                        </div>-->
+<!--                                                        <button type="button" class="btn-alarm-del">삭제</button>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            &lt;!&ndash; //데이타 있을 때 &ndash;&gt;-->
+<!--                                            -->
+<!--                                            &lt;!&ndash; 데이타 없을 때 &ndash;&gt;-->
+<!--                                            <div class="common-none-data">-->
+<!--                                                <div class="none-inner">-->
+<!--                                                    <div class="item-visual">-->
+<!--                                                        <img src="../../static/images/icon/img-illust-3@2x.png" alt="" width="103">-->
+<!--                                                    </div>-->
+<!--                                                    <div class="item-info">알림이 없습니다.</div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            &lt;!&ndash; //데이타 없을 때 &ndash;&gt;-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
                         </div>`;
 
 
@@ -822,66 +822,3 @@ function darkMode() {
     }
     ;
 };
-
-Array.prototype.division = function( n ) {
-    const array = this;
-    const length = array.length;
-    const divide = Math.floor(length / n ) + (Math.floor( length % n ) > 0 ? 1 : 0);
-    const newArray = [];
-
-    for (let i = 0; i <= divide; i++) {
-
-        newArray.push(array.splice(0, n));
-    }
-
-    return newArray;
-}
-
-
-//input 숫자만 가능
-function setInputFilter(textbox, inputFilter) {
-    ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
-        textbox.addEventListener(event, function() {
-            if (inputFilter(this.value)) {
-                this.oldValue = this.value;
-                this.oldSelectionStart = this.selectionStart;
-                this.oldSelectionEnd = this.selectionEnd;
-            } else if (this.hasOwnProperty("oldValue")) {
-                this.value = this.oldValue;
-                this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
-            } else {
-                this.value = "";
-            }
-        });
-    });
-}
-
-function input_enter(form_el,btn_el){
-
-    document.getElementById(form_el).addEventListener('keydown',function(evt){
-        if(evt.keyCode === 13){
-            document.getElementById(btn_el).click();
-        }
-    })
-
-
-}
-
-function phone_edit(phone){
-
-    return phone.replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`)
-}
-
-function gnb_actived(element1,element2) {
-
-    switch (arguments.length){
-
-        case 1 :document.getElementById(element1).classList.add('actived','current'); break;
-
-        case 2 : document.getElementById(element1).classList.add('actived','current');
-                 document.getElementById(element2).classList.add('actived');
-                 break;
-
-
-    }
-}

@@ -99,65 +99,8 @@ function RandomToken($length = 32){
 </div>
 <!-- //wrap -->
 <script src="../static/js/common.js"></script>
+<script src="../static/js/dev_common.js"></script>
+<script src="../static/js/login.js"></script>
 
-<script>
-
-
-    document.addEventListener("DOMContentLoaded",function(){
-
-        Array.from(document.getElementsByClassName('form-control')).forEach(function(el){
-            el.addEventListener('keydown',function(evt){
-                if(evt.keyCode === 13){
-                    document.querySelector('.login').click();
-                }
-            })
-        })
-
-        document.querySelector('.login').addEventListener('click',function(){
-
-            let id = document.querySelector('#gobeauty_user_name').value.replace(/\s*/g,"");
-            let pw = document.querySelector('#gobeauty_user_password').value.replace(/\s*/g,"");
-            console.log(id);
-            console.log(pw);
-
-            $.ajax({
-
-
-                url:'../data/pc_ajax.php',
-                data:{
-                    mode:'login',
-                    login_id:id,
-                    login_pw:pw,
-
-                },
-                type:'POST',
-
-
-                success:function(res){
-                    console.log(res);
-                    let response = JSON.parse(res);
-                    let head = response.data.head;
-                    let body = response.data.body;
-                    if(head.code === 401){
-                        pop.open('firstRequestMsg1',head.message);
-                    }else if(head.code === 200){
-                        localStorage.setItem('id',id);
-                        localStorage.setItem('data',JSON.stringify(body));
-                        localStorage.removeItem('list');
-                        location.href = "../home/index.php";
-                    }
-
-
-
-
-                },
-                error:function(err){
-                    alert(err);
-                }
-            })
-
-        })
-    })
-</script>
 </body>
 </html>

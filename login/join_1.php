@@ -70,83 +70,12 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 </div>
 <!-- //wrap -->
 <script src="../static/js/common.js"></script>
+<script src="../static/js/dev_common.js"></script>
+<script src="../static/js/login.js"></script>
+
 <script>
-    let regExp = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})-?[0-9]{3,4}-?[0-9]{4}$/;
 
-    setInputFilter(document.getElementById("check_cellphone_1"), function(value) {
-        return /^-?\d*$/.test(value); });
-
-
-
-    function checkphonenumber(objstr) {
-        if (!objstr) {
-            pop.open('firstRequestMsg1', '전화번호를 입력하세요.');
-            return false;
-        } else if (!regExp.test(objstr)) {
-            pop.open('firstRequestMsg1',"잘못된 전화번호입니다. 숫자, - 를 포함한 숫자만 입력하세요. 예) 010-XXXX-XXXX");
-            return false;
-        }
-        return true;
-    }
-
-    function sendsms() {
-        let phonestr = document.getElementById("check_cellphone_1").value;
-        if (!(checkphonenumber(phonestr))) {
-            return
-        }
-
-        $.ajax({
-            type: "POST",
-            url: '/login/certification_sms.php',
-            data: "userphone=" + phonestr,
-            dataType: "JSON",
-            success: function(data) {
-                if (!data.sendsms) {
-                    msg = data.msg;
-                    pop.open('firstRequestMsg1',msg);
-                    return;
-                } else {
-                    document.getElementById('verify_cellphone').classList.remove('disabled');
-                    msg = "인증 번호를 발송 하였습니다.";
-                    pop.open('firstRequestMsg1',msg);
-                }
-                //document.getElementById("sendsms_button").value = "재전송";
-                $("#sendsms_button em").text("재전송");
-
-            },
-            error: function(xhr, status, error) {
-                alert(error + "에러발생");
-            }
-        });
-    }
-
-    function check_sms_number() {
-        var gobeauty_2_check_cellphone = document.getElementById("gobeauty_2_check_cellphone").value;
-        $.ajax({
-            type: "POST",
-            url: '/login/check_auth_number.php',
-            data: "gobeauty_2_check_cellphone=" + gobeauty_2_check_cellphone,
-            dataType: "JSON",
-            success: function(data) {
-                if (data.result == "true" || gobeauty_2_check_cellphone == "71484800") {
-                    popalert.open('firstRequestMsg1',"정상적으로 인증되었습니다.");
-
-                    var nextlink = document.getElementById("next_form");
-                    nextlink.action = "/join3";
-                    $(".submit_btn").removeClass("disabled");
-                } else {
-                    popalert.open('firstRequestMsg1',"인증번호가 틀립니다. 다시 확인해 주세요.");
-                    $("#gobeauty_2_check_cellphone").focus();
-                }
-                // console.log(data);
-            },
-            error: function(xhr, status, error) {
-                alert(error + "에러발생");
-            }
-        });
-    }
-
-    $(document).ready(function(){
+    window.onload = function (){
         $(".check_number").click(function(){
             check_sms_number();
         })
@@ -156,7 +85,8 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
             }
 
         })
-    })
+
+    }
 
     //잘못된 접근 방지
     function process_check2(){

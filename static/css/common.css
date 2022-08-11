@@ -2131,7 +2131,7 @@ body {background:#fafafa;}
 .mini-calendar-month-header-col.saturday {color:#202020;}
 .mini-calendar-month-header + .mini-calendar-month-body {margin-top:-1px;}
 .mini-calendar-month-body {padding-bottom:9px;}
-.mini-calendar-month-body-row {display:flex; width:100%;}
+.mini-calendar-month-body-row {display:flex; width:100%; height: 47px;}
 .mini-calendar-month-body-row:last-child .mini-calendar-month-body-col {border-bottom-width:0px;}
 .mini-calendar-month-body-row.week-check .mini-calendar-month-body-col {background:#f7f5fb;}
 .mini-calendar-month-body-col {flex:1; display:flex; flex-direction:column; align-items:flex-start; justify-content:center;  box-sizing:border-box; background:#fff; margin:-1px 0; border:1px solid #f4f4f4; border-left:none; border-right:none; width:14.28%;}
@@ -2757,7 +2757,7 @@ table.terms-table > tbody > tr > td {padding:10px 10px; font-size:14px; line-hei
 
 /* 예약하기 > 캘린더 */
 .reserve-today .card-header {min-height:68px;}
-.reserve-today .mini-reserve-calendar-top {height:68px;}
+.reserve-today .mini-reserve-calendar-top {height:50px;}
 .reserve-calendar-wrap {padding:10px 0 84px 0;}
 .reserve-calendar-float {position:fixed; bottom:67px; right:0; display:flex; align-items:center; box-sizing:border-box; z-index:500; padding:10px 20px;}
 .reserve-calendar-float-cell {position:relative;}

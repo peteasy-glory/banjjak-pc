@@ -75,51 +75,15 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 </div>
 <!-- //wrap -->
 <script src="../static/js/common.js"></script>
+<script src="../static/js/dev_common.js"></script>
+<script src="../static/js/login.js"></script>
 <script>
 
 
-    $(document).ready(function(){
+    window.onload = function(){
 
-        let check_all = document.getElementById('check_all');
-
-        let checks = document.getElementsByClassName('form-check-box');
-
-        let check_all_toggle = false;
-
-        //전체동의
-        check_all.addEventListener('click',function(){
-            if(check_all_toggle === false){
-                Array.from(checks).forEach(function(el,i){
-                    el.checked = true;
-                })
-            }else if(check_all_toggle === true){
-                Array.from(checks).forEach(function(el,i){
-                    el.checked = false;
-                })
-            }
-            check_all_toggle = !check_all_toggle;
-        })
-
-
-        let join_btn_next = document.getElementById('join-btn-next');
-
-        //필수동의시 버튼 활성화
-        Array.from(checks).forEach(function(el){
-            el.addEventListener('click',function (){
-                if(document.getElementById('agree1').checked === true
-                    && document.getElementById('agree2').checked === true
-                    && document.getElementById('agree6').checked === true){
-                    join_btn_next.classList.remove('disabled');
-                    join_btn_next.href = './join_1.php'
-                }else{
-                    if(!join_btn_next.classList.contains('disabled')){
-                        join_btn_next.classList.add('disabled');
-                        join_btn_next.href = '#';
-                    }
-                }
-            })
-        })
-    })
+        join_check();
+    }
 
     //잘못된 접근 방지
     function process_check1(){

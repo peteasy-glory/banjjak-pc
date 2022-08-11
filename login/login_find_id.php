@@ -98,6 +98,8 @@ $okurlgo = "https://$site/find_id_password_process";
 </div>
 <!-- //wrap -->
 <script src="../static/js/common.js"></script>
+<script src="../static/js/dev_common.js"></script>
+<script src="../static/js/login.js"></script>
 
 <script>
 
