@@ -130,13 +130,13 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 							<div class="card-header">
 								<!-- 캘린더 상단 -->
 								<div class="reserve-calendar-top">
-									<div class="sort-left">
-										<select>
-											<option value="" selected>미용</option>
-											<option value="">호텔</option>
-											<option value="">유치원</option>
-										</select>
-									</div>
+<!--									<div class="sort-left">-->
+<!--										<select>-->
+<!--											<option value="" selected>미용</option>-->
+<!--											<option value="">호텔</option>-->
+<!--											<option value="">유치원</option>-->
+<!--										</select>-->
+<!--									</div>-->
 									<div class="reserve-calendar-select">
 										<button type="button" class="btn-reserve-calendar-ui btn-month-prev" id="btn-schedule-prev"><span class="icon icon-calendar-prev-small"></span></button>
 										<div class="reserve-calendar-title">
@@ -283,15 +283,6 @@ $(function(){
 	*/
 
 	//https://github.com/SortableJS/Sortable
-
-
-
-
-
-
-
-
-
 
 	$(document).on('mouseenter mouseleave mousemove' , '.calendar-week-time-item' , function(e){
 		var x = e.pageX;

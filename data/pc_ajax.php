@@ -143,6 +143,31 @@ if($r_mode){
         $break_time = $api -> get('/partner/setting/break-time/'.$login_id);
 
         $return_data = array("code"=>"000000",'data'=>$break_time);
+    }else if($r_mode === "pay_management"){
+
+        $payment_idx = $_POST['payment_idx'];
+
+        $pay_management = $api -> get('/partner/booking/payment-customer-pet/'.$payment_idx);
+
+        $return_data = array("code"=>"000000",'data'=>$pay_management);
+    }else if($r_mode ==="payment_before_etc"){
+
+        $payment_idx = $_POST['payment_idx'];
+
+        $payment_before_etc = $api -> get ('/partner/booking/payment-before-etc/'.$payment_idx);
+
+        $return_data = array("code"=>"000000","data"=>$payment_before_etc);
+
+
+    }else if($r_mode === "schedule_artist"){
+
+
+        $login_id = $_POST['login_id'];
+
+        $schedule_artist = $api -> get ('/partner/booking/schedule-artist/'.$login_id);
+
+        $return_data = array("code"=>"000000","data"=>$schedule_artist);
+
     }
 }
 

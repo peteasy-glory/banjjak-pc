@@ -76,6 +76,20 @@ function siblings(el,i){
 
 }
 
+//시간비교
+function time_compare(time1,time2){
+
+    let time1_ = time1.split(':');
+    let time2_ = time2.split(':');
+
+
+    let time1_date = new Date(date.getFullYear(),date.getMonth(),date.getDate(),time1_[0],time1_[1]).getTime();
+    let time2_date = new Date(date.getFullYear(),date.getMonth(),date.getDate(),time2_[0],time2_[1]).getTime();
+
+    return time1_date > time2_date ? true : false;
+
+}
+
 // 데이터 갱신
 setInterval(function () {
     $.ajax({
@@ -717,7 +731,7 @@ function schedule_render(){
                                     let multiple = (new Date(el.product.date.booking_fi).getTime() - new Date(el.product.date.booking_st).getTime())/1800000;
                                     el_.innerHTML = `<div class="calendar-drag-item-group">
                                                                         <a href="#" class="btn-calendar-add">등록하기</a>
-                                                                        <a href="#" class="calendar-week-time-item toggle green ${color} ${el.product.is_no_show === 1 ? "red" : ''}" style="height: calc(100% * ${multiple}); ">
+                                                                        <a href="./reserve_pay_management_beauty_1.php" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-pay')})" class="calendar-week-time-item toggle green ${color} ${el.product.is_no_show === 1 ? "red" : ''}" style="height: calc(100% * ${multiple}); ">
                                                                             <div class="item-inner" style=" ${multiple <4 ? `` : `border:none !important`}">
                                                                                 <div class="item-name">
                                                                                     <div class="txt">${el.pet.name}</div>
@@ -749,7 +763,70 @@ function schedule_render(){
                             })
 
 
+
                         })
+
+
+
+                        $.ajax({
+
+                            url:'../data/pc_ajax.php',
+                            type:'post',
+                            async:false,
+                            data:{
+                                mode:'schedule_artist',
+                                login_id:localStorage.getItem('id'),
+                            },
+                            success:function (res){
+                                let response = JSON.parse(res);
+                                let head = response.data.head;
+                                let body = response.data.body;
+                                if (head.code === 401) {
+                                    pop.open('firstRequestMsg1', '서버 오류입니다.');
+                                } else if (head.code === 200) {
+                                    console.log(body);
+
+
+                                    body.working.forEach(function(el){
+
+                                        if(!el.is_leave && el.is_show){
+                                        Array.from(document.getElementsByClassName('time-compare-cols')).forEach(function(el_){
+
+
+                                            el.work.forEach(function(_el){
+
+
+
+                                                if(el_.getAttribute('data-nick') === el.nick
+                                                    && parseInt(_el.week) === date.getDay()
+                                                    && ( time_compare(_el.time_st,el_.getAttribute('data-time-to'))
+                                                        || time_compare(el_.getAttribute('data-time-from'),_el.time_fi))
+                                                    ){
+
+
+                                                    el_.classList.add('break')
+
+                                                }
+
+                                            })
+
+
+                                        })
+
+                                        }
+
+                                    })
+
+
+
+                                }
+
+                            }
+
+
+                        })
+
+
 
                         day_drag();
                     });
@@ -1583,40 +1660,33 @@ function cols(){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '서버 오류입니다.');
                 } else if (head.code === 200) {
+
                     document.getElementById('day_header_row').innerHTML = `<div class="calendar-day-header-col time"></div>`
                     let break_time = JSON.parse(localStorage.getItem('break_time'))
                     let break_times = '';
                     break_time.forEach(function(el,i){
-
                         break_times += `${el.time.split('~')[0]} `
-
-
                     })
-
                     body.forEach(function (el){
-
                         if(el.is_show && !el.is_leave){
                             el.work.forEach(function (el_){
                                 if(parseInt(el_.week) === date.getDay() ){
                                     document.getElementById('day_header_row').innerHTML +=`<div class="calendar-day-header-col">${el.nick}</div>`
-
-
-
                                     Array.from(document.getElementsByClassName('calendar-day-body-row')).forEach(function(_el){
-
-                                        _el.innerHTML += `<div class="calendar-day-body-col ${break_times.match(_el.getAttribute('data-time-to')) ? 'break':'' } " data-name="${el.name}" data-nick="${el.nick}" data-time-to="${_el.getAttribute('data-time-to')}" data-time-from="${_el.getAttribute('data-time-from')}" data-year="${date.getFullYear()}" data-month="${date.getMonth()}" data-date="${date.getDate()}" data-hour="${_el.getAttribute('data-hour')}" data-minutes="${_el.getAttribute('data-minutes')}">
+                                        _el.innerHTML += `<div class="calendar-day-body-col time-compare-cols ${break_times.match(_el.getAttribute('data-time-to')) ? 'break':'' }" data-name="${el.name}" data-nick="${el.nick}" data-time-to="${_el.getAttribute('data-time-to')}" data-time-from="${_el.getAttribute('data-time-from')}" data-year="${date.getFullYear()}" data-month="${date.getMonth()}" data-date="${date.getDate()}" data-hour="${_el.getAttribute('data-hour')}" data-minutes="${_el.getAttribute('data-minutes')}">
                                                             <div class="calendar-drag-item-group">
                                                                 <a href="#" class="btn-calendar-add">등록하기</a>
                                                             </div>       
                                                          </div>`
-
                                         resolve();
                                     })
                                 }
                             })
                         }
-
                     })
+
+
+
 
 
 
@@ -1733,15 +1803,12 @@ function btn_schedule(){
 
 
                 renderCalendar_mini().then(function(div_dates){
-
                     for (let i = 0; i < div_dates.length; i++) {
                         document.getElementById(`mini-calendar-month-body-row-${i}`).innerHTML = '';
                         for (let j = 0; j < div_dates[i].length; j++) {
                             document.getElementById(`mini-calendar-month-body-row-${i}`).innerHTML += div_dates[i][j]
                         }
                     }
-
-
                 })
             }).then(function(){
 
@@ -1771,11 +1838,7 @@ function btn_schedule(){
                                 && date_ck_1.getDate() === date_ck_2.getDate()){
                                 count++;
                             }
-
-
-
                             siblings(el.parentElement.parentElement.parentElement.parentElement,0).children[1].innerHTML= `${count}`;
-
                         })
                     }
                 })
@@ -1857,7 +1920,7 @@ function day_drag(){
     $('.calendar-day-body-col').each(function(){
         $(this).on('click',function(){
         })
-        if(!$(this).hasClass('break') && !$(this).hasClass('time')){
+        if( !$(this).hasClass('time')){
             //휴무가 아닐 경우 드래그앤 드롭 가능 처리
             var sortable = Sortable.create($(this).find('.calendar-drag-item-group')[0] , {
                 group : 'shared',
@@ -1927,4 +1990,339 @@ function day_drag(){
             });
         }
     });
+}
+
+
+function pay_management(){
+
+
+    $.ajax({
+
+
+        url:'../data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:'pay_management',
+            payment_idx:localStorage.getItem('payment_idx'),
+        },
+        success:function (res){
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '서버 오류입니다.');
+            } else if (head.code === 200) {
+                console.log(body);
+
+
+            }
+
+        }
+    })
+
+}
+
+function payment_before_etc(){
+
+    $.ajax({
+
+        url:'../data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:'payment_before_etc',
+            payment_idx:localStorage.getItem('payment_idx'),
+        },
+        success:function(res){
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '서버 오류입니다.');
+            } else if (head.code === 200) {
+                console.log(body);
+
+
+            }
+
+        }
+    })
+}
+
+
+function work_body_inner(){
+    
+    let work_body_inner = document.getElementById('work_body_inner');
+    
+    
+    work_body_inner.innerHTML = ''
+    
+    work_body_inner.innerHTML += `<div class="basic-data-group vsmall">
+                                        <div class="con-title-group">
+                                            <h4 class="con-title">예약자 정보</h4>
+                                        </div>
+                                        <div class="customer-view-user-info">
+                                            <div class="customer-user-table">
+                                                <div class="customer-user-table-row">
+                                                    <div class="customer-user-table-title">
+                                                        <div class="table-title">아이디</div>
+                                                    </div>
+                                                    <div class="customer-user-table-data">
+                                                        <div class="table-data">
+                                                            <div class="table-user-name">
+                                                                boong_232321
+                                                                <div class="user-grade-item">
+                                                                    <div class="icon icon-grade-vip"></div>
+                                                                    <div class="icon-grade-label">VIP</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="customer-user-info-ui">
+                                                        <div class="label label-outline-pink">NO SHOW 1회</div>
+                                                        <a href="#" class="btn btn-inline btn-red">NO SHOW 등록</a>
+                                                    </div>
+                                                </div>
+                                                <div class="customer-user-table-row">
+                                                    <div class="customer-user-table-title">
+                                                        <div class="table-title">연락처</div>
+                                                    </div>
+                                                    <div class="customer-user-table-data">
+                                                        <div class="table-data">
+                                                            <div class="customer-user-phone-wrap read">
+                                                                <div class="item-main-phone">
+                                                                    <div class="value">010-1234-1234</div>
+                                                                </div>
+                                                                <div class="item-sub-phone">
+                                                                    <div class="value">010-1234-1234</div>
+                                                                    <div class="value">010-1234-1234</div>
+                                                                    <div class="value">010-1234-1234</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="basic-data-group">
+                                        <div class="con-title-group">
+                                            <h4 class="con-title">예약동물 정보</h4>
+                                            <div class="con-title-btns">
+                                                <div class="btns-cell">
+                                                    <button type="button" class="btn btn-outline-gray btn-vsmall-size btn-inline">미용 갤러리</button>
+                                                </div>
+                                                <div class="btns-cell">
+                                                    <button type="button" class="btn btn-outline-gray btn-vsmall-size btn-inline">미용 동의서 작성</button>
+                                                </div>  
+                                            </div>
+                                        </div>
+                                        <div class="customer-view-pet-info detail-toggle-parents">
+                                            <div class="item-thumb">
+                                                <div class="user-thumb large"><!--<img src="../assets/images/user_thumb.png" alt="">--></div>
+                                                <div class="item-thumb-ui">
+                                                    <a href="#" class="btn btn-outline-gray btn-vsmall-size btn-inline">펫 정보 수정</a>
+                                                </div>
+                                            </div>
+                                            <div class="item-user-data">
+                                                <div class="grid-layout flex-table">
+                                                    <div class="grid-layout-inner">
+                                                        <div class="grid-layout-cell grid-2">
+                                                            <div class="flex-table-item">
+                                                                <div class="flex-table-title">
+                                                                    <div class="txt">이름</div>
+                                                                </div>
+                                                                <div class="flex-table-data">
+                                                                    <div class="flex-table-data-inner">
+                                                                        콩이
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid-layout-cell grid-2">
+                                                            <div class="flex-table-item">
+                                                                <div class="flex-table-title">
+                                                                    <div class="txt">품종</div>
+                                                                </div>
+                                                                <div class="flex-table-data">
+                                                                    <div class="flex-table-data-inner">
+                                                                        포메라이언
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid-layout-cell grid-2">
+                                                            <div class="flex-table-item">
+                                                                <div class="flex-table-title">
+                                                                    <div class="txt">성별</div>
+                                                                </div>
+                                                                <div class="flex-table-data">
+                                                                    <div class="flex-table-data-inner">
+                                                                        남아
+                                                                    </div>
+                                                                </div>
+                                                            </div>  
+                                                        </div>
+                                                        <div class="grid-layout-cell grid-2">
+                                                            <div class="flex-table-item">
+                                                                <div class="flex-table-title">
+                                                                    <div class="txt">무게</div>
+                                                                </div>
+                                                                <div class="flex-table-data">
+                                                                    <div class="flex-table-data-inner">
+                                                                        5.3kg
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid-layout-cell grid-2">
+                                                                <div class="flex-table-item">
+                                                                    <div class="flex-table-title">
+                                                                        <div class="txt">생일</div>
+                                                                    </div>
+                                                                    <div class="flex-table-data">
+                                                                        <div class="flex-table-data-inner">
+                                                                            2017.03.12 (5년 3개월)
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                        </div>
+                                                        <div class="grid-layout-cell grid-2">
+                                                            <div class="flex-table-item">
+                                                                <div class="flex-table-title">
+                                                                    <div class="txt">중성화</div>
+                                                                </div>
+                                                                <div class="flex-table-data">
+                                                                    <div class="flex-table-data-inner">
+                                                                        O
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid-layout-cell grid-2 toggle">
+                                                            <div class="flex-table-item">
+                                                                <div class="flex-table-title">
+                                                                    <div class="txt">미용경험</div>
+                                                                </div>
+                                                                <div class="flex-table-data">
+                                                                    <div class="flex-table-data-inner">
+                                                                        미기입
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid-layout-cell grid-2 toggle">
+                                                            <div class="flex-table-item">
+                                                                <div class="flex-table-title">
+                                                                    <div class="txt">예방접종</div>
+                                                                </div>
+                                                                <div class="flex-table-data">
+                                                                    <div class="flex-table-data-inner">
+                                                                        미기입
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid-layout-cell grid-2 toggle">
+                                                            <div class="flex-table-item">
+                                                                <div class="flex-table-title">
+                                                                    <div class="txt">입질</div>
+                                                                </div>
+                                                                <div class="flex-table-data">
+                                                                    <div class="flex-table-data-inner">
+                                                                        미기입
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid-layout-cell grid-2 toggle">
+                                                            <div class="flex-table-item">
+                                                                <div class="flex-table-title">
+                                                                    <div class="txt">슬개골 탈구</div>
+                                                                </div>
+                                                                <div class="flex-table-data">
+                                                                    <div class="flex-table-data-inner">
+                                                                        미기입
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid-layout-cell grid-2 toggle">
+                                                            <div class="flex-table-item">
+                                                                <div class="flex-table-title">
+                                                                    <div class="txt">특이사항</div>
+                                                                </div>
+                                                                <div class="flex-table-data">
+                                                                    <div class="flex-table-data-inner">
+                                                                        미기입
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid-layout-cell grid-2 toggle">
+                                                            <div class="flex-table-item">
+                                                                <div class="flex-table-title">
+                                                                    <div class="txt">싫어하는 부위</div>
+                                                                </div>
+                                                                <div class="flex-table-data">
+                                                                    <div class="flex-table-data-inner">
+                                                                        미기입
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid-layout-cell grid-2 toggle">
+                                                            <div class="flex-table-item">
+                                                                <div class="flex-table-title">
+                                                                    <div class="txt">기타</div>
+                                                                </div>
+                                                                <div class="flex-table-data">
+                                                                    <div class="flex-table-data-inner">
+                                                                        미기입
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="item-action">
+                                                <button type="button" class="btn-detail-toggle">펫 정보 자세히 보기</button>
+                                            </div>
+                                        </div>
+                                        <div class="basic-data-group middle">
+                                            <div class="form-group">
+                                                <div class="grid-layout margin-14-17">
+                                                    <div class="grid-layout-inner">
+                                                        <div class="grid-layout-cell grid-2">
+                                                            <div class="form-group-item">
+                                                                <div class="form-item-label">특이사항</div>
+                                                                <div class="form-item-data type-2">
+                                                                    <div class="form-textarea-btns">
+                                                                        <textarea style="height:60px;" placeholder="입력"></textarea>
+                                                                        <button type="button" class="btn btn-outline-gray">저장</button>
+                                                                    </div>
+                                                                    <div class="form-input-info">(고객에게는 노출되지 않습니다.)</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid-layout-cell grid-2">
+                                                            <div class="form-group-item">
+                                                                <div class="form-item-label">견주관련 메모</div>
+                                                                    <div class="form-item-data type-2">
+                                                                        <div class="form-textarea-btns">
+                                                                            <textarea style="height:60px;" placeholder="입력"></textarea>
+                                                                            <button type="button" class="btn btn-outline-gray">저장</button>
+                                                                        </div>
+                                                                        <div class="form-input-info">(고객에게는 노출되지 않습니다.)</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>`
+    
 }
