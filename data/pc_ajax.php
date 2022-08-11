@@ -154,19 +154,23 @@ if($r_mode){
 
         $payment_idx = $_POST['payment_idx'];
 
-        $payment_before_etc = $api -> get ('/partner/booking/payment-before-etc/'.$payment_idx);
+
+        $is_beauty = array("is_beauty"=>false,"get_count"=>10);
+        $is_beauty_data_json = json_encode($is_beauty);
+
+        $payment_before_etc = $api -> get ('/partner/booking/payment-before-etc/'.$payment_idx,$is_beauty_data_json);
 
         $return_data = array("code"=>"000000","data"=>$payment_before_etc);
 
 
-    }else if($r_mode === "schedule_artist"){
+    }else if($r_mode === "schedule_artist") {
 
 
         $login_id = $_POST['login_id'];
 
-        $schedule_artist = $api -> get ('/partner/booking/schedule-artist/'.$login_id);
+        $schedule_artist = $api->get('/partner/booking/schedule-artist/' . $login_id);
 
-        $return_data = array("code"=>"000000","data"=>$schedule_artist);
+        $return_data = array("code" => "000000", "data" => $schedule_artist);
 
     }
 }

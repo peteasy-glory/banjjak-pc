@@ -447,6 +447,7 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
         gnb_init();
         prepend_data('consulting_count nick');
         set_image('front_image');
+
         
     }
 

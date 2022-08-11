@@ -50,7 +50,7 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 										</div>
 										<div class="basic-data-group vvsmall3">
 											<div class="grid-layout margin-14-17">
-												<div class="grid-layout-inner">	
+												<div class="grid-layout-inner">
 													<div class="grid-layout-cell grid-2">
 														<div class="note-toggle-group">
 															<div class="con-title-group">
@@ -68,7 +68,7 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 																<div class="memo-item note-toggle-cell"><div class="note-desc"><em>2021.12.23</em><div class="txt">너무 이쁜 포메입니다. 너무 이쁜 포메입니다. 너무 이쁜 포메입니다. 너무 이쁜 포메입니다. 너무 이쁜 포메입니다.</div></div></div>
 																<div class="memo-item note-toggle-cell"><div class="note-desc"><em>2021.12.23</em><div class="txt">너무 이쁜 포메입니다. 너무 이쁜 포메입니다. 너무 이쁜 포메입니다. 너무 이쁜 포메입니다. 너무 이쁜 포메입니다.</div></div></div>
 																<div class="memo-item note-toggle-cell"><div class="note-desc"><em>2021.12.23</em><div class="txt">너무 이쁜 포메입니다. 너무 이쁜 포메입니다. 너무 이쁜 포메입니다. 너무 이쁜 포메입니다. 너무 이쁜 포메입니다.</div></div></div>
-															</div>		
+															</div>
 															<div class="note-toggle-ui">
 																<button type="button" class="btn-note-toggle">더보기</button>
 															</div>
@@ -101,8 +101,8 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 															</div>
 														</div>
 													</div>
-												</div>							
-											</div>	
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -207,8 +207,8 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
         gnb_init();
         prepend_data('consulting_count nick');
         set_image('front_image');
-        pay_management();
-        wide_tab()
+        wide_tab();
+        pay_management()
 
     }
 

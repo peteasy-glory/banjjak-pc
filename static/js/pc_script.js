@@ -1,6 +1,5 @@
 let data = JSON.parse(localStorage.getItem('data'));
 
-
 //현재 날짜
 
 let date = new Date();
@@ -13,6 +12,7 @@ let minutes = date.getMinutes();
 let times = date.getTime();
 let date_ = `${date.getFullYear().toString().substr(-2)}.${(date.getMonth() + 1).toString().length < 2 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1}.${date.getDate().toString().length < 2 ? '0' + date.getDate() : date.getDate()}`
 
+//등록 현황 통계 날짜
 function update(){
     document.getElementById('item_date').prepend(date_);
 }
@@ -43,7 +43,7 @@ function am_pm_check2(date){
     return `${date_[0]} ${am_pm_check(_date[0])}:${_date[1]}`
 
 }
-
+// 오후 오전 적용하기 3 // '오후','오전' 없는
 function am_pm_check3(hours){
 
     if(hours > 12){
@@ -76,7 +76,7 @@ function siblings(el,i){
 
 }
 
-//시간비교
+//시간비교 // "09:00", "09:30" 형식으로
 function time_compare(time1,time2){
 
     let time1_ = time1.split(':');
@@ -113,7 +113,7 @@ setInterval(function () {
 }, 10000)
 
 
-//gnb 데이터 넣기
+//gnb 샵 이름넣기, gnb 메뉴 폴드 언폴드
 function gnb_init() {
 
 
@@ -260,9 +260,9 @@ function today_reserve(){
                 ){
 
                     document.getElementById('reserve_after_none').style.display = 'none';
-
+                    console.log(el)
                     reserve_list.innerHTML += `<div class="main-reserve-list-cell">
-                                                <a href="#" class="customer-card-item transparent">
+                                                <a href="../booking/reserve_pay_management_beauty_1.php" onclick="localStorage.setItem('payment_idx',${el.product.payment_idx})" class="customer-card-item transparent">
                                                     <div class="item-info-wrap">
                                                         <div class="item-thumb">
                                                             <div class="user-thumb middle"><img src="${el.pet.photo !== null ? `https://image.banjjakpet.com${el.pet.photo}`  : `${el.pet.animal === 'dog' ? `../static/images/icon/icon-pup-select-off.png`: `../static/images/icon/icon-cat-select-off.png`}` }" alt=""></div>
@@ -377,11 +377,16 @@ function renderCalendar() {
                         </div>
                     </div>`;
         })
+        //7일단위로 나눔
         const div_dates = dates.division(7);
+
+        //row 생성
         document.getElementById(`main-calendar-month-body`).innerHTML = '';
         for (let i = 0; i < div_dates.length; i++) {
             document.getElementById(`main-calendar-month-body`).innerHTML += ` <div class="main-calendar-month-body-row ${i > 0 && i < 5 ? "op-1" : ""} ${i === 0 || i === 2 ? '1or3' : i === 1 || i === 3 ? '2or4':""} " id="main-calendar-month-body-row-${i}" ></div>`
         }
+
+        //정기휴일적용
         holiday();
         resolve(div_dates);
     })
@@ -390,6 +395,7 @@ function renderCalendar() {
 function _renderCalendar() {
     renderCalendar()
         .then(function (div_dates) {
+            //row에 col data 넣기
             for (let i = 0; i < div_dates.length; i++) {
                 document.getElementById(`main-calendar-month-body-row-${i}`).innerHTML = '';
                 for (let j = 0; j < div_dates[i].length; j++) {
@@ -408,6 +414,7 @@ function _renderCalendar() {
                 booking_list = data;
             }
 
+            //기타 데이터 채우기
             Array.from(date_info).forEach(function(el,i){
                 let count = 0;
                 let date_ck_1 = new Date(`20${el.innerText.trim()}`);
@@ -441,6 +448,8 @@ function _renderCalendar() {
                 }
             })
         }).then(function(){
+
+            //오늘날짜 표시시
             Array.from(document.getElementsByClassName('date-info')).forEach(function (el){
                 if(el.innerText.trim() === `${new Date().getFullYear().toString().substr(2,2)}.${fill_zero(new Date().getMonth()+1).toString()}.${fill_zero(new Date().getDate()).toString()}`){
                     el.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add('today');
@@ -449,7 +458,7 @@ function _renderCalendar() {
     })
 }
 
-
+//캘린더 버튼
 function btn_month(){
 
 
@@ -668,6 +677,8 @@ function _renderCalendar_mini(){
         })
 
 }
+
+//일간 예약관리 렌더
 function schedule_render(){
 
     $.ajax({
@@ -839,8 +850,6 @@ function schedule_render(){
     })
 }
 //배너 렌더링
-
-
 function banner() {
     let swiper = document.querySelector('.swiper-wrapper');
     for (let i = 0; i < data.banner.length; i++) {
@@ -850,8 +859,7 @@ function banner() {
 }
 
 
-//wide-tab
-
+//wide-tab // 활성화할 wide-tab 에 id 부여
 function wide_tab(){
     let tab_cell = document.getElementById('wide-tab-inner').children;
 
@@ -966,6 +974,7 @@ function consulting() {
     }
 }
 
+//정기휴일
 function holiday(){
     $.ajax({
         url:'../data/pc_ajax.php',
@@ -1050,6 +1059,7 @@ function holiday(){
     })
 }
 
+//펫이름or 전화번호검색
 function search(search_value) {
 
     return new Promise(function (resolve){
@@ -1125,6 +1135,7 @@ function search(search_value) {
     })
 }
 
+//보조연락처(가족)
 function search_fam(search_value){
     search(search_value).then(function(body){
             body.forEach(function (el,i){
@@ -1144,6 +1155,7 @@ function search_fam(search_value){
 
 }
 
+//상담대기 리스트
 function consulting_hold_list(){
     document.getElementById('consulting_data').style.opacity = 0;
     document.getElementById('consulting_hold_desc').style.display = 'block';
@@ -1191,6 +1203,7 @@ function consulting_hold_list(){
 
 }
 
+//상담 처리내역 리스트
 function consulting_history_list(){
 
     document.getElementById('consulting_hold_desc').style.display = 'none';
@@ -1240,6 +1253,7 @@ function consulting_history_list(){
     })
 }
 
+//상담내역선택
 function consulting_list_select(){
     let select = document.getElementsByClassName('consulting-select');
     Array.from(select).forEach(function (el){
@@ -1408,7 +1422,7 @@ function consulting_list_select(){
                                                                                                                 <div class="flex-table-cell">
                                                                                                                     <div class="flex-table-item">
                                                                                                                         <div class="flex-table-title">
-                                                                                                                            <div class="txt">슬개골탈구</div>
+                                                                                                                            <div class="txt">슬개골 탈구</div>
                                                                                                                         </div>
                                                                                                                         <div class="flex-table-data">
                                                                                                                             <div class="flex-table-data-inner">${el_.luxation}</div>
@@ -1469,6 +1483,7 @@ function consulting_list_select(){
     })
 }
 
+//미니달력 달바꾸기
 function calendar_change_month(){
 
     let month_nav = document.getElementsByClassName('btn-simple-calendar-month-nav')
@@ -1499,6 +1514,7 @@ function calendar_change_month(){
     })
 }
 
+//미니달력 버튼으로 달 바꾸기
 function btn_month_simple(){
 
 
@@ -1518,6 +1534,7 @@ function btn_month_simple(){
 
 }
 
+//미니달력 날짜 수정
 function mini_calendar_init(){
 
     return new Promise(function (resolve){
@@ -1535,6 +1552,7 @@ function mini_calendar_init(){
 
 }
 
+//일간 예약관리 스케쥴 시간cols
 function reserve_schedule(){
 
     return new Promise(function (resolve){
@@ -1635,7 +1653,7 @@ function reserve_schedule(){
     })
 }
 
-
+//일간 예약관리 스케쥴 cols
 function cols(){
 
 
@@ -1698,7 +1716,7 @@ function cols(){
     })
 }
 
-
+//일간 예약관리 스케쥴 버튼 날짜변경
 function btn_schedule(){
 
     document.getElementById('btn-schedule-next').addEventListener('click',function(){
@@ -1880,7 +1898,7 @@ function btn_schedule(){
     })
 }
 
-
+//일간 예약관리 스케쥴표 break_time
 function break_time(){
 
 
@@ -1915,7 +1933,7 @@ function break_time(){
 }
 
 
-
+//일간 예약관리 스케쥴표 드래그
 function day_drag(){
     $('.calendar-day-body-col').each(function(){
         $(this).on('click',function(){
@@ -1992,7 +2010,7 @@ function day_drag(){
     });
 }
 
-
+//작업결제관리 페이지
 function pay_management(){
 
 
@@ -2014,51 +2032,12 @@ function pay_management(){
                 pop.open('firstRequestMsg1', '서버 오류입니다.');
             } else if (head.code === 200) {
                 console.log(body);
+                let work_body_inner = document.getElementById('work_body_inner');
 
 
-            }
+                work_body_inner.innerHTML = ''
 
-        }
-    })
-
-}
-
-function payment_before_etc(){
-
-    $.ajax({
-
-        url:'../data/pc_ajax.php',
-        type:'post',
-        data:{
-
-            mode:'payment_before_etc',
-            payment_idx:localStorage.getItem('payment_idx'),
-        },
-        success:function(res){
-            let response = JSON.parse(res);
-            let head = response.data.head;
-            let body = response.data.body;
-            if (head.code === 401) {
-                pop.open('firstRequestMsg1', '서버 오류입니다.');
-            } else if (head.code === 200) {
-                console.log(body);
-
-
-            }
-
-        }
-    })
-}
-
-
-function work_body_inner(){
-    
-    let work_body_inner = document.getElementById('work_body_inner');
-    
-    
-    work_body_inner.innerHTML = ''
-    
-    work_body_inner.innerHTML += `<div class="basic-data-group vsmall">
+                work_body_inner.innerHTML += `<div class="basic-data-group vsmall">
                                         <div class="con-title-group">
                                             <h4 class="con-title">예약자 정보</h4>
                                         </div>
@@ -2071,17 +2050,18 @@ function work_body_inner(){
                                                     <div class="customer-user-table-data">
                                                         <div class="table-data">
                                                             <div class="table-user-name">
-                                                                boong_232321
+                                                                ${body.customer_Id === "" ? body.tmp_id : body.customer_Id}
                                                                 <div class="user-grade-item">
-                                                                    <div class="icon icon-grade-vip"></div>
-                                                                    <div class="icon-grade-label">VIP</div>
+                                                                    <div class="icon icon-grade-${body.grade_name.toLowerCase() ==="vip" ? "vip" : body.grade_name.toLowerCase() === "gold" ? "normal ": "normalb"}"></div>
+                                                                    <div class="icon-grade-label">${body.grade_name}</div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="customer-user-info-ui">
-                                                        <div class="label label-outline-pink">NO SHOW 1회</div>
-                                                        <a href="#" class="btn btn-inline btn-red">NO SHOW 등록</a>
+                                                    
+<!--                                               노쇼 데이터         <div class="label label-outline-pink">NO SHOW 1회</div>-->
+<!--                                                        <a href="#" class="btn btn-inline btn-red">NO SHOW 등록</a>-->
                                                     </div>
                                                 </div>
                                                 <div class="customer-user-table-row">
@@ -2092,12 +2072,12 @@ function work_body_inner(){
                                                         <div class="table-data">
                                                             <div class="customer-user-phone-wrap read">
                                                                 <div class="item-main-phone">
-                                                                    <div class="value">010-1234-1234</div>
+                                                                    <div class="value">${body.cell_phone}</div>
                                                                 </div>
                                                                 <div class="item-sub-phone">
+                                                                
                                                                     <div class="value">010-1234-1234</div>
-                                                                    <div class="value">010-1234-1234</div>
-                                                                    <div class="value">010-1234-1234</div>
+                                                                    
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -2120,7 +2100,7 @@ function work_body_inner(){
                                         </div>
                                         <div class="customer-view-pet-info detail-toggle-parents">
                                             <div class="item-thumb">
-                                                <div class="user-thumb large"><!--<img src="../assets/images/user_thumb.png" alt="">--></div>
+                                                <div class="user-thumb large"><img src="${body.photo === "" ? body.type === "dog" ? '../static/images/icon/icon-pup-select-off.png' : '../static/images/icon/icon-cat-select-off.png' : `https://image.banjjakpet.com${body.photo}`}" alt=""></div>
                                                 <div class="item-thumb-ui">
                                                     <a href="#" class="btn btn-outline-gray btn-vsmall-size btn-inline">펫 정보 수정</a>
                                                 </div>
@@ -2135,7 +2115,7 @@ function work_body_inner(){
                                                                 </div>
                                                                 <div class="flex-table-data">
                                                                     <div class="flex-table-data-inner">
-                                                                        콩이
+                                                                        ${body.name}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -2147,7 +2127,7 @@ function work_body_inner(){
                                                                 </div>
                                                                 <div class="flex-table-data">
                                                                     <div class="flex-table-data-inner">
-                                                                        포메라이언
+                                                                        ${body.pet_type}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -2159,7 +2139,7 @@ function work_body_inner(){
                                                                 </div>
                                                                 <div class="flex-table-data">
                                                                     <div class="flex-table-data-inner">
-                                                                        남아
+                                                                        ${body.gender}
                                                                     </div>
                                                                 </div>
                                                             </div>  
@@ -2171,7 +2151,7 @@ function work_body_inner(){
                                                                 </div>
                                                                 <div class="flex-table-data">
                                                                     <div class="flex-table-data-inner">
-                                                                        5.3kg
+                                                                        ${body.weight}kg
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -2183,7 +2163,7 @@ function work_body_inner(){
                                                                     </div>
                                                                     <div class="flex-table-data">
                                                                         <div class="flex-table-data-inner">
-                                                                            2017.03.12 (5년 3개월)
+                                                                            ${body.birth.replaceAll('-','.')}(${Math.floor((new Date().getTime() - new Date(body.birth.split('-')[0],body.birth.split('-')[1],body.birth.split('-')[2]).getTime())/1000/60/60/24/30/12)}년 ${Math.floor((new Date().getTime() - new Date(body.birth.split('-')[0],body.birth.split('-')[1],body.birth.split('-')[2]).getTime())/1000/60/60/24/30%12)}개월)
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2195,7 +2175,7 @@ function work_body_inner(){
                                                                 </div>
                                                                 <div class="flex-table-data">
                                                                     <div class="flex-table-data-inner">
-                                                                        O
+                                                                        ${body.neutral === 0 ? 'X' : 'O'}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -2207,7 +2187,7 @@ function work_body_inner(){
                                                                 </div>
                                                                 <div class="flex-table-data">
                                                                     <div class="flex-table-data-inner">
-                                                                        미기입
+                                                                        ${body.beauty_exp === null || body.beauty_exp ==="" ? '미기입': body.beauty_exp}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -2219,7 +2199,7 @@ function work_body_inner(){
                                                                 </div>
                                                                 <div class="flex-table-data">
                                                                     <div class="flex-table-data-inner">
-                                                                        미기입
+                                                                        ${body.vaccination === null || body.vaccination === "" ? '미기입': body.vaccination}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -2227,6 +2207,7 @@ function work_body_inner(){
                                                         <div class="grid-layout-cell grid-2 toggle">
                                                             <div class="flex-table-item">
                                                                 <div class="flex-table-title">
+                                                                <!-- 입질 데이터 -->
                                                                     <div class="txt">입질</div>
                                                                 </div>
                                                                 <div class="flex-table-data">
@@ -2239,6 +2220,7 @@ function work_body_inner(){
                                                         <div class="grid-layout-cell grid-2 toggle">
                                                             <div class="flex-table-item">
                                                                 <div class="flex-table-title">
+                                                                <!-- 슬개골 탈구 데이터 -->
                                                                     <div class="txt">슬개골 탈구</div>
                                                                 </div>
                                                                 <div class="flex-table-data">
@@ -2255,7 +2237,7 @@ function work_body_inner(){
                                                                 </div>
                                                                 <div class="flex-table-data">
                                                                     <div class="flex-table-data-inner">
-                                                                        미기입
+                                                                        ${body.etc}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -2263,6 +2245,7 @@ function work_body_inner(){
                                                         <div class="grid-layout-cell grid-2 toggle">
                                                             <div class="flex-table-item">
                                                                 <div class="flex-table-title">
+                                                                <!-- 싫어하는 부위 -->
                                                                     <div class="txt">싫어하는 부위</div>
                                                                 </div>
                                                                 <div class="flex-table-data">
@@ -2279,7 +2262,7 @@ function work_body_inner(){
                                                                 </div>
                                                                 <div class="flex-table-data">
                                                                     <div class="flex-table-data-inner">
-                                                                        미기입
+                                                                        ${body.dermatosis ? '피부병' : '' } ${body.heart_trouble ? '심장 질환' : ''} ${body.marking ? '마킹': ''} ${body.mounting ? '마운팅' : ''}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -2324,5 +2307,45 @@ function work_body_inner(){
                                                 </div>
                                             </div>
                                         </div>`
+
+            }
+
+        }
+    })
+
+}
+
+function payment_before_etc(){
+
+    $.ajax({
+
+        url:'../data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:'payment_before_etc',
+            payment_idx:localStorage.getItem('payment_idx'),
+        },
+        success:function(res){
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '서버 오류입니다.');
+            } else if (head.code === 200) {
+                console.log(body);
+
+
+            }
+
+        }
+    })
+}
+
+
+function work_body_inner(){
+
+    
+
     
 }
