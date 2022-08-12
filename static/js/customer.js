@@ -10,7 +10,7 @@ function search(search_value) {
             type:'post',
             data:{
                 mode:'search',
-                login_id:localStorage.getItem('id'),
+                login_id:sessionStorage.getItem('id'),
                 search:search_value,
             },
             success:function(res){

@@ -45,8 +45,8 @@ function join_check(){
 
 let regExp = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})-?[0-9]{3,4}-?[0-9]{4}$/;
 
-setInputFilter(document.getElementById("check_cellphone_1"), function(value) {
-    return /^-?\d*$/.test(value); });
+// setInputFilter(document.getElementById("check_cellphone_1"), function(value) {
+//     return /^-?\d*$/.test(value); });
 
 
 
@@ -136,10 +136,10 @@ Array.from(forms).forEach(function(el){
     })
 })
 
-//공백제거
-document.getElementById('check_email').addEventListener('keyup',function (){
-    this.value = this.value.replace(/(\s*)/g,"");
-})
+// //공백제거
+// document.getElementById('check_email').addEventListener('keyup',function (){
+//     this.value = this.value.replace(/(\s*)/g,"");
+// })
 
 
 let email_regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
@@ -361,8 +361,7 @@ function check_next_btn(){
 
 function login(){
 
-
-    document.addEventListener("DOMContentLoaded",function(){
+    console.log(1);
 
         Array.from(document.getElementsByClassName('form-control')).forEach(function(el){
             el.addEventListener('keydown',function(evt){
@@ -398,10 +397,12 @@ function login(){
                     if(head.code === 401){
                         pop.open('firstRequestMsg1',head.message);
                     }else if(head.code === 200){
-                        localStorage.setItem('id',id);
-                        localStorage.setItem('data',JSON.stringify(body));
-                        localStorage.removeItem('list');
+                        
+                        sessionStorage.setItem('id',id);
+                        sessionStorage.setItem('data',JSON.stringify(body));
+                        sessionStorage.removeItem('list');
                         location.href = "../home/index.php";
+
                     }
 
 
@@ -414,5 +415,5 @@ function login(){
             })
 
         })
-    })
+
 }

@@ -7,7 +7,7 @@ function schedule_render(){
         type:'post',
         data:{
             mode:'day_book',
-            login_id:localStorage.getItem('id'),
+            login_id:sessionStorage.getItem('id'),
             st_date:`${date.getFullYear()}-${fill_zero(date.getMonth()+1)}-${fill_zero(date.getDate())}`,
             fi_date:`${date.getFullYear()}-${fill_zero(date.getMonth()+1)}-${fill_zero(date.getDate()+1)}`,
         },
@@ -62,7 +62,7 @@ function schedule_render(){
                                     let multiple = (new Date(el.product.date.booking_fi).getTime() - new Date(el.product.date.booking_st).getTime())/1800000;
                                     el_.innerHTML = `<div class="calendar-drag-item-group">
                                                                         <a href="#" class="btn-calendar-add">등록하기</a>
-                                                                        <a href="./reserve_pay_management_beauty_1.php" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-pay')})" class="calendar-week-time-item toggle green ${color} ${el.product.is_no_show === 1 ? "red" : ''}" style="height: calc(100% * ${multiple}); ">
+                                                                        <a href="./reserve_pay_management_beauty_1.php" onclick="sessionStorage.setItem('payment_idx',${el_.getAttribute('data-pay')})" class="calendar-week-time-item toggle green ${color} ${el.product.is_no_show === 1 ? "red" : ''}" style="height: calc(100% * ${multiple}); ">
                                                                             <div class="item-inner" style=" ${multiple <4 ? `` : `border:none !important`}">
                                                                                 <div class="item-name">
                                                                                     <div class="txt">${el.pet.name}</div>
@@ -106,7 +106,7 @@ function schedule_render(){
                             async:false,
                             data:{
                                 mode:'schedule_artist',
-                                login_id:localStorage.getItem('id'),
+                                login_id:sessionStorage.getItem('id'),
                             },
                             success:function (res){
                                 let response = JSON.parse(res);
@@ -179,7 +179,7 @@ function book_list() {
             url: '../data/pc_ajax.php',
             data: {
                 mode: 'month_book',
-                login_id: localStorage.getItem('id'),
+                login_id: sessionStorage.getItem('id'),
                 year: date.getFullYear(),
                 month: date.getMonth()+1,
             },
@@ -192,7 +192,7 @@ function book_list() {
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
-                    localStorage.setItem('list', JSON.stringify(body));
+                    sessionStorage.setItem('list', JSON.stringify(body));
                 }
                 resolve();
             }
@@ -222,7 +222,7 @@ function consulting() {
                     let consulting_select = JSON.stringify(el);
 
                     document.querySelector('.main-customer-list').innerHTML += `<div class="main-customer-list-cell">
-                                                                                           <a href="../booking/reserve_advice_view.php" onclick="localStorage.setItem('consulting_select','${(el.pet_name + el.phone).toString()}')" class="customer-card-item transparent">
+                                                                                           <a href="../booking/reserve_advice_view.php" onclick="sessionStorage.setItem('consulting_select','${(el.pet_name + el.phone).toString()}')" class="customer-card-item transparent">
                                                                                                <div class="item-info-wrap">
                                                                                                    <div class="item-data">
                                                                                                        <div class="item-data-inner">
@@ -273,7 +273,7 @@ function consulting_hold_list(){
 
         if(status === '대기' && i < data.consulting_count){
             document.getElementById('consulting_list').innerHTML += `<div class="grid-layout-cell grid-2">
-                                                                                         <div class="${(el.pet_name+el.phone).toString() === localStorage.getItem('consulting_select') ? 'actived':''} thema-gray-item white consulting-select" data-pet_name="${el.pet_name}" data-phone="${el.phone}">
+                                                                                         <div class="${(el.pet_name+el.phone).toString() === sessionStorage.getItem('consulting_select') ? 'actived':''} thema-gray-item white consulting-select" data-pet_name="${el.pet_name}" data-phone="${el.phone}">
                                                                                             <a href="#" class="basic-list-item store">
                                                                                                 <div class="info-wrap">
                                                                                                     <div class="item-name">
@@ -303,7 +303,7 @@ function consulting_history_list(){
     document.getElementById('consulting_list').innerHTML = '';
     document.getElementById('consulting_hold_list_none_data').style.display = 'none';
     document.getElementById('consulting_data').style.opacity = 0;
-    localStorage.removeItem('consulting_select');
+    sessionStorage.removeItem('consulting_select');
 
     let status = '';
 
@@ -324,7 +324,7 @@ function consulting_history_list(){
             }
 
             document.getElementById('consulting_list').innerHTML += `<div class="grid-layout-cell grid-2">
-                                                                                         <div class="thema-gray-item white consulting-select ${(el.pet_name + el.phone).toString() === localStorage.getItem('consulting_select') ? 'actived' : ''}" data-pet_name="${el.pet_name}" data-phone="${el.phone}">
+                                                                                         <div class="thema-gray-item white consulting-select ${(el.pet_name + el.phone).toString() === sessionStorage.getItem('consulting_select') ? 'actived' : ''}" data-pet_name="${el.pet_name}" data-phone="${el.phone}">
                                                                                             <a href="#" class="basic-list-item store">
                                                                                                 <div class="info-wrap">
                                                                                                     <div class="item-name">
@@ -631,7 +631,7 @@ function mini_calendar_init(){
 
     return new Promise(function (resolve){
 
-        let select = localStorage.getItem('day_select').split('.');
+        let select = sessionStorage.getItem('day_select').split('.');
 
         date.setFullYear(parseInt(select[0]));
         date.setMonth(parseInt(select[1])-1);
@@ -658,7 +658,7 @@ function reserve_schedule(){
             type:'post',
             data:{
                 mode:'open_close',
-                login_id:localStorage.getItem('id')
+                login_id:sessionStorage.getItem('id')
 
             },
             success:function(res){
@@ -760,7 +760,7 @@ function cols(){
             async:false,
             data:{
                 mode:'working',
-                login_id:localStorage.getItem('id'),
+                login_id:sessionStorage.getItem('id'),
             },
             success:function (res){
 
@@ -772,7 +772,7 @@ function cols(){
                 } else if (head.code === 200) {
 
                     document.getElementById('day_header_row').innerHTML = `<div class="calendar-day-header-col time"></div>`
-                    let break_time = JSON.parse(localStorage.getItem('break_time'))
+                    let break_time = JSON.parse(sessionStorage.getItem('break_time'))
                     let break_times = '';
                     break_time.forEach(function(el,i){
                         break_times += `${el.time.split('~')[0]} `
@@ -833,8 +833,8 @@ function btn_schedule(){
                 let date_info = document.getElementsByClassName('date-info');
                 let booking_list ;
 
-                if(localStorage.getItem('list')){
-                    booking_list = JSON.parse(localStorage.getItem('list'));
+                if(sessionStorage.getItem('list')){
+                    booking_list = JSON.parse(sessionStorage.getItem('list'));
                 }else{
                     booking_list = data;
                 }
@@ -883,7 +883,7 @@ function btn_schedule(){
                         })
 
                         el.classList.add('actived');
-                        localStorage.setItem('day_select', `${date.getFullYear()}.${fill_zero(date.getMonth() + 1)}.${fill_zero(el.children[0].children[0].children[0].children[0].innerText.trim())}`)
+                        sessionStorage.setItem('day_select', `${date.getFullYear()}.${fill_zero(date.getMonth() + 1)}.${fill_zero(el.children[0].children[0].children[0].children[0].innerText.trim())}`)
                         date.setDate(el.children[0].children[0].children[0].children[0].innerText.trim());
 
                         schedule_render();
@@ -925,8 +925,8 @@ function btn_schedule(){
                 let date_info = document.getElementsByClassName('date-info');
                 let booking_list ;
 
-                if(localStorage.getItem('list')){
-                    booking_list = JSON.parse(localStorage.getItem('list'));
+                if(sessionStorage.getItem('list')){
+                    booking_list = JSON.parse(sessionStorage.getItem('list'));
                 }else{
                     booking_list = data;
                 }
@@ -971,7 +971,7 @@ function btn_schedule(){
                         })
 
                         el.classList.add('actived');
-                        localStorage.setItem('day_select', `${date.getFullYear()}.${fill_zero(date.getMonth() + 1)}.${fill_zero(el.children[0].children[0].children[0].children[0].innerText.trim())}`)
+                        sessionStorage.setItem('day_select', `${date.getFullYear()}.${fill_zero(date.getMonth() + 1)}.${fill_zero(el.children[0].children[0].children[0].children[0].innerText.trim())}`)
                         date.setDate(el.children[0].children[0].children[0].children[0].innerText.trim());
 
                         schedule_render();
@@ -1002,7 +1002,7 @@ function break_time(){
         data:{
 
             mode:'break_time',
-            login_id:localStorage.getItem('id'),
+            login_id:sessionStorage.getItem('id'),
         },
         success:function(res){
             let response = JSON.parse(res);
@@ -1012,7 +1012,7 @@ function break_time(){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
-                localStorage.setItem('break_time',JSON.stringify(body[0].res_time_off))
+                sessionStorage.setItem('break_time',JSON.stringify(body[0].res_time_off))
 
 
 
@@ -1114,7 +1114,7 @@ function pay_management(){
         data:{
 
             mode:'pay_management',
-            payment_idx:localStorage.getItem('payment_idx'),
+            payment_idx:sessionStorage.getItem('payment_idx'),
         },
         success:function (res){
             let response = JSON.parse(res);
@@ -1144,7 +1144,7 @@ function pay_management(){
                                                             <div class="table-user-name">
                                                                 ${body.customer_Id === "" ? body.tmp_id : body.customer_Id}
                                                                 <div class="user-grade-item">
-                                                                    <div class="icon icon-grade-${body.grade_name.toLowerCase() ==="vip" ? "vip" : body.grade_name.toLowerCase() === "gold" ? "normal ": "normalb"}"></div>
+                                                                    <div class="icon icon-grade-${body.grade_ord === 1 ? 'vip' : body.grade_ord === 2 ? 'normal' : 'normalb'}"></div>
                                                                     <div class="icon-grade-label">${body.grade_name}</div>
                                                                 </div>
                                                             </div>
@@ -1416,7 +1416,7 @@ function payment_before_etc(){
         data:{
 
             mode:'payment_before_etc',
-            payment_idx:localStorage.getItem('payment_idx'),
+            payment_idx:sessionStorage.getItem('payment_idx'),
         },
         success:function(res){
             let response = JSON.parse(res);

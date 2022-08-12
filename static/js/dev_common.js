@@ -1,24 +1,32 @@
 // 데이터 갱신
-setInterval(function () {
-    $.ajax({
-        url: '../data/pc_ajax.php',
-        data: {
-            mode: 'home',
-            login_id: localStorage.getItem('id'),
-        },
-        type: 'POST',
-        success: function (res) {
-            let response = JSON.parse(res);
-            let head = response.data.head;
-            let body = response.data.body;
-            if (head.code === 401) {
-                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-            } else if (head.code === 200) {
-                localStorage.setItem('data', JSON.stringify(body));
+let data2;
+
+function data_interval(){
+
+
+    setInterval(function () {
+        $.ajax({
+            url: '../data/pc_ajax.php',
+            data: {
+                mode: 'home',
+                login_id: sessionStorage.getItem('id'),
+            },
+            type: 'POST',
+            async:false,
+            success: function (res) {
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+                    sessionStorage.setItem('data', JSON.stringify(body));
+                    data2 = JSON.stringify(body);
+                }
             }
-        }
-    })
-}, 10000)
+        })
+    }, 10000)
+}
 
 //등록 현황 통계 날짜
 function update(){
@@ -90,7 +98,7 @@ function gnb_actived(element1,element2) {
 
 
 
-let data = JSON.parse(localStorage.getItem('data'));
+let data = JSON.parse(sessionStorage.getItem('data'));
 
 //현재 날짜
 
@@ -254,8 +262,8 @@ function stats(){
 
     let stats;
 
-    if(localStorage.getItem('list')){
-        stats = JSON.parse(localStorage.getItem('list'));
+    if(sessionStorage.getItem('list')){
+        stats = JSON.parse(sessionStorage.getItem('list'));
     }else{
         stats = data;
     }
@@ -322,7 +330,7 @@ function today_reserve(){
                     document.getElementById('reserve_after_none').style.display = 'none';
                     console.log(el)
                     reserve_list.innerHTML += `<div class="main-reserve-list-cell">
-                                                <a href="../booking/reserve_pay_management_beauty_1.php" onclick="localStorage.setItem('payment_idx',${el.product.payment_idx})" class="customer-card-item transparent">
+                                                <a href="../booking/reserve_pay_management_beauty_1.php" onclick="sessionStorage.setItem('payment_idx',${el.product.payment_idx})" class="customer-card-item transparent">
                                                     <div class="item-info-wrap">
                                                         <div class="item-thumb">
                                                             <div class="user-thumb middle"><img src="${el.pet.photo !== null ? `https://image.banjjakpet.com${el.pet.photo}`  : `${el.pet.animal === 'dog' ? `../static/images/icon/icon-pup-select-off.png`: `../static/images/icon/icon-cat-select-off.png`}` }" alt=""></div>
@@ -340,7 +348,7 @@ function today_reserve(){
                                                                         <div class="icon icon-size-16 icon-time-purple"></div>
                                                                         ${am_pm_check(date_today_reserve.getHours())}:${fill_zero(date_today_reserve.getMinutes())} ~ ${am_pm_check(date_today_reserve_fi.getHours())}:${fill_zero(date_today_reserve_fi.getMinutes())}
                                                                     </div>
-                                                                    <div class="option-cell">${el.product.worker === localStorage.getItem('id')? '실장' : el.product.worker}</div>
+                                                                    <div class="option-cell">${el.product.worker === sessionStorage.getItem('id')? '실장' : el.product.worker}</div>
                                                                   
                                                                 </div>
                                                             </div>
@@ -425,7 +433,7 @@ function renderCalendar() {
                                             </div>
                                         </div>
                                         <div class="list-cell">
-                                            <a href="../booking/reserve_beauty_day.php" class="btn-list-nav" onclick="localStorage.setItem('day_select','${date.getFullYear()}.${fill_zero(date.getMonth()+1)}.${fill_zero(_date)}')">
+                                            <a href="../booking/reserve_beauty_day.php" class="btn-list-nav" onclick="sessionStorage.setItem('day_select','${date.getFullYear()}.${fill_zero(date.getMonth()+1)}.${fill_zero(_date)}')">
 
                                                 <div class="title">미용</div>
                                                 <div class="value beauty-count"></div>
@@ -468,8 +476,8 @@ function _renderCalendar() {
             let date_info = document.getElementsByClassName('date-info');
             let booking_list ;
 
-            if(localStorage.getItem('list')){
-                booking_list = JSON.parse(localStorage.getItem('list'));
+            if(sessionStorage.getItem('list')){
+                booking_list = JSON.parse(sessionStorage.getItem('list'));
             }else{
                 booking_list = data;
             }
@@ -627,7 +635,7 @@ function renderCalendar_mini() {
                                             </div>
                                         </div>
                                         <div class="list-cell">
-                                            <a href="../booking/reserve_beauty_day.php" class="btn-list-nav" onclick="localStorage.setItem('day_select','${date.getFullYear()}.${fill_zero(date.getMonth()+1)}.${fill_zero(_date)}')">
+                                            <a href="../booking/reserve_beauty_day.php" class="btn-list-nav" onclick="sessionStorage.setItem('day_select','${date.getFullYear()}.${fill_zero(date.getMonth()+1)}.${fill_zero(_date)}')">
 
                                                 <div class="title">미용</div>
                                                 <div class="value beauty-count"></div>
@@ -668,8 +676,8 @@ function _renderCalendar_mini(){
             let date_info = document.getElementsByClassName('date-info');
             let booking_list ;
 
-            if(localStorage.getItem('list')){
-                booking_list = JSON.parse(localStorage.getItem('list'));
+            if(sessionStorage.getItem('list')){
+                booking_list = JSON.parse(sessionStorage.getItem('list'));
             }else{
                 booking_list = data;
             }
@@ -722,14 +730,14 @@ function _renderCalendar_mini(){
                     })
 
                     el.classList.add('actived');
-                    localStorage.setItem('day_select',`${date.getFullYear()}.${fill_zero(date.getMonth()+1)}.${fill_zero(el.children[0].children[0].children[0].children[0].innerText.trim())}`)
+                    sessionStorage.setItem('day_select',`${date.getFullYear()}.${fill_zero(date.getMonth()+1)}.${fill_zero(el.children[0].children[0].children[0].children[0].innerText.trim())}`)
                     date.setDate(el.children[0].children[0].children[0].children[0].innerText.trim());
 
                     schedule_render();
 
                 })
 
-                if(fill_zero(el.children[0].children[0].children[0].children[0].innerText.trim()) === localStorage.getItem('day_select').split('.')[2] && !el.classList.contains('after') && !el.classList.contains('before')){
+                if(fill_zero(el.children[0].children[0].children[0].children[0].innerText.trim()) === sessionStorage.getItem('day_select').split('.')[2] && !el.classList.contains('after') && !el.classList.contains('before')){
                     el.click();
 
                 }
@@ -804,7 +812,7 @@ function holiday(){
         type:'post',
         data:{
             mode:'holiday',
-            login_id:localStorage.getItem('id')
+            login_id:sessionStorage.getItem('id')
         },
         success:function(res){
             let response = JSON.parse(res);

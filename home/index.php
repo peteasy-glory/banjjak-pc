@@ -236,7 +236,7 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 <!-- //wrap -->
 <script src="../static/js/common.js"></script>
 <script src="../static/js/dev_common.js"></script>
-<script src="../static/js/pc_script.js"></script>
+<script src="../static/js/booking.js"></script>
 
 <script>
 

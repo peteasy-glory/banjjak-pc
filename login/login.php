@@ -101,6 +101,12 @@ function RandomToken($length = 32){
 <script src="../static/js/common.js"></script>
 <script src="../static/js/dev_common.js"></script>
 <script src="../static/js/login.js"></script>
+<script>
+    window.onload = function(){
 
+        login();
+
+    }
+</script>
 </body>
 </html>
