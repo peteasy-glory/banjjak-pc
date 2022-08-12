@@ -193,17 +193,17 @@ var include = {
                                         <div class="snb-menu-list" >
                                         <!-- snb-menu-cell 클래스에 actived클래스 추가시 활성화 -->
                                             <div class="snb-menu-cell" id="gnb_beauty">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="http://localhost:83/booking/reserve_beauty_day.php" class="btn-snb-nav" >
                                                     <div class="txt">미용 예약 관리</div>
                                                 </a>
                                             </div>
                                             <div class="snb-menu-cell" id="gnb_hotel">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="#" class="btn-snb-nav" onclick="pop.open('firstRequestMsg1','준비 중 입니다.');">
                                                     <div class="txt">호텔 예약 관리</div>
                                                 </a>
                                             </div>
                                             <div class="snb-menu-cell" id="gnb_kindergarden">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="#" class="btn-snb-nav" onclick="pop.open('firstRequestMsg1','준비 중 입니다.');">
                                                 <div class="txt">유치원 예약 관리</div>
                                                 </a>
                                             </div>

@@ -1,6 +1,31 @@
-// 데이터 갱신
-let data2;
 
+let data;
+let list;
+
+
+function data_set(){
+
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'home',
+            login_id: sessionStorage.getItem('id'),
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                data = body;
+            }
+        }
+    })
+}
+// 데이터 갱신
 function data_interval(){
 
 
@@ -20,8 +45,7 @@ function data_interval(){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
-                    sessionStorage.setItem('data', JSON.stringify(body));
-                    data2 = JSON.stringify(body);
+                    data = body;
                 }
             }
         })
@@ -98,7 +122,7 @@ function gnb_actived(element1,element2) {
 
 
 
-let data = JSON.parse(sessionStorage.getItem('data'));
+// let data = JSON.parse(sessionStorage.getItem('data'));
 
 //현재 날짜
 
@@ -262,8 +286,8 @@ function stats(){
 
     let stats;
 
-    if(sessionStorage.getItem('list')){
-        stats = JSON.parse(sessionStorage.getItem('list'));
+    if(list !== undefined){
+        stats = list;
     }else{
         stats = data;
     }
@@ -328,7 +352,6 @@ function today_reserve(){
                 ){
 
                     document.getElementById('reserve_after_none').style.display = 'none';
-                    console.log(el)
                     reserve_list.innerHTML += `<div class="main-reserve-list-cell">
                                                 <a href="../booking/reserve_pay_management_beauty_1.php" onclick="sessionStorage.setItem('payment_idx',${el.product.payment_idx})" class="customer-card-item transparent">
                                                     <div class="item-info-wrap">
@@ -476,8 +499,8 @@ function _renderCalendar() {
             let date_info = document.getElementsByClassName('date-info');
             let booking_list ;
 
-            if(sessionStorage.getItem('list')){
-                booking_list = JSON.parse(sessionStorage.getItem('list'));
+            if(list !== undefined){
+                booking_list = list;
             }else{
                 booking_list = data;
             }
@@ -488,15 +511,15 @@ function _renderCalendar() {
                 let date_ck_1 = new Date(`20${el.innerText.trim()}`);
 
                 if(booking_list.beauty.length === 0){
-                    Array.from(document.getElementsByClassName('reserve-total')).forEach(function (el,i){
-                        el.innerHTML = '0';
-                    })
-                    Array.from(document.getElementsByClassName('reserve-total-2')).forEach(function (el,i){
-                        el.innerHTML = '0건';
-                    })
-                    Array.from(document.getElementsByClassName('beauty-count')).forEach(function (el,i){
-                        el.innerHTML = '0건';
-                    })
+                    // Array.from(document.getElementsByClassName('reserve-total')).forEach(function (el,i){
+                    //     el.innerHTML = '0';
+                    // })
+                    // Array.from(document.getElementsByClassName('reserve-total-2')).forEach(function (el,i){
+                    //     el.innerHTML = '0건';
+                    // })
+                    // Array.from(document.getElementsByClassName('beauty-count')).forEach(function (el,i){
+                    //     el.innerHTML = '0건';
+                    // })
                 }else{
                     booking_list.beauty.forEach(function(el_,i_){
                         let date_ck_2  =  new Date(el_.product.date.booking_st);
@@ -648,7 +671,6 @@ function renderCalendar_mini() {
                     </div>`;
         })
         const div_dates = dates.division(7).slice(0,-1);
-        console.log(div_dates);
         document.getElementById(`mini-calendar-month-body`).innerHTML = '';
         for (let i = 0; i < div_dates.length; i++) {
             document.getElementById(`mini-calendar-month-body`).innerHTML += ` <div class="mini-calendar-month-body-row ${i > 0 && i < 5 ? "op-1" : ""} ${i === 0 || i === 2 ? '1or3' : i === 1 || i === 3 ? '2or4':""} " id="mini-calendar-month-body-row-${i}" ></div>`
@@ -658,9 +680,8 @@ function renderCalendar_mini() {
     })
 }
 
+//새로고침 달력
 function _renderCalendar_mini(){
-
-
     renderCalendar_mini()
         .then(function (div_dates){
             for (let i = 0; i < div_dates.length; i++) {
@@ -676,20 +697,22 @@ function _renderCalendar_mini(){
             let date_info = document.getElementsByClassName('date-info');
             let booking_list ;
 
-            if(sessionStorage.getItem('list')){
-                booking_list = JSON.parse(sessionStorage.getItem('list'));
+            if(list !== undefined){
+                console.log('리스트호출')
+                booking_list = list;
             }else{
                 booking_list = data;
             }
+            console.log(booking_list)
 
             Array.from(date_info).forEach(function(el,i){
                 let count = 0;
                 let date_ck_1 = new Date(`20${el.innerText.trim()}`);
 
                 if(booking_list.beauty.length === 0){
-                    Array.from(document.getElementsByClassName('reserve-total')).forEach(function (el,i){
-                        el.innerHTML = '0';
-                    })
+                    // Array.from(document.getElementsByClassName('reserve-total')).forEach(function (el,i){
+                    //     el.innerHTML = '0';
+                    // })
                 }else{
                     booking_list.beauty.forEach(function(el_,i_){
                         let date_ck_2  =  new Date(el_.product.date.booking_st);
@@ -701,8 +724,10 @@ function _renderCalendar_mini(){
                         }
 
 
+                        if(count !==0){
 
-                        siblings(el.parentElement.parentElement.parentElement.parentElement,0).children[1].innerHTML= `${count}`;
+                            siblings(el.parentElement.parentElement.parentElement.parentElement,0).children[1].innerHTML= `${count}`;
+                        }
 
                     })
                 }
@@ -737,14 +762,21 @@ function _renderCalendar_mini(){
 
                 })
 
-                if(fill_zero(el.children[0].children[0].children[0].children[0].innerText.trim()) === sessionStorage.getItem('day_select').split('.')[2] && !el.classList.contains('after') && !el.classList.contains('before')){
+
+                let day = sessionStorage.getItem('day_select') !== null ? sessionStorage.getItem('day_select').split('.')[2] : date.getDate();
+                if(fill_zero(el.children[0].children[0].children[0].children[0].innerText.trim()) === day && !el.classList.contains('after') && !el.classList.contains('before')){
                     el.click();
 
                 }
 
 
-            })
 
+
+            })
+            if(sessionStorage.getItem('day_select') === null){
+
+                document.querySelector('.today').click()
+            }
 
 
         })

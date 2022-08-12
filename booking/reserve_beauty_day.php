@@ -251,6 +251,7 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 <script>
 
 
+    data_set()
     window.onload = function (){
 
 
@@ -264,12 +265,15 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
             .then(function(){
                 _renderCalendar_mini()
 
-                })
 
+                })
+        reload_list()
 
 
         gnb_actived('gnb_reserve_wrap','gnb_beauty');
         btn_schedule();
+
+
 
 
     }

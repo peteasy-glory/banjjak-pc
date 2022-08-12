@@ -89,7 +89,7 @@ $search = ($_POST['search'] && $_POST['search'] !== "") ? $_POST['search']:"";
 <script src="../static/js/dev_common.js"></script>
 <script src="../static/js/customer.js"></script>
 <script>
-
+    data_set()
 
     window.onload = function (){
         gnb_init();

@@ -149,20 +149,19 @@ if($r_mode){
 
         $pay_management = $api -> get('/partner/booking/payment-customer-pet/'.$payment_idx);
 
-        $return_data = array("code"=>"000000",'data'=>$pay_management);
-    }else if($r_mode ==="payment_before_etc"){
 
-        $payment_idx = $_POST['payment_idx'];
+        $is_beauty_false = array("is_beauty"=>false,"get_count"=>10);
+        $is_beauty_true = array("is_beauty"=>true,"get_count"=>10);
 
+        $is_beauty_false_data_json = json_encode($is_beauty_false);
+        $is_beauty_true_data_json = json_encode($is_beauty_true);
 
-        $is_beauty = array("is_beauty"=>false,"get_count"=>10);
-        $is_beauty_data_json = json_encode($is_beauty);
-
-        $payment_before_etc = $api -> get ('/partner/booking/payment-before-etc/'.$payment_idx,$is_beauty_data_json);
-
-        $return_data = array("code"=>"000000","data"=>$payment_before_etc);
+        $payment_before_etc_false = $api -> get ('/partner/booking/payment-before-etc/'.$payment_idx,$is_beauty_false_data_json);
+        $payment_before_etc_true = $api -> get ('/partner/booking/payment-before-etc/'.$payment_idx,$is_beauty_true_data_json);
 
 
+
+        $return_data = array("code"=>"000000",'data'=>$pay_management,"data2"=>$payment_before_etc_false,"data3"=>$payment_before_etc_true);
     }else if($r_mode === "schedule_artist") {
 
 

@@ -242,6 +242,7 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 
 
 
+    data_set()
     banner();
 
 

@@ -103,6 +103,8 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 <script src="../static/js/booking.js"></script>
 
 <script>
+
+    data_set()
     window.onload = function (){
 
         gnb_init();

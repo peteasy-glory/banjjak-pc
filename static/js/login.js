@@ -399,8 +399,6 @@ function login(){
                     }else if(head.code === 200){
                         
                         sessionStorage.setItem('id',id);
-                        sessionStorage.setItem('data',JSON.stringify(body));
-                        sessionStorage.removeItem('list');
                         location.href = "../home/index.php";
 
                     }

@@ -115,7 +115,7 @@ function schedule_render(){
                                 if (head.code === 401) {
                                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                                 } else if (head.code === 200) {
-                                    console.log(body);
+
 
 
                                     body.working.forEach(function(el){
@@ -170,9 +170,42 @@ function schedule_render(){
     })
 }
 
+function reload_list(){
+
+    let year = sessionStorage.getItem('day_select') !== null ? sessionStorage.getItem('day_select').split('.')[0] : date.getFullYear()
+    let month = sessionStorage.getItem('day_select') !== null ? sessionStorage.getItem('day_select').split('.')[1] : date.getMonth()+1
+
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'month_book',
+            login_id: sessionStorage.getItem('id'),
+            year: year,
+            month: month
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                list = body;
+            }
+
+        }
+    })
+}
+
 
 //booking
 function book_list() {
+
+
+
+
     return new Promise(function (resolve){
 
         $.ajax({
@@ -184,7 +217,7 @@ function book_list() {
                 month: date.getMonth()+1,
             },
             type: 'POST',
-            async:false,
+
             success: function (res) {
                 let response = JSON.parse(res);
                 let head = response.data.head;
@@ -192,7 +225,7 @@ function book_list() {
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
-                    sessionStorage.setItem('list', JSON.stringify(body));
+                    list = body;
                 }
                 resolve();
             }
@@ -487,7 +520,7 @@ function consulting_list_select(){
                                                                                                                             <div class="txt">예방접종</div>
                                                                                                                         </div>
                                                                                                                         <div class="flex-table-data">
-                                                                                                                            <div class="flex-table-data-inner">${el_.vassination}</div>
+                                                                                                                            <div class="flex-table-data-inner">${el_.vaccination}</div>
                                                                                                                         </div>
                                                                                                                     </div>
                                                                                                                 </div>
@@ -575,7 +608,7 @@ function consulting_list_select(){
     })
 }
 
-//미니달력 달바꾸기
+//미니달력 달기준 바꾸기
 function calendar_change_month(){
 
     let month_nav = document.getElementsByClassName('btn-simple-calendar-month-nav')
@@ -631,13 +664,21 @@ function mini_calendar_init(){
 
     return new Promise(function (resolve){
 
-        let select = sessionStorage.getItem('day_select').split('.');
+        let select;
 
-        date.setFullYear(parseInt(select[0]));
-        date.setMonth(parseInt(select[1])-1);
-        date.setDate(parseInt(select[2]));
+        if(sessionStorage.getItem('day_select') !== null){
 
+
+            select = sessionStorage.getItem('day_select').split('.');
+
+            date.setFullYear(parseInt(select[0]));
+            date.setMonth(parseInt(select[1])-1);
+            date.setDate(parseInt(select[2]));
+
+
+        }
         resolve();
+
 
     })
 
@@ -1105,6 +1146,10 @@ function day_drag(){
 //작업결제관리 페이지
 function pay_management(){
 
+    return new Promise(function (resolve){
+
+
+
 
     $.ajax({
 
@@ -1120,12 +1165,14 @@ function pay_management(){
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
+            let body_ = [response.data2.body,response.data3.body]
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
+
                 console.log(body);
                 let work_body_inner = document.getElementById('work_body_inner');
-
+                let data_col_right = document.getElementById('data_col_right');
 
                 work_body_inner.innerHTML = ''
 
@@ -1398,46 +1445,181 @@ function pay_management(){
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>`
+                                        </div>
+                                        <div class="basic-data-group">
+                                                    <div class="wide-tab card">
+                                                        <div class="wide-tab-inner">
+                                                            <!-- 활성화시 actived클래스 추가 -->
+                                                            <div class="tab-cell actived">
+                                                                <a href="#" class="btn-tab-item">미용</a>
+                                                            </div>
+                                                            <div class="tab-cell">
+                                                                <a href="#" class="btn-tab-item" onclick="pop.open('firstRequestMsg1','준비 중 입니다.');">호텔</a>
+                                                            </div>
+                                                            <div class="tab-cell">
+                                                                <a href="#" class="btn-tab-item" onclick="pop.open('firstRequestMsg1','준비 중 입니다.');">유치원</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="basic-data-group vvsmall3">
+                                                        <div class="grid-layout margin-14-17">
+                                                            <div class="grid-layout-inner">
+                                                                <div class="grid-layout-cell grid-2">
+                                                                    <div class="note-toggle-group">
+                                                                        <div class="con-title-group">
+                                                                            <!--
+                                                                            <h4 class="con-title"><a href="#" class="btn-con-title"><div>이전 특이사항</div><div class="icon icon-btn-more-black"></div></a></h4>
+                                                                            -->
+                                                                            <h4 class="con-title">이전 특이사항</h4>
+                                                                        </div>
+                                                                        <div class="memo-item-list note-toggle-list" id="etc1_list">
+                                                                            
+                                                                        </div>
+                                                                        ${response.data2.body.length >5 ? `<div class="note-toggle-ui">
+                                                                            <button type="button" class="btn-note-toggle">더보기</button>
+                                                                        </div>` : ''}
+                                                                     
+                                                                    </div>
+                                                                </div>
+                                                                <div class="grid-layout-cell grid-2">
+                                                                    <div class="note-toggle-group">
+                                                                        <div class="con-title-group">
+                                                                            <!--
+                                                                            <h4 class="con-title"><a href="#" class="btn-con-title"><div>이전 이용내역</div><div class="icon icon-btn-more-black"></div></a></h4>
+                                                                            -->
+                                                                            <h4 class="con-title">이전 이용내역</h4>
+                                                                        </div>
+                                                                        <div class="memo-item-list note-toggle-list" id="etc2_list">
+                                                                            
+                                                                        </div>
+                                                                        ${response.data3.body.length >5 ? `<div class="note-toggle-ui">
+                                                                            <button type="button" class="btn-note-toggle">더보기</button>
+                                                                        </div>` : ''}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>`
 
+                
+                
+                data_col_right.innerHTML = `<div class="basic-data-card">
+                                                <div class="card-header">
+                                                    <h3 class="card-header-title">예약 정보</h3>
+                                                </div>
+                                                <div class="card-body">
+                                                <div class="card-body-inner">
+                                                <div class="basic-data-group">
+                                                <div class="user-receipt-item">
+                                                <div class="con-title-group">
+                                                <h5 class="con-title">예약 내용</h5>
+                                                <button type="button" class="btn-side btn btn-outline-purple btn-round-full btn-vsmall-size">알림톡 발송 이력</button>
+                                                </div>
+                                                <div class="text-list-wrap type-2">
+                                                <div class="text-list-cell"><div class="item-title unit">날짜</div><div class="item-data">?</div></div>
+                                                <div class="text-list-cell"><div class="item-title unit">선생님</div><div class="item-data">?</div></div>
+                                                <div class="text-list-cell">
+                                                <div class="item-title unit align-self-center">시간</div>
+                                                <div class="item-data">
+                                                <div class="form-datepicker-group">
+                                                <div class="form-datepicker">
+                                                <select>
+                                                <option value="">오전 11:30</option>
+                                                <option value="">오전 11:30</option>
+                                                <option value="">오전 11:30</option>
+                                                </select>
+                                                </div>
+                                                <div class="form-unit">~</div>
+                                                <div class="form-datepicker">
+                                                <select>
+                                                <option value="">오후 11:30</option>
+                                                <option value="">오후 11:30</option>
+                                                <option value="">오후 11:30</option>
+                                                </select>
+                                                </div>
+                                                </div>
+                                                </div>
+                                                </div>
+                                                </div>
+                                                <div class="basic-data-group vsmall"><button type="button" class="btn btn-outline-gray btn-basic-full">시간만 변경</button></div>
+                                                <div class="form-bottom-info"><span>*시간 변경만 하는 경우 시간선택 후 변경을 눌러주세요.</span></div>
+                                                </div>
+                                                <div class="basic-data-group small">
+                                                <div class="grid-layout btn-grid-group">
+                                                <div class="grid-layout-inner">
+                                                <div class="grid-layout-cell grid-2"><button type="button" class="btn btn-purple">날짜/미용사 변경</button></div>
+                                                <div class="grid-layout-cell grid-2"><button type="button" class="btn btn-outline-purple">예약 취소</button></div>
+                                                </div>
+                                                </div>
+                                                </div>
+                                                </div>
+                                                <div class="basic-data-group">
+                                                <div class="con-title-group">
+                                                <h4 class="con-title">미용 종료 알림 발송</h4>
+                                                </div>
+                                                <div class="basic-data-group vvsmall">
+                                                <div class="grid-layout basic">
+                                                <div class="grid-layout-inner">
+                                                <div class="grid-layout-cell grid-4"><label class="form-toggle-box block"><input type="radio" name="time1"><em>지금종료</em></label></div>
+                                                <div class="grid-layout-cell grid-4"><label class="form-toggle-box block"><input type="radio" name="time1"><em>10분전</em></label></div>
+                                                <div class="grid-layout-cell grid-4"><label class="form-toggle-box block"><input type="radio" name="time1"><em>15분전</em></label></div>
+                                                <div class="grid-layout-cell grid-4"><label class="form-toggle-box block"><input type="radio" name="time1"><em>20분전</em></label></div>
+                                                <div class="grid-layout-cell grid-4"><label class="form-toggle-box block"><input type="radio" name="time1"><em>30분전</em></label></div>
+                                                </div>
+                                                </div>
+                                                </div>
+                                                <div class="form-bottom-info">*시간 선택 후 발송을 누르면 견주에게 즉시알림이 발송됩니다.</div>
+                                                <div class="basic-data-group vmiddle">
+                                                <div class="grid-layout btn-grid-group">
+                                                <div class="grid-layout-inner">
+                                                <div class="grid-layout-cell grid-2"><button type="button" class="btn btn-outline-gray">예시보기</button></div>
+                                                <div class="grid-layout-cell grid-2"><button type="button" class="btn btn-outline-purple">발송</button></div>
+                                                </div>
+                                                </div>
+                                                </div>
+                                                </div>
+                                                </div>
+                                                </div>
+                                                </div>`
+
+                resolve(body_);
             }
 
         }
     })
-
-}
-
-function payment_before_etc(){
-
-    $.ajax({
-
-        url:'../data/pc_ajax.php',
-        type:'post',
-        data:{
-
-            mode:'payment_before_etc',
-            payment_idx:sessionStorage.getItem('payment_idx'),
-        },
-        success:function(res){
-            let response = JSON.parse(res);
-            let head = response.data.head;
-            let body = response.data.body;
-            if (head.code === 401) {
-                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-            } else if (head.code === 200) {
-                console.log(body);
-
-
-            }
-
-        }
     })
-}
-
-
-function work_body_inner(){
-
-
-
 
 }
+
+function pay_management_(){
+
+    pay_management().then(function (body_){
+
+        body_[0].forEach(function (el){
+
+
+            document.getElementById('etc1_list').innerHTML += `<div class="memo-item note-toggle-cell">
+                                                                                <div class="note-desc">
+                                                                                    <em>${el.booking_date}</em>
+                                                                                    <div class="txt">${el.memo}</div>
+                                                                                </div>
+                                                                          </div>`
+        })
+
+        body_[1].forEach(function (el){
+
+            let split_el = el.product.split('|');
+            document.getElementById('etc2_list').innerHTML += `<div class="memo-item note-toggle-cell">${el.booking_date} / ${split_el[0]} / ${split_el[4]} / ?Kg / ?원
+                                                                                <div class="memo-link">
+                                                                                    <a href="#" class="btn-memo-link">상세보기
+                                                                                        <div class="icon icon-arrow-right-small"></div>
+                                                                                    </a>
+                                                                                </div>
+                                                                          </div>`
+
+        })
+    })
+
+}
+
