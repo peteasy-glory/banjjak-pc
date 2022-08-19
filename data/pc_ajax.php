@@ -171,7 +171,49 @@ if($r_mode){
 
         $return_data = array("code" => "000000", "data" => $schedule_artist);
 
+    }else if($r_mode === "week_book"){
+
+        $login_id = $_POST['login_id'];
+
+        $st_date = $_POST['st_date'];
+        $fi_date = $_POST['fi_date'];
+
+        $week_book = $api->get('/partner/booking/b/'.$login_id.'?st_date='.$st_date.'&fi_date='.$fi_date);
+
+        $return_data = array("code"=>"000000",'data'=>$week_book);
+
+    }else if($r_mode === "customer_all"){
+
+        $login_id = $_POST['login_id'];
+
+        $type = $_POST['type'];
+        $ord = $_POST['ord'];
+
+        if($type === "all"){
+            $customer_all_b = $api->get('/partner/customer/search/'.$login_id.'?type=beauty&ord_type='.$ord);
+            $customer_all_h = $api->get('/partner/customer/search/'.$login_id.'?type=hotel&ord_type='.$ord);
+            $customer_all_k = $api->get('/partner/customer/search/'.$login_id.'?type=kinder&ord_type='.$ord);
+
+            $customer_all = array($customer_all_b,$customer_all_h,$customer_all_k);
+        }else{
+            $customer_all = $api->get('/partner/customer/search/'.$login_id.'?type='.$type.'&ord_type='.$ord);
+        }
+
+
+
+        $return_data = array("code"=>"000000","data"=>$customer_all);
+    }else if($r_mode === "customer_count"){
+
+        $login_id = $_POST['login_id'];
+
+
+        $count_people = $api ->get('/partner/customer/search/'.$login_id.'?type=people');
+        $count_animal = $api ->get('/partner/customer/search/'.$login_id.'?type=animal');
+
+        $return_data = array("code"=>"000000","people"=>$count_people,"animal"=>$count_animal);
+
     }
+
 }
 
 

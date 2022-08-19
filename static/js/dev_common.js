@@ -9,7 +9,7 @@ function data_set(){
         url: '../data/pc_ajax.php',
         data: {
             mode: 'home',
-            login_id: sessionStorage.getItem('id'),
+            login_id: localStorage.getItem('id'),
         },
         type: 'POST',
         async:false,
@@ -34,7 +34,7 @@ function data_interval(){
             url: '../data/pc_ajax.php',
             data: {
                 mode: 'home',
-                login_id: sessionStorage.getItem('id'),
+                login_id: localStorage.getItem('id'),
             },
             type: 'POST',
             async:false,
@@ -122,7 +122,7 @@ function gnb_actived(element1,element2) {
 
 
 
-// let data = JSON.parse(sessionStorage.getItem('data'));
+// let data = JSON.parse(localStorage.getItem('data'));
 
 //현재 날짜
 
@@ -333,6 +333,14 @@ function today_reserve(){
 
     let reserve_list = document.getElementById('main_reserve_list');
 
+
+    // let booking_list;
+
+    // if(list !== undefined){
+    //     booking_list = list;
+    // }else{
+    //     booking_list = data;
+    // }
     if(data.beauty.length > 0 || data.hotel.length > 0 || data.kindergarden.length > 0){
 
 
@@ -353,7 +361,7 @@ function today_reserve(){
 
                     document.getElementById('reserve_after_none').style.display = 'none';
                     reserve_list.innerHTML += `<div class="main-reserve-list-cell">
-                                                <a href="../booking/reserve_pay_management_beauty_1.php" onclick="sessionStorage.setItem('payment_idx',${el.product.payment_idx})" class="customer-card-item transparent">
+                                                <a href="../booking/reserve_pay_management_beauty_1.php" onclick="localStorage.setItem('payment_idx',${el.product.payment_idx})" class="customer-card-item transparent">
                                                     <div class="item-info-wrap">
                                                         <div class="item-thumb">
                                                             <div class="user-thumb middle"><img src="${el.pet.photo !== null ? `https://image.banjjakpet.com${el.pet.photo}`  : `${el.pet.animal === 'dog' ? `../static/images/icon/icon-pup-select-off.png`: `../static/images/icon/icon-cat-select-off.png`}` }" alt=""></div>
@@ -371,7 +379,7 @@ function today_reserve(){
                                                                         <div class="icon icon-size-16 icon-time-purple"></div>
                                                                         ${am_pm_check(date_today_reserve.getHours())}:${fill_zero(date_today_reserve.getMinutes())} ~ ${am_pm_check(date_today_reserve_fi.getHours())}:${fill_zero(date_today_reserve_fi.getMinutes())}
                                                                     </div>
-                                                                    <div class="option-cell">${el.product.worker === sessionStorage.getItem('id')? '실장' : el.product.worker}</div>
+                                                                    <div class="option-cell">${el.product.worker === localStorage.getItem('id')? '실장' : el.product.worker}</div>
                                                                   
                                                                 </div>
                                                             </div>
@@ -456,7 +464,7 @@ function renderCalendar() {
                                             </div>
                                         </div>
                                         <div class="list-cell">
-                                            <a href="../booking/reserve_beauty_day.php" class="btn-list-nav" onclick="sessionStorage.setItem('day_select','${date.getFullYear()}.${fill_zero(date.getMonth()+1)}.${fill_zero(_date)}')">
+                                            <a href="../booking/reserve_beauty_day.php" class="btn-list-nav" onclick="localStorage.setItem('day_select','${date.getFullYear()}.${fill_zero(date.getMonth()+1)}.${fill_zero(_date)}')">
 
                                                 <div class="title">미용</div>
                                                 <div class="value beauty-count"></div>
@@ -557,15 +565,16 @@ function _renderCalendar() {
 function btn_month(){
 
 
-
     document.getElementById('btn-month-prev').addEventListener('click', function (evt) {
 
         date.setDate(1);
         date.setMonth(date.getMonth() - 1);
         book_list().then(function (){
             if(document.getElementById('main-calendar-month-body')){
+
                 _renderCalendar();
             }else{
+
                 _renderCalendar_mini();
             }
             if(document.getElementById('main_reserve_graph_none')){
@@ -580,8 +589,10 @@ function btn_month(){
         date.setMonth(date.getMonth() + 1);
         book_list().then(function (){
             if(document.getElementById('main-calendar-month-body')){
+
                 _renderCalendar();
             }else{
+
                 _renderCalendar_mini();
             }
 
@@ -658,7 +669,7 @@ function renderCalendar_mini() {
                                             </div>
                                         </div>
                                         <div class="list-cell">
-                                            <a href="../booking/reserve_beauty_day.php" class="btn-list-nav" onclick="sessionStorage.setItem('day_select','${date.getFullYear()}.${fill_zero(date.getMonth()+1)}.${fill_zero(_date)}')">
+                                            <a href="../booking/reserve_beauty_day.php" class="btn-list-nav" onclick="localStorage.setItem('day_select','${date.getFullYear()}.${fill_zero(date.getMonth()+1)}.${fill_zero(_date)}')">
 
                                                 <div class="title">미용</div>
                                                 <div class="value beauty-count"></div>
@@ -673,7 +684,7 @@ function renderCalendar_mini() {
         const div_dates = dates.division(7).slice(0,-1);
         document.getElementById(`mini-calendar-month-body`).innerHTML = '';
         for (let i = 0; i < div_dates.length; i++) {
-            document.getElementById(`mini-calendar-month-body`).innerHTML += ` <div class="mini-calendar-month-body-row ${i > 0 && i < 5 ? "op-1" : ""} ${i === 0 || i === 2 ? '1or3' : i === 1 || i === 3 ? '2or4':""} " id="mini-calendar-month-body-row-${i}" ></div>`
+            document.getElementById(`mini-calendar-month-body`).innerHTML += ` <div class="mini-calendar-month-body-row ${i > 0 && i < 5 ? "op-1" : ""} ${i === 0 || i === 2 ? '1or3' : i === 1 || i === 3 ? '2or4':""} " id="mini-calendar-month-body-row-${i}" data-row="${i}" ></div>`
         }
         holiday();
         resolve(div_dates);
@@ -698,12 +709,10 @@ function _renderCalendar_mini(){
             let booking_list ;
 
             if(list !== undefined){
-                console.log('리스트호출')
                 booking_list = list;
             }else{
                 booking_list = data;
             }
-            console.log(booking_list)
 
             Array.from(date_info).forEach(function(el,i){
                 let count = 0;
@@ -747,23 +756,80 @@ function _renderCalendar_mini(){
 
             Array.from(mini_col).forEach(function(el){
 
-                el.addEventListener('click',function(){
+                el.addEventListener('click',function(evt){
 
-                    Array.from(mini_col).forEach(function(el_){
+
+
+                     Array.from(mini_col).forEach(function click_event(el_){
 
                         el_.classList.remove('actived');
                     })
 
                     el.classList.add('actived');
-                    sessionStorage.setItem('day_select',`${date.getFullYear()}.${fill_zero(date.getMonth()+1)}.${fill_zero(el.children[0].children[0].children[0].children[0].innerText.trim())}`)
+                    localStorage.setItem('day_select',`${date.getFullYear()}.${fill_zero(date.getMonth()+1)}.${fill_zero(el.children[0].children[0].children[0].children[0].innerText.trim())}`)
                     date.setDate(el.children[0].children[0].children[0].children[0].innerText.trim());
 
-                    schedule_render();
+
+
+                    if(location.href.match('reserve_beauty_day')){
+                        schedule_render();
+                    }else if(location.href.match('reserve_beauty_week')){
+
+
+                        localStorage.setItem('select_row',el.parentElement.getAttribute('data-row'))
+
+                        schedule_render_week(el).then(function(data){
+
+                            let body_ = data[0];
+                            let parent = data[1]
+
+                            week_working().then(function (body){
+                                reserve_schedule_week_cols(body,body_,parent)
+
+
+                            })
+                            reserve_schedule_week().then(function(body){
+
+                                document.getElementById('grid_layout_inner').children[0].children[0].click();
+                                week_timebar(body);
+                                let test = document.getElementsByClassName('week-date');
+
+                                let text = [''];
+                                Array.from(test).forEach(function (el){
+                                    text.push(el.innerText)
+                                })
+
+                                for(let i=0; i<text.length; i++){
+                                    Array.from(document.getElementsByClassName('calendar-week-body-row')).forEach(function(el){
+
+                                        if(el.children[i].classList.contains('calendar-week-body-col-add')){
+                                            el.children[i].setAttribute('data-date',text[i])
+                                        }
+
+                                    })
+                                }
+                                week_drag();
+
+
+
+
+
+                            });
+                        });
+
+                    }else if(location.href.match('reserve_beauty_list')){
+
+
+                        schedule_render_list().then(function(body){
+
+                            _schedule_render_list(body)
+                        })
+                    }
 
                 })
 
 
-                let day = sessionStorage.getItem('day_select') !== null ? sessionStorage.getItem('day_select').split('.')[2] : date.getDate();
+                let day = localStorage.getItem('day_select') !== null ? localStorage.getItem('day_select').split('.')[2] : date.getDate();
                 if(fill_zero(el.children[0].children[0].children[0].children[0].innerText.trim()) === day && !el.classList.contains('after') && !el.classList.contains('before')){
                     el.click();
 
@@ -773,7 +839,7 @@ function _renderCalendar_mini(){
 
 
             })
-            if(sessionStorage.getItem('day_select') === null){
+            if(localStorage.getItem('day_select') === null){
 
                 document.querySelector('.today').click()
             }
@@ -839,12 +905,16 @@ function notice(){
 
 //정기휴일
 function holiday(){
+
+    let week = location.href.match('reserve_beauty_week');
+    let body_col = document.getElementsByClassName('calendar-week-body-col-add');
+
     $.ajax({
         url:'../data/pc_ajax.php',
         type:'post',
         data:{
             mode:'holiday',
-            login_id:sessionStorage.getItem('id')
+            login_id:localStorage.getItem('id')
         },
         success:function(res){
             let response = JSON.parse(res);
@@ -874,6 +944,18 @@ function holiday(){
                             el.childNodes[0].classList.add('break');
                         }
                     })
+
+                    if(week){
+
+                        Array.from(body_col).forEach(function(el_){
+
+                            if(el_.getAttribute('data-day') === 0){
+
+                                el_.classList.add('break')
+                            }
+                        })
+
+                    }
                 }
                 if(body.is_work_mon){
                     Array.from(body_rows).forEach(function(el){
@@ -881,6 +963,18 @@ function holiday(){
                             el.childNodes[1].classList.add('break');
                         }
                     })
+
+                    if(week){
+
+                        Array.from(body_col).forEach(function(el_){
+
+                            if(el_.getAttribute('data-day') === 1){
+
+                                el_.classList.add('break')
+                            }
+                        })
+
+                    }
                 }
                 if(body.is_work_tue){
                     Array.from(body_rows).forEach(function(el){
@@ -888,6 +982,18 @@ function holiday(){
                             el.childNodes[2].classList.add('break');
                         }
                     })
+
+                    if(week){
+
+                        Array.from(body_col).forEach(function(el_){
+
+                            if(el_.getAttribute('data-day') === 2){
+
+                                el_.classList.add('break')
+                            }
+                        })
+
+                    }
                 }
                 if(body.is_work_wed){
                     Array.from(body_rows).forEach(function(el){
@@ -895,6 +1001,19 @@ function holiday(){
                             el.childNodes[3].classList.add('break');
                         }
                     })
+
+                    if(week){
+
+                        Array.from(body_col).forEach(function(el_){
+
+                            if(el_.getAttribute('data-day') === 3){
+
+                                el_.classList.add('break')
+                            }
+                        })
+
+                    }
+
                 }
                 if(body.is_work_thu){
                     Array.from(body_rows).forEach(function(el){
@@ -902,6 +1021,18 @@ function holiday(){
                             el.childNodes[4].classList.add('break');
                         }
                     })
+
+                    if(week){
+
+                        Array.from(body_col).forEach(function(el_){
+
+                            if(el_.getAttribute('data-day') === 4){
+
+                                el_.classList.add('break')
+                            }
+                        })
+
+                    }
                 }
                 if(body.is_work_fri){
                     Array.from(body_rows).forEach(function(el){
@@ -909,6 +1040,17 @@ function holiday(){
                             el.childNodes[5].classList.add('break');
                         }
                     })
+                    if(week){
+
+                        Array.from(body_col).forEach(function(el_){
+
+                            if(el_.getAttribute('data-day') === 5){
+
+                                el_.classList.add('break')
+                            }
+                        })
+
+                    }
                 }
                 if(body.is_work_sat){
                     Array.from(body_rows).forEach(function(el){
@@ -916,8 +1058,36 @@ function holiday(){
                             el.childNodes[6].classList.add('break');
                         }
                     })
+                    if(week){
+
+                        Array.from(body_col).forEach(function(el_){
+
+                            if(el_.getAttribute('data-day') === 6){
+
+                                el_.classList.add('break')
+                            }
+                        })
+
+                    }
                 }
             }
+
         }
     })
+
+
+}
+
+
+function between(int,int2){
+
+    let result =[];
+
+    for(let i=int; i<=int2; i++){
+
+        result.push(i);
+    }
+
+    return result;
+
 }

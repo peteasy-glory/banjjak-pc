@@ -15,7 +15,8 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 	<nav id="gnb"></nav>
 	<!-- //gnb -->
     <!-- container -->
-    <section id="container">     
+    <section id="container">
+
 		<!-- contents -->
 		<section id="contents">
 			<!-- view -->
@@ -26,9 +27,9 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 							<!-- 오늘의 미용 예약 -->
 							<div class="basic-data-card reserve-today fluid"><!-- 20220519 수정 : fluid 클래스 추가 -->
 								<div class="card-body">
-									<div class="mini-reserve-calendar" >
+									<div class="mini-reserve-calendar">
 										<div class="mini-reserve-calendar-top">
-											<button type="button" class="btn-mini-reserve-calendar-ui btn-month-prev" id="btn-month-prev"><span class="icon icon-calendar-prev-small"></span></button>
+											<button type="button" class="btn-mini-reserve-calendar-ui btn-month-prev"  id="btn-month-prev"><span class="icon icon-calendar-prev-small"></span></button>
 											<div class="mini-reserve-calendar-title">
 												<button type="button" class="txt year-month"></button>
 											</div>
@@ -130,13 +131,13 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 							<div class="card-header">
 								<!-- 캘린더 상단 -->
 								<div class="reserve-calendar-top">
-<!--									<div class="sort-left">-->
-<!--										<select>-->
-<!--											<option value="" selected>미용</option>-->
-<!--											<option value="">호텔</option>-->
-<!--											<option value="">유치원</option>-->
-<!--										</select>-->
-<!--									</div>-->
+									<!--<div class="sort-left">
+										<select>
+											<option value="" selected>미용</option>
+											<option value="">호텔</option>
+											<option value="">유치원</option>
+										</select>
+									</div>-->
 									<div class="reserve-calendar-select">
 										<button type="button" class="btn-reserve-calendar-ui btn-month-prev" id="btn-schedule-prev"><span class="icon icon-calendar-prev-small"></span></button>
 										<div class="reserve-calendar-title">
@@ -147,22 +148,41 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 									<div class="sort-right">
 										<!-- actived클래스 추가시 활성화 -->
 										<button type="button" onclick="location.href='./reserve_beauty_month.php';" class="btn-reserve-calendar-sort">월</button>
-										<button type="button" onclick="location.href='./reserve_beauty_week.php';" class="btn-reserve-calendar-sort">주</button>
-										<button type="button" class="btn-reserve-calendar-sort actived">일</button>
+										<button type="button" class="btn-reserve-calendar-sort actived">주</button>
+										<button type="button" onclick="location.href='./reserve_beauty_day.php';" class="btn-reserve-calendar-sort">일</button>
 										<button type="button" class="btn-reserve-calendar-sort"><span class="icon icon-type-list-gray off"></span><span class="icon icon-type-list-white on"></span></button>
 									</div>
 								</div>
 								<!-- //캘린더 상단 -->
 							</div>
-							<div class="card-body">								
+							<div class="card-body">	
+								<!-- 캘린더 라벨 -->
+								<div class="reserve-calendar-label">
+									<div class="reserve-calendar-master">
+										<div class="grid-layout btn-grid-group">
+											<div class="grid-layout-inner" id="grid_layout_inner">
+												<!-- btn-toggle-button 클래스에 actived클래스 추가시 활성화 -->
+
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- //캘린더 라벨 -->							
 								<!-- 캘린더 상세 -->
 								<div>
 									<div class="reserve-calendar-data">
 										<div class="reserve-calendar-inner">
 											<!--
 											// calendar-month-header-col 클래스 정의
+											//	sunday : 일요일
+											//	saturday : 토요일
+
 											// calendar-month-body-col 클래스 정의
+											//	sunday : 일요일
+											//	saturday : 토요일
 											//	break : 휴무 및 예약금지
+											//	holiday :공휴일
+											// today : 오늘
 											// calendar-drag-item-group : 드래그 가능한 영역
 											// calendar-drag-item : 드래그 아이템
 											-->
@@ -174,18 +194,24 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 											// red : NoShow
 											// gray : 승인대기
 											-->
-											<div class="calendar-day-wrap small">
-												<div class="calendar-day-header">
-													<div class="calendar-day-header-row" id="day_header_row">
-														<div class="calendar-day-header-col time"></div>
+											<div class="calendar-week-wrap small" id="week_wrap">
+												<div class="calendar-week-header">
+													<div class="calendar-week-header-row" id="week_header_row">
+														<div class="calendar-week-header-col time"></div>
+														<div class="calendar-week-header-col calendar-week-header-col-add sunday"><div class="day week-date"></div><div class="th">(일)</div></div>
+														<div class="calendar-week-header-col calendar-week-header-col-add "><div class="day week-date"></div><div class="th">(월)</div></div>
+														<div class="calendar-week-header-col calendar-week-header-col-add"><div class="day week-date"></div><div class="th">(화)</div></div>
+														<div class="calendar-week-header-col calendar-week-header-col-add"><div class="day week-date"></div><div class="th">(수)</div></div>
+														<div class="calendar-week-header-col calendar-week-header-col-add"><div class="day week-date"></div><div class="th">(목)</div></div>
+														<div class="calendar-week-header-col calendar-week-header-col-add"><div class="day week-date"></div><div class="th">(금)</div></div>
+														<div class="calendar-week-header-col calendar-week-header-col-add"><div class="day week-date"></div><div class="th">(토)</div></div>
 													</div>
 												</div>
-												<div class="calendar-day-body" id="day_body">
-
+												<div class="calendar-week-body" id="day_body">
 
 												</div>
 											</div>
-										</div>
+										</div>					
 									</div>
 								</div>
 								<!-- //캘린더 상세 -->
@@ -200,7 +226,7 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 										</div>
 									</div>	
 								</div>
-								<!-- //캘린더 라벨 -->
+								<!-- //캘린더 라벨 -->	
 							</div>
 						</div>			
 					</div>
@@ -220,10 +246,11 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 
 <div class="reserve-calendar-tooltip">
 	<div class="tooltip-inner">
-		<div class="tooltip-date">22.09.12</div>
-		<div class="tooltip-desc">내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. </div>
+		<div class="tooltip-date" id="tooltip_date"></div>
+		<div class="tooltip-desc" id="tooltip_desc"></div>
 	</div>
 </div>
+
 <article id="reserveCalendarPop4" class="layer-pop-wrap">
     <div class="layer-pop-parent">
         <div class="layer-pop-children">
@@ -242,112 +269,34 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
         </div>
     </div>
 </article>
-<article id="reserveCalendarPop2" class="layer-pop-wrap">
-    <div class="layer-pop-parent">
-        <div class="layer-pop-children">
-            <div class="pop-data alert-pop-data">
-                <div class="pop-header">
-                    <h4 class="con-title" id="pop2_worker"></h4>
-                </div>
-                <div class="pop-body type-3">
-                    <div class="msg-txt"><span class="msg-txt-date" id="pop2_date"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span  class="msg-txt-time" id="pop2_time"></span></div>
-                </div>
-                <div class="pop-footer">
-                    <button type="button" class="btn btn-confirm btn-reserv-block" onclick="pop.close(); ">예약금지설정</button>
-                    <button type="button" class="btn btn-confirm btn-reserv-send">예약접수</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</article>
-<article id="reserveCalendarPop3" class="layer-pop-wrap">
-    <div class="layer-pop-parent">
-        <div class="layer-pop-children">
 
-            <div class="pop-data alert-pop-data">
-                <div class="pop-header">
-                    <h4 class="con-title">예약금지 설정</h4>
-                </div>
-                <div class="pop-body type-3">
-                    <form name="form_time" id="form_time">
-                        <input type="hidden" name="ph_type" value="notall">
-                        <input type="hidden" name="ph_worker" value="">
-                        <input type="hidden" name="ph_start_year" id="year" value="">
-                        <input type="hidden" name="ph_start_month" id="month" value="">
-                        <input type="hidden" name="ph_start_day" id="day" value="">
-
-
-
-                        <div class="form-group">
-                            <div class="form-group-cell">
-                                <div class="form-group-item">
-                                    <div class="form-item-label">시간</div>
-                                    <div class="form-item-data type-2">
-                                        <div class="form-datepicker-group">
-                                            <div class="form-datepicker">
-                                                <select name="ph_start_time">
-                                                    <option value="">오전 11:30</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-unit">~</div>
-                                            <div class="form-datepicker">
-                                                <select name="ph_end_time">
-                                                    <option value="">오후 11:30</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </form>
-                </div>
-                <div class="pop-footer">
-                    <button type="button" class="btn btn-confirm btn-holiday-submit">저장</button>
-                    <button type="button" class="btn btn-confirm" onclick="pop.close();">취소</button>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</article>
-<script src="../static/js/common.js"></script>
-<script src="../static/js/dev_common.js"></script>
 <script src="../static/js/Sortable.min.js"></script>
 
+<script src="../static/js/common.js"></script>
+<script src="../static/js/dev_common.js"></script>
 <script src="../static/js/booking.js"></script>
 <script>
 
-
-    data_set()
-    window.onload = function (){
-
+    data_set();
+    window.onload = function(){
 
         gnb_init();
         prepend_data('consulting_count nick');
         set_image('front_image');
         calendar_change_month();
         btn_month();
-        btn_month_simple()
+        btn_month_simple();
         mini_calendar_init()
             .then(function(){
-                _renderCalendar_mini()
-
-
-                })
-        reload_list()
-
+                _renderCalendar_mini();
+            })
+        reload_list();
 
         gnb_actived('gnb_reserve_wrap','gnb_beauty');
         btn_schedule();
 
-
-
-
     }
-</script>
-<script>
+
 $(function(){
 	/*
 	$( "#sortable" ).sortable({
@@ -359,6 +308,8 @@ $(function(){
 
 	//https://github.com/SortableJS/Sortable
 
+
+
 	$(document).on('mouseenter mouseleave mousemove' , '.calendar-week-time-item' , function(e){
 		var x = e.pageX;
 		var y = e.pageY;
@@ -369,6 +320,16 @@ $(function(){
 		}else if(e.type == 'mouseleave'){
 			$(this).removeClass('actived');
 		}
+		/* 툴팁용 */
+		var $tooltip = $('.reserve-calendar-tooltip');
+		if(e.type == 'mouseenter'){
+			$tooltip.addClass('actived');
+		}else if(e.type == 'mouseleave'){
+			$tooltip.removeClass('actived');
+		}else if(e.type == 'mousemove'){
+			$tooltip.css({'top' : y , 'left' : x});
+		};
+		
 
 	});
 

@@ -26,7 +26,7 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 							<!-- 오늘의 미용 예약 -->
 							<div class="basic-data-card reserve-today fluid"><!-- 20220519 수정 : fluid 클래스 추가 -->
 								<div class="card-body">
-									<div class="mini-reserve-calendar" >
+									<div class="mini-reserve-calendar">
 										<div class="mini-reserve-calendar-top">
 											<button type="button" class="btn-mini-reserve-calendar-ui btn-month-prev" id="btn-month-prev"><span class="icon icon-calendar-prev-small"></span></button>
 											<div class="mini-reserve-calendar-title">
@@ -93,7 +93,7 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 																<div class="mini-calendar-month-header-col saturday">토</div>
 															</div>
 														</div>
-														<div class="mini-calendar-month-body" id="mini-calendar-month-body">
+														<div class="mini-calendar-month-body"  id="mini-calendar-month-body">
 
 														</div>
 													</div>
@@ -105,7 +105,7 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 							</div>					
 							<!-- //오늘의 미용 예약 -->
 							<!-- 오늘의 예약 총 횟수 -->
-							<div class="basic-data-card _reserve-total">
+							<div class="basic-data-card reserve-total">
 								<div class="card-header">
 									<div class="card-header-title" id="day_today"></div>
 								</div>
@@ -130,13 +130,13 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 							<div class="card-header">
 								<!-- 캘린더 상단 -->
 								<div class="reserve-calendar-top">
-<!--									<div class="sort-left">-->
-<!--										<select>-->
-<!--											<option value="" selected>미용</option>-->
-<!--											<option value="">호텔</option>-->
-<!--											<option value="">유치원</option>-->
-<!--										</select>-->
-<!--									</div>-->
+									<!--<div class="sort-left">
+										<select>
+											<option value="" selected>미용</option>
+											<option value="">호텔</option>
+											<option value="">유치원</option>
+										</select>
+									</div>-->
 									<div class="reserve-calendar-select">
 										<button type="button" class="btn-reserve-calendar-ui btn-month-prev" id="btn-schedule-prev"><span class="icon icon-calendar-prev-small"></span></button>
 										<div class="reserve-calendar-title">
@@ -148,59 +148,35 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 										<!-- actived클래스 추가시 활성화 -->
 										<button type="button" onclick="location.href='./reserve_beauty_month.php';" class="btn-reserve-calendar-sort">월</button>
 										<button type="button" onclick="location.href='./reserve_beauty_week.php';" class="btn-reserve-calendar-sort">주</button>
-										<button type="button" class="btn-reserve-calendar-sort actived">일</button>
-										<button type="button" class="btn-reserve-calendar-sort"><span class="icon icon-type-list-gray off"></span><span class="icon icon-type-list-white on"></span></button>
+										<button type="button" onclick="location.href='./reserve_beauty_day.php';" class="btn-reserve-calendar-sort">일</button>
+										<button type="button" class="btn-reserve-calendar-sort actived"><span class="icon icon-type-list-gray off"></span><span class="icon icon-type-list-white on"></span></button>
 									</div>
 								</div>
 								<!-- //캘린더 상단 -->
 							</div>
-							<div class="card-body">								
-								<!-- 캘린더 상세 -->
+							<div class="card-body">				
+								<!-- 리스트형 -->
 								<div>
-									<div class="reserve-calendar-data">
-										<div class="reserve-calendar-inner">
-											<!--
-											// calendar-month-header-col 클래스 정의
-											// calendar-month-body-col 클래스 정의
-											//	break : 휴무 및 예약금지
-											// calendar-drag-item-group : 드래그 가능한 영역
-											// calendar-drag-item : 드래그 아이템
-											-->
-											<!--
-											// calendar-week-time-item 상황별 클래스값
-											// yellow : 앱-선결제
-											// purple : 앱-매장결제
-											// green : 매장예약
-											// red : NoShow
-											// gray : 승인대기
-											-->
-											<div class="calendar-day-wrap small">
-												<div class="calendar-day-header">
-													<div class="calendar-day-header-row" id="day_header_row">
-														<div class="calendar-day-header-col time"></div>
-													</div>
-												</div>
-												<div class="calendar-day-body" id="day_body">
+									<div class="reserve-calendar-list">
+										<div class="reserve-calendar-list-inner" id="list_inner">
 
 
+										</div>										
+										<!-- 캘린더 라벨 -->
+										<div class="reserve-calendar-label">
+											<div class="grid-layout reserve-calendar-label-group">
+												<div class="grid-layout-inner">
+													<div class="grid-layout-cell"><div class="reserve-calendar-label-items"><div class="reserve-calendar-label-state yellow"></div>앱-선결제</div></div>
+													<div class="grid-layout-cell"><div class="reserve-calendar-label-items"><div class="reserve-calendar-label-state purple"></div>앱-매장결제</div></div>
+													<div class="grid-layout-cell"><div class="reserve-calendar-label-items"><div class="reserve-calendar-label-state green"></div>매장예약</div></div>
+													<div class="grid-layout-cell"><div class="reserve-calendar-label-items"><div class="reserve-calendar-label-state red"></div>NoShow</div></div>
 												</div>
-											</div>
+											</div>	
 										</div>
+										<!-- //캘린더 라벨 -->		
 									</div>
 								</div>
-								<!-- //캘린더 상세 -->
-								<!-- 캘린더 라벨 -->
-								<div class="reserve-calendar-label">
-									<div class="grid-layout reserve-calendar-label-group">
-										<div class="grid-layout-inner">
-											<div class="grid-layout-cell"><div class="reserve-calendar-label-items"><div class="reserve-calendar-label-state yellow"></div>앱-선결제</div></div>
-											<div class="grid-layout-cell"><div class="reserve-calendar-label-items"><div class="reserve-calendar-label-state purple"></div>앱-매장결제</div></div>
-											<div class="grid-layout-cell"><div class="reserve-calendar-label-items"><div class="reserve-calendar-label-state green"></div>매장예약</div></div>
-											<div class="grid-layout-cell"><div class="reserve-calendar-label-items"><div class="reserve-calendar-label-state red"></div>NoShow</div></div>
-										</div>
-									</div>	
-								</div>
-								<!-- //캘린더 라벨 -->
+								<!-- //리스트형 -->		
 							</div>
 						</div>			
 					</div>
@@ -218,107 +194,11 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 </div>
 <!-- //wrap -->
 
-<div class="reserve-calendar-tooltip">
-	<div class="tooltip-inner">
-		<div class="tooltip-date">22.09.12</div>
-		<div class="tooltip-desc">내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. </div>
-	</div>
-</div>
-<article id="reserveCalendarPop4" class="layer-pop-wrap">
-    <div class="layer-pop-parent">
-        <div class="layer-pop-children">
-            <div class="pop-data alert-pop-data">
-                <div class="pop-header">
-                    <h4 class="con-title"></h4>
-                </div>
-                <div class="pop-body type-3">
-                    <div class="msg-txt"><span class="msg-text-date"></span><br><br>선택한 예약을<br>이 곳으로 변경합니다.</div>
-                </div>
-                <div class="pop-footer">
-                    <button type="button" class="btn btn-confirm" onclick="pop.close();">확인</button>
-                    <button type="button" class="btn btn-confirm" onclick="location.reload();">예약변경취소</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</article>
-<article id="reserveCalendarPop2" class="layer-pop-wrap">
-    <div class="layer-pop-parent">
-        <div class="layer-pop-children">
-            <div class="pop-data alert-pop-data">
-                <div class="pop-header">
-                    <h4 class="con-title" id="pop2_worker"></h4>
-                </div>
-                <div class="pop-body type-3">
-                    <div class="msg-txt"><span class="msg-txt-date" id="pop2_date"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span  class="msg-txt-time" id="pop2_time"></span></div>
-                </div>
-                <div class="pop-footer">
-                    <button type="button" class="btn btn-confirm btn-reserv-block" onclick="pop.close(); ">예약금지설정</button>
-                    <button type="button" class="btn btn-confirm btn-reserv-send">예약접수</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</article>
-<article id="reserveCalendarPop3" class="layer-pop-wrap">
-    <div class="layer-pop-parent">
-        <div class="layer-pop-children">
-
-            <div class="pop-data alert-pop-data">
-                <div class="pop-header">
-                    <h4 class="con-title">예약금지 설정</h4>
-                </div>
-                <div class="pop-body type-3">
-                    <form name="form_time" id="form_time">
-                        <input type="hidden" name="ph_type" value="notall">
-                        <input type="hidden" name="ph_worker" value="">
-                        <input type="hidden" name="ph_start_year" id="year" value="">
-                        <input type="hidden" name="ph_start_month" id="month" value="">
-                        <input type="hidden" name="ph_start_day" id="day" value="">
-
-
-
-                        <div class="form-group">
-                            <div class="form-group-cell">
-                                <div class="form-group-item">
-                                    <div class="form-item-label">시간</div>
-                                    <div class="form-item-data type-2">
-                                        <div class="form-datepicker-group">
-                                            <div class="form-datepicker">
-                                                <select name="ph_start_time">
-                                                    <option value="">오전 11:30</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-unit">~</div>
-                                            <div class="form-datepicker">
-                                                <select name="ph_end_time">
-                                                    <option value="">오후 11:30</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </form>
-                </div>
-                <div class="pop-footer">
-                    <button type="button" class="btn btn-confirm btn-holiday-submit">저장</button>
-                    <button type="button" class="btn btn-confirm" onclick="pop.close();">취소</button>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</article>
 <script src="../static/js/common.js"></script>
 <script src="../static/js/dev_common.js"></script>
 <script src="../static/js/Sortable.min.js"></script>
-
 <script src="../static/js/booking.js"></script>
 <script>
-
 
     data_set()
     window.onload = function (){
@@ -335,44 +215,19 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
                 _renderCalendar_mini()
 
 
-                })
+            })
         reload_list()
+        btn_schedule()
 
 
         gnb_actived('gnb_reserve_wrap','gnb_beauty');
-        btn_schedule();
+
+
 
 
 
 
     }
-</script>
-<script>
-$(function(){
-	/*
-	$( "#sortable" ).sortable({
-		placeholder: "ui-state-highlight",
-		cancel:''
-    });
-	$( "#sortable" ).disableSelection();
-	*/
-
-	//https://github.com/SortableJS/Sortable
-
-	$(document).on('mouseenter mouseleave mousemove' , '.calendar-week-time-item' , function(e){
-		var x = e.pageX;
-		var y = e.pageY;
-
-		/* 확장용 */
-		if(e.type == 'mouseenter'){
-			$(this).addClass('actived');
-		}else if(e.type == 'mouseleave'){
-			$(this).removeClass('actived');
-		}
-
-	});
-
-});
 </script>
 </body>
 </html>

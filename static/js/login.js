@@ -398,7 +398,7 @@ function login(){
                         pop.open('firstRequestMsg1',head.message);
                     }else if(head.code === 200){
                         
-                        sessionStorage.setItem('id',id);
+                        localStorage.setItem('id',id);
                         location.href = "../home/index.php";
 
                     }
