@@ -434,8 +434,8 @@ button.btn-point-underline {display:inline-block; color:#6840b1; font-size:14px;
 .btn-red.press , a.btn-red.press , input[type=submit].btn-red.press , button.btn-red.press {color:#fff; border-color:#f03939; background-color:#f03939;}
 */
 .btn-black:hover , a.btn-black:hover , input[type=submit].btn-black:hover , button.btn-black:hover {color:#fff; border-color:#292929; background-color:#292929;}
-.btn-purple:hover , a.btn-purple:hover , input[type=submit].btn-purple:hover , button.btn-purple:hover {color:#fff; border-color:#5931a2; background-color:#5931a2;}
-.btn-yellow:hover , a.btn-yellow:hover , input[type=submit].btn-yellow:hover , button.btn-yellow:hover {color:#000; border-color:#eeca3f; background-color:#eeca3f;}
+/*.btn-purple:hover , a.btn-purple:hover , input[type=submit].btn-purple:hover , button.btn-purple:hover {color:#fff; border-color:#5931a2; background-color:#5931a2;}*/
+/*.btn-yellow:hover , a.btn-yellow:hover , input[type=submit].btn-yellow:hover , button.btn-yellow:hover {color:#000; border-color:#eeca3f; background-color:#eeca3f;}*/
 .btn-gray:hover , a.btn-gray:hover , input[type=submit].btn-gray:hover , button.btn-gray:hover {color:#000; border-color:#e5e5e5; background-color:#e5e5e5;}
 .btn-red:hover , a.btn-red:hover , input[type=submit].btn-red:hover , button.btn-red:hover {color:#fff; border-color:#f03939; background-color:#f03939;}
 
@@ -802,11 +802,16 @@ a.btn-page-bottom:disabled,
 /* 사용자 사진 */
 .user-thumb {position:relative; width:56px; height:56px; border-radius:50%; overflow:hidden; box-sizing:border-box; border:1px solid rgba(0, 0, 0, 0.02); background-color:#fafafa; background-repeat:no-repeat; background-position:center center;}
 .user-thumb > img {position:absolute;top:0;left:0;width:100%;height:100%; object-fit:cover;z-index:0;}
-.user-thumb {background-image:url(../images/icon/icon-none-thumb-small.png); background-size:40px auto;}
+/*.user-thumb {background-image:url(../images/icon/icon-none-thumb-small.png); background-size:40px auto;}*/
 .user-thumb.small {width:42px; height:42px; background-image:url(../images/icon/icon-none-user.png); background-size:30px auto;}
-.user-thumb.middle {width:72px; height:72px; background-image:url(../images/icon/icon-none-thumb-small.png); background-size:40px auto;}
+.user-thumb.middle {width:72px; height:72px;
+	/*background-image:url(../images/icon/icon-none-thumb-small.png); */
+	/*background-size:40px auto;*/
+}
+
+
 .user-thumb.smiddle {width:64px; height:64px; background-image:url(../images/icon/icon-none-thumb-middle.png); background-size:34px auto;}
-.user-thumb.large {width:90px; height:90px; background-image:url(../images/icon/icon-none-thumb-middle.png); background-size:64px auto;}
+.user-thumb.large {width:90px; height:90px; }
 
 /* 컨텐츠 사진 */
 .content-thumb {position:relative; width:105px; height:105px; border-radius:12px; overflow:hidden; box-sizing:border-box; border:1px solid rgba(0, 0, 0, 0.02);background-color:#fafafa; background-repeat:no-repeat; background-position:center center;}
@@ -1052,7 +1057,7 @@ button.btn-basic-item-ui-item:hover {background:#fbfbfb;}
 .thema-gray-item .item-state2 {font-size:14px; padding:0 8px; font-weight:500; box-sizing:border-box; text-align:center; min-width:80px;}
 .thema-gray-item + .thema-gray-item {margin-top:10px;}
 .thema-gray-item.white {background:#fff; border:1px solid #ebebeb;}
-.thema-gray-item.white.actived {border:2px solid #6840b1;}
+.thema-gray-item.white.actived {border:2px solid #6840b1; padding: 23px; }
 .thema-gray-item:hover {background-color:#fbfbfb;}
 
 /* 상품형 리스트 아이템 */
@@ -1817,7 +1822,7 @@ body {background:#fafafa;}
 .data-col-left > .basic-data-card {flex:0 0 auto;}
 .data-col-left > .basic-data-card + .basic-data-card {margin-top:20px;}
 .data-col-left > .basic-data-card.fuild {}
-.data-col-right {flex:0 0 403px;  display:flex; flex-direction:column; padding:0 14px; box-sizing:border-box; max-height:calc( 100vh - 129px );}
+.data-col-right {flex:0 0 403px;  display:flex; flex-direction:column; padding:0 14px; box-sizing:border-box; max-height:calc( 100vh - 129px ); transition: 0.3s}
 .data-col-right > .basic-data-card {/*max-height:100%;*/ height:100%; display:flex; flex-direction:column;}
 .data-col-right > .basic-data-card > .card-body {flex:1; min-height:0px; height:100%; overflow-x:hidden; overflow-y:auto;}
 .data-col-right > .basic-data-card > .card-header {flex:0 0 auto;}
@@ -2070,13 +2075,13 @@ body {background:#fafafa;}
 .main-calendar-month-body-col .main-calendar-month-cate-group .main-calendar-drag-item-group {height:auto;}
 .main-calendar-month-body-col .main-calendar-month-cate-title {font-size:12px; line-height:15px; color:#666; width:100%; padding:4px 0; width:100%; text-align:center;}
 .main-calendar-month-body-col .main-calendar-drag-item-group {width:100%; height:100%; flex:1; padding:0 2px; box-sizing:border-box;}
-.main-calendar-month-body-col.break {background:#fafafa;}
+.main-calendar-month-body-col.break {background:#fafafa; transition:0.5s}
 .main-calendar-month-body-col.before .main-calendar-day-value,
-.main-calendar-month-body-col.after .main-calendar-day-value {opacity:0.2;}
+.main-calendar-month-body-col.after .main-calendar-day-value {display:none;}
 .main-calendar-month-body-col.today .main-calendar-day-value {background:#e3e3e3;}
 .main-calendar-month-body-col.today .main-calendar-day-value .number {color:#202020; font-weight:500;}
 .main-calendar-month-body-col.today .main-calendar-day-value .value {color:#999;}
-.main-calendar-month-body-col .main-calendar-day-value:hover {background:#6840b1; color:#fff;}
+.main-calendar-month-body-col .main-calendar-day-value:hover {background:#6840b1; color:#fff; transition: 0.5s}
 .main-calendar-month-body-col .main-calendar-day-value:hover .number {color:#fff; font-weight:500;}
 .main-calendar-month-body-col .main-calendar-day-value:hover .value {color:#fff;}
 /*
@@ -2126,7 +2131,7 @@ body {background:#fafafa;}
 .mini-calendar-month-header-col.saturday {color:#202020;}
 .mini-calendar-month-header + .mini-calendar-month-body {margin-top:-1px;}
 .mini-calendar-month-body {padding-bottom:9px;}
-.mini-calendar-month-body-row {display:flex; width:100%;}
+.mini-calendar-month-body-row {display:flex; width:100%; height: 47px;}
 .mini-calendar-month-body-row:last-child .mini-calendar-month-body-col {border-bottom-width:0px;}
 .mini-calendar-month-body-row.week-check .mini-calendar-month-body-col {background:#f7f5fb;}
 .mini-calendar-month-body-col {flex:1; display:flex; flex-direction:column; align-items:flex-start; justify-content:center;  box-sizing:border-box; background:#fff; margin:-1px 0; border:1px solid #f4f4f4; border-left:none; border-right:none; width:14.28%;}
@@ -2137,7 +2142,8 @@ body {background:#fafafa;}
 .mini-calendar-month-body-col .mini-calendar-drag-item-group {width:100%; height:100%; flex:1; padding:0 2px; box-sizing:border-box;}
 .mini-calendar-month-body-col.break {background:#fafafa;}
 .mini-calendar-month-body-col.before .mini-calendar-day-value,
-.mini-calendar-month-body-col.after .mini-calendar-day-value {opacity:0.2;}
+.mini-calendar-month-body-col.after .mini-calendar-day-value {display:none;}
+
 /*
 .mini-calendar-month-body-col.current .mini-calendar-day-value {background:#e3e3e3;}
 .mini-calendar-month-body-col.current .mini-calendar-day-value .number {color:#202020; font-weight:500;}
@@ -2152,7 +2158,7 @@ body {background:#fafafa;}
 .mini-calendar-month-body-col.actived .mini-calendar-day-value {background:#6840b1;  color:#fff;}
 .mini-calendar-month-body-col.actived .mini-calendar-day-value .number {color:#fff; font-weight:500;}
 .mini-calendar-month-body-col.actived .mini-calendar-day-value .value {color:#fff;}
-.mini-calendar-month-body-col .mini-calendar-day-value:hover {background:#6840b1; color:#fff;}
+.mini-calendar-month-body-col .mini-calendar-day-value:hover {background:#6840b1; color:#fff; transition:0.5s;}
 .mini-calendar-month-body-col .mini-calendar-day-value:hover .number {color:#fff; font-weight:500;}
 .mini-calendar-month-body-col .mini-calendar-day-value:hover .value {color:#fff;}
 .mini-calendar-month-body-col.before .mini-calendar-day-value:hover {background:transparent; color:#202020;}
@@ -2751,7 +2757,7 @@ table.terms-table > tbody > tr > td {padding:10px 10px; font-size:14px; line-hei
 
 /* 예약하기 > 캘린더 */
 .reserve-today .card-header {min-height:68px;}
-.reserve-today .mini-reserve-calendar-top {height:68px;}
+.reserve-today .mini-reserve-calendar-top {height:50px;}
 .reserve-calendar-wrap {padding:10px 0 84px 0;}
 .reserve-calendar-float {position:fixed; bottom:67px; right:0; display:flex; align-items:center; box-sizing:border-box; z-index:500; padding:10px 20px;}
 .reserve-calendar-float-cell {position:relative;}
@@ -2827,8 +2833,23 @@ table.terms-table > tbody > tr > td {padding:10px 10px; font-size:14px; line-hei
 .reserve-calendar-label-state.whitemint {background:#99e8ca;}
 .reserve-calendar-label-state.whiteblue {background:#b3c0e2;}
 
-.calendar-title-sort {position:absolute; top:100%; left:50%; display:none; z-index:15; transform:translate(-50% , 0%); }
-.calendar-title-sort.actived {display:block;}
+.calendar-title-sort {
+	display:none;
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	z-index: 15;
+	transform: translate(-50% , 0%);
+	/*opacity: 0;*/
+	/*transition: 0.3s;*/
+	/*visibility: hidden;*/
+}
+.calendar-title-sort.actived {
+	display:block;
+	/*opacity: 1;*/
+	/*transition: 0.3s;*/
+	/*visibility: visible;*/
+}
 .calendar-title-sort .simple-calendar-wrap {width:260px; margin-top:8px;}
 
 .simple-calendar-wrap {border-radius: 8px;  box-shadow: 3px 5px 8px 0 rgba(0, 0, 0, 0.2);  border: solid 1px #e5e5e5;  background-color: #fff;}
@@ -2897,10 +2918,10 @@ table.terms-table > tbody > tr > td {padding:10px 10px; font-size:14px; line-hei
 .calendar-month-body-col .calendar-month-cate-group .calendar-drag-item-group {height:auto; min-height:0;}
 .calendar-month-body-col .calendar-month-cate-title {font-size:14px; line-height:17px; color:#666; width:100%; padding:4px 0; width:100%; text-align:center;}
 .calendar-month-body-col .calendar-drag-item-group {width:100%; height:100%; flex:1; padding:0 8px; box-sizing:border-box; min-height:50px;}
-.calendar-month-body-col.break {background:#f4f4f4;}
+.calendar-month-body-col.break {background:#f4f4f4; transition: 0.5s}
 .calendar-month-body-col.break .calendar-day-value .state {color:#8f8f8f;}
 .calendar-month-body-col.before .calendar-day-value,
-.calendar-month-body-col.after .calendar-day-value {opacity:0.3;}
+.calendar-month-body-col.after .calendar-day-value {display: none;}
 .calendar-month-body-col.today .calendar-day-value .number {text-align:center; background:#414141; color:#fff;}
 .calendar-month-body-col.selected {background:#fefbed;}
 .calendar-total-value {width:100%; padding:0 8px; flex:0 0 auto; display:flex; align-items:center; width:100%; height:24px; box-sizing:border-box; font-size:12px; line-height:16px; color:#8f8f8f; width:100%; text-align:left; margin-top:auto; box-sizing:border-box; font-weight:500;}
@@ -2959,6 +2980,9 @@ a.calendar-month-day-item,
 .calendar-week-body-col.time .time-start-label {width:100%; font-size:12px;line-height:17px;color:#202020;font-weight:300; text-align:center; transform:translate(0 , -50%);}
 .calendar-week-body-col.time .time-end-label {width:100%; font-size:11px;line-height:13px;color:#8f8f8f;font-weight:300; text-align:center;}
 .calendar-week-body-col.break {display:flex;align-items:center;justify-content:center;font-size:12px;line-height:17px;font-weight:500;color:#8f8f8f; text-align:center;background:#f4f4f4;  border-top-width:0;}
+.calendar-week-body-col.break2 {display:flex;align-items:center;justify-content:center;font-size:12px;line-height:17px;font-weight:500;color:#8f8f8f; text-align:center;background:#f4f4f4;  border-top-width:0;}
+.calendar-week-body-col.break2-1:before {content:'정기휴일'; position: absolute}
+.break2 .btn-calendar-add
 .calendar-week-body-col.break.break-start {border-top-width:1px}
 .calendar-week-body-col.hotel-label {position:static; flex:0 0 auto; width:70px; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#f4f4f4; border-top-width:0;}
 .calendar-week-body-col.hotel-label.whitepink {}
@@ -3085,6 +3109,7 @@ a.btn-calendar-add:hover,
 .dark a.btn-calendar-add:hover, .btn-calendar-add:hover {background-color: #1e1f21; }
 
 .break .btn-calendar-add {display:none;}
+.break2 .btn-calendar-add {display:none;}
 
 /* 예약하기 > 캘린더 (리스트) */
 .reserve-calendar-list {padding:13px 44px 65px 44px; /*border-top:1px solid #ebebeb;*/}
@@ -4498,3 +4523,5 @@ button.btn-surtax-set{height:26px;  padding:0 10px 0 4px; border-radius:13px;}
 .dark .card-link-item .item-code {color:#d8d8d8;}
 .dark .card-link-item .item-price {color:#8f8f8f;}
 .dark .card-link-item .item-date {color:#8f8f8f;}
+
+
