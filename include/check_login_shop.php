@@ -11,7 +11,7 @@
 			location.href="<?=$login_directory?>/index.php";
 		});
 		*/
-		location.href="/login_shop";
+		location.href="/login/login";
 	</script>
 
 <?php
@@ -19,7 +19,7 @@
 	}elseif(isset($_SESSION['gobeauty_user_id']) && $_SESSION['my_shop_flag']!='1' && $_SESSION['artist_flag']!=true) {
 		?>
 		<script>
-		location.href="/join5";
+		location.href="/login/join";
 		</script>
 		<?
 		exit;

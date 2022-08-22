@@ -24,10 +24,10 @@
     <link rel="icon" href="https://www.gopet.kr/pet/ico/favicon.png">
     <link rel="canonical" href="대표도메인">
     <!-- custom css -->
-    <link href="../../static/css/style.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
     <!-- jquery js -->
-    <script src="../../static/js/jquery-3.4.1.min.js"></script>
-    <script src="../../static/js/swiper.min.js"></script>
+    <script src="/static/js/jquery-3.4.1.min.js"></script>
+    <script src="/static/js/swiper.min.js"></script>
 </head>
 
 <article id="firstRequestMsg1" class="layer-pop-wrap">
