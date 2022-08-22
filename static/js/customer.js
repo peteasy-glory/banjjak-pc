@@ -94,6 +94,13 @@ function search_fam(search_value){
 
 }
 
+
+
+
+
+
+
+
 function customer_all(){
 
 
@@ -246,6 +253,7 @@ function customer_list(customers){
             let product = el.product.split('|');
             let size = product[3];
             let b_product = product[4];
+            let grade = parseInt(el.grade.split('|')[1]);
 
             tbody.innerHTML += `<tr class="customer-table-cell">
                                 <td>
@@ -253,7 +261,7 @@ function customer_list(customers){
                                         <strong>${el.name}</strong>
                                     </div>
                                     <div class="customer-table-txt">
-                                        <span class="icon icon-grade-vip"></span>
+                                        <span class="icon icon-grade-${grade ===  1 ? 'vip' : grade === 2 ? 'normal' : 'normalb'}"></span>
                                     </div>
                                 </td>
                                 <td>
@@ -271,10 +279,10 @@ function customer_list(customers){
                                     <div class="customer-table-txt">${am_pm_check(h)}:${m}</div>
                                 </td>
                                 <td>
-                                    <div class="customer-table-txt">${size === null || size === "" || size === undefined ? '미기입' : size}</div>
+                                    <div class="customer-table-txt">${el.type === "dog" ? `${size === null || size === "" || size === undefined ? '미기입' : size}` : `${size === null || size === "" || size === undefined ? '미기입' : `${size.split(':')[0]}`} `}</div>
                                 </td>
                                 <td>
-                                    <div class="customer-table-txt">${b_product === null || b_product === "" || b_product === undefined ? '미기입' : b_product}</div>
+                                    <div class="customer-table-txt">${el.type === "dog" ? `${b_product === null || b_product === "" || b_product === undefined ? '미기입' : b_product}` : `${b_product === null || b_product === "" || b_product === undefined ? '미기입' : `${b_product.split(':')[0]}`} `}</div>
                                 </td>
                                 <td>
                                     <div class="customer-table-txt">미용</div>

@@ -90,6 +90,22 @@
             background: #b4b4b4;
         }
 
+
+        .pop-body::-webkit-scrollbar {
+            width:5px;
+            /*display: none; !* Chrome, Safari, Opera*!*/
+            background: #b4b4b4;
+        }
+        .pop-body::-webkit-scrollbar-thumb {
+            /*display: none; !* Chrome, Safari, Opera*!*/
+            background: white;
+            background:#FDD94E;
+        }
+        .pop-body::-webkit-scrollbar-track {
+            /*display: none; !* Chrome, Safari, Opera*!*/
+            background: white;
+            background: #b4b4b4;
+        }
     .swiper-slide {
         max-height: 160px;
     }

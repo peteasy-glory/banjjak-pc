@@ -2980,8 +2980,12 @@ a.calendar-month-day-item,
 .calendar-week-body-col.time .time-start-label {width:100%; font-size:12px;line-height:17px;color:#202020;font-weight:300; text-align:center; transform:translate(0 , -50%);}
 .calendar-week-body-col.time .time-end-label {width:100%; font-size:11px;line-height:13px;color:#8f8f8f;font-weight:300; text-align:center;}
 .calendar-week-body-col.break {display:flex;align-items:center;justify-content:center;font-size:12px;line-height:17px;font-weight:500;color:#8f8f8f; text-align:center;background:#f4f4f4;  border-top-width:0;}
+.calendar-week-body-col.break1 {display:flex;align-items:center;justify-content:center;font-size:12px;line-height:17px;font-weight:500;color:#8f8f8f; text-align:center;background:#f4f4f4;  border-top-width:0;}
 .calendar-week-body-col.break2 {display:flex;align-items:center;justify-content:center;font-size:12px;line-height:17px;font-weight:500;color:#8f8f8f; text-align:center;background:#f4f4f4;  border-top-width:0;}
+.calendar-week-body-col.break3 {display:flex;align-items:center;justify-content:center;font-size:12px;line-height:17px;font-weight:500;color:#8f8f8f; text-align:center;background:#f4f4f4;  border-top-width:0;}
+.calendar-week-body-col.break1-1:before {content:'휴게시간'; position: absolute}
 .calendar-week-body-col.break2-1:before {content:'정기휴일'; position: absolute}
+.calendar-week-body-col.break3-1:before {content:'예약금지'; position: absolute}
 .break2 .btn-calendar-add
 .calendar-week-body-col.break.break-start {border-top-width:1px}
 .calendar-week-body-col.hotel-label {position:static; flex:0 0 auto; width:70px; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#f4f4f4; border-top-width:0;}
@@ -3082,6 +3086,12 @@ a.calendar-month-day-item,
 .calendar-day-body-col.time .time-start-label {width:100%; font-size:12px;line-height:17px;color:#202020;font-weight:300; text-align:center;  transform:translate(0 , -50%);}
 .calendar-day-body-col.time .time-end-label {width:100%; font-size:12px;line-height:17px;color:#8f8f8f;font-weight:300; text-align:center;}
 .calendar-day-body-col.break {display:flex;align-items:center;justify-content:center;font-size:12px;line-height:17px;font-weight:500;color:#8f8f8f; text-align:center;background:#f4f4f4; border-top-width:0px;}
+.calendar-day-body-col.break1 {display:flex;align-items:center;justify-content:center;font-size:12px;line-height:17px;font-weight:500;color:#8f8f8f; text-align:center;background:#f4f4f4; border-top-width:0px;}
+.calendar-day-body-col.break1-1::before{content:'휴게시간';position:absolute;}
+.calendar-day-body-col.break2 {display:flex;align-items:center;justify-content:center;font-size:12px;line-height:17px;font-weight:500;color:#8f8f8f; text-align:center;background:#f4f4f4; border-top-width:0px;}
+.calendar-day-body-col.break2-1::before{content:'정기휴일';position:absolute;}
+.calendar-day-body-col.break3 {display:flex;align-items:center;justify-content:center;font-size:12px;line-height:17px;font-weight:500;color:#8f8f8f; text-align:center;background:#f4f4f4; border-top-width:0px;}
+.calendar-day-body-col.break3-1::before{content:'예약금지';position:absolute;}
 .calendar-day-body-col.break.break-start {border-top-width:1px;}
 .calendar-day-time-item {position:relative; z-index:5; width:calc( 100% -  1px ); min-height:58px; padding:6px 4px 12px 4px; text-align:left; border-top:4px solid #000; background:#fffbed; box-sizing:border-box; overflow:hidden; user-select: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none;}
 .calendar-day-time-item .item-name {font-size:11px;line-height:14px;font-weight:500;}
@@ -3109,7 +3119,9 @@ a.btn-calendar-add:hover,
 .dark a.btn-calendar-add:hover, .btn-calendar-add:hover {background-color: #1e1f21; }
 
 .break .btn-calendar-add {display:none;}
+.break1 .btn-calendar-add {display:none;}
 .break2 .btn-calendar-add {display:none;}
+.break3 .btn-calendar-add {display:none;}
 
 /* 예약하기 > 캘린더 (리스트) */
 .reserve-calendar-list {padding:13px 44px 65px 44px; /*border-top:1px solid #ebebeb;*/}

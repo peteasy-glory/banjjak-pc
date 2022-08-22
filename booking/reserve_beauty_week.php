@@ -269,6 +269,91 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
         </div>
     </div>
 </article>
+<article id="reserveCalendarPop2" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data alert-pop-data">
+                <div class="pop-header">
+                    <h4 class="con-title" id="pop2_worker"></h4>
+                </div>
+                <div class="pop-body type-3">
+                    <div class="msg-txt"><span class="msg-txt-date" id="pop2_date"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span  class="msg-txt-time" id="pop2_time"></span></div>
+                </div>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm btn-reserv-block" onclick="pop.close(); reserve_prohibition_init().then(function(){reserve_prohibition_select()}); ">예약금지설정</button>
+                    <button type="button" class="btn btn-confirm btn-reserv-send" onclick="pop.close(); pop.open('reserveAcceptUser');">예약접수</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+<article id="reserveCalendarPop3" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+
+            <div class="pop-data alert-pop-data">
+                <div class="pop-header">
+                    <h4 class="con-title">예약금지 설정</h4>
+                </div>
+                <div class="pop-body type-3">
+                    <form name="form_time" id="form_time">
+                        <input type="hidden" name="ph_type" value="notall">
+                        <input type="hidden" name="ph_worker" value="">
+                        <input type="hidden" name="ph_start_year" id="year" value="">
+                        <input type="hidden" name="ph_start_month" id="month" value="">
+                        <input type="hidden" name="ph_start_day" id="day" value="">
+
+
+
+                        <div class="form-group">
+                            <div class="form-group-cell">
+                                <div class="form-group-item">
+                                    <div class="form-item-label">시간</div>
+                                    <div class="form-item-data type-2">
+                                        <div class="form-datepicker-group">
+                                            <div class="form-datepicker">
+                                                <select name="ph_start_time" id="ph_start_time">
+                                                </select>
+                                            </div>
+                                            <div class="form-unit">~</div>
+                                            <div class="form-datepicker">
+                                                <select name="ph_end_time" id="ph_end_time">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm btn-holiday-submit" onclick="reserve_prohibition()">저장</button>
+                    <button type="button" class="btn btn-confirm" onclick="pop.close();">취소</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</article>
+
+<article id="reserveCalendarPop10" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data alert-pop-data">
+                <div class="pop-header">
+                    <h4 class="con-title">설정된 예약금지를 해제하시겠습니까?</h4>
+                </div>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm btn-reserv-block-cancel" onclick="reserve_prohibition_delete()">예</button>
+                    <button type="button" class="btn btn-confirm btn-reserv-send" onclick="$('#reserveCalendarPop10').removeClass('actived');">아니요</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+
 
 <script src="../static/js/Sortable.min.js"></script>
 

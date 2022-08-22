@@ -212,6 +212,47 @@ if($r_mode){
 
         $return_data = array("code"=>"000000","people"=>$count_people,"animal"=>$count_animal);
 
+    }else if($r_mode === "post_prohibition"){
+
+        $login_id = $_POST['login_id'];
+        $worker = $_POST['worker'];
+        $type = $_POST['type'];
+        $st_date = $_POST['st_date'];
+        $fi_date = $_POST['fi_date'];
+
+
+        $prohibition_data = array(partner_id=>$login_id,worker=>$worker,type=>$type,st_date=>$st_date,fi_date=>$fi_date);
+        $prohibition_data_json = json_encode($prohibition_data);
+
+
+        $post_prohibition = $api ->post('/partner/booking/prohibition',$prohibition_data_json);
+
+        $return_data = array("code"=>"000000","data"=>$post_prohibition);
+    }else if($r_mode === "get_prohibition"){
+
+        $login_id = $_POST['login_id'];
+        $st_date = $_POST['st_date'];
+        $fi_date = $_POST['fi_date'];
+
+        $prohibition_data = array(st_date=>$st_date,fi_date=>$fi_date);
+        $prohibition_data_json = json_encode($prohibition_data);
+
+        $get_prohibition = $api -> get('/partner/booking/prohibition/'.$login_id,$prohibition_data_json);
+
+        $return_data = array("code"=>"000000","data"=>$get_prohibition);
+
+
+
+    }else if($r_mode === "delete_prohibition"){
+
+        $ph_seq = $_POST['ph_seq'];
+
+        $prohibition_data = array("idx"=>intval($ph_seq));
+//        $prohibition_data_json = json_encode($prohibition_data);
+
+        $delete_prohibition = $api -> delete('/partner/booking/prohibition',$prohibition_data);
+
+        $return_data = array("code"=>"000000","data"=>$delete_prohibition);
     }
 
 }

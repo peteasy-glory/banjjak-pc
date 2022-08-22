@@ -117,10 +117,10 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 									</div>
 									<div class="sort-right">
 										<!-- actived클래스 추가시 활성화 -->
-										<button type="button" class="btn-reserve-calendar-sort actived">월</button>
-										<button type="button" class="btn-reserve-calendar-sort">주</button>
-										<button type="button" class="btn-reserve-calendar-sort">일</button>
-										<button type="button" class="btn-reserve-calendar-sort"><span class="icon icon-type-list-gray off"></span><span class="icon icon-type-list-white on"></span></button>
+										<button type="button" class="btn-reserve-calendar-sort actived" >월</button>
+										<button type="button" class="btn-reserve-calendar-sort" onclick="location.href='./reserve_beauty_week.php';" >주</button>
+										<button type="button" class="btn-reserve-calendar-sort" onclick="location.href='./reserve_beauty_day.php';" >일</button>
+										<button type="button" class="btn-reserve-calendar-sort" onclick="location.href='./reserve_beauty_list.php';" ><span class="icon icon-type-list-gray off"></span><span class="icon icon-type-list-white on"></span></button>
 									</div>
 								</div>
 								<!-- //캘린더 상단 -->

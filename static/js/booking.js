@@ -39,6 +39,7 @@ function schedule_render(){
 
 
                 reserve_schedule().then(function(){
+                    reserve_prohibition_list();
                     cols().then(function (){
 
 
@@ -196,7 +197,7 @@ function reserve_schedule_week_cols(body,body_,parent){
             Array.from(body_col).forEach(function(__el){
 
                 __el.innerHTML =`<div class="calendar-drag-item-group">
-                                    <a href="#add" class="btn-calendar-add">등록하기</a>
+                                    <a href="#add" onclick="reserve_pop(this)" class="btn-calendar-add">등록하기</a>
                                     </div>`
             })
             el.classList.add('actived');
@@ -311,7 +312,8 @@ function reserve_schedule_week_cols(body,body_,parent){
                 }
             })
 
-            week_holiday(parent)
+            week_holiday(parent);
+            reserve_prohibition_list();
         })
     })
 
@@ -497,6 +499,7 @@ function week_working(){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
+                    console.log(body)
 
                     document.getElementById('grid_layout_inner').innerHTML = '';
 
@@ -614,37 +617,37 @@ function reserve_schedule_week() {
                                                                                             </div>
                                                                                         </div>
                                                                                     
-                                                                                    <div class="calendar-week-body-col calendar-week-body-col-add sunday ${break_times.match(thisTime) ? 'break':'' }" data-day="0" data-time-to="${thisTime}" data-time-from="${fill_zero(date__.getHours())}:${fill_zero(date__.getMinutes())}" data-hour="${thisTime_s[0]}" data-minutes="${thisTime_s[1]}" data-year="${date.getFullYear()}" data-month="${date.getMonth()}">
-                                                                                        <div class="calendar-drag-item-group">
-                                                                                            <a href="#add" class="btn-calendar-add">dasdaf등록하기</a>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="calendar-week-body-col calendar-week-body-col-add ${break_times.match(thisTime) ? 'break':'' }" data-day="1" data-time-to="${thisTime}" data-time-from="${fill_zero(date__.getHours())}:${fill_zero(date__.getMinutes())}" data-hour="${thisTime_s[0]}" data-minutes="${thisTime_s[1]}" data-year="${date.getFullYear()}" data-month="${date.getMonth()}">
+                                                                                    <div class="calendar-week-body-col calendar-week-body-col-add sunday ${break_times.match(thisTime) ? 'break1':'' } ${thisTime === break_times.split(' ')[0] ? 'break1-1':''}" data-day="0" data-time-to="${thisTime}" data-time-from="${fill_zero(date__.getHours())}:${fill_zero(date__.getMinutes())}" data-hour="${thisTime_s[0]}" data-minutes="${thisTime_s[1]}" data-year="${date.getFullYear()}" data-month="${date.getMonth()}">
                                                                                         <div class="calendar-drag-item-group">
                                                                                             <a href="#add" class="btn-calendar-add">등록하기</a>
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="calendar-week-body-col calendar-week-body-col-add ${break_times.match(thisTime) ? 'break':'' }" data-day="2" data-time-to="${thisTime}" data-time-from="${fill_zero(date__.getHours())}:${fill_zero(date__.getMinutes())}" data-hour="${thisTime_s[0]}" data-minutes="${thisTime_s[1]}" data-year="${date.getFullYear()}" data-month="${date.getMonth()}">
+                                                                                    <div class="calendar-week-body-col calendar-week-body-col-add ${break_times.match(thisTime) ? 'break1':'' } ${thisTime === break_times.split(' ')[0] ? 'break1-1':''}" data-day="1" data-time-to="${thisTime}" data-time-from="${fill_zero(date__.getHours())}:${fill_zero(date__.getMinutes())}" data-hour="${thisTime_s[0]}" data-minutes="${thisTime_s[1]}" data-year="${date.getFullYear()}" data-month="${date.getMonth()}">
                                                                                         <div class="calendar-drag-item-group">
                                                                                             <a href="#add" class="btn-calendar-add">등록하기</a>
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="calendar-week-body-col calendar-week-body-col-add ${break_times.match(thisTime) ? 'break':'' }" data-day="3" data-time-to="${thisTime}" data-time-from="${fill_zero(date__.getHours())}:${fill_zero(date__.getMinutes())}" data-hour="${thisTime_s[0]}" data-minutes="${thisTime_s[1]}" data-year="${date.getFullYear()}" data-month="${date.getMonth()}">
+                                                                                    <div class="calendar-week-body-col calendar-week-body-col-add ${break_times.match(thisTime) ? 'break1':'' } ${thisTime === break_times.split(' ')[0] ? 'break1-1':''}" data-day="2" data-time-to="${thisTime}" data-time-from="${fill_zero(date__.getHours())}:${fill_zero(date__.getMinutes())}" data-hour="${thisTime_s[0]}" data-minutes="${thisTime_s[1]}" data-year="${date.getFullYear()}" data-month="${date.getMonth()}">
                                                                                         <div class="calendar-drag-item-group">
                                                                                             <a href="#add" class="btn-calendar-add">등록하기</a>
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="calendar-week-body-col calendar-week-body-col-add ${break_times.match(thisTime) ? 'break':'' }" data-day="4" data-time-to="${thisTime}" data-time-from="${fill_zero(date__.getHours())}:${fill_zero(date__.getMinutes())}" data-hour="${thisTime_s[0]}" data-minutes="${thisTime_s[1]}" data-year="${date.getFullYear()}" data-month="${date.getMonth()}">
+                                                                                    <div class="calendar-week-body-col calendar-week-body-col-add ${break_times.match(thisTime) ? 'break1':'' } ${thisTime === break_times.split(' ')[0] ? 'break1-1':''}" data-day="3" data-time-to="${thisTime}" data-time-from="${fill_zero(date__.getHours())}:${fill_zero(date__.getMinutes())}" data-hour="${thisTime_s[0]}" data-minutes="${thisTime_s[1]}" data-year="${date.getFullYear()}" data-month="${date.getMonth()}">
                                                                                         <div class="calendar-drag-item-group">
                                                                                             <a href="#add" class="btn-calendar-add">등록하기</a>
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="calendar-week-body-col calendar-week-body-col-add ${break_times.match(thisTime) ? 'break':'' }" data-day="5" data-time-to="${thisTime}" data-time-from="${fill_zero(date__.getHours())}:${fill_zero(date__.getMinutes())}" data-hour="${thisTime_s[0]}" data-minutes="${thisTime_s[1]}" data-year="${date.getFullYear()}" data-month="${date.getMonth()}">
+                                                                                    <div class="calendar-week-body-col calendar-week-body-col-add ${break_times.match(thisTime) ? 'break1':'' } ${thisTime === break_times.split(' ')[0] ? 'break1-1':''}" data-day="4" data-time-to="${thisTime}" data-time-from="${fill_zero(date__.getHours())}:${fill_zero(date__.getMinutes())}" data-hour="${thisTime_s[0]}" data-minutes="${thisTime_s[1]}" data-year="${date.getFullYear()}" data-month="${date.getMonth()}">
                                                                                         <div class="calendar-drag-item-group">
                                                                                             <a href="#add" class="btn-calendar-add">등록하기</a>
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="calendar-week-body-col calendar-week-body-col-add saturday ${break_times.match(thisTime) ? 'break':'' }" data-day="6" data-time-to="${thisTime}" data-time-from="${fill_zero(date__.getHours())}:${fill_zero(date__.getMinutes())}" data-hour="${thisTime_s[0]}" data-minutes="${thisTime_s[1]}" data-year="${date.getFullYear()}" data-month="${date.getMonth()}">
+                                                                                    <div class="calendar-week-body-col calendar-week-body-col-add ${break_times.match(thisTime) ? 'break1':'' } ${thisTime === break_times.split(' ')[0] ? 'break1-1':''}" data-day="5" data-time-to="${thisTime}" data-time-from="${fill_zero(date__.getHours())}:${fill_zero(date__.getMinutes())}" data-hour="${thisTime_s[0]}" data-minutes="${thisTime_s[1]}" data-year="${date.getFullYear()}" data-month="${date.getMonth()}">
+                                                                                        <div class="calendar-drag-item-group">
+                                                                                            <a href="#add" class="btn-calendar-add">등록하기</a>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="calendar-week-body-col calendar-week-body-col-add saturday ${break_times.match(thisTime) ? 'break1':'' } ${thisTime === break_times.split(' ')[0] ? 'break1-1':''}" data-day="6" data-time-to="${thisTime}" data-time-from="${fill_zero(date__.getHours())}:${fill_zero(date__.getMinutes())}" data-hour="${thisTime_s[0]}" data-minutes="${thisTime_s[1]}" data-year="${date.getFullYear()}" data-month="${date.getMonth()}">
                                                                                         <div class="calendar-drag-item-group">
                                                                                             <a href="#add" class="btn-calendar-add">등록하기</a>
                                                                                         </div>
@@ -1540,13 +1543,14 @@ function cols(){
                     break_time.forEach(function(el,i){
                         break_times += `${el.time.split('~')[0]} `
                     })
+                    console.log(break_times)
                     body.forEach(function (el){
                         if(el.is_show && !el.is_leave){
                             el.work.forEach(function (el_){
                                 if(parseInt(el_.week) === date.getDay() ){
                                     document.getElementById('day_header_row').innerHTML +=`<div class="calendar-day-header-col">${el.nick}</div>`
-                                    Array.from(document.getElementsByClassName('calendar-day-body-row')).forEach(function(_el){
-                                        _el.innerHTML += `<div class="calendar-day-body-col time-compare-cols ${break_times.match(_el.getAttribute('data-time-to')) ? 'break':'' }" data-name="${el.name}" data-nick="${el.nick}" data-time-to="${_el.getAttribute('data-time-to')}" data-time-from="${_el.getAttribute('data-time-from')}" data-year="${date.getFullYear()}" data-month="${date.getMonth()}" data-date="${date.getDate()}" data-hour="${_el.getAttribute('data-hour')}" data-minutes="${_el.getAttribute('data-minutes')}">
+                                    Array.from(document.getElementsByClassName('calendar-day-body-row')).forEach(function(_el,i){
+                                        _el.innerHTML += `<div class="calendar-day-body-col time-compare-cols ${break_times.match(_el.getAttribute('data-time-to')) ? 'break1':'' } ${_el.getAttribute('data-time-to') === break_times.split(' ')[0] ? 'break1-1':''}" data-name="${el.name}" data-nick="${el.nick}" data-time-to="${_el.getAttribute('data-time-to')}" data-time-from="${_el.getAttribute('data-time-from')}" data-year="${date.getFullYear()}" data-month="${date.getMonth()}" data-date="${date.getDate()}" data-hour="${_el.getAttribute('data-hour')}" data-minutes="${_el.getAttribute('data-minutes')}">
                                                             <div class="calendar-drag-item-group">
                                                                 <a href="#" class="btn-calendar-add" onclick="reserve_pop(this)">등록하기</a>
                                                             </div>       
@@ -2045,6 +2049,7 @@ function pay_management(){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
+                console.log(body)
                 let work_body_inner = document.getElementById('work_body_inner');
                 let data_col_right = document.getElementById('data_col_right');
 
@@ -2549,6 +2554,7 @@ function pay_management_(){
 
     pay_management().then(function (body_){
 
+        console.log(body_)
         body_[0].forEach(function (el){
 
 
@@ -2563,7 +2569,7 @@ function pay_management_(){
         body_[1].forEach(function (el){
 
             let split_el = el.product.split('|');
-            document.getElementById('etc2_list').innerHTML += `<div class="memo-item note-toggle-cell">${el.booking_date} / ${split_el[0]} / ${split_el[4]} / ?Kg / ?원
+            document.getElementById('etc2_list').innerHTML += `<div class="memo-item note-toggle-cell">${el.booking_date} / ${split_el[0]} / ${split_el[4]} / ${el.product_parsing === null || el.product_parsing === undefined ? '미기입':  el.product_parsing.base.weight.unit }Kg / ${el.product_parsing === null || el.product_parsing === undefined ? '미기입': el.product_parsing.base.weight.price }원
                                                                                 <div class="memo-link">
                                                                                     <a href="#" class="btn-memo-link">상세보기
                                                                                         <div class="icon icon-arrow-right-small"></div>
@@ -3088,21 +3094,71 @@ function _schedule_render_list(body){
 
 function reserve_pop(element){
 
-    console.log(element.parentElement.parentElement);
+    if(location.href.match('reserve_beauty_day')){
+        let parent = element.parentElement.parentElement
 
-    let parent = element.parentElement.parentElement
-    let thisWorker = parent.getAttribute('data-name');
-    let thisWorker2 = parent.getAttribute('data-nick');
-    let thisYear = parent.getAttribute('data-year');
-    let thisMonth = parent.getAttribute('data-month');
-    let thisDate = parent.getAttribute('data-date');
-    let thisHour = parent.getAttribute('data-hour');
-    let thisMinutes = parent.getAttribute('data-minutes');
+        let thisYear = parent.getAttribute('data-year');
+        let thisMonth = parent.getAttribute('data-month');
+        let thisDate = parent.getAttribute('data-date');
+        let thisHour = parent.getAttribute('data-hour');
+        let thisMinutes = parent.getAttribute('data-minutes');
 
 
-    document.getElementById('pop2_worker').innerText = thisWorker2;
-    document.getElementById('pop2_date').innerText = `${thisYear}-${fill_zero(parseInt(thisMonth)+1)}-${fill_zero(thisDate)}`;
-    document.getElementById('pop2_time').innerText = `${am_pm_check(thisHour)}:${thisMinutes}`
+        let thisWorker = parent.getAttribute('data-name');
+        let thisWorker2 = parent.getAttribute('data-nick');
+
+        document.getElementById('pop2_worker').innerText = thisWorker2;
+        document.getElementById('pop2_date').innerText = `${thisYear}-${fill_zero(parseInt(thisMonth)+1)}-${fill_zero(thisDate)}`;
+        document.getElementById('pop2_time').innerText = `${am_pm_check(thisHour)}:${thisMinutes}`
+
+        document.getElementById('reserveCalendarPop2').setAttribute('data-name',thisWorker);
+        document.getElementById('reserveCalendarPop2').setAttribute('data-nick',thisWorker2);
+        document.getElementById('reserveCalendarPop2').setAttribute('data-year',thisYear);
+        document.getElementById('reserveCalendarPop2').setAttribute('data-month',thisMonth);
+        document.getElementById('reserveCalendarPop2').setAttribute('data-date',thisDate);
+        document.getElementById('reserveCalendarPop2').setAttribute('data-Hour',thisHour);
+        document.getElementById('reserveCalendarPop2').setAttribute('data-minutes',thisMinutes);
+
+
+    }else if(location.href.match('reserve_beauty_week')){
+        let parent = element.parentElement.parentElement
+
+        let thisYear = parent.getAttribute('data-year');
+        let thisMonth = parent.getAttribute('data-month');
+        let thisDate = parent.getAttribute('data-date');
+        let thisHour = parent.getAttribute('data-hour');
+        let thisMinutes = parent.getAttribute('data-minutes');
+
+        let thisWorker;
+        let thisWorker2;
+
+
+        Array.from(document.getElementsByClassName('header-worker')).forEach(function (el){
+
+            if(el.classList.contains('actived')){
+
+                thisWorker = el.getAttribute('data-worker');
+                thisWorker2 = el.getAttribute('data-nick');
+            }
+        })
+
+        console.log(thisWorker);
+        console.log(thisWorker2)
+
+        document.getElementById('pop2_worker').innerText = thisWorker2;
+        document.getElementById('pop2_date').innerText = `${thisYear}-${fill_zero(parseInt(thisMonth)+1)}-${fill_zero(thisDate)}`;
+        document.getElementById('pop2_time').innerText = `${am_pm_check(thisHour)}:${thisMinutes}`
+
+        document.getElementById('reserveCalendarPop2').setAttribute('data-name',thisWorker);
+        document.getElementById('reserveCalendarPop2').setAttribute('data-nick',thisWorker2);
+        document.getElementById('reserveCalendarPop2').setAttribute('data-year',thisYear);
+        document.getElementById('reserveCalendarPop2').setAttribute('data-month',thisMonth);
+        document.getElementById('reserveCalendarPop2').setAttribute('data-date',thisDate);
+        document.getElementById('reserveCalendarPop2').setAttribute('data-Hour',thisHour);
+        document.getElementById('reserveCalendarPop2').setAttribute('data-minutes',thisMinutes);
+
+
+    }
 
 
     pop.open('reserveCalendarPop2')
@@ -3110,18 +3166,471 @@ function reserve_pop(element){
 
 }
 
-function reserve_prohibition(){
+function reserve_prohibition_init(){
 
+return new Promise(function (resolve){
 
     pop.open('reserveCalendarPop3')
 
+    let thisWorker = document.getElementById('reserveCalendarPop2').getAttribute('data-name');
+    let thisWorker2 = document.getElementById('reserveCalendarPop2').getAttribute('data-nick');
+    let thisYear = document.getElementById('reserveCalendarPop2').getAttribute('data-year');
+    let thisMonth = document.getElementById('reserveCalendarPop2').getAttribute('data-month');
+    let thisDate = document.getElementById('reserveCalendarPop2').getAttribute('data-date');
+    let thisHour = document.getElementById('reserveCalendarPop2').getAttribute('data-hour');
+    let thisMinutes = document.getElementById('reserveCalendarPop2').getAttribute('data-minutes');
 
 
+    document.getElementById('reserveCalendarPop3').setAttribute('data-name',thisWorker);
+    document.getElementById('reserveCalendarPop3').setAttribute('data-nick',thisWorker2);
+    document.getElementById('reserveCalendarPop3').setAttribute('data-year',thisYear);
+    document.getElementById('reserveCalendarPop3').setAttribute('data-month',thisMonth);
+    document.getElementById('reserveCalendarPop3').setAttribute('data-date',thisDate);
+    document.getElementById('reserveCalendarPop3').setAttribute('data-Hour',thisHour);
+    document.getElementById('reserveCalendarPop3').setAttribute('data-minutes',thisMinutes);
+
+
+
+
+    document.getElementById('ph_start_time').innerHTML = ''
+    document.getElementById('ph_end_time').innerHTML = ''
     let open_close = localStorage.getItem('open_close');
 
-    let open = open_close.split('/')[0];
-    let close = open_close.split('/')[1];
+    let open = parseInt(open_close.split('/')[0]);
+    let close = parseInt(open_close.split('/')[1]);
+    let time = [];
+
+    for(open; open<=close; open++){
+
+        time.push(open);
+
+    }
+
+    for(let i=0; i<time.length-1; i++){
+
+        for(let t= 0; t<60; t +=30){
+
+            document.getElementById('ph_start_time').innerHTML += `<option value ="${thisYear}${fill_zero(parseInt(thisMonth)+1)}${fill_zero(thisDate)}${fill_zero(time[i])}${fill_zero(t)}">${fill_zero(am_pm_check(time[i]))}:${fill_zero(t)}</option>`
 
 
+
+
+        }
+    }
+
+    for(let i=0; i<time.length; i++){
+
+        for(let t=0; t<60; t+=30){
+
+            if(i===0){
+                t=30;
+            }
+            if(i===time.length-1 && t ===30){
+
+                break;
+            }
+            document.getElementById('ph_end_time').innerHTML += `<option value ="${thisYear}${fill_zero(parseInt(thisMonth)+1)}${fill_zero(thisDate)}${fill_zero(time[i])}${fill_zero(t)}">${fill_zero(am_pm_check(time[i]))}:${fill_zero(t)}</option>`
+        }
+    }
+
+    resolve();
+})
+
+
+
+
+
+}
+
+function reserve_prohibition_select(){
+
+    let target = document.getElementById('reserveCalendarPop3');
+
+    let thisYear = target.getAttribute('data-year');
+    let thisMonth = fill_zero(parseInt(target.getAttribute('data-month'))+1);
+    let thisDate = fill_zero(parseInt(target.getAttribute('data-date')));
+    let thisHour = fill_zero(target.getAttribute('data-hour'))
+    let thisMinutes = fill_zero(target.getAttribute('data-minutes'));
+
+    let st_time = thisYear+thisMonth+thisDate+thisHour+thisMinutes;
+
+
+    let fi_time = new Date(thisYear,thisMonth-1,thisDate,thisHour,thisMinutes);
+
+    fi_time.setMinutes(fi_time.getMinutes()+30)
+
+    let ty = fi_time.getFullYear().toString();
+    let tm = (fill_zero(fi_time.getMonth()+1)).toString();
+    let td = (fill_zero(fi_time.getDate())).toString();
+    let th = (fill_zero(fi_time.getHours())).toString();
+    let tM = (fill_zero(fi_time.getMinutes())).toString();
+
+    let tf = ty+tm+td+th+tM;
+    let st_select = document.getElementById('ph_start_time');
+    let st_length = st_select.options.length;
+
+    let fi_select = document.getElementById('ph_end_time');
+    let fi_length = fi_select.options.length;
+
+    for(let i=0; i<st_length; i++){
+
+        if(st_select.options[i].value === st_time){
+
+            st_select.options[i].selected = true;
+        }
+    }
+
+    for(let i=0; i<fi_length; i++){
+
+        if(fi_select.options[i].value === tf){
+            fi_select.options[i].selected = true;
+        }
+    }
+
+
+}
+
+function reserve_prohibition(){
+
+    let start = document.getElementById('ph_start_time').value;
+    let end = document.getElementById('ph_end_time').value;
+
+    $.ajax({
+
+
+        url:'../data/pc_ajax.php',
+        type:'post',
+        data:{
+            mode:'post_prohibition',
+            login_id:localStorage.getItem('id'),
+            worker:document.getElementById('reserveCalendarPop3').getAttribute('data-name'),
+            type:'notall',
+            st_date:start,
+            fi_date:end,
+        },
+        success:function(res){
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                location.reload();
+            }
+
+        }
+    })
+
+}
+
+function reserve_search(){
+
+
+    return new Promise(function(resolve){
+
+
+
+        let search_value = document.getElementById('reserve_search').value.trim();
+
+        $.ajax({
+
+            url:'../data/pc_ajax.php',
+            type:'post',
+            data:{
+
+                mode:'search',
+                login_id:localStorage.getItem('id'),
+                search:search_value,
+
+            },
+            success:function (res){
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+                    console.log(body);
+
+                    if(body.length === undefined){
+                        body = [body];
+                    }
+
+                    if(body.length > 0 ){
+                        document.getElementById('common_none_data').setAttribute('style','display:none');
+
+                        document.getElementById('reserve_inner').innerHTML = '';
+                        body.forEach(function(el,i){
+
+
+                            document.getElementById('reserve_inner').innerHTML += `<div class="grid-layout-cell grid-2">
+                                                                                            <a href="#" class="customer-card-item">
+                                                                                                <div class="item-info-wrap">
+                                                                                                    <div class="item-thumb">
+                                                                                                        <div class="user-thumb large">
+                                                                                                        <img src="${el.photo === "" ? el.type === 'dog' ? `../static/images/icon/icon-pup-select-off.png` : `../static/images/icon/icon-cat-select-off.png` : `https://image.banjjakpet.com${el.photo}`}" alt="">
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="item-data">
+                                                                                                        <div class="item-data-inner">
+                                                                                                            <div class="item-pet-name">${el.name}<div class="label label-yellow middle"><strong>${el.pet_type}</strong></div></div>
+                                                                                                            <div class="item-main-phone">
+                                                                                                                <div class="value">${phone_edit(el.cellphone)}</div>
+                                                                                                                ${el.no_show_count >0 ? `<div class="label label-outline-pink label-noshow">NO SHOW ${el.no_show_count}회</div>`: ''}
+                                                                                                            </div>
+                                                                                                            <div class="item-sub-phone">
+                                                                                                                <div class="grid-layout margin-2-5">
+                                                                                                                    <div class="grid-layout-inner" id="grid_layout_inner_${i}">
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </a>
+                                                                                        </div>`
+
+
+
+                        })
+                    }
+
+
+
+                    resolve(body);
+
+                }
+
+
+            }
+        })
+
+    })
+}
+
+
+function reserve_search_fam(){
+
+    reserve_search().then(function(body){
+
+        body.forEach(function (el,i){
+            document.getElementById(`grid_layout_inner_${i}`).innerHTML = ''
+            el.family.split(',').forEach(function(el_,i_){
+
+                document.getElementById(`grid_layout_inner_${i}`).innerHTML += `<div class="grid-layout-cell flex-auto">
+                                                                                                   <div class="value">${i_ < 3 ? el_ : i_ === 3 ? `외 ${el.family.split(',').length-3}개의 연락처` : ""}</div>
+                                                                                               </div>`
+
+            })
+        })
+
+
+    })
+
+}
+
+function reserve_toggle(){
+
+    document.getElementById('exist_btn').addEventListener('click',function(){
+
+        document.getElementById('new_user').style.display = 'none';
+        document.getElementById('exist_user').style.display = 'block'
+    })
+
+    document.getElementById('new_btn').addEventListener('click',function(){
+
+        document.getElementById('exist_user').style.display = 'none';
+        document.getElementById('new_user').style.display = 'block';
+    })
+
+}
+
+function reserve_prohibition_list(){
+
+    let st_date;
+    let fi_date;
+    if(location.href.match('reserve_beauty_day')){
+
+        st_date = `${date.getFullYear()}${fill_zero(date.getMonth()+1)}${fill_zero(date.getDate())}`;
+        fi_date = `${date.getFullYear()}${fill_zero(date.getMonth()+1)}${fill_zero(date.getDate()+1)}`
+    }else if(location.href.match('reserve_beauty_week')){
+
+        let dates = document.getElementById('schedule_day').innerText.replaceAll('.','').split(' ~ ');
+
+        st_date = `${date.getFullYear()}${dates[0]}`;
+        fi_date = `${date.getFullYear()}${dates[1]}`;
+
+
+    }
+
+    $.ajax({
+
+        url:'../data/pc_ajax.php',
+        type:'post',
+        data:{
+            mode:'get_prohibition',
+            login_id : localStorage.getItem('id'),
+            st_date:st_date,
+            fi_date:fi_date,
+        },
+        success:function (res){
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                console.log(body);
+
+
+                if(body.length === undefined){
+                    body = [body];
+                }
+
+                if(body.length > 0){
+
+
+                    if(location.href.match('reserve_beauty_day')){
+                        body.forEach(function(el){
+
+
+                            let st_date = new Date(el.st_date).getTime();
+                            let fi_date = new Date(el.fi_date).getTime();
+                            let time = [];
+
+                            for(let i=st_date; i<=fi_date; i+=1800000){
+
+                                time.push(i);
+                            }
+
+                            Array.from(document.getElementsByClassName('time-compare-cols')).forEach(function (el_){
+
+                                let el_year = el_.getAttribute('data-year');
+                                let el_month= el_.getAttribute('data-month');
+                                let el_date= el_.getAttribute('data-date');
+                                let el_hour= el_.getAttribute('data-hour');
+                                let el_minutes = el_.getAttribute('data-minutes');
+
+                                let el_new_date = new Date(`${el_year}-${fill_zero(parseInt(el_month)+1)}-${fill_zero(parseInt(el_date))} ${fill_zero(el_hour)}:${fill_zero(el_minutes)}`).getTime();
+
+
+                                for(let i=0; i<time.length-1; i++){
+
+                                    if(el_new_date === time[i] && el.worker === el_.getAttribute('data-name')){
+
+
+                                        if(i===0){
+                                            el_.classList.add('break3-1')
+                                        }
+
+                                        el_.setAttribute('onclick',`pop.open("reserveCalendarPop10"); document.getElementById("reserveCalendarPop10").setAttribute('data-ph_seq',${el.ph_seq})`)
+                                        el_.setAttribute('data-ph_seq',el.ph_seq)
+                                        el_.classList.add('break3');
+                                    }
+                                }
+
+                            })
+
+                        })
+                    }else if(location.href.match('reserve_beauty_week')){
+
+
+                        let worker;
+                        Array.from(document.getElementsByClassName('header-worker')).forEach(function(el){
+
+                            if(el.classList.contains('actived')){
+
+                                worker = el.getAttribute('data-worker');
+                            }
+
+                        })
+                        Array.from(document.getElementsByClassName('calendar-week-body-col-add')).forEach(function (el_){
+                            if(el_.classList.contains('break3')){
+                                el_.classList.remove('break3','break3-1')
+                            }
+                        })
+
+                        body.forEach(function(el){
+
+                            let st_date = new Date(el.st_date).getTime();
+
+                            let fi_date = new Date(el.fi_date).getTime();
+
+                            let time = [];
+
+                            for(let i=st_date; i<=fi_date; i+=1800000){
+
+                                time.push(i);
+                            }
+
+
+                            if(worker === el.worker){
+                                Array.from(document.getElementsByClassName('calendar-week-body-col-add')).forEach(function (el_){
+
+
+
+                                    let el_year = el_.getAttribute('data-year');
+                                    let el_month= el_.getAttribute('data-month');
+                                    let el_date= el_.getAttribute('data-date');
+                                    let el_hour= el_.getAttribute('data-hour');
+                                    let el_minutes = el_.getAttribute('data-minutes');
+
+                                    let el_new_date = new Date(`${el_year}-${fill_zero(parseInt(el_month)+1)}-${fill_zero(parseInt(el_date))} ${fill_zero(el_hour)}:${fill_zero(el_minutes)}`).getTime();
+
+
+                                    for(let i=0; i<time.length-1; i++){
+
+                                        if(el_new_date === time[i]){
+
+                                            if(i===0){
+                                                el_.classList.add('break3-1')
+                                            }
+                                            el_.setAttribute('onclick',`pop.open("reserveCalendarPop10"); document.getElementById("reserveCalendarPop10").setAttribute('data-ph_seq',${el.ph_seq})`)
+                                            el_.setAttribute('data-ph_seq',el.ph_seq)
+                                            el_.classList.add('break3');
+                                        }
+                                    }
+
+                                })
+                            }
+
+
+
+
+
+                        })
+
+
+
+
+
+                    }
+
+                }
+            }
+
+        }
+    })
+}
+
+
+function reserve_prohibition_delete(){
+
+    let ph_seq = document.getElementById('reserveCalendarPop10').getAttribute('data-ph_seq');
+
+
+
+    $.ajax({
+
+        url:'../data/pc_ajax.php',
+        type:'post',
+        data:{
+            mode:'delete_prohibition',
+            ph_seq:ph_seq
+        },
+        success:function(res) {
+            console.log(res)
+        }
+    })
 
 }
