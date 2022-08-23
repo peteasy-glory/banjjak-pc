@@ -27,7 +27,7 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 							<div class="card-header">
 								<h3 class="card-header-title">전체 고객 조회</h3>
 							</div>
-							<div class="card-body">
+							<div class="card-body" id="customer_scroll_paging">
 								<div class="card-body-inner">
 									<div class="customer-all-inquiry">
 										<div class="basic-data-group">
@@ -66,12 +66,18 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 										</div>										
 										<div class="basic-data-group large">
 											<div class="customer-all-inquiry-result">
-												<div class="sort-tab big">
+												<div class="sort-tab big" style="justify-content: space-between">
 													<div class="sort-tab-inner" id="sort_inner">
 														<!-- 활성화시 actived클래스 추가 -->
 														<div class="tab-cell actived"><a href="#" class="btn-tab-item"><strong id="count_people"></strong></a></div>
-														<div class="tab-cell"><a href="#" class="btn-tab-item"><strong id="count_animal"></strong> </a></div>
+														<div class="tab-cell"><a href="#" class="btn-tab-item" style="cursor:default"><strong id="count_animal"></strong> </a></div>
 													</div>
+                                                    <div class="sort-tab big toggle-button-cell">
+                                                        <label class="form-toggle-box" style="margin-left:6px;"><input type="radio" name="customer_type" value="beauty" checked><em><span>미용</span></em></label>
+<!--                                                        <label class="form-toggle-box" style="margin-left:6px;"><input type="radio" name="customer_type" value="hotel"><em><span>호텔</span></em></label>-->
+<!--                                                        <label class="form-toggle-box" style="margin-left:6px;"><input type="radio" name="customer_type" value="kinder"><em><span>유치원</span></em></label>-->
+
+                                                    </div>
 												</div>
 												<!-- tab-data-cell 클래스에 actived클래스 추가시 활성화 -->
 												<div class="tab-data-group">
@@ -156,9 +162,10 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
         gnb_actived('gnb_customer_wrap','gnb_inquire_all')
         customer_all().then(function (customers){
 
-           customer_graph(customers);
+           // customer_graph(customers);
            customer_list(customers);
 
+           customer_all_scroll_paging()
         })
         customer_count()
     }

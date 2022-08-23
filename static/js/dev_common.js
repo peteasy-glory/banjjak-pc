@@ -73,6 +73,11 @@ Array.prototype.division = function( n ) {
 
 
 //input 숫자만 가능
+
+// setInputFilter(document.getElementById("myTextBox"), function(value) {
+//     return /^\d*\.?\d*$/.test(value); // Allow digits and '.' only, using a RegExp
+// });
+
 function setInputFilter(textbox, inputFilter) {
     ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
         textbox.addEventListener(event, function() {

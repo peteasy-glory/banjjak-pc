@@ -3309,6 +3309,7 @@ function reserve_prohibition(){
             fi_date:end,
         },
         success:function(res){
+            console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -3629,7 +3630,7 @@ function reserve_prohibition_delete(){
             ph_seq:ph_seq
         },
         success:function(res) {
-            console.log(res)
+            location.reload();
         }
     })
 

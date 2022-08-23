@@ -1,9 +1,11 @@
 <?php
+
 class TRestAPI
 {
     private $token = null;
     private $url = null;
     private $headers = [];
+
     public function __construct($url, $token = "")
     {
         $this->url = $url;
@@ -15,9 +17,11 @@ class TRestAPI
             $this->headers[1] = "Authorization:" . $this->token;
         }
     }
+
     public function __destruct()
     {
     }
+
     public function get($path, $data = array())
     {
         $method = "GET";
@@ -31,12 +35,15 @@ class TRestAPI
         curl_setopt($ch, CURLOPT_HTTPHEADER, $this->headers);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
         $response = curl_exec($ch);
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $error = curl_error($ch);
         curl_close($ch);
+
         return json_decode($response, true);
     }
+
     public function post($path, $data)
     {
         $method = "POST";
@@ -51,15 +58,18 @@ class TRestAPI
         curl_setopt($ch, CURLOPT_HTTPHEADER, $this->headers);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_POST, true);
+
         $response = curl_exec($ch);
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $error = curl_error($ch);
         curl_close($ch);
+
         return json_decode($response, true);
     }
 
     public function put($path, $data)
     {
+        $data = json_decode($data);
         $method = "PUT";
         $url = $this->url . $path;
         $ch = curl_init();
@@ -71,14 +81,18 @@ class TRestAPI
         //curl_setopt($ch, CURLOPT_SSLVERSION, 3); // SSL 버젼 (https 접속시에 필요)
         curl_setopt($ch, CURLOPT_HTTPHEADER, $this->headers);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
         $response = curl_exec($ch);
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $error = curl_error($ch);
         curl_close($ch);
+
         return json_decode($response, true);
     }
+
     public function delete($path, $data)
     {
+        $data = json_encode($data);
         $method = "DELETE";
         $url = $this->url . $path;
         $ch = curl_init();
@@ -90,10 +104,16 @@ class TRestAPI
         //curl_setopt($ch, CURLOPT_SSLVERSION, 3); // SSL 버젼 (https 접속시에 필요)
         curl_setopt($ch, CURLOPT_HTTPHEADER, $this->headers);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
         $response = curl_exec($ch);
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $error = curl_error($ch);
         curl_close($ch);
+
         return json_decode($response, true);
     }
+
+
+
+
 }

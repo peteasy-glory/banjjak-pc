@@ -188,16 +188,11 @@ if($r_mode){
 
         $type = $_POST['type'];
         $ord = $_POST['ord'];
+        $offset = $_POST['offset'];
 
-        if($type === "all"){
-            $customer_all_b = $api->get('/partner/customer/search/'.$login_id.'?type=beauty&ord_type='.$ord);
-            $customer_all_h = $api->get('/partner/customer/search/'.$login_id.'?type=hotel&ord_type='.$ord);
-            $customer_all_k = $api->get('/partner/customer/search/'.$login_id.'?type=kinder&ord_type='.$ord);
 
-            $customer_all = array($customer_all_b,$customer_all_h,$customer_all_k);
-        }else{
-            $customer_all = $api->get('/partner/customer/search/'.$login_id.'?type='.$type.'&ord_type='.$ord);
-        }
+        $customer_all = $api->get('/partner/customer/search/'.$login_id.'?type='.$type.'&ord_type='.$ord.'&offset='.$offset.'&number=20');
+
 
 
 
@@ -223,7 +218,6 @@ if($r_mode){
 
         $prohibition_data = array(partner_id=>$login_id,worker=>$worker,type=>$type,st_date=>$st_date,fi_date=>$fi_date);
         $prohibition_data_json = json_encode($prohibition_data);
-
 
         $post_prohibition = $api ->post('/partner/booking/prohibition',$prohibition_data_json);
 
@@ -253,6 +247,72 @@ if($r_mode){
         $delete_prohibition = $api -> delete('/partner/booking/prohibition',$prohibition_data);
 
         $return_data = array("code"=>"000000","data"=>$delete_prohibition);
+    }else if($r_mode === "customer_new"){
+
+        $partner_id = $_POST['partner_id'];
+        $cellphone = $_POST['cellphone'];
+        $name = $_POST['name'];
+        $type = $_POST['type'];
+        $pet_type = $_POST['pet_type'];
+        $year = $_POST['year'];
+        $month = $_POST['month'];
+        $day = $_POST['date'];
+        $gender = $_POST['gender'];
+        $neutral = $_POST['neutral'];
+        $weight = $_POST['weight'];
+        $beauty_exp = $_POST['beauty_exp'];
+        $vaccination = $_POST['vaccination'];
+        $bite = $_POST['bite'];
+        $luxation = $_POST['luxation'];
+        $dermatosis = $_POST['dermatosis'];
+        $heart_trouble = $_POST['heart_trouble'];
+        $marking = $_POST['marking'];
+        $mounting = $_POST['mounting'];
+        $memo = $_POST['memo'];
+
+
+        $customer_data = array(partner_id=>$partner_id
+        ,cellphone=>$cellphone
+        ,name=>$name
+        ,type=>$type
+        ,pet_type=>$pet_type
+        ,year=>$year
+        ,month=>$month
+        ,day=>$day
+        ,gender=>$gender
+        ,neutral=>$neutral
+        ,weight=>$weight
+        ,beauty_exp=>$beauty_exp
+        ,vaccination=>$vaccination
+        ,bite=>$bite
+        ,luxation=>$luxation
+        ,dermatosis=>$dermatosis
+        ,heart_trouble=>$heart_trouble
+        ,marking=>$marking
+        ,mounting=>$mounting
+        ,memo=>$memo);
+
+        $customer_data_json = json_encode($customer_data);
+
+        $customer_new = $api->post('/partner/customer/search',$customer_data_json);
+
+
+        $return_data = array("code"=>"000000","data"=>$customer_new);
+
+
+
+
+
+
+    }else if($r_mode === "pet_type"){
+
+
+        $breed = $_POST['breed'];
+
+        $pet_type = $api -> get('/partner/booking/pettype?animal='.$breed);
+
+        $return_data = array("code"=>"000000","data"=>$pet_type);
+
     }
 
 }
