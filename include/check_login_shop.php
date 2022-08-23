@@ -1,5 +1,5 @@
 <?php
-	if(!isset($_SESSION['gobeauty_user_id']) || !isset($_SESSION['gobeauty_user_nickname'])) {
+	if(!isset($_SESSION['gobeauty_user_id'])) {
 ?>
 
 	<script>
@@ -11,7 +11,7 @@
 			location.href="<?=$login_directory?>/index.php";
 		});
 		*/
-		location.href="/login/login";
+		location.href="/login/login.php";
 	</script>
 
 <?php
@@ -19,7 +19,8 @@
 	}elseif(isset($_SESSION['gobeauty_user_id']) && $_SESSION['my_shop_flag']!='1' && $_SESSION['artist_flag']!=true) {
 		?>
 		<script>
-		location.href="/login/join";
+            // 입점신청 or 권한요청 페이지
+		    location.href="/home/index_none.html";
 		</script>
 		<?
 		exit;

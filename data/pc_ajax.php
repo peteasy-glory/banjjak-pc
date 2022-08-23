@@ -36,6 +36,7 @@ if($r_mode){
 
         $login_id = $_POST['login_id'];
         $login_pw = $_POST['login_pw'];
+        $login_remember = $_POST['login_remember'];
 
 
         $login_data = array(id=>$login_id,pw=>$login_pw);
@@ -45,7 +46,29 @@ if($r_mode){
 
         $login = $api->get("/partner/login",$login_data_json);
 
-
+        $en_json_login = json_encode($login);
+        $de_json_login = json_decode($en_json_login);
+        $code = $de_json_login->head->code;
+        $is_partner = $de_json_login->body->partner;
+        // 로그인 성공시 session 생성
+        if($code == 200){
+            $_SESSION['gobeauty_user_id'] = $login_id;
+            // 점주/미용사 판단
+            if($is_partner){
+                $_SESSION['my_shop_flag'] = 1;
+            }else{
+                $_SESSION['shop_user_id'] = $is_partner = $de_json_login->body->partner_id;
+                $_SESSION['artist_flag'] = 1;
+            }
+            // 로그인유지 선택시
+            if($login_remember == 1){
+                cookie_save($login_id,$master_key_name);
+            }else{
+                $past = time() - 3600;
+                setcookie("auto_login_uid", '', $past, '/','.'.$_SERVER['HTTP_HOST'] );
+                setcookie("user_hash", '', $past, '/','.'.$_SERVER['HTTP_HOST'] );
+            }
+        }
 
         $return_data = array("code" => "000000", "data" => $login);
 

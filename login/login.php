@@ -1,19 +1,17 @@
 <?php
 
-
+include($_SERVER['DOCUMENT_ROOT']."/include/global.php");
 include($_SERVER['DOCUMENT_ROOT'] . "/include/skin/header.php");
 
 $client_id = "UJ2SBwYTjhQSTvsZF8TO";
-$redirectURI = urlencode("https://partner.banjjakpet.com/login/naver");
+$redirectURI = urlencode("https://partner-pc.banjjakpet.com/login/naver");
 $state = "RAMDOM_STATE";
 $apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=" . $client_id . "&redirect_uri=" . $redirectURI . "&state=" . $state;
 
 
 $client_id_a = 'com.banjjakpet.banjjak';
 
-$client_secret = 'eyJraWQiOiI5MzRKQTVBNlIzIiwiYWxnIjoiRVMyNTYifQ.eyJpc3MiOiI3U01TUEo2RDhQIiwiaWF0IjoxNjM5NjI3MzAzLCJleHAiOjE2NTUxNzkzMDMsImF1ZCI6Imh0dHBzOi8vYXBwbGVpZC5hcHBsZS5jb20iLCJzdWIiOiJjb20uZ29wZXQuYmFuamphayJ9.NRGB5QvPPSOZ8JShzc1b_QNaO1tbXTxQzO9Shjbd1YZb9cj3X3n1ZzfOcmr1GsIky5CoeulttN7tRuycENIU3Q';
-
-$redirect_uri = 'https://partner.banjjakpet.com/login/apple_callback';
+$redirect_uri = 'https://partner-pc.banjjakpet.com/login/apple_callback';
 
 $_SESSION['state'] = RandomToken(5);
 
@@ -81,7 +79,7 @@ function RandomToken($length = 32){
                             </div>
                         </div>
                         <div class="login-agree">
-                            <div class="check"><label class="form-checkbox"><input type="checkbox" id="c12" name="check"><span class="form-check-icon"><em>로그인 상태유지</em></span></label></div>
+                            <div class="check"><label class="form-checkbox"><input type="checkbox" id="remember" name="check"><span class="form-check-icon"><em>로그인 상태유지</em></span></label></div>
                             <div class="btn-ui"><a href="./login_find_id.php" class="btn-member">아이디/비밀번호 찾기</a></div>
                         </div>
                         <div class="login-btn-group">

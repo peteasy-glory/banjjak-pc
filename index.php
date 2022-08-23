@@ -32,7 +32,7 @@ $uri = explode('/', $uri);
 
 
 if($uri[1]=="login"){
-    include($_SERVER['DOCUMENT_ROOT']."/login_shop.html");
+    include($_SERVER['DOCUMENT_ROOT']."/login/login.php");
 
 }else if(is_file($_SERVER['DOCUMENT_ROOT']."/".$uri[1].".html")){
     include($_SERVER['DOCUMENT_ROOT']."/".$uri[1].".html");
@@ -47,7 +47,7 @@ if($uri[1]=="login"){
 
 }else{
     if($uri[0]=="" && $uri[1]==""){
-        include($_SERVER['DOCUMENT_ROOT']."/home/index.html");
+        include($_SERVER['DOCUMENT_ROOT']."/home/index.php");
     }else{
         echo "페이지 에러";
     }
