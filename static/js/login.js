@@ -400,8 +400,10 @@ function login(){
                     let response = JSON.parse(res);
                     let head = response.data.head;
                     let body = response.data.body;
-                    if(head.code === 401){
-                        pop.open('firstRequestMsg1',head.message);
+                    if(head.code === 401) {
+                        pop.open('firstRequestMsg1', head.message);
+                    }else if(head.code === 403){
+                        pop.open('firstRequestMsg1', head.message);
                     }else if(head.code === 200){
 
                         location.href = "../home/index.php";

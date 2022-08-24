@@ -11,6 +11,13 @@ if ($artist_flag == 1) {
     $artist_id = (isset($_SESSION['gobeauty_user_id'])) ? $_SESSION['gobeauty_user_id'] : "";
 }
 
+if($artist_flag == 1){
+    ?>
+    <script>
+        location.href="/booking/reserve_beauty_month.php";
+    </script>
+    <?php
+}
 
 ?>
 <body>        

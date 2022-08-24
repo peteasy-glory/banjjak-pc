@@ -72,6 +72,14 @@ if($r_mode){
 
         $return_data = array("code" => "000000", "data" => $login);
 
+    }else if($r_mode === "navi"){
+
+        $login_id = $_POST['login_id'];
+
+        $navi = $api->get('/partner/home/navigation/'.$login_id);
+
+        $return_data = array("code" => "000000", "data"=>$navi);
+
     }else if($r_mode === "check_id"){
 
 
