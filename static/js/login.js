@@ -375,6 +375,12 @@ function login(){
 
             let id = document.querySelector('#gobeauty_user_name').value.replace(/\s*/g,"");
             let pw = document.querySelector('#gobeauty_user_password').value.replace(/\s*/g,"");
+            let remember = document.getElementById("remember").checked;
+            if(remember == true){
+                remember = 1;
+            }else{
+                remember = 2;
+            }
 
             $.ajax({
 
@@ -384,6 +390,7 @@ function login(){
                     mode:'login',
                     login_id:id,
                     login_pw:pw,
+                    login_remember:remember,
 
                 },
                 type:'POST',
@@ -397,8 +404,7 @@ function login(){
                     if(head.code === 401){
                         pop.open('firstRequestMsg1',head.message);
                     }else if(head.code === 200){
-                        
-                        localStorage.setItem('id',id);
+
                         location.href = "../home/index.php";
 
                     }

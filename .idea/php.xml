@@ -19,7 +19,6 @@
       <extension name="dba" enabled="false" />
       <extension name="decimal" enabled="false" />
       <extension name="dio" enabled="false" />
-      <extension name="elastic_apm" enabled="false" />
       <extension name="enchant" enabled="false" />
       <extension name="exif" enabled="false" />
       <extension name="fann" enabled="false" />

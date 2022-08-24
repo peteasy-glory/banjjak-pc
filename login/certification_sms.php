@@ -15,10 +15,8 @@ $dbcheck = (isset($_POST['dbcheck'])) ? $_POST['dbcheck'] : "";
 $rand_code = cetificationnumber6();
 $_SESSION["gobeauty_certification_number"] = $rand_code;
 
-$crypto = new Crypto();
-$ss_userphone = $crypto->encode(trim($userphone), $access_key, $secret_key);
 
-$_SESSION["gobeauty_regist_cellphone"] = $ss_userphone;
+$_SESSION["gobeauty_regist_cellphone"] = $userphone;
 
 /******************** 인증 & 발송 정보 ********************/
 $sms_url = "https://sslsms.cafe24.com/sms_sender.php"; // 전송요청 URL
@@ -115,5 +113,5 @@ if ($fp) {
 {
 "msg": "<?= $alert ?>",
 "sendsms": "<?= $sendsms ?>",
-"data": "<?= $crypto->encode($rand_code, $access_key, $secret_key); ?>"
+"data": "<?= $rand_code; ?>"
 }

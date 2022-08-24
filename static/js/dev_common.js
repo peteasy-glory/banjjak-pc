@@ -3,13 +3,13 @@ let data;
 let list;
 
 
-function data_set(){
+function data_set(id){
 
     $.ajax({
         url: '../data/pc_ajax.php',
         data: {
             mode: 'home',
-            login_id: localStorage.getItem('id'),
+            login_id: id,
         },
         type: 'POST',
         async:false,

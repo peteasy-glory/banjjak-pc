@@ -165,7 +165,7 @@ var include = {
                                 <div class="txt-data">
                                     <div class="user-name nick"></div>
                                     <div class="user-cate shop_name">
-                                        <a href="#" class="btn-gnb-logout">로그아웃</a>
+                                        <a href="/data/logout_process.php" class="btn-gnb-logout">로그아웃</a>
                                     </div>
                                 </div>
                             </div><!-- 메인 메뉴 -->
