@@ -392,7 +392,7 @@ if ($artist_flag == 1) {
                                                     <div class="form-group-item">
                                                         <div class="form-item-label">전화번호</div>
                                                         <div class="form-item-data">
-                                                            <input type="text" class="form-control" value="">
+                                                            <input type="text" maxlength="15" id="reserve_cellphone" class="form-control" value="">
                                                             <div class="form-input-info">'-' 없이 숫자만 입력</div>
                                                         </div>
                                                     </div>
@@ -413,7 +413,7 @@ if ($artist_flag == 1) {
                                                 <div class="form-group-item">
                                                     <div class="form-item-label"><em class="need">*</em>펫 이름</div>
                                                     <div class="form-item-data">
-                                                        <input type="text" class="form-control" value="잭" placeholder="펫 이름 입력">
+                                                        <input type="text" class="form-control" value="" id="reserve_name" placeholder="펫 이름 입력">
                                                     </div>
                                                 </div>
                                             </div>
@@ -429,26 +429,14 @@ if ($artist_flag == 1) {
                                                                 </div>
                                                             </div>
                                                             <div class="pet-breed-sort">
-                                                                <!-- 강아지 -->
                                                                 <div style="display:block">
-                                                                    <select>
-                                                                        <option value="">말티즈</option>
+                                                                    <select id="breed_select">
+                                                                        <option value="">선택</option>
                                                                     </select>
-                                                                    <div class="pet-breed-other"  style="display:block">
-                                                                        <input type="text" placeholder="입력" class="form-control">
+                                                                    <div class="pet-breed-other"  id="breed_other_box" style="display:none">
+                                                                        <input type="text" placeholder="입력" id="breed_other" class="form-control">
                                                                     </div>
                                                                 </div>
-                                                                <!-- //강아지 -->
-                                                                <!-- 고양이 -->
-                                                                <div style="display:none">
-                                                                    <select>
-                                                                        <option value="">고양이</option>
-                                                                    </select>
-                                                                    <div class="pet-breed-other"  style="display:block">
-                                                                        <input type="text" placeholder="입력" class="form-control">
-                                                                    </div>
-                                                                </div>
-                                                                <!-- //고양이 -->
                                                             </div>
                                                         </div>
                                                     </div>
@@ -461,21 +449,18 @@ if ($artist_flag == 1) {
                                                         <div class="grid-layout margin-12">
                                                             <div class="grid-layout-inner">
                                                                 <div class="grid-layout-cell grid-3">
-                                                                    <select>
-                                                                        <option value="">2021 년</option>
-                                                                        <option value="">2021 년</option>
-                                                                        <option value="">2021 년</option>
-                                                                        <option value="">2021 년</option>
+                                                                    <select id="birthday_year" class="birthday">
+
                                                                     </select>
                                                                 </div>
                                                                 <div class="grid-layout-cell grid-3">
-                                                                    <select>
-                                                                        <option value="">02 월</option>
+                                                                    <select id="birthday_month" class="birthday">
+
                                                                     </select>
                                                                 </div>
                                                                 <div class="grid-layout-cell grid-3">
-                                                                    <select>
-                                                                        <option value="">02 일</option>
+                                                                    <select id="birthday_date">
+
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -489,8 +474,8 @@ if ($artist_flag == 1) {
                                                     <div class="form-item-data type-2">
                                                         <div class="grid-layout toggle-button-group">
                                                             <div class="grid-layout-inner">
-                                                                <div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="gender1"><input type="radio" name="gender" id="gender1"><em>남아</em></label></div>
-                                                                <div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="gender2"><input type="radio" name="gender" id="gender2"><em>여아</em></label></div>
+                                                                <div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="gender1"><input type="radio" name="gender" value="남아" id="gender1"><em>남아</em></label></div>
+                                                                <div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="gender2"><input type="radio" name="gender" value="여아" id="gender2"><em>여아</em></label></div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -502,8 +487,8 @@ if ($artist_flag == 1) {
                                                     <div class="form-item-data type-2">
                                                         <div class="grid-layout toggle-button-group">
                                                             <div class="grid-layout-inner">
-                                                                <div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="neutralize1"><input type="radio" name="neutralize" id="neutralize1"><em>X</em></label></div>
-                                                                <div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="neutralize2"><input type="radio" name="neutralize" id="neutralize2"><em>O</em></label></div>
+                                                                <div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="neutralize1"><input type="radio" name="neutralize" value="0" id="neutralize1"><em>X</em></label></div>
+                                                                <div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="neutralize2"><input type="radio" name="neutralize" value="1" id="neutralize2"><em>O</em></label></div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -514,18 +499,21 @@ if ($artist_flag == 1) {
                                                     <div class="form-item-label"><em class="need">*</em>몸무게</div>
                                                     <div class="form-item-data type-2">
                                                         <div class="form-flex">
-                                                            <select class="inline-block">
-                                                                <option value="">0</option>
-                                                                <option value="">0</option>
-                                                                <option value="">0</option>
-                                                                <option value="">0</option>
+                                                            <select class="inline-block" id="weight1">
+
                                                             </select>
                                                             <div class="form-unit-point">.</div>
-                                                            <select class="inline-block">
-                                                                <option value="">0</option>
-                                                                <option value="">0</option>
-                                                                <option value="">0</option>
-                                                                <option value="">0</option>
+                                                            <select class="inline-block" id="weight2">
+                                                                <option value="0">0</option>
+                                                                <option value="1">1</option>
+                                                                <option value="2">2</option>
+                                                                <option value="3">3</option>
+                                                                <option value="4">4</option>
+                                                                <option value="5">5</option>
+                                                                <option value="6">6</option>
+                                                                <option value="7">7</option>
+                                                                <option value="8">8</option>
+                                                                <option value="9">9</option>
                                                             </select>
                                                             <div class="form-unit-label">kg</div>
                                                         </div>
@@ -536,11 +524,12 @@ if ($artist_flag == 1) {
                                                 <div class="form-group-item">
                                                     <div class="form-item-label">미용 경험</div>
                                                     <div class="form-item-data type-2">
-                                                        <select>
-                                                            <option value="">2회</option>
-                                                            <option value="">2회</option>
-                                                            <option value="">2회</option>
-                                                            <option value="">2회</option>
+                                                        <select id="beauty_exp">
+                                                            <option value="0">선택</option>
+                                                            <option value="없음">없음</option>
+                                                            <option value="1회">1회</option>
+                                                            <option value="2회">2회</option>
+                                                            <option value="3회 이상">3회 이상</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -549,11 +538,12 @@ if ($artist_flag == 1) {
                                                 <div class="form-group-item">
                                                     <div class="form-item-label">예방 접종</div>
                                                     <div class="form-item-data type-2">
-                                                        <select>
-                                                            <option value="">2회</option>
-                                                            <option value="">2회</option>
-                                                            <option value="">2회</option>
-                                                            <option value="">2회</option>
+                                                        <select id="vaccination">
+                                                            <option value="0">선택</option>
+                                                            <option value="2차 이하">2차 이하</option>
+                                                            <option value="3차">3차 완료</option>
+                                                            <option value="4차">4차 완료</option>
+                                                            <option value="5차">5차 완료</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -562,11 +552,10 @@ if ($artist_flag == 1) {
                                                 <div class="form-group-item">
                                                     <div class="form-item-label">입질</div>
                                                     <div class="form-item-data type-2">
-                                                        <select>
-                                                            <option value="">2회</option>
-                                                            <option value="">2회</option>
-                                                            <option value="">2회</option>
-                                                            <option value="">2회</option>
+                                                        <select id="bite">
+                                                            <option value="0">선택</option>
+                                                            <option value="안해요">안해요</option>
+                                                            <option value="해요">해요</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -575,11 +564,13 @@ if ($artist_flag == 1) {
                                                 <div class="form-group-item">
                                                     <div class="form-item-label">슬개골 탈구</div>
                                                     <div class="form-item-data type-2">
-                                                        <select>
-                                                            <option value="">2회</option>
-                                                            <option value="">2회</option>
-                                                            <option value="">2회</option>
-                                                            <option value="">2회</option>
+                                                        <select id="luxation">
+                                                            <option value="0">선택</option>
+                                                            <option value="없음">없음</option>
+                                                            <option value="1기">1기</option>
+                                                            <option value="2기">2기</option>
+                                                            <option value="3기">3기</option>
+                                                            <option value="4기">4기</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -594,9 +585,7 @@ if ($artist_flag == 1) {
                                                                 <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special2"><input type="checkbox" name="special" id="special2"><em>심장질환</em></label></div>
                                                                 <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special3"><input type="checkbox" name="special" id="special3"><em>마킹</em></label></div>
                                                                 <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special3"><input type="checkbox" name="special" id="special3"><em>마운팅</em></label></div>
-                                                                <div class="grid-layout-cell grid-1">
-                                                                    <textarea style="height:60px;"></textarea>
-                                                                </div>
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -670,7 +659,7 @@ if ($artist_flag == 1) {
                                     </div>
                                 </div>
                             </div>
-                            <div class="basic-data-group" id="service">
+                            <div class="basic-data-group" id="service" style="display:none;">
                                 <div class="con-title-group">
                                     <h4 class="con-title">예약 서비스 및 추가 특이사항 입력</h4>
                                 </div>
@@ -864,7 +853,7 @@ if ($artist_flag == 1) {
                                     </div>
                                 </div>
                             </div>
-                            <div class="basic-data-group vmiddle">
+                            <div class="basic-data-group vmiddle" id="service2" style="display:none;">
                                 <div class="service-selected-wrap">
                                     <div class="service-selected-group">
                                         <h5 class="con-title">서비스 선택 내역</h5>
@@ -950,6 +939,10 @@ if ($artist_flag == 1) {
         gnb_actived('gnb_reserve_wrap','gnb_beauty');
         btn_schedule(artist_id);
         reserve_toggle();
+        reserve_regist_tab();
+        setInputFilter(document.getElementById("reserve_cellphone"), function(value) {
+            return /^\d*\.?\d*$/.test(value);
+        })
 
 
 

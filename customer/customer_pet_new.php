@@ -105,6 +105,7 @@ if ($artist_flag == 1) {
 																		</div>
 																		<div class="grid-layout-cell grid-3">
 																			<select id="birthday_date">
+
 																			</select>
 																		</div>
 																	</div>

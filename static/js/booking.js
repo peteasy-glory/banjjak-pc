@@ -3738,8 +3738,21 @@ function reserve_regist_tab(){
 
         if(other.classList.contains('actived')){
 
+            other.classList.remove('actived')
 
         }
 
+        basic.classList.add('actived')
+
+    })
+
+    other_btn.addEventListener('click',function(){
+
+        if(basic.classList.contains('actived')){
+
+            basic.classList.remove('actived')
+        }
+
+        other.classList.add('actived')
     })
 }

@@ -14,6 +14,7 @@ function data_set(id){
         type: 'POST',
         async:false,
         success: function (res) {
+            console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
