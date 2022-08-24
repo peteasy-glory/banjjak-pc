@@ -248,6 +248,7 @@ if ($artist_flag == 1) {
 
 <script>
 
+    let session_id = "<?=session_id()?>";
     let artist_id = "<?=$artist_id?>";
 
     data_set(artist_id)
@@ -255,11 +256,11 @@ if ($artist_flag == 1) {
 
 
 
-    window.onload = function(){
+    $(document).ready(function(){
 
         gnb_init();
-        _renderCalendar();
-        btn_month()
+        _renderCalendar(artist_id);
+        btn_month(artist_id)
         consulting();
         update();
         wide_tab();
@@ -269,9 +270,12 @@ if ($artist_flag == 1) {
         prepend_data('consulting_count schedule_count new_review_count total_count nick');
         stats();
         gnb_actived('gnb_home');
-        break_time();
+        break_time(artist_id);
 
-    }
+
+    })
+
+
 
 
 

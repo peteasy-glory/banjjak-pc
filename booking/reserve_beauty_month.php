@@ -1,7 +1,15 @@
 <?php
 include($_SERVER['DOCUMENT_ROOT']."/include/global.php");
 include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
+include($_SERVER['DOCUMENT_ROOT']."/include/check_login_shop.php");
 
+$artist_flag = (isset($_SESSION['artist_flag'])) ? $_SESSION['artist_flag'] : "";
+
+if ($artist_flag == 1) {
+    $artist_id = (isset($_SESSION['shop_user_id'])) ? $_SESSION['shop_user_id'] : "";
+} else {
+    $artist_id = (isset($_SESSION['gobeauty_user_id'])) ? $_SESSION['gobeauty_user_id'] : "";
+}
 
 ?>
 <body>        
@@ -208,22 +216,24 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 <script src="../static/js/Sortable.min.js"></script>
 <script>
 
+    let artist_id = "<?=$artist_id?>";
+    data_set(artist_id)
 
-    data_set();
-    window.onload = function(){
+
+    $(document).ready(function(){
 
         gnb_init();
         prepend_data('consulting_count schedule_count nick');
         set_image('front_image');
-        book_list().then(function(body){
+        book_list(artist_id).then(function(body){
 
 
-            today_reserve_month();
+            today_reserve_month(artist_id);
             _renderCalendar_month().then(function(){
                 month_reserve_cols(body).then(function (){
 
                     day_total_reserve()
-                    month_holiday()
+                    month_holiday(artist_id)
 
                 });
             });
@@ -232,9 +242,12 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 
         });
         gnb_actived('gnb_reserve_wrap','gnb_beauty');
-        btn_month_calendar()
+        btn_month_calendar(artist_id)
 
-    }
+
+    })
+
+
 
 </script>
 <script>

@@ -21,6 +21,8 @@ function data_set(id){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
                 data = body;
+
+                localStorage.setItem('total_count',data.total_count);
             }
         }
     })
@@ -412,7 +414,7 @@ function today_reserve(){
 
 
 //달력
-function renderCalendar() {
+function renderCalendar(id) {
     return new Promise(function (resolve) {
         let viewYear = date.getFullYear();
         let viewMonth = date.getMonth();
@@ -491,13 +493,13 @@ function renderCalendar() {
         }
 
         //정기휴일적용
-        holiday();
+        holiday(id);
         resolve(div_dates);
     })
 }
 
-function _renderCalendar() {
-    renderCalendar()
+function _renderCalendar(id) {
+    renderCalendar(id)
         .then(function (div_dates) {
             //row에 col data 넣기
             for (let i = 0; i < div_dates.length; i++) {
@@ -567,20 +569,20 @@ function _renderCalendar() {
 }
 
 //캘린더 버튼
-function btn_month(){
+function btn_month(id){
 
 
     document.getElementById('btn-month-prev').addEventListener('click', function (evt) {
 
         date.setDate(1);
         date.setMonth(date.getMonth() - 1);
-        book_list().then(function (){
+        book_list(id).then(function (){
             if(document.getElementById('main-calendar-month-body')){
 
                 _renderCalendar();
             }else{
 
-                _renderCalendar_mini();
+                _renderCalendar_mini(id);
             }
             if(document.getElementById('main_reserve_graph_none')){
                 stats();
@@ -592,13 +594,13 @@ function btn_month(){
 
         date.setDate(1);
         date.setMonth(date.getMonth() + 1);
-        book_list().then(function (){
+        book_list(id).then(function (){
             if(document.getElementById('main-calendar-month-body')){
 
                 _renderCalendar();
             }else{
 
-                _renderCalendar_mini();
+                _renderCalendar_mini(id);
             }
 
 
@@ -615,7 +617,7 @@ function btn_month(){
 }
 
 
-function renderCalendar_mini() {
+function renderCalendar_mini(id) {
 
     return new Promise(function (resolve){
         let viewYear = date.getFullYear();
@@ -691,14 +693,14 @@ function renderCalendar_mini() {
         for (let i = 0; i < div_dates.length; i++) {
             document.getElementById(`mini-calendar-month-body`).innerHTML += ` <div class="mini-calendar-month-body-row ${i > 0 && i < 5 ? "op-1" : ""} ${i === 0 || i === 2 ? '1or3' : i === 1 || i === 3 ? '2or4':""} " id="mini-calendar-month-body-row-${i}" data-row="${i}" ></div>`
         }
-        holiday();
+        holiday(id);
         resolve(div_dates);
     })
 }
 
 //새로고침 달력
-function _renderCalendar_mini(){
-    renderCalendar_mini()
+function _renderCalendar_mini(id){
+    renderCalendar_mini(id)
         .then(function (div_dates){
             for (let i = 0; i < div_dates.length; i++) {
                 document.getElementById(`mini-calendar-month-body-row-${i}`).innerHTML = '';
@@ -777,55 +779,57 @@ function _renderCalendar_mini(){
 
 
                     if(location.href.match('reserve_beauty_day')){
-                        schedule_render();
+                        schedule_render(id);
                     }else if(location.href.match('reserve_beauty_week')){
 
 
                         localStorage.setItem('select_row',el.parentElement.getAttribute('data-row'))
 
-                        schedule_render_week(el).then(function(data){
+                        schedule_render_week(el,id).then(function(data){
 
                             let body_ = data[0];
                             let parent = data[1]
 
-                            week_working().then(function (body){
-                                reserve_schedule_week_cols(body,body_,parent)
 
+                            week_working(id).then(function (body_data){
+
+                                reserve_schedule_week_cols(body_data,body_,parent,id)
+                                reserve_schedule_week(id,body_data).then(function(_body){
+
+                                    document.getElementById('grid_layout_inner').children[0].children[0].click();
+                                    week_timebar(_body);
+                                    let test = document.getElementsByClassName('week-date');
+
+                                    let text = [''];
+                                    Array.from(test).forEach(function (el){
+                                        text.push(el.innerText)
+                                    })
+
+                                    for(let i=0; i<text.length; i++){
+                                        Array.from(document.getElementsByClassName('calendar-week-body-row')).forEach(function(el){
+
+                                            if(el.children[i].classList.contains('calendar-week-body-col-add')){
+                                                el.children[i].setAttribute('data-date',text[i])
+                                            }
+
+                                        })
+                                    }
+                                    week_drag();
+
+
+
+
+
+                                });
 
                             })
-                            reserve_schedule_week().then(function(body){
 
-                                document.getElementById('grid_layout_inner').children[0].children[0].click();
-                                week_timebar(body);
-                                let test = document.getElementsByClassName('week-date');
-
-                                let text = [''];
-                                Array.from(test).forEach(function (el){
-                                    text.push(el.innerText)
-                                })
-
-                                for(let i=0; i<text.length; i++){
-                                    Array.from(document.getElementsByClassName('calendar-week-body-row')).forEach(function(el){
-
-                                        if(el.children[i].classList.contains('calendar-week-body-col-add')){
-                                            el.children[i].setAttribute('data-date',text[i])
-                                        }
-
-                                    })
-                                }
-                                week_drag();
-
-
-
-
-
-                            });
                         });
 
                     }else if(location.href.match('reserve_beauty_list')){
 
 
-                        schedule_render_list().then(function(body){
+                        schedule_render_list(id).then(function(body){
 
                             _schedule_render_list(body)
                         })
@@ -889,6 +893,26 @@ function wide_tab(){
     })
 }
 
+function wide_tab_2(){
+    let tab_cell = document.getElementById('wide-tab-inner2').children;
+
+    Array.from(tab_cell).forEach(function (el) {
+
+        el.addEventListener('click', function () {
+            if (!this.classList.contains('actived')) {
+
+                Array.from(tab_cell).forEach(function (el) {
+                    el.classList.remove('actived');
+                })
+
+                this.classList.add('actived');
+            } else {
+                return;
+            }
+        })
+    })
+}
+
 
 //notice
 function notice(){
@@ -909,7 +933,7 @@ function notice(){
 
 
 //정기휴일
-function holiday(){
+function holiday(id){
 
     let week = location.href.match('reserve_beauty_week');
     let body_col = document.getElementsByClassName('calendar-week-body-col-add');
@@ -919,7 +943,7 @@ function holiday(){
         type:'post',
         data:{
             mode:'holiday',
-            login_id:localStorage.getItem('id')
+            login_id:id
         },
         success:function(res){
             let response = JSON.parse(res);

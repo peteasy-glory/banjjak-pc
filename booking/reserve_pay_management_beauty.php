@@ -441,15 +441,18 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 <script src="../static/js/common.js"></script>
 <script src="../static/js/pc_script.js"></script>
 <script>
-    window.onload = function (){
-
+    $(document).ready(function(){
 
         gnb_init();
         prepend_data('consulting_count nick');
         set_image('front_image');
 
+
+
+    })
+
         
-    }
+
 
 </script>
 </body>

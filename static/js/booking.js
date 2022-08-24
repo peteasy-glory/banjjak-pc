@@ -1,5 +1,8 @@
+
+
+
 //일간 예약관리 렌더
-function schedule_render(){
+function schedule_render(id){
 
     $.ajax({
 
@@ -7,7 +10,7 @@ function schedule_render(){
         type:'post',
         data:{
             mode:'day_book',
-            login_id:localStorage.getItem('id'),
+            login_id:id,
             st_date:`${date.getFullYear()}-${fill_zero(date.getMonth()+1)}-${fill_zero(date.getDate())}`,
             fi_date:`${date.getFullYear()}-${fill_zero(date.getMonth()+1)}-${fill_zero(date.getDate()+1)}`,
         },
@@ -38,10 +41,12 @@ function schedule_render(){
                 document.getElementById('schedule_day').innerHTML =`${fill_zero(date.getMonth()+1)}.${fill_zero(date.getDate())}(${week[date.getDay()]})`
 
 
-                reserve_schedule().then(function(){
-                    reserve_prohibition_list();
-                    cols().then(function (){
+                reserve_schedule(id).then(function(){
+                    reserve_prohibition_list(id);
 
+                    cols(id).then(function (body_data){
+
+                        no_one(body_data);
 
                         let color;
                         body.forEach(function (el){
@@ -106,7 +111,7 @@ function schedule_render(){
                             async:false,
                             data:{
                                 mode:'schedule_artist',
-                                login_id:localStorage.getItem('id'),
+                                login_id:id,
                             },
                             success:function (res){
                                 let response = JSON.parse(res);
@@ -171,7 +176,9 @@ function schedule_render(){
 }
 
 
-function reserve_schedule_week_cols(body,body_,parent){
+function reserve_schedule_week_cols(body,body_,parent,id){
+
+    console.log(body)
 
 
 
@@ -288,12 +295,18 @@ function reserve_schedule_week_cols(body,body_,parent){
             })
 
 
+            let work_day = [];
+
             Array.from(body).forEach(function (q){
 
 
                 if(el.getAttribute('data-worker') === q.name){
 
                     q.work.forEach(function (w){
+
+                        work_day.push(w.week);
+
+
 
                         Array.from(body_col).forEach(function (e){
 
@@ -305,6 +318,13 @@ function reserve_schedule_week_cols(body,body_,parent){
 
                             }
 
+                            if(e.getAttribute('data-day').includes(work_day_search(work_day))){
+
+                                e.classList.add('break')
+                            }
+
+
+
                         })
 
 
@@ -312,16 +332,40 @@ function reserve_schedule_week_cols(body,body_,parent){
                 }
             })
 
-            week_holiday(parent);
-            reserve_prohibition_list();
+            week_holiday(parent,id);
+            reserve_prohibition_list(id);
         })
     })
 
 
 }
 
+function work_day_search(work_day){
 
-function week_holiday(parent){
+
+    for(let i=0; i<7; i++) {
+
+        if(work_day.includes(i.toString())){
+            let value = i.toString();
+            work_day = work_day.filter(function(item){
+                return item !== value;
+            })
+        }else{
+
+            work_day.push(i.toString())
+        }
+
+    }
+
+    return work_day;
+
+
+
+
+}
+
+
+function week_holiday(parent,id){
 
     let body_col = document.getElementsByClassName('calendar-week-body-col-add');
 
@@ -331,7 +375,7 @@ function week_holiday(parent){
         type:'post',
         data:{
             mode:'holiday',
-            login_id:localStorage.getItem('id')
+            login_id:id
         },
         success:function(res){
             let response = JSON.parse(res);
@@ -477,7 +521,7 @@ function week_holiday(parent){
     })
 
 }
-function week_working(){
+function week_working(id){
     return new Promise(function (resolve){
 
 
@@ -489,7 +533,7 @@ function week_working(){
             async:false,
             data:{
                 mode:'working',
-                login_id:localStorage.getItem('id'),
+                login_id:id,
             },
             success:function (res){
 
@@ -546,9 +590,10 @@ function week_timebar(body){
 }
 
 
-function reserve_schedule_week() {
+function reserve_schedule_week(id,body_data) {
 
     return new Promise(function (resolve) {
+
 
 
 
@@ -559,7 +604,7 @@ function reserve_schedule_week() {
         type: 'post',
         data: {
             mode: 'open_close',
-            login_id: localStorage.getItem('id')
+            login_id: id,
 
         },
         success: function (res) {
@@ -569,14 +614,17 @@ function reserve_schedule_week() {
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                let break_time = JSON.parse(localStorage.getItem('break_time'))
+
+                let break_time = '';
                 let break_times = '';
-                break_time.forEach(function(el,i){
-                    break_times += `${el.time.split('~')[0]} `
-                })
-                //
-                // console.log(break_times)
-                // console.log(body)
+                if(localStorage.getItem('break_time') !== ''){
+                    break_time = JSON.parse(localStorage.getItem('break_time'))
+
+                    break_time.forEach(function(el,i){
+                        break_times += `${el.time.split('~')[0]} `
+                    })
+                }
+
                 let day_body = document.getElementById('day_body');
 
 
@@ -673,7 +721,7 @@ function reserve_schedule_week() {
 })
 }
 
-function schedule_render_week(el){
+function schedule_render_week(el,id){
 
 
 return new Promise(function (resolve){
@@ -726,7 +774,7 @@ return new Promise(function (resolve){
                 data: {
 
                     mode: 'week_book',
-                    login_id: localStorage.getItem('id'),
+                    login_id: id,
                     st_date: st_date,
                     fi_date: fi_date
                 },
@@ -793,7 +841,7 @@ return new Promise(function (resolve){
 
 }
 
-function reload_list(){
+function reload_list(id){
 
     let year = localStorage.getItem('day_select') !== null ? localStorage.getItem('day_select').split('.')[0] : date.getFullYear()
     let month = localStorage.getItem('day_select') !== null ? localStorage.getItem('day_select').split('.')[1] : date.getMonth()+1
@@ -802,7 +850,7 @@ function reload_list(){
         url: '../data/pc_ajax.php',
         data: {
             mode: 'month_book',
-            login_id: localStorage.getItem('id'),
+            login_id: id,
             year: year,
             month: month
         },
@@ -824,7 +872,7 @@ function reload_list(){
 
 
 //booking
-function book_list() {
+function book_list(id) {
 
 
 
@@ -835,7 +883,7 @@ function book_list() {
             url: '../data/pc_ajax.php',
             data: {
                 mode: 'month_book',
-                login_id: localStorage.getItem('id'),
+                login_id: id,
                 year: date.getFullYear(),
                 month: date.getMonth()+1,
             },
@@ -1333,7 +1381,7 @@ function consulting_list_select(){
 }
 
 //미니달력 달기준 바꾸기
-function calendar_change_month(){
+function calendar_change_month(id){
 
     let month_nav = document.getElementsByClassName('btn-simple-calendar-month-nav')
 
@@ -1348,8 +1396,8 @@ function calendar_change_month(){
                 el_.classList.remove('actived');
             })
             date.setMonth(parseInt(el.innerText.trim())-1);
-            book_list().then(function(){
-                _renderCalendar_mini();
+            book_list(id).then(function(){
+                _renderCalendar_mini(id);
                 document.querySelector('.calendar-title-sort').classList.remove('actived')
 
 
@@ -1410,7 +1458,7 @@ function mini_calendar_init(){
 }
 
 //일간 예약관리 스케쥴 시간cols
-function reserve_schedule(){
+function reserve_schedule(id){
 
     return new Promise(function (resolve){
 
@@ -1423,7 +1471,7 @@ function reserve_schedule(){
             type:'post',
             data:{
                 mode:'open_close',
-                login_id:localStorage.getItem('id')
+                login_id:id,
 
             },
             success:function(res){
@@ -1511,8 +1559,38 @@ function reserve_schedule(){
     })
 }
 
+function no_one(body){
+
+    let header = document.getElementById('day_header_row')
+
+    if(header.children.length > 1){
+
+        return;
+
+    }else{
+
+        body.forEach(function(el){
+
+            if(!el.is_leave && el.is_show){
+
+
+                header.innerHTML += `<div class="calendar-day-header-col">${el.nick}</div>`
+
+                Array.from(document.getElementsByClassName('calendar-day-body-row')).forEach(function(_el,i){
+                    _el.innerHTML += `<div class="calendar-day-body-col time-compare-cols break" data-name="${el.name}" data-nick="${el.nick}" data-time-to="${_el.getAttribute('data-time-to')}" data-time-from="${_el.getAttribute('data-time-from')}" data-year="${date.getFullYear()}" data-month="${date.getMonth()}" data-date="${date.getDate()}" data-hour="${_el.getAttribute('data-hour')}" data-minutes="${_el.getAttribute('data-minutes')}">
+                                                            <div class="calendar-drag-item-group">
+                                                                <a href="#" class="btn-calendar-add" onclick="reserve_pop(this)">등록하기</a>
+                                                            </div>       
+                                                         </div>`
+
+                })
+            }
+        })
+    }
+}
+
 //일간 예약관리 스케쥴 cols
-function cols(){
+function cols(id){
 
 
     return new Promise(function (resolve){
@@ -1526,7 +1604,7 @@ function cols(){
             async:false,
             data:{
                 mode:'working',
-                login_id:localStorage.getItem('id'),
+                login_id:id,
             },
             success:function (res){
 
@@ -1538,12 +1616,18 @@ function cols(){
                 } else if (head.code === 200) {
 
                     document.getElementById('day_header_row').innerHTML = `<div class="calendar-day-header-col time"></div>`
-                    let break_time = JSON.parse(localStorage.getItem('break_time'))
+
+                    let break_time = '';
                     let break_times = '';
-                    break_time.forEach(function(el,i){
-                        break_times += `${el.time.split('~')[0]} `
-                    })
-                    console.log(break_times)
+                    if(localStorage.getItem('break_time') !== ''){
+                        break_time = JSON.parse(localStorage.getItem('break_time'))
+
+                        break_time.forEach(function(el,i){
+                            break_times += `${el.time.split('~')[0]} `
+                        })
+                    }
+
+
                     body.forEach(function (el){
                         if(el.is_show && !el.is_leave){
                             el.work.forEach(function (el_){
@@ -1555,14 +1639,17 @@ function cols(){
                                                                 <a href="#" class="btn-calendar-add" onclick="reserve_pop(this)">등록하기</a>
                                                             </div>       
                                                          </div>`
-                                        resolve();
+
                                     })
                                 }
+
+
+
                             })
                         }
                     })
 
-
+                    resolve(body);
 
 
 
@@ -1576,17 +1663,17 @@ function cols(){
 }
 
 //일간 예약관리 스케쥴 버튼 날짜변경
-function btn_schedule(){
+function btn_schedule(id){
 
     if(location.href.match('reserve_beauty_day') || location.href.match('reserve_beauty_list')){//여기수정해야함
 
         document.getElementById('btn-schedule-next').addEventListener('click',function(){
             date.setDate(date.getDate()+1)
             if(date.getDate() === 1){
-                book_list().then(function (){
+                book_list(id).then(function (){
 
 
-                    renderCalendar_mini().then(function(div_dates){
+                    renderCalendar_mini(id).then(function(div_dates){
 
                         for (let i = 0; i < div_dates.length; i++) {
                             document.getElementById(`mini-calendar-month-body-row-${i}`).innerHTML = '';
@@ -1653,13 +1740,13 @@ function btn_schedule(){
                             date.setDate(el.children[0].children[0].children[0].children[0].innerText.trim());
 
                             if(location.href.match('reserve_beauty_list')){
-                                schedule_render_list().then(function (body){
+                                schedule_render_list(id).then(function (body){
 
                                     _schedule_render_list(body)
                                 })
                             }else{
 
-                                schedule_render();
+                                schedule_render(id);
                             }
 
                         })
@@ -1667,23 +1754,23 @@ function btn_schedule(){
                 })
             }
             if(location.href.match('reserve_beauty_list')){
-                schedule_render_list().then(function (body){
+                schedule_render_list(id).then(function (body){
 
                     _schedule_render_list(body)
                 })
             }else{
 
-                schedule_render();
+                schedule_render(id);
             }
         })
 
         document.getElementById('btn-schedule-prev').addEventListener('click',function (){
             date.setDate(date.getDate()-1)
             if(date.getDate() >= 28){
-                book_list().then(function (){
+                book_list(id).then(function (){
 
 
-                    renderCalendar_mini().then(function(div_dates){
+                    renderCalendar_mini(id).then(function(div_dates){
                         for (let i = 0; i < div_dates.length; i++) {
                             document.getElementById(`mini-calendar-month-body-row-${i}`).innerHTML = '';
                             for (let j = 0; j < div_dates[i].length; j++) {
@@ -1744,13 +1831,13 @@ function btn_schedule(){
                             date.setDate(el.children[0].children[0].children[0].children[0].innerText.trim());
 
                             if(location.href.match('reserve_beauty_list')){
-                                schedule_render_list().then(function (body){
+                                schedule_render_list(id).then(function (body){
 
                                     _schedule_render_list(body)
                                 })
                             }else{
 
-                                schedule_render();
+                                schedule_render(id);
                             }
 
                         })
@@ -1762,13 +1849,13 @@ function btn_schedule(){
                 })
             }
             if(location.href.match('reserve_beauty_list')){
-                schedule_render_list().then(function (body){
+                schedule_render_list(id).then(function (body){
 
                     _schedule_render_list(body)
                 })
             }else{
 
-                schedule_render();
+                schedule_render(id);
             }
 
 
@@ -1818,7 +1905,7 @@ function btn_schedule(){
 }
 
 //일간 예약관리 스케쥴표 break_time
-function break_time(){
+function break_time(id){
 
 
     $.ajax({
@@ -1829,7 +1916,7 @@ function break_time(){
         data:{
 
             mode:'break_time',
-            login_id:localStorage.getItem('id'),
+            login_id:id,
         },
         success:function(res){
             let response = JSON.parse(res);
@@ -1839,7 +1926,12 @@ function break_time(){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
-                localStorage.setItem('break_time',JSON.stringify(body[0].res_time_off))
+                if(body.length >0){
+                    localStorage.setItem('break_time',JSON.stringify(body[0].res_time_off))
+                }else{
+                    localStorage.setItem('break_time','');
+                }
+
 
 
 
@@ -2023,7 +2115,7 @@ function week_drag(){
 
 
 //작업결제관리 페이지
-function pay_management(){
+function pay_management(id){
 
     return new Promise(function (resolve){
 
@@ -2437,7 +2529,7 @@ function pay_management(){
                                                                     </div>
                                                                     <div class="text-list-cell">
                                                                         <div class="item-title unit">선생님</div>
-                                                                            <div class="item-data">${body.worker === localStorage.getItem('id') ? "실장" : body.worker}</div>
+                                                                            <div class="item-data">${body.worker === id ? "실장" : body.worker}</div>
                                                                         </div>
                                                                         <div class="text-list-cell">
                                                                             <div class="item-title unit align-self-center">시간</div>
@@ -2550,9 +2642,9 @@ function pay_management(){
 
 }
 
-function pay_management_(){
+function pay_management_(id){
 
-    pay_management().then(function (body_){
+    pay_management(id).then(function (body_){
 
         console.log(body_)
         body_[0].forEach(function (el){
@@ -2583,7 +2675,7 @@ function pay_management_(){
 }
 
 
-function today_reserve_month(){
+function today_reserve_month(id){
 
     let reserve_list = document.getElementById('month_today_reserve_list');
 
@@ -2635,7 +2727,7 @@ function today_reserve_month(){
                                                                             <div class="icon icon-size-16 icon-time-purple"></div>
                                                                              ${am_pm_check(date_today_reserve.getHours())}:${fill_zero(date_today_reserve.getMinutes())} ~ ${am_pm_check(date_today_reserve_fi.getHours())}:${fill_zero(date_today_reserve_fi.getMinutes())}
                                                                         </div>
-                                                                        <div class="option-cell">${el.product.worker === localStorage.getItem('id')? '실장' : el.product.worker}</div>
+                                                                        <div class="option-cell">${el.product.worker === id ? '실장' : el.product.worker}</div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -2817,14 +2909,14 @@ function day_total_reserve(){
     }
 }
 
-function month_holiday(){
+function month_holiday(id){
 
     $.ajax({
         url:'../data/pc_ajax.php',
         type:'post',
         data:{
             mode:'holiday',
-            login_id:localStorage.getItem('id')
+            login_id:id
         },
         success:function(res){
             let response = JSON.parse(res);
@@ -2918,21 +3010,21 @@ function month_holiday(){
 }
 
 
-function btn_month_calendar(){
+function btn_month_calendar(id){
 
 
     document.getElementById('btn-month-prev').addEventListener('click', function (evt) {
 
 
         date.setMonth(date.getMonth() - 1);
-        book_list().then(function (body){
+        book_list(id).then(function (body){
             document.getElementById('calendar_month_body').innerHTML = '';
-            today_reserve_month();
+            today_reserve_month(id);
             _renderCalendar_month().then(function(){
                 month_reserve_cols(body).then(function (){
 
                     day_total_reserve()
-                    month_holiday()
+                    month_holiday(id)
 
                 });
             });
@@ -2943,15 +3035,15 @@ function btn_month_calendar(){
 
 
         date.setMonth(date.getMonth() + 1 );
-        book_list().then(function(body){
+        book_list(id).then(function(body){
 
             document.getElementById('calendar_month_body').innerHTML = '';
-            today_reserve_month();
+            today_reserve_month(id);
             _renderCalendar_month().then(function(){
                 month_reserve_cols(body).then(function (){
 
                     day_total_reserve()
-                    month_holiday()
+                    month_holiday(id)
 
                 });
             });
@@ -2963,7 +3055,7 @@ function btn_month_calendar(){
 
 }
 
-function schedule_render_list(){
+function schedule_render_list(id){
 
     return new Promise(function (resolve){
         $.ajax({
@@ -2972,7 +3064,7 @@ function schedule_render_list(){
             type: 'post',
             data: {
                 mode: 'day_book',
-                login_id: localStorage.getItem('id'),
+                login_id: id,
                 st_date: `${date.getFullYear()}-${fill_zero(date.getMonth() + 1)}-${fill_zero(date.getDate())}`,
                 fi_date: `${date.getFullYear()}-${fill_zero(date.getMonth() + 1)}-${fill_zero(date.getDate() + 1)}`,
             },
@@ -3020,7 +3112,7 @@ function schedule_render_list(){
 
                         list_inner.innerHTML +=`<div class="reserve-calendar-list-group">
                                                 <div class="con-title-group">
-                                                    <h5 class="con-title worker_id">${el === localStorage.getItem('id') ? '실장' : el}</h5>
+                                                    <h5 class="con-title worker_id">${el === id ? '실장' : el}</h5>
                                                 </div>
                                                 <div class="reserve-calendar-list-data" id="list-data-${el}"></div>
                                             </div>`
@@ -3290,7 +3382,7 @@ function reserve_prohibition_select(){
 
 }
 
-function reserve_prohibition(){
+function reserve_prohibition(id){
 
     let start = document.getElementById('ph_start_time').value;
     let end = document.getElementById('ph_end_time').value;
@@ -3302,7 +3394,7 @@ function reserve_prohibition(){
         type:'post',
         data:{
             mode:'post_prohibition',
-            login_id:localStorage.getItem('id'),
+            login_id:id,
             worker:document.getElementById('reserveCalendarPop3').getAttribute('data-name'),
             type:'notall',
             st_date:start,
@@ -3324,7 +3416,7 @@ function reserve_prohibition(){
 
 }
 
-function reserve_search(){
+function reserve_search(id){
 
 
     return new Promise(function(resolve){
@@ -3340,7 +3432,7 @@ function reserve_search(){
             data:{
 
                 mode:'search',
-                login_id:localStorage.getItem('id'),
+                login_id:id,
                 search:search_value,
 
             },
@@ -3410,9 +3502,9 @@ function reserve_search(){
 }
 
 
-function reserve_search_fam(){
+function reserve_search_fam(id){
 
-    reserve_search().then(function(body){
+    reserve_search(id).then(function(body){
 
         body.forEach(function (el,i){
             document.getElementById(`grid_layout_inner_${i}`).innerHTML = ''
@@ -3446,7 +3538,7 @@ function reserve_toggle(){
 
 }
 
-function reserve_prohibition_list(){
+function reserve_prohibition_list(id){
 
     let st_date;
     let fi_date;
@@ -3470,7 +3562,7 @@ function reserve_prohibition_list(){
         type:'post',
         data:{
             mode:'get_prohibition',
-            login_id : localStorage.getItem('id'),
+            login_id : id,
             st_date:st_date,
             fi_date:fi_date,
         },
@@ -3481,7 +3573,6 @@ function reserve_prohibition_list(){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body);
 
 
                 if(body.length === undefined){
@@ -3634,4 +3725,21 @@ function reserve_prohibition_delete(){
         }
     })
 
+}
+
+function reserve_regist_tab(){
+
+    let basic_btn = document.getElementById('basic_service_btn');
+    let other_btn = document.getElementById('other_service_btn');
+    let basic = document.getElementById('basic_service');
+    let other = document.getElementById('other_service');
+
+    basic_btn.addEventListener('click',function(){
+
+        if(other.classList.contains('actived')){
+
+
+        }
+
+    })
 }

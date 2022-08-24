@@ -1,7 +1,15 @@
 <?php
 include($_SERVER['DOCUMENT_ROOT']."/include/global.php");
 include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
+include($_SERVER['DOCUMENT_ROOT']."/include/check_login_shop.php");
 
+$artist_flag = (isset($_SESSION['artist_flag'])) ? $_SESSION['artist_flag'] : "";
+
+if ($artist_flag == 1) {
+    $artist_id = (isset($_SESSION['shop_user_id'])) ? $_SESSION['shop_user_id'] : "";
+} else {
+    $artist_id = (isset($_SESSION['gobeauty_user_id'])) ? $_SESSION['gobeauty_user_id'] : "";
+}
 
 
 ?>
@@ -33,7 +41,7 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 										<div class="basic-data-group">
 											<div class="con-title-group">
 												<h5 class="con-title"><strong>정렬방식</strong></h5>
-												<select class="arrow" id="customer_select" onchange="customer_all().then(function(customers){customer_list(customers);})">
+												<select class="arrow" id="customer_select" onchange="customer_all(artist_id).then(function(customers){customer_list(customers);})">
 													<option value="a">최신순</option>
 													<option value="b">가나다순</option>
 													<option value="c">이용횟수별</option>
@@ -153,22 +161,28 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 <script src="../static/js/dev_common.js"></script>
 <script src="../static/js/customer.js"></script>
 <script>
-    data_set()
+    let artist_id = "<?=$artist_id?>";
 
-    window.onload = function (){
+    data_set(artist_id)
+
+    $(document).ready(function(){
+
         gnb_init();
         set_image('front_image');
         prepend_data('consulting_count nick');
         gnb_actived('gnb_customer_wrap','gnb_inquire_all')
-        customer_all().then(function (customers){
+        customer_all(artist_id).then(function (customers){
 
-           // customer_graph(customers);
-           customer_list(customers);
+            // customer_graph(customers);
+            customer_list(customers);
 
-           customer_all_scroll_paging()
+            customer_all_scroll_paging(artist_id)
         })
-        customer_count()
-    }
+        customer_count(artist_id)
+        customer_select_(artist_id)
+
+    })
+
 
 
 </script>

@@ -75,7 +75,7 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 
 <script>
 
-    window.onload = function (){
+    $(document).ready(function(){
         $(".check_number").click(function(){
             check_sms_number();
         })
@@ -86,7 +86,9 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 
         })
 
-    }
+    })
+
+
 
     //잘못된 접근 방지
     function process_check2(){

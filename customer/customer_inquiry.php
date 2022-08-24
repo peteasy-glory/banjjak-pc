@@ -1,7 +1,15 @@
 <?php
 include($_SERVER['DOCUMENT_ROOT']."/include/global.php");
 include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
+include($_SERVER['DOCUMENT_ROOT']."/include/check_login_shop.php");
 
+$artist_flag = (isset($_SESSION['artist_flag'])) ? $_SESSION['artist_flag'] : "";
+
+if ($artist_flag == 1) {
+    $artist_id = (isset($_SESSION['shop_user_id'])) ? $_SESSION['shop_user_id'] : "";
+} else {
+    $artist_id = (isset($_SESSION['gobeauty_user_id'])) ? $_SESSION['gobeauty_user_id'] : "";
+}
 
 
 $search = ($_POST['search'] && $_POST['search'] !== "") ? $_POST['search']:"";
@@ -38,7 +46,7 @@ $search = ($_POST['search'] && $_POST['search'] !== "") ? $_POST['search']:"";
 										<div class="basic-single-data">
 											<div class="form-btns">
 												<input type="text" id="search" placeholder="전화번호 또는 펫이름">
-												<button type="button" id="search_btn" class="btn-data-send btn-data-search" onclick="document.getElementById('search').value === '' ? pop.open('firstRequestMsg1','전화번호나 펫이름을 입력해주세요.'):search_fam(document.getElementById('search').value)"><span class="icon icon-size-24 icon-page-search">검색</span></button>
+												<button type="button" id="search_btn" class="btn-data-send btn-data-search" onclick="document.getElementById('search').value === '' ? pop.open('firstRequestMsg1','전화번호나 펫이름을 입력해주세요.'):search_fam(document.getElementById('search').value,artist_id)"><span class="icon icon-size-24 icon-page-search">검색</span></button>
 											</div>
 										</div>
 									</div>
@@ -89,16 +97,19 @@ $search = ($_POST['search'] && $_POST['search'] !== "") ? $_POST['search']:"";
 <script src="../static/js/dev_common.js"></script>
 <script src="../static/js/customer.js"></script>
 <script>
-    data_set()
+    let artist_id = "<?=$artist_id?>";
+    data_set(artist_id)
+    $(document).ready(function(){
 
-    window.onload = function (){
         gnb_init();
         set_image('front_image');
         prepend_data('consulting_count nick');
-        search_fam('<?=$search?>');
+        search_fam('<?=$search?>',artist_id);
         input_enter('search','search_btn');
         gnb_actived('gnb_customer_wrap','gnb_inquire')
-    }
+
+    })
+
 
 
 </script>

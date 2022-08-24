@@ -1,6 +1,15 @@
 <?php
 include($_SERVER['DOCUMENT_ROOT']."/include/global.php");
 include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
+include($_SERVER['DOCUMENT_ROOT']."/include/check_login_shop.php");
+
+$artist_flag = (isset($_SESSION['artist_flag'])) ? $_SESSION['artist_flag'] : "";
+
+if ($artist_flag == 1) {
+    $artist_id = (isset($_SESSION['shop_user_id'])) ? $_SESSION['shop_user_id'] : "";
+} else {
+    $artist_id = (isset($_SESSION['gobeauty_user_id'])) ? $_SESSION['gobeauty_user_id'] : "";
+}
 
 
 
@@ -39,7 +48,7 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 															<div class="form-item-data">
 																<div class="form-control-btns">
 																	<input type="text" class="form-control" maxlength="15" id="customer_cellphone" placeholder="입력">
-																	<button type="button" class="btn btn-outline-purple btn-inline" onclick="customer_new_cellphone_chk() ">중복확인</button>
+																	<button type="button" class="btn btn-outline-purple btn-inline" onclick="customer_new_cellphone_chk(artist_id) ">중복확인</button>
 																</div>
 															</div>
 														</div>
@@ -264,7 +273,7 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 							</div>							
 							<div class="card-footer">
 								<!-- btn-page-bottom 클래스에 disabled 클래스 추가시 비활성화 또는 button 태그일 시 disabled 속성 추가시 비활성화 -->
-								<a href="#" class="btn-page-bottom" onclick="customer_new()">저장하기</a>
+								<a href="#" class="btn-page-bottom" onclick="customer_new(artist_id)">저장하기</a>
 							</div>
 						</div>			
 					</div>
@@ -298,8 +307,11 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 
 <script>
 
-    data_set();
-    window.onload = function(){
+    let artist_id = "<?=$artist_id?>";
+    data_set(artist_id)
+
+    $(document).ready(function(){
+
         gnb_init();
         set_image('front_image');
         prepend_data('consulting_count nick');
@@ -312,7 +324,10 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
         customer_pet_type();
         customer_new_weight()
 
-    }
+
+    })
+
+
 
 </script>
 </body>

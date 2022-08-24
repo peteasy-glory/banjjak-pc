@@ -80,10 +80,13 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 <script>
 
 
-    window.onload = function(){
-
+    $(document).ready(function(){
         join_check();
-    }
+
+    })
+
+
+
 
     //잘못된 접근 방지
     function process_check1(){

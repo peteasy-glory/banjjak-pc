@@ -212,9 +212,10 @@ if($r_mode){
         $type = $_POST['type'];
         $ord = $_POST['ord'];
         $offset = $_POST['offset'];
+        $number = $_POST['number'];
 
 
-        $customer_all = $api->get('/partner/customer/search/'.$login_id.'?type='.$type.'&ord_type='.$ord.'&offset='.$offset.'&number=20');
+        $customer_all = $api->get('/partner/customer/search/'.$login_id.'?type='.$type.'&ord_type='.$ord.'&offset='.$offset.'&number='.$number);
 
 
 

@@ -1,7 +1,15 @@
 <?php
 include($_SERVER['DOCUMENT_ROOT']."/include/global.php");
 include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
+include($_SERVER['DOCUMENT_ROOT']."/include/check_login_shop.php");
 
+$artist_flag = (isset($_SESSION['artist_flag'])) ? $_SESSION['artist_flag'] : "";
+
+if ($artist_flag == 1) {
+    $artist_id = (isset($_SESSION['shop_user_id'])) ? $_SESSION['shop_user_id'] : "";
+} else {
+    $artist_id = (isset($_SESSION['gobeauty_user_id'])) ? $_SESSION['gobeauty_user_id'] : "";
+}
 
 ?>
 <body>        
@@ -329,7 +337,7 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
                     </form>
                 </div>
                 <div class="pop-footer">
-                    <button type="button" class="btn btn-confirm btn-holiday-submit" onclick="reserve_prohibition()">저장</button>
+                    <button type="button" class="btn btn-confirm btn-holiday-submit" onclick="reserve_prohibition(artist_id)">저장</button>
                     <button type="button" class="btn btn-confirm" onclick="pop.close();">취소</button>
                 </div>
             </div>
@@ -361,26 +369,31 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 <script src="../static/js/dev_common.js"></script>
 <script src="../static/js/booking.js"></script>
 <script>
+    let artist_id = "<?=$artist_id?>";
+    data_set(artist_id)
 
-    data_set();
-    window.onload = function(){
+    $(document).ready(function(){
 
         gnb_init();
         prepend_data('consulting_count nick');
         set_image('front_image');
-        calendar_change_month();
-        btn_month();
+        calendar_change_month(artist_id);
+        btn_month(artist_id);
         btn_month_simple();
         mini_calendar_init()
             .then(function(){
-                _renderCalendar_mini();
+                _renderCalendar_mini(artist_id);
             })
-        reload_list();
+        reload_list(artist_id);
 
         gnb_actived('gnb_reserve_wrap','gnb_beauty');
-        btn_schedule();
+        btn_schedule(artist_id);
 
-    }
+
+
+    })
+
+
 
 $(function(){
 	/*

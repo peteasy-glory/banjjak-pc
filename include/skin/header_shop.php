@@ -400,7 +400,10 @@ $pos1 = strpos($pars_url, 'reserve_waiting');
 </header>
 <?php } ?>
 <script>
-    window.onload = function(){
+    $(document).ready(function(){
+
         $('#loading').removeClass("actived");
-    }
+
+
+    })
 </script>

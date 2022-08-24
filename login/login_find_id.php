@@ -104,8 +104,7 @@ $okurlgo = "https://$site/find_id_password_process";
 <script>
 
 
-   window.onload = function (){
-
+   $(document).ready(function(){
        document.getElementById('find_id_btn').addEventListener('click',function (){
 
            if(this.classList.contains('actived')){
@@ -128,7 +127,10 @@ $okurlgo = "https://$site/find_id_password_process";
                document.getElementById('verify_cellphone_2').style.display ='block';
            }
        })
-   }
+   })
+
+
+
 </script>
 </body>
 </html>

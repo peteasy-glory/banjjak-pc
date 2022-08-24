@@ -361,7 +361,6 @@ function check_next_btn(){
 
 function login(){
 
-    console.log(1);
 
         Array.from(document.getElementsByClassName('form-control')).forEach(function(el){
             el.addEventListener('keydown',function(evt){

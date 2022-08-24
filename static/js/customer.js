@@ -1,5 +1,5 @@
 //펫이름or 전화번호검색
-function search(search_value) {
+function search(search_value,id) {
 
     return new Promise(function (resolve){
 
@@ -10,7 +10,7 @@ function search(search_value) {
             type:'post',
             data:{
                 mode:'search',
-                login_id:localStorage.getItem('id'),
+                login_id:id,
                 search:search_value,
             },
             success:function(res){
@@ -75,8 +75,8 @@ function search(search_value) {
 }
 
 //보조연락처(가족)
-function search_fam(search_value){
-    search(search_value).then(function(body){
+function search_fam(search_value,id){
+    search(search_value,id).then(function(body){
         body.forEach(function (el,i){
             document.getElementById(`grid_layout_inner_${i}`).innerHTML = ''
             el.family.split(',').forEach(function(el_,i_){
@@ -97,7 +97,7 @@ function search_fam(search_value){
 let list_loging = false;
 let list_end = false;
 
-function customer_all_scroll_paging(){
+function customer_all_scroll_paging(id){
 
     let list = document.getElementById('customer_scroll_paging');
 
@@ -118,7 +118,7 @@ function customer_all_scroll_paging(){
                 timer = setTimeout(function(){
 
                     time = null;
-                    customer_all().then(function(customers){
+                    customer_all(id).then(function(customers){
                         customer_list(customers);
                     });
                 },100)
@@ -132,23 +132,29 @@ function customer_all_scroll_paging(){
 
 
 }
-if(document.getElementById('customer_select')){
-    document.getElementById('customer_select').addEventListener('change',function(){
 
-        document.getElementById('tbody').innerHTML ='';
-        offset = 1;
-        list_loging = false;
-        list_end = false;
-        customer_all().then(function(customers) {
-            customer_list(customers);
+function customer_select_(id){
+
+
+    if(document.getElementById('customer_select')){
+        document.getElementById('customer_select').addEventListener('change',function(){
+
+            document.getElementById('tbody').innerHTML ='';
+            offset = 1;
+            list_loging = false;
+            list_end = false;
+            customer_all(id).then(function(customers) {
+                customer_list(customers);
+            })
         })
-    })
 
+    }
 }
+
 
 let offset = 1;
 
-function customer_all(){
+function customer_all(id){
 
 
     return new Promise(function (resolve){
@@ -166,6 +172,15 @@ function customer_all(){
         let value = customer_select.options[customer_select.selectedIndex].value;
 
         let type = document.querySelector('input[name="customer_type"]:checked').value;
+
+        let number;
+
+        if(parseInt(localStorage.getItem('total_count')) <20){
+
+            number = parseInt(localStorage.getItem('total_count'))
+        }else{
+            number = 20;
+        }
 
 
 
@@ -186,13 +201,15 @@ function customer_all(){
             data:{
 
                 mode:'customer_all',
-                login_id:localStorage.getItem('id'),
+                login_id:id,
                 type:type,
                 ord:ord,
-                offset:offset
+                offset:offset,
+                number:number,
 
             },
             success:function (res){
+                console.log(res)
                 let response = JSON.parse(res);
                 let customers =response.data
                 let head = response.data.head;
@@ -217,7 +234,8 @@ function customer_all(){
 
 
 
-function customer_count(){
+function customer_count(id){
+
 
     $.ajax({
 
@@ -226,7 +244,7 @@ function customer_count(){
         data:{
 
             mode:'customer_count',
-            login_id:localStorage.getItem('id'),
+            login_id:id,
 
         },
         success:function(res){
@@ -305,7 +323,10 @@ function customer_list(customers){
 
 
     let beauty = customers.body;
-    
+
+    if(beauty.length === undefined){
+        beauty = [beauty];
+    }
     let tbody = document.getElementById('tbody');
     
 
@@ -344,8 +365,9 @@ function customer_list(customers){
                                     <div class="customer-table-txt">${el.reserve}P</div>
                                 </td>
                                 <td>
-                                    <div class="customer-table-txt">${y}.${M}.${d}</div>
-                                    <div class="customer-table-txt">${am_pm_check(h)}:${m}</div>
+                                
+                                    <div class="customer-table-txt">${y !== '' ? `${y}.${M}.${d}`:''}</div>
+                                    <div class="customer-table-txt">${h !== '' ? `${am_pm_check(h)}:${m}` : ''}</div>
                                 </td>
                                 <td>
                                     <div class="customer-table-txt">${el.type === "dog" ? `${size === null || size === "" || size === undefined ? '미기입' : size}` : `${size === null || size === "" || size === undefined ? '미기입' : `${size.split(':')[0]}`} `}</div>
@@ -505,7 +527,7 @@ function customer_new_weight(){
 
 
 let validate = false;
-function customer_new_cellphone_chk(){
+function customer_new_cellphone_chk(id){
 
     let cellphone_input = document.getElementById('customer_cellphone');
 
@@ -524,7 +546,7 @@ function customer_new_cellphone_chk(){
         type:'post',
         data:{
             mode:'search',
-            login_id:localStorage.getItem('id'),
+            login_id:id,
             search:cellphone
         },
         success:function (res){
@@ -567,7 +589,7 @@ function customer_new_cellphone_chk(){
 
 }
 
-function customer_new(){
+function customer_new(id){
 
     let cellphone_input = document.getElementById('customer_cellphone');
     let name_input = document.getElementById('customer_name')
@@ -698,7 +720,7 @@ function customer_new(){
         type:'post',
         data:{
             mode:'customer_new',
-            partner_id:localStorage.getItem('id'),
+            partner_id:id,
             cellphone:cellphone,
             name:name,
             type:breed_value,

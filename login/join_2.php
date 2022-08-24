@@ -112,11 +112,12 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 <!-- //wrap -->
 <script src="../static/js/common.js"></script>
 <script src="../static/js/dev_common.js"></script>
+
 <script src="../static/js/login.js"></script>
 <script>
 
 
-    window.onload = function (){
+    $(document).ready(function(){
 
         document.getElementById('join-btn-next').addEventListener('click',function (){
             if(!this.classList.contains('disabled')){
@@ -130,10 +131,13 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
         document.getElementById('check_pw_ck').addEventListener('keyup',function (){
             check_pw_error2();
         })
+    })
 
 
 
-    }
+
+
+
     function process_check3(){
 
         sessionStorage.setItem('check3','check');

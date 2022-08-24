@@ -1,7 +1,15 @@
 <?php
 include($_SERVER['DOCUMENT_ROOT']."/include/global.php");
 include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
+include($_SERVER['DOCUMENT_ROOT']."/include/check_login_shop.php");
 
+$artist_flag = (isset($_SESSION['artist_flag'])) ? $_SESSION['artist_flag'] : "";
+
+if ($artist_flag == 1) {
+    $artist_id = (isset($_SESSION['shop_user_id'])) ? $_SESSION['shop_user_id'] : "";
+} else {
+    $artist_id = (isset($_SESSION['gobeauty_user_id'])) ? $_SESSION['gobeauty_user_id'] : "";
+}
 
 ?>
 <body>        
@@ -302,7 +310,7 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
                     </form>
                 </div>
                 <div class="pop-footer">
-                    <button type="button" class="btn btn-confirm btn-holiday-submit" onclick="reserve_prohibition()">저장</button>
+                    <button type="button" class="btn btn-confirm btn-holiday-submit" onclick="reserve_prohibition(artist_id)">저장</button>
                     <button type="button" class="btn btn-confirm" onclick="pop.close();">취소</button>
                 </div>
             </div>
@@ -348,7 +356,7 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
                                 <div class="basic-single-data">
                                     <div class="form-btns">
                                         <input type="text" id="reserve_search" placeholder="전화번호 및 펫이름 입력">
-                                        <button type="button" id="reserve_search_btn" onclick="reserve_search_fam()" class="btn-data-send btn-data-search"><span class="icon icon-size-24 icon-page-search">검색</span></button>
+                                        <button type="button" id="reserve_search_btn" onclick="reserve_search_fam(artist_id)" class="btn-data-send btn-data-search"><span class="icon icon-size-24 icon-page-search">검색</span></button>
                                     </div>
                                 </div>
                             </div>
@@ -662,22 +670,22 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
                                     </div>
                                 </div>
                             </div>
-                            <div class="basic-data-group">
+                            <div class="basic-data-group" id="service">
                                 <div class="con-title-group">
                                     <h4 class="con-title">예약 서비스 및 추가 특이사항 입력</h4>
                                 </div>
                                 <div class="form-group">
                                     <div class="wide-tab">
-                                        <div class="wide-tab-inner">
+                                        <div class="wide-tab-inner" id="wide-tab-inner2">
                                             <!-- 활성화시 actived클래스 추가 -->
-                                            <div class="tab-cell hit actived"><button type="button" class="btn-tab-item"><span>기본 서비스</span></button></div>
-                                            <div class="tab-cell"><button type="button" class="btn-tab-item"><span>추가</span></button></div>
+                                            <div class="tab-cell hit actived"><button type="button" class="btn-tab-item" id="basic_service_btn"><span>기본 서비스</span></button></div>
+                                            <div class="tab-cell"><button type="button" class="btn-tab-item" id="other_service_btn"><span>추가</span></button></div>
                                         </div>
                                     </div>
                                     <div class="basic-data-group vvsmall3 tab-data-group">
-                                        <!-- tab-data-cell 클래스에 actived클래스 추가시 활성화
+                                        <!-- tab-data-cell 클래스에 actived클래스 추가시 활성화-->
                                         <!-- 기본 서비스 -->
-                                        <div class="tab-data-cell actived">
+                                        <div class="tab-data-cell actived" id="basic_service">
                                             <div class="grid-layout basic">
                                                 <div class="grid-layout-inner">
                                                     <div class="grid-layout-cell grid-5">
@@ -762,7 +770,7 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
                                         </div>
                                         <!-- //기본 서비스 -->
                                         <!-- 추가 -->
-                                        <div class="tab-data-cell actived">
+                                        <div class="tab-data-cell" id="other_service">
                                             <div class="grid-layout basic">
                                                 <div class="grid-layout-inner">
                                                     <div class="grid-layout-cell grid-5">
@@ -914,35 +922,43 @@ include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 <script src="../static/js/booking.js"></script>
 <script>
 
+    let artist_id = "<?=$artist_id?>";
 
-    data_set()
-    window.onload = function (){
+    data_set(artist_id)
+
+
+    $(document).ready(function(){
 
 
         gnb_init();
         wide_tab();
+        wide_tab_2();
         prepend_data('consulting_count nick');
         set_image('front_image');
-        calendar_change_month();
-        btn_month();
+        calendar_change_month(artist_id);
+        btn_month(artist_id);
         btn_month_simple()
         mini_calendar_init()
             .then(function(){
-                _renderCalendar_mini()
+                _renderCalendar_mini(artist_id)
 
 
-                })
-        reload_list()
+            })
+        reload_list(artist_id)
 
         input_enter('reserve_search','reserve_search_btn');
         gnb_actived('gnb_reserve_wrap','gnb_beauty');
-        btn_schedule();
+        btn_schedule(artist_id);
         reserve_toggle();
 
 
 
+    })
 
-    }
+
+
+
+
 </script>
 <script>
 $(function(){
