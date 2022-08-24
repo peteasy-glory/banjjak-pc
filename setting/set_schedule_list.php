@@ -59,7 +59,7 @@ if ($artist_flag == 1) {
 														</div>
 														<div class="msg-select-group">
 															<div class="msg-item read">
-																<div class="item-value">오전 09:00 ~ 오후 06:00</div>
+																<div class="item-value open_close"></div>
 															</div>
 															<div class="msg-item read">
 																<div class="item-value">공휴일은 쉬어요</div>
@@ -183,11 +183,14 @@ if ($artist_flag == 1) {
 <!-- //wrap -->
 <script src="../static/js/common.js"></script>
 <script src="../static/js/dev_common.js"></script>
-<script src="../static/js/booking.js"></script>
+<script src="../static/js/setting.js"></script>
 <script>
-    window.onload = function(){
-        gnb_init();
-    }
+    let artist_id = "<?=$artist_id?>";
+    $(document).ready(function() {
+        //get_navi(artist_id);
+        get_open_close(artist_id);
+        //data_set(artist_id);
+    })
 </script>
 </body>
 </html>

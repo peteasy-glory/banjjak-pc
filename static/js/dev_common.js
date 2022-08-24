@@ -2,6 +2,40 @@
 let data;
 let list;
 
+// image 링크 바꾸기 함수
+function img_link_change(img){
+    var img 	= img.replace("/pet/images", "/images");
+    var img 	= img.replace("/pet/upload", "/upload");
+
+    return "https://image.banjjakpet.com"+img;
+}
+
+function get_navi(id){
+
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'navi',
+            login_id: id,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            console.log(res);
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                $(".shop_name").text(body.shop_name);
+                $(".consulting_count").text(body.consult_cnt);
+                $(".nick").text(body.nick_name);
+                $(".front_image").attr("src",img_link_change(body.front_image));
+            }
+        }
+    })
+}
 
 function data_set(id){
 

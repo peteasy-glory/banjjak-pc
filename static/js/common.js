@@ -296,7 +296,7 @@ var include = {
                                         </a>
                                         <div class="snb-menu-list" id="gnb_schedule">
                                             <div class="snb-menu-cell">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="/setting/set_schedule_list.php" class="btn-snb-nav">
                                                     <div class="txt">일정 관리</div>
                                                 </a>
                                             </div>
