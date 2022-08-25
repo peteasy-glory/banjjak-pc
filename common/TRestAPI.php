@@ -69,7 +69,7 @@ class TRestAPI
 
     public function put($path, $data)
     {
-        $data = json_decode($data);
+        //$data = json_decode($data);
         $method = "PUT";
         $url = $this->url . $path;
         $ch = curl_init();

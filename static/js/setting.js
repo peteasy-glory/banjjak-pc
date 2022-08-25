@@ -147,3 +147,44 @@ function artist_vacation(id){
         }
     })
 }
+
+// 권한받은 미용사 불러오기
+function get_authority(id){
+
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'get_authority',
+            login_id: id,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            //console.log(res);
+            let response = JSON.parse(res);
+            setting_array.push(response.data);
+        }
+    })
+}
+
+// 권한받은 미용사 수정/삭제
+function put_authority(data){
+
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: data,
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            //console.log(res);
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                pop.close();
+                pop.open('reloadPop', '완료되었습니다.');
+            }
+        }
+    })
+}

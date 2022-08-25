@@ -47,3 +47,20 @@
         </div>
     </div>
 </article>
+
+<article id="reloadPop" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+
+            <div class="pop-data alert-pop-data">
+                <div class="pop-body">
+                    <div class="msg-txt"></div>
+                </div>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm" onclick="pop.close(); location.reload();">확인</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</article>

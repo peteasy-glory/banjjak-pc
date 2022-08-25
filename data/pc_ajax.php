@@ -188,6 +188,27 @@ if($r_mode){
         $time_type = $api -> get('/partner/setting/regular-holiday/'.$login_id);
 
         $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "get_authority"){
+
+        $login_id = $_POST['login_id'];
+
+        $time_type = $api -> get('/partner/setting/authority/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
+
+    }else if($r_mode === "put_authority"){
+
+        $artist_id = $_POST['artist_id'];
+        $customer_id = $_POST['customer_id'];
+        $name = $_POST['name'];
+        $del = $_POST['del'];
+
+        $data = array('artist_id'=>$artist_id,'customer_id'=>$customer_id,'name'=>$name,'del'=>$del);
+        $data_json = json_encode($data);
+
+        $result = $api ->put('/partner/setting/authority' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
     }else if($r_mode === "part_time"){
 
         $login_id = $_POST['login_id'];

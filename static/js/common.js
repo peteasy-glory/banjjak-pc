@@ -301,7 +301,7 @@ var include = {
                                                 </a>
                                             </div>
                                             <div class="snb-menu-cell" id="gnb_authority">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="/setting/set_right.php" class="btn-snb-nav">
                                                     <div class="txt">권한 설정</div>
                                                 </a>
                                             </div>
