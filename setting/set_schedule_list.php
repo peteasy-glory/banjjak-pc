@@ -162,7 +162,7 @@ if ($artist_flag == 1) {
 							</div>
 							<div class="card-footer">
 								<!-- btn-page-bottom 클래스에 disabled 클래스 추가시 비활성화 또는 button 태그일 시 disabled 속성 추가시 비활성화 -->
-								<a href="#" class="btn-page-bottom">수정하기</a>								
+								<a href="set_schedule_modify_1.php" class="btn-page-bottom">수정하기</a>
 							</div>
 						</div>			
 					</div>
@@ -182,6 +182,7 @@ if ($artist_flag == 1) {
     let artist_id = "<?=$artist_id?>";
     $(document).ready(function() {
         get_navi(artist_id);
+        gnb_init();
         get_open_close(artist_id); // 0
         break_time(artist_id); // 1
         time_type(artist_id); // 2
@@ -195,9 +196,9 @@ if ($artist_flag == 1) {
 
         // 공휴일 휴무 여부
         if(setting_array[0].is_work_on_holiday == false){
-            $(".is_work_holiday").text("공휴일은 쉬어요");
-        }else{
             $(".is_work_holiday").text("공휴일도 일해요");
+        }else{
+            $(".is_work_holiday").text("공휴일은 쉬어요");
         }
 
         // 휴게시간

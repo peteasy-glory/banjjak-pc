@@ -28,6 +28,7 @@ function get_navi(id){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
+                data = body;
                 $(".shop_name").text(body.shop_name);
                 $(".consulting_count").text(body.consult_cnt);
                 $(".nick").text(body.nick_name);
