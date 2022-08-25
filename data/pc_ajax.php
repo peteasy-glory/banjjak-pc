@@ -174,6 +174,34 @@ if($r_mode){
         $break_time = $api -> get('/partner/setting/break-time/'.$login_id);
 
         $return_data = array("code"=>"000000",'data'=>$break_time);
+    }else if($r_mode === "time_type"){
+
+        $login_id = $_POST['login_id'];
+
+        $time_type = $api -> get('/partner/shop/info/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "regular_holiday"){
+
+        $login_id = $_POST['login_id'];
+
+        $time_type = $api -> get('/partner/setting/regular-holiday/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "part_time"){
+
+        $login_id = $_POST['login_id'];
+
+        $time_type = $api -> get('/partner/setting/part-time/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "artist_vacation"){
+
+        $login_id = $_POST['login_id'];
+
+        $time_type = $api -> get('/partner/setting/artist-vacation/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
     }else if($r_mode === "pay_management"){
 
         $payment_idx = $_POST['payment_idx'];

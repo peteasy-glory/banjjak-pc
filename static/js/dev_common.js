@@ -21,7 +21,7 @@ function get_navi(id){
         type: 'POST',
         async:false,
         success: function (res) {
-            console.log(res);
+            //console.log(res);
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -178,6 +178,21 @@ let minutes = date.getMinutes();
 let times = date.getTime();
 let date_ = `${date.getFullYear().toString().substr(-2)}.${(date.getMonth() + 1).toString().length < 2 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1}.${date.getDate().toString().length < 2 ? '0' + date.getDate() : date.getDate()}`
 
+// 시간형식으로 오전 오후 적용 ex) 09:00
+function am_pm_check_time(time){
+
+    var hours = time.split(":")[0];
+    var minute = time.split(":")[1];
+    if(hours > 12){
+        time = `오후 ${(hours-12).toString().length <2 ? '0' : ''}${hours-12}:${minute}`
+    }else if(hours === 12){
+        time = `오후 ${hours}:${minute}`
+    }else{
+        time = `오전 ${hours}:${minute}`
+    }
+
+    return time;
+}
 
 //오후 오전 적용하기
 function am_pm_check(hours){

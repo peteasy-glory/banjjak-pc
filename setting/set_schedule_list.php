@@ -62,7 +62,7 @@ if ($artist_flag == 1) {
 																<div class="item-value open_close"></div>
 															</div>
 															<div class="msg-item read">
-																<div class="item-value">공휴일은 쉬어요</div>
+																<div class="item-value is_work_holiday">공휴일은 쉬어요</div>
 															</div>
 														</div>
 													</div>
@@ -70,7 +70,7 @@ if ($artist_flag == 1) {
 														<div class="con-title-group">
 															<h6 class="con-title">휴게시간</h6>
 														</div>
-														<div class="msg-select-group">
+														<div class="msg-select-group break_time_wrap">
 															<div class="msg-item read">
 																<div class="item-value">오전 09:00 ~ 오후 06:00</div>
 															</div>
@@ -90,15 +90,9 @@ if ($artist_flag == 1) {
 															<h4 class="con-title">예약스케줄 운영시간</h4>
 														</div>
 														<div class="con-title-group">
-															<h6 class="con-title">타임제</h6>
+															<h6 class="con-title time_type_title">자유시간제</h6>
 														</div>
-														<div class="msg-select-group">
-															<div class="msg-item read">
-																<div class="item-value">오전 09:00 ~ 오후 06:00</div>
-															</div>
-															<div class="msg-item read">
-																<div class="item-value">오전 09:00 ~ 오후 06:00</div>
-															</div>
+														<div class="msg-select-group time_type_wrap">
 														</div>
 													</div>
 													<div class="grid-layout-cell grid-2">
@@ -110,13 +104,13 @@ if ($artist_flag == 1) {
 														</div>
 														<div class="form-week-select">
 															<div class="form-week-select-inner">
-																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week" disabled checked><em>월</em></label></div>
-																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week" disabled><em>화</em></label></div>
-																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week" disabled><em>수</em></label></div>
-																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week" disabled><em>목</em></label></div>
-																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week" disabled><em>금</em></label></div>
-																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week" disabled><em>토</em></label></div>
-																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week" disabled><em>일</em></label></div>
+																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" class="mon" name="week" disabled><em>월</em></label></div>
+																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" class="tue" name="week" disabled><em>화</em></label></div>
+																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" class="wed" name="week" disabled><em>수</em></label></div>
+																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" class="thu" name="week" disabled><em>목</em></label></div>
+																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" class="fri" name="week" disabled><em>금</em></label></div>
+																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" class="sat" name="week" disabled><em>토</em></label></div>
+																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" class="sun" name="week" disabled><em>일</em></label></div>
 															</div>
 														</div>
 													</div>
@@ -127,7 +121,7 @@ if ($artist_flag == 1) {
 											<div class="con-title-group">
 												<h4 class="con-title">임시휴무</h4>
 											</div>
-											<div class="flex-table read w-90">
+											<div class="flex-table read w-90 vacation_wrap">
 												<div class="flex-table-cell">
 													<div class="flex-table-item">
 														<div class="flex-table-title"><div class="txt">실장</div></div>
@@ -152,7 +146,7 @@ if ($artist_flag == 1) {
 										</div>
 										<!-- //내용이 있을 경우 -->
 										<!-- 내용이 없을 경우 -->
-										<div class="basic-data-group vmiddle text-align-center">
+										<!--<div class="basic-data-group vmiddle text-align-center">
 											<a href="#" class="btn btn-purple btn-basic-wide"><strong>영업시간 등록하기</strong></a>
 											<div class="common-none-data">
 												<div class="none-inner">
@@ -161,7 +155,7 @@ if ($artist_flag == 1) {
 													<div class="item-desc text-align-center">미용, 호텔, 유치원/놀이터의 각 서비스 유형에 맞춰 영업시간을 설정할 수 있습니다.<br>영업시간 내 휴식 및 점심간은 휴게시간으로 간편하게 설정하세요.</div>
 												</div>
 											</div>
-										</div>
+										</div>-->
 										<!-- //내용이 없을 경우 -->
 									</div>
 								</div>
@@ -187,9 +181,116 @@ if ($artist_flag == 1) {
 <script>
     let artist_id = "<?=$artist_id?>";
     $(document).ready(function() {
-        //get_navi(artist_id);
-        get_open_close(artist_id);
-        //data_set(artist_id);
+        get_navi(artist_id);
+        get_open_close(artist_id); // 0
+        break_time(artist_id); // 1
+        time_type(artist_id); // 2
+        part_time(artist_id); // 3
+        regular_holiday(artist_id); // 4
+        artist_vacation(artist_id); // 5
+        console.log(setting_array);
+
+        // 샵 오픈, 종료 시간
+        $(".open_close").text(am_pm_check(fill_zero(setting_array[0].open_time))+":00 ~ "+am_pm_check(setting_array[0].close_time)+":00");
+
+        // 공휴일 휴무 여부
+        if(setting_array[0].is_work_on_holiday == false){
+            $(".is_work_holiday").text("공휴일은 쉬어요");
+        }else{
+            $(".is_work_holiday").text("공휴일도 일해요");
+        }
+
+        // 휴게시간
+        var break_array = setting_array[1].res_time_off;
+        var html = '';
+        $.each(break_array, function(i,v){
+            var st_time = (v.time).split('~')[0];
+            var fi_time = (v.time).split('~')[1];
+            html += `
+                <div class="msg-item read">
+                    <div class="item-value">${am_pm_check_time(st_time)} ~ ${am_pm_check_time(fi_time)}</div>
+                </div>
+            `;
+        });
+        $(".break_time_wrap").html(html);
+
+        // 자유시간제, 타임제
+        var t_type = setting_array[2].shop_time_type; // 1:자유시간제, 2:타임제
+        if(t_type == '2'){
+            $('.time_type_title').text("타임제");
+            var time_array = setting_array[3];
+            var html = '';
+            $.each(time_array,function(i, v){
+                html += (v.name == artist_id)? "실장" : v.name;
+                $.each(v.res_time_off,function(index, value){
+                    var st_time = (value.time).split('~')[0];
+                    var fi_time = (value.time).split('~')[1];
+                    html += `
+                        <div class="msg-item read">
+                            <div class="item-value">${am_pm_check_time(st_time)} ~ ${am_pm_check_time(fi_time)}</div>
+                        </div>
+                    `;
+                });
+                html += '<br>';
+            });
+            $(".time_type_wrap").html(html);
+        }
+
+        // 정기휴일
+        var holiday = setting_array[4];
+        if(holiday.is_work_mon == true){
+            $(".mon").prop("checked", true);
+        }
+        if(holiday.is_work_tue == true){
+            $(".tue").prop("checked", true);
+        }
+        if(holiday.is_work_wed == true){
+            $(".wed").prop("checked", true);
+        }
+        if(holiday.is_work_thu == true){
+            $(".thu").prop("checked", true);
+        }
+        if(holiday.is_work_fri == true){
+            $(".fri").prop("checked", true);
+        }
+        if(holiday.is_work_sat == true){
+            $(".sat").prop("checked", true);
+        }
+        if(holiday.is_work_sun == true){
+            $(".sun").prop("checked", true);
+        }
+
+        // 임시휴무
+        console.log(setting_array[5]);
+        var vacation_array = setting_array[5];
+        var html = '';
+        $.each(vacation_array,function(i, v){
+            var name = (v.worker == artist_id)? "실장" : v.worker;
+            $.each(v.vacation,function(index, value){
+                // 휴가 판단
+                var vacation_time
+                if(value.type == "all"){
+                    vacation_time = (value.date_st).split(" ")[0] + " ~ " + (value.date_fi).split(" ")[0];
+                }else{
+                    vacation_time = `${am_pm_check2(value.date_st)} ~ ${am_pm_check_time((value.date_fi).split(" ")[1])}`;
+                }
+                html += `
+                    <div class="flex-table-cell">
+                        <div class="flex-table-item">
+                            <div class="flex-table-title"><div class="txt">${name}</div></div>
+                            <div class="flex-table-data">
+                                <div class="flex-table-data-inner">
+                                    ${vacation_time}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+        });
+        $(".vacation_wrap").html(html);
+
     })
 </script>
 </body>
