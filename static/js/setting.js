@@ -221,30 +221,6 @@ function is_authority(id){
     })
 }
 
-// 미용사 리스트 불러오기
-function get_artist_list(id){
-
-    $.ajax({
-        url: '../data/pc_ajax.php',
-        data: {
-            mode: 'get_artist_list',
-            login_id: id,
-        },
-        type: 'POST',
-        async:false,
-        success: function (res) {
-            let response = JSON.parse(res);
-            let head = response.data.head;
-            let body = response.data.body;
-            if (head.code === 401) {
-                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-            } else if (head.code === 200) {
-                setting_array.push(body);
-            }
-        }
-    })
-}
-
 // 적립금 불러오기
 function get_pay_reserve(id){
 
@@ -323,6 +299,80 @@ function put_pay_type(id, pay_type){
         type: 'POST',
         async:false,
         success: function (res) {
+        }
+    })
+}
+
+// 미용사 리스트 불러오기
+function get_artist_list(id){
+
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'get_artist_list',
+            login_id: id,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                setting_array.push(body);
+            }
+        }
+    })
+}
+
+// 미용사 숨김 수정
+function show_modify_artist(id, name, is_view){
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'show_modify_artist',
+            login_id: id,
+            name: name,
+            is_view: is_view,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            let response = JSON.parse(res);
+            if(response.data.head.code == 200){
+                if(is_view == 1){
+                    pop.open('reloadPop', '숨김 처리되었습니다.');
+                }else{
+                    pop.open('reloadPop', '숨김 해제되었습니다.');
+                }
+            }
+        }
+    })
+}
+
+// 미용사 퇴사 수정
+function leave_modify_artist(id, name, is_out){
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'leave_modify_artist',
+            login_id: id,
+            name: name,
+            is_out: is_out,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            let response = JSON.parse(res);
+            if(response.data.head.code == 200){
+                if(is_out == 1){
+                    pop.open('reloadPop', '퇴사 처리되었습니다.');
+                }else{
+                    pop.open('reloadPop', '퇴사 취소되었습니다.');
+                }
+            }
         }
     })
 }

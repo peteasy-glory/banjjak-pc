@@ -39,7 +39,7 @@ if ($artist_flag == 1) {
 								<div class="card-body-inner">
 									<div class="set-teacher-wrap">
 										<div class="basic-data-group text-align-center">
-											<button type="button" class="btn btn-outline-purple btn-basic-wide"><strong>미용사 추가</strong></button>
+											<button type="button" class="btn btn-outline-purple btn-basic-wide" onclick="pop.open('teacherSet')"><strong>미용사 추가</strong></button>
 										</div>
 										<div class="basic-data-group vvsmall3 text-align-center">
 											<div class="con-title-info type-2">미용사 이름을 드래그하여 순서 변경 가능합니다.</div>
@@ -49,141 +49,6 @@ if ($artist_flag == 1) {
 												<!--
 												// 숨김 및 퇴사시 accordion-cell클래스에 hide클래스 추가
 												-->
-												<li class="accordion-cell">		
-													<div class="card-teacher-item">
-														<div class="card-teacher-header">
-															<div class="item-info-wrap">
-																<div class="item-info-inner">
-																	<div class="item-name">김반짝</div>
-																	<div class="item-info">닉네임 : 크리스티아누 호날두</div>
-																</div>
-															</div>
-															<div class="item-state"><div class="label label-outline-purple round vmiddle">대표미용사</div></div>
-															<button type="button" class="btn-accordion-menu"></button>
-														</div>
-														<div class="accordion-content">								
-															<div class="card-teacher-body">
-																<div class="btn-basic-action">
-																	<div class="grid-layout basic btn-grid-group">
-																		<div class="grid-layout-inner justify-content-end">
-																			<div class="grid-layout-cell flex-auto"><a href="#" class="btn btn-outline-gray btn-basic-small">수정</a></div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>			
-													</div>			
-												</li>           
-												<li class="accordion-cell">		
-													<div class="card-teacher-item">
-														<div class="card-teacher-header">
-															<div class="item-info-wrap">
-																<div class="item-info-inner">
-																	<div class="item-name">김반짝</div>
-																	<div class="item-info">닉네임 : 크리스티아누 호날두</div>
-																</div>
-															</div>
-															<div class="item-state"></div>
-															<button type="button" class="btn-accordion-menu"></button>
-														</div>
-														<div class="accordion-content">								
-															<div class="card-teacher-body">
-																<div class="schedule-day-list">
-																	<div class="schedule-day-item">
-																		<div class="item-title"><div class="schedule-day-state">월</div></div>
-																		<div class="item-value">오전 09:00 ~ 오후 07:00</div>
-																	</div>
-																	<div class="schedule-day-item">
-																		<div class="item-title"><div class="schedule-day-state">화</div></div>
-																		<div class="item-value">오전 09:00 ~ 오후 07:00</div>
-																	</div>
-																</div>
-																<div class="btn-basic-action">
-																	<div class="grid-layout basic btn-grid-group">
-																		<div class="grid-layout-inner justify-content-end">
-																			<div class="grid-layout-cell flex-auto"><a href="#" class="btn btn-outline-gray btn-basic-small">수정</a></div>
-																			<div class="grid-layout-cell flex-auto"><a href="#" class="btn btn-outline-gray btn-basic-small">퇴사</a></div>
-																			<div class="grid-layout-cell flex-auto"><a href="#" class="btn btn-outline-gray btn-basic-small">숨김</a></div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>			
-													</div>			
-												</li>             
-												<li class="accordion-cell hide">		
-													<div class="card-teacher-item">
-														<div class="card-teacher-header">
-															<div class="item-info-wrap">
-																<div class="item-info-inner">
-																	<div class="item-name">김반짝</div>
-																	<div class="item-info">닉네임 : 크리스티아누 호날두</div>
-																</div>
-															</div>
-															<div class="item-state"><div class="txt">(퇴사)</div></div>
-															<button type="button" class="btn-accordion-menu"></button>
-														</div>
-														<div class="accordion-content">								
-															<div class="card-teacher-body">
-																<div class="schedule-day-list">
-																	<div class="schedule-day-item">
-																		<div class="item-title"><div class="schedule-day-state">월</div></div>
-																		<div class="item-value">오전 09:00 ~ 오후 07:00</div>
-																	</div>
-																	<div class="schedule-day-item">
-																		<div class="item-title"><div class="schedule-day-state">화</div></div>
-																		<div class="item-value">오전 09:00 ~ 오후 07:00</div>
-																	</div>
-																</div>
-																<div class="btn-basic-action">
-																	<div class="grid-layout basic btn-grid-group">
-																		<div class="grid-layout-inner justify-content-end">
-																			<div class="grid-layout-cell flex-auto"><a href="#" class="btn btn-outline-gray btn-basic-small">수정</a></div>
-																			<div class="grid-layout-cell flex-auto"><a href="#" class="btn btn-outline-gray btn-basic-small">퇴사취소</a></div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>			
-													</div>			
-												</li>           
-												<li class="accordion-cell hide">		
-													<div class="card-teacher-item">
-														<div class="card-teacher-header">
-															<div class="item-info-wrap">
-																<div class="item-info-inner">
-																	<div class="item-name">김반짝</div>
-																	<div class="item-info">닉네임 : 크리스티아누 호날두</div>
-																</div>
-															</div>
-															<div class="item-state"><div class="txt">(숨김)</div></div>
-															<button type="button" class="btn-accordion-menu"></button>
-														</div>
-														<div class="accordion-content">								
-															<div class="card-teacher-body">
-																<div class="schedule-day-list">
-																	<div class="schedule-day-item">
-																		<div class="item-title"><div class="schedule-day-state">월</div></div>
-																		<div class="item-value">오전 09:00 ~ 오후 07:00</div>
-																	</div>
-																	<div class="schedule-day-item">
-																		<div class="item-title"><div class="schedule-day-state">화</div></div>
-																		<div class="item-value">오전 09:00 ~ 오후 07:00</div>
-																	</div>
-																</div>
-																<div class="btn-basic-action">
-																	<div class="grid-layout basic btn-grid-group">
-																		<div class="grid-layout-inner justify-content-end">
-																			<div class="grid-layout-cell flex-auto"><a href="#" class="btn btn-outline-gray btn-basic-small">수정</a></div>
-																			<div class="grid-layout-cell flex-auto"><a href="#" class="btn btn-outline-gray btn-basic-small">퇴사</a></div>
-																			<div class="grid-layout-cell flex-auto"><a href="#" class="btn btn-outline-gray btn-basic-small">숨김해제</a></div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>			
-													</div>			
-												</li>    
 											</ul>
 										</div>
 									</div>
@@ -198,6 +63,225 @@ if ($artist_flag == 1) {
 		<!-- //contents -->
     </section>
     <!-- //container -->
+    <!-- 미용사 등록/수정 팝업 -->
+    <article id="teacherSet" class="layer-pop-wrap">
+        <div class="layer-pop-parent">
+            <div class="layer-pop-children">
+                <form id="artist_form" class="pop-data data-pop-view">
+                    <input type="hidden" name="artist_id" value="<?=$artist_id?>">
+                    <div class="pop-header">
+                        <h4 class="con-title">미용사 등록/수정</h4>
+                    </div>
+                    <div class="pop-body">
+                        <!-- set-teacher-add -->
+                        <div class="set-teacher-add">
+                            <div class="basic-data-group">
+                                <div class="form-group">
+                                    <div class="form-group-cell middle">
+                                        <div class="form-group-item">
+                                            <div class="form-item-label">이름</div>
+                                            <div class="form-item-data">
+                                                <input type="text" class="form-control name" name="name" placeholder="입력">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group-cell middle">
+                                        <div class="form-group-item">
+                                            <div class="form-item-label">닉네임</div>
+                                            <div class="form-item-data">
+                                                <input type="text" class="form-control nicname" name="nicname" placeholder="입력">
+                                                <div class="form-bottom-info">닉네임은 고객에게 보여지는 명칭입니다.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-data-group">
+                                <div class="con-title-group">
+                                    <h4 class="con-title">업무요일/시간</h4>
+                                </div>
+                                <div class="basic-data-group vvsmall4">
+                                    <div class="schedule-day-list">
+                                        <div class="schedule-day-item input">
+                                            <div class="item-check">
+                                                <label class="form-radiobox week"><input type="checkbox" name="check" checked><span class="form-check-icon"><em>월</em></span></label>
+                                            </div>
+                                            <div class="item-input">
+                                                <div class="form-datepicker-group">
+                                                    <div class="form-datepicker">
+                                                        <select class="time_select">
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-unit">~</div>
+                                                    <div class="form-datepicker">
+                                                        <select class="time_select">
+                                                            <option value="">오후 09:00</option>
+                                                            <option value="">오후 09:00</option>
+                                                            <option value="">오후 09:00</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="schedule-day-item input">
+                                            <div class="item-check">
+                                                <label class="form-radiobox week"><input type="checkbox" name="check"><span class="form-check-icon"><em>화</em></span></label>
+                                            </div>
+                                            <div class="item-input">
+                                                <div class="form-datepicker-group">
+                                                    <div class="form-datepicker">
+                                                        <select class="time_select">
+                                                            <option value="">오전 09:00</option>
+                                                            <option value="">오전 09:00</option>
+                                                            <option value="">오전 09:00</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-unit">~</div>
+                                                    <div class="form-datepicker">
+                                                        <select class="time_select">
+                                                            <option value="">오후 09:00</option>
+                                                            <option value="">오후 09:00</option>
+                                                            <option value="">오후 09:00</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="schedule-day-item input">
+                                            <div class="item-check">
+                                                <label class="form-radiobox week"><input type="checkbox" name="check"><span class="form-check-icon"><em>수</em></span></label>
+                                            </div>
+                                            <div class="item-input">
+                                                <div class="form-datepicker-group">
+                                                    <div class="form-datepicker">
+                                                        <select class="time_select">
+                                                            <option value="">오전 09:00</option>
+                                                            <option value="">오전 09:00</option>
+                                                            <option value="">오전 09:00</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-unit">~</div>
+                                                    <div class="form-datepicker">
+                                                        <select class="time_select">
+                                                            <option value="">오후 09:00</option>
+                                                            <option value="">오후 09:00</option>
+                                                            <option value="">오후 09:00</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="schedule-day-item input">
+                                            <div class="item-check">
+                                                <label class="form-radiobox week"><input type="checkbox" name="check"><span class="form-check-icon"><em>목</em></span></label>
+                                            </div>
+                                            <div class="item-input">
+                                                <div class="form-datepicker-group">
+                                                    <div class="form-datepicker">
+                                                        <select class="time_select">
+                                                            <option value="">오전 09:00</option>
+                                                            <option value="">오전 09:00</option>
+                                                            <option value="">오전 09:00</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-unit">~</div>
+                                                    <div class="form-datepicker">
+                                                        <select class="time_select">
+                                                            <option value="">오후 09:00</option>
+                                                            <option value="">오후 09:00</option>
+                                                            <option value="">오후 09:00</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="schedule-day-item input">
+                                            <div class="item-check">
+                                                <label class="form-radiobox week"><input type="checkbox" name="check"><span class="form-check-icon"><em>금</em></span></label>
+                                            </div>
+                                            <div class="item-input">
+                                                <div class="form-datepicker-group">
+                                                    <div class="form-datepicker">
+                                                        <select class="time_select">
+                                                            <option value="">오전 09:00</option>
+                                                            <option value="">오전 09:00</option>
+                                                            <option value="">오전 09:00</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-unit">~</div>
+                                                    <div class="form-datepicker">
+                                                        <select class="time_select">
+                                                            <option value="">오후 09:00</option>
+                                                            <option value="">오후 09:00</option>
+                                                            <option value="">오후 09:00</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="schedule-day-item input">
+                                            <div class="item-check">
+                                                <label class="form-radiobox week"><input type="checkbox" name="check"><span class="form-check-icon"><em>토</em></span></label>
+                                            </div>
+                                            <div class="item-input">
+                                                <div class="form-datepicker-group">
+                                                    <div class="form-datepicker">
+                                                        <select class="time_select">
+                                                            <option value="">오전 09:00</option>
+                                                            <option value="">오전 09:00</option>
+                                                            <option value="">오전 09:00</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-unit">~</div>
+                                                    <div class="form-datepicker">
+                                                        <select class="time_select">
+                                                            <option value="">오후 09:00</option>
+                                                            <option value="">오후 09:00</option>
+                                                            <option value="">오후 09:00</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="schedule-day-item input">
+                                            <div class="item-check">
+                                                <label class="form-radiobox week"><input type="checkbox" name="check"><span class="form-check-icon"><em>일</em></span></label>
+                                            </div>
+                                            <div class="item-input">
+                                                <div class="form-datepicker-group">
+                                                    <div class="form-datepicker">
+                                                        <select class="time_select">
+                                                            <option value="">오전 09:00</option>
+                                                            <option value="">오전 09:00</option>
+                                                            <option value="">오전 09:00</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-unit">~</div>
+                                                    <div class="form-datepicker">
+                                                        <select class="time_select">
+                                                            <option value="">오후 09:00</option>
+                                                            <option value="">오후 09:00</option>
+                                                            <option value="">오후 09:00</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- //set-teacher-add -->
+                    </div>
+                    <div class="pop-footer">
+                        <a href="#" class="btn btn-purple"><strong>저장하기</strong></a>
+                    </div>
+                    <button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
+                </form>
+            </div>
+        </div>
+    </article>
+    <!-- //미용사 등록/수정 팝업 -->
 </div>
 <!-- //wrap -->
 <script src="../static/js/common.js"></script>
@@ -210,6 +294,7 @@ if ($artist_flag == 1) {
         get_navi(artist_id);
         gnb_init();
         get_artist_list(artist_id);
+        get_open_close(artist_id);
         console.log(setting_array);
 
         // 미용사 리스트
@@ -217,8 +302,25 @@ if ($artist_flag == 1) {
         var html = '';
         $.each(artist_array, function (i, v){
             var host = (v.name == artist_id)? '<div class="label label-outline-purple round vmiddle">대표미용사</div>' : '';
+            var is_show = '';
+            var is_leave = '';
+            var hide = '';
+            var show_modify = `<a href="#" class="btn btn-outline-gray btn-basic-small" onclick="show_modify_artist('${artist_id}','${v.name}','1');">숨김</a>`;
+            var leave_modify = `<a href="#" class="btn btn-outline-gray btn-basic-small" onclick="leave_modify_artist('${artist_id}','${v.name}','1');">퇴사</a>`;
+
+            if(v.is_show == false){
+                is_show = '(숨김)';
+                hide = 'hide';
+                show_modify = `<a href="#" class="btn btn-outline-gray btn-basic-small" onclick="show_modify_artist('${artist_id}','${v.name}','2');">숨김 해제</a>`;
+            }
+            if(v.is_leave == true){
+                is_leave = '(퇴사)';
+                hide = 'hide';
+                leave_modify = `<a href="#" class="btn btn-outline-gray btn-basic-small" onclick="leave_modify_artist('${artist_id}','${v.name}','2');">퇴사 취소</a>`;
+            }
+
             html += `
-                <li class="accordion-cell">
+                <li class="accordion-cell ${hide}">
                     <div class="card-teacher-item">
                         <div class="card-teacher-header">
                             <div class="item-info-wrap">
@@ -227,7 +329,7 @@ if ($artist_flag == 1) {
                                     <div class="item-info">닉네임 : ${v.nick}</div>
                                 </div>
                             </div>
-                            <div class="item-state">${host}</div>
+                            <div class="item-state">${host}<div class="txt">${is_leave} ${is_show}</div></div>
                             <button type="button" class="btn-accordion-menu"></button>
                         </div>
                         <div class="accordion-content">
@@ -265,9 +367,9 @@ if ($artist_flag == 1) {
                                 <div class="btn-basic-action">
                                     <div class="grid-layout basic btn-grid-group">
                                         <div class="grid-layout-inner justify-content-end">
-                                            <div class="grid-layout-cell flex-auto"><a href="#" class="btn btn-outline-gray btn-basic-small">수정</a></div>
-                                            <div class="grid-layout-cell flex-auto"><a href="#" class="btn btn-outline-gray btn-basic-small">퇴사</a></div>
-											<div class="grid-layout-cell flex-auto"><a href="#" class="btn btn-outline-gray btn-basic-small">숨김</a></div>
+                                            <div class="grid-layout-cell flex-auto"><a href="#" class="btn btn-outline-gray btn-basic-small" onclick="pop.open('teacherSet')">수정</a></div>
+                                            <div class="grid-layout-cell flex-auto">${leave_modify}</div>
+											<div class="grid-layout-cell flex-auto">${show_modify}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -302,7 +404,21 @@ if ($artist_flag == 1) {
                 $(wrap).css("display","flex");
             })
         })
+
+        // 영업시간만큼 time 리스트 뿌려주기
+        var st_time = setting_array[1].open_time;
+        var fi_time = setting_array[1].close_time;
+        console.log(st_time, fi_time);
+        var html = '';
+        for(st_time;st_time<fi_time;st_time++){
+           html += `
+                <option>${am_pm_check(fill_zero(st_time))}:00</option>
+                <option>${am_pm_check(fill_zero(st_time))}:30</option>
+           `;
+        }
+        $(".time_select").html(html);
     })
+
 
     // 드래그 이벤트
     $(function(){

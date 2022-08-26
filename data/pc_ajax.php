@@ -216,6 +216,30 @@ if($r_mode){
         $time_type = $api -> get('/partner/setting/working/'.$login_id);
 
         $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "show_modify_artist"){
+
+        $artist_id = $_POST['login_id'];
+        $name = $_POST['name'];
+        $is_view = $_POST['is_view'];
+
+        $data = array('artist_id'=>$artist_id,'name'=>$name,'is_view'=>$is_view);
+        $data_json = json_encode($data);
+
+        $result = $api ->put('/partner/setting/view-artist' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "leave_modify_artist"){
+
+        $artist_id = $_POST['login_id'];
+        $name = $_POST['name'];
+        $is_out = $_POST['is_out'];
+
+        $data = array('artist_id'=>$artist_id,'name'=>$name,'is_out'=>$is_out);
+        $data_json = json_encode($data);
+
+        $result = $api ->put('/partner/setting/out-artist' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
     }else if($r_mode === "put_pay_reserve"){
 
         $artist_id = $_POST['login_id'];
