@@ -188,3 +188,35 @@ function put_authority(data){
         }
     })
 }
+
+// 권한 미용사 조회
+function is_authority(id){
+
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'is_authority',
+            login_id: id,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            console.log(body);
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                if(body.exist){
+                    $(".ck_id_wrap").css('display','none');
+                    pop.open('firstRequestMsg1', body.message);
+                }else{
+                    $("#authority_form #customer_id").val(id);
+                    $(".ck_id_wrap .value").text(id);
+                    $(".ck_id_wrap").css('display','block');
+                }
+            }
+        }
+    })
+}

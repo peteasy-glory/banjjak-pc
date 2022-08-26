@@ -195,7 +195,13 @@ if($r_mode){
         $time_type = $api -> get('/partner/setting/authority/'.$login_id);
 
         $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "is_authority"){
 
+        $login_id = $_POST['login_id'];
+
+        $time_type = $api -> get('/partner/setting/is-authority/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
     }else if($r_mode === "put_authority"){
 
         $artist_id = $_POST['artist_id'];
