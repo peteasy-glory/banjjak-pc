@@ -221,6 +221,30 @@ function is_authority(id){
     })
 }
 
+// 미용사 리스트 불러오기
+function get_artist_list(id){
+
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'get_artist_list',
+            login_id: id,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                setting_array.push(body);
+            }
+        }
+    })
+}
+
 // 적립금 불러오기
 function get_pay_reserve(id){
 

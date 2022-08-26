@@ -209,6 +209,13 @@ if($r_mode){
         $time_type = $api -> get('/partner/setting/reserve/'.$login_id);
 
         $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "get_artist_list"){
+
+        $login_id = $_POST['login_id'];
+
+        $time_type = $api -> get('/partner/setting/working/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
     }else if($r_mode === "put_pay_reserve"){
 
         $artist_id = $_POST['login_id'];

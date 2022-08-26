@@ -306,7 +306,7 @@ var include = {
                                                 </a>
                                             </div>
                                             <div class="snb-menu-cell" id="gnb_artist">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="/setting/set_teacher.php" class="btn-snb-nav">
                                                     <div class="txt">미용사 관리</div>
                                                 </a>
                                             </div>
