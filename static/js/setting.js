@@ -220,3 +220,42 @@ function is_authority(id){
         }
     })
 }
+
+// 적립금 불러오기
+function get_pay_reserve(id){
+
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'get_pay_reserve',
+            login_id: id,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            //console.log(res);
+            let response = JSON.parse(res);
+            setting_array.push(response.data);
+        }
+    })
+}
+
+// 적립금 수정하기
+function put_pay_reserve(id, is_use, percent, min_pay){
+
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'put_pay_reserve',
+            login_id: id,
+            is_use: is_use,
+            percent: percent,
+            min_pay: min_pay,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            pop.open('reloadPop', '저장되었습니다.');
+        }
+    })
+}

@@ -316,7 +316,7 @@ var include = {
                                                 </a>
                                             </div>
                                             <div class="snb-menu-cell" id="gnb_keep">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="/setting/set_save_money.php" class="btn-snb-nav">
                                                     <div class="txt">적립금 설정</div>
                                                 </a>
                                             </div>

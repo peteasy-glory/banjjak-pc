@@ -202,6 +202,27 @@ if($r_mode){
         $time_type = $api -> get('/partner/setting/is-authority/'.$login_id);
 
         $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "get_pay_reserve"){
+
+        $login_id = $_POST['login_id'];
+
+        $time_type = $api -> get('/partner/setting/reserve/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
+
+    }else if($r_mode === "put_pay_reserve"){
+
+        $artist_id = $_POST['login_id'];
+        $is_use = $_POST['is_use'];
+        $percent = $_POST['percent'];
+        $min_reserve = $_POST['min_pay'];
+
+        $data = array('artist_id'=>$artist_id,'is_use'=>$is_use,'percent'=>$percent,'min_reserve'=>$min_reserve,'is_delete'=>"2");
+        $data_json = json_encode($data);
+
+        $result = $api ->put('/partner/setting/reserve' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
     }else if($r_mode === "put_authority"){
 
         $artist_id = $_POST['artist_id'];
