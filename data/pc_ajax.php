@@ -209,7 +209,6 @@ if($r_mode){
         $time_type = $api -> get('/partner/setting/reserve/'.$login_id);
 
         $return_data = array("code"=>"000000",'data'=>$time_type);
-
     }else if($r_mode === "put_pay_reserve"){
 
         $artist_id = $_POST['login_id'];
@@ -221,6 +220,24 @@ if($r_mode){
         $data_json = json_encode($data);
 
         $result = $api ->put('/partner/setting/reserve' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "get_pay_type"){
+
+        $login_id = $_POST['login_id'];
+
+        $time_type = $api -> get('/partner/setting/pay-type/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "put_pay_type"){
+
+        $artist_id = $_POST['login_id'];
+        $pay_type = $_POST['pay_type'];
+
+        $data = array('artist_id'=>$artist_id,'pay_type'=>$pay_type);
+        $data_json = json_encode($data);
+
+        $result = $api ->put('/partner/setting/pay-type' ,$data_json);
 
         $return_data = array("code"=>"000000","data"=>$result);
     }else if($r_mode === "put_authority"){

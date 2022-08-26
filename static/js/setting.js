@@ -259,3 +259,46 @@ function put_pay_reserve(id, is_use, percent, min_pay){
         }
     })
 }
+
+// 결제방식 불러오기
+function get_pay_type(id){
+
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'get_pay_type',
+            login_id: id,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            let response = JSON.parse(res);
+            var type = response.data;
+            if(type == 0){ // 지금결제
+                $(".pay_type_wrap .pay_now").prop("checked", true);
+            }else if(type == 1){ // 지금결제, 매장결제
+                $(".pay_type_wrap .pay_now").prop("checked", true);
+                $(".pay_type_wrap .pay_shop").prop("checked", true);
+            }else if(type == 2){ // 매장결제
+                $(".pay_type_wrap .pay_shop").prop("checked", true);
+            }
+        }
+    })
+}
+
+// 결제방식 변경
+function put_pay_type(id, pay_type){
+
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'put_pay_type',
+            login_id: id,
+            pay_type: pay_type,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+        }
+    })
+}

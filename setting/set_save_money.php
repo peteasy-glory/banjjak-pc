@@ -237,7 +237,6 @@ if ($artist_flag == 1) {
         get_navi(artist_id);
         gnb_init();
         get_pay_reserve(artist_id);
-        console.log(setting_array[0]);
         $(".percent").val(setting_array[0].percent);
         $(".min_pay").val(setting_array[0].min_reserve);
     })
@@ -246,7 +245,6 @@ if ($artist_flag == 1) {
         var percent = $(".percent").val();
         var min_pay = $(".min_pay").val();
         var is_use = (percent == 0 && min_pay == 0)? 2 : 1;
-        console.log(percent, min_pay, is_use);
         put_pay_reserve(artist_id, is_use, percent, min_pay);
     })
 </script>

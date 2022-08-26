@@ -321,7 +321,7 @@ var include = {
                                                 </a>
                                             </div>
                                             <div class="snb-menu-cell" id="gnb_payment">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="/setting/set_pay_type.php" class="btn-snb-nav">
                                                     <div class="txt">결제 방식</div>
                                                 </a>
                                             </div>
