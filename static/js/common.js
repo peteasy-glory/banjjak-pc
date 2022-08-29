@@ -265,7 +265,7 @@ var include = {
                                                 </a>
                                             </div>
                                             <div class="snb-menu-cell" id="gnb_info">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="/shop/shop_management.php" class="btn-snb-nav">
                                                     <div class="txt">샵 정보 관리</div>
                                                 </a>
                                             </div>

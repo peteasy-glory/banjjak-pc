@@ -163,3 +163,54 @@ function del_gallery(idx){
         }
     })
 }
+
+// 샵 정보 가져오기
+function get_shop_info(id){
+
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'get_shop_info',
+            login_id: id,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            //console.log(res);
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                shop_array.push(body);
+            }
+        }
+    })
+}
+
+// 자격증 수상경력 가져오기 0:자격증, 1:수상경력
+function get_license_award(id, type){
+
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'get_license_award',
+            login_id: id,
+            type: type,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            //console.log(res);
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                shop_array.push(body);
+            }
+        }
+    })
+}

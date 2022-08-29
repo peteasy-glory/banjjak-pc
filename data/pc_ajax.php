@@ -1,8 +1,8 @@
 <?php
 include($_SERVER['DOCUMENT_ROOT'] . "/include/global.php");
 include($_SERVER['DOCUMENT_ROOT'] . "/common/TRestAPI.php");
-
-
+include($_SERVER['DOCUMENT_ROOT']."/common/TEmoji.php");
+$emoji = new TEmoji();
 
 $user_id = (isset($_SESSION['gobeauty_user_id'])) ? $_SESSION['gobeauty_user_id'] : "";
 $user_name = (isset($_SESSION['gobeauty_user_nickname'])) ? $_SESSION['gobeauty_user_nickname'] : "";
@@ -255,6 +255,37 @@ if($r_mode){
         $post = $api ->post('/partner/shop/gallery',$data_json);
 
         $return_data = array("code"=>"000000","data"=>$post);
+    }else if($r_mode === "get_shop_info"){
+
+        $login_id = $_POST['login_id'];
+
+        $time_type = $api -> get('/partner/shop/info/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "shop_info_photo"){
+
+        $login_id = $_POST['login_id'];
+        $mime = $_POST['mime'];
+        $image = $_FILES['image']['tmp_name'];
+        $base_img = base64_encode(file_get_contents($image));
+
+        $data = array('partner_id'=>$login_id,'mime'=>$mime,'image'=>$base_img);
+        $data_json = json_encode($data);
+
+        $post = $api ->put('/partner/shop/info-photo',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$post);
+    }else if($r_mode === "get_license_award"){
+
+        $login_id = $_POST['login_id'];
+        $type = intval($_POST['type']);
+
+        $data = array('type'=>$type);
+        $data_json = json_encode($data);
+
+        $time_type = $api -> get('/partner/shop/license-award/'.$login_id, $data_json);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
     }else if($r_mode === "regular_holiday"){
 
         $login_id = $_POST['login_id'];
@@ -594,6 +625,13 @@ if($r_mode){
 
         $return_data = array("code"=>"000000","data"=>$pet_type);
 
+    }else if($r_mode === "db_to_str"){
+
+        $str = $_POST['str'];
+
+        $str = $emoji->emojiDBToStr($str);
+
+        $return_data = array("code"=>"000000",'data'=>$str);
     }
 
 }
