@@ -240,6 +240,57 @@ if($r_mode){
         $result = $api ->put('/partner/setting/out-artist' ,$data_json);
 
         $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "put_artist"){
+
+        $artist_id = $_POST['artist_id'];
+        $name = $_POST['name'];
+        $nicname = $_POST['nicname'];
+        $is_main = $_POST['is_main'];
+        $is_out = $_POST['is_out'];
+        $is_view = $_POST['is_view'];
+        $week = $_POST['week'];
+        $st_time = $_POST['st_time'];
+        $fi_time = $_POST['fi_time'];
+        $sequ_prnt = $_POST['sequ_prnt'];
+
+        $work = [];
+        $pass_i = 0;
+        for($i=0;$i<7;$i++){
+            if($week[$i-$pass_i] == ($i)){
+                $is_work = 1;
+            }else{
+                $is_work = 0;
+                $pass_i++;
+            }
+            $work_data = array('is_work'=>$is_work,'week'=>$i,'time_st'=>$st_time[$i-$pass_i],'time_fi'=>$fi_time[$i-$pass_i]);
+
+            array_push($work, $work_data);
+        }
+
+        $data = array('artist_id'=>$artist_id,'name'=>$name,'nicname'=>$nicname,'is_main'=>$is_main,'is_out'=>$is_out,'is_view'=>$is_view,'work'=>$work,'sequ_prnt'=>$sequ_prnt);
+        $data_json = json_encode($data);
+
+        $result = $api ->put('/partner/setting/artist-put' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "ord_change_artist"){
+
+        $artist_id = $_POST['login_id'];
+        $sequ_prnt = $_POST['ord'];
+        $name = $_POST['name'];
+        $work = [];
+        for($i=0;$i<count($name);$i++){
+            $work_data = array('name'=>$name[$i],'sequ_prnt'=>$i);
+
+            array_push($work, $work_data);
+        }
+
+        $data = array('artist_id'=>$artist_id,'work'=>$work);
+        $data_json = json_encode($data);
+
+        $result = $api ->put('/partner/setting/ord-artist' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
     }else if($r_mode === "put_pay_reserve"){
 
         $artist_id = $_POST['login_id'];
