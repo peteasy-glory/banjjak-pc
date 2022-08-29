@@ -384,7 +384,7 @@ function login(){
             $.ajax({
 
 
-                url:'../data/pc_ajax.php',
+                url:'/data/pc_ajax.php',
                 data:{
                     mode:'login',
                     login_id:id,

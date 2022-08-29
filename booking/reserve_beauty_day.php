@@ -157,7 +157,7 @@ if ($artist_flag == 1) {
 										<button type="button" onclick="location.href='./reserve_beauty_month.php';" class="btn-reserve-calendar-sort">월</button>
 										<button type="button" onclick="location.href='./reserve_beauty_week.php';" class="btn-reserve-calendar-sort">주</button>
 										<button type="button" class="btn-reserve-calendar-sort actived">일</button>
-										<button type="button" class="btn-reserve-calendar-sort"><span class="icon icon-type-list-gray off"></span><span class="icon icon-type-list-white on"></span></button>
+										<button type="button" onclick="location.href='./reserve_beauty_list.php';" class="btn-reserve-calendar-sort"><span class="icon icon-type-list-gray off"></span><span class="icon icon-type-list-white on"></span></button>
 									</div>
 								</div>
 								<!-- //캘린더 상단 -->
@@ -262,7 +262,7 @@ if ($artist_flag == 1) {
                 </div>
                 <div class="pop-footer">
                     <button type="button" class="btn btn-confirm btn-reserv-block" onclick="pop.close(); reserve_prohibition_init().then(function(){reserve_prohibition_select()}); ">예약금지설정</button>
-                    <button type="button" class="btn btn-confirm btn-reserv-send" onclick="pop.close(); pop.open('reserveAcceptUser');">예약접수</button>
+                    <button type="button" class="btn btn-confirm btn-reserv-send" onclick="pop.close(); pop.open('reserveAcceptUser'); reserve_time_select()">예약접수</button>
                 </div>
             </div>
         </div>
@@ -336,6 +336,9 @@ if ($artist_flag == 1) {
 </article>
 
 <article id="reserveAcceptUser" class="layer-pop-wrap">
+    <input type="hidden" value="" id="customer_id">
+    <input type="hidden" value="" id="pet_seq">
+    <input type="hidden" value="" id="is_vat">
     <div class="layer-pop-parent">
         <div class="layer-pop-children">
             <div class="pop-data data-pop-view large">
@@ -424,8 +427,8 @@ if ($artist_flag == 1) {
                                                         <div class="pet-breed-select-wrap">
                                                             <div class="pet-breed-select">
                                                                 <div class="breed-select">
-                                                                    <label class="form-toggle-box" for="breed1"><input type="radio" name="breed" id="breed1"><em><span>강아지</span></em></label>
-                                                                    <label class="form-toggle-box" for="breed2"><input type="radio" name="breed" id="breed2"><em><span>고양이</span></em></label>
+                                                                    <label class="form-toggle-box" for="breed1"><input type="radio" name="breed" class="load-pet-type" value="dog" id="breed1"><em><span>강아지</span></em></label>
+                                                                    <label class="form-toggle-box" for="breed2"><input type="radio" name="breed" class="load-pet-type" value="cat" id="breed2"><em><span>고양이</span></em></label>
                                                                 </div>
                                                             </div>
                                                             <div class="pet-breed-sort">
@@ -584,7 +587,7 @@ if ($artist_flag == 1) {
                                                                 <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special1"><input type="checkbox" name="special" id="special1"><em>피부병</em></label></div>
                                                                 <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special2"><input type="checkbox" name="special" id="special2"><em>심장질환</em></label></div>
                                                                 <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special3"><input type="checkbox" name="special" id="special3"><em>마킹</em></label></div>
-                                                                <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special3"><input type="checkbox" name="special" id="special3"><em>마운팅</em></label></div>
+                                                                <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special4"><input type="checkbox" name="special" id="special4"><em>마운팅</em></label></div>
 
                                                             </div>
                                                         </div>
@@ -609,21 +612,15 @@ if ($artist_flag == 1) {
                                                         <div class="grid-layout margin-12">
                                                             <div class="grid-layout-inner">
                                                                 <div class="grid-layout-cell grid-3">
-                                                                    <select>
-                                                                        <option value="">2021 년</option>
-                                                                        <option value="">2021 년</option>
-                                                                        <option value="">2021 년</option>
-                                                                        <option value="">2021 년</option>
+                                                                    <select id="reserve_time_year" class="reserve-time">
                                                                     </select>
                                                                 </div>
                                                                 <div class="grid-layout-cell grid-3">
-                                                                    <select>
-                                                                        <option value="">02 월</option>
+                                                                    <select id="reserve_time_month" class="reserve-time">
                                                                     </select>
                                                                 </div>
                                                                 <div class="grid-layout-cell grid-3">
-                                                                    <select>
-                                                                        <option value="">02 일</option>
+                                                                    <select id="reserve_time_date">
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -637,18 +634,12 @@ if ($artist_flag == 1) {
                                                     <div class="form-item-data type-2">
                                                         <div class="form-datepicker-group">
                                                             <div class="form-datepicker">
-                                                                <select>
-                                                                    <option value="">오전 11:30</option>
-                                                                    <option value="">오전 11:30</option>
-                                                                    <option value="">오전 11:30</option>
+                                                                <select id="reserve_st_time">
                                                                 </select>
                                                             </div>
                                                             <div class="form-unit">~</div>
                                                             <div class="form-datepicker">
-                                                                <select>
-                                                                    <option value="">오후 11:30</option>
-                                                                    <option value="">오후 11:30</option>
-                                                                    <option value="">오후 11:30</option>
+                                                                <select id="reserve_fi_time">
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -676,84 +667,11 @@ if ($artist_flag == 1) {
                                         <!-- 기본 서비스 -->
                                         <div class="tab-data-cell actived" id="basic_service">
                                             <div class="grid-layout basic">
-                                                <div class="grid-layout-inner">
-                                                    <div class="grid-layout-cell grid-5">
-                                                        <div class="form-group-item">
-                                                            <div class="form-item-label">크기 선택</div>
-                                                            <div class="form-item-data type-2">
-                                                                <div class="toggle-button-group vertical">
-                                                                    <div class="toggle-button-cell"><label class="form-toggle-box large"><input type="radio" name="size"><em>소형견 미용</em></label></div>
-                                                                    <div class="toggle-button-cell"><label class="form-toggle-box large"><input type="radio" name="size"><em>중형견 미용</em></label></div>
-                                                                    <div class="toggle-button-cell"><label class="form-toggle-box large"><input type="radio" name="size"><em>대형견 미용</em></label></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="grid-layout-cell grid-5">
-                                                        <div class="form-group-item">
-                                                            <div class="form-item-label">서비스</div>
-                                                            <div class="form-item-data type-2">
-                                                                <div class="toggle-button-group vertical">
-                                                                    <div class="toggle-button-cell"><label class="form-toggle-box large"><input type="radio" name="s1"><em>선택 안함</em></label></div>
-                                                                    <div class="toggle-button-cell"><label class="form-toggle-box large"><input type="radio" name="s1"><em>목욕</em></label></div>
-                                                                    <div class="toggle-button-cell"><label class="form-toggle-box large"><input type="radio" name="s1"><em>부분 미용</em></label></div>
-                                                                    <div class="toggle-button-cell"><label class="form-toggle-box large"><input type="radio" name="s1"><em>전체 미용</em></label></div>
-                                                                    <div class="toggle-button-cell"><label class="form-toggle-box large"><input type="radio" name="s1"><em>스포팅</em></label></div>
-                                                                    <div class="toggle-button-cell"><label class="form-toggle-box large"><input type="radio" name="s1"><em>가위</em></label></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="grid-layout-cell grid-5">
-                                                        <div class="form-group-item">
-                                                            <div class="form-item-label">무게</div>
-                                                            <div class="form-item-data type-2">
-                                                                <div class="toggle-button-group vertical">
-                                                                    <div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" name="s2"><em><span>선택 안함</span></em></label></div>
-                                                                    <div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" name="s2"><em><span>~4Kg</span><strong>20,000원</strong></em></label></div>
-                                                                    <div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" name="s2"><em><span>~6Kg</span><strong>20,000원</strong></em></label></div>
-                                                                    <div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" name="s2"><em><span>~8Kg</span><strong>20,000원</strong></em></label></div>
-                                                                    <div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" name="s2"><em><span>~10Kg</span><strong>20,000원</strong></em></label></div>
-                                                                    <div class="toggle-button-cell">
-                                                                        <div class="form-toggle-options">
-                                                                            <input type="checkbox" name="options1">
-                                                                            <div class="form-toggle-options-data">
-                                                                                <div class="options-labels"><span>옵션 선택 형</span><strong>3,500원</strong></div>
-                                                                                <div class="form-amount-input">
-                                                                                    <button type="button" class="btn-form-amount-minus">감소</button>
-                                                                                    <div class="form-amount-info">
-                                                                                        <input type="number" readonly="" value="1" class="form-amount-val">
-                                                                                    </div>
-                                                                                    <button type="button" class="btn-form-amount-plus">증가</button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="grid-layout-cell grid-5">
-                                                        <div class="form-group-item">
-                                                            <div class="form-item-label">털특징</div>
-                                                            <div class="form-item-data type-2">
-                                                                <div class="toggle-button-group vertical">
-                                                                    <div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large" for="hair1"><input type="checkbox" name="hair" id="hair1"><em><span>장모_목욕</span><strong>+5,000원</strong></em></label></div>
-                                                                    <div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large" for="hair2"><input type="checkbox" name="hair" id="hair2"><em><span>이중모_목욕</span><strong>+5,000원</strong></em></label></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="grid-layout-cell grid-5">
-                                                        <div class="form-group-item">
-                                                            <div class="form-item-label">미용털길이</div>
-                                                            <div class="form-item-data type-2">
-                                                                <div class="toggle-button-group vertical">
-                                                                    <div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large" for="hairBeauty1"><input type="checkbox" name="hairBeauty" id="hairBeauty1"><em><span>선택안함</span><strong>0원</strong></em></label></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                <div class="grid-layout-inner" id="basic_service_inner">
+
+
+
+
                                                 </div>
                                             </div>
                                         </div>
@@ -761,91 +679,12 @@ if ($artist_flag == 1) {
                                         <!-- 추가 -->
                                         <div class="tab-data-cell" id="other_service">
                                             <div class="grid-layout basic">
-                                                <div class="grid-layout-inner">
-                                                    <div class="grid-layout-cell grid-5">
-                                                        <div class="form-group-item">
-                                                            <div class="form-item-label">얼굴컷</div>
-                                                            <div class="form-item-data type-2">
-                                                                <div class="toggle-button-group vertical">
-                                                                    <div class="toggle-button-cell">
-                                                                        <label class="form-toggle-box form-toggle-price middle"><input type="checkbox" name="f1"><em><span>기본얼굴컷</span><strong>+5,000원</strong></em></label>
-                                                                    </div>
-                                                                    <div class="toggle-button-cell">
-                                                                        <label class="form-toggle-box form-toggle-price middle"><input type="checkbox" name="f1"><em><span>브로콜리컷</span><strong>+5,000원</strong></em></label>
-                                                                    </div>
-                                                                    <div class="toggle-button-cell">
-                                                                        <label class="form-toggle-box form-toggle-price middle"><input type="checkbox" name="f1"><em><span>하이바컷</span><strong>+5,000원</strong></em></label>
-                                                                    </div>
-                                                                    <div class="toggle-button-cell">
-                                                                        <label class="form-toggle-box form-toggle-price middle"><input type="checkbox" name="f1"><em><span>곰돌이컷</span><strong>+5,000원</strong></em></label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="grid-layout-cell grid-5">
-                                                        <div class="form-group-item">
-                                                            <div class="form-item-label">다리</div>
-                                                            <div class="form-item-data type-2">
-                                                                <div class="toggle-button-group vertical">
-                                                                    <div class="toggle-button-cell">
-                                                                        <label class="form-toggle-box form-toggle-price middle"><input type="checkbox" name="f2"><em><span>발톱</span><strong>+5,000원</strong></em></label>
-                                                                    </div>
-                                                                    <div class="toggle-button-cell">
-                                                                        <label class="form-toggle-box form-toggle-price middle"><input type="checkbox" name="f2"><em><span>장화</span><strong>+1,000원</strong></em></label>
-                                                                    </div>
-                                                                    <div class="toggle-button-cell">
-                                                                        <label class="form-toggle-box form-toggle-price middle"><input type="checkbox" name="f2"><em><span>방울</span><strong>+15,000원</strong></em></label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="grid-layout-cell grid-5">
-                                                        <div class="form-group-item">
-                                                            <div class="form-item-label">스파</div>
-                                                            <div class="form-item-data type-2">
-                                                                <div class="toggle-button-group vertical">
-                                                                    <div class="toggle-button-cell">
-                                                                        <label class="form-toggle-box form-toggle-price middle"><input type="checkbox" name="f3"><em><span>스파1</span><strong>+6,000원</strong></em></label>
-                                                                    </div>
-                                                                    <div class="toggle-button-cell">
-                                                                        <label class="form-toggle-box form-toggle-price middle"><input type="checkbox" name="f3"><em><span>스파2</span><strong>+9,000원</strong></em></label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="grid-layout-cell grid-5">
-                                                        <div class="form-group-item">
-                                                            <div class="form-item-label">염색</div>
-                                                            <div class="form-item-data type-2">
-                                                                <div class="toggle-button-group vertical">
-                                                                    <div class="toggle-button-cell">
-                                                                        <label class="form-toggle-box form-toggle-price middle"><input type="checkbox" name="f4"><em><span>부분염색</span><strong>+10,000원</strong></em></label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="grid-layout-cell grid-5">
-                                                        <div class="form-group-item">
-                                                            <div class="form-item-label">기타</div>
-                                                            <div class="form-item-data type-2">
-                                                                <div class="toggle-button-group vertical">
-                                                                    <div class="toggle-button-cell">
-                                                                        <label class="form-toggle-box form-toggle-price middle"><input type="checkbox" name="f5"><em><span>기장추가1</span><strong>+5,000원</strong></em></label>
-                                                                    </div>
-                                                                    <div class="toggle-button-cell">
-                                                                        <label class="form-toggle-box form-toggle-price middle"><input type="checkbox" name="f5"><em><span>기장추가2</span><strong>+10,000원</strong></em></label>
-                                                                    </div>
-                                                                    <div class="toggle-button-cell">
-                                                                        <label class="form-toggle-box form-toggle-price middle"><input type="checkbox" name="f5"><em><span>기장추가3</span><strong>+15,000원</strong></em></label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                <div class="grid-layout-inner" id="other_service_inner">
+
+
+
+
+
                                                 </div>
                                             </div>
                                         </div>
@@ -857,40 +696,35 @@ if ($artist_flag == 1) {
                                 <div class="service-selected-wrap">
                                     <div class="service-selected-group">
                                         <h5 class="con-title">서비스 선택 내역</h5>
-                                        <div class="service-selected-list">
+                                        <div class="service-selected-list" id="service2_basic_list">
                                             <div class="service-selected-list-cell">
-                                                <div class="list-data">소형견 미용</div>
+                                                <div class="list-data" id="service2_basic_size"></div>
                                             </div>
                                             <div class="service-selected-list-cell">
-                                                <div class="list-data">목욕 30분</div>
+                                                <div class="list-data"  id="service2_basic_service"></div>
                                             </div>
                                             <div class="service-selected-list-cell">
-                                                <div class="list-data">~10.1Kg</div>
+                                                <div class="list-data"  id="service2_basic_weight"></div>
+                                            </div>
+                                            <div class="service-selected-list-cell" id="service2_basic_hair_feature">
+                                                <div class="list-data" ></div>
                                             </div>
                                             <div class="service-selected-list-cell">
-                                                <div class="list-data">이중모_목욕</div>
+                                                <div class="list-data"  id="service2_basic_hair_length"></div>
+                                            </div>
+
+                                            <div class="service-selected-list-cell">
+                                                <div class="list-data"  id="service2_basic_beauty"></div>
+                                            </div>
+                                            <div class="service-selected-list-cell">
+                                                <div class="list-data"  id="service2_basic_hair_bath"></div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="service-selected-group add">
                                         <h5 class="con-title">추가 선택 내역</h5>
-                                        <div class="service-selected-list">
-                                            <div class="service-selected-list-cell">
-                                                <div class="list-title">얼굴컷</div>
-                                                <div class="list-data">+ 곰돌이컷</div>
-                                            </div>
-                                            <div class="service-selected-list-cell">
-                                                <div class="list-title">다리</div>
-                                                <div class="list-data">+ 발톱/방울</div>
-                                            </div>
-                                            <div class="service-selected-list-cell">
-                                                <div class="list-title">스파</div>
-                                                <div class="list-data">+ 스파 40분</div>
-                                            </div>
-                                            <div class="service-selected-list-cell">
-                                                <div class="list-title">염색</div>
-                                                <div class="list-data">+ 부분 염색</div>
-                                            </div>
+                                        <div class="service-selected-list" id="service2_other_list">
+
                                         </div>
                                     </div>
                                 </div>
@@ -898,7 +732,46 @@ if ($artist_flag == 1) {
                         </div>
                     </div>
                 </div>
-                <button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
+                <div class="pop-footer line" id="reserve_footer" style="display:none;">
+                    <div class="grid-layout btn-grid-group">
+                        <div class="grid-layout-inner">
+                            <div class="grid-layout-cell grid-2 reserve_regist_btn" id="reserve_regist_1"><a href="#" class="btn btn-outline-purple"><strong>알림없이 등록</strong></a></div>
+                            <div class="grid-layout-cell grid-2 reserve_regist_btn" id="reserve_regist_2"><a href="#" class="btn btn-outline-purple"><strong>등록</strong></a></div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn-pop-close" onclick="pop.close(); reserve_pop_init(artist_id);">닫기</button>
+            </div>
+        </div>
+    </div>
+</article>
+
+<article id="reserveAcceptMsg1" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data alert-pop-data">
+                <div class="pop-body">
+                    <div class="msg-txt" id="msg1_txt"></div>
+                </div>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm" onclick="pop.close(); pop.close('reserveCalendarPop11')">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+
+<article id="reserveCalendarPop11" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data alert-pop-data">
+                <div class="pop-body">
+                    <div class="msg-txt">미용 예약 하루 전 알림은 발송 하시겠습니까?</div>
+                </div>
+                <div class="pop-footer" id="notice_check">
+                    <button type="button" class="btn btn-confirm btn-reserv-block" onclick="reserve_regist(artist_id,session_id,true);">발송</button>
+                    <button type="button" class="btn btn-confirm btn-reserv-send" onclick="reserve_regist(artist_id,session_id,false);">미발송</button>
+                </div>
             </div>
         </div>
     </div>
@@ -909,9 +782,11 @@ if ($artist_flag == 1) {
 <script src="../static/js/Sortable.min.js"></script>
 
 <script src="../static/js/booking.js"></script>
+<script src="../static/js/customer.js"></script>
 <script>
 
     let artist_id = "<?=$artist_id?>";
+    let session_id = "<?=session_id()?>"
 
     data_set(artist_id)
 
@@ -943,6 +818,17 @@ if ($artist_flag == 1) {
         setInputFilter(document.getElementById("reserve_cellphone"), function(value) {
             return /^\d*\.?\d*$/.test(value);
         })
+
+
+
+        customer_new_birthday().then(function(){ customer_new_birthday_date()})
+        customer_pet_type();
+        customer_new_weight()
+        reserve_merchandise_load_event(artist_id)
+        reserve_regist_event(artist_id,session_id);
+        reserve_time().then(function (){reserve_time_date()});
+        reserve_time_init()
+
 
 
 

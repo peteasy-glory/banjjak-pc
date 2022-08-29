@@ -112,3 +112,26 @@
 
 
 
+
+    .main-calendar-month-header-col.sunday {
+        color: red !important;
+    }
+
+    .main-calendar-month-header-col.saturday, .main-calendar-month-header-col.saturday .number{
+        color:blue !important;
+    }
+
+    .number.sunday{
+
+        color:red !important;
+    }
+
+    .number.saturday{
+
+        color:blue !important;
+    }
+
+    .statutory {
+
+        color: red !important;
+    }

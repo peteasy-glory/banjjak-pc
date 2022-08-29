@@ -1,34 +1,19 @@
-<!DOCTYPE html>
-<html lang="ko">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
-	<!-- Page Infomation -->
-    <title>고객관리 | 반짝</title>
-    <meta name="Description" content="">
-    <meta name="Author" content="">
-    <meta name="Keywords" content="">
-    <meta name="format-detection" content="telephone=no">
-    <!-- SNS Basic -->
-    <meta property="og:title" content="타이틀">
-    <meta property="og:description" content="설명 100자내외">
-    <meta property="og:type" content="website">
-    <meta property="og:url"    content="">
-    <meta property="og:image" content="이미지 경로">
-	<!-- SNS Twitter -->
-	<meta name="twitter:card" content="summary">
-	<meta name="twitter:title" content="타이틀">
-	<meta name="twitter:description" content="설명 100자내외">
-	<meta name="twitter:image" content="이미지 경로">
-    <link rel="icon" href="../assets/images/common/favicon.png">
-	<link rel="canonical" href="대표도메인">
-    <!-- custom css -->
-    <link href="../assets/css/style.css" rel="stylesheet">
-	<!-- jquery js -->
-	<script src="../assets/js/jquery-3.4.1.min.js"></script>   
-	<script src="../assets/js/swiper.min.js"></script>
-  </head>
+<?php
+include($_SERVER['DOCUMENT_ROOT']."/include/global.php");
+include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
+include($_SERVER['DOCUMENT_ROOT']."/include/check_login_shop.php");
+
+$artist_flag = (isset($_SESSION['artist_flag'])) ? $_SESSION['artist_flag'] : "";
+
+if ($artist_flag == 1) {
+    $artist_id = (isset($_SESSION['shop_user_id'])) ? $_SESSION['shop_user_id'] : "";
+} else {
+    $artist_id = (isset($_SESSION['gobeauty_user_id'])) ? $_SESSION['gobeauty_user_id'] : "";
+}
+
+
+
+?>
 <body>        
 
 <!-- wrap -->
@@ -49,7 +34,7 @@
 					<div class="data-col-middle">
 						<div class="basic-data-card">
 							<div class="card-header">
-								<h3 class="card-header-title">010-1234-1234</h3>
+								<h3 class="card-header-title" id="customer_view_cellphone">010-1234-1234</h3>
 								<div class="card-header-right">
 									<a href="#" class="btn btn-small-size btn-outline-gray btn-basic-vsmall btn-inline">삭제</a>
 								</div>
@@ -61,58 +46,8 @@
 											<h4 class="con-title">고객 정보</h4>
 										</div>
 										<div class="customer-view-user-info">
-											<div class="customer-user-table">
-												<div class="customer-user-table-row">
-													<div class="customer-user-table-title"><div class="table-title">대표 펫 (수)</div></div>
-													<div class="customer-user-table-data">
-														<div class="table-data">
-															<div class="table-user-name">																
-																boong_232321
-																<div class="user-grade-item">
-																	<div class="icon icon-grade-vip"></div>
-																	<div class="icon-grade-label">VIP</div>
-																</div>
-															</div>															
-														</div>																												
-													</div>
-													<div class="customer-user-info-ui">
-														<div class="label label-outline-pink">NO SHOW 1회</div>
-														<button type="button" class="btn btn-red">초기화</button>
-													</div>
-												</div>
-												<div class="customer-user-table-row">
-													<div class="customer-user-table-title"><div class="table-title">최근이용내역</div></div>
-													<div class="customer-user-table-data">
-														<div class="table-data">
-															<div class="table-data-txt">중형견미용</div>
-														</div>
-														<div class="table-data-side"> 
-															<button type="button" class="font-color-purple font-underline btn-text">알림톡 발송 조회</button>
-														</div>
-													</div>
-												</div>
-												<div class="customer-user-table-row">
-													<div class="customer-user-table-title"><div class="table-title">연락처</div></div>
-													<div class="customer-user-table-data">
-														<div class="table-data">
-															<div class="customer-user-phone-wrap">
-																<div class="item-main-phone"><div class="value">010-1234-1234</div><button type="button" class="btn-data-modify">편집</button></div>
-																<div class="item-sub-phone"><div class="value">010-1234-1234</div><div class="value">010-1234-1234</div><div class="value">010-1234-1234</div></div>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="customer-user-table-row wide">
-													<div class="customer-user-table-title"><div class="table-title">메모</div></div>
-													<div class="customer-user-table-data">
-														<div class="table-data">
-															<div>
-																<textarea style="height:60px;" placeholder="입력"></textarea>
-																<div class="form-input-info">*메모는 입력 후 자동 저장됩니다.</div>															
-															</div>															
-														</div>
-													</div>
-												</div>
+											<div class="customer-user-table" id="user-table">
+
 											</div>
 										</div>
 									</div>
@@ -648,6 +583,28 @@
     <!-- //container -->
 </div>
 <!-- //wrap -->
-<script src="../assets/js/common.js"></script>
+
+<script src="../static/js/common.js"></script>
+<script src="../static/js/dev_common.js"></script>
+<script src="../static/js/customer.js"></script>
+
+<script>
+
+    let artist_id = "<?=$artist_id?>";
+    data_set(artist_id)
+
+    $(document).ready(function(){
+
+        gnb_init();
+        set_image('front_image');
+        prepend_data('consulting_count nick');
+        gnb_actived('gnb_customer_wrap','gnb_inquire_all');
+        customer_view_(artist_id)
+
+    })
+
+
+
+</script>
 </body>
 </html>

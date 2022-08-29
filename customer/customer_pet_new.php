@@ -322,7 +322,7 @@ if ($artist_flag == 1) {
         })
 
         customer_new_birthday().then(function(){ customer_new_birthday_date()})
-        customer_pet_type();
+        customer_pet_type(artist_id);
         customer_new_weight()
 
 

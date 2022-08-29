@@ -289,7 +289,7 @@ if ($artist_flag == 1) {
                 </div>
                 <div class="pop-footer">
                     <button type="button" class="btn btn-confirm btn-reserv-block" onclick="pop.close(); reserve_prohibition_init().then(function(){reserve_prohibition_select()}); ">예약금지설정</button>
-                    <button type="button" class="btn btn-confirm btn-reserv-send" onclick="pop.close(); pop.open('reserveAcceptUser');">예약접수</button>
+                    <button type="button" class="btn btn-confirm btn-reserv-send" onclick="pop.close(); pop.open('reserveAcceptUser'); reserve_time_select()">예약접수</button>
                 </div>
             </div>
         </div>
@@ -362,14 +362,458 @@ if ($artist_flag == 1) {
     </div>
 </article>
 
+<article id="reserveAcceptUser" class="layer-pop-wrap">
+    <input type="hidden" value="" id="customer_id">
+    <input type="hidden" value="" id="pet_seq">
+    <input type="hidden" value="" id="is_vat">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data data-pop-view large">
+                <div class="pop-header">
+                    <h4 class="con-title">예약 접수</h4>
+                </div>
+                <div class="pop-body">
+                    <div class="reserve-accept-wrap">
+                        <div class="wide-tab">
+                            <div class="wide-tab-inner"  id="wide-tab-inner">
+                                <!-- 활성화시 actived클래스 추가 -->
+                                <div class="tab-cell actived" id="exist_btn"><a href="#" class="btn-tab-item">기존 고객 예약</a></div>
+                                <div class="tab-cell" id="new_btn"><a href="#" class="btn-tab-item">신규 고객 예약</a></div>
+                            </div>
+                        </div>
+                        <div id="exist_user">
+                            <div class="basic-data-group vmiddle" style="margin-top:28px !important">
+                                <div class="basic-single-data">
+                                    <div class="form-btns">
+                                        <input type="text" id="reserve_search" placeholder="전화번호 및 펫이름 입력">
+                                        <button type="button" id="reserve_search_btn" onclick="reserve_search_fam(artist_id)" class="btn-data-send btn-data-search"><span class="icon icon-size-24 icon-page-search">검색</span></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-data-group large">
+                                <!-- 검색결과 있을 때 -->
+                                <div class="customer-card-list">
+                                    <div class="grid-layout margin-8-12">
+                                        <div class="grid-layout-inner" id="reserve_inner">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- //검색결과 있을 때 -->
+                                <!-- 검색결과 없을 때 -->
+                                <div style="display:block;" id="common_none_data">
+                                    <div class="common-none-data">
+                                        <div class="none-inner">
+                                            <div class="item-info">검색 결과가 없습니다.</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- //검색결과 없을 때 -->
+                            </div>
+                        </div>
+
+                        <div id="new_user" style="display:none;">
+                            <div class="basic-data-group middle" style="margin-top:32px !important;">
+                                <div class="form-group">
+                                    <div class="grid-layout margin-14-17">
+                                        <div class="grid-layout-inner">
+                                            <div class="grid-layout-cell grid-1">
+                                                <div class="form-group-item">
+                                                    <div class="form-group-item">
+                                                        <div class="form-item-label">전화번호</div>
+                                                        <div class="form-item-data">
+                                                            <input type="text" maxlength="15" id="reserve_cellphone" class="form-control" value="">
+                                                            <div class="form-input-info">'-' 없이 숫자만 입력</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-data-group">
+                                <div class="con-title-group">
+                                    <h4 class="con-title">펫 정보<p class="title-need font-color-red">*필수사항만 입력해도 예약등록 가능</p></h4>
+                                </div>
+                                <div class="form-group">
+                                    <div class="grid-layout margin-14-17">
+                                        <div class="grid-layout-inner">
+                                            <div class="grid-layout-cell grid-1">
+                                                <div class="form-group-item">
+                                                    <div class="form-item-label"><em class="need">*</em>펫 이름</div>
+                                                    <div class="form-item-data">
+                                                        <input type="text" class="form-control" value="" id="reserve_name" placeholder="펫 이름 입력">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="grid-layout-cell grid-1">
+                                                <div class="form-group-item">
+                                                    <div class="form-item-label"><em class="need">*</em>품종</div>
+                                                    <div class="form-item-data type-2">
+                                                        <div class="pet-breed-select-wrap">
+                                                            <div class="pet-breed-select">
+                                                                <div class="breed-select">
+                                                                    <label class="form-toggle-box" for="breed1"><input type="radio" name="breed" class="load-pet-type" value="dog" id="breed1"><em><span>강아지</span></em></label>
+                                                                    <label class="form-toggle-box" for="breed2"><input type="radio" name="breed" class="load-pet-type" value="cat" id="breed2"><em><span>고양이</span></em></label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="pet-breed-sort">
+                                                                <div style="display:block">
+                                                                    <select id="breed_select">
+                                                                        <option value="">선택</option>
+                                                                    </select>
+                                                                    <div class="pet-breed-other"  id="breed_other_box" style="display:none">
+                                                                        <input type="text" placeholder="입력" id="breed_other" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="grid-layout-cell grid-2">
+                                                <div class="form-group-item">
+                                                    <div class="form-item-label">생일</div>
+                                                    <div class="form-item-data type-2">
+                                                        <div class="grid-layout margin-12">
+                                                            <div class="grid-layout-inner">
+                                                                <div class="grid-layout-cell grid-3">
+                                                                    <select id="birthday_year" class="birthday">
+
+                                                                    </select>
+                                                                </div>
+                                                                <div class="grid-layout-cell grid-3">
+                                                                    <select id="birthday_month" class="birthday">
+
+                                                                    </select>
+                                                                </div>
+                                                                <div class="grid-layout-cell grid-3">
+                                                                    <select id="birthday_date">
+
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="grid-layout-cell grid-2">
+                                                <div class="form-group-item">
+                                                    <div class="form-item-label">성별 선택</div>
+                                                    <div class="form-item-data type-2">
+                                                        <div class="grid-layout toggle-button-group">
+                                                            <div class="grid-layout-inner">
+                                                                <div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="gender1"><input type="radio" name="gender" value="남아" id="gender1"><em>남아</em></label></div>
+                                                                <div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="gender2"><input type="radio" name="gender" value="여아" id="gender2"><em>여아</em></label></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="grid-layout-cell grid-2">
+                                                <div class="form-group-item">
+                                                    <div class="form-item-label">중성화</div>
+                                                    <div class="form-item-data type-2">
+                                                        <div class="grid-layout toggle-button-group">
+                                                            <div class="grid-layout-inner">
+                                                                <div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="neutralize1"><input type="radio" name="neutralize" value="0" id="neutralize1"><em>X</em></label></div>
+                                                                <div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="neutralize2"><input type="radio" name="neutralize" value="1" id="neutralize2"><em>O</em></label></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="grid-layout-cell grid-2">
+                                                <div class="form-group-item">
+                                                    <div class="form-item-label"><em class="need">*</em>몸무게</div>
+                                                    <div class="form-item-data type-2">
+                                                        <div class="form-flex">
+                                                            <select class="inline-block" id="weight1">
+
+                                                            </select>
+                                                            <div class="form-unit-point">.</div>
+                                                            <select class="inline-block" id="weight2">
+                                                                <option value="0">0</option>
+                                                                <option value="1">1</option>
+                                                                <option value="2">2</option>
+                                                                <option value="3">3</option>
+                                                                <option value="4">4</option>
+                                                                <option value="5">5</option>
+                                                                <option value="6">6</option>
+                                                                <option value="7">7</option>
+                                                                <option value="8">8</option>
+                                                                <option value="9">9</option>
+                                                            </select>
+                                                            <div class="form-unit-label">kg</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="grid-layout-cell grid-2">
+                                                <div class="form-group-item">
+                                                    <div class="form-item-label">미용 경험</div>
+                                                    <div class="form-item-data type-2">
+                                                        <select id="beauty_exp">
+                                                            <option value="0">선택</option>
+                                                            <option value="없음">없음</option>
+                                                            <option value="1회">1회</option>
+                                                            <option value="2회">2회</option>
+                                                            <option value="3회 이상">3회 이상</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="grid-layout-cell grid-2">
+                                                <div class="form-group-item">
+                                                    <div class="form-item-label">예방 접종</div>
+                                                    <div class="form-item-data type-2">
+                                                        <select id="vaccination">
+                                                            <option value="0">선택</option>
+                                                            <option value="2차 이하">2차 이하</option>
+                                                            <option value="3차">3차 완료</option>
+                                                            <option value="4차">4차 완료</option>
+                                                            <option value="5차">5차 완료</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="grid-layout-cell grid-2">
+                                                <div class="form-group-item">
+                                                    <div class="form-item-label">입질</div>
+                                                    <div class="form-item-data type-2">
+                                                        <select id="bite">
+                                                            <option value="0">선택</option>
+                                                            <option value="안해요">안해요</option>
+                                                            <option value="해요">해요</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="grid-layout-cell grid-2">
+                                                <div class="form-group-item">
+                                                    <div class="form-item-label">슬개골 탈구</div>
+                                                    <div class="form-item-data type-2">
+                                                        <select id="luxation">
+                                                            <option value="0">선택</option>
+                                                            <option value="없음">없음</option>
+                                                            <option value="1기">1기</option>
+                                                            <option value="2기">2기</option>
+                                                            <option value="3기">3기</option>
+                                                            <option value="4기">4기</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="grid-layout-cell grid-1">
+                                                <div class="form-group-item">
+                                                    <div class="form-item-label">특이사항</div>
+                                                    <div class="form-item-data type-2">
+                                                        <div class="grid-layout toggle-button-group">
+                                                            <div class="grid-layout-inner">
+                                                                <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special1"><input type="checkbox" name="special" id="special1"><em>피부병</em></label></div>
+                                                                <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special2"><input type="checkbox" name="special" id="special2"><em>심장질환</em></label></div>
+                                                                <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special3"><input type="checkbox" name="special" id="special3"><em>마킹</em></label></div>
+                                                                <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special4"><input type="checkbox" name="special" id="special3"><em>마운팅</em></label></div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-data-group">
+                                <div class="con-title-group">
+                                    <h4 class="con-title">예약 시간</h4>
+                                </div>
+                                <div class="form-group">
+                                    <div class="grid-layout margin-14-17">
+                                        <div class="grid-layout-inner">
+                                            <div class="grid-layout-cell grid-2">
+                                                <div class="form-group-item">
+                                                    <div class="form-item-label">날짜</div>
+                                                    <div class="form-item-data type-2">
+                                                        <div class="grid-layout margin-12">
+                                                            <div class="grid-layout-inner">
+                                                                <div class="grid-layout-cell grid-3">
+                                                                    <select id="reserve_time_year" class="reserve-time">
+                                                                    </select>
+                                                                </div>
+                                                                <div class="grid-layout-cell grid-3">
+                                                                    <select id="reserve_time_month" class="reserve-time">
+                                                                    </select>
+                                                                </div>
+                                                                <div class="grid-layout-cell grid-3">
+                                                                    <select id="reserve_time_date">
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="grid-layout-cell grid-2">
+                                                <div class="form-group-item">
+                                                    <div class="form-item-label">시간</div>
+                                                    <div class="form-item-data type-2">
+                                                        <div class="form-datepicker-group">
+                                                            <div class="form-datepicker">
+                                                                <select id="reserve_st_time">
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-unit">~</div>
+                                                            <div class="form-datepicker">
+                                                                <select id="reserve_fi_time">
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-data-group" id="service" style="display:none;">
+                                <div class="con-title-group">
+                                    <h4 class="con-title">예약 서비스 및 추가 특이사항 입력</h4>
+                                </div>
+                                <div class="form-group">
+                                    <div class="wide-tab">
+                                        <div class="wide-tab-inner" id="wide-tab-inner2">
+                                            <!-- 활성화시 actived클래스 추가 -->
+                                            <div class="tab-cell hit actived"><button type="button" class="btn-tab-item" id="basic_service_btn"><span>기본 서비스</span></button></div>
+                                            <div class="tab-cell"><button type="button" class="btn-tab-item" id="other_service_btn"><span>추가</span></button></div>
+                                        </div>
+                                    </div>
+                                    <div class="basic-data-group vvsmall3 tab-data-group">
+                                        <!-- tab-data-cell 클래스에 actived클래스 추가시 활성화-->
+                                        <!-- 기본 서비스 -->
+                                        <div class="tab-data-cell actived" id="basic_service">
+                                            <div class="grid-layout basic">
+                                                <div class="grid-layout-inner" id="basic_service_inner">
+
+
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- //기본 서비스 -->
+                                        <!-- 추가 -->
+                                        <div class="tab-data-cell" id="other_service">
+                                            <div class="grid-layout basic">
+                                                <div class="grid-layout-inner" id="other_service_inner">
+
+
+
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- //추가 -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-data-group vmiddle" id="service2" style="display:none;">
+                                <div class="service-selected-wrap">
+                                    <div class="service-selected-group">
+                                        <h5 class="con-title">서비스 선택 내역</h5>
+                                        <div class="service-selected-list" id="service2_basic_list">
+                                            <div class="service-selected-list-cell">
+                                                <div class="list-data" id="service2_basic_size"></div>
+                                            </div>
+                                            <div class="service-selected-list-cell">
+                                                <div class="list-data"  id="service2_basic_service"></div>
+                                            </div>
+                                            <div class="service-selected-list-cell">
+                                                <div class="list-data"  id="service2_basic_weight"></div>
+                                            </div>
+                                            <div class="service-selected-list-cell" id="service2_basic_hair_feature">
+                                                <div class="list-data" ></div>
+                                            </div>
+                                            <div class="service-selected-list-cell">
+                                                <div class="list-data"  id="service2_basic_hair_length"></div>
+                                            </div>
+
+                                            <div class="service-selected-list-cell">
+                                                <div class="list-data"  id="service2_basic_beauty"></div>
+                                            </div>
+                                            <div class="service-selected-list-cell">
+                                                <div class="list-data"  id="service2_basic_hair_bath"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="service-selected-group add">
+                                        <h5 class="con-title">추가 선택 내역</h5>
+                                        <div class="service-selected-list" id="service2_other_list">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pop-footer line" id="reserve_footer" style="display:none;">
+                    <div class="grid-layout btn-grid-group">
+                        <div class="grid-layout-inner">
+                            <div class="grid-layout-cell grid-2 reserve_regist_btn" id="reserve_regist_1"><a href="#" class="btn btn-outline-purple"><strong>알림없이 등록</strong></a></div>
+                            <div class="grid-layout-cell grid-2 reserve_regist_btn" id="reserve_regist_2"><a href="#" class="btn btn-outline-purple"><strong>등록</strong></a></div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
+            </div>
+        </div>
+    </div>
+</article>
+
+<article id="reserveAcceptMsg1" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data alert-pop-data">
+                <div class="pop-body">
+                    <div class="msg-txt" id="msg1_txt"></div>
+                </div>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm" onclick="pop.close(); pop.close('reserveCalendarPop11')">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+
+<article id="reserveCalendarPop11" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data alert-pop-data">
+                <div class="pop-body">
+                    <div class="msg-txt">미용 예약 하루 전 알림은 발송 하시겠습니까?</div>
+                </div>
+                <div class="pop-footer" id="notice_check">
+                    <button type="button" class="btn btn-confirm btn-reserv-block" onclick="reserve_regist(artist_id,session_id,true);">발송</button>
+                    <button type="button" class="btn btn-confirm btn-reserv-send" onclick="reserve_regist(artist_id,session_id,false);">미발송</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
 
 <script src="../static/js/Sortable.min.js"></script>
 
 <script src="../static/js/common.js"></script>
 <script src="../static/js/dev_common.js"></script>
 <script src="../static/js/booking.js"></script>
+<script src="../static/js/customer.js"></script>
+
 <script>
     let artist_id = "<?=$artist_id?>";
+    let session_id = "<?=session_id()?>"
     data_set(artist_id)
 
     $(document).ready(function(){
@@ -388,7 +832,21 @@ if ($artist_flag == 1) {
 
         gnb_actived('gnb_reserve_wrap','gnb_beauty');
         btn_schedule(artist_id);
+        reserve_toggle();
+        reserve_regist_tab();
+        setInputFilter(document.getElementById("reserve_cellphone"), function(value) {
+            return /^\d*\.?\d*$/.test(value);
+        })
 
+
+
+        customer_new_birthday().then(function(){ customer_new_birthday_date()})
+        customer_pet_type();
+        customer_new_weight()
+        reserve_merchandise_load_event(artist_id)
+        reserve_regist_event(artist_id,session_id);
+        reserve_time().then(function (){reserve_time_date()});
+        reserve_time_init()
 
 
     })

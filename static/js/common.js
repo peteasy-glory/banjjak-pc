@@ -16,21 +16,21 @@ var include = {
     },
     header: function () {
         var _html = `<div class="header-wrap">
-                        <h1><a href="http://localhost:83/home/index.php">반짝 반려미용샵의 단짝</a></h1>
+                        <h1><a href="/home/index.php">반짝 반려미용샵의 단짝</a></h1>
                         <div class="header-menu-wrap">
                             <div class="header-menu">
                                 <!--header-menu-cell 클래스에 actived 클랫 추가시 활성화 -->
                                 <div class="header-menu-cell">
-                                    <a href="#">신규등록</a>
+                                    <a href="/customer/customer_pet_new.php">신규등록</a>
                                 </div>
                                 <div class="header-menu-cell">
-                                    <a href="#">전체고객조회</a>
+                                    <a href="/customer/customer_all_inquiry1.php">전체고객조회</a>
                                 </div>
                                 <div class="header-menu-cell">
                                     <a href="#">예약 접수하기</a>
                                 </div>
                                 <div class="header-menu-cell">
-                                    <a href="../booking/reserve_advice_view.php">상담대기
+                                    <a href="/booking/reserve_advice_view.php">상담대기
                                         <div class="label label-pink consulting_count"></div>
                                     </a>
                                 </div>
@@ -165,7 +165,7 @@ var include = {
                                 <div class="txt-data">
                                     <div class="user-name nick"></div>
                                     <div class="user-cate shop_name">
-                                        <a href="/data/logout_process.php" class="btn-gnb-logout">로그아웃</a>
+                                        <a href="/data/logout_process.php" onclick="localStorage.clear()" class="btn-gnb-logout">로그아웃</a>
                                     </div>
                                 </div>
                             </div><!-- 메인 메뉴 -->
@@ -193,22 +193,22 @@ var include = {
                                         <div class="snb-menu-list" >
                                         <!-- snb-menu-cell 클래스에 actived클래스 추가시 활성화 -->
                                             <div class="snb-menu-cell" id="gnb_beauty">
-                                                <a href="http://localhost:83/booking/reserve_beauty_day.php" class="btn-snb-nav" >
+                                                <a href="/booking/reserve_beauty_day.php" class="btn-snb-nav" >
                                                     <div class="txt">미용 예약 관리</div>
                                                 </a>
                                             </div>
-                                            <div class="snb-menu-cell" id="gnb_hotel">
-                                                <a href="#" class="btn-snb-nav" onclick="pop.open('firstRequestMsg1','준비 중 입니다.');">
-                                                    <div class="txt">호텔 예약 관리</div>
-                                                </a>
-                                            </div>
-                                            <div class="snb-menu-cell" id="gnb_kindergarden">
-                                                <a href="#" class="btn-snb-nav" onclick="pop.open('firstRequestMsg1','준비 중 입니다.');">
-                                                <div class="txt">유치원 예약 관리</div>
-                                                </a>
-                                            </div>
+<!--                                            <div class="snb-menu-cell" id="gnb_hotel">-->
+<!--                                                <a href="#" class="btn-snb-nav" onclick="pop.open('firstRequestMsg1','준비 중 입니다.');">-->
+<!--                                                    <div class="txt">호텔 예약 관리</div>-->
+<!--                                                </a>-->
+<!--                                            </div>-->
+<!--                                            <div class="snb-menu-cell" id="gnb_kindergarden">-->
+<!--                                                <a href="#" class="btn-snb-nav" onclick="pop.open('firstRequestMsg1','준비 중 입니다.');">-->
+<!--                                                <div class="txt">유치원 예약 관리</div>-->
+<!--                                                </a>-->
+<!--                                            </div>-->
                                             <div class="snb-menu-cell" id="gnb_consulting">
-                                                <a href="../booking/reserve_advice_view.php" class="btn-snb-nav">
+                                                <a href="/booking/reserve_advice_view.php" class="btn-snb-nav">
                                                     <div class="txt">상담 대기</div>
                                                 </a>
                                             </div>
@@ -229,22 +229,22 @@ var include = {
                                         </a>
                                         <div class="snb-menu-list" >
                                             <div class="snb-menu-cell" id="gnb_inquire">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="/customer/customer_inquiry.php" class="btn-snb-nav">
                                                     <div class="txt">빠른 조회하기</div>
                                                 </a>
                                             </div>
                                             <div class="snb-menu-cell" id="gnb_inquire_all">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="/customer/customer_all_inquiry1.php" class="btn-snb-nav">
                                                     <div class="txt">전체 고객 조회</div>
                                                 </a>
                                             </div>
                                             <div class="snb-menu-cell" id="gnb_new">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="/customer/customer_pet_new.php" class="btn-snb-nav">
                                                     <div class="txt">신규 등록</div>
                                                 </a>
                                             </div>
                                             <div class="snb-menu-cell" id="gnb_grade">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="/customer/customer_grade.php" class="btn-snb-nav">
                                                     <div class="txt">회원 등급 설정</div>
                                                 </a>
                                             </div>

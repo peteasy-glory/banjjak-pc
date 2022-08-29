@@ -6,7 +6,7 @@ function schedule_render(id){
 
     $.ajax({
 
-        url:'../data/pc_ajax.php',
+        url:'/data/pc_ajax.php',
         type:'post',
         data:{
             mode:'day_book',
@@ -106,7 +106,7 @@ function schedule_render(id){
 
                         $.ajax({
 
-                            url:'../data/pc_ajax.php',
+                            url:'/data/pc_ajax.php',
                             type:'post',
                             async:false,
                             data:{
@@ -178,7 +178,7 @@ function schedule_render(id){
 
 function reserve_schedule_week_cols(body,body_,parent,id){
 
-    console.log(body)
+
 
 
 
@@ -314,6 +314,7 @@ function reserve_schedule_week_cols(body,body_,parent,id){
                             if(w.week === e.getAttribute('data-day') && (time_compare(w.time_st,e.getAttribute('data-time-to')) || time_compare(e.getAttribute('data-time-from'),w.time_fi))){
 
 
+
                                 e.classList.add('break')
 
                             }
@@ -331,6 +332,8 @@ function reserve_schedule_week_cols(body,body_,parent,id){
                     })
                 }
             })
+
+            console.log(work_day_search(work_day))
 
             week_holiday(parent,id);
             reserve_prohibition_list(id);
@@ -357,6 +360,11 @@ function work_day_search(work_day){
 
     }
 
+    if(work_day.length === 0){
+
+        work_day.push('999')
+    }
+
     return work_day;
 
 
@@ -371,7 +379,7 @@ function week_holiday(parent,id){
 
 
     $.ajax({
-        url:'../data/pc_ajax.php',
+        url:'/data/pc_ajax.php',
         type:'post',
         data:{
             mode:'holiday',
@@ -528,7 +536,7 @@ function week_working(id){
 
         $.ajax({
 
-            url:'../data/pc_ajax.php',
+            url:'/data/pc_ajax.php',
             type:'post',
             async:false,
             data:{
@@ -600,7 +608,7 @@ function reserve_schedule_week(id,body_data) {
 
     $.ajax({
 
-        url: '../data/pc_ajax.php',
+        url: '/data/pc_ajax.php',
         type: 'post',
         data: {
             mode: 'open_close',
@@ -768,7 +776,7 @@ return new Promise(function (resolve){
 
             $.ajax({
 
-                url: '../data/pc_ajax.php',
+                url: '/data/pc_ajax.php',
                 type: 'post',
                 async:false,
                 data: {
@@ -847,7 +855,7 @@ function reload_list(id){
     let month = localStorage.getItem('day_select') !== null ? localStorage.getItem('day_select').split('.')[1] : date.getMonth()+1
 
     $.ajax({
-        url: '../data/pc_ajax.php',
+        url: '/data/pc_ajax.php',
         data: {
             mode: 'month_book',
             login_id: id,
@@ -880,7 +888,7 @@ function book_list(id) {
     return new Promise(function (resolve){
 
         $.ajax({
-            url: '../data/pc_ajax.php',
+            url: '/data/pc_ajax.php',
             data: {
                 mode: 'month_book',
                 login_id: id,
@@ -1467,7 +1475,7 @@ function reserve_schedule(id){
 
         $.ajax({
 
-            url:'../data/pc_ajax.php',
+            url:'/data/pc_ajax.php',
             type:'post',
             data:{
                 mode:'open_close',
@@ -1574,6 +1582,7 @@ function no_one(body){
             if(!el.is_leave && el.is_show){
 
 
+
                 header.innerHTML += `<div class="calendar-day-header-col">${el.nick}</div>`
 
                 Array.from(document.getElementsByClassName('calendar-day-body-row')).forEach(function(_el,i){
@@ -1599,7 +1608,7 @@ function cols(id){
 
         $.ajax({
 
-            url:'../data/pc_ajax.php',
+            url:'/data/pc_ajax.php',
             type:'post',
             async:false,
             data:{
@@ -1911,7 +1920,7 @@ function break_time(id){
     $.ajax({
 
 
-        url:'../data/pc_ajax.php',
+        url:'/data/pc_ajax.php',
         type:'post',
         data:{
 
@@ -2125,7 +2134,7 @@ function pay_management(id){
     $.ajax({
 
 
-        url:'../data/pc_ajax.php',
+        url:'/data/pc_ajax.php',
         type:'post',
         data:{
 
@@ -2912,7 +2921,7 @@ function day_total_reserve(){
 function month_holiday(id){
 
     $.ajax({
-        url:'../data/pc_ajax.php',
+        url:'/data/pc_ajax.php',
         type:'post',
         data:{
             mode:'holiday',
@@ -3060,7 +3069,7 @@ function schedule_render_list(id){
     return new Promise(function (resolve){
         $.ajax({
 
-            url: '../data/pc_ajax.php',
+            url: '/data/pc_ajax.php',
             type: 'post',
             data: {
                 mode: 'day_book',
@@ -3234,8 +3243,6 @@ function reserve_pop(element){
             }
         })
 
-        console.log(thisWorker);
-        console.log(thisWorker2)
 
         document.getElementById('pop2_worker').innerText = thisWorker2;
         document.getElementById('pop2_date').innerText = `${thisYear}-${fill_zero(parseInt(thisMonth)+1)}-${fill_zero(thisDate)}`;
@@ -3390,7 +3397,7 @@ function reserve_prohibition(id){
     $.ajax({
 
 
-        url:'../data/pc_ajax.php',
+        url:'/data/pc_ajax.php',
         type:'post',
         data:{
             mode:'post_prohibition',
@@ -3401,7 +3408,6 @@ function reserve_prohibition(id){
             fi_date:end,
         },
         success:function(res){
-            console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -3427,7 +3433,7 @@ function reserve_search(id){
 
         $.ajax({
 
-            url:'../data/pc_ajax.php',
+            url:'/data/pc_ajax.php',
             type:'post',
             data:{
 
@@ -3443,11 +3449,12 @@ function reserve_search(id){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
-                    console.log(body);
 
                     if(body.length === undefined){
                         body = [body];
                     }
+
+                    console.log(body)
 
                     if(body.length > 0 ){
                         document.getElementById('common_none_data').setAttribute('style','display:none');
@@ -3457,7 +3464,7 @@ function reserve_search(id){
 
 
                             document.getElementById('reserve_inner').innerHTML += `<div class="grid-layout-cell grid-2">
-                                                                                            <a href="#" class="customer-card-item">
+                                                                                            <a href="#" onclick="exist_user_reserve('${el.cellphone}','${el.pet_seq}').then(function(body){exist_user_reserve_init(body)});" class="customer-card-item">
                                                                                                 <div class="item-info-wrap">
                                                                                                     <div class="item-thumb">
                                                                                                         <div class="user-thumb large">
@@ -3528,12 +3535,14 @@ function reserve_toggle(){
 
         document.getElementById('new_user').style.display = 'none';
         document.getElementById('exist_user').style.display = 'block'
+        document.getElementById('reserve_footer').style.display = 'none';
     })
 
     document.getElementById('new_btn').addEventListener('click',function(){
 
         document.getElementById('exist_user').style.display = 'none';
         document.getElementById('new_user').style.display = 'block';
+        document.getElementById('reserve_footer').style.display = 'block';
     })
 
 }
@@ -3558,7 +3567,7 @@ function reserve_prohibition_list(id){
 
     $.ajax({
 
-        url:'../data/pc_ajax.php',
+        url:'/data/pc_ajax.php',
         type:'post',
         data:{
             mode:'get_prohibition',
@@ -3714,7 +3723,7 @@ function reserve_prohibition_delete(){
 
     $.ajax({
 
-        url:'../data/pc_ajax.php',
+        url:'/data/pc_ajax.php',
         type:'post',
         data:{
             mode:'delete_prohibition',
@@ -3755,4 +3764,2173 @@ function reserve_regist_tab(){
 
         other.classList.add('actived')
     })
+}
+
+function reserve_merchandise_load_reset(i){
+
+    switch (i){
+
+        case 1 : document.getElementById('basic_service_select').innerHTML = '<div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(2)"><label class="form-toggle-box large "><input type="radio" value="" name="s1" checked><em>선택 안함</em></label></div>';
+            document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" checked><em><span>선택 안함</span></em></label></div>';
+
+            break;
+        case 2 :
+            document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" checked><em><span>선택 안함</span></em></label></div>';
+
+            break;
+
+
+    }
+
+}
+
+function reserve_service_list(element,text,price){
+
+
+    if(element === 'service2_basic_size'){
+        document.getElementById(element).innerHTML = text;
+        document.getElementById('service2_basic_service').innerHTML = '';
+        document.getElementById('service2_basic_weight').innerHTML = '';
+
+
+    }else if(element === 'service2_basic_service'){
+
+        document.getElementById(element).innerHTML = text;
+        document.getElementById('service2_basic_weight').innerHTML = '';
+
+    }else{
+        document.getElementById(element).innerHTML = text;
+        document.getElementById(element).setAttribute('data-price',price);
+    }
+
+}
+
+function reserve_service_list_2(element,type,price){
+
+
+    document.getElementById(element).innerHTML += `<div class="list-data" data-price="${price}">${type}</div>`
+
+}
+
+function reserve_service_list_2_delete(element,string){
+
+
+    Array.from(document.getElementById(element).children).forEach(function(el){
+
+        if(el.innerText === string){
+            el.remove();
+        }
+    })
+}
+
+
+function reserve_merchandise_load_event(id){
+
+    Array.from(document.getElementsByClassName('load-pet-type')).forEach(function (el){
+
+        el.addEventListener('click',function (evt){
+
+            reserve_merchandise_load_init(id).then(function(body){
+                reserve_merchandise_load(body).then(function(base_svc){
+
+                    reserve_merchandise_load_2(base_svc).then(function (base_svc){
+
+                        reserve_merchandise_load_3(base_svc)
+
+                    })
+                })
+            })
+        })
+    })
+}
+function reserve_merchandise_load_init(id){
+
+
+    return new Promise(function(resolve){
+
+
+
+
+        let breed_input;
+
+        let breed;
+
+
+
+
+
+
+                breed_input = document.querySelector('input[name="breed"]:checked');
+                breed = breed_input.value
+
+                $.ajax({
+
+                    url:'/data/pc_ajax.php',
+                    type:'post',
+                    data:{
+
+                        mode:'merchandise',
+                        login_id:id,
+                        animal:breed
+
+                    },
+                    success:function (res){
+                        let response = JSON.parse(res);
+                        let head = response.data.head;
+                        let body = response.data.body;
+                        if (head.code === 401) {
+                            pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                        } else if (head.code === 200) {
+
+
+
+
+                            console.log(body)
+                            let service = document.getElementById('service');
+                            let service2 = document.getElementById('service2');
+                            let basic_service = document.getElementById('basic_service');
+                            let basic_service_inner = document.getElementById('basic_service_inner');
+                            let other_service_inner = document.getElementById('other_service_inner');
+
+
+                            basic_service_inner.innerHTML = '';
+                            other_service_inner.innerHTML ='';
+                            document.getElementById('service2_basic_list').innerHTML =   `<div class="service-selected-list-cell">
+                                                                                                <div class="list-data" id="service2_basic_size"></div>
+                                                                                            </div>
+                                                                                        <div class="service-selected-list-cell">
+                                                                                            <div class="list-data" id="service2_basic_service"></div>
+                                                                                        </div>
+                                                                                        <div class="service-selected-list-cell">
+                                                                                            <div class="list-data" id="service2_basic_weight"></div>
+                                                                                        </div>
+                                                                                        <div class="service-selected-list-cell" id="service2_basic_hair_feature">
+                                                                                            <div class="list-data"></div>
+                                                                                        </div>
+                                                                                        <div class="service-selected-list-cell">
+                                                                                            <div class="list-data" id="service2_basic_hair_length"></div>
+                                                                                        </div>
+                                                                                         <div class="service-selected-list-cell">
+                                                                                            <div class="list-data"  id="service2_basic_beauty"></div>
+                                                                                        </div>
+                                                                                        <div class="service-selected-list-cell">
+                                                                                            <div class="list-data"  id="service2_basic_bath"></div>
+                                                                                        </div>`
+
+                            document.getElementById('service2_other_list').innerHTML = '';
+
+
+                            service.style.display = 'block';
+                            service2.style.display = 'block';
+                            // basic_service.style.display = 'block';
+
+                            if(breed === 'dog'){
+
+                                if(body.base_svc.length > 0){
+
+                                    basic_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
+                                                                    <div class="form-group-item">
+                                                                        <div class="form-item-label">크기 선택</div>
+                                                                        <div class="form-item-data type-2">
+                                                                            <div class="toggle-button-group vertical" id="basic_size">
+                                                                          <div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(1)"><label class="form-toggle-box large"><input type="radio" value="" name="size" onclick="reserve_service_list('service2_basic_size','','0')" checked><em>선택 안함</em></label></div>
+                                                                     
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="grid-layout-cell grid-5">
+                                                                    <div class="form-group-item">
+                                                                        <div class="form-item-label">서비스</div>
+                                                                        <div class="form-item-data type-2">
+                                                                            <div class="toggle-button-group vertical" id="basic_service_select">
+                                                                              <div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(2)"><label class="form-toggle-box large"><input type="radio" value="" name="s1" onclick="reserve_service_list('service2_basic_service','','0')" checked ><em>선택 안함</em></label></div>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                            </div>
+                                                            <div class="grid-layout-cell grid-5">
+                                                                <div class="form-group-item">
+                                                                    <div class="form-item-label">무게</div>
+                                                                    <div class="form-item-data type-2">
+                                                                        <div class="toggle-button-group vertical" id="basic_weight">
+                                                                            <div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" onclick="reserve_service_list('service2_basic_weight','','0')" checked><em><span>선택 안함</span></em></label></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>`
+                                }
+
+
+                                if(body.hair_feature.length > 0){
+
+
+                                    basic_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
+                                                                        <div class="form-group-item">
+                                                                            <div class="form-item-label">털특징</div>
+                                                                            <div class="form-item-data type-2">
+                                                                                <div class="toggle-button-group vertical" id="basic_hair_feature">
+                                                                             </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>`
+                                }
+
+                                if(body.hair_length.length > 0){
+
+
+
+                                    basic_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
+                                                                    <div class="form-group-item">
+                                                                        <div class="form-item-label">미용털길이</div>
+                                                                        <div class="form-item-data type-2">
+                                                                            <div class="toggle-button-group vertical" id="basic_hair_length">
+                                                                            <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="hairBeauty" onclick="reserve_service_list('service2_basic_hair_length','','0')" checked ><em>선택 안함</em></label></div>
+                                                                                </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>`
+
+                                }
+
+                                if(body.face.length > 0){
+
+                                    other_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
+                                                                    <div class="form-group-item">
+                                                                        <div class="form-item-label">얼굴컷</div>
+                                                                        <div class="form-item-data type-2">
+                                                                            <div class="toggle-button-group vertical" id="other_face">
+                                                                                
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>`
+                                }
+
+                                if(body.leg.length > 0){
+
+                                    other_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
+                                                                        <div class="form-group-item">
+                                                                            <div class="form-item-label">다리</div>
+                                                                            <div class="form-item-data type-2">
+                                                                                <div class="toggle-button-group vertical" id="other_leg">
+                
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>`
+                                }
+
+                                if(body.spa.length > 0){
+
+                                    other_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
+                                                                    <div class="form-group-item">
+                                                                        <div class="form-item-label">스파</div>
+                                                                        <div class="form-item-data type-2">
+                                                                            <div class="toggle-button-group vertical" id="other_spa">
+                                                                                
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>`
+                                }
+
+                                if(body.dyeing.length > 0){
+
+
+                                    other_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
+                                                                    <div class="form-group-item">
+                                                                        <div class="form-item-label">염색</div>
+                                                                        <div class="form-item-data type-2">
+                                                                            <div class="toggle-button-group vertical" id="other_dyeing">
+                                                                                
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>`
+                                }
+
+                                if(body.etc.length > 0){
+
+                                    other_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
+                                                                        <div class="form-group-item">
+                                                                            <div class="form-item-label">기타</div>
+                                                                            <div class="form-item-data type-2">
+                                                                                <div class="toggle-button-group vertical" id="other_etc">
+                                                                                   
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>`
+
+                                }
+                            }else if(breed === 'cat'){
+                                if(body.beauty.length > 0){
+
+                                    basic_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
+                                                                            <div class="form-group-item">
+                                                                                <div class="form-item-label">미용</div>
+                                                                                <div class="form-item-data type-2">
+                                                                                    <div class="toggle-button-group vertical" id="basic_beauty">
+                                                                                        <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="beauty" onclick="reserve_service_list('service2_basic_beauty','','0')" checked><em>선택 안함</em></label></div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>`
+                                }
+
+                                if(body.bath.length > 0){
+
+
+                                    basic_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
+                                                                            <div class="form-group-item">
+                                                                                <div class="form-item-label">목욕</div>
+                                                                                <div class="form-item-data type-2">
+                                                                                    <div class="toggle-button-group vertical" id="basic_bath">
+                                                                                        <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="bath" onclick="reserve_service_list('service2_basic_bath','','0')" checked><em>선택 안함</em></label></div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>`
+                                }
+
+                                if(body.add_svc.length > 0){
+
+
+                                    other_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
+                                                                    <div class="form-group-item">
+                                                                        <div class="form-item-label">추가서비스</div>
+                                                                        <div class="form-item-data type-2">
+                                                                            <div class="toggle-button-group vertical" id="other_add_svc">
+                                                                                
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>`
+                                }
+
+                            }
+
+
+                            resolve(body);
+                        }
+                    }
+                })
+
+
+
+
+
+
+
+    })
+}
+
+function reserve_merchandise_load(body){
+
+
+
+
+    return new Promise(function(resolve){
+
+
+        document.getElementById('is_vat').value = body.is_vat;
+
+        if(body.base_svc !== undefined){
+            if(body.base_svc.length > 0){
+
+
+                body.base_svc.forEach(function(el){
+
+                    document.getElementById('basic_size').innerHTML += `<div class="toggle-button-cell toggle-button-cell-size">
+                                                                                        <label class="form-toggle-box large">
+                                                                                            <input type="radio" value="${el.size}" name="size" onclick="reserve_service_list('service2_basic_size','${el.size}')">
+                                                                                            <em>${el.size}</em>
+                                                                                        </label>
+                                                                                    </div>`
+
+                })
+            }
+
+            if(body.hair_feature.length > 0){
+
+                body.hair_feature.forEach(function(el,i){
+
+                    if(el.price !== ''){
+
+                        document.getElementById('basic_hair_feature').innerHTML += `<div class="toggle-button-cell">
+                                                                                                    <label class="form-toggle-box form-toggle-price large" for="hair${i}">
+                                                                                                        <input type="checkbox" name="hair" value="${el.type}" data-price="${el.price}" id="hair${i}" onclick="if(this.checked === true){reserve_service_list_2('service2_basic_hair_feature','${el.type}','${el.price}')}else{reserve_service_list_2_delete('service2_basic_hair_feature','${el.type}')}" >
+                                                                                                        <em>
+                                                                                                            <span>${el.type}</span>
+                                                                                                            <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                                        </em>
+                                                                                                    </label>
+                                                                                                </div>`
+
+                    }
+
+
+                })
+            }
+
+            if(body.hair_length.length > 0){
+
+
+                body.hair_length.forEach(function(el,i){
+
+                   document.getElementById('basic_hair_length').innerHTML += `<div class="toggle-button-cell">
+                                                                                            <label class="form-toggle-box form-toggle-price large" for="hairBeauty${i}">
+                                                                                                <input type="radio" name="hairBeauty" value="${el.type}"  data-price="${el.price}" id="hairBeauty${i}" onclick="reserve_service_list('service2_basic_hair_length','${el.type}',${el.price})">
+                                                                                                <em>
+                                                                                                    <span>${el.type}</span>
+                                                                                                    <strong>${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                                </em>
+                                                                                            </label>
+                                                                                        </div>`
+
+                })
+            }
+
+            if(body.face.length >0){
+
+                body.face.forEach(function(el,i){
+
+                    document.getElementById('other_face').innerHTML += `<div class="toggle-button-cell">
+                                                                                        <label class="form-toggle-box form-toggle-price middle">
+                                                                                            <input type="checkbox" name="f1" data-price="${el.price}" value="${el.type}" onclick="if(this.checked === true){reserve_service_list_2('service2_other_list_face','+${el.type}','${el.price}')}else{reserve_service_list_2_delete('service2_other_list_face','+${el.type}')}">
+                                                                                            <em>
+                                                                                                <span>${el.type}</span>
+                                                                                                <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                            </em>
+                                                                                        </label>
+                                                                                    </div>`
+
+                    if(i===body.face.length-1){
+
+                        document.getElementById('service2_other_list').innerHTML += `<div class="service-selected-list-cell">
+                                                                                                    <div class="list-title" id="service2_other_list_face">얼굴컷</div>
+                                                                                                </div>`
+                    }
+                })
+            }
+
+
+            if(body.leg.length>0){
+
+                body.leg.forEach(function(el,i){
+
+                    document.getElementById('other_leg').innerHTML += `<div class="toggle-button-cell">
+                                                                                    <label class="form-toggle-box form-toggle-price middle">
+                                                                                        <input type="checkbox" name="f2" value="${el.type}" data-price="${el.price}" onclick="if(this.checked === true){reserve_service_list_2('service2_other_list_leg','+${el.type}','${el.price}')}else{reserve_service_list_2_delete('service2_other_list_leg','+${el.type}')}">
+                                                                                        <em>
+                                                                                            <span>${el.type}</span>
+                                                                                            <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                        </em>
+                                                                                    </label>
+                                                                                </div>`
+
+
+                    if(i===body.leg.length-1){
+
+                        document.getElementById('service2_other_list').innerHTML += `<div class="service-selected-list-cell">
+                                                                                                    <div class="list-title" id="service2_other_list_leg">다리</div>
+                                                                                                </div>`
+                    }
+
+                })
+            }
+
+            if(body.spa.length>0){
+
+                body.spa.forEach(function(el,i){
+
+                    document.getElementById('other_spa').innerHTML += `<div class="toggle-button-cell">
+                                                                                    <label class="form-toggle-box form-toggle-price middle">
+                                                                                        <input type="checkbox" name="f3"  value="${el.type}" data-price="${el.price}" onclick="if(this.checked === true){reserve_service_list_2('service2_other_list_spa','+${el.type}','${el.price}')}else{reserve_service_list_2_delete('service2_other_list_spa','+${el.type}')}"> 
+                                                                                        <em>
+                                                                                            <span>${el.type}</span>
+                                                                                            <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                        </em>
+                                                                                    </label>
+                                                                                </div>`
+
+                    if(i===body.spa.length-1){
+
+                        document.getElementById('service2_other_list').innerHTML += `<div class="service-selected-list-cell">
+                                                                                                    <div class="list-title" id="service2_other_list_spa">스파</div>
+                                                                                                </div>`
+                    }
+                })
+            }
+
+            if(body.dyeing.length >0 ){
+
+                body.dyeing.forEach(function(el,i){
+
+                    document.getElementById('other_dyeing').innerHTML += `<div class="toggle-button-cell">
+                                                                                        <label class="form-toggle-box form-toggle-price middle">
+                                                                                            <input type="checkbox" name="f4" value="${el.type}" data-price="${el.price}" onclick="if(this.checked === true){reserve_service_list_2('service2_other_list_dyeing','+${el.type}','${el.price}')}else{reserve_service_list_2_delete('service2_other_list_dyeing','+${el.type}')}">
+                                                                                            <em>
+                                                                                                <span>${el.type}</span>
+                                                                                                <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                            </em>
+                                                                                        </label>
+                                                                                    </div>`
+
+                    if(i===body.dyeing.length-1){
+
+                        document.getElementById('service2_other_list').innerHTML += `<div class="service-selected-list-cell">
+                                                                                                    <div class="list-title" id="service2_other_list_dyeing">염색</div>
+                                                                                                </div>`
+                    }
+                })
+            }
+
+
+            if(body.etc.length >0){
+
+                body.etc.forEach(function(el,i){
+
+                    document.getElementById('other_etc').innerHTML += `<div class="toggle-button-cell">
+                                                                            <label class="form-toggle-box form-toggle-price middle">
+                                                                                <input type="checkbox" name="f5" value="${el.type}" data-price="${el.price}" onclick="if(this.checked === true){reserve_service_list_2('service2_other_list_etc','+${el.type}','${el.price}')}else{reserve_service_list_2_delete('service2_other_list_etc','+${el.type}')}">
+                                                                                <em>
+                                                                                    <span>${el.type}</span>
+                                                                                    <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                               </em>
+                                                                            </label>
+                                                                        </div>`
+
+                    if(i===body.etc.length-1){
+
+                        document.getElementById('service2_other_list').innerHTML += `<div class="service-selected-list-cell">
+                                                                                                    <div class="list-title" id="service2_other_list_etc">기타</div>
+                                                                                                </div>`
+                    }
+                })
+
+
+            }
+
+
+
+
+
+
+
+        }else {
+
+
+            if(body.beauty.length > 0){
+
+                body.beauty.forEach(function(el){
+
+                    document.getElementById('basic_beauty').innerHTML += `<div class="toggle-button-cell">
+                                                                                        <label class="form-toggle-box large form-toggle-price">
+                                                                                            <input type="radio" value="${el.type}" name="beauty" data-price="${el.price}" onclick="reserve_service_list('service2_basic_beauty','${el.type}',${el.price})">
+                                                                                            <em> 
+                                                                                                <span>${el.type}</span>
+                                                                                                <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                            </em>
+                                                                                        </label>
+                                                                                    </div>`
+
+                })
+            }
+
+            if(body.bath.length >0){
+
+                body.bath.forEach(function(el){
+
+                    document.getElementById('basic_bath').innerHTML += `<div class="toggle-button-cell">
+                                                                                        <label class="form-toggle-box large form-toggle-price">
+                                                                                            <input type="radio" value="${el.type}" name="bath" data-price="${el.price}" onclick="reserve_service_list('service2_basic_bath','${el.type}',${el.price})">
+                                                                                            <em> 
+                                                                                                <span>${el.type}</span>
+                                                                                                <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                            </em>
+                                                                                        </label>
+                                                                                    </div>`
+                })
+            }
+
+
+            if(body.add_svc.length > 0 ){
+
+                body.add_svc.forEach(function(el,i){
+
+                    document.getElementById('other_add_svc').innerHTML += `<div class="toggle-button-cell">
+                                                                            <label class="form-toggle-box form-toggle-price middle">
+                                                                                <input type="checkbox" name="add_svc" value="${el.type}" data-price="${el.price}" onclick="if(this.checked === true){reserve_service_list_2('service2_other_list_add_svc','+${el.type}','${el.price}')}else{reserve_service_list_2_delete('service2_other_list_add_svc','+${el.type}')}">
+                                                                                <em>
+                                                                                    <span>${el.type}</span>
+                                                                                    <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                               </em>
+                                                                            </label>
+                                                                        </div>`
+
+                    if(i===body.add_svc.length-1){
+
+                        document.getElementById('service2_other_list').innerHTML += `<div class="service-selected-list-cell">
+                                                                                                    <div class="list-title" id="service2_other_list_add_svc">추가서비스</div>
+                                                                                                </div>`
+                    }
+                })
+            }
+
+
+        }
+
+        resolve(body.base_svc);
+    })
+
+}
+
+function reserve_merchandise_load_2(base_svc){
+
+    return new Promise(function (resolve){
+
+        Array.from(document.getElementsByClassName('toggle-button-cell-size')).forEach(function(el){
+
+
+
+            el.addEventListener('click',function(){
+
+
+                document.getElementById('basic_service_select').innerHTML= '<div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(2)"><label class="form-toggle-box large"><input type="radio" value="" name="s1" onclick="reserve_service_list(\'service2_basic_service\',\'\')" checked><em>선택 안함</em></label></div>';
+                document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" onclick="reserve_service_list(\'service2_basic_weight\',\'\',\'0\')" checked><em><span>선택 안함</span></em></label></div>';
+                let value = el.children[0].children[0].value;
+
+                base_svc.forEach(function(el_){
+
+
+                    if(value === el_.size){
+
+                        el_.svc.forEach(function (_el){
+
+
+                            if(_el.is_show === "y" && _el.unit.length >0){
+                                document.getElementById('basic_service_select').innerHTML += `<div class="toggle-button-cell toggle-button-cell-service">
+                                                                                                        <label class="form-toggle-box large">
+                                                                                                            <input type="radio" value="${_el.type}" data-size="${el_.size}" data-time="${_el.time}" name="s1" onclick="reserve_service_list('service2_basic_service','${_el.type} ${_el.time}분')">
+                                                                                                            <em>${_el.type} ${_el.time}분</em>
+                                                                                                        </label>
+                                                                                                    </div>`
+                            }
+
+
+
+                        })
+                    }
+                })
+                reserve_merchandise_load_3(base_svc);
+
+                resolve(base_svc)
+            })
+        })
+
+
+    })
+
+
+
+
+
+}
+
+function reserve_merchandise_load_3(base_svc){
+
+    console.log(base_svc);
+
+    Array.from(document.getElementsByClassName('toggle-button-cell-service')).forEach(function(el){
+
+        el.addEventListener('click',function (){
+
+            document.getElementById('basic_weight').innerHTML= '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" data-price="" name="s2" onclick="reserve_service_list(\'service2_basic_weight\',\'\',\'0\')"><em><span>선택 안함</span></em></label></div>'
+
+
+            let size = el.children[0].children[0].getAttribute('data-size');
+            let value = el.children[0].children[0].value;
+
+
+
+            let surcharge ;
+            base_svc.forEach(function(el_){
+
+
+                if(el_.size === size){
+
+
+                    el_.svc.forEach(function(_el){
+
+                        if(_el.type === value){
+
+
+                            if(_el.unit.length > 0){
+
+                                _el.unit.forEach(function (ele,i){
+
+
+                                    document.getElementById('basic_weight').innerHTML += `<div class="toggle-button-cell">
+                                                                                                    <label class="form-toggle-box form-toggle-price large">
+                                                                                                        <input type="radio" value="${ele.kg}" name="s2" data-price="${ele.price}"  onclick="reserve_service_list('service2_basic_weight','~${ele.kg}kg',${ele.is_consulting === "0" ? ele.price : '0'})">
+                                                                                                            <em>
+                                                                                                                <span>~${ele.kg}Kg</span>
+                                                                                                            <strong>${ele.is_consulting === "0" ? `${parseInt(ele.price).toLocaleString()}원` : '상담'}</strong>
+                                                                                                            
+                                                                                                        </em>
+                                                                                                    </label>
+                                                                                                </div>`
+
+
+                                    if(el_.surcharge.is_have ===1 && i === _el.unit.length-1){
+
+
+                                        let surcharge_kg = el_.surcharge.kg ;
+                                        let surcharge_std_price = ele.kg === surcharge_kg ? ele.price : '';
+                                        localStorage.setItem('surcharge_std_price',surcharge_std_price);
+                                        localStorage.setItem('surcharge_kg',surcharge_kg);
+                                        localStorage.setItem('surcharge_price',el_.surcharge.price);
+
+
+
+                                        document.getElementById('basic_weight').innerHTML += `<div class="toggle-button-cell">
+                                                                                                <div class="form-toggle-options">
+                                                                                                    <input type="radio" name="s2" name="options1"  id="surcharge" onclick="reserve_service_list('service2_basic_weight','${el_.surcharge.kg}kg~','surcharge')">
+                                                                                                        <div class="form-toggle-options-data">
+                                                                                                            <div class="options-labels">
+                                                                                                                <span>${el_.surcharge.kg}kg~</span><strong style="font-size:10px">kg당 <br> +${parseInt(el_.surcharge.price).toLocaleString()}원</strong></div>
+                                                                                                            <div class="form-amount-input">
+                                                                                                                <button type="button" onclick="if(document.getElementById('weight_target').value == 10){return;}document.getElementById('weight_target').value = parseInt(document.getElementById('weight_target').value)-1"
+                                                                                                                        class="btn-form-amount-minus">감소
+                                                                                                                </button>
+                                                                                                                <div class="form-amount-info">
+                                                                                                                    <input type="number" readOnly=""  value="10" data-weight="10kg+" id="weight_target"
+                                                                                                                           class="form-amount-val">
+                                                                                                                </div>
+                                                                                                                <button type="button" onclick="document.getElementById('weight_target').value = parseInt(document.getElementById('weight_target').value)+1 "
+                                                                                                                        class="btn-form-amount-plus">증가
+                                                                                                                </button>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                </div>
+                                                                                            </div>`
+
+
+                                    }
+
+
+
+                                })
+                            }else{
+                                document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" onclick="reserve_service_list(\'service2_basic_weight\',\'\',0)"><em><span>선택 안함</span></em></label></div>';
+                            }
+
+                        }
+                    })
+                }
+            })
+
+
+
+
+            let st_time_input = document.getElementById('reserve_st_time');
+            let st_time = st_time_input.options[st_time_input.selectedIndex].value;
+            let fi_time_input = document.getElementById('reserve_fi_time');
+
+            let selected = document.querySelector('input[name="s1"]:checked').getAttribute('data-time');
+
+            let st_time_value = new Date(date.getFullYear(),date.getMonth(),date.getDate(),st_time.split(':')[0],st_time.split(':')[1]);
+
+            st_time_value.setMinutes(st_time_value.getMinutes()+parseInt(selected));
+
+            let fi_hour = st_time_value.getHours();
+            let fi_minutes = st_time_value.getMinutes();
+            let fi_time = `${fi_hour}:${fill_zero(fi_minutes)}`;
+
+
+
+
+
+            for(let i=0; i<fi_time_input.options.length; i++){
+
+                if(fi_time_input.options[i].value === fi_time){
+
+                    fi_time_input.options[i].selected = true;
+
+                }
+            }
+
+
+
+        })
+    })
+
+}
+
+function reserve_time(){
+
+    return new Promise(function (resolve){
+
+        for(let i = 2000; i<=new Date().getFullYear(); i++){
+
+            document.getElementById('reserve_time_year').innerHTML += `<option value="${fill_zero(i)}" ${i===2022 ? 'selected':''}>${i}</option>`
+        }
+
+
+        for(let i = 1; i<=12; i++){
+            document.getElementById('reserve_time_month').innerHTML += `<option value="${fill_zero(i)}">${i}</option>`
+        }
+
+        resolve();
+    })
+
+}
+
+
+
+function reserve_time_date(){
+
+
+    let year = document.getElementById('reserve_time_year').value;
+    let month = document.getElementById('reserve_time_month').value;
+
+    let date_length = new Date(year,month,0).getDate();
+    document.getElementById('reserve_time_date').innerHTML = '';
+    for(let i = 1; i<=date_length; i++){
+        document.getElementById('reserve_time_date').innerHTML += `<option value="${fill_zero(i)}">${i}</option>`
+
+    }
+
+    Array.from(document.getElementsByClassName('reserve-time')).forEach(function(el){
+
+        el.addEventListener('change',function(){
+
+            year = document.getElementById('reserve_time_year').value;
+            month = document.getElementById('reserve_time_month').value;
+
+            date_length = new Date(year,month,0).getDate();
+            document.getElementById('reserve_time_date').innerHTML = '';
+            for(let i = 1; i<=date_length; i++){
+                document.getElementById('reserve_time_date').innerHTML += `<option value="${i}">${i}</option>`
+
+            }
+        })
+    })
+
+}
+
+function reserve_time_init(){
+
+
+
+        let open = parseInt(localStorage.getItem('open_close').split('/')[0]);
+        let close = parseInt(localStorage.getItem('open_close').split('/')[1]);
+
+        let time = [];
+
+        for(open; open<=close; open++){
+
+            time.push(open);
+
+        }
+
+        for(let i=0; i<time.length-1; i++){
+
+            for(let t= 0; t<60; t +=30){
+
+                document.getElementById('reserve_st_time').innerHTML += `<option value ="${time[i]}:${fill_zero(t)}">${fill_zero(am_pm_check(time[i]))}:${fill_zero(t)}</option>`
+
+
+
+
+            }
+        }
+
+        for(let i=0; i<time.length; i++){
+
+            for(let t=0; t<60; t+=30){
+
+                if(i===0){
+                    t=30;
+                }
+                if(i===time.length-1 && t ===30){
+
+                    break;
+                }
+                document.getElementById('reserve_fi_time').innerHTML += `<option value ="${time[i]}:${fill_zero(t)}">${fill_zero(am_pm_check(time[i]))}:${fill_zero(t)}</option>`
+            }
+        }
+
+
+}
+
+function reserve_time_select(){
+
+    let year = parseInt(document.getElementById('reserveCalendarPop2').getAttribute('data-year'));
+    let month = parseInt(document.getElementById('reserveCalendarPop2').getAttribute('data-month'))+1;
+    let date = parseInt(document.getElementById('reserveCalendarPop2').getAttribute('data-date'));
+    let hour = parseInt(document.getElementById('reserveCalendarPop2').getAttribute('data-hour'));
+    let minutes = parseInt(document.getElementById('reserveCalendarPop2').getAttribute('data-minutes'));
+
+    for(let i =0; i<document.getElementById('reserve_time_year').options.length; i++){
+
+        if(parseInt(document.getElementById('reserve_time_year').options[i].value) == year){
+
+            document.getElementById('reserve_time_year').options[i].selected = true;
+        }
+    }
+
+    for(let i =0; i<document.getElementById('reserve_time_month').options.length; i++){
+
+        if(document.getElementById('reserve_time_month').options[i].value == fill_zero(month)){
+
+            document.getElementById('reserve_time_month').options[i].selected = true;
+        }
+    }
+    for(let i =0; i<document.getElementById('reserve_time_date').options.length; i++){
+
+        if(parseInt(document.getElementById('reserve_time_date').options[i].value) === date){
+
+            document.getElementById('reserve_time_date').options[i].selected = true;
+        }
+    }
+
+    for(let i =0; i<document.getElementById('reserve_st_time').options.length; i++){
+
+        if(document.getElementById('reserve_st_time').options[i].value == `${hour}:${fill_zero(minutes)}`){
+
+            document.getElementById('reserve_st_time').options[i].selected = true;
+        }
+    }
+    for(let i =0; i<document.getElementById('reserve_fi_time').options.length; i++){
+
+        if(document.getElementById('reserve_fi_time').options[i].value == `${hour+2}:${fill_zero(minutes)}`){
+
+            document.getElementById('reserve_fi_time').options[i].selected = true;
+        }
+    }
+
+
+
+
+
+
+}
+
+
+function reserve_regist_event(artist_id,session_id){
+
+
+
+
+    Array.from(document.getElementsByClassName('reserve_regist_btn')).forEach(function (el){
+
+        el.addEventListener('click',function(){
+            let cellphone_input = document.getElementById('reserve_cellphone');
+            let name_input = document.getElementById('reserve_name');
+            let breed_select_input = document.getElementById('breed_select');
+            let breed_input = document.querySelector('input[name="breed"]:checked')
+            let breed_other_input = document.getElementById('breed_other');
+            let cellphone = cellphone_input.value;
+            let name = name_input.value;
+            let breed_select = breed_select_input.value === '기타' ? breed_other_input.value : breed_select_input.value;
+            let breed = breed_input === null ? '': breed_input.value;
+            let weight1_input = document.getElementById('weight1');
+            let weight2_input = document.getElementById('weight2');
+            let weight1 = weight1_input.options[weight1_input.selectedIndex].value;
+            let weight2 = weight2_input.options[weight2_input.selectedIndex].value;
+            let weight = `${weight1}.${weight2}`;
+
+
+
+            if(cellphone === ''){
+
+                document.getElementById('msg1_txt').innerText = '전화번호를 입력해주세요.'
+                pop.open('reserveAcceptMsg1');
+                return;
+            }
+
+            if(name === '' ){
+                document.getElementById('msg1_txt').innerText = '펫 이름을 입력해주세요.'
+                pop.open('reserveAcceptMsg1');
+                return;
+
+            }
+
+
+            if(breed_input === null || breed_input === undefined || breed_input === ''){
+
+                document.getElementById('msg1_txt').innerText = '품종을 선택해주세요.'
+                pop.open('reserveAcceptMsg1');
+                return;
+            }
+
+            if(breed_select === "선택" || breed_select === ''){
+                document.getElementById('msg1_txt').innerText = '품종을 선택해주세요.'
+                pop.open('reserveAcceptMsg1');
+                return;
+
+            }
+            if((breed_select === "기타" || breed_select === "") && breed_other === ''){
+                document.getElementById('msg1_txt').innerText = '품종을 선택해주세요.'
+                pop.open('reserveAcceptMsg1');
+                return;
+
+            }
+
+            if(weight1 === "0" && weight2 ==="0"){
+
+                document.getElementById('msg1_txt').innerText = '몸무게를 입력해주세요.'
+                pop.open('reserveAcceptMsg1');
+                return;
+            }
+
+            if(el.getAttribute('id') === 'reserve_regist_1'){
+                pop.open('reserveCalendarPop11');
+                document.getElementById('notice_check').setAttribute('data-notice','N');
+            }else{
+                pop.open('reserveCalendarPop11');
+                document.getElementById('notice_check').setAttribute('data-notice','Y');
+            }
+
+        })
+    })
+
+}
+function reserve_regist(artist_id,session_id,yesterday){
+
+    const shop_name = data.shop_name;
+    const login = artist_id;
+    const session = session_id;
+    let cellphone_input = document.getElementById('reserve_cellphone');
+    let name_input = document.getElementById('reserve_name');
+    let breed_select_input = document.getElementById('breed_select');
+    let breed_input = document.querySelector('input[name="breed"]:checked')
+    let breed_other_input = document.getElementById('breed_other');
+    let gender_input = document.querySelector('input[name="gender"]:checked')
+    let neutral_input = document.querySelector('input[name="neutralize"]:checked');
+    let weight1_input = document.getElementById('weight1');
+    let weight2_input = document.getElementById('weight2');
+    let beauty_exp_input = document.getElementById('beauty_exp');
+    let vaccination_input = document.getElementById('vaccination');
+    let bite_input = document.getElementById('bite');
+    let luxation_input = document.getElementById('luxation');
+    let special_input = document.querySelectorAll('input[name="special"]:checked');
+
+    //dog
+    let size_input = document.querySelector('input[name="size"]:checked');
+    let service_input = document.querySelector('input[name="s1"]:checked');
+    let weight_input = document.querySelector('input[name="s2"]:checked');
+    let hair_feature_input = document.querySelectorAll('input[name="hair"]:checked');
+    let hair_length_input = document.querySelector('input[name="hairBeauty"]:checked');
+
+    let face_input = document.querySelectorAll('input[name="f1"]:checked');
+    let leg_input = document.querySelectorAll('input[name="f2"]:checked');
+    let spa_input = document.querySelectorAll('input[name="f3"]:checked');
+    let dyeing_input = document.querySelectorAll('input[name="f4"]:checked');
+    let etc_input = document.querySelectorAll('input[name="f5"]:checked');
+
+
+    //cat
+    let beauty_input = document.querySelector('input[name="beauty"]:checked');
+    let bath_input = document.querySelector('input[name="beauty"]:checked');
+
+    let add_svc_input = document.querySelectorAll('input[name="add_svc"]:checked');
+
+
+
+
+    //부가세
+    let is_vat = document.getElementById('is_vat').value;
+
+
+
+    //------------------------------------------
+
+    let cellphone = cellphone_input.value;
+    let name = name_input.value;
+    let breed_select = breed_select_input.value === '기타' ? breed_other_input.value : breed_select_input.value;
+    let breed = breed_input === null ? '': breed_input.value;
+    let pet_year = document.getElementById('birthday_year').value;
+    let pet_month = document.getElementById('birthday_month').value;
+    let pet_date = document.getElementById('birthday_date').value;
+    let gender =  gender_input === null ? '0' :  gender_input.value;
+    let neutral = neutral_input === null ? '0' : neutral_input.value;
+    let weight1 = weight1_input.options[weight1_input.selectedIndex].value;
+    let weight2 = weight2_input.options[weight2_input.selectedIndex].value;
+    let weight = `${weight1}.${weight2}`;
+    let beauty_exp = beauty_exp_input.options[beauty_exp_input.selectedIndex].value;
+    let vaccination = vaccination_input.options[vaccination_input.selectedIndex].value;
+    let bite = bite_input.options[bite_input.selectedIndex].value;
+    let luxation = luxation_input.options[luxation_input.selectedIndex].value;
+    let dermatosis = '0';
+    let heart_trouble = '0';
+    let marking = '0';
+    let mounting = '0';
+
+
+let size,service,weight_merchandise,hair_feature,hair_length;
+let weight_price,hair_length_price;
+let beauty,bath,add_svc;
+
+    if(breed === "dog"){
+
+        size = size_input === null ? '' : size_input.value;
+        service = service_input === null ? '' : service_input.value;
+        weight_merchandise = weight_input === null ? '' : weight_input.value;
+        hair_feature = hair_feature_input === null ? '' :hair_feature_input.value;
+        hair_length = hair_length_input === null ? '' : hair_length_input.value;
+
+
+        weight_price = weight_input === null ? '' : weight_input.getAttribute('data-price');
+        hair_length_price = hair_length_input === null ? '' : hair_length_input.getAttribute('data-price');
+        console.log("dog");
+    }else{
+
+        console.log("cat");
+        beauty = beauty_input === null ? '' : beauty_input.value;
+        bath = bath_input === null ? '' : bath_input.value;
+
+    }
+
+
+    let arr_add_svc = [];
+
+    for(let i=0; i<add_svc_input.length;i++){
+
+        arr_add_svc.push(`${add_svc_input[i].value}:${add_svc_input[i].getAttribute('data-price')}`)
+    }
+
+    let special = [];
+    for(let i =0; i<special_input.length;i++){
+
+        special.push(special_input[i].getAttribute('id'));
+    }
+
+    if(special.length >0){
+        dermatosis = special.includes('special1')  ? '1' : '0';
+        heart_trouble = special.includes('special2') ? '1' : '0';
+        marking = special.includes('special3') ? '1' : '0';
+        mounting = special.includes('special4') ? '1' : '0';
+
+    }
+
+
+    let arr_hair_feature = [];
+    for(let i=0; i<hair_feature_input.length;i++){
+
+        arr_hair_feature.push(`${hair_feature_input[i].value}:${hair_feature_input[i].getAttribute('data-price')}`)
+    }
+
+    let arr_face = [];
+    for(let i=0; i<face_input.length;i++){
+
+        arr_face.push(`${face_input[i].value}:${face_input[i].getAttribute('data-price')}`);
+    }
+
+    let arr_leg = [];
+    for(let i=0; i<leg_input.length;i++){
+
+        arr_leg.push(`${leg_input[i].value}:${leg_input[i].getAttribute('data-price')}`);
+    }
+
+    let arr_spa = [];
+    for(let i=0; i<spa_input.length;i++){
+        arr_spa.push(`${spa_input[i].value}:${spa_input[i].getAttribute('data-price')}`);
+    }
+
+    let arr_dyeing = [];
+    for(let i=0; i<dyeing_input.length;i++){
+        arr_dyeing.push(`${dyeing_input[i].value}:${dyeing_input[i].getAttribute('data-price')}`);
+    }
+
+    let arr_etc = [];
+
+    for(let i=0; i<etc_input.length;i++){
+
+        arr_etc.push(`${etc_input[i].value}:${etc_input[i].getAttribute('data-price')}`);
+    }
+
+
+
+    let total_price =0 ;
+
+    Array.from(document.getElementsByClassName('list-data')).forEach(function(el){
+
+        if(el.getAttribute('data-price') === null || el.getAttribute('data-price') === undefined || el.getAttribute('data-price') === ''){
+
+
+            total_price += 0;
+        }else if(el.getAttribute('data-price') === 'surcharge'){
+
+            total_price += parseInt(localStorage.getItem('surcharge_std_price'))+ (parseInt(document.getElementById('weight_target').value)-parseInt(localStorage.getItem('surcharge_kg')))*parseInt(localStorage.getItem('surcharge_price'))
+
+        }else {
+            total_price += parseInt(el.getAttribute('data-price'));
+
+        }
+    })
+
+
+    console.log(total_price)
+
+
+
+    let target = document.getElementById('reserveCalendarPop2');
+    let pay_data;
+
+    if(breed === 'dog'){
+        pay_data = {
+            shopName:shop_name,
+            cellphone:cellphone,
+            worker:target.getAttribute('data-name'),
+            workTime:`${target.getAttribute('data-hour')}:${target.getAttribute('data-minutes')}`,
+            workDate : `${target.getAttribute('data-year')}-${fill_zero(parseInt(target.getAttribute('data-month'))+1)}-${fill_zero(target.getAttribute('data-date'))}`,
+            customer_id: "",
+            coupon_seq:"",
+            alarm_yn : document.getElementById('notice_check').getAttribute('data-notice'),
+            befor_day_alarm_yn : yesterday ? 'Y' : 'N',
+            backurl:"",
+            pet_no : "",
+            pet_name : name,
+            pet_kind : breed,
+            pet_type : breed_select,
+            pet_type2 : "",
+            pet_year : pet_year,
+            pet_month : pet_month,
+            pet_day : pet_date,
+            pet_gender_m : gender,
+            neutral : neutral,
+            pet_weight1 : weight,
+            year : date.getFullYear(),
+            month : date.getMonth()+1,
+            day :date.getDate(),
+            from_time:new Date(date.getFullYear(),date.getMonth(),date.getDate(),document.getElementById('reserve_st_time').value.split(':')[0],document.getElementById('reserve_st_time').value.split(':')[1]).getTime(),
+            to_time: new Date(date.getFullYear(),date.getMonth(),date.getDate(),document.getElementById('reserve_fi_time').value.split(':')[0],document.getElementById('reserve_fi_time').value.split(':')[1]).getTime(),
+            coupon_balance : "",
+            size : size,
+            service : service,
+            weight:`${weight}:${weight_price}`,
+            hair_type:arr_hair_feature,
+            hair_length:`${hair_length}:${hair_length_price}`,
+            face:arr_face,
+            cat_weight:"",
+            cat_bath : "",
+        }
+    }else{
+
+        pay_data = {
+
+            shopName:shop_name,
+            cellphone:cellphone,
+            worker:target.getAttribute('data-name'),
+            workTime:`${target.getAttribute('data-hour')}:${target.getAttribute('data-minutes')}`,
+            workDate : `${target.getAttribute('data-year')}-${fill_zero(parseInt(target.getAttribute('data-month'))+1)}-${fill_zero(target.getAttribute('data-date'))}`,
+            customer_id: "",
+            coupon_seq:"",
+            alarm_yn : document.getElementById('notice_check').getAttribute('data-notice'),
+            befor_day_alarm_yn : yesterday ? 'Y' : 'N',
+            backurl:"",
+            pet_no : "",
+            pet_name : name,
+            pet_kind : breed,
+            pet_type : breed_select,
+            pet_type2 : "",
+            pet_year : pet_year,
+            pet_month : pet_month,
+            pet_day : pet_date,
+            pet_gender_m : gender,
+            neutral : neutral,
+            pet_weight1 : weight,
+            year : date.getFullYear(),
+            month : date.getMonth()+1,
+            day :date.getDate(),
+            from_time:new Date(date.getFullYear(),date.getMonth(),date.getDate(),document.getElementById('reserve_st_time').value.split(':')[0],document.getElementById('reserve_st_time').value.split(':')[1]).getTime(),
+            to_time: new Date(date.getFullYear(),date.getMonth(),date.getDate(),document.getElementById('reserve_fi_time').value.split(':')[0],document.getElementById('reserve_fi_time').value.split(':')[1]).getTime(),
+            coupon_balance : "",
+            size : '',
+            service : '',
+            weight:'',
+            hair_type:'',
+            hair_length:'',
+            face:'',
+            cat_weight:document.querySelector('input[name="beauty"]:checked').value, //수정필
+            cat_bath :document.querySelector('input[name="bath"]:checked').value,
+        }
+
+    }
+
+    let leg_opt ;
+    let leg_opts = [];
+    let leg_add_opts = [];
+    if(breed === 'dog'){
+        leg_opt = document.getElementById('other_leg').children;
+
+
+
+        for(let i=0; i<3; i++){
+
+            leg_opts.push(leg_opt[i].children[0].children[0].getAttribute('data-price'));
+        }
+
+
+
+        for(let i=0; i<document.querySelectorAll('input[name="f2"]').length;i++){
+
+            if(document.querySelectorAll('input[name="f2"]')[i].checked && i >2){
+
+                leg_add_opts.push(`${document.querySelectorAll('input[name="f2"]')[i].value}:${document.querySelectorAll('input[name="f2"]')[i].getAttribute('data-price')}`)
+
+            }
+        }
+    }
+
+
+
+
+
+
+
+    let product = '';
+
+    if(breed ==='dog'){
+
+
+            product += `${name}|${breed === 'dog' ? '개' : ''}|${shop_name}|${size}|${service}|${weight_merchandise}:${weight_price === null ? '0' : weight_price}|${arr_face.toString()}|${hair_length}:${hair_length_price === null ? '0' : hair_length_price}|${arr_hair_feature.toString()}|`;
+
+
+        for(let i=0; i<3; i++){
+
+            if(document.querySelectorAll('input[name="f2"]')[i].checked === true){
+                product += `${document.querySelectorAll('input[name="f2"]')[i].getAttribute('data-price')}|`
+            }else{
+                product += `0|`
+            }
+
+        }
+
+        product += `||`
+
+        product += `${leg_add_opts.length}|`
+
+        if(leg_add_opts.length > 0){
+            leg_add_opts.forEach(function(el){
+
+                product += `${el}|`
+            })
+        }
+
+        if(spa_input.length > 0){
+
+            product += `${spa_input.length}|`
+
+            for(let i=0; i<spa_input.length; i++){
+
+                product += `${spa_input[i].value}:${spa_input[i].getAttribute('data-price')}|`
+
+            }
+        }else{
+            product += `0|`
+        }
+
+        if(dyeing_input.length > 0){
+
+            product += `${dyeing_input.length}|`
+
+            for(let i=0; i<dyeing_input.length; i++){
+                product += `${dyeing_input[i].value}:${dyeing_input[i].getAttribute('data-price')}|`
+            }
+        }else{
+            product += `0|`;
+        }
+
+        if(etc_input.length >0){
+
+            product += `${etc_input.length}|`
+
+            for(let i=0; i<etc_input.length; i++){
+
+                product += `${etc_input[i].value}:${etc_input[i].getAttribute('data-price')}|`
+            }
+        }else{
+            product += `0|`;
+        }
+
+        product += `0|0|`
+
+    }else{
+
+        product += `${name}|${breed === 'cat' ? '고양이': ''}|${shop_name}|${beauty}|${beauty}:${document.getElementById('service2_basic_beauty').getAttribute('data-price')}|`
+
+        if(document.querySelectorAll('input[name="add_svc"]')[0].checked === true){
+
+            product += `${document.querySelectorAll('input[name="add_svc"]')[0].getAttribute('data-price')}|`
+        }else{
+            product += `0|`
+        }
+
+
+        if(bath_input.getAttribute('data-price') === "" || bath_input.getAttribute('data-price') === undefined || bath_input.getAttribute('data-price') === null || bath_input.getAttribute('data-price') === '0'){
+
+            product += `0|`;
+        }else{
+
+
+            product += `${bath_input.getAttribute('data-price')}|`
+        }
+
+
+        product += `0|`
+
+        if(add_svc_input.length > 0){
+
+            product += `${add_svc_input.length}|`
+
+            for(let i=0; i<add_svc_input.length; i++){
+
+                product += `${add_svc_input[i].value}:${add_svc_input[i].getAttribute('data-price')}|`
+            }
+        }else{
+            product += `0|`
+        }
+
+        product += `0|0|`
+
+
+    }
+
+
+
+    console.log('---------------------')
+    console.log(`partner_id : ${login}`);
+    console.log(`wokrer : ${document.getElementById('reserveCalendarPop2').getAttribute('data-name')}`)
+    console.log(`customer_id : ${document.getElementById('customer_id').value}`)
+    console.log(`cellphone : ${cellphone}`)
+    console.log(`pet_seq : ${document.getElementById('pet_seq').value}`)
+    console.log(`animal : ${breed}`)
+    console.log(`pet_type:${breed_select}`)
+    console.log(`pet_name :${name}`)
+    console.log(`pet_year : ${pet_year}`);
+    console.log(`pet_month : ${pet_month}`)
+    console.log(`pet_day : ${pet_date}`)
+    console.log(`gender:${gender}`)
+    console.log(`neutral:${neutral}`)
+    console.log(`weight:${weight}`)
+    console.log(`beauty_exp:${beauty_exp}`)
+    console.log(`vaccination:${vaccination}`)
+    console.log(`luxation:${luxation}`)
+    console.log(`bite:${bite}`)
+    console.log(`dermatosis:${dermatosis}`)
+    console.log(`heart_trouble:${heart_trouble}`)
+    console.log(`marking:${marking}`)
+    console.log(`mounting:${mounting}`)
+    console.log(`year:${date.getFullYear()}`)
+    console.log(`month:${date.getMonth()+1}`)
+    console.log(`day:${date.getDate()}`)
+    console.log(`hour:${document.getElementById('reserve_st_time').value.split(':')[0]}`)
+    console.log(`min:${document.getElementById('reserve_st_time').value.split(':')[1]}`)
+    console.log(`session_id:${session}`)
+    console.log(`order_id:''`)
+    console.log(`local_price:${total_price}`)
+    console.log(`pay_type:'pos-card'`)
+    console.log(`pay_status:'pos'`)
+    console.log(`pay_data : ${JSON.stringify(pay_data)}`)
+    console.log(`to_hour :${document.getElementById('reserve_fi_time').value.split(':')[0]}`)
+    console.log(`to_min:${document.getElementById('reserve_fi_time').value.split(':')[1]}`)
+    console.log(`use_coupon_yn:'N'`)
+    console.log(`is_vat : ${is_vat}`)
+    console.log(`product : ${product}`)
+    console.log(`reserve_yn : ${document.getElementById('notice_check').getAttribute('data-notice')}`)
+    console.log(`aday_ago_yn :${yesterday ? 'Y':'N'}`)
+
+
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:'reserve_regist',
+            partner_id : login,
+            worker : document.getElementById('reserveCalendarPop2').getAttribute('data-name'),
+            customer_id : document.getElementById('customer_id').value,
+            cellphone : cellphone,
+            pet_seq : document.getElementById('pet_seq').value, //수정필
+            animal : breed,
+            pet_type : breed_select,
+            pet_name : name,
+            pet_year : pet_year,
+            pet_month: pet_month,
+            pet_day : pet_date,
+            gender:gender,
+            neutral:neutral,
+            weight:weight,
+            beauty_exp:beauty_exp,
+            vaccination:vaccination,
+            luxation:luxation,
+            bite:bite,
+            dermatosis:dermatosis,
+            heart_trouble:heart_trouble,
+            marking:marking,
+            mounting:mounting,
+            year:date.getFullYear(),
+            month:date.getMonth()+1,
+            day:date.getDate(),
+            hour:document.getElementById('reserve_st_time').value.split(':')[0],
+            min:document.getElementById('reserve_st_time').value.split(':')[1],
+            session_id:session,
+            order_id:'',
+            local_price:total_price,
+            pay_type:'pos-card',
+            pay_status:'pos',
+            pay_data:JSON.stringify(pay_data),
+            to_hour:document.getElementById('reserve_fi_time').value.split(':')[0],
+            to_min:document.getElementById('reserve_fi_time').value.split(':')[1],
+            use_coupon_yn:'N', // 수정필
+            is_vat:is_vat,
+            product:product,
+            reserve_yn : document.getElementById('notice_check').getAttribute('data-notice') ,
+            aday_ago_yn : yesterday ? 'Y' : 'N',
+
+
+
+        },
+        success:function(res){
+
+            console.log(res)
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                console.log(body)
+                // location.reload()
+            }
+
+        }
+    })
+
+
+
+}
+
+
+function reserve_pop_init(id){
+
+    let artist_id = id
+
+    document.getElementById('reserveAcceptUser').innerHTML = `<input type="hidden" value="" id="customer_id">
+    <input type="hidden" value="" id="pet_seq">
+    <input type="hidden" value="" id="is_vat">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data data-pop-view large">
+                <div class="pop-header">
+                    <h4 class="con-title">예약 접수</h4>
+                </div>
+                <div class="pop-body">
+                    <div class="reserve-accept-wrap">
+                        <div class="wide-tab">
+                            <div class="wide-tab-inner"  id="wide-tab-inner">
+                                <!-- 활성화시 actived클래스 추가 -->
+                                <div class="tab-cell actived" id="exist_btn"><a href="#" class="btn-tab-item">기존 고객 예약</a></div>
+                                <div class="tab-cell" id="new_btn"><a href="#" class="btn-tab-item">신규 고객 예약</a></div>
+                            </div>
+                        </div>
+                        <div id="exist_user">
+                            <div class="basic-data-group vmiddle" style="margin-top:28px !important">
+                                <div class="basic-single-data">
+                                    <div class="form-btns">
+                                        <input type="text" id="reserve_search" placeholder="전화번호 및 펫이름 입력">
+                                        <button type="button" id="reserve_search_btn" onclick="reserve_search_fam(artist_id)" class="btn-data-send btn-data-search"><span class="icon icon-size-24 icon-page-search">검색</span></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-data-group large">
+                                <!-- 검색결과 있을 때 -->
+                                <div class="customer-card-list">
+                                    <div class="grid-layout margin-8-12">
+                                        <div class="grid-layout-inner" id="reserve_inner">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- //검색결과 있을 때 -->
+                                <!-- 검색결과 없을 때 -->
+                                <div style="display:block;" id="common_none_data">
+                                    <div class="common-none-data">
+                                        <div class="none-inner">
+                                            <div class="item-info">검색 결과가 없습니다.</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- //검색결과 없을 때 -->
+                            </div>
+                        </div>
+
+                        <div id="new_user" style="display:none;">
+                            <div class="basic-data-group middle" style="margin-top:32px !important;">
+                                <div class="form-group">
+                                    <div class="grid-layout margin-14-17">
+                                        <div class="grid-layout-inner">
+                                            <div class="grid-layout-cell grid-1">
+                                                <div class="form-group-item">
+                                                    <div class="form-group-item">
+                                                        <div class="form-item-label">전화번호</div>
+                                                        <div class="form-item-data">
+                                                            <input type="text" maxlength="15" id="reserve_cellphone" class="form-control" value="">
+                                                            <div class="form-input-info">'-' 없이 숫자만 입력</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-data-group">
+                                <div class="con-title-group">
+                                    <h4 class="con-title">펫 정보<p class="title-need font-color-red">*필수사항만 입력해도 예약등록 가능</p></h4>
+                                </div>
+                                <div class="form-group">
+                                    <div class="grid-layout margin-14-17">
+                                        <div class="grid-layout-inner">
+                                            <div class="grid-layout-cell grid-1">
+                                                <div class="form-group-item">
+                                                    <div class="form-item-label"><em class="need">*</em>펫 이름</div>
+                                                    <div class="form-item-data">
+                                                        <input type="text" class="form-control" value="" id="reserve_name" placeholder="펫 이름 입력">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="grid-layout-cell grid-1">
+                                                <div class="form-group-item">
+                                                    <div class="form-item-label"><em class="need">*</em>품종</div>
+                                                    <div class="form-item-data type-2">
+                                                        <div class="pet-breed-select-wrap">
+                                                            <div class="pet-breed-select">
+                                                                <div class="breed-select">
+                                                                    <label class="form-toggle-box" for="breed1"><input type="radio" name="breed" class="load-pet-type" value="dog" id="breed1"><em><span>강아지</span></em></label>
+                                                                    <label class="form-toggle-box" for="breed2"><input type="radio" name="breed" class="load-pet-type" value="cat" id="breed2"><em><span>고양이</span></em></label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="pet-breed-sort">
+                                                                <div style="display:block">
+                                                                    <select id="breed_select">
+                                                                        <option value="">선택</option>
+                                                                    </select>
+                                                                    <div class="pet-breed-other"  id="breed_other_box" style="display:none">
+                                                                        <input type="text" placeholder="입력" id="breed_other" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="grid-layout-cell grid-2">
+                                                <div class="form-group-item">
+                                                    <div class="form-item-label">생일</div>
+                                                    <div class="form-item-data type-2">
+                                                        <div class="grid-layout margin-12">
+                                                            <div class="grid-layout-inner">
+                                                                <div class="grid-layout-cell grid-3">
+                                                                    <select id="birthday_year" class="birthday">
+
+                                                                    </select>
+                                                                </div>
+                                                                <div class="grid-layout-cell grid-3">
+                                                                    <select id="birthday_month" class="birthday">
+
+                                                                    </select>
+                                                                </div>
+                                                                <div class="grid-layout-cell grid-3">
+                                                                    <select id="birthday_date">
+
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="grid-layout-cell grid-2">
+                                                <div class="form-group-item">
+                                                    <div class="form-item-label">성별 선택</div>
+                                                    <div class="form-item-data type-2">
+                                                        <div class="grid-layout toggle-button-group">
+                                                            <div class="grid-layout-inner">
+                                                                <div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="gender1"><input type="radio" name="gender" value="남아" id="gender1"><em>남아</em></label></div>
+                                                                <div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="gender2"><input type="radio" name="gender" value="여아" id="gender2"><em>여아</em></label></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="grid-layout-cell grid-2">
+                                                <div class="form-group-item">
+                                                    <div class="form-item-label">중성화</div>
+                                                    <div class="form-item-data type-2">
+                                                        <div class="grid-layout toggle-button-group">
+                                                            <div class="grid-layout-inner">
+                                                                <div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="neutralize1"><input type="radio" name="neutralize" value="0" id="neutralize1"><em>X</em></label></div>
+                                                                <div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="neutralize2"><input type="radio" name="neutralize" value="1" id="neutralize2"><em>O</em></label></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="grid-layout-cell grid-2">
+                                                <div class="form-group-item">
+                                                    <div class="form-item-label"><em class="need">*</em>몸무게</div>
+                                                    <div class="form-item-data type-2">
+                                                        <div class="form-flex">
+                                                            <select class="inline-block" id="weight1">
+
+                                                            </select>
+                                                            <div class="form-unit-point">.</div>
+                                                            <select class="inline-block" id="weight2">
+                                                                <option value="0">0</option>
+                                                                <option value="1">1</option>
+                                                                <option value="2">2</option>
+                                                                <option value="3">3</option>
+                                                                <option value="4">4</option>
+                                                                <option value="5">5</option>
+                                                                <option value="6">6</option>
+                                                                <option value="7">7</option>
+                                                                <option value="8">8</option>
+                                                                <option value="9">9</option>
+                                                            </select>
+                                                            <div class="form-unit-label">kg</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="grid-layout-cell grid-2">
+                                                <div class="form-group-item">
+                                                    <div class="form-item-label">미용 경험</div>
+                                                    <div class="form-item-data type-2">
+                                                        <select id="beauty_exp">
+                                                            <option value="0">선택</option>
+                                                            <option value="없음">없음</option>
+                                                            <option value="1회">1회</option>
+                                                            <option value="2회">2회</option>
+                                                            <option value="3회 이상">3회 이상</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="grid-layout-cell grid-2">
+                                                <div class="form-group-item">
+                                                    <div class="form-item-label">예방 접종</div>
+                                                    <div class="form-item-data type-2">
+                                                        <select id="vaccination">
+                                                            <option value="0">선택</option>
+                                                            <option value="2차 이하">2차 이하</option>
+                                                            <option value="3차">3차 완료</option>
+                                                            <option value="4차">4차 완료</option>
+                                                            <option value="5차">5차 완료</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="grid-layout-cell grid-2">
+                                                <div class="form-group-item">
+                                                    <div class="form-item-label">입질</div>
+                                                    <div class="form-item-data type-2">
+                                                        <select id="bite">
+                                                            <option value="0">선택</option>
+                                                            <option value="안해요">안해요</option>
+                                                            <option value="해요">해요</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="grid-layout-cell grid-2">
+                                                <div class="form-group-item">
+                                                    <div class="form-item-label">슬개골 탈구</div>
+                                                    <div class="form-item-data type-2">
+                                                        <select id="luxation">
+                                                            <option value="0">선택</option>
+                                                            <option value="없음">없음</option>
+                                                            <option value="1기">1기</option>
+                                                            <option value="2기">2기</option>
+                                                            <option value="3기">3기</option>
+                                                            <option value="4기">4기</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="grid-layout-cell grid-1">
+                                                <div class="form-group-item">
+                                                    <div class="form-item-label">특이사항</div>
+                                                    <div class="form-item-data type-2">
+                                                        <div class="grid-layout toggle-button-group">
+                                                            <div class="grid-layout-inner">
+                                                                <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special1"><input type="checkbox" name="special" id="special1"><em>피부병</em></label></div>
+                                                                <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special2"><input type="checkbox" name="special" id="special2"><em>심장질환</em></label></div>
+                                                                <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special3"><input type="checkbox" name="special" id="special3"><em>마킹</em></label></div>
+                                                                <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special4"><input type="checkbox" name="special" id="special4"><em>마운팅</em></label></div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-data-group">
+                                <div class="con-title-group">
+                                    <h4 class="con-title">예약 시간</h4>
+                                </div>
+                                <div class="form-group">
+                                    <div class="grid-layout margin-14-17">
+                                        <div class="grid-layout-inner">
+                                            <div class="grid-layout-cell grid-2">
+                                                <div class="form-group-item">
+                                                    <div class="form-item-label">날짜</div>
+                                                    <div class="form-item-data type-2">
+                                                        <div class="grid-layout margin-12">
+                                                            <div class="grid-layout-inner">
+                                                                <div class="grid-layout-cell grid-3">
+                                                                    <select id="reserve_time_year" class="reserve-time">
+                                                                    </select>
+                                                                </div>
+                                                                <div class="grid-layout-cell grid-3">
+                                                                    <select id="reserve_time_month" class="reserve-time">
+                                                                    </select>
+                                                                </div>
+                                                                <div class="grid-layout-cell grid-3">
+                                                                    <select id="reserve_time_date">
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="grid-layout-cell grid-2">
+                                                <div class="form-group-item">
+                                                    <div class="form-item-label">시간</div>
+                                                    <div class="form-item-data type-2">
+                                                        <div class="form-datepicker-group">
+                                                            <div class="form-datepicker">
+                                                                <select id="reserve_st_time">
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-unit">~</div>
+                                                            <div class="form-datepicker">
+                                                                <select id="reserve_fi_time">
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-data-group" id="service" style="display:none;">
+                                <div class="con-title-group">
+                                    <h4 class="con-title">예약 서비스 및 추가 특이사항 입력</h4>
+                                </div>
+                                <div class="form-group">
+                                    <div class="wide-tab">
+                                        <div class="wide-tab-inner" id="wide-tab-inner2">
+                                            <!-- 활성화시 actived클래스 추가 -->
+                                            <div class="tab-cell hit actived"><button type="button" class="btn-tab-item" id="basic_service_btn"><span>기본 서비스</span></button></div>
+                                            <div class="tab-cell"><button type="button" class="btn-tab-item" id="other_service_btn"><span>추가</span></button></div>
+                                        </div>
+                                    </div>
+                                    <div class="basic-data-group vvsmall3 tab-data-group">
+                                        <!-- tab-data-cell 클래스에 actived클래스 추가시 활성화-->
+                                        <!-- 기본 서비스 -->
+                                        <div class="tab-data-cell actived" id="basic_service">
+                                            <div class="grid-layout basic">
+                                                <div class="grid-layout-inner" id="basic_service_inner">
+
+
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- //기본 서비스 -->
+                                        <!-- 추가 -->
+                                        <div class="tab-data-cell" id="other_service">
+                                            <div class="grid-layout basic">
+                                                <div class="grid-layout-inner" id="other_service_inner">
+
+
+
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- //추가 -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-data-group vmiddle" id="service2" style="display:none;">
+                                <div class="service-selected-wrap">
+                                    <div class="service-selected-group">
+                                        <h5 class="con-title">서비스 선택 내역</h5>
+                                        <div class="service-selected-list" id="service2_basic_list">
+                                            <div class="service-selected-list-cell">
+                                                <div class="list-data" id="service2_basic_size"></div>
+                                            </div>
+                                            <div class="service-selected-list-cell">
+                                                <div class="list-data"  id="service2_basic_service"></div>
+                                            </div>
+                                            <div class="service-selected-list-cell">
+                                                <div class="list-data"  id="service2_basic_weight"></div>
+                                            </div>
+                                            <div class="service-selected-list-cell" id="service2_basic_hair_feature">
+                                                <div class="list-data" ></div>
+                                            </div>
+                                            <div class="service-selected-list-cell">
+                                                <div class="list-data"  id="service2_basic_hair_length"></div>
+                                            </div>
+
+                                            <div class="service-selected-list-cell">
+                                                <div class="list-data"  id="service2_basic_beauty"></div>
+                                            </div>
+                                            <div class="service-selected-list-cell">
+                                                <div class="list-data"  id="service2_basic_hair_bath"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="service-selected-group add">
+                                        <h5 class="con-title">추가 선택 내역</h5>
+                                        <div class="service-selected-list" id="service2_other_list">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pop-footer line" id="reserve_footer" style="display:none;">
+                    <div class="grid-layout btn-grid-group">
+                        <div class="grid-layout-inner">
+                            <div class="grid-layout-cell grid-2 reserve_regist_btn" id="reserve_regist_1"><a href="#" class="btn btn-outline-purple"><strong>알림없이 등록</strong></a></div>
+                            <div class="grid-layout-cell grid-2 reserve_regist_btn" id="reserve_regist_2"><a href="#" class="btn btn-outline-purple"><strong>등록</strong></a></div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn-pop-close" onclick="pop.close(); reserve_pop_init();">닫기</button>
+            </div>
+        </div>
+    </div>`
+    wide_tab();
+    wide_tab_2();
+
+    reserve_toggle();
+    reserve_regist_tab();
+    setInputFilter(document.getElementById("reserve_cellphone"), function(value) {
+        return /^\d*\.?\d*$/.test(value);
+    })
+
+    input_enter('reserve_search','reserve_search_btn');
+
+    customer_new_birthday().then(function(){ customer_new_birthday_date()})
+    customer_pet_type();
+    customer_new_weight()
+    reserve_merchandise_load_event(artist_id)
+    reserve_regist_event(artist_id,session_id);
+    reserve_time().then(function (){reserve_time_date()});
+    reserve_time_init()
+
+
+}
+function exist_user_reserve(cellphone,pet_seq){
+
+
+
+    return new Promise(function(resolve){
+        document.getElementById('exist_user').style.display = 'none';
+
+        document.getElementById('new_user').style.display = 'block';
+
+        document.getElementById('reserve_footer').style.display = 'block';
+
+        $.ajax({
+
+            url:'/data/pc_ajax.php',
+            type:'post',
+            data:{
+                mode:'pet_info',
+                pet_seq : pet_seq,
+            },
+            success:function(res){
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+                    console.log(body)
+
+                    document.getElementById('reserve_cellphone').value = cellphone;
+                    document.getElementById('reserve_name').value = body.name;
+
+                    if(body.type === 'dog'){
+
+                        document.getElementById('breed1').click()
+
+
+                    }else{
+
+                        document.getElementById('breed2').click()
+                    }
+
+
+
+
+
+                    setTimeout(function(){
+
+                        resolve(body);
+                    },300)
+
+                }
+            }
+        })
+
+    })
+
+
+}
+
+
+function exist_user_reserve_init(body){
+
+
+    for(let i =0; i<document.getElementById('breed_select').options.length; i++){
+
+        if(document.getElementById('breed_select').options[i].value === body.pet_type){
+
+            document.getElementById('breed_select').options[i].selected = true;
+        }
+    }
+
+
+    for(let i=0; i<document.getElementById('birthday_year').options.length; i++){
+
+        if(document.getElementById('birthday_year').options[i].value === body.year.toString()){
+            document.getElementById('birthday_year').options[i].selected = true;
+        }
+    }
+
+
+    for(let i=0; i<document.getElementById('birthday_month').options.length; i++){
+
+        if(document.getElementById('birthday_month').options[i].value === fill_zero(body.month)){
+            document.getElementById('birthday_month').options[i].selected = true;
+        }
+    }
+
+    for(let i=0; i<document.getElementById('birthday_date').options.length; i++){
+
+        if(document.getElementById('birthday_date').options[i].value ===fill_zero(body.day.toString())){
+            document.getElementById('birthday_date').options[i].selected = true;
+        }
+    }
+
+
+    if(body.gender === "남아"){
+
+        document.getElementById('gender1').checked = true;
+
+    }else{
+
+        document.getElementById('gender2').checked = true;
+    }
+
+    if(body.neutral === 0){
+
+        document.getElementById('neutralize1').checked = true;
+    }else{
+        document.getElementById('neutralize2').checked = true;
+    }
+
+
+    for(let i=0; i<document.getElementById('weight1').options.length;i++){
+
+        if(document.getElementById('weight1').options[i].value === body.weight.split('.')[0]){
+
+            document.getElementById('weight1').options[i].selected = true;
+        }
+    }
+
+    for(let i=0; i<document.getElementById('weight2').options.length;i++){
+
+        if(document.getElementById('weight2').options[i].value === body.weight.split('.')[1]){
+            document.getElementById('weight2').options[i].selected = true;
+        }
+    }
+
+
+    for(let i=0; i<document.getElementById('beauty_exp').options.length; i++){
+
+        if(document.getElementById('beauty_exp').options[i].value === body.beauty_exp){
+
+            document.getElementById('beauty_exp').options[i].selected =true;
+        }
+    }
+
+    for(let i=0; i<document.getElementById('vaccination').options.length; i++ ){
+
+        if(document.getElementById('vaccination').options[i].value === body.vaccination){
+            document.getElementById('vaccination').options[i].selected = true;
+        }
+    }
+
+    for(let i=0; i<document.getElementById('bite').options.length; i++){
+
+        if(document.getElementById('bite').options[i].value === body.bite){
+
+            document.getElementById('bite').options[i].selected = true;
+        }
+    }
+
+    for(let i=0; i<document.getElementById('luxation').options.length; i++){
+
+        if(document.getElementById('luxation').options[i].value === body.luxation){
+
+            document.getElementById('luxation').options[i].selected = true;
+        }
+    }
+
+
+    if(body.dermatosis === 1){
+
+        document.getElementById('special1').checked = true;
+
+    }
+
+    if(body.heart_trouble === 1){
+
+        document.getElementById('special2').checked = true;
+    }
+
+    if(body.marking === 1){
+
+        document.getElementById('special3').checked = true;
+    }
+
+    if(body.mounting === 1){
+
+        document.getElementById('special4').checked = true;
+    }
 }

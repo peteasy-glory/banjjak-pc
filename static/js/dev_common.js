@@ -6,7 +6,7 @@ let list;
 function data_set(id){
 
     $.ajax({
-        url: '../data/pc_ajax.php',
+        url: '/data/pc_ajax.php',
         data: {
             mode: 'home',
             login_id: id,
@@ -14,7 +14,6 @@ function data_set(id){
         type: 'POST',
         async:false,
         success: function (res) {
-            console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -34,7 +33,7 @@ function data_interval(){
 
     setInterval(function () {
         $.ajax({
-            url: '../data/pc_ajax.php',
+            url: '/data/pc_ajax.php',
             data: {
                 mode: 'home',
                 login_id: localStorage.getItem('id'),
@@ -417,6 +416,11 @@ function today_reserve(){
 //달력
 function renderCalendar(id) {
     return new Promise(function (resolve) {
+
+
+
+
+
         let viewYear = date.getFullYear();
         let viewMonth = date.getMonth();
 
@@ -453,11 +457,11 @@ function renderCalendar(id) {
 
         // Dates 정리
         dates.forEach(function(_date, i){
-            dates[i] = `<div class="main-calendar-month-body-col ${prevDates.indexOf(_date) >= 0 && i <= 7 ? "before" : ""} ${nextDates.indexOf(_date) >= 0 && i >= dates.length - 7 ? "after" : ""}">
+            dates[i] = `<div class="main-calendar-month-body-col ${prevDates.indexOf(_date) >= 0 && i <= 7 ? "before" : ""} ${nextDates.indexOf(_date) >= 0 && i >= dates.length - 7 ? "after" : ""} ${new Date(date.getFullYear(),date.getMonth(),_date).getDay() === 0 ? 'sunday' : ''} ${new Date(date.getFullYear(),date.getMonth(),_date).getDay() === 6 ? 'saturday' : '' } ">
                         <div class="main-calendar-col-inner">
                             <div class="main-calendar-toggle-group">
                                 <a href="javascript:;" class="main-calendar-day-value">
-                                    <div class="number">${_date}</div>
+                                    <div class="number ${new Date(date.getFullYear(),date.getMonth(),_date).getDay() === 0 ? 'sunday' : ''} ${new Date(date.getFullYear(),date.getMonth(),_date).getDay() === 6 ? 'saturday' : '' }" >${_date}</div>
                                     <div class="value reserve-total"></div>
                                 </a>
                                 <div class="main-calendar-toggle-data">
@@ -495,6 +499,7 @@ function renderCalendar(id) {
 
         //정기휴일적용
         holiday(id);
+        statutory_holiday(id)
         resolve(div_dates);
     })
 }
@@ -569,6 +574,47 @@ function _renderCalendar(id) {
     })
 }
 
+function statutory_holiday(id){
+    $.ajax({
+
+        url: '/data/pc_ajax.php',
+        type: 'post',
+        data: {
+            mode:'statutory',
+            login_id:id,
+            year: date.getFullYear(),
+            month: 0
+        },
+        success: function (res) {
+            console.log(res)
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+
+                console.log(body)
+
+                Array.from(document.getElementsByClassName('main-calendar-month-body-col')).forEach(function (el){
+
+
+                    body.forEach(function (el_){
+
+                        if(date.getFullYear() === el_.year && date.getMonth()+1 === el_.month && parseInt(el.children[0].children[0].children[0].children[0].innerText) === el_.day){
+
+                            el.children[0].children[0].children[0].children[0].setAttribute('style','color: red !important');
+
+
+                        }
+                    })
+                })
+
+            }
+        }
+    })
+
+}
 //캘린더 버튼
 function btn_month(id){
 
@@ -580,7 +626,7 @@ function btn_month(id){
         book_list(id).then(function (){
             if(document.getElementById('main-calendar-month-body')){
 
-                _renderCalendar();
+                _renderCalendar(id);
             }else{
 
                 _renderCalendar_mini(id);
@@ -598,7 +644,7 @@ function btn_month(id){
         book_list(id).then(function (){
             if(document.getElementById('main-calendar-month-body')){
 
-                _renderCalendar();
+                _renderCalendar(id);
             }else{
 
                 _renderCalendar_mini(id);
@@ -619,6 +665,7 @@ function btn_month(id){
 
 
 function renderCalendar_mini(id) {
+
 
     return new Promise(function (resolve){
         let viewYear = date.getFullYear();
@@ -936,11 +983,12 @@ function notice(){
 //정기휴일
 function holiday(id){
 
+
     let week = location.href.match('reserve_beauty_week');
     let body_col = document.getElementsByClassName('calendar-week-body-col-add');
 
     $.ajax({
-        url:'../data/pc_ajax.php',
+        url:'/data/pc_ajax.php',
         type:'post',
         data:{
             mode:'holiday',

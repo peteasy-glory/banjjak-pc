@@ -6,7 +6,7 @@ function search(search_value,id) {
         document.getElementById('search').value = search_value.toString();
         $.ajax({
 
-            url:'../data/pc_ajax.php',
+            url:'/data/pc_ajax.php',
             type:'post',
             data:{
                 mode:'search',
@@ -23,13 +23,14 @@ function search(search_value,id) {
                     if(body.length === undefined){
                         body = [body];
                     }
+
                     if(body.length > 0){
                         document.getElementById('search_phone_none_data').style.display = 'none';
                         document.getElementById('search_phone_inner').innerHTML = ''
                         body.forEach(function (el,i){
 
                             document.getElementById('search_phone_inner').innerHTML += `<div class="grid-layout-cell grid-2">
-                                                                                                <a href="#" class="customer-card-item">
+                                                                                                <a href="/customer/customer_view.php" onclick="localStorage.setItem('customer_select','${el.cellphone}')" class="customer-card-item">
                                                                                                     <div class="item-info-wrap">
                                                                                                         <div class="item-thumb">
                                                                                                             <div class="user-thumb large">
@@ -196,7 +197,7 @@ function customer_all(id){
 
         $.ajax({
 
-            url:'../data/pc_ajax.php',
+            url: '/data/pc_ajax.php',
             type:'post',
             data:{
 
@@ -239,7 +240,7 @@ function customer_count(id){
 
     $.ajax({
 
-        url:'../data/pc_ajax.php',
+        url:'/data/pc_ajax.php',
         type:'post',
         data:{
 
@@ -397,6 +398,8 @@ function customer_list(customers){
 }
 
 function customer_pet_type(){
+
+
     let breed_input;
 
     let breed;
@@ -419,11 +422,10 @@ function customer_pet_type(){
             document.getElementById('breed_other_box').setAttribute('style','display:none');
             breed_input = document.querySelector('input[name="breed"]:checked');
             breed = breed_input.value
-            console.log(breed)
 
             $.ajax({
 
-                url:'../data/pc_ajax.php',
+                url:'/data/pc_ajax.php',
                 type:'post',
                 data:{
                     mode:'pet_type',
@@ -436,7 +438,6 @@ function customer_pet_type(){
                     if (head.code === 401) {
                         pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                     } else if (head.code === 200) {
-                        console.log(body);
                         document.getElementById('breed_select').innerHTML = '<option value="선택">선택</option>';
                         body.forEach(function(el){
 
@@ -458,6 +459,10 @@ function customer_pet_type(){
 
                 }
             })
+
+
+
+
 
         })
     })
@@ -542,7 +547,7 @@ function customer_new_cellphone_chk(id){
 
 
     $.ajax({
-        url:'../data/pc_ajax.php',
+        url:'/data/pc_ajax.php',
         type:'post',
         data:{
             mode:'search',
@@ -618,8 +623,8 @@ function customer_new(id){
     let year = document.getElementById('birthday_year').value;
     let month = document.getElementById('birthday_month').value;
     let date = document.getElementById('birthday_date').value;
-    let gender =  gender_input === null ? '미기입' :  gender_input.value;
-    let neutral = neutral_input === null ? '미기입' : neutral_input.value;
+    let gender =  gender_input === null ? '0' :  gender_input.value;
+    let neutral = neutral_input === null ? '0' : neutral_input.value;
     let weight1 = weight1_input.options[weight1_input.selectedIndex].value;
     let weight2 = weight2_input.options[weight2_input.selectedIndex].value;
     let weight = `${weight1}.${weight2}`;
@@ -716,7 +721,7 @@ function customer_new(id){
 
     $.ajax({
 
-        url:'../data/pc_ajax.php',
+        url:'/data/pc_ajax.php',
         type:'post',
         data:{
             mode:'customer_new',
@@ -760,8 +765,183 @@ function customer_new(id){
     })
 
 
+}
+
+function customer_view(id){
+
+    return new Promise(function (resolve) {
+
+        $.ajax({
+
+            url:'/data/pc_ajax.php',
+            type:'post',
+            data:{
+
+                mode:'search',
+                login_id:id,
+                search:localStorage.getItem('customer_select'),
+            },
+            success:function(res){
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+                    console.log(body)
+
+                }
+            }
+        })
+
+        // document.getElementById('user-table').innerHTML = `<div className="customer-user-table-row">
+        //                                                                 <div className="customer-user-table-title">
+        //                                                                     <div className="table-title">대표 펫 (수)</div>
+        //                                                                 </div>
+        //                                                                 <div className="customer-user-table-data">
+        //                                                                     <div className="table-data">
+        //                                                                         <div className="table-user-name">
+        //                                                                             boong_232321
+        //                                                                             <div className="user-grade-item">
+        //                                                                                 <div className="icon icon-grade-vip"></div>
+        //                                                                                 <div className="icon-grade-label">VIP</div>
+        //                                                                             </div>
+        //                                                                         </div>
+        //                                                                     </div>
+        //                                                                 </div>
+        //                                                                 <div className="customer-user-info-ui">
+        //                                                                     <div className="label label-outline-pink">NO SHOW 1회</div>
+        //                                                                     <button type="button" className="btn btn-red">초기화</button>
+        //                                                                 </div>
+        //                                                             </div>
+        //                                                             <div className="customer-user-table-row">
+        //                                                                 <div className="customer-user-table-title">
+        //                                                                     <div className="table-title">최근이용내역</div>
+        //                                                                 </div>
+        //                                                                 <div className="customer-user-table-data">
+        //                                                                     <div className="table-data">
+        //                                                                         <div className="table-data-txt">중형견미용</div>
+        //                                                                     </div>
+        //                                                                     <div className="table-data-side">
+        //                                                                         <button type="button" className="font-color-purple font-underline btn-text">알림톡 발송 조회
+        //                                                                         </button>
+        //                                                                     </div>
+        //                                                                 </div>
+        //                                                             </div>
+        //                                                             <div className="customer-user-table-row">
+        //                                                                 <div className="customer-user-table-title">
+        //                                                                     <div className="table-title">연락처</div>
+        //                                                                 </div>
+        //                                                                 <div className="customer-user-table-data">
+        //                                                                     <div className="table-data">
+        //                                                                         <div className="customer-user-phone-wrap">
+        //                                                                             <div className="item-main-phone">
+        //                                                                                 <div className="value">010-1234-1234</div>
+        //                                                                                 <button type="button" className="btn-data-modify">편집</button>
+        //                                                                             </div>
+        //                                                                             <div className="item-sub-phone">
+        //                                                                                 <div className="value">010-1234-1234</div>
+        //                                                                                 <div className="value">010-1234-1234</div>
+        //                                                                                 <div className="value">010-1234-1234</div>
+        //                                                                             </div>
+        //                                                                         </div>
+        //                                                                     </div>
+        //                                                                 </div>
+        //                                                             </div>
+        //                                                             <div className="customer-user-table-row wide">
+        //                                                                 <div className="customer-user-table-title">
+        //                                                                     <div className="table-title">메모</div>
+        //                                                                 </div>
+        //                                                                 <div className="customer-user-table-data">
+        //                                                                     <div className="table-data">
+        //                                                                         <div>
+        //                                                                             <textarea style="height:60px;" placeholder="입력"></textarea>
+        //                                                                             <div className="form-input-info">*메모는 입력 후 자동 저장됩니다.</div>
+        //                                                                         </div>
+        //                                                                     </div>
+        //                                                                 </div>
+        //                                                             </div>`
+
+        resolve();
+    })
 
 
+}
+
+function customer_view_(id){
+
+    customer_view(id).then(function(body_){
 
 
+    })
+
+}
+
+function get_grade(id){
+
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:'get_grade',
+            login_id:id,
+        },
+        success:function(res){
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                body.forEach(function (el){
+
+                    console.log(body)
+                    if(el.is_delete === 0){
+                        switch (el.grade_ord){
+
+                            case 1: document.getElementById('grade1').value = el.grade_name;
+                                    document.getElementById('grade1').setAttribute('data-idx',el.idx);
+                            break;
+                            case 2: document.getElementById('grade2').value = el.grade_name;
+                                document.getElementById('grade2').setAttribute('data-idx',el.idx);
+                            break;
+                            case 3: document.getElementById('grade3').value = el.grade_name;
+                                document.getElementById('grade3').setAttribute('data-idx',el.idx);
+                            break;
+                        }
+                    }
+
+                })
+
+            }
+        }
+
+    })
+
+}
+
+function post_grade(){
+
+
+    Array.from(document.getElementsByClassName('grade-input')).forEach(function (el){
+
+        $.ajax({
+
+            url:'/data/pc_ajax.php',
+            type:'post',
+            data:{
+                mode:'post_grade',
+                grade_idx:el.getAttribute('data-idx'),
+                name:el.value,
+            },
+            success:function(res){
+
+                console.log(res)
+            }
+        })
+
+    })
 }
