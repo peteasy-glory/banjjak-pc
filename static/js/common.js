@@ -260,7 +260,7 @@ var include = {
                                         </a>
                                         <div class="snb-menu-list" id="gnb_front">
                                             <div class="snb-menu-cell">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="/shop/shop_gate_picture.php" class="btn-snb-nav">
                                                     <div class="txt">샵 대문 관리</div>
                                                 </a>
                                             </div>
@@ -270,7 +270,7 @@ var include = {
                                                 </a>
                                             </div>
                                             <div class="snb-menu-cell" id="gnb_portfolio">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="/shop/shop_portfolio.php" class="btn-snb-nav">
                                                     <div class="txt">포트폴리오 관리</div>
                                                 </a>
                                             </div>

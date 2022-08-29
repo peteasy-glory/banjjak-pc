@@ -13,7 +13,7 @@ if ($artist_flag == 1) {
 
 
 ?>
-<body>
+<body>        
 
 <!-- wrap -->
 <div id="wrap">
@@ -34,25 +34,24 @@ if ($artist_flag == 1) {
 						<div class="data-col-middle">
 							<div class="basic-data-card">
 								<div class="card-header">
-									<h3 class="card-header-title">샵 대문 관리</h3>
+									<h3 class="card-header-title">포트폴리오 관리</h3>
 								</div>
 								<div class="card-body">
 									<div class="card-body-inner">
-										<div class="shop-gate-picture-wrap">
-											<div class="shop-gate-info-title">Shop 대문 사진함</div>
-											<div class="shop-gate-info-desc">아래 사진 중 원하시는 사진을 SHOP 대문사진으로 설정해 주세요.<br>보관함에 있는 사진들도 언제든지 대문사진 변경 가능합니다.</div>
-											<div class="shop-gate-picture-select">
-												<div class="list-inner img_wrap">
-													<div class="list-cell"><a href="#" class="btn-gate-picture-register" onclick="MemofocusNcursor();"><span><em>이미지 추가</em></span></a></div>
-                                                    <div style="display:block;position:absolute;top:-50px"><input type="file" accept="image/*" name=imgupfile id=addimgfile></div>
-												</div>
-											</div>
-											<div class="picture-add-info">이미지는 최대 25개까지 등록할 수 있습니다.<br>gif, png, jpg, jpeg 형식의 절차 이미지만 등록됩니다.</div>
+										<div class="master-portfolio-list">
+											<ul id="sortable" class="list-inner img_wrap" >
+												<li class="list-cell filtered" onclick="MemofocusNcursor();">
+													<div class="btn-gate-picture-register">
+														<span><em>이미지 추가</em></span>
+													</div>
+												</li>
+											</ul>
 										</div>
 									</div>
 								</div>
 							</div>			
 						</div>
+                        <div style="display:block;position:absolute;top:-50px"><input type="file" accept="image/*" name=imgupfile id=addimgfile></div>
 						<div class="data-col-right">
 							<div class="basic-data-card page-preview-wrap">
 								<iframe src="https://customer.banjjakpet.com/reserve_view_shop?type=beauty&artist_id=<?=$artist_id?>" class="page-preview-view"></iframe>
@@ -71,47 +70,33 @@ if ($artist_flag == 1) {
 <script src="../static/js/common.js"></script>
 <script src="../static/js/dev_common.js"></script>
 <script src="../static/js/shop.js"></script>
+<script src="../static/js/Sortable.min.js"></script>
 <script>
+
     let artist_id = "<?=$artist_id?>";
     $(document).ready(function() {
         get_navi(artist_id);
         gnb_init();
-        get_front_img(artist_id);
+        get_portfolio(artist_id);
         console.log(shop_array);
 
-        var main = '';
         var html = '';
         $.each(shop_array[0], function(i, v){
             var img_path = img_link_change(v.image);
-            if(v.main_image == 1){
-                main = `
-                    <div class="list-cell">
-                        <div class="picture-thumb-view">
-                            <div class="picture-obj"><img src="${img_path}" alt=""></div>
-                            <div class="check-point"></div>
+            html += `
+                <li class="list-cell">
+                    <div class="master-portfolio-item">
+                        <div class="item-thumb"><img src="${img_path}" alt=""></div>
+                        <div class="item-info">
+                            <div class="item-number">${v.sort_number}</div>
+                            <button type="button" class="btn-item-hand"></button>
                         </div>
+                        <button type="button" class="btn-data-del" data-idx=${v.idx}>데이타삭제</button>
                     </div>
-                `;
-            }else{
-                html += `
-                    <div class="list-cell">
-                        <div class="picture-thumb-view">
-                            <div class="picture-obj"><img src="${img_path}" alt=""></div>
-                            <div class="picture-ui">
-                                <button type="button" class="btn-picture-ui"></button>
-                            </div>
-                            <div class="picture-ui-list">
-                                <div class="picture-ui-list-inner">
-                                    <a href="javascript:change_main('${artist_id}','${v.image}');" class="btn-picture-ui-nav">대표 사진 등록</a>
-                                    <a href="javascript:del_front('${artist_id}','${v.image}');" class="btn-picture-ui-nav">삭제</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }
+                </li>
+            `;
         })
-        $(".img_wrap").append(main+html);
+        $(".img_wrap").append(html);
     })
 
     // 이미지 추가
@@ -127,7 +112,7 @@ if ($artist_flag == 1) {
         var type = ($("input[name=imgupfile]")[0].files[0].type).split('/')[1];
         //console.log(type);
         var formData = new FormData();
-        formData.append("mode", "post_front_img");
+        formData.append("mode", "post_shop_gallery");
         formData.append("login_id", artist_id);
         formData.append("mime", type);
         formData.append("image", $("input[name=imgupfile]")[0].files[0]);
@@ -156,6 +141,59 @@ if ($artist_flag == 1) {
             error: function(xhr, status, error) {
                 alert(error + "에러발생");
             }
+        });
+    });
+
+    $(function(){
+        /*
+        $( "#sortable" ).sortable({
+            placeholder: "ui-state-highlight",
+            cancel:''
+        });
+        $( "#sortable" ).disableSelection();
+        */
+
+        //https://github.com/SortableJS/Sortable
+
+        var el = document.getElementById('sortable');
+        var sortable = Sortable.create(el , {
+            handle : '.btn-item-hand',
+            delay : 0,
+            ghostClass: 'guide',
+            dataIdAttr:'data-id',
+            filter: '.filtered',
+            onMove: function(evt) {
+                return evt.related.className.indexOf('filtered') === -1; //and this
+              },
+            onStart : function(evt){
+                //드래그 시작
+                console.log('drag start');
+            },
+            onEnd : function(evt){
+                //드래그 끝
+                console.log('drag end');
+                //evt.to;    // 현재 아이템
+                //evt.from;  // 이전 아이템
+                //evt.oldIndex;  // 이전 인덱스값
+                //evt.newIndex;  // 새로운 인덱스값
+            },
+            onUpdate : function(evt){
+                console.log('update');
+            },
+            onUpdate : function(evt){
+                console.log('onChange');
+            },
+            onRemove: function (/**Event*/evt) {
+                console.log('remove');
+            }
+
+        });
+
+        $(document).on('click' , '.btn-data-del' , function(){
+            //$(this).parents('.list-cell').remove();
+            var idx = parseInt($(this).data("idx"));
+            console.log(typeof idx)
+            del_gallery(idx);
         });
 
     });

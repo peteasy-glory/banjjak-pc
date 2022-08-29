@@ -14,6 +14,8 @@ $user_name = (isset($_SESSION['gobeauty_user_nickname'])) ? $_SESSION['gobeauty_
 //$api = new TRestAPI("https://partnerapi.banjjakpet.com","Token 2156d1824c98f27a1f163a102cf742002b15e624");
 $api = new TRestAPI("http://stg-partnerapi.banjjakpet.com:8080","Token 55dda3818c897ef163b09a13d37199a7d211b6d2");
 
+//$api = new TRestAPI("http://10.24.205.206:8080","Token 2156d1824c98f27a1f163a102cf742002b15e624");
+
 
 
 
@@ -223,6 +225,36 @@ if($r_mode){
         $result = $api ->delete('/partner/shop/front' ,$data_json);
 
         $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "get_portfolio"){
+
+        $login_id = $_POST['login_id'];
+
+        $data = $api -> get('/partner/shop/gallery/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$data);
+    }else if($r_mode === "del_gallery"){
+
+        $idx = intval($_POST['idx']);
+
+        $data = array('idx'=>$idx);
+        $data_json = json_encode($data);
+
+        $result = $api ->delete('/partner/shop/gallery' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "post_shop_gallery"){
+
+        $login_id = $_POST['login_id'];
+        $mime = $_POST['mime'];
+        $image = $_FILES['image']['tmp_name'];
+        $base_img = base64_encode(file_get_contents($image));
+
+        $data = array('partner_id'=>$login_id,'mime'=>$mime,'image'=>$base_img);
+        $data_json = json_encode($data);
+
+        $post = $api ->post('/partner/shop/gallery',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$post);
     }else if($r_mode === "regular_holiday"){
 
         $login_id = $_POST['login_id'];

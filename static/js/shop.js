@@ -110,7 +110,55 @@ function del_front(id, src){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                pop.open('reloadPop', '완료되었습니다.');
+                pop.open('reloadPop', '삭제되었습니다.');
+            }
+        }
+    })
+}
+
+// 포트폴리오 사진 불러오기
+function get_portfolio(id){
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'get_portfolio',
+            login_id: id,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            //console.log(res);
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                shop_array.push(body);
+            }
+        }
+    })
+}
+
+// 포트폴리오 삭제하기
+function del_gallery(idx){
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'del_gallery',
+            idx: idx,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            console.log(res);
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            console.log(response);
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                pop.open('reloadPop', '삭제되었습니다.');
             }
         }
     })
