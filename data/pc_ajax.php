@@ -181,6 +181,48 @@ if($r_mode){
         $time_type = $api -> get('/partner/shop/info/'.$login_id);
 
         $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "get_front_img"){
+
+        $login_id = $_POST['login_id'];
+
+        $data = $api -> get('/partner/shop/front/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$data);
+    }else if($r_mode === "post_front_img"){
+
+        $login_id = $_POST['login_id'];
+        $mime = $_POST['mime'];
+        $image = $_FILES['image']['tmp_name'];
+        $base_img = base64_encode(file_get_contents($image));
+
+        $data = array('partner_id'=>$login_id,'mime'=>$mime,'image'=>$base_img);
+        $data_json = json_encode($data);
+
+        $post = $api ->post('/partner/shop/front',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$post);
+    }else if($r_mode === "put_front_main"){
+
+        $partner_id = $_POST['login_id'];
+        $image = $_POST['image'];
+
+        $data = array('partner_id'=>$partner_id,'image'=>$image);
+        $data_json = json_encode($data);
+
+        $result = $api ->put('/partner/shop/front' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "del_front"){
+
+        $partner_id = $_POST['login_id'];
+        $image = $_POST['image'];
+
+        $data = array('partner_id'=>$partner_id,'image'=>$image);
+        $data_json = json_encode($data);
+
+        $result = $api ->delete('/partner/shop/front' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
     }else if($r_mode === "regular_holiday"){
 
         $login_id = $_POST['login_id'];

@@ -92,7 +92,7 @@ class TRestAPI
 
     public function delete($path, $data)
     {
-        $data = json_encode($data);
+        //$data = json_encode($data);
         $method = "DELETE";
         $url = $this->url . $path;
         $ch = curl_init();

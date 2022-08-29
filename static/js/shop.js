@@ -1,0 +1,117 @@
+var shop_array = [];
+
+// 이미지 추가 클릭시
+function MemofocusNcursor() {
+    html = "<div id='upimgarea'></div>";
+    //document.getElementById('dmemo').focus();
+    var sel, range;
+    if (window.getSelection) {
+        // IE9 and non-IE
+        sel = window.getSelection();
+        if (sel.getRangeAt && sel.rangeCount) {
+            range = sel.getRangeAt(0);
+            range.deleteContents();
+
+            // Range.createContextualFragment() would be useful here but is
+            // non-standard and not supported in all browsers (IE9, for one)
+            var el = document.createElement("div");
+            el.innerHTML = html;
+            var frag = document.createDocumentFragment(),
+                node, lastNode;
+            while ((node = el.firstChild)) {
+                lastNode = frag.appendChild(node);
+            }
+            range.insertNode(frag);
+
+            // Preserve the selection
+            if (lastNode) {
+                range = range.cloneRange();
+                range.setStartAfter(lastNode);
+                range.collapse(true);
+                sel.removeAllRanges();
+                sel.addRange(range);
+            }
+        }
+    } else if (document.selection && document.selection.type != "Control") {
+        // IE < 9
+        document.selection.createRange().pasteHTML(html);
+    }
+
+    $("#addimgfile").trigger("click");
+
+}
+
+// 샵 대문사진 가져오기
+function get_front_img(id){
+
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'get_front_img',
+            login_id: id,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            //console.log(res);
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                shop_array.push(body);
+            }
+        }
+    })
+}
+
+// 샵 대표사진 변경
+function change_main(id, src){
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'put_front_main',
+            login_id: id,
+            image:src,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            //console.log(res);
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                pop.open('reloadPop', '완료되었습니다.');
+            }
+        }
+    })
+}
+
+// 대문사진 삭제하기
+function del_front(id, src){
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'del_front',
+            login_id: id,
+            image:src,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            //console.log(res);
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                pop.open('reloadPop', '완료되었습니다.');
+            }
+        }
+    })
+}
