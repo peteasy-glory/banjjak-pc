@@ -128,9 +128,9 @@ if ($artist_flag == 1) {
 							</div>					
 							<!-- //오늘의 예약 총 횟수 -->
 							<!-- 빈시간 판매하기 -->
-							<div class="basic-data-card transparent">
-								<button type="button" class="btn btn-outline-purple btn-basic-full btn-box-shadow"><strong>빈시간 판매하기</strong></button>
-							</div>					
+<!--							<div class="basic-data-card transparent">-->
+<!--								<button type="button" class="btn btn-outline-purple btn-basic-full btn-box-shadow"><strong>빈시간 판매하기</strong></button>-->
+<!--							</div>					-->
 							<!-- //빈시간 판매하기 -->
 						</div>					
 					</div>

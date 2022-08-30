@@ -54,7 +54,7 @@ function schedule_render(id){
 
                             Array.from(document.getElementsByClassName('calendar-day-body-col')).forEach(function (el_){
 
-                                if(el_.getAttribute('data-name') === el.product.worker && new Date(el_.getAttribute('data-year'),el_.getAttribute('data-month'),el_.getAttribute('data-date'),el_.getAttribute('data-hour'),el_.getAttribute('data-minutes')).getTime() === new Date(el.product.date.booking_st).getTime() ){
+                                if(el_.getAttribute('data-name') === el.product.worker && new Date(el_.getAttribute('data-year'),el_.getAttribute('data-month'),el_.getAttribute('data-date'),el_.getAttribute('data-hour'),el_.getAttribute('data-minutes')).getTime() === new Date(el.product.date.booking_st).getTime() && el.product.is_cancel === 0){
                                     switch(el.product.pay_type){
 
                                         case "pos-card" : case "pos-cash" : color = 'yellow'; break;
@@ -240,7 +240,8 @@ function reserve_schedule_week_cols(body,body_,parent,id){
 
 
 
-                        if(parseInt(el__.getAttribute('data-day')) === day && _booking_st === el__.getAttribute('data-time-to')){
+
+                        if(parseInt(el__.getAttribute('data-day')) === day && _booking_st === el__.getAttribute('data-time-to') && _el.product.is_cancel === 0){
 
 
 
@@ -2145,7 +2146,7 @@ function pay_management(id){
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
-            let body_ = [response.data2.body,response.data3.body]
+            let body_ = [response.data2.body,response.data3.body,body.pet_seq]
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
@@ -2192,7 +2193,7 @@ function pay_management(id){
                     }
                 })
 
-                work_body_inner.innerHTML = ''
+                // work_body_inner.innerHTML = ''
 
                 work_body_inner.innerHTML += `<div class="basic-data-group vsmall">
                                         <div class="con-title-group">
@@ -2207,7 +2208,7 @@ function pay_management(id){
                                                     <div class="customer-user-table-data">
                                                         <div class="table-data">
                                                             <div class="table-user-name">
-                                                                ${body.customer_Id === "" ? body.tmp_id : body.customer_Id}
+                                                                <span id="customer_id">${body.customer_Id === "" ? body.tmp_id : body.customer_Id}</span>
                                                                 <div class="user-grade-item">
                                                                     <div class="icon icon-grade-${body.grade_ord === 1 ? 'vip' : body.grade_ord === 2 ? 'normal' : 'normalb'}"></div>
                                                                     <div class="icon-grade-label">${body.grade_name}</div>
@@ -2218,7 +2219,7 @@ function pay_management(id){
                                                     <div class="customer-user-info-ui">
                                                     
                                                         ${body.noshow_count > 0 ? `<div class="label label-outline-pink">NO SHOW ${body.noshow_count}회</div>`:''}
-                                                        ${body.is_noshow === 0 ? `<a href="#" class="btn btn-inline btn-red">NO SHOW 등록</a>` : `<div class="btn btn-inline btn-red">NO SHOW</div>` }
+                                                        ${body.is_noshow === 0 ? `<a href="#" onclick="pop.open('noshow')" class="btn btn-inline btn-red">NO SHOW 등록</a>` : `<div class="btn btn-inline" style="cursor:pointer; background: #8f8f8f; color:white;" onclick="pop.open('cancel_noshow')">노쇼 취소</div>` }
                                                     </div>
                                                 </div>
                                                 <div class="customer-user-table-row">
@@ -2229,13 +2230,13 @@ function pay_management(id){
                                                         <div class="table-data">
                                                             <div class="customer-user-phone-wrap read">
                                                                 <div class="item-main-phone">
-                                                                    <div class="value">${body.cell_phone}</div>
+                                                                    <div class="value" id="cellphone_detail">${body.cell_phone}</div>
                                                                 </div>
-                                                                <div class="item-sub-phone">
-                                                                
-                                                                    <div class="value">010-1234-1234</div>
-                                                                    
-                                                                </div>
+<!--                                                                <div class="item-sub-phone">-->
+<!--                                                                -->
+<!--                                                                    <div class="value">010-1234-1234</div>-->
+<!--                                                                    -->
+<!--                                                                </div>-->
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2259,7 +2260,7 @@ function pay_management(id){
                                             <div class="item-thumb">
                                                 <div class="user-thumb large"><img src="${body.photo === "" ? body.type === "dog" ? '../static/images/icon/icon-pup-select-off.png' : '../static/images/icon/icon-cat-select-off.png' : `https://image.banjjakpet.com${body.photo}`}" alt=""></div>
                                                 <div class="item-thumb-ui">
-                                                    <a href="#" class="btn btn-outline-gray btn-vsmall-size btn-inline">펫 정보 수정</a>
+                                                    <a href="#" class="btn btn-outline-gray btn-vsmall-size btn-inline" id="modify_pet">펫 정보 수정</a>
                                                 </div>
                                             </div>
                                             <div class="item-user-data">
@@ -2437,8 +2438,8 @@ function pay_management(id){
                                                                 <div class="form-item-label">특이사항</div>
                                                                 <div class="form-item-data type-2">
                                                                     <div class="form-textarea-btns">
-                                                                        <textarea style="height:60px;" placeholder="입력"></textarea>
-                                                                        <button type="button" class="btn btn-outline-gray">저장</button>
+                                                                        <textarea style="height:60px;" id="payment_memo" placeholder="입력">${body.payment_memo}</textarea>
+                                                                        <button type="button" class="btn btn-outline-gray" onclick="payment_memo()">저장</button>
                                                                     </div>
                                                                     <div class="form-input-info">(고객에게는 노출되지 않습니다.)</div>
                                                                 </div>
@@ -2449,8 +2450,8 @@ function pay_management(id){
                                                                 <div class="form-item-label">견주관련 메모</div>
                                                                     <div class="form-item-data type-2">
                                                                         <div class="form-textarea-btns">
-                                                                            <textarea style="height:60px;" placeholder="입력"></textarea>
-                                                                            <button type="button" class="btn btn-outline-gray">저장</button>
+                                                                            <textarea style="height:60px;" id="customer_memo"  placeholder="입력"></textarea>
+                                                                            <button type="button" class="btn btn-outline-gray" onclick="customer_memo()">저장</button>
                                                                         </div>
                                                                         <div class="form-input-info">(고객에게는 노출되지 않습니다.)</div>
                                                                     </div>
@@ -2578,7 +2579,7 @@ function pay_management(id){
                                                                                         <button type="button" class="btn btn-purple">날짜/미용사 변경</button>
                                                                                     </div>
                                                                                     <div class="grid-layout-cell grid-2">
-                                                                                        <button type="button" class="btn btn-outline-purple">예약 취소</button>
+                                                                                        <button type="button" class="btn btn-outline-purple" onclick="pop.open('reserveCancel')">예약 취소</button>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -2679,6 +2680,68 @@ function pay_management_(id){
                                                                           </div>`
 
         })
+
+
+
+        document.getElementById('modify_pet').addEventListener('click',function(){
+
+            pay_management_modify_pet(body_[2]).then(function(body){
+
+                pay_management_modify_pet_(body)
+
+            });
+
+        });
+
+
+        let customer_id = '';
+        let tmp_seq = '';
+
+        if(document.getElementById('customer_id').innerText.match('@')){
+
+
+            customer_id = document.getElementById('customer_id').innerText;
+            console.log(customer_id)
+            console.log(tmp_seq)
+        }else{
+
+            tmp_seq = document.getElementById('customer_id').innerText;
+            console.log(customer_id)
+            console.log(tmp_seq)
+        }
+
+
+
+        $.ajax({
+
+           url:'/data/pc_ajax.php',
+            type:'post',
+            data:{
+                mode:'get_customer_memo',
+                login_id:id,
+                customer_id : customer_id,
+                tmp_seq : tmp_seq,
+                cellphone: document.getElementById('cellphone_detail').innerText,
+            },
+            success:function(res) {
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+
+                   console.log(body)
+
+                    document.getElementById('customer_memo').value = body.memo;
+                    document.getElementById('customer_memo').setAttribute('data-scm_seq',body.scm_seq);
+
+                }
+            }
+
+
+        })
+
     })
 
 }
@@ -2722,7 +2785,7 @@ function today_reserve_month(id){
                                                             <div class="item-thumb">
                                                                 <div class="user-thumb small"><img src="${el.pet.photo !== null ? `https://image.banjjakpet.com${el.pet.photo}`  : `${el.pet.animal === 'dog' ? `../static/images/icon/icon-pup-select-off.png`: `../static/images/icon/icon-cat-select-off.png`}` }" alt=""></div>
                                                                 <div class="item-kind">
-                                                                    <span>${el.product.category_sub }</span>
+                                                                    <span>${el.product.category_sub.match(':') ? el.product.category_sub.split(':')[0].replace('_',' ') : el.product.category_sub }</span>
                                                                 </div>
                                                             </div>
                                                             <div class="item-data">
@@ -2859,6 +2922,7 @@ return new Promise(function (resolve){
 
         body.beauty.forEach(function(el_){
 
+
             let color;
             switch(el_.product.pay_type){
 
@@ -2872,11 +2936,11 @@ return new Promise(function (resolve){
 
 
 
-            if(!el.parentElement.parentElement.classList.contains('before') && !el.parentElement.parentElement.classList.contains('after')){
+            if(!el.parentElement.parentElement.classList.contains('before') && !el.parentElement.parentElement.classList.contains('after') ){
 
-                if(new Date(date_init[0],date_init[1]-1,date_init[2]).getTime() === new Date(el.getAttribute('data-year'),el.getAttribute('data-month'),el.getAttribute('data-date')).getTime()){
+                if(new Date(date_init[0],date_init[1]-1,date_init[2]).getTime() === new Date(el.getAttribute('data-year'),el.getAttribute('data-month'),el.getAttribute('data-date')).getTime() && el_.product.is_cancel === 0 ){
 
-                    el.innerHTML += `<div class="calendar-drag-item"><a href="./reserve_pay_management_beauty_1.php" onclick="localStorage.setItem('payment_idx',${el_.product.payment_idx})" class="calendar-month-day-item ${color} ${el_.product.pay_type} ${el_.product.is_no_show === 1 ? "red" : ''} "><div class="calendar-month-day-item-name"><strong>${el_.pet.name}</strong><span>(${el_.pet.type})</span></div></a></div>`
+                    el.innerHTML += `<div class="calendar-drag-item"><a href="./reserve_pay_management_beauty_1.php" onclick="localStorage.setItem('payment_idx',${el_.product.payment_idx})" class="calendar-month-day-item green ${color} ${el_.product.pay_type} ${el_.product.is_no_show === 1 ? "red" : ''} " style="color: white;"><div class="calendar-month-day-item-name"><strong>${el_.pet.name}</strong><span>(${el_.pet.type})</span></div></a></div>`
                 }
             }
 
@@ -3158,7 +3222,7 @@ function _schedule_render_list(body){
 
         Array.from(document.getElementsByClassName('reserve-calendar-list-data')).forEach(function (el_){
 
-            if(el_.getAttribute(`id`).replaceAll('list-data-','') === el.product.worker){
+            if(el_.getAttribute(`id`).replaceAll('list-data-','') === el.product.worker && el.product.is_cancel === 0){
                 document.getElementById(`list-data-${el.product.worker}`).innerHTML +=`<a href="../booking/reserve_pay_management_beauty_1.php" onclick="localStorage.setItem('payment_idx',${el.product.payment_idx})" class="reserve-calendar-list-items ${color} ${el.product.is_no_show === 1 ? "red" : ''}">
                                                                                                         <div class="item-time">
                                                                                                             <div class="item-time-start">
@@ -5933,4 +5997,436 @@ function exist_user_reserve_init(body){
 
         document.getElementById('special4').checked = true;
     }
+}
+
+function set_noshow(){
+
+
+    let payment_idx = localStorage.getItem('payment_idx');
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:'set_noshow',
+            payment_idx:payment_idx
+        },
+        success:function(res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                console.log(body)
+            }
+        }
+
+    })
+
+}
+
+
+function cancel_noshow(){
+
+
+    let payment_idx = localStorage.getItem('payment_idx');
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:'cancel_noshow',
+            payment_idx:payment_idx
+        },
+        success:function(res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                console.log(body)
+            }
+        }
+
+    })
+
+}
+
+function pay_management_modify_pet(pet_seq){
+
+
+    return new Promise(function (resolve){
+
+
+
+        $.ajax({
+
+            url:'/data/pc_ajax.php',
+            type:'post',
+            data:{
+
+                mode:'pet_info',
+                pet_seq:pet_seq
+            },
+            success:function(res) {
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+
+                    document.getElementById('customer_name').value = body.name;
+
+                    if(body.type === 'dog'){
+
+                        document.getElementById('breed1').click();
+                    }else{
+                        document.getElementById('breed2').click();
+
+                    }
+
+                    setTimeout(function(){
+
+                        resolve(body);
+                    },300)
+
+
+
+
+                }
+            }
+        })
+
+    })
+
+
+
+}
+function pay_management_modify_pet_(body){
+
+
+    console.log(body);
+
+
+    for(let i=0; i<document.getElementById('breed_select').options.length; i++){
+
+        if(document.getElementById('breed_select').options[i].value === body.pet_type){
+
+            document.getElementById('breed_select').options[i].selected = true;
+        }
+    }
+    for(let i=0; i<document.getElementById('birthday_year').options.length; i++){
+
+        if(document.getElementById('birthday_year').options[i].value === body.year.toString()){
+
+            document.getElementById('birthday_year').options[i].selected = true;
+        }
+    }
+    for(let i=0; i<document.getElementById('birthday_month').options.length; i++){
+
+        if(document.getElementById('birthday_month').options[i].value === fill_zero(body.month)){
+
+            document.getElementById('birthday_month').options[i].selected = true;
+        }
+    }
+    for(let i=0; i<document.getElementById('birthday_date').options.length; i++){
+
+        if(document.getElementById('birthday_date').options[i].value === fill_zero(body.day)){
+
+            document.getElementById('birthday_date').options[i].selected = true;
+        }
+    }
+
+    if(body.gender === '남아'){
+
+        document.getElementById('gender1').checked = true;
+    }else{
+        document.getElementById('gender2').checked = true;
+
+    }
+
+    if(body.neutral === 0){
+
+        document.getElementById('neutralize1').checked = true;
+    }else{
+
+        document.getElementById('neutralize2').checked = true;
+
+    }
+
+
+    for(let i=0; i<document.getElementById('weight1').options.length; i++){
+
+        if(document.getElementById('weight1').options[i].value === body.weight.split('.')[0]){
+
+
+            document.getElementById('weight1').options[i].selected = true;
+        }
+    }
+
+
+    for(let i=0; i<document.getElementById('weight2').options.length; i++){
+
+        if(document.getElementById('weight2').options[i].value === body.weight.split('.')[1]){
+
+
+            document.getElementById('weight2').options[i].selected = true;
+        }
+    }
+
+    for(let i=0; i<document.getElementById('beauty_exp').options.length; i++){
+
+        if(document.getElementById('beauty_exp').options[i].value === body.beauty_exp){
+
+            document.getElementById('beauty_exp').options[i].selected = true;
+        }
+    }
+
+    for(let i=0; i<document.getElementById('vaccination').options.length; i++){
+
+        if(document.getElementById('vaccination').options[i].value === body.vaccination){
+
+            document.getElementById('vaccination').options[i].selected = true;
+        }
+    }
+
+    for(let i=0; i<document.getElementById('bite').options.length; i++){
+
+        if(document.getElementById('bite').options[i].value === body.bite){
+
+            document.getElementById('bite').options[i].selected = true;
+        }
+    }
+
+    for(let i=0; i<document.getElementById('luxation').options.length; i++){
+
+        if(document.getElementById('luxation').options[i].value === body.luxation){
+
+            document.getElementById('luxation').options[i].selected = true;
+        }
+    }
+
+    if(body.dermatosis === 1){
+
+        document.getElementById('special1').checked = true;
+
+    }
+
+    if(body.heart_trouble === 1){
+
+        document.getElementById('special2').checked = true;
+    }
+
+    if(body.marking === 1){
+
+        document.getElementById('special3').checked = true;
+    }
+
+    if(body.mounting === 1){
+
+        document.getElementById('special4').checked = true;
+    }
+
+    document.getElementById('modify_pet_info_btn').addEventListener('click',function(){
+
+
+        modify_pet_info(body)
+    },{once:true})
+
+    pop.open('petModifyPop');
+}
+
+function modify_pet_info(body){
+
+    if(document.getElementById('customer_name').value === '' || document.getElementById('customer_name').value === null || document.getElementById('customer_name').value === undefined ){
+
+        document.getElementById('msg1_txt').innerText = '펫 이름을 입력해주세요.'
+        pop.open('reserveAcceptMsg1');
+        return;
+    }
+
+
+
+    if(document.querySelector('input[name="breed"]:checked') === null || document.querySelector('input[name="breed"]:checked') === undefined || document.querySelector('input[name="breed"]:checked') === ''){
+
+        document.getElementById('msg1_txt').innerText = '품종을 선택해주세요.'
+        pop.open('reserveAcceptMsg1');
+        return;
+    }
+
+    if(document.getElementById('breed_select').value === "선택" || document.getElementById('breed_select').value === ''){
+        document.getElementById('msg1_txt').innerText = '품종을 선택해주세요.'
+        pop.open('reserveAcceptMsg1');
+        return;
+
+    }
+    if((document.getElementById('breed_select').value === "기타" || document.getElementById('breed_select').value === "") && document.getElementById('breed_other').value === ''){
+        document.getElementById('msg1_txt').innerText = '품종을 선택해주세요.'
+        pop.open('reserveAcceptMsg1');
+        return;
+
+    }
+
+    if(document.getElementById('weight1').value === "0" && document.getElementById('weight2').value ==="0"){
+
+        document.getElementById('msg1_txt').innerText = '몸무게를 입력해주세요.'
+        pop.open('reserveAcceptMsg1');
+        return;
+    }
+
+
+    let breed = document.getElementById('breed_select').value === '기타' ? document.getElementById('breed_other').value : document.getElementById('breed_select').value;
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:"modify_pet_info",
+            idx:body.pet_seq,
+            name:document.getElementById('customer_name').value,
+            type:document.querySelector('input[name="breed"]:checked').value,
+            pet_type:breed,
+            year:document.getElementById('birthday_year').value,
+            month:document.getElementById('birthday_month').value,
+            day:document.getElementById('birthday_date').value,
+            gender:document.querySelector('input[name="gender"]:checked') === null ? '0' : document.querySelector('input[name="gender"]:checked').value,
+            neutral:document.querySelector('input[name="neutralize"]:checked') === null ? '0' : document.querySelector('input[name="neutralize"]:checked').value,
+            weight:`${document.getElementById('weight1').value}.${document.getElementById('weight2').value}`,
+            beauty_exp : document.getElementById('beauty_exp').value,
+            vaccination : document.getElementById('vaccination').value,
+            luxation : document.getElementById('luxation').value,
+            bite : document.getElementById('bite').value,
+            dermatosis:document.getElementById('special1').checked === true ? 1:0,
+            heart_trouble:document.getElementById('special2').checked === true ? 1:0,
+            marking:document.getElementById('special3').checked === true ? 1:0,
+            mounting:document.getElementById('special4').checked === true ? 1:0,
+            etc:"",
+
+
+
+
+
+        },
+        success:function(res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+
+                document.getElementById('msg2_txt').innerText = '펫 정보가 변경되었습니다.'
+                pop.open('reserveAcceptMsg2');
+
+            }
+        }
+
+    })
+}
+
+function customer_memo(){
+
+    let scm_seq = document.getElementById('customer_memo').getAttribute('data-scm_seq');
+    let memo = document.getElementById('customer_memo').value;
+
+
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:'put_customer_memo',
+            idx:scm_seq,
+            memo:memo,
+        },
+        success:function(res) {
+            console.log(res)
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+
+                console.log(body)
+
+                document.getElementById('msg2_txt').innerText = '견주 메모가 변경되었습니다.'
+                pop.open('reserveAcceptMsg2');
+            }
+        }
+    })
+
+}
+
+function payment_memo(){
+
+    let idx = localStorage.getItem('payment_idx');
+    let memo = document.getElementById('payment_memo').value;
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:'put_payment_memo',
+            idx:idx,
+            memo:memo,
+        },
+        success:function(res) {
+            console.log(res)
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+
+                console.log(body)
+
+                document.getElementById('msg2_txt').innerText = '특이사항이 변경되었습니다.'
+                pop.open('reserveAcceptMsg2');
+            }
+        }
+    })
+
+}
+
+function reserve_cancel(bool){
+
+    let idx = localStorage.getItem('payment_idx');
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:'reserve_cancel',
+            idx:idx
+
+        },
+        success:function(res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+
+                location.reload();
+            }
+        }
+    })
 }

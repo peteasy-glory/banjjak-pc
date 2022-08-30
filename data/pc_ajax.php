@@ -482,6 +482,168 @@ if($r_mode) {
         $return_data = array("code"=>"000000","data"=>$post_grade);
 
 
+    }else if($r_mode === "set_noshow"){
+
+        $payment_idx = $_POST['payment_idx'];
+
+        $is_no_show = true ;
+
+        $set_noshow_data = array(payment_idx=>$payment_idx,is_no_show=>$is_no_show);
+
+        $set_noshow_data_json = json_encode($set_noshow_data);
+
+        $set_noshow = $api ->put('/partner/booking/noshow',$set_noshow_data_json);
+
+        $return_data = array("code"=>"000000","data"=>$set_noshow);
+
+
+
+    }else if($r_mode === "cancel_noshow"){
+
+        $payment_idx = $_POST['payment_idx'];
+
+        $is_no_show = false;
+
+        $cancel_noshow_data = array(payment_idx=>$payment_idx,is_no_show=>$is_no_show);
+
+        $cancel_noshow_data_json = json_encode($cancel_noshow_data);
+
+        $cancel_noshow = $api ->put('/partner/booking/noshow',$cancel_noshow_data_json);
+
+        $return_data = array("code"=>"000000","data"=>$cancel_noshow);
+
+
+
+    }else if($r_mode === "modify_pet_info"){
+
+
+        $idx = $_POST['idx'];
+        $name = $_POST['name'];
+        $type = $_POST['type'];
+        $pet_type = $_POST['pet_type'];
+        $year = $_POST['year'];
+        $month = $_POST['month'];
+        $day = $_POST['day'];
+        $gender = $_POST['gender'];
+        $neutral = $_POST['neutral'];
+        $weight = $_POST['weight'];
+        $beauty_exp = $_POST['beauty_exp'];
+        $vaccination = $_POST['vaccination'];
+        $luxation = $_POST['luxation'];
+        $bite = $_POST['bite'];
+        $dermatosis = $_POST['dermatosis'];
+        $heart_trouble = $_POST['heart_trouble'];
+        $marking = $_POST['marking'];
+        $mounting = $_POST['mounting'];
+        $etc = $_POST['etc'];
+
+
+        $modify_data = array(
+            idx=>intval($idx),
+            name=>$name,
+            type=>$type,
+            pet_type=>$pet_type,
+            year=>intval($year),
+            month=>intval($month),
+            day=>intval($day),
+            gender=>$gender,
+            neutral=>intval($neutral),
+            weight=>$weight,
+            beauty_exp=>$beauty_exp,
+            vaccination=>$vaccination,
+            luxation=>$luxation,
+            bite=>$bite,
+            dermatosis=>intval($dermatosis),
+            heart_trouble=>intval($heart_trouble),
+            marking=>intval($marking),
+            mounting=>intval($mounting),
+            etc=>$etc
+
+        );
+
+        $modify_data_json = json_encode($modify_data);
+
+
+        $modify_pet_info = $api->put('/partner/booking/pet',$modify_data_json);
+
+        $return_data = array("code"=>"000000","data"=>$modify_pet_info);
+
+
+
+    }else if($r_mode === "get_customer_memo"){
+
+        $login_id = $_POST['login_id'];
+        $customer_id = $_POST['customer_id'];
+        $tmp_seq = $_POST['tmp_seq'];
+        $cellphone = $_POST['cellphone'];
+
+
+        $get_memo_data = array(
+            customer_id=>$customer_id,
+            tmp_seq=>$tmp_seq,
+            cellphone=>$cellphone
+        );
+
+        $get_memo_data_json = json_encode($get_memo_data);
+
+
+        $get_customer_memo = $api->get('/partner/booking/customer-memo/'.$login_id,$get_memo_data_json);
+
+        $return_data = array("code"=>"000000","data"=>$get_customer_memo);
+
+
+    }else if($r_mode === "put_customer_memo"){
+
+        $idx = $_POST['idx'];
+        $memo = $_POST['memo'];
+
+        $put_memo_data = array(
+            idx=>intval($idx),
+            memo=>$memo
+
+        );
+
+        $put_memo_data_json = json_encode($put_memo_data);
+
+        $put_customer_memo = $api ->put('/partner/booking/customer-memo',$put_memo_data_json);
+
+        $return_data = array("code"=>"000000","data"=>$put_customer_memo);
+
+
+
+
+    }else if($r_mode ==="reserve_cancel"){
+
+        $idx = $_POST['idx'];
+        $is_cancel = 1;
+
+        $reserve_cancel_data = array(idx=>intval($idx),is_cancel=>intval($is_cancel));
+
+        $reserve_cancel_data_json = json_encode($reserve_cancel_data);
+
+        $reserve_cancel = $api -> put('/partner/booking/cancel',$reserve_cancel_data_json);
+
+        $return_data = array("code"=>"000000","data"=>$reserve_cancel);
+
+
+
+    }else if($r_mode === "put_payment_memo"){
+
+        $idx = $_POST['idx'];
+        $memo = $_POST['memo'];
+
+        $put_memo_data = array(
+            idx=>intval($idx),
+            memo=>$memo
+
+        );
+
+        $put_memo_data_json = json_encode($put_memo_data);
+
+        $put_payment_memo = $api ->put('/partner/booking/payment-memo',$put_memo_data_json);
+
+        $return_data = array("code"=>"000000","data"=>$put_payment_memo);
+
     }
 }
 

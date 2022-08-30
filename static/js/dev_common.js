@@ -298,6 +298,7 @@ function stats(){
     }else{
         stats = data;
     }
+
     if (stats.beauty.length > 0) {
 
         document.getElementById('main_reserve_graph_none').style.display = 'none';
