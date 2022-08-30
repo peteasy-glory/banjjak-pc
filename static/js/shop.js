@@ -304,3 +304,54 @@ function del_reply(idx){
         }
     })
 }
+
+// 블로그 리스트
+function get_blog_list(id){
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'get_blog_list',
+            login_id: id,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            //console.log(res);
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                shop_array.push(body);
+            }
+        }
+    })
+}
+
+// 블로그 리스트
+function get_naver_blog_list(id, txt, display, start){
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'get_naver_blog_list',
+            login_id: id,
+            txt:txt,
+            display:display,
+            start:start
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            //console.log(res);
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                shop_array.push(body);
+            }
+        }
+    })
+}

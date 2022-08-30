@@ -357,6 +357,27 @@ if($r_mode) {
         $result = $api ->delete('/partner/shop/review' ,$data_json);
 
         $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "get_blog_list"){
+
+        $login_id = $_POST['login_id'];
+        $data = array('naver'=>false);
+        $data_json = json_encode($data);
+
+        $time_type = $api -> get('/partner/shop/blog/'.$login_id, $data_json);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "get_naver_blog_list"){
+
+        $login_id = $_POST['login_id'];
+        $query = $_POST['txt'];
+        $display = intval($_POST['display']);
+        $start = intval($_POST['start']);
+        $data = array('naver'=>true,'query'=>$query,'display'=>$display,'start'=>$start);
+        $data_json = json_encode($data);
+
+        $time_type = $api -> get('/partner/shop/blog/'.$login_id, $data_json);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
     }else if($r_mode === "regular_holiday"){
 
         $login_id = $_POST['login_id'];

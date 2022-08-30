@@ -280,7 +280,7 @@ var include = {
                                                 </a>
                                             </div>
                                             <div class="snb-menu-cell" id="gnb_blog">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="/shop/shop_blog.php" class="btn-snb-nav">
                                                     <div class="txt">샵 연동 블로그 관리</div>
                                                 </a>
                                             </div>
