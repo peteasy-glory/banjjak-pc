@@ -79,7 +79,7 @@ function RandomToken($length = 32){
                             </div>
                         </div>
                         <div class="login-agree">
-                            <div class="check"><label class="form-checkbox"><input type="checkbox" id="remember" name="check"><span class="form-check-icon"><em>로그인 상태유지</em></span></label></div>
+                            <div class="check"><label class="form-checkbox"><input type="checkbox" id="remember" name="check" checked><span class="form-check-icon"><em>로그인 상태유지</em></span></label></div>
                             <div class="btn-ui"><a href="./login_find_id.php" class="btn-member">아이디/비밀번호 찾기</a></div>
                         </div>
                         <div class="login-btn-group">

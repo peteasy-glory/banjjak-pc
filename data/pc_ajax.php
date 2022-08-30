@@ -1,8 +1,8 @@
 <?php
 include($_SERVER['DOCUMENT_ROOT'] . "/include/global.php");
 include($_SERVER['DOCUMENT_ROOT'] . "/common/TRestAPI.php");
-
-
+include($_SERVER['DOCUMENT_ROOT']."/common/TEmoji.php");
+$emoji = new TEmoji();
 
 $user_id = (isset($_SESSION['gobeauty_user_id'])) ? $_SESSION['gobeauty_user_id'] : "";
 $user_name = (isset($_SESSION['gobeauty_user_nickname'])) ? $_SESSION['gobeauty_user_nickname'] : "";
@@ -13,8 +13,6 @@ $user_name = (isset($_SESSION['gobeauty_user_nickname'])) ? $_SESSION['gobeauty_
 
 //$api = new TRestAPI("https://partnerapi.banjjakpet.com","Token 2156d1824c98f27a1f163a102cf742002b15e624");
 $api = new TRestAPI("http://stg-partnerapi.banjjakpet.com:8080","Token 55dda3818c897ef163b09a13d37199a7d211b6d2");
-//$api2 = new TRestAPI("http://10.24.205.206:8080","Token 2156d1824c98f27a1f163a102cf742002b15e624");
-
 
 
 $data = array();
@@ -71,7 +69,15 @@ if($r_mode) {
 
         $return_data = array("code" => "000000", "data" => $login);
 
-    } else if ($r_mode === "check_id") {
+    }else if($r_mode === "navi"){
+
+        $login_id = $_POST['login_id'];
+
+        $navi = $api->get('/partner/home/navigation/'.$login_id);
+
+        $return_data = array("code" => "000000", "data"=>$navi);
+
+    }else if($r_mode === "check_id"){
 
 
         $check_id = $api->get('/partner/auth-email/' . $_GET['id']);
@@ -165,7 +171,333 @@ if($r_mode) {
         $break_time = $api->get('/partner/setting/break-time/' . $login_id);
 
         $return_data = array("code" => "000000", 'data' => $break_time);
-    } else if ($r_mode === "pay_management") {
+    }else if($r_mode === "time_type"){
+
+        $login_id = $_POST['login_id'];
+
+        $time_type = $api -> get('/partner/shop/info/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "get_front_img"){
+
+        $login_id = $_POST['login_id'];
+
+        $data = $api -> get('/partner/shop/front/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$data);
+    }else if($r_mode === "post_front_img"){
+
+        $login_id = $_POST['login_id'];
+        $mime = $_POST['mime'];
+        $image = $_FILES['image']['tmp_name'];
+        $base_img = base64_encode(file_get_contents($image));
+
+        $data = array('partner_id'=>$login_id,'mime'=>$mime,'image'=>$base_img);
+        $data_json = json_encode($data);
+
+        $post = $api ->post('/partner/shop/front',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$post);
+    }else if($r_mode === "put_front_main"){
+
+        $partner_id = $_POST['login_id'];
+        $image = $_POST['image'];
+
+        $data = array('partner_id'=>$partner_id,'image'=>$image);
+        $data_json = json_encode($data);
+
+        $result = $api ->put('/partner/shop/front' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "del_front"){
+
+        $partner_id = $_POST['login_id'];
+        $image = $_POST['image'];
+
+        $data = array('partner_id'=>$partner_id,'image'=>$image);
+        $data_json = json_encode($data);
+
+        $result = $api ->delete('/partner/shop/front' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "get_portfolio"){
+
+        $login_id = $_POST['login_id'];
+
+        $data = $api -> get('/partner/shop/gallery/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$data);
+    }else if($r_mode === "del_gallery"){
+
+        $idx = intval($_POST['idx']);
+
+        $data = array('idx'=>$idx);
+        $data_json = json_encode($data);
+
+        $result = $api ->delete('/partner/shop/gallery' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "post_shop_gallery"){
+
+        $login_id = $_POST['login_id'];
+        $mime = $_POST['mime'];
+        resizeImage($_FILES['image']['tmp_name'], $_FILES['image']['tmp_name']);
+        $image = $_FILES['image']['tmp_name'];
+        $base_img = base64_encode(file_get_contents($image));
+
+        $data = array('partner_id'=>$login_id,'mime'=>$mime,'image'=>$base_img);
+        $data_json = json_encode($data);
+
+        $post = $api ->post('/partner/shop/gallery',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$post);
+    }else if($r_mode === "get_shop_info"){
+
+        $login_id = $_POST['login_id'];
+
+        $time_type = $api -> get('/partner/shop/info/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "shop_info_photo"){
+
+        $login_id = $_POST['login_id'];
+        $mime = $_POST['mime'];
+        resizeImage($_FILES['image']['tmp_name'], $_FILES['image']['tmp_name']);
+        $image = $_FILES['image']['tmp_name'];
+        $base_img = base64_encode(file_get_contents($image));
+
+        $data = array('partner_id'=>$login_id,'mime'=>$mime,'image'=>$base_img);
+        $data_json = json_encode($data);
+
+        $post = $api ->put('/partner/shop/info-photo',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$post);
+    }else if($r_mode === "save_shop_info"){
+
+        $partner_id = $_POST['login_id'];
+        $working_years = intval($_POST['working_years']);
+        $introduction = $_POST['introduction'];
+        $career = $_POST['career'];
+        $kakao_channel = $_POST['kakao_channel'];
+        $instagram = $_POST['instagram'];
+        $kakao_id = $_POST['kakao_id'];
+
+        $data = array('partner_id'=>$partner_id,'working_years'=>$working_years,'introduction'=>$introduction,'career'=>$career,'kakao_channel'=>$kakao_channel,'instagram'=>$instagram,'kakao_id'=>$kakao_id);
+        $data_json = json_encode($data);
+
+        $result = $api ->put('/partner/shop/info' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "get_license_award"){
+
+        $login_id = $_POST['login_id'];
+        $type = intval($_POST['type']);
+
+        $data = array('type'=>$type);
+        $data_json = json_encode($data);
+
+        $time_type = $api -> get('/partner/shop/license-award/'.$login_id, $data_json);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "save_license_award"){
+
+        $partner_id = $_POST['login_id'];
+        $type = intval($_POST['type']);
+        $name = $_POST['name'];
+        $issued_by = $_POST['issued_by'];
+        $published_date = $_POST['published_date'];
+        $mime = $_POST['mime'];
+        resizeImage($_FILES['image']['tmp_name'], $_FILES['image']['tmp_name']);
+        $image = $_FILES['image']['tmp_name'];
+        $base_img = base64_encode(file_get_contents($image));
+
+        $data = array('partner_id'=>$partner_id,type=>$type,'name'=>$name,'issued_by'=>$issued_by,'published_date'=>$published_date,'mime'=>$mime,'image'=>$base_img);
+        $data_json = json_encode($data);
+
+        $result = $api ->post('/partner/shop/license-award' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "del_license_award"){
+
+        $partner_id = $_POST['login_id'];
+        $photo = $_POST['src'];
+        $type = intval($_POST['type']);
+
+        $data = array('partner_id'=>$partner_id,'photo'=>$photo,'type'=>$type);
+        $data_json = json_encode($data);
+
+        $result = $api ->delete('/partner/shop/license-award' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "regular_holiday"){
+
+        $login_id = $_POST['login_id'];
+
+        $time_type = $api -> get('/partner/setting/regular-holiday/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "get_authority"){
+
+        $login_id = $_POST['login_id'];
+
+        $time_type = $api -> get('/partner/setting/authority/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "is_authority"){
+
+        $login_id = $_POST['login_id'];
+
+        $time_type = $api -> get('/partner/setting/is-authority/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "get_pay_reserve"){
+
+        $login_id = $_POST['login_id'];
+
+        $time_type = $api -> get('/partner/setting/reserve/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "get_artist_list"){
+
+        $login_id = $_POST['login_id'];
+
+        $time_type = $api -> get('/partner/setting/working/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "show_modify_artist"){
+
+        $artist_id = $_POST['login_id'];
+        $name = $_POST['name'];
+        $is_view = $_POST['is_view'];
+
+        $data = array('artist_id'=>$artist_id,'name'=>$name,'is_view'=>$is_view);
+        $data_json = json_encode($data);
+
+        $result = $api ->put('/partner/setting/view-artist' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "leave_modify_artist"){
+
+        $artist_id = $_POST['login_id'];
+        $name = $_POST['name'];
+        $is_out = $_POST['is_out'];
+
+        $data = array('artist_id'=>$artist_id,'name'=>$name,'is_out'=>$is_out);
+        $data_json = json_encode($data);
+
+        $result = $api ->put('/partner/setting/out-artist' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "put_artist"){
+
+        $artist_id = $_POST['artist_id'];
+        $name = $_POST['name'];
+        $nicname = $_POST['nicname'];
+        $is_main = $_POST['is_main'];
+        $is_out = $_POST['is_out'];
+        $is_view = $_POST['is_view'];
+        $week = $_POST['week'];
+        $st_time = $_POST['st_time'];
+        $fi_time = $_POST['fi_time'];
+        $sequ_prnt = $_POST['sequ_prnt'];
+
+        $work = [];
+        $pass_i = 0;
+        for($i=0;$i<7;$i++){
+            if($week[$i-$pass_i] == ($i)){
+                $is_work = 1;
+            }else{
+                $is_work = 0;
+                $pass_i++;
+            }
+            $work_data = array('is_work'=>$is_work,'week'=>$i,'time_st'=>$st_time[$i-$pass_i],'time_fi'=>$fi_time[$i-$pass_i]);
+
+            array_push($work, $work_data);
+        }
+
+        $data = array('artist_id'=>$artist_id,'name'=>$name,'nicname'=>$nicname,'is_main'=>$is_main,'is_out'=>$is_out,'is_view'=>$is_view,'work'=>$work,'sequ_prnt'=>$sequ_prnt);
+        $data_json = json_encode($data);
+
+        $result = $api ->put('/partner/setting/artist-put' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "ord_change_artist"){
+
+        $artist_id = $_POST['login_id'];
+        $sequ_prnt = $_POST['ord'];
+        $name = $_POST['name'];
+        $work = [];
+        for($i=0;$i<count($name);$i++){
+            $work_data = array('name'=>$name[$i],'sequ_prnt'=>$i);
+
+            array_push($work, $work_data);
+        }
+
+        $data = array('artist_id'=>$artist_id,'work'=>$work);
+        $data_json = json_encode($data);
+
+        $result = $api ->put('/partner/setting/ord-artist' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "put_pay_reserve"){
+
+        $artist_id = $_POST['login_id'];
+        $is_use = $_POST['is_use'];
+        $percent = $_POST['percent'];
+        $min_reserve = $_POST['min_pay'];
+
+        $data = array('artist_id'=>$artist_id,'is_use'=>$is_use,'percent'=>$percent,'min_reserve'=>$min_reserve,'is_delete'=>"2");
+        $data_json = json_encode($data);
+
+        $result = $api ->put('/partner/setting/reserve' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "get_pay_type"){
+
+        $login_id = $_POST['login_id'];
+
+        $time_type = $api -> get('/partner/setting/pay-type/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "put_pay_type"){
+
+        $artist_id = $_POST['login_id'];
+        $pay_type = $_POST['pay_type'];
+
+        $data = array('artist_id'=>$artist_id,'pay_type'=>$pay_type);
+        $data_json = json_encode($data);
+
+        $result = $api ->put('/partner/setting/pay-type' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "put_authority"){
+
+        $artist_id = $_POST['artist_id'];
+        $customer_id = $_POST['customer_id'];
+        $name = $_POST['name'];
+        $del = $_POST['del'];
+
+        $data = array('artist_id'=>$artist_id,'customer_id'=>$customer_id,'name'=>$name,'del'=>$del);
+        $data_json = json_encode($data);
+
+        $result = $api ->put('/partner/setting/authority' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "part_time"){
+
+        $login_id = $_POST['login_id'];
+
+        $time_type = $api -> get('/partner/setting/part-time/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "artist_vacation"){
+
+        $login_id = $_POST['login_id'];
+
+        $time_type = $api -> get('/partner/setting/artist-vacation/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "pay_management"){
 
         $payment_idx = $_POST['payment_idx'];
 
@@ -644,10 +976,78 @@ if($r_mode) {
 
         $return_data = array("code"=>"000000","data"=>$put_payment_memo);
 
+    }else if($r_mode === "db_to_str"){
+
+        $str = $_POST['str'];
+
+        $str = $emoji->emojiDBToStr($str);
+
+        $return_data = array("code"=>"000000",'data'=>$str);
+
+    }else if($r_mode === "str_to_db"){
+
+        $str = $_POST['str'];
+
+        $str = $emoji->emojiStrToDB($str);
+
+        $return_data = array("code"=>"000000",'data'=>$str);
+    }else if($r_mode == 'img_base64'){
+        $image = $_FILES['image']['tmp_name'];
+        $base_img = base64_encode(file_get_contents($image));
+        $return_data = array('data'=>$base_img);
     }
 }
 
-
+function resizeImage($file, $newfile) {
+        $w = 0;
+        $h = 0;
+        list($width, $height) = getimagesize($file); // 업로드 파일의 가로세로 구하기
+        if($width > 1080){ // 가로가 1280보다 크면
+            $w = 1080;
+            $h = 1080*($height/$width); // 가로 기준으로 세로 비율 구하기
+        }else if($height > 1920){ // 세로가 1920보다 크면
+            $h = 1920;
+            $w = 1920*($width/$height); // 세로 기준으로 가로 비율 구하기
+        }
+        if(strpos(strtolower($file), ".jpg"))
+            $src = imagecreatefromjpeg($file);
+        else if(strpos(strtolower($file), ".png"))
+            $src = imagecreatefrompng($file);
+        else if(strpos(strtolower($file), ".gif"))
+            $src = imagecreatefromgif($file);
+        $dst = imagecreatetruecolor($w, $h);
+        imagecopyresampled($dst, $src, 0, 0, 0, 0, $w, $h, $width, $height);
+        // 이미지 회전
+        if (function_exists('exif_read_data')) {
+            $exif = exif_read_data($newfile);
+            if ($exif && isset($exif['Orientation'])) {
+                $orientation = $exif['Orientation'];
+                if ($orientation != 1) {
+                    $deg = 0;
+                    switch ($orientation) {
+                        case 3:
+                            $deg = 180;
+                            break;
+                        case 6:
+                            $deg = 270;
+                            break;
+                        case 8:
+                            $deg = 90;
+                            break;
+                    }
+                    if ($deg) {
+                        $dst = imagerotate($dst, $deg, 0);
+                    }
+                } // if there is some rotation necessary
+            } // if have the exif orientation info
+        } // if function exists
+        if(strpos(strtolower($newfile), ".jpg"))
+            imagejpeg($dst, $newfile);
+        else if(strpos(strtolower($newfile), ".png"))
+            imagepng($dst, $newfile);
+        else if(strpos(strtolower($newfile), ".gif"))
+            imagegif($dst, $newfile);
+    }
 
 
 

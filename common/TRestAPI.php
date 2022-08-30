@@ -69,7 +69,6 @@ class TRestAPI
 
     public function put($path, $data)
     {
-//        $data = json_decode($data);
         $method = "PUT";
         $url = $this->url . $path;
         $ch = curl_init();
@@ -92,7 +91,6 @@ class TRestAPI
 
     public function delete($path, $data)
     {
-        $data = json_encode($data);
         $method = "DELETE";
         $url = $this->url . $path;
         $ch = curl_init();

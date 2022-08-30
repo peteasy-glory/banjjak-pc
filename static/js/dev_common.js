@@ -2,6 +2,79 @@
 let data;
 let list;
 
+// image 링크 바꾸기 함수
+function img_link_change(img){
+    var img 	= img.replace("/pet/images", "/images");
+    var img 	= img.replace("/pet/upload", "/upload");
+
+    return "https://image.banjjakpet.com"+img;
+}
+
+// db to str 이모지
+function db_to_str(str){
+    let return_str = str;
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'db_to_str',
+            str: str,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            let response = JSON.parse(res);
+            return_str = response.data;
+        }
+    })
+    return return_str;
+}
+
+// str to db 이모지
+function str_to_db(str){
+    let return_str = str;
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'str_to_db',
+            str: str,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            let response = JSON.parse(res);
+            return_str = response.data;
+        }
+    })
+    return return_str;
+}
+
+function get_navi(id){
+
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'navi',
+            login_id: id,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            //console.log(res);
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                data = body;
+                $(".shop_name").text(body.shop_name);
+                $(".consulting_count").text(body.consult_cnt);
+                $(".nick").text(body.nick_name);
+                $(".front_image").attr("src",img_link_change(body.front_image));
+            }
+        }
+    })
+}
 
 function data_set(id){
 
@@ -143,6 +216,21 @@ let minutes = date.getMinutes();
 let times = date.getTime();
 let date_ = `${date.getFullYear().toString().substr(-2)}.${(date.getMonth() + 1).toString().length < 2 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1}.${date.getDate().toString().length < 2 ? '0' + date.getDate() : date.getDate()}`
 
+// 시간형식으로 오전 오후 적용 ex) 09:00
+function am_pm_check_time(time){
+
+    var hours = time.split(":")[0];
+    var minute = time.split(":")[1];
+    if(hours > 12){
+        time = `오후 ${(hours-12).toString().length <2 ? '0' : ''}${hours-12}:${minute}`
+    }else if(hours === 12){
+        time = `오후 ${hours}:${minute}`
+    }else{
+        time = `오전 ${hours}:${minute}`
+    }
+
+    return time;
+}
 
 //오후 오전 적용하기
 function am_pm_check(hours){

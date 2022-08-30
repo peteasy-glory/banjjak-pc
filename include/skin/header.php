@@ -5,23 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
     <!-- Page Infomation -->
-    <title>멤버 | 반짝</title>
+    <title>반짝</title>
     <meta name="Description" content="">
     <meta name="Author" content="">
     <meta name="Keywords" content="">
     <meta name="format-detection" content="telephone=no">
     <!-- SNS Basic -->
-    <meta property="og:title" content="타이틀">
-    <meta property="og:description" content="설명 100자내외">
+    <meta property="og:title" content="반짝">
+    <meta property="og:description" content="반려미용의 단짝">
     <meta property="og:type" content="website">
     <meta property="og:url"    content="">
-    <meta property="og:image" content="이미지 경로">
+    <meta property="og:image" content="">
     <!-- SNS Twitter -->
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="타이틀">
-    <meta name="twitter:description" content="설명 100자내외">
-    <meta name="twitter:image" content="이미지 경로">
-    <link rel="icon" href="https://www.gopet.kr/pet/ico/favicon.png">
+    <meta name="twitter:title" content="반짝">
+    <meta name="twitter:description" content="반려미용의 단짝">
+    <meta name="twitter:image" content="">
+    <link rel="shortcut icon" type="image/x-icon" href="https://image.banjjakpet.com/img/favicon_partner-64x64.ico">
+    <link rel="icon" type="image/x-icon" href="https://image.banjjakpet.com/img/favicon_partner-32x32.png">
     <link rel="canonical" href="대표도메인">
     <!-- custom css -->
     <link href="/static/css/style.css" rel="stylesheet">
@@ -40,6 +41,23 @@
                 </div>
                 <div class="pop-footer">
                     <button type="button" class="btn btn-confirm" onclick="pop.close();">확인</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</article>
+
+<article id="reloadPop" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+
+            <div class="pop-data alert-pop-data">
+                <div class="pop-body">
+                    <div class="msg-txt"></div>
+                </div>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm" onclick="pop.close(); location.reload();">확인</button>
                 </div>
             </div>
 

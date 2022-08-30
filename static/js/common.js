@@ -260,17 +260,17 @@ var include = {
                                         </a>
                                         <div class="snb-menu-list" id="gnb_front">
                                             <div class="snb-menu-cell">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="/shop/shop_gate_picture.php" class="btn-snb-nav">
                                                     <div class="txt">샵 대문 관리</div>
                                                 </a>
                                             </div>
                                             <div class="snb-menu-cell" id="gnb_info">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="/shop/shop_management.php" class="btn-snb-nav">
                                                     <div class="txt">샵 정보 관리</div>
                                                 </a>
                                             </div>
                                             <div class="snb-menu-cell" id="gnb_portfolio">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="/shop/shop_portfolio.php" class="btn-snb-nav">
                                                     <div class="txt">포트폴리오 관리</div>
                                                 </a>
                                             </div>
@@ -296,17 +296,17 @@ var include = {
                                         </a>
                                         <div class="snb-menu-list" id="gnb_schedule">
                                             <div class="snb-menu-cell">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="/setting/set_schedule_list.php" class="btn-snb-nav">
                                                     <div class="txt">일정 관리</div>
                                                 </a>
                                             </div>
                                             <div class="snb-menu-cell" id="gnb_authority">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="/setting/set_right.php" class="btn-snb-nav">
                                                     <div class="txt">권한 설정</div>
                                                 </a>
                                             </div>
                                             <div class="snb-menu-cell" id="gnb_artist">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="/setting/set_teacher.php" class="btn-snb-nav">
                                                     <div class="txt">미용사 관리</div>
                                                 </a>
                                             </div>
@@ -316,12 +316,12 @@ var include = {
                                                 </a>
                                             </div>
                                             <div class="snb-menu-cell" id="gnb_keep">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="/setting/set_save_money.php" class="btn-snb-nav">
                                                     <div class="txt">적립금 설정</div>
                                                 </a>
                                             </div>
                                             <div class="snb-menu-cell" id="gnb_payment">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="/setting/set_pay_type.php" class="btn-snb-nav">
                                                     <div class="txt">결제 방식</div>
                                                 </a>
                                             </div>
