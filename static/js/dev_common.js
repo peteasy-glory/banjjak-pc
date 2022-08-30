@@ -29,6 +29,25 @@ function db_to_str(str){
     return return_str;
 }
 
+// str to db 이모지
+function str_to_db(str){
+    let return_str = str;
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'str_to_db',
+            str: str,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            let response = JSON.parse(res);
+            return_str = response.data;
+        }
+    })
+    return return_str;
+}
+
 function get_navi(id){
 
     $.ajax({

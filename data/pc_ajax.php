@@ -246,6 +246,7 @@ if($r_mode){
 
         $login_id = $_POST['login_id'];
         $mime = $_POST['mime'];
+        resizeImage($_FILES['image']['tmp_name'], $_FILES['image']['tmp_name']);
         $image = $_FILES['image']['tmp_name'];
         $base_img = base64_encode(file_get_contents($image));
 
@@ -266,6 +267,7 @@ if($r_mode){
 
         $login_id = $_POST['login_id'];
         $mime = $_POST['mime'];
+        resizeImage($_FILES['image']['tmp_name'], $_FILES['image']['tmp_name']);
         $image = $_FILES['image']['tmp_name'];
         $base_img = base64_encode(file_get_contents($image));
 
@@ -275,6 +277,22 @@ if($r_mode){
         $post = $api ->put('/partner/shop/info-photo',$data_json);
 
         $return_data = array("code"=>"000000","data"=>$post);
+    }else if($r_mode === "save_shop_info"){
+
+        $partner_id = $_POST['login_id'];
+        $working_years = intval($_POST['working_years']);
+        $introduction = $_POST['introduction'];
+        $career = $_POST['career'];
+        $kakao_channel = $_POST['kakao_channel'];
+        $instagram = $_POST['instagram'];
+        $kakao_id = $_POST['kakao_id'];
+
+        $data = array('partner_id'=>$partner_id,'working_years'=>$working_years,'introduction'=>$introduction,'career'=>$career,'kakao_channel'=>$kakao_channel,'instagram'=>$instagram,'kakao_id'=>$kakao_id);
+        $data_json = json_encode($data);
+
+        $result = $api ->put('/partner/shop/info' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
     }else if($r_mode === "get_license_award"){
 
         $login_id = $_POST['login_id'];
@@ -286,6 +304,36 @@ if($r_mode){
         $time_type = $api -> get('/partner/shop/license-award/'.$login_id, $data_json);
 
         $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "save_license_award"){
+
+        $partner_id = $_POST['login_id'];
+        $type = intval($_POST['type']);
+        $name = $_POST['name'];
+        $issued_by = $_POST['issued_by'];
+        $published_date = $_POST['published_date'];
+        $mime = $_POST['mime'];
+        resizeImage($_FILES['image']['tmp_name'], $_FILES['image']['tmp_name']);
+        $image = $_FILES['image']['tmp_name'];
+        $base_img = base64_encode(file_get_contents($image));
+
+        $data = array('partner_id'=>$partner_id,type=>$type,'name'=>$name,'issued_by'=>$issued_by,'published_date'=>$published_date,'mime'=>$mime,'image'=>$base_img);
+        $data_json = json_encode($data);
+
+        $result = $api ->post('/partner/shop/license-award' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "del_license_award"){
+
+        $partner_id = $_POST['login_id'];
+        $photo = $_POST['src'];
+        $type = intval($_POST['type']);
+
+        $data = array('partner_id'=>$partner_id,'photo'=>$photo,'type'=>$type);
+        $data_json = json_encode($data);
+
+        $result = $api ->delete('/partner/shop/license-award' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
     }else if($r_mode === "regular_holiday"){
 
         $login_id = $_POST['login_id'];
@@ -632,11 +680,72 @@ if($r_mode){
         $str = $emoji->emojiDBToStr($str);
 
         $return_data = array("code"=>"000000",'data'=>$str);
+
+    }else if($r_mode === "str_to_db"){
+
+        $str = $_POST['str'];
+
+        $str = $emoji->emojiStrToDB($str);
+
+        $return_data = array("code"=>"000000",'data'=>$str);
+    }else if($r_mode == 'img_base64'){
+        $image = $_FILES['image']['tmp_name'];
+        $base_img = base64_encode(file_get_contents($image));
+        $return_data = array('data'=>$base_img);
     }
 
 }
 
-
+function resizeImage($file, $newfile) {
+        $w = 0;
+        $h = 0;
+        list($width, $height) = getimagesize($file); // 업로드 파일의 가로세로 구하기
+        if($width > 1080){ // 가로가 1280보다 크면
+            $w = 1080;
+            $h = 1080*($height/$width); // 가로 기준으로 세로 비율 구하기
+        }else if($height > 1920){ // 세로가 1920보다 크면
+            $h = 1920;
+            $w = 1920*($width/$height); // 세로 기준으로 가로 비율 구하기
+        }
+        if(strpos(strtolower($file), ".jpg"))
+            $src = imagecreatefromjpeg($file);
+        else if(strpos(strtolower($file), ".png"))
+            $src = imagecreatefrompng($file);
+        else if(strpos(strtolower($file), ".gif"))
+            $src = imagecreatefromgif($file);
+        $dst = imagecreatetruecolor($w, $h);
+        imagecopyresampled($dst, $src, 0, 0, 0, 0, $w, $h, $width, $height);
+        // 이미지 회전
+        if (function_exists('exif_read_data')) {
+            $exif = exif_read_data($newfile);
+            if ($exif && isset($exif['Orientation'])) {
+                $orientation = $exif['Orientation'];
+                if ($orientation != 1) {
+                    $deg = 0;
+                    switch ($orientation) {
+                        case 3:
+                            $deg = 180;
+                            break;
+                        case 6:
+                            $deg = 270;
+                            break;
+                        case 8:
+                            $deg = 90;
+                            break;
+                    }
+                    if ($deg) {
+                        $dst = imagerotate($dst, $deg, 0);
+                    }
+                } // if there is some rotation necessary
+            } // if have the exif orientation info
+        } // if function exists
+        if(strpos(strtolower($newfile), ".jpg"))
+            imagejpeg($dst, $newfile);
+        else if(strpos(strtolower($newfile), ".png"))
+            imagepng($dst, $newfile);
+        else if(strpos(strtolower($newfile), ".gif"))
+            imagegif($dst, $newfile);
+    }
 
 
 
