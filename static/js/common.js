@@ -275,7 +275,7 @@ var include = {
                                                 </a>
                                             </div>
                                             <div class="snb-menu-cell" id="gnb_review">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="/shop/shop_review_list.php" class="btn-snb-nav">
                                                     <div class="txt">샵 후기 관리</div>
                                                 </a>
                                             </div>

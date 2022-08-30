@@ -684,6 +684,20 @@ if ($artist_flag == 1) {
             day = '0'+day;
         }
 
+        if($("input[name=imgupfilesub]")[0].files && $("input[name=imgupfilesub]")[0].files[0]) {
+        }else{
+            pop.open('firstRequestMsg1','사진을 첨부해주세요.');
+            return false;
+        }
+        if(name == '' || name == undefined){
+            pop.open('firstRequestMsg1','명칭을 입력해주세요.');
+            return false;
+        }
+        if(issued_by == '' || issued_by == undefined){
+            pop.open('firstRequestMsg1','발행처/주관처를 입력해주세요.');
+            return false;
+        }
+
         var formData = new FormData();
         formData.append("mode", "save_license_award");
         formData.append("login_id", artist_id);

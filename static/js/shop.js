@@ -235,3 +235,72 @@ function delete_license_award(data){
         }
     })
 }
+
+// 샵 리뷰리스트 불러오기
+function get_review_list(id){
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'get_review_list',
+            login_id: id,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            //console.log(res);
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                shop_array.push(body);
+            }
+        }
+    })
+}
+
+// 답글 작성 및 수정
+function put_reply(data){
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: data,
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            //console.log(res);
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                pop.open('reloadPop', '저장되었습니다.');
+            }
+        }
+    })
+}
+
+// 답글 삭제
+function del_reply(idx){
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode:"del_reply",
+            idx: idx,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            //console.log(res);
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                pop.open('reloadPop', '삭제되었습니다.');
+            }
+        }
+    })
+}
