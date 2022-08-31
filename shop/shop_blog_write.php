@@ -49,29 +49,6 @@ if ($artist_flag == 1) {
 											<div class="do_blog">
 												<div class="vertical-list-wrap line">
 													<div class="list-inner blog_list_wrap">
-														<div class="list-cell">
-															<div class="basic-item">
-																<a href="#" class="basic-list-item blog">
-																	<div class="thumb">
-																		<label class="form-radiobox large"><input type="checkbox" id="c11" name="check"><span class="form-check-icon"><em></em></span></label>
-																	</div>
-																	<div class="info-wrap">
-																		<div class="item-name">블로그용 타이틀 입니다. 타이틀 입니다. 타이틀 입니다. 타이틀 입니다. 타이틀 입니다. </div>
-																		<div class="item-desc">내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. </div>
-																		<div class="item-blog-option">
-																			<div class="name"><div class="ellipsis">블로그명 블로그명 블로그명 블로그명 블로그명 블로그명 블로그명 블로그명 블로그명 블로그명</div></div>
-																			<div class="date">2020.11.20</div>
-																		</div>
-																	</div>
-																</a>			
-																<div class="basic-item-ui">
-																	<button type="button" class="btn-basic-item-ui-nav"><span class="icon icon-size-16 icon-dot-more"></span></button>									
-																	<div class="basic-item-ui-list">
-																		<a href="#" class="btn-basic-item-ui-item">삭제</a>
-																	</div>
-																</div>
-															</div>
-														</div>
 													</div>
 												</div>
 											</div>
@@ -89,7 +66,7 @@ if ($artist_flag == 1) {
 								</div>
 								<div class="card-footer">
 									<!--<a href="#" class="btn-page-bottom disabled">블로그를 선택해 주세요</a>-->
-									<a href="#" class="btn-page-bottom">총 2개 추가하기</a>
+                                    <a href="#" class="btn-page-bottom disabled">총 <span class="total_cnt">0</span>개 추가하기</a>
 								</div>
 							</div>			
 						</div>
@@ -114,6 +91,10 @@ if ($artist_flag == 1) {
 <script>
     let artist_id = "<?=$artist_id?>";
     var link_array = []
+    var timer;
+    var search_txt = "";
+    var idx = 1;
+    var limit = 1;
     $(document).ready(function() {
         get_navi(artist_id);
         gnb_init();
@@ -121,10 +102,12 @@ if ($artist_flag == 1) {
         $.each(shop_array[0],function(i,v){
             link_array.push(v.link);
         })
-        get_naver_blog_list(artist_id, data.shop_name+" 애견", 10, 1);
-        get_blog_list_view(shop_array[1].items);
+        search_txt = data.shop_name+" 애견";
+        get_naver_blog_list(artist_id, search_txt, 10, limit);
+        get_blog_list_view(shop_array[idx].items);
+        console.log(shop_array[1]);
 
-        $(".search_text").val(data.shop_name+" 애견");
+        $(".search_text").val(search_txt);
     })
 
     // 리스트 뿌려주기
@@ -134,7 +117,7 @@ if ($artist_flag == 1) {
             if(array.length){
                 $.each(array, function(i,v){
                     var result = jQuery.inArray(v.link, link_array);
-                    var disabled = (result > 0)? "checked disabled":"";
+                    var disabled = (result > 0)? " checked disabled":"";
                     //var thumbnail = (v.thumbnail != '')? `<div class="thumb"><img src="${img_link_change(v.thumbnail)}" alt=""></div>` : ``;
                     var year = v.postdate.substr(0,4);
                     var month = v.postdate.substr(4,2);
@@ -144,7 +127,10 @@ if ($artist_flag == 1) {
                             <!-- basic-item 클래스에 actived클래스 추가시 ui 활성화 -->
                             <div class="basic-item">
                                 <a href="${v.link}" class="basic-list-item blog" target="_blank">
-                                    <label class="form-radiobox large"><input type="checkbox" id="c11" name="check" ${disabled}><span class="form-check-icon"><em></em></span></label>
+                                    <label class="form-radiobox large">
+                                        <input type="checkbox" id="chk" class="chk" name="check" data-title="${v.title}" data-link="${v.link}" data-desc="${v.description}" data-date="${year}-${month}-${day}" data-blogger="${v.bloggername}" ${disabled}>
+                                        <span class="form-check-icon"><em></em></span>
+                                    </label>
                                     <div class="info-wrap">
                                         <div class="item-name">${v.title}</div>
                                         <div class="item-desc">${v.description}</div>
@@ -154,18 +140,14 @@ if ($artist_flag == 1) {
                                         </div>
                                     </div>
                                 </a>
-                                <div class="basic-item-ui">
-                                    <button type="button" class="btn-basic-item-ui-nav"><span class="icon icon-size-16 icon-dot-more"></span></button>
-                                    <div class="basic-item-ui-list">
-                                        <a href="#" class="btn-basic-item-ui-item">삭제</a>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     `;
                 })
             }else{
                 var v = array;
+                var result = jQuery.inArray(v.link, link_array);
+                var disabled = (result > 0)? " checked disabled":"";
                 //var thumbnail = (v.thumbnail != '')? `<div class="thumb"><img src="${img_link_change(v.thumbnail)}" alt=""></div>` : ``;
                 var year = v.postdate.substr(0,4);
                 var month = v.postdate.substr(4,2);
@@ -175,7 +157,10 @@ if ($artist_flag == 1) {
                         <!-- basic-item 클래스에 actived클래스 추가시 ui 활성화 -->
                         <div class="basic-item">
                             <a href="${v.link}" class="basic-list-item blog" target="_blank">
-                                <label class="form-radiobox large"><input type="checkbox" id="chk" name="check"><span class="form-check-icon"><em></em></span></label>
+                                <label class="form-radiobox large">
+                                    <input type="checkbox" id="chk" class="chk" name="check" data-title="${v.title}" data-link="${v.link}" data-desc="${v.description}" data-date="${year}-${month}-${day}" data-blogger="${v.bloggername}" ${disabled}>
+                                    <span class="form-check-icon"><em></em></span>
+                                </label>
                                 <div class="info-wrap">
                                     <div class="item-name">${v.title}</div>
                                     <div class="item-desc">${v.description}</div>
@@ -185,32 +170,82 @@ if ($artist_flag == 1) {
                                     </div>
                                 </div>
                             </a>
-                            <div class="basic-item-ui">
-                                <button type="button" class="btn-basic-item-ui-nav"><span class="icon icon-size-16 icon-dot-more"></span></button>
-                                <div class="basic-item-ui-list">
-                                    <a href="#" class="btn-basic-item-ui-item">삭제</a>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 `;
             }
+            limit = limit + 10;
             $(".do_blog").css("display","block");
             $(".none_blog").css("display","none");
-            $(".blog_list_wrap").html(html);
+            $(".blog_list_wrap").append(html);
         }
     }
 
-    $(document).on("click",".btn-page-bottom",function(){
-        console.log("test");
+    // 체크박스 클릭
+    $(document).on("click",".chk",function(){
+        var chk = 0;
         $("input[type='checkbox']").each(function(i, v){
-            // var isChked = $(this).prop("checked"); //
-            // if (isChked) {
-            //     var accessMode = $(this).val();
-            //     console.log(isChked);
-            // }
-            console.log(v);
+            var isChked = $(this).prop("checked");
+            var isdisabled = $(this).prop("disabled");
+            if (isChked && !isdisabled) {
+                chk++;
+            }
         })
+        $(".total_cnt").text(chk);
+        if(chk == 0){
+            $(".btn-page-bottom").addClass("disabled");
+        }else{
+            $(".btn-page-bottom").removeClass("disabled");
+        }
+    })
+
+    // 추가하기 클릭
+    $(document).on("click",".btn-page-bottom",function(){
+        //console.log("test");
+        $("input[type='checkbox']").each(function(i, v){
+            var isChked = $(this).prop("checked");
+            var isdisabled = $(this).prop("disabled");
+            if (isChked && !isdisabled) {
+                var post_title = $(this).data('title');
+                var post_link = $(this).data('link');
+                var post_desc = $(this).data('desc');
+                var post_date = $(this).data('date');
+                var post_blogger = $(this).data('blogger');
+                post_naver_blog_list(artist_id, post_link, post_title, post_desc, post_date, post_blogger);
+            }
+        })
+    })
+
+    // 스크롤 다운
+    $(".card-body").on('scroll', function () {
+        if (this.offsetHeight + this.scrollTop >= (this.scrollHeight - 200)) {
+            if (!timer) {
+                timer = setTimeout(function () {
+                    timer = null;
+                    scroll_down(limit);
+                    //console.log("test");
+                }, 100);
+            }
+        }
+    });
+
+    // 스크롤 다운 시 리스트 출력
+    function scroll_down(num){
+        get_naver_blog_list(artist_id, search_txt, 10, num);
+        idx = idx+1;
+        get_blog_list_view(shop_array[idx].items);
+    }
+
+    // 검색시
+    $(document).on("click",".btn-data-search",function(){
+        $(".blog_list_wrap").html('');
+        search_txt = $(".search_text").val();
+        limit = 1;
+        idx = idx+1;
+        console.log(search_txt, limit);
+        get_naver_blog_list(artist_id, search_txt, 10, limit);
+        get_blog_list_view(shop_array[idx].items);
+
     })
 
 </script>

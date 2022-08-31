@@ -74,6 +74,22 @@ if ($artist_flag == 1) {
 		<!-- //contents -->
     </section>
     <!-- //container -->
+    <form id="delete_pop" class="layer-pop-wrap">
+        <input type="hidden" name="idx" class="idx" value="">
+        <div class="layer-pop-parent">
+            <div class="layer-pop-children">
+                <div class="pop-data alert-pop-data">
+                    <div class="pop-body">
+                        <div class="msg-txt">삭제하시겠습니까?</div>
+                    </div>
+                    <div class="pop-footer">
+                        <button type="button" class="btn btn-confirm" onclick="delete_ok();">삭제</button>
+                        <button type="button" class="btn btn-confirm" onclick="pop.close();">취소</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
 <!-- //wrap -->
 <script src="../static/js/common.js"></script>
@@ -114,7 +130,7 @@ if ($artist_flag == 1) {
                                 <div class="basic-item-ui">
                                     <button type="button" class="btn-basic-item-ui-nav"><span class="icon icon-size-16 icon-dot-more"></span></button>
                                     <div class="basic-item-ui-list">
-                                        <a href="#" class="btn-basic-item-ui-item">삭제</a>
+                                        <a href="#" class="btn-basic-item-ui-item delete_blog" data-idx="${v.blog_seq}">삭제</a>
                                     </div>
                                 </div>
                             </div>
@@ -145,7 +161,7 @@ if ($artist_flag == 1) {
                             <div class="basic-item-ui">
                                 <button type="button" class="btn-basic-item-ui-nav"><span class="icon icon-size-16 icon-dot-more"></span></button>
                                 <div class="basic-item-ui-list">
-                                    <a href="#" class="btn-basic-item-ui-item">삭제</a>
+                                    <a href="#" class="btn-basic-item-ui-item delete_blog" data-idx="${v.blog_seq}">삭제</a>
                                 </div>
                             </div>
                         </div>
@@ -157,6 +173,21 @@ if ($artist_flag == 1) {
             $(".blog_list_wrap").html(html);
         }
     })
+
+    // 블로그 삭제 팝업
+    $(document).on("click",".delete_blog",function(){
+        $("#delete_pop .idx").val($(this).data("idx"));
+        pop.open('delete_pop');
+    })
+
+    // 블로그 삭제
+    function delete_ok(){
+        pop.close();
+        var postData = $("#delete_pop").serialize();
+        postData += '&mode=del_blog';
+        del_blog(postData)
+
+    }
 </script>
 </body>
 </html>

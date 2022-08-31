@@ -378,6 +378,31 @@ if($r_mode) {
         $time_type = $api -> get('/partner/shop/blog/'.$login_id, $data_json);
 
         $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "post_naver_blog_list"){
+
+        $login_id = $_POST['login_id'];
+        $link = $_POST['link'];
+        $title = $_POST['title'];
+        $desc = $_POST['desc'];
+        $post_date = $_POST['post_date'];
+        $blogger = $_POST['blogger'];
+
+        $data = array('partner_id'=>$login_id,'link'=>$link,'title'=>$title,'desc'=>$desc,'thumb'=>'','post_date'=>$post_date,'blogger'=>$blogger);
+        $data_json = json_encode($data);
+
+        $time_type = $api -> post('/partner/shop/blog', $data_json);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "del_blog"){
+
+        $idx = intval($_POST['idx']);
+
+        $data = array('idx'=>$idx);
+        $data_json = json_encode($data);
+
+        $result = $api ->delete('/partner/shop/blog' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
     }else if($r_mode === "regular_holiday"){
 
         $login_id = $_POST['login_id'];
