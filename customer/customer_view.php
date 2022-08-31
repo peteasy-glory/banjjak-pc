@@ -591,8 +591,9 @@ if ($artist_flag == 1) {
 <script>
 
     let artist_id = "<?=$artist_id?>";
-    data_set(artist_id)
+    // data_set(artist_id)
 
+    get_navi(artist_id)
     $(document).ready(function(){
 
         gnb_init();

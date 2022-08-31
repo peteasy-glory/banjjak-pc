@@ -163,7 +163,7 @@ var include = {
                                     </div>
                                 </div>
                                 <div class="txt-data">
-                                    <div class="user-name nick"></div>
+                                    <div class="user-name nick nickname"></div>
                                     <div class="user-cate shop_name">
                                         <a href="/data/logout_process.php" onclick="localStorage.clear()" class="btn-gnb-logout">로그아웃</a>
                                     </div>
@@ -173,7 +173,7 @@ var include = {
                                 <div class="gnb-menu-inner">
                                     <!-- gnb-menu-cell 클래스에 페이지 진입시 actived클래스와 actived클래스 추가시 활성화-->
                                     <div class="gnb-menu-cell" id="gnb_home">
-                                        <a href="./index.php" class="btn-gnb-nav">
+                                        <a href="/home/index.php" class="btn-gnb-nav">
                                             <span class="nav-icons">
                                                 <span class="icon icon-size-24 icon-gnb-menu-home-black off"></span>
                                                 <span class="icon icon-size-24 icon-gnb-menu-home-black-fill on"></span>

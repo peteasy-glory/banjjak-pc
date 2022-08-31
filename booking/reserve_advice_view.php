@@ -114,6 +114,7 @@ if ($artist_flag == 1) {
 
     let artist_id = "<?=$artist_id?>";
     data_set(artist_id)
+    // get_navi(artist_id)
 
     $(document).ready(function(){
 

@@ -98,12 +98,13 @@ $search = ($_POST['search'] && $_POST['search'] !== "") ? $_POST['search']:"";
 <script src="../static/js/customer.js"></script>
 <script>
     let artist_id = "<?=$artist_id?>";
-    data_set(artist_id)
+    // data_set(artist_id)
+    get_navi(artist_id)
     $(document).ready(function(){
 
         gnb_init();
         set_image('front_image');
-        prepend_data('consulting_count nick');
+        prepend_data('consult_count nickname');
         //search_fam('<?//=$search?>//',artist_id);
         input_enter('search','search_btn');
         gnb_actived('gnb_customer_wrap','gnb_inquire')
