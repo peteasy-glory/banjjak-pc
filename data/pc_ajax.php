@@ -571,6 +571,33 @@ if($r_mode) {
         $time_type = $api -> get('/partner/setting/artist-vacation/'.$login_id);
 
         $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "get_notice"){
+
+        $login_id = $_POST['login_id'];
+
+        $time_type = $api -> get('/partner/etc/notice/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "get_qna"){
+
+        $login_id = $_POST['login_id'];
+
+        $time_type = $api -> get('/partner/etc/one-on-one/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "post_qna"){
+
+        $partner_id = $_POST['partner_id'];
+        $main_type = $_POST['main_type'];
+        $title = $_POST['title'];
+        $contents = $_POST['contents'];
+
+        $data = array('partner_id'=>$partner_id,'email'=>'','main_type'=>$main_type,'sub_type'=>'','title'=>$title,'contents'=>$contents);
+        $data_json = json_encode($data);
+
+        $result = $api ->post('/partner/etc/one-on-one' ,$data_json);
+
+        $return_data = array("code"=>"000000",'data'=>$result);
     }else if($r_mode === "pay_management"){
 
         $payment_idx = $_POST['payment_idx'];
