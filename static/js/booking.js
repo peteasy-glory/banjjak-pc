@@ -247,8 +247,7 @@ function reserve_schedule_week_cols(body,body_,parent,id){
 
 
                             el__.innerHTML = `<div class="calendar-drag-item-group">
-                                                    <a href="#add" class="btn-calendar-add">등록하기</a>
-                                                    <a href="#5" class="calendar-week-time-item toggle green ${color} ${_el.product.is_no_show === 1 ? "red" : ''}" style="height: calc(100% * ${multiple}); ">
+                                                    <a href="/booking/reserve_pay_management_beauty_1.php" onclick="localStorage.setItem('payment_idx',${_el.product.payment_idx})" class="calendar-week-time-item toggle green ${color} ${_el.product.is_no_show === 1 ? "red" : ''}" style="height: calc(100% * ${multiple}); ">
                                                         <div class="item-inner">
                                                             <div class="item-name">
                                                                 <div class="txt">${_el.pet.name}</div>
@@ -2249,10 +2248,10 @@ function pay_management(id){
                                             <h4 class="con-title">예약동물 정보</h4>
                                             <div class="con-title-btns">
                                                 <div class="btns-cell">
-                                                    <button type="button" class="btn btn-outline-gray btn-vsmall-size btn-inline">미용 갤러리</button>
+                                                    <button type="button" class="btn btn-outline-gray btn-vsmall-size btn-inline" onclick="pop.open('reserveBeautyGalleryPop')">미용 갤러리</button>
                                                 </div>
                                                 <div class="btns-cell">
-                                                    <button type="button" class="btn btn-outline-gray btn-vsmall-size btn-inline">미용 동의서 작성</button>
+                                                    <button type="button" class="btn btn-outline-gray btn-vsmall-size btn-inline" onclick="pop.open('beautyAgreeWritePop')">미용 동의서 작성</button>
                                                 </div>  
                                             </div>
                                         </div>
@@ -2535,30 +2534,25 @@ function pay_management(id){
                                                                 <div class="text-list-wrap type-2">
                                                                     <div class="text-list-cell">
                                                                         <div class="item-title unit">날짜</div>
-                                                                        <div class="item-data">${body.beauty_date}</div>
+                                                                        <div class="item-data" id="day_book_target" data-date="${body.beauty_date}">${am_pm_check2(body.beauty_date)}</div>
                                                                     </div>
                                                                     <div class="text-list-cell">
                                                                         <div class="item-title unit">선생님</div>
-                                                                            <div class="item-data">${body.worker === id ? "실장" : body.worker}</div>
+                                                                            <div class="item-data" id="day_book_target_worker" data-worker="${body.worker}">${body.worker === id ? "실장" : body.worker}</div>
                                                                         </div>
                                                                         <div class="text-list-cell">
                                                                             <div class="item-title unit align-self-center">시간</div>
                                                                                 <div class="item-data">
                                                                                     <div class="form-datepicker-group">
-<!--                                                                                    이부분처리를 어떻게해야하지?-->
                                                                                         <div class="form-datepicker">
-                                                                                            <select>
-                                                                                                <option value="">오전 11:30</option>
-                                                                                                <option value="">오전 11:30</option>
-                                                                                                <option value="">오전 11:30</option>
+                                                                                            <select id="start_time">
+                                                                                                
                                                                                             </select>
                                                                                         </div>
                                                                                         <div class="form-unit">~</div>
                                                                                             <div class="form-datepicker">
-                                                                                                <select>
-                                                                                                    <option value="">오후 11:30</option>
-                                                                                                    <option value="">오후 11:30</option>
-                                                                                                    <option value="">오후 11:30</option>
+                                                                                                <select id="end_time">
+                                                                                                    
                                                                                                 </select>
                                                                                             </div>
                                                                                         </div>
@@ -2566,7 +2560,7 @@ function pay_management(id){
                                                                                 </div>
                                                                             </div>
                                                                             <div class="basic-data-group vsmall">
-                                                                                <button type="button" class="btn btn-outline-gray btn-basic-full">시간만 변경</button>
+                                                                                <button type="button" class="btn btn-outline-gray btn-basic-full" onclick="check_time();">시간만 변경</button>
                                                                             </div>
                                                                             <div class="form-bottom-info">
                                                                                 <span>*시간 변경만 하는 경우 시간선택 후 변경을 눌러주세요.</span>
@@ -2656,7 +2650,6 @@ function pay_management_(id){
 
     pay_management(id).then(function (body_){
 
-        console.log(body_)
         body_[0].forEach(function (el){
 
 
@@ -2701,13 +2694,11 @@ function pay_management_(id){
 
 
             customer_id = document.getElementById('customer_id').innerText;
-            console.log(customer_id)
-            console.log(tmp_seq)
+
         }else{
 
             tmp_seq = document.getElementById('customer_id').innerText;
-            console.log(customer_id)
-            console.log(tmp_seq)
+
         }
 
 
@@ -2731,7 +2722,6 @@ function pay_management_(id){
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
 
-                   console.log(body)
 
                     document.getElementById('customer_memo').value = body.memo;
                     document.getElementById('customer_memo').setAttribute('data-scm_seq',body.scm_seq);
@@ -2741,6 +2731,224 @@ function pay_management_(id){
 
 
         })
+
+        let st_date = document.getElementById('day_book_target').getAttribute('data-date').split(' ')[0];
+
+
+        $.ajax({
+
+            url:'/data/pc_ajax.php',
+            type:'post',
+            data:{
+                mode:"day_book",
+                login_id:id,
+                st_date:st_date,
+                fi_date:`${st_date.split('-')[0]}-${st_date.split('-')[1]}-${fill_zero(parseInt(st_date.split('-')[2])+1)}`
+
+
+            },
+            success:function(res) {
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+
+
+
+
+
+                    let reserve_st = [];
+                    let reserve_fi = [];
+
+                    body.forEach(function (el){
+
+
+                        if(document.getElementById('day_book_target_worker').getAttribute('data-worker') === el.product.worker && el.product.is_cancel === 0){
+                            reserve_st.push(new Date(el.product.date.booking_st).getTime());
+                            reserve_fi.push(new Date(el.product.date.booking_fi).getTime());
+                        }
+
+                    })
+
+                    reserve_st.sort();
+                    reserve_fi.sort();
+
+                    for(let i=0; i<reserve_st.length; i++){
+
+                        reserve_st[i] = `${fill_zero(new Date(reserve_st[i]).getHours())}:${fill_zero(new Date(reserve_st[i]).getMinutes())}`;
+                    }
+
+                    for(let i=0; i<reserve_fi.length; i++){
+
+                        reserve_fi[i] = `${fill_zero(new Date(reserve_fi[i]).getHours())}:${fill_zero(new Date(reserve_fi[i]).getMinutes())}`;
+                    }
+
+
+
+
+
+                    document.getElementById('start_time').innerHTML = ''
+                    document.getElementById('end_time').innerHTML = ''
+
+                    let open_close = localStorage.getItem('open_close');
+
+                    let open = parseInt(open_close.split('/')[0]);
+                    let close = parseInt(open_close.split('/')[1]);
+
+                    let time = [];
+
+                    for(open; open<=close; open++){
+
+                        time.push(open);
+
+                    }
+
+
+                    let next = '';
+                    for(let i=0; i< reserve_st.length; i++){
+
+                        if(document.getElementById('day_book_target').getAttribute('data-date').split(' ')[1] === reserve_st[i]){
+
+                            next = reserve_st[i+1]
+                            break;
+                        }
+                    }
+
+
+
+                    let prev = '';
+                    for(let i=0; i<reserve_fi.length; i++){
+
+                        if(document.getElementById('day_book_target').getAttribute('data-date').split(' ')[1] === reserve_st[i]){
+
+
+                            prev = reserve_fi[i-1];
+                            break;
+                        }
+                    }
+
+
+
+                    if(prev === undefined){
+
+                        loop:
+                        for(let i=0; i<time.length-1; i++){
+
+                            for(let t= 0; t<60; t +=30){
+
+
+                                if(`${fill_zero(time[i])}:${fill_zero(t)}` === next){
+
+                                    break loop;
+                                }else{
+                                    document.getElementById('start_time').innerHTML += `<option value ="${fill_zero(time[i])}${fill_zero(t)}">${fill_zero(am_pm_check(time[i]))}:${fill_zero(t)}</option>`
+                                }
+
+
+
+
+
+                            }
+                        }
+
+                        loop2:
+                        for(let i=0; i<time.length; i++){
+
+                            for(let t=0; t<60; t+=30){
+
+                                if(i===0){
+                                    t=30;
+                                }
+                                if(i===time.length-1 && t ===30){
+
+                                    break;
+                                }
+                                if(`${fill_zero(time[i])}:${fill_zero(t)}` === next){
+                                    document.getElementById('end_time').innerHTML += `<option value ="${fill_zero(time[i])}${fill_zero(t)}">${fill_zero(am_pm_check(time[i]))}:${fill_zero(t)}</option>`
+                                    break loop2;
+                                }else{
+
+
+                                    document.getElementById('end_time').innerHTML += `<option value ="${fill_zero(time[i])}${fill_zero(t)}">${fill_zero(am_pm_check(time[i]))}:${fill_zero(t)}</option>`
+                                }
+                            }
+                        }
+                    }else{
+
+                        loop3:
+                            for(let i=0; i<time.length-1; i++){
+
+                                for(let t= 0; t<60; t +=30){
+
+
+                                    if(`${fill_zero(time[i])}:${fill_zero(t)}` === prev){
+
+
+                                        loop4:
+                                        for(let j=i; j<time.length-1; j++){
+
+                                            for(let t2=0; t2<60; t2+=30){
+
+                                                if(`${fill_zero(time[j])}:${fill_zero(t2)}` === next){
+
+                                                    break loop4;
+
+                                                }else if(`${fill_zero(time[j])}:${fill_zero(t2)}` === `${prev.split(':')[0]}:00`){
+                                                    continue;
+
+                                                }else{
+                                                    document.getElementById('start_time').innerHTML += `<option value ="${fill_zero(time[j])}${fill_zero(t2)}">${fill_zero(am_pm_check(time[j]))}:${fill_zero(t2)}</option>`
+                                                }
+
+                                            }
+                                        }
+                                       break loop3;
+                                    }
+                                }
+                            }
+
+
+                            let fi_times = [];
+
+                            for(let i =0; i<document.getElementById('start_time').options.length; i++){
+
+                                fi_times.push(document.getElementById('start_time').options[i].value);
+                            }
+
+
+                            for(let i=0; i<fi_times.length; i++){
+
+                                fi_times[i] = new Date(date.getFullYear(),date.getMonth(),date.getDate(),fi_times[i].substr(0,2),fi_times[i].substr(2,2));
+
+                                fi_times[i].setMinutes(fi_times[i].getMinutes()+30);
+
+                                document.getElementById('end_time').innerHTML += `<option value ="${fill_zero(fi_times[i].getHours())}${fill_zero(fi_times[i].getMinutes())}">${am_pm_check(fill_zero(fi_times[i].getHours()))}:${fill_zero(fi_times[i].getMinutes())}</option>`
+                            }
+
+
+
+
+
+
+
+                    }
+
+
+
+                }
+            }
+
+
+        })
+
+
+
+        beauty_gallery_get().then(function(){
+
+            beauty_gallery_add(id,body_[2]);
+        });
 
     })
 
@@ -3794,6 +4002,7 @@ function reserve_prohibition_delete(){
             ph_seq:ph_seq
         },
         success:function(res) {
+            // console.log(res)
             location.reload();
         }
     })
@@ -6428,5 +6637,326 @@ function reserve_cancel(bool){
                 location.reload();
             }
         }
+    })
+}
+
+
+function set_change_time(bool){
+
+
+    let idx = localStorage.getItem('payment_idx');
+
+    let st_time = document.getElementById('start_time').value;
+    let fi_time = document.getElementById('end_time').value;
+
+    let notice = bool;
+
+    $.ajax({
+
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:'change_time',
+            idx:idx,
+            st_time:st_time,
+            fi_time:fi_time,
+
+
+        },
+        success:function(res) {
+            console.log(res)
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+
+                location.reload();
+            }
+        }
+    })
+
+}
+
+function check_time(){
+
+
+    let st_time = document.getElementById('start_time').value;
+    let fi_time = document.getElementById('end_time').value;
+
+    let st_time_ = new Date(date.getFullYear(),date.getMonth(),date.getDate(),st_time.substr(0,2),st_time.substr(2,2)).getTime();
+    let fi_time_ = new Date(date.getFullYear(),date.getMonth(),date.getDate(),fi_time.substr(0,2),fi_time.substr(2,2)).getTime();
+
+    if(st_time >= fi_time){
+        document.getElementById('msg1_txt').innerText = '시간을 확인해주세요.'
+        pop.open('reserveAcceptMsg1');
+        return;
+
+    }
+
+    pop.open('only_change_time')
+}
+
+function beauty_gallery_add(id,pet_seq){
+
+
+
+    document.getElementById('addimgfile').addEventListener('change',function(e){
+
+        let ext = document.getElementById('addimgfile').value.split('.').pop().toLowerCase()
+
+        if(!ext.match(/png|jpg|jpeg/i)){
+
+            alert('gif,png,jpg,jpeg 파일만 업로드 할 수 있습니다.')
+            return;
+        }
+
+        let filename = document.querySelector('input[name="imgupfile"]').files[0]
+
+
+        let type = filename.type.split('/')[1];
+
+        let formData = new FormData();
+        formData.append('mode','beauty_gal_add');
+        formData.append('login_id',id);
+        formData.append('payment_log_seq',localStorage.getItem('payment_idx'));
+        formData.append('pet_seq',pet_seq);
+        formData.append('prnt_title',filename.name.split('.')[0])
+        formData.append('mime',type);
+        formData.append('image',filename);
+
+
+
+
+        $.ajax({
+
+            url:'/data/pc_ajax.php',
+            type:'post',
+            enctype:'multipart/form-data',
+            data:formData,
+            processData:false,
+            contentType:false,
+            success:function(data){
+
+                document.getElementById('msg2_txt').innerText = '완료되었습니다.'
+                pop.open('reserveAcceptMsg2');
+
+            }
+
+
+        })
+
+
+
+    })
+
+}
+
+function beauty_gallery_get(){
+
+
+
+    return new Promise(function(resolve){
+
+        let idx = localStorage.getItem('payment_idx');
+
+
+
+        $.ajax({
+
+            url:'/data/pc_ajax.php',
+            type:'post',
+            data:{
+
+                mode:'beauty_gal_get',
+                idx:idx,
+            },
+            success:function(res) {
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+                    console.log(body)
+                    if(body.length === undefined){
+
+                        body = [body];
+                    }
+
+                    body.forEach(function(el){
+
+
+                        document.getElementById('beauty_gal_wrap').innerHTML += `<div class="list-cell">
+                                                                                <div class="picture-thumb-view">
+                                                                                    <div class="picture-obj" onclick="show_image('https://image.banjjakpet.com${el.file_path}')"><img src="https://image.banjjakpet.com${el.file_path}" alt=""></div>
+                                                                                    <div class="picture-date">${el.upload_dt.substr(0,4)}.${el.upload_dt.substr(4,2)}.${el.upload_dt.substr(6,2)}</div>
+                                                                                    <div class="picture-ui">
+                                                                                        <button type="button" class="btn-picture-ui"></button>
+                                                                                    </div>
+                                                                                    <div class="picture-ui-list">
+                                                                                        <div class="picture-ui-list-inner">
+                                                                                         <a href="#" onclick="event.preventDefault(); beauty_gallery_del(${el.idx})" class="btn-picture-ui-nav">삭제</a>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>`
+                    })
+
+                    resolve();
+                }
+            }
+
+        })
+    })
+}
+
+function beauty_gallery_del(idx){
+
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+            mode:'beauty_gal_del',
+            idx:idx
+        },
+        success:function(data){
+
+            document.getElementById('msg2_txt').innerText = '삭제되었습니다.'
+           pop.open('reserveAcceptMsg2');
+
+        }
+    })
+
+}
+
+function show_image(src){
+
+    document.getElementById('show_image_wrap').setAttribute('src',src);
+
+    pop.open('show_image');
+
+
+}
+
+
+function agree_birthday(){
+
+    return new Promise(function(resolve){
+
+        for(let i = 2000; i<=new Date().getFullYear(); i++){
+
+            document.getElementById('agree_birthday_year').innerHTML += `<option value="${fill_zero(i)}" ${i===2022 ? 'selected':''}>${i}</option>`
+        }
+
+
+        for(let i = 1; i<=12; i++){
+            document.getElementById('agree_birthday_month').innerHTML += `<option value="${fill_zero(i)}">${i}</option>`
+        }
+
+        resolve();
+    })
+}
+
+function agree_birthday_date(){
+
+    let year = document.getElementById('agree_birthday_year').value;
+    let month = document.getElementById('agree_birthday_month').value;
+
+    let date_length = new Date(year,month,0).getDate();
+    document.getElementById('agree_birthday_date').innerHTML = '';
+    for(let i = 1; i<=date_length; i++){
+        document.getElementById('agree_birthday_date').innerHTML += `<option value="${fill_zero(i)}">${i}</option>`
+
+    }
+
+    Array.from(document.getElementsByClassName('agree_birthday')).forEach(function(el){
+
+        el.addEventListener('change',function(){
+
+            year = document.getElementById('agree_birthday_year').value;
+            month = document.getElementById('agree_birthday_month').value;
+
+            date_length = new Date(year,month,0).getDate();
+            document.getElementById('agree_birthday_date').innerHTML = '';
+            for(let i = 1; i<=date_length; i++){
+                document.getElementById('agree_birthday_date').innerHTML += `<option value="${i}">${i}</option>`
+
+            }
+        })
+    })
+}
+
+function agree_pet_type(){
+    let breed_input;
+
+    let breed;
+
+    let breed_select = document.getElementById('agree_breed_select')
+
+    breed_select.addEventListener('change',function(){
+        if(breed_select.options[breed_select.selectedIndex].value === "기타"){
+
+            document.getElementById('agree_breed_other_box').setAttribute('style','display:block');
+        }else{
+            document.getElementById('agree_breed_other_box').setAttribute('style','display:none');
+        }
+
+    })
+    Array.from(document.getElementsByClassName('agree_load-pet-type')).forEach(function(el){
+
+
+        el.addEventListener('click',function(){
+            document.getElementById('agree_breed_other_box').setAttribute('style','display:none');
+            breed_input = document.querySelector('input[name="agree_breed"]:checked');
+            breed = breed_input.value
+
+            $.ajax({
+
+                url:'/data/pc_ajax.php',
+                type:'post',
+                data:{
+                    mode:'pet_type',
+                    breed:breed
+                },
+                success:function(res){
+                    let response = JSON.parse(res);
+                    let head = response.data.head;
+                    let body = response.data.body;
+                    if (head.code === 401) {
+                        pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                    } else if (head.code === 200) {
+                        document.getElementById('agree_breed_select').innerHTML = '<option value="선택">선택</option>';
+                        body.forEach(function(el){
+
+
+                            if(el.name !== "기타"){
+                                document.getElementById('agree_breed_select').innerHTML += `<option value="${el.name}">${el.name}</option>`
+                            }
+
+
+                        })
+
+                        document.getElementById('agree_breed_select').innerHTML += '<option value="기타">기타</option>';
+
+
+
+
+                    }
+
+
+                }
+            })
+
+
+
+
+
+        })
     })
 }

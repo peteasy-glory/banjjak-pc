@@ -667,9 +667,9 @@ if($r_mode) {
         $ph_seq = $_POST['ph_seq'];
 
         $prohibition_data = array("idx" => intval($ph_seq));
-//        $prohibition_data_json = json_encode($prohibition_data);
+        $prohibition_data_json = json_encode($prohibition_data);
 
-        $delete_prohibition = $api->delete('/partner/booking/prohibition', $prohibition_data);
+        $delete_prohibition = $api->delete('/partner/booking/prohibition', $prohibition_data_json);
 
         $return_data = array("code" => "000000", "data" => $delete_prohibition);
     } else if ($r_mode === "customer_new") {
@@ -1069,6 +1069,67 @@ if($r_mode) {
         $image = $_FILES['image']['tmp_name'];
         $base_img = base64_encode(file_get_contents($image));
         $return_data = array('data'=>$base_img);
+    }else if($r_mode === 'change_time'){
+
+
+        $idx = $_POST['idx'];
+        $st_time = $_POST['st_time'];
+        $fi_time = $_POST['fi_time'];
+
+
+        $change_time_data = array(idx=>intval($idx),st_time=>$st_time,fi_time=>$fi_time);
+
+        $change_time_data_json = json_encode($change_time_data);
+
+        $change_time = $api->put('/partner/booking/time',$change_time_data_json);
+
+        $return_data = array("code"=>"000000","data"=>$change_time);
+
+    }else if($r_mode === "beauty_gal_add"){
+
+        $payment_log_seq = $_POST['payment_log_seq'];
+        $partner_id = $_POST['login_id'];
+        $pet_seq = $_POST['pet_seq'];
+        $prnt_title = $_POST['prnt_title'];
+        $mime = $_POST['mime'];
+
+        $image = $_FILES['image']['tmp_name'];
+        $base_img = base64_encode(file_get_contents($image));
+
+        $data = array(
+            payment_log_seq=>intval($payment_log_seq),
+            partner_id=>$partner_id,
+            pet_seq=>intval($pet_seq),
+            prnt_title=>$prnt_title,
+            mime=>$mime,
+            image=>$base_img);
+        $data_json = json_encode($data);
+
+        $result = $api -> post('/partner/booking/beauty-gallery' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "beauty_gal_get"){
+
+        $payment_idx = $_POST['idx'];
+
+
+        $result = $api ->get('/partner/booking/beauty-gallery/'.$payment_idx);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
+
+    }else if($r_mode === "beauty_gal_del"){
+
+
+        $idx=$_POST['idx'];
+
+        $data = array(idx=>intval($idx));
+
+        $data_json = json_encode($data);
+
+        $result = $api -> put('/partner/booking/beauty-gallery',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
     }
 }
 
