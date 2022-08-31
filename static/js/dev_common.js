@@ -67,9 +67,9 @@ function get_navi(id){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
                 data = body;
-                $(".shop_name").text(body.shop_name);
+                //$(".shop_name").prepend(body.shop_name);
                 $(".consulting_count").text(body.consult_cnt);
-                $(".nick").text(body.nick_name);
+                $(".nick").text(body.nickname);
                 $(".front_image").attr("src",img_link_change(body.front_image));
             }
         }

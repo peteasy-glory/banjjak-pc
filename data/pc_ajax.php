@@ -329,6 +329,34 @@ if($r_mode) {
         $result = $api ->delete('/partner/shop/license-award' ,$data_json);
 
         $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "get_review_list"){
+
+        $login_id = $_POST['login_id'];
+
+        $time_type = $api -> get('/partner/shop/review/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "put_reply"){
+
+        $idx = intval($_POST['idx']);
+        $reply = $_POST['reply'];
+
+        $data = array('idx'=>$idx,'reply'=>$reply);
+        $data_json = json_encode($data);
+
+        $result = $api ->put('/partner/shop/review' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "del_reply"){
+
+        $idx = intval($_POST['idx']);
+
+        $data = array('idx'=>$idx);
+        $data_json = json_encode($data);
+
+        $result = $api ->delete('/partner/shop/review' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
     }else if($r_mode === "regular_holiday"){
 
         $login_id = $_POST['login_id'];
