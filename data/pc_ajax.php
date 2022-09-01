@@ -598,6 +598,28 @@ if($r_mode) {
         $result = $api ->post('/partner/etc/one-on-one' ,$data_json);
 
         $return_data = array("code"=>"000000",'data'=>$result);
+    }else if($r_mode === "put_resign"){
+
+        $artist_id = $_POST['login_id'];
+
+        $data = array('partner_id'=>$artist_id);
+        $data_json = json_encode($data);
+
+        $result = $api ->put('/partner/etc/resign' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "change_password"){
+
+        $partner_id = $_POST['partner_id'];
+        $old_pw = $_POST['old_pw'];
+        $new_pw = $_POST['new_pw'];
+
+        $data = array('partner_id'=>$partner_id,'old_pw'=>$old_pw,'new_pw'=>$new_pw);
+        $data_json = json_encode($data);
+
+        $result = $api ->put('/partner/etc/passwd' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
     }else if($r_mode === "pay_management"){
 
         $payment_idx = $_POST['payment_idx'];
