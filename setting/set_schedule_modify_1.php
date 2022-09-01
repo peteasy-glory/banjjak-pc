@@ -187,7 +187,7 @@ if ($artist_flag == 1) {
 												<div class="grid-layout margin-14-17">
 													<div class="grid-layout-inner">
 														<div class="grid-layout-cell grid-2">
-															<button type="button" class="btn btn-icons btn-outline-gray btn-basic-full"><span class="txt">사정이 있어서 쉬어요</span><span class="icon icon-share-middle-black"></span></button>
+															<button type="button" class="btn btn-icons btn-outline-gray btn-basic-full" onclick="pop.open('holidaySet')"><span class="txt">사정이 있어서 쉬어요</span><span class="icon icon-share-middle-black"></span></button>
 														</div>
 													</div>
 												</div>
@@ -228,13 +228,479 @@ if ($artist_flag == 1) {
 		<!-- //contents -->
     </section>
     <!-- //container -->
+
+    <!-- 임시휴일 설정 팝업 -->
+    <article id="holidaySet" class="layer-pop-wrap">
+        <div class="layer-pop-parent">
+            <div class="layer-pop-children">
+                <div class="pop-data data-pop-view large">
+                    <div class="pop-header">
+                        <h4 class="con-title">임시휴일 설정</h4>
+                    </div>
+                    <div class="pop-body" style="padding-top:4px;">
+                        <div class="set-schedule-wrap">
+                            <div class="reserve-calendar-wrap">
+                                <!-- 캘린더 상단 -->
+                                <div class="reserve-calendar-top">
+                                    <div class="reserve-calendar-select">
+                                        <button type="button" class="btn-reserve-calendar-ui btn-month-prev"><span class="icon icon-calendar-prev-small"></span></button>
+                                        <div class="reserve-calendar-title">
+                                            <button type="button" class="txt">2021.11</button>
+                                        </div>
+                                        <button type="button" class="btn-reserve-calendar-ui btn-month-next"><span class="icon icon-calendar-next-small"></span></button>
+                                        <!-- calendar-title-sort 클래스에 actived클래스 추가시 활성화 -->
+                                        <div class="calendar-title-sort">
+                                            <div class="simple-calendar-wrap">
+                                                <div class="simple-calendar-top">
+                                                    <button type="button" class="btn-simple-calendar-ui btn-simple-calendar-prev">이전</button>
+                                                    <div class="top-title">2022</div>
+                                                    <button type="button" class="btn-simple-calendar-ui btn-simple-calendar-next">다음</button>
+                                                </div>
+                                                <div class="simple-calendar-body">
+                                                    <div class="simple-calendar-month-group">
+                                                        <div class="simple-calendar-month-row">
+                                                            <!-- btn-simple-calendar-month-nav 클래스에 actived클래스 추가시 활성화 -->
+                                                            <div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">1</button></div>
+                                                            <div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">2</button></div>
+                                                            <div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">3</button></div>
+                                                            <div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav actived">4</button></div>
+                                                            <div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">5</button></div>
+                                                            <div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">6</button></div>
+                                                            <div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">7</button></div>
+                                                            <div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">8</button></div>
+                                                            <div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">9</button></div>
+                                                            <div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">10</button></div>
+                                                            <div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">11</button></div>
+                                                            <div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">12</button></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- //캘린더 상단 -->
+                                <!-- 캘린더 상세 -->
+                                <div>
+                                    <div class="reserve-calendar-data">
+                                        <div class="reserve-calendar-inner">
+                                            <!--
+                                            // calendar-month-header-col 클래스 정의
+                                            //	sunday : 일요일
+                                            //	saturday : 토요일
+
+                                            // calendar-month-body-col 클래스 정의
+                                            // before : 이전월
+                                            // after : 다음월
+                                            //	sunday : 일요일
+                                            //	saturday : 토요일
+                                            //	break :휴무
+                                            //	holiday :공휴일
+                                            // today : 오늘
+                                            // calendar-drag-item-group : 드래그 가능한 영역
+                                            // calendar-drag-item : 드래그 아이템
+                                            -->
+                                            <!--
+                                            // calendar-week-time-item 상황별 클래스값
+                                            // yellow : 앱-선결제
+                                            // purple : 앱-매장결제
+                                            // green : 매장예약
+                                            // red : NoShow
+                                            // gray : 승인대기
+                                            -->
+                                            <div class="calendar-month-wrap">
+                                                <div class="calendar-month-header">
+                                                    <div class="calendar-month-header-row">
+                                                        <div class="calendar-month-header-col sunday">일</div>
+                                                        <div class="calendar-month-header-col">월</div>
+                                                        <div class="calendar-month-header-col">화</div>
+                                                        <div class="calendar-month-header-col">수</div>
+                                                        <div class="calendar-month-header-col">목</div>
+                                                        <div class="calendar-month-header-col">금</div>
+                                                        <div class="calendar-month-header-col saturday">토</div>
+                                                    </div>
+                                                </div>
+                                                <div class="calendar-month-body">
+                                                    <div class="calendar-month-body-row">
+                                                        <div class="calendar-month-body-col before break sunday">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">28</div><div class="state"></div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="calendar-month-body-col before">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">29</div><div class="state"></div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="calendar-month-body-col before">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">30</div><div class="state"></div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="calendar-month-body-col">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">1</div><div class="state"></div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="calendar-month-body-col">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">2</div><div class="state"></div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="calendar-month-body-col break">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">3</div><div class="state">정휴</div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="calendar-month-body-col">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">4</div><div class="state"></div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="calendar-month-body-row">
+                                                        <div class="calendar-month-body-col break sunday">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">5</div><div class="state">정휴</div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="calendar-month-body-col">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">6</div><div class="state"></div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="calendar-month-body-col">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">7</div><div class="state"></div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="calendar-month-body-col today">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">8</div><div class="state"></div></div>
+                                                                <div class="calendar-total-value">임휴2</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="calendar-month-body-col">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">9</div><div class="state"></div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="calendar-month-body-col break">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">10</div><div class="state">정휴</div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="calendar-month-body-col">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">11</div><div class="state"></div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="calendar-month-body-row">
+                                                        <div class="calendar-month-body-col break sunday">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">12</div><div class="state">정휴</div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="calendar-month-body-col selected">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">13</div><div class="state"></div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="calendar-month-body-col selected">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">14</div><div class="state"></div></div>
+                                                                <div class="calendar-total-value">임휴2</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="calendar-month-body-col selected">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">15</div><div class="state"></div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="calendar-month-body-col">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">16</div><div class="state"></div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="calendar-month-body-col break">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">17</div><div class="state">정휴</div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="calendar-month-body-col">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">18</div><div class="state"></div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="calendar-month-body-row">
+                                                        <div class="calendar-month-body-col break sunday">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">19</div><div class="state">정휴</div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="calendar-month-body-col">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">20</div><div class="state"></div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="calendar-month-body-col">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">21</div><div class="state"></div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="calendar-month-body-col">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">22</div><div class="state"></div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="calendar-month-body-col">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">23</div><div class="state"></div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="calendar-month-body-col break">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">24</div><div class="state">정휴</div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="calendar-month-body-col">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">25</div><div class="state"></div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="calendar-month-body-row">
+                                                        <div class="calendar-month-body-col break sunday">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">26</div><div class="state">정휴</div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="calendar-month-body-col">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">27</div><div class="state"></div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="calendar-month-body-col">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">28</div><div class="state"></div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="calendar-month-body-col">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">29</div><div class="state"></div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="calendar-month-body-col">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">30</div><div class="state"></div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="calendar-month-body-col break after">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">1</div><div class="state">정휴</div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="calendar-month-body-col after">
+                                                            <div class="calendar-col-inner">
+                                                                <div class="calendar-day-value"><div class="number">2</div><div class="state"></div></div>
+                                                                <div class="calendar-total-value"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- //캘린더 상세 -->
+                            </div>
+                            <div class="basic-data-group large">
+                                <div class="con-title-group">
+                                    <h4 class="con-title">타입 선택</h4>
+                                </div>
+                                <div class="form-check-group">
+                                    <div class="form-check-inner">
+                                        <div class="check-cell"><label class="form-radiobox"><input type="radio" name="time2" class="break_type" value="all" checked><span class="form-check-icon"><em>종일 쉬어요</em></span></label></div>
+                                        <div class="check-cell"><label class="form-radiobox"><input type="radio" name="time2" class="break_type" value="notall"><span class="form-check-icon"><em>몇시간만 쉬어요</em></span></label></div>
+                                    </div>
+                                </div>
+                                <!-- display:none 으로 기본 처리 -->
+                                <!-- 종일 쉬어요 -->
+                                <div class="basic-data-group vmiddle all_wrap" style="display:block;">
+                                    <div class="grid-layout margin-14-17">
+                                        <div class="grid-layout-inner">
+                                            <div class="grid-layout-cell grid-2">
+                                                <div class="form-group-item">
+                                                    <div class="form-item-label">기간</div>
+                                                    <div class="form-item-data type-2">
+                                                        <div class="form-datepicker-group">
+                                                            <div class="form-datepicker">
+                                                                <select>
+                                                                    <?php
+                                                                    $next_year = date('Y-m-d',strtotime('+1 year'));
+                                                                    for($i=strtotime($next_year);$i>=strtotime(date('Y-m-d'));$i-=86400){
+                                                                        ?>
+                                                                        <option value="<?php echo date('Ymd',$i);?>0000" <?php echo (strtotime(date('Y-m-d'))==$i)?'selected':'';?>><?php echo date('Y.m.d',$i);?></option>
+                                                                    <?php } ?>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-unit">~</div>
+                                                            <div class="form-datepicker">
+                                                                <select>
+                                                                    <?php
+                                                                    $next_year = date('Y-m-d',strtotime('+1 year'));
+                                                                    for($i=strtotime($next_year);$i>=strtotime(date('Y-m-d'));$i-=86400){
+                                                                        ?>
+                                                                        <option value="<?php echo date('Ymd',$i);?>0000" <?php echo (strtotime(date('Y-m-d'))==$i)?'selected':'';?>><?php echo date('Y.m.d',$i);?></option>
+                                                                    <?php } ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- //종일 쉬어요-->
+                                <!-- 몇시간만 쉬어요 -->
+                                <div class="basic-data-group vmiddle notall_wrap" style="display:none;">
+                                    <div class="grid-layout margin-14-17">
+                                        <div class="grid-layout-inner">
+                                            <div class="grid-layout-cell grid-2">
+                                                <div class="form-group-item">
+                                                    <div class="form-item-label">날짜</div>
+                                                    <div class="form-item-data type-2">
+                                                        <div class="grid-layout margin-12">
+                                                            <div class="grid-layout-inner">
+                                                                <div class="grid-layout-cell grid-3">
+                                                                    <select>
+                                                                        <option value="2021">2021 년</option>
+                                                                        <option value="2022">2022 년</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="grid-layout-cell grid-3">
+                                                                    <select>
+                                                                        <?php for($i=1;$i<=12;$i++){ ?>
+                                                                            <option value="<?php echo ($i<10)? '0'.$i : $i;?>" <?php echo ($i==date('n'))?'selected':'';?> ><?php echo sprintf('%02d',$i);?> 월</option>
+                                                                        <?php } ?>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="grid-layout-cell grid-3">
+                                                                    <select>
+                                                                        <?php for($i=1;$i<=date('t');$i++){ ?>
+                                                                            <option value="<?php echo ($i<10)? '0'.$i : $i;?>" <?php echo ($i==date('d'))?'selected':'';?> ><?php echo sprintf('%02d',$i);?> 일</option>
+                                                                        <?php } ?>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="grid-layout-cell grid-2">
+                                                <div class="form-group-item">
+                                                    <div class="form-item-label">시간</div>
+                                                    <div class="form-item-data type-2">
+                                                        <div class="form-datepicker-group">
+                                                            <div class="form-datepicker auto" style="width:124px">
+                                                                <select>
+                                                                    <?php
+                                                                    for($i=strtotime('08:00');$i<=strtotime('23:00');$i+=1800){
+                                                                        ?>
+                                                                        <option value="<?php echo date('Hi',$i);?>"><?php echo (date('H',$i)>=12)?'오후':'오전';?> <?php echo date('g:i',$i);?></option>
+                                                                    <?php } ?>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-unit">~</div>
+                                                            <div class="form-datepicker auto" style="width:124px">
+                                                                <select>
+                                                                    <?php
+                                                                    for($i=strtotime('08:00');$i<=strtotime('23:00');$i+=1800){
+                                                                        ?>
+                                                                        <option value="<?php echo date('Hi',$i);?>"><?php echo (date('H',$i)>=12)?'오후':'오전';?> <?php echo date('g:i',$i);?></option>
+                                                                    <?php } ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- //몇시간만 쉬어요-->
+                            </div>
+                            <div class="basic-data-group vmiddle">
+                                <div class="con-title-group">
+                                    <h4 class="con-title">적용대상 미용사 선택</h4>
+                                </div>
+                                <div class="basic-data-group vsmall">
+                                    <div class="grid-layout basic">
+                                        <div class="grid-layout-inner modify_wrap">
+                                            <div class="grid-layout-cell flex-auto"><label class="form-toggle-box"><input type="radio" name="time3"><em>실장</em></label></div>
+                                            <div class="grid-layout-cell flex-auto"><label class="form-toggle-box"><input type="radio" name="time3"><em>윤아</em></label></div>
+                                            <div class="grid-layout-cell flex-auto"><label class="form-toggle-box"><input type="radio" name="time3"><em>마이크리</em></label></div>
+                                            <div class="grid-layout-cell flex-auto"><label class="form-toggle-box"><input type="radio" name="time3"><em>케이</em></label></div>
+                                            <div class="grid-layout-cell flex-auto"><label class="form-toggle-box"><input type="radio" name="time3"><em>수</em></label></div>
+                                            <div class="grid-layout-cell flex-auto"><label class="form-toggle-box"><input type="radio" name="time3"><em>이름이 길경우 입니다</em></label></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pop-footer">
+                        <a href="#" class="btn btn-purple"><strong>저장하기</strong></a>
+                    </div>
+                    <button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
+                </div>
+            </div>
+        </div>
+    </article>
+    <!-- //임시휴일 설정 팝업 -->
+
     <article id="talkExam" class="layer-pop-wrap">
         <div class="layer-pop-parent">
             <div class="layer-pop-children">
 
                 <div class="pop-data alert-pop-data">
                     <div class="pop-body">
-                        <div class="msg-txt"></div>
+                        <div class="msg-txt">예약 스케줄을 자유시간제로 변경합니다.</div>
                     </div>
                     <div class="pop-footer">
                         <button type="button" class="btn btn-confirm"  onclick="$('.time_type_2_wrap').css('display','none');pop.close();">확인</button>
@@ -250,7 +716,7 @@ if ($artist_flag == 1) {
 
                 <div class="pop-data alert-pop-data">
                     <div class="pop-body">
-                        <div class="msg-txt"></div>
+                        <div class="msg-txt">예약 스케줄을 타임제로 변경합니다.</div>
                     </div>
                     <div class="pop-footer">
                         <button type="button" class="btn btn-confirm"  onclick="$('.time_type_2_wrap').css('display','block');pop.close();">확인</button>
@@ -324,12 +790,17 @@ if ($artist_flag == 1) {
             var time_array = setting_array[3];
             var html = '';
             var html_2 = '';
+            var html_modify = '';
             $.each(time_array,function(i, v){
                 var name = (v.name == artist_id)? "실장" : v.name;
                 var checked = (name == '실장')? "checked" : "";
                 var is_block = (name == '실장')? "flex" : "none";
                 html += `
                     <div class="grid-layout-cell flex-auto"><label class="form-toggle-box"><input type="radio" class="worker" value="${v.idx}" name="time3" ${checked}><em>${name}</em></label></div>
+                `;
+
+                html_modify = `
+                    <div class="grid-layout-cell flex-auto"><label class="form-toggle-box"><input type="radio" name="time3" value="${v.idx}" ${checked}><em>${name}</em></label></div>
                 `;
 
                 start_hour = setting_array[0].open_time;
@@ -442,9 +913,9 @@ if ($artist_flag == 1) {
     // 시간제 선택
     $(document).on('click','.time_schedule',function(){
         if($(this).val() == 1){
-            pop.open('talkExam','예약 스케줄을 자유시간제로 변경합니다.');
+            pop.open('talkExam');
         } else {
-            pop.open('talkExam1','예약 스케줄을 타임제로 변경합니다.');
+            pop.open('talkExam1');
         }
     });
 
@@ -454,6 +925,18 @@ if ($artist_flag == 1) {
         var class_name = ".worker_"+$(this).val();
         $(class_name).css("display","flex");
     })
+
+    // 임시휴일성정 팝업 타입 선택
+    $(document).on('click','.break_type',function(){
+        if($(this).val() == 'all'){
+            $('.notall_wrap').css('display','none');
+            $('.all_wrap').css('display','block');
+        } else {
+            $('.all_wrap').css('display','none');
+            $('.notall_wrap').css('display','block');
+        }
+    });
+
 
 </script>
 </body>
