@@ -357,6 +357,52 @@ if($r_mode) {
         $result = $api ->delete('/partner/shop/review' ,$data_json);
 
         $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "get_blog_list"){
+
+        $login_id = $_POST['login_id'];
+        $data = array('naver'=>false);
+        $data_json = json_encode($data);
+
+        $time_type = $api -> get('/partner/shop/blog/'.$login_id, $data_json);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "get_naver_blog_list"){
+
+        $login_id = $_POST['login_id'];
+        $query = $_POST['txt'];
+        $display = intval($_POST['display']);
+        $start = intval($_POST['start']);
+        $data = array('naver'=>true,'query'=>$query,'display'=>$display,'start'=>$start);
+        $data_json = json_encode($data);
+
+        $time_type = $api -> get('/partner/shop/blog/'.$login_id, $data_json);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "post_naver_blog_list"){
+
+        $login_id = $_POST['login_id'];
+        $link = $_POST['link'];
+        $title = $_POST['title'];
+        $desc = $_POST['desc'];
+        $post_date = $_POST['post_date'];
+        $blogger = $_POST['blogger'];
+
+        $data = array('partner_id'=>$login_id,'link'=>$link,'title'=>$title,'desc'=>$desc,'thumb'=>'','post_date'=>$post_date,'blogger'=>$blogger);
+        $data_json = json_encode($data);
+
+        $time_type = $api -> post('/partner/shop/blog', $data_json);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "del_blog"){
+
+        $idx = intval($_POST['idx']);
+
+        $data = array('idx'=>$idx);
+        $data_json = json_encode($data);
+
+        $result = $api ->delete('/partner/shop/blog' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
     }else if($r_mode === "regular_holiday"){
 
         $login_id = $_POST['login_id'];
@@ -525,6 +571,55 @@ if($r_mode) {
         $time_type = $api -> get('/partner/setting/artist-vacation/'.$login_id);
 
         $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "get_notice"){
+
+        $login_id = $_POST['login_id'];
+
+        $time_type = $api -> get('/partner/etc/notice/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "get_qna"){
+
+        $login_id = $_POST['login_id'];
+
+        $time_type = $api -> get('/partner/etc/one-on-one/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "post_qna"){
+
+        $partner_id = $_POST['partner_id'];
+        $main_type = $_POST['main_type'];
+        $title = $_POST['title'];
+        $contents = $_POST['contents'];
+
+        $data = array('partner_id'=>$partner_id,'email'=>'','main_type'=>$main_type,'sub_type'=>'','title'=>$title,'contents'=>$contents);
+        $data_json = json_encode($data);
+
+        $result = $api ->post('/partner/etc/one-on-one' ,$data_json);
+
+        $return_data = array("code"=>"000000",'data'=>$result);
+    }else if($r_mode === "put_resign"){
+
+        $artist_id = $_POST['login_id'];
+
+        $data = array('partner_id'=>$artist_id);
+        $data_json = json_encode($data);
+
+        $result = $api ->put('/partner/etc/resign' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "change_password"){
+
+        $partner_id = $_POST['partner_id'];
+        $old_pw = $_POST['old_pw'];
+        $new_pw = $_POST['new_pw'];
+
+        $data = array('partner_id'=>$partner_id,'old_pw'=>$old_pw,'new_pw'=>$new_pw);
+        $data_json = json_encode($data);
+
+        $result = $api ->put('/partner/etc/passwd' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
     }else if($r_mode === "pay_management"){
 
         $payment_idx = $_POST['payment_idx'];

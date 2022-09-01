@@ -280,7 +280,7 @@ var include = {
                                                 </a>
                                             </div>
                                             <div class="snb-menu-cell" id="gnb_blog">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="/shop/shop_blog.php" class="btn-snb-nav">
                                                     <div class="txt">샵 연동 블로그 관리</div>
                                                 </a>
                                             </div>
@@ -353,17 +353,17 @@ var include = {
                                         </a>
                                         <div class="snb-menu-list">
                                             <div class="snb-menu-cell" id="gnb_notice">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="/etc/other_notice_list.php" class="btn-snb-nav">
                                                     <div class="txt">공지사항</div>
                                                 </a>
                                             </div>
                                             <div class="snb-menu-cell" id="gnb_ask">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="/etc/other_inquiry.php" class="btn-snb-nav">
                                                     <div class="txt">문의하기</div>
                                                 </a>
                                             </div>
                                             <div class="snb-menu-cell" id="gnb_profile">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="/etc/other_member.php" class="btn-snb-nav">
                                                     <div class="txt">회원정보 관리</div>
                                                 </a>
                                             </div>

@@ -304,3 +304,104 @@ function del_reply(idx){
         }
     })
 }
+
+// 추가된 블로그 리스트
+function get_blog_list(id){
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'get_blog_list',
+            login_id: id,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            //console.log(res);
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                shop_array.push(body);
+            }
+        }
+    })
+}
+
+// 검색 블로그 리스트
+function get_naver_blog_list(id, txt, display, start){
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'get_naver_blog_list',
+            login_id: id,
+            txt:txt,
+            display:display,
+            start:start
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            //console.log(res);
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                shop_array.push(body);
+            }
+        }
+    })
+}
+
+// 블로그 추가
+function post_naver_blog_list(id, link, title, desc, post_date, blogger){
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'post_naver_blog_list',
+            login_id: id,
+            link:link,
+            title:title,
+            desc:desc,
+            post_date:post_date,
+            blogger:blogger,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            //console.log(res);
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                pop.open('reloadPop', '추가되었습니다.');
+
+            }
+        }
+    })
+}
+
+// 블로그 삭제
+function del_blog(data){
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: data,
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            //console.log(res);
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                pop.open('reloadPop', '삭제되었습니다.');
+            }
+        }
+    })
+}
