@@ -63,11 +63,14 @@ function schedule_render(id){
 
                                     }
 
+
+
                                     el_.setAttribute('data-pay',el.product.payment_idx)
+                                    el_.setAttribute('data-time_length',(new Date(el.product.date.booking_fi).getTime()-new Date(el.product.date.booking_st).getTime())/1000/60)
 
                                     let multiple = (new Date(el.product.date.booking_fi).getTime() - new Date(el.product.date.booking_st).getTime())/1800000;
                                     el_.innerHTML = `<div class="calendar-drag-item-group">
-                                                                        <a href="./reserve_pay_management_beauty_1.php" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-pay')})" class="calendar-week-time-item toggle green ${color} ${el.product.is_no_show === 1 ? "red" : ''}" style="height: calc(100% * ${multiple}); ">
+                                                                        <a href="./reserve_pay_management_beauty_1.php" data-payment_idx="${el_.getAttribute('data-pay')}" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-pay')})" class="calendar-week-time-item toggle green ${color} ${el.product.is_no_show === 1 ? "red" : ''}" style="height: calc(100% * ${multiple}); ">
                                                                             <div class="item-inner" style=" ${multiple <4 ? `` : `border:none !important`}">
                                                                                 <div class="item-name">
                                                                                     <div class="txt">${el.pet.name}</div>
@@ -182,7 +185,6 @@ function reserve_schedule_week_cols(body,body_,parent,id){
 
 
 
-
     let body_col = document.getElementsByClassName('calendar-week-body-col-add');
 
     // $(document).on('mouseenter mouseleave mousemove', '.calendar-week-time-item',function(){
@@ -211,8 +213,9 @@ function reserve_schedule_week_cols(body,body_,parent,id){
 
             body_.forEach(function(_el){
 
-
+                console.log(_el);
                 if(_el.product.worker === el.getAttribute('data-worker')){
+
 
 
                     let booking_st = _el.product.date.booking_st
@@ -245,6 +248,9 @@ function reserve_schedule_week_cols(body,body_,parent,id){
 
 
 
+                            el__.setAttribute('data-pay',_el.product.payment_idx);
+
+                            el__.setAttribute('data-time_length',(new Date(_el.product.date.booking_fi).getTime()-new Date(_el.product.date.booking_st).getTime())/1000/60)
 
                             el__.innerHTML = `<div class="calendar-drag-item-group">
                                                     <a href="/booking/reserve_pay_management_beauty_1.php" onclick="localStorage.setItem('payment_idx',${_el.product.payment_idx})" class="calendar-week-time-item toggle green ${color} ${_el.product.is_no_show === 1 ? "red" : ''}" style="height: calc(100% * ${multiple}); ">
@@ -333,11 +339,40 @@ function reserve_schedule_week_cols(body,body_,parent,id){
                 }
             })
 
+
+
             console.log(work_day_search(work_day))
 
-            week_holiday(parent,id);
+            week_holiday(parent,id).then(function(){
+
+                Array.from(document.getElementsByClassName('week-day-check')).forEach(function(el){
+
+                    if(el.parentElement.children[0].innerText === ''){
+
+                        Array.from(document.getElementsByClassName('calendar-week-body-col-add')).forEach(function (el_){
+
+                            if(el_.getAttribute('data-day') === el.getAttribute('data-day')){
+
+                                el_.classList.add('break4');
+
+                                el_.classList.remove('break','break1','break1-1','break2','break2-1')
+
+                            }
+                        })
+                    }
+                })
+
+
+            });
             reserve_prohibition_list(id);
+            setTimeout(function(){week_drag()},200)
+
+
+
+
         })
+
+
     })
 
 
@@ -375,50 +410,51 @@ function work_day_search(work_day){
 
 function week_holiday(parent,id){
 
-    let body_col = document.getElementsByClassName('calendar-week-body-col-add');
+    return new Promise(function (resolve){
+        let body_col = document.getElementsByClassName('calendar-week-body-col-add');
 
 
-    $.ajax({
-        url:'/data/pc_ajax.php',
-        type:'post',
-        data:{
-            mode:'holiday',
-            login_id:id
-        },
-        success:function(res){
-            let response = JSON.parse(res);
-            let head = response.data.head;
-            let body = response.data.body[0];
-            if (head.code === 401) {
-                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-            } else if (head.code === 200) {
+        $.ajax({
+            url:'/data/pc_ajax.php',
+            type:'post',
+            data:{
+                mode:'holiday',
+                login_id:id
+            },
+            success:function(res){
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body[0];
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
 
-                let body_rows;
+                    let body_rows;
 
-                let bool = false;
+                    let bool = false;
 
 
-                if(parseInt(body.week_type) === 1){
-
-                    bool = true;
-
-                }else if(parseInt(body.week_type)  === 2){
-
-                    if(parent.classList.contains('1or3')){
+                    if(parseInt(body.week_type) === 1){
 
                         bool = true;
+
+                    }else if(parseInt(body.week_type)  === 2){
+
+                        if(parent.classList.contains('1or3')){
+
+                            bool = true;
+                        }
+                    }else if(parseInt(body.week_type)  ===3){
+
+                        if(parent.classList.contains('2or4')){
+
+                            bool = true;
+                        }
                     }
-                }else if(parseInt(body.week_type)  ===3){
-
-                    if(parent.classList.contains('2or4')){
-
-                        bool = true;
-                    }
-                }
 
 
-                if(bool){
-                    if(body.is_work_sun) {
+                    if(bool){
+                        if(body.is_work_sun) {
 
                             Array.from(body_col).forEach(function(el_,i){
 
@@ -433,8 +469,8 @@ function week_holiday(parent,id){
                             })
 
 
-                    }
-                    if(body.is_work_mon){
+                        }
+                        if(body.is_work_mon){
 
                             Array.from(body_col).forEach(function(el_,i){
 
@@ -449,8 +485,8 @@ function week_holiday(parent,id){
                             })
 
 
-                    }
-                    if(body.is_work_tue){
+                        }
+                        if(body.is_work_tue){
 
                             Array.from(body_col).forEach(function(el_,i){
 
@@ -465,8 +501,8 @@ function week_holiday(parent,id){
                             })
 
 
-                    }
-                    if(body.is_work_wed){
+                        }
+                        if(body.is_work_wed){
 
 
                             Array.from(body_col).forEach(function(el_,i){
@@ -482,8 +518,8 @@ function week_holiday(parent,id){
 
 
 
-                    }
-                    if(body.is_work_thu){
+                        }
+                        if(body.is_work_thu){
 
 
                             Array.from(body_col).forEach(function(el_,i){
@@ -499,8 +535,8 @@ function week_holiday(parent,id){
                             })
 
 
-                    }
-                    if(body.is_work_fri){
+                        }
+                        if(body.is_work_fri){
                             Array.from(body_col).forEach(function(el_,i){
                                 if(parseInt(el_.getAttribute('data-day')) === 5){
                                     el_.classList.add('break2')
@@ -510,8 +546,8 @@ function week_holiday(parent,id){
 
                                 }
                             })
-                    }
-                    if(body.is_work_sat){
+                        }
+                        if(body.is_work_sat){
                             Array.from(body_col).forEach(function(el_,i){
                                 if(parseInt(el_.getAttribute('data-day')) === 6){
                                     el_.classList.add('break2')
@@ -521,12 +557,17 @@ function week_holiday(parent,id){
 
                                 }
                             })
+                        }
                     }
-                }
-            }
 
-        }
+                    resolve();
+                }
+
+            }
+        })
+
     })
+
 
 }
 function week_working(id){
@@ -772,8 +813,9 @@ return new Promise(function (resolve){
             let fi_target = el.parentElement.children[fi_count].children[0].children[0].children[0].children[0].innerText;
 
             let st_date = `${date.getFullYear()}-${fill_zero(date.getMonth() + 1)}-${fill_zero(st_target)}`
-            let fi_date = `${date.getFullYear()}-${fill_zero(date.getMonth() + 1)}-${fill_zero(fi_target)}`
+            let fi_date = `${date.getFullYear()}-${fill_zero(date.getMonth() + 1)}-${fill_zero(parseInt(fi_target)+1)}`
 
+            console.log(fi_date.substring(5))
             $.ajax({
 
                 url: '/data/pc_ajax.php',
@@ -793,6 +835,7 @@ return new Promise(function (resolve){
                     if (head.code === 401) {
                         pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                     } else if (head.code === 200) {
+                        console.log(body_)
 
                         let cancel = 0;
                         let noshow = 0;
@@ -812,8 +855,9 @@ return new Promise(function (resolve){
                         document.getElementById('day_total').innerHTML = `${body_.length}건`
                         document.getElementById('day_cancel').innerHTML = `${cancel}건`
                         document.getElementById('day_noshow').innerHTML = `${noshow}건`
-                        document.getElementById('schedule_day').innerHTML = `${st_date.substring(5).replaceAll('-', '.')} ~ ${fi_date.substring(5).replaceAll('-', '.')}`
+                        document.getElementById('schedule_day').innerHTML = `${st_date.substring(5).replaceAll('-', '.')} ~ ${fi_date.substring(5).split('-')[0]}.${parseInt(fi_date.substring(5).split('-')[1])-1}`
                         let days = [];
+
 
                         Array.from(document.querySelector('.week-check').children).forEach(function (el) {
 
@@ -826,6 +870,7 @@ return new Promise(function (resolve){
 
 
                         })
+                        console.log(days)
 
                         Array.from(document.getElementsByClassName('week-date')).forEach(function (el, i) {
 
@@ -1991,6 +2036,7 @@ function day_drag(){
                         thisLogSeq = $(evt.from).parent().attr("data-pay");
 
 
+
                         thisWorker = $(evt.to).parent().attr("data-nick");
                         thisYear = $(evt.to).parent().attr("data-year");
                         thisMonth = $(evt.to).parent().attr("data-month")
@@ -2001,16 +2047,28 @@ function day_drag(){
                         thisTimeEnd   = $(evt.to).parent().attr("data-time-from");
                         thisWorker2 = $(evt.to).parent().attr("data-name");
 
+                        let time_length = $(evt.from).parent().attr("data-time_length");
+
+                        let target_date = new Date(date.getFullYear(),date.getMonth(),date.getDate(),thisTimeStart.split(':')[0],thisTimeStart.split(':')[1]);
+
+
+                        target_date.setMinutes(target_date.getMinutes()+time_length);
+
+
+                        let fi_time = `${fill_zero(target_date.getHours())}:${fill_zero(target_date.getMinutes())}`
+
+
                         $("#reserveCalendarPop4 .con-title").text(thisWorker);
                         $("#reserveCalendarPop4 .msg-text-date").text(am_pm_check2(`${thisYear}.${fill_zero(parseInt(thisMonth)+1)}.${fill_zero(thisDate)} ${fill_zero(thisHour)}:${fill_zero(thisMinutes)}`));
 
                         $("#reserveCalendarPop4 input[name='log_type']").val("week");
                         $("#reserveCalendarPop4 input[name='log_seq']").val(thisLogSeq);
                         $("#reserveCalendarPop4 input[name='log_worker']").val(thisWorker2);
+                        $("#reserveCalendarPop4 input[name='log_year']").val(thisYear);
+                        $("#reserveCalendarPop4 input[name='log_month']").val(parseInt(thisMonth)+1);
                         $("#reserveCalendarPop4 input[name='log_date']").val(thisDate);
                         $("#reserveCalendarPop4 input[name='log_start_time']").val(thisTimeStart);
-                        $("#reserveCalendarPop4 input[name='log_end_time']").val(thisTimeEnd);
-                        $("#reserveCalendarPop4 input[name='log_move_start_time']").val(thisHour);
+                        $("#reserveCalendarPop4 input[name='log_end_time']").val(fi_time);
 
                         pop.open('reserveCalendarPop4');
                     }
@@ -2033,10 +2091,9 @@ function day_drag(){
 function week_drag(){
 
     $('.calendar-week-body-col-add').each(function(){
-        $(this).on('click',function(){
 
-        })
-        if(!$(this).hasClass('time')){
+        console.log($(this).hasClass('break4'))
+        if(!$(this).hasClass('time') && !$(this).hasClass('break4')){
             //휴무가 아닐 경우 드래그앤 드롭 가능 처리
             var sortable = Sortable.create($(this).find('.calendar-drag-item-group')[0] , {
                 group : 'shared',
@@ -2064,11 +2121,13 @@ function week_drag(){
 
 
                         let thisWorker;
+                        let thisWorker2;
                         Array.from(document.getElementsByClassName('header-worker')).forEach(function (el){
 
                             if(el.classList.contains('actived')){
 
-                                thisWorker = el.getAttribute('data-nick');
+                                thisWorker = el.getAttribute('data-worker');
+                                thisWorker2 = el.getAttribute('data-nick');
                             }
                         })
                         _thisYear = $(evt.from).parent().attr("data-year");
@@ -2078,7 +2137,8 @@ function week_drag(){
                         _thisMinutes = $(evt.from).parent().attr("data-minutes")
                         _thisTimeStart   = $(evt.from).parent().attr("data-time-to");
                         _thisTimeEnd   = $(evt.from).parent().attr("data-time-from");
-                        // thisLogSeq = $(evt.from).parent().attr("data-pay");
+                        thisLogSeq = $(evt.from).parent().attr("data-pay");
+
 
 
                         thisYear = $(evt.to).parent().attr("data-year");
@@ -2090,16 +2150,34 @@ function week_drag(){
                         thisTimeEnd   = $(evt.to).parent().attr("data-time-from");
                         // thisWorker2 = $(evt.to).parent().attr("data-name");
 
-                        $("#reserveCalendarPop4 .con-title").text(thisWorker);
+                        let time_length = $(evt.from).parent().attr("data-time_length");
+
+                        let target_date = new Date(2022,0,1,thisTimeStart.split(':')[0],thisTimeStart.split(':')[1]);
+
+                        console.log(time_length)
+                        console.log(target_date)
+
+                        target_date.setMinutes(target_date.getMinutes()+120);
+
+                        console.log(target_date)
+
+                        let fi_time = `${fill_zero(target_date.getHours())}:${fill_zero(target_date.getMinutes())}`
+
+
+
+                        $("#reserveCalendarPop4 .con-title").text(thisWorker2);
                         $("#reserveCalendarPop4 .msg-text-date").text(am_pm_check2(`${thisYear}.${fill_zero(parseInt(thisMonth)+1)}.${fill_zero(thisDate)} ${fill_zero(thisHour)}:${fill_zero(thisMinutes)}`));
 
                         $("#reserveCalendarPop4 input[name='log_type']").val("week");
-                        // $("#reserveCalendarPop4 input[name='log_seq']").val(thisLogSeq);
+                        $("#reserveCalendarPop4 input[name='log_seq']").val(thisLogSeq);
                         $("#reserveCalendarPop4 input[name='log_worker']").val(thisWorker);
+                        $("#reserveCalendarPop4 input[name='log_year']").val(thisYear);
+                        $("#reserveCalendarPop4 input[name='log_month']").val(parseInt(thisMonth)+1);
                         $("#reserveCalendarPop4 input[name='log_date']").val(thisDate);
                         $("#reserveCalendarPop4 input[name='log_start_time']").val(thisTimeStart);
-                        $("#reserveCalendarPop4 input[name='log_end_time']").val(thisTimeEnd);
-                        $("#reserveCalendarPop4 input[name='log_move_start_time']").val(thisHour);
+                        $("#reserveCalendarPop4 input[name='log_end_time']").val(fi_time);
+
+
 
                         pop.open('reserveCalendarPop4');
 
@@ -2145,7 +2223,7 @@ function pay_management(id){
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
-            let body_ = [response.data2.body,response.data3.body,body.pet_seq]
+            let body_ = [response.data2.body,response.data3.body,body.pet_seq,body]
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
@@ -2250,8 +2328,8 @@ function pay_management(id){
                                                 <div class="btns-cell">
                                                     <button type="button" class="btn btn-outline-gray btn-vsmall-size btn-inline" onclick="pop.open('reserveBeautyGalleryPop')">미용 갤러리</button>
                                                 </div>
-                                                <div class="btns-cell">
-                                                    <button type="button" class="btn btn-outline-gray btn-vsmall-size btn-inline" onclick="pop.open('beautyAgreeWritePop')">미용 동의서 작성</button>
+                                                <div class="btns-cell" id="beauty_agree_view">
+                                                    <button type="button" class="btn btn-outline-gray btn-vsmall-size btn-inline">미용 동의서</button>
                                                 </div>  
                                             </div>
                                         </div>
@@ -2570,7 +2648,7 @@ function pay_management(id){
                                                                             <div class="grid-layout btn-grid-group">
                                                                                 <div class="grid-layout-inner">
                                                                                     <div class="grid-layout-cell grid-2">
-                                                                                        <button type="button" class="btn btn-purple">날짜/미용사 변경</button>
+                                                                                        <button type="button" class="btn btn-purple" onclick="pop.open('reservePayManagementMsg1')">날짜/미용사 변경</button>
                                                                                     </div>
                                                                                     <div class="grid-layout-cell grid-2">
                                                                                         <button type="button" class="btn btn-outline-purple" onclick="pop.open('reserveCancel')">예약 취소</button>
@@ -2941,6 +3019,9 @@ function pay_management_(id){
             }
 
 
+
+
+
         })
 
 
@@ -2949,6 +3030,80 @@ function pay_management_(id){
 
             beauty_gallery_add(id,body_[2]);
         });
+
+
+        $.ajax({
+
+            url:'/data/pc_ajax.php',
+            type:'post',
+            data:{
+                mode:'get_beauty_agree',
+                partner_id:id,
+                pet_idx:body_[2],
+            },
+            success:function(res) {
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+                    console.log(body)
+
+                  if(body.length === 0){
+
+                      document.getElementById('beauty_agree_view').innerHTML =  `<button type="button" class="btn btn-outline-gray btn-vsmall-size btn-inline" id="beauty_agree_btn">미용 동의서 작성</button>`
+
+                      setTimeout(function(){
+                          document.getElementById('beauty_agree_btn').addEventListener('click',function(){
+
+                              beauty_agree_init(body_[3]).then(function(data_){
+
+                                  beauty_agree_init_(data_);
+                              });
+                          })
+                      },50)
+
+                  }else{
+
+                      document.getElementById('beauty_agree_view').innerHTML = `<button type="button" class="btn btn-outline-gray btn-vsmall-size btn-inline" id="beauty_agree_view_btn">미용 동의서 보기</button>`
+
+                      setTimeout(function(){
+                          document.getElementById('beauty_agree_view_btn').addEventListener('click',function(){
+
+
+                                  beauty_agree_init(body_[3]).then(function(data_) {
+
+                                      beauty_agree_init_(data_);
+                                      document.getElementById('beauty_agree_title').innerText ='미용 동의서 보기';
+                                      document.getElementById('agree_name').value = body.customer_name;
+                                      document.getElementById('agree_name2').innerText = body.customer_name;
+                                      document.getElementById('beauty_agree_footer').innerHTML = '';
+                                      document.getElementById('beauty_agree_all_btn').setAttribute('checked',true);
+                                      document.getElementById('beauty_agree_1_btn').setAttribute('checked',true);
+                                      document.getElementById('beauty_agree_2_btn').setAttribute('checked',true);
+                                      document.getElementById('agree_date').innerText= `${body.reg_date.substr(0,4)}.${body.reg_date.substr(4,2)}.${body.reg_date.substr(6,2)}`
+                                      document.getElementById('signature_clear').remove();
+                                      document.getElementById('user_sign_wrap').innerHTML = `<img src="https://image.banjjakpet.com${body.image}" alt="">`
+
+
+                                  });
+
+
+
+                              });
+
+                      },50)
+
+
+                  }
+
+                }
+
+            }
+        })
+
+
 
     })
 
@@ -3680,13 +3835,14 @@ function reserve_prohibition(id){
             fi_date:end,
         },
         success:function(res){
+            console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                location.reload();
+                // location.reload();
             }
 
         }
@@ -3848,6 +4004,7 @@ function reserve_prohibition_list(id){
             fi_date:fi_date,
         },
         success:function (res){
+            console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -3861,6 +4018,7 @@ function reserve_prohibition_list(id){
                 }
 
                 if(body.length > 0){
+                    console.log(body)
 
 
                     if(location.href.match('reserve_beauty_day')){
@@ -6959,4 +7117,426 @@ function agree_pet_type(){
 
         })
     })
+}
+
+function beauty_agree_init(data){
+
+
+    return new Promise(function(resolve){
+
+
+
+
+        document.getElementById('agree_cellphone').value = data.cell_phone;
+
+        if(data.type==='dog'){
+
+            document.getElementById('agree_breed1').click();
+        }else{
+
+            document.getElementById('agree_breed2').click();
+        }
+
+        setTimeout(function(){
+
+            resolve(data)
+        },300);
+
+
+
+
+
+
+
+
+   })
+
+
+}
+
+function beauty_agree_init_(_data){
+
+    console.log(_data)
+    document.getElementById('agree_date').innerText = `${new Date().getFullYear()}.${fill_zero(new Date().getMonth()+1)}.${fill_zero(new Date().getDate())}`
+
+    document.getElementById('agree_name').addEventListener('change',function(){
+
+        document.getElementById('agree_name2').innerText = document.getElementById('agree_name').value;
+    })
+
+
+    document.getElementById('agree_info').innerText = `${data.shop_name}은(는) 미용요청견(묘)의 나이가 10세 이상인 노령견(묘)이나, 질병이 있는 경우 건강상태를 고려하여 안내사항을 말씀드리고, 미용 동의서를 받고자 합니다.`
+
+
+    for(let i=0; i<document.getElementById('agree_breed_select').options.length; i++){
+
+        if(document.getElementById('agree_breed_select').options[i].value === _data.pet_type){
+
+            document.getElementById('agree_breed_select').options[i].selected = true;
+        }
+    }
+
+    for(let i=0; i<document.getElementById('agree_birthday_year').options.length; i++){
+
+        if(document.getElementById('agree_birthday_year').options[i].value === _data.birth.split('-')[0]){
+
+            document.getElementById('agree_birthday_year').options[i].selected = true;
+        }
+    }
+
+    for(let i=0; i<document.getElementById('agree_birthday_month').options.length; i++){
+
+        if(document.getElementById('agree_birthday_month').options[i].value === _data.birth.split('-')[1]){
+
+            document.getElementById('agree_birthday_month').options[i].selected = true;
+        }
+    }    for(let i=0; i<document.getElementById('agree_birthday_date').options.length; i++){
+
+        if(document.getElementById('agree_birthday_date').options[i].value === _data.birth.split('-')[2]){
+
+            document.getElementById('agree_birthday_date').options[i].selected = true;
+        }
+    }
+
+    if(_data.gender === '남아'){
+
+        document.getElementById('agree_gender1').checked = true;
+    }else{
+
+        document.getElementById('agree_gender2').checked = true;
+    }
+
+
+    if(_data.neutral === 0){
+
+        document.getElementById('agree_neutralize1').checked = true;
+    }else{
+
+        document.getElementById('agree_neutralize2').checked=true;
+    }
+
+
+
+    for(let i=0; i<document.getElementById('agree_vaccination').options.length; i++){
+
+        if(document.getElementById('agree_vaccination').options[i].value === _data.vaccination){
+
+            document.getElementById('agree_vaccination').options[i].selected = true;
+        }
+    }
+
+    if(_data.heart_trouble === 1){
+
+        document.getElementById('disease2').checked = true;
+    }
+
+    if(_data.dermatosis === 1){
+
+        document.getElementById('disease3').checked =true;
+    }
+
+    if(_data.bite == 1 || _data.bite === "해요"){
+
+        document.getElementById('agree_special1').checked =true;
+    }
+
+    if(_data.marking === 1){
+
+        document.getElementById('agree_special2').checked = true;
+    }
+
+    if(_data.mounting === 1){
+
+        document.getElementById('agree_special3').checked = true;
+    }
+
+    for (let i =0; i<document.getElementById('agree_luxation').options.length; i++){
+
+        if(document.getElementById('agree_luxation').options[i].value === _data.luxation){
+
+            document.getElementById('agree_luxation').options[i].selected = true;
+        }
+    }
+
+
+    document.getElementById('beauty_agree_footer').innerHTML =`<a href="#" class="btn-page-bottom" onClick="beauty_agree_submit(artist_id,${_data.pet_seq})">저장</a>`
+
+
+    pop.open('beautyAgreeWritePop');
+
+}
+
+function disease_etc(){
+
+    if(document.getElementById('disease_textarea').style.display === 'none'){
+
+        document.getElementById('disease_textarea').style.display = 'block';
+    }else{
+        document.getElementById('disease_textarea').style.display = 'none';
+    }
+
+
+}
+
+
+function beauty_agree_checkbox(element){
+
+    let id= element.getAttribute('id');
+
+
+    if( id === 'beauty_agree_all_btn' ){
+
+        if(element.checked === true){
+            element.checked =true;
+            document.getElementById('beauty_agree_1_btn').checked = true;
+            document.getElementById('beauty_agree_2_btn').checked = true;
+
+        }else{
+
+            document.getElementById('beauty_agree_all_btn').checked = false;
+            document.getElementById('beauty_agree_1_btn').checked = false;
+            document.getElementById('beauty_agree_2_btn').checked = false;
+        }
+    }else if( id === 'beauty_agree_1_btn'){
+
+        if(element.checked === true){
+
+            element.checked = true;
+        }else{
+            element.checked = false;
+        }
+    }else if( id=== 'beauty_agree_2_btn'){
+
+        if(element.checked === true){
+            element.checked = true;
+        }else{
+            element.checked =false;
+        }
+    }
+}
+
+
+function download(dataURL, filename) {
+    if (navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf("Chrome") === -1) {
+
+        var blob = dataURLToBlob(dataURL);
+        var url = window.URL.createObjectURL(blob);
+
+        var a = document.createElement("a");
+        a.style = "display: none";
+        a.href = url;
+        a.download = filename;
+
+        document.body.appendChild(a);
+        a.click();
+
+        window.URL.revokeObjectURL(url);
+    }
+}
+
+
+function dataURLToBlob(dataURL) {
+    var parts = dataURL.split(';base64,');
+    var contentType = parts[0].split(":")[1];
+    var raw = window.atob(parts[1]);
+    var rawLength = raw.length;
+    var uInt8Array = new Uint8Array(rawLength);
+
+    for (var i = 0; i < rawLength; ++i) {
+        uInt8Array[i] = raw.charCodeAt(i);
+    }
+
+    return new Blob([uInt8Array], { type: contentType });
+}
+
+
+
+function beauty_agree_submit(id,pet_seq){
+
+    if(document.getElementById('agree_name').value === ''){
+
+        document.getElementById('msg1_txt').innerText = '고객명을 입력해주세요.'
+        pop.open('reserveAcceptMsg1');
+        return;
+    }
+
+    if(document.getElementById('agree_cellphone').value === ''){
+        document.getElementById('msg1_txt').innerText = '전화번호를 입력해주세요.'
+        pop.open('reserveAcceptMsg1');
+        return;
+
+    }
+
+    if(document.querySelector('input[name="agree_breed"]:checked') === null){
+        document.getElementById('msg1_txt').innerText = '품종을 선택해주세요.'
+        pop.open('reserveAcceptMsg1');
+        return;
+
+    }
+
+    if(document.getElementById('agree_breed_select').value === '선택'){
+
+        document.getElementById('msg1_txt').innerText = '품종을 선택해주세요.'
+        pop.open('reserveAcceptMsg1');
+        return;
+    }
+
+    if(document.getElementById('agree_breed_select').value ==='기타' && document.getElementById('agree_breed_other').value === ''){
+        document.getElementById('msg1_txt').innerText = '품종을 선택해주세요.'
+        pop.open('reserveAcceptMsg1');
+        return;
+
+    }
+
+    if(document.getElementById('beauty_agree_1_btn').checked === false){
+
+        document.getElementById('msg1_txt').innerText = '미용 동의서를 확인하고 동의해주세요.'
+        pop.open('reserveAcceptMsg1');
+        return;
+    }
+
+    if(document.getElementById('beauty_agree_2_btn').checked === false){
+
+        document.getElementById('msg1_txt').innerText = '개인정보 수집 및 허용을 \n 확인하고 동의해주세요.'
+        pop.open('reserveAcceptMsg1');
+        return;
+    }
+
+
+
+    if(signature_pad.isEmpty()){
+
+        document.getElementById('msg1_txt').innerText = '서명을 작성해주세요.'
+        pop.open('reserveAcceptMsg1');
+        return;
+    }
+
+
+    let data_url = signature_pad.toDataURL();
+    let artist_id = id;
+    let customer_id = document.getElementById('customer_id').innerText;
+    let customer_name = document.getElementById('agree_name').value;
+    let pet_idx = pet_seq;
+    let cellphone = document.getElementById('agree_cellphone').value;
+    let is_beauty_agree = "1";
+    let is_private_agree = "1";
+    let agree_type = "0";
+    let mime = data_url.split(';')[0].split('/').at(-1);
+    let image = data_url.split(',')[1]
+
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:'post_beauty_agree',
+            partner_id:artist_id,
+            customer_id:customer_id,
+            customer_name:customer_name,
+            pet_idx:pet_idx,
+            phone:cellphone,
+            is_beauty_agree:is_beauty_agree,
+            is_private_agree:is_private_agree,
+            agree_type : agree_type,
+            auth_url:"",
+            mime:mime,
+            image:image
+
+        },
+        success:function(res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+
+                document.getElementById('msg2_txt').innerText = '저장되었습니다.'
+                pop.open('reserveAcceptMsg2');
+                return;
+            }
+        }
+
+
+
+    })
+
+
+
+}
+
+function reserve_change_time(){
+
+    let idx = document.querySelector('input[name="log_seq"]').value;
+    let st_time = document.querySelector('input[name="log_start_time"]').value.replace(':','');
+    let fi_time = document.querySelector('input[name="log_end_time"]').value.replace(':','');
+    let year = document.querySelector('input[name="log_year"]').value;
+    let month = fill_zero(document.querySelector('input[name="log_month"]').value);
+    let date = fill_zero(document.querySelector('input[name="log_date"]').value);
+    let worker = document.querySelector('input[name="log_worker"]').value;
+
+
+
+    $.ajax({
+
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+            mode:"change_date_worker",
+            idx:idx,
+            st_date:`${year}${month}${date}`,
+            fi_date:`${year}${month}${date}`,
+            worker:worker,
+
+        },
+        success:function(res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+
+                console.log(body);
+
+                $.ajax({
+
+                    url:'/data/pc_ajax.php',
+                    type:'post',
+                    data:{
+                        mode:'change_time',
+                        idx:idx,
+                        st_time:st_time,
+                        fi_time:fi_time,
+
+                    },
+                    success:function(res) {
+                        console.log(res)
+                        let response = JSON.parse(res);
+                        let head = response.data.head;
+                        let body = response.data.body;
+                        if (head.code === 401) {
+                            pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                        } else if (head.code === 200) {
+
+                            localStorage.removeItem('payment_idx');
+                            document.getElementById('msg2_txt').innerText = '변경되었습니다.'
+                            pop.open('reserveAcceptMsg2');
+                            return;
+                        }
+                    }
+                })
+
+
+            }
+        }
+
+
+    })
+
+
+
 }
