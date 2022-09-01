@@ -1179,6 +1179,71 @@ if($r_mode) {
         $result = $api -> put('/partner/booking/beauty-gallery',$data_json);
 
         $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === 'post_beauty_agree'){
+
+
+        $partner_id = $_POST['partner_id'];
+        $customer_id = $_POST['customer_id'];
+        $customer_name = $_POST['customer_name'];
+        $pet_idx = $_POST['pet_idx'];
+        $phone = $_POST['phone'];
+        $is_beauty_agree = $_POST['is_beauty_agree'];
+        $is_private_agree = $_POST['is_private_agree'];
+        $agree_type = $_POST['agree_type'];
+        $auth_url = $_POST['auth_url'];
+        $mime = $_POST['mime'];
+        $image = $_POST['image'];
+
+        $data = array(
+            partner_id=>$partner_id,
+            customer_id=>$customer_id,
+            customer_name=>$customer_name,
+            pet_idx=>intval($pet_idx),
+            phone=>$phone,
+            is_beauty_agree=>$is_beauty_agree,
+            is_private_agree=>$is_private_agree,
+            agree_type=>$agree_type,
+            auth_url=>$auth_url,
+            mime=>$mime,
+            image=>$image
+
+        );
+
+        $data_json = json_encode($data);
+
+        $result = $api -> post('/partner/booking/beauty-sign',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
+    }else if($r_mode === "get_beauty_agree"){
+
+        $partner_id = $_POST['partner_id'];
+        $pet_idx = $_POST['pet_idx'];
+
+        $data = array(pet_idx=>intval($pet_idx));
+
+        $data_json = json_encode($data);
+
+        $result = $api -> get('/partner/booking/beauty-sign/'.$partner_id,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
+    }else if($r_mode === "change_date_worker"){
+
+        $idx = $_POST['idx'];
+        $st_date = $_POST['st_date'];
+        $fi_date = $_POST['fi_date'];
+        $worker = $_POST['worker'];
+
+        $data = array(idx=>intval($idx),st_date=>$st_date,fi_date=>$fi_date,worker=>$worker);
+
+        $data_json = json_encode($data);
+
+        $result = $api -> put('/partner/booking/worker-date',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
+
     }
 }
 

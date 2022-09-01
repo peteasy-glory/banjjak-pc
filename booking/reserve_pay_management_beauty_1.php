@@ -445,7 +445,7 @@ if ($artist_flag == 1) {
         <div class="layer-pop-children">
             <div class="pop-data data-pop-view large">
                 <div class="pop-header">
-                    <h4 class="con-title">미용 동의서 작성</h4>
+                    <h4 class="con-title" id="beauty_agree_title">미용 동의서 작성</h4>
                 </div>
                 <div class="pop-body">
                     <div class="basic-data-group">
@@ -563,7 +563,7 @@ if ($artist_flag == 1) {
                                         <div class="form-group-item">
                                             <div class="form-item-label">예방 접종</div>
                                             <div class="form-item-data type-2">
-                                                <select id="vaccination">
+                                                <select id="agree_vaccination">
                                                     <option value="0">선택</option>
                                                     <option value="2차 이하">2차 이하</option>
                                                     <option value="3차">3차 완료</option>
@@ -582,7 +582,7 @@ if ($artist_flag == 1) {
                                                         <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="disease1"><input type="checkbox" name="disease" id="disease1"><em>없음</em></label></div>
                                                         <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="disease2"><input type="checkbox" name="disease" id="disease2"><em>심장 질환</em></label></div>
                                                         <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="disease3"><input type="checkbox" name="disease" id="disease3"><em>피부병</em></label></div>
-                                                        <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="disease4"><input type="checkbox" name="disease" id="disease4"><em>기타</em></label></div>
+                                                        <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="disease4"><input type="checkbox" name="disease" id="disease4" onclick="disease_etc()"><em>기타</em></label></div>
                                                         <div class="grid-layout-cell grid-1">
                                                             <select id="agree_luxation">
                                                                 <option value="0">슬개골탈구</option>
@@ -626,13 +626,13 @@ if ($artist_flag == 1) {
                         <div class="con-title-group">
                             <h4 class="con-title">미용동의서 상세내용</h4>
                         </div>
-                        <div class="customer-view-agree-info" id="agree_info"> 은(는) 미용요청견(묘)의 나이가 10세 이상인 노령견(묘)이나, 질병이 있는 경우 건강상태를 고려하여 안내사항을 말씀드리고, 미용 동의서를 받고자 합니다.</div>
+                        <div class="customer-view-agree-info" id="agree_info"> </div>
                         <div class="pay-card-group">
-                            <div class="pay-card-cell all"><label class="form-checkbox"><input type="checkbox" name="payCard"><span class="form-check-icon"><em><strong>모두 동의</strong></em></span></label></div>
+                            <div class="pay-card-cell all"><label class="form-checkbox"><input type="checkbox" id="beauty_agree_all_btn" onclick=" beauty_agree_checkbox(this)" name="payCard"><span class="form-check-icon"><em><strong>모두 동의</strong></em></span></label></div>
                             <div class="pay-card-cell rule">
                                 <div class="pay-card-rule-wrap">
                                     <div class="pay-card-check">
-                                        <label class="form-checkbox"><input type="checkbox" name="payCard"><span class="form-check-icon"><em>미용 동의서</em></span></label>
+                                        <label class="form-checkbox"><input type="checkbox" id="beauty_agree_1_btn" onclick=" beauty_agree_checkbox(this)" name="payCard"><span class="form-check-icon"><em>미용 동의서</em></span></label>
                                         <button type="button" class="btn-pay-card-toggle">자세히 보기</button>
                                     </div>
                                     <div class="pay-card-rule">
@@ -668,7 +668,7 @@ if ($artist_flag == 1) {
                             <div class="pay-card-cell rule">
                                 <div class="pay-card-rule-wrap">
                                     <div class="pay-card-check">
-                                        <label class="form-checkbox"><input type="checkbox" name="payCard"><span class="form-check-icon"><em>개인정보 수집 및 허용</em></span></label>
+                                        <label class="form-checkbox"><input type="checkbox" id="beauty_agree_2_btn" onclick=" beauty_agree_checkbox(this)" name="payCard"><span class="form-check-icon"><em>개인정보 수집 및 허용</em></span></label>
                                         <button type="button" class="btn-pay-card-toggle">자세히 보기</button>
                                     </div>
                                     <div class="pay-card-rule">
@@ -697,17 +697,19 @@ if ($artist_flag == 1) {
                             <div class="item-name" id="agree_name2"></div>
                         </div>
                     </div>
-                    <div class="basic-data-group small">
+                    <div class="basic-data-group small" id="signature_pad">
                         <div class="con-title-group">
                             <h4 class="con-title">서명</h4>
+                            <span data-action="clear" id="signature_clear" style="cursor:pointer">서명 지우기</span>
                         </div>
-                        <div class="user-sign-wrap">
+                        <div class="user-sign-wrap" id="user_sign_wrap">
+                            <canvas id="cview"></canvas>
                         </div>
                     </div>
                 </div>
-                <div class="pop-footer type-2">
+                <div class="pop-footer type-2" id="beauty_agree_footer">
                     <!-- btn-page-bottom 클래스에 disabled 클래스 추가시 비활성화 또는 button 태그일 시 disabled 속성 추가시 비활성화 -->
-                    <a href="#" class="btn-page-bottom">저장</a>
+
                 </div>
                 <button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
             </div>
@@ -715,11 +717,29 @@ if ($artist_flag == 1) {
     </div>
 </article>
 
-<script src="../static/js/common.js"></script>
-<script src="../static/js/dev_common.js"></script>
-<script src="../static/js/booking.js"></script>
-<script src="../static/js/customer.js"></script>
-<script src="../static/js/shop.js"></script>
+<article id="reservePayManagementMsg1" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data alert-pop-data middle">
+                <div class="pop-body">
+                    <div class="msg-title">날짜/ 미용사 변경</div>
+                    <div class="msg-txt">1. 변경을 위해 주간 스케줄로 이동합니다.<br>현재 페이지에서 저장하지 않은 정보는 분실될 수 있으니 변경전에 확인해주세요.<br><br>2. 변경을 완료하기 전에 다른 페이지로 이동하면 오류가 발생할 수 있으니 주의해주세요.<br><br>변경하시겠습니까?<br><br>[주의] 주간 스케줄표에서만 변경 가능합니다!</div>
+                </div>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm" onclick="location.href = '/booking/reserve_beauty_week.php'">변경</button>
+                    <button type="button" class="btn btn-confirm" onclick="pop.close();">취소</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+
+<script src="/static/js/common.js"></script>
+<script src="/static/js/dev_common.js"></script>
+<script src="/static/js/booking.js"></script>
+<script src="/static/js/customer.js"></script>
+<script src="/static/js/shop.js"></script>
+<script src="/static/js/signature_pad.umd.js"></script>
 
 
 <script>
@@ -741,7 +761,9 @@ if ($artist_flag == 1) {
         customer_new_birthday().then(function(){ customer_new_birthday_date()})
         customer_pet_type(artist_id);
         customer_new_weight();
-
+        setInputFilter(document.getElementById("agree_cellphone"), function(value) {
+            return /^\d*\.?\d*$/.test(value);
+        })
 
 
         agree_birthday().then(function(){ agree_birthday_date()})
@@ -753,6 +775,27 @@ if ($artist_flag == 1) {
 
 
     })
+
+    let wrapper = document.getElementById('signature_pad');
+    let clear_btn = document.getElementById('signature_clear');
+
+    let canvas = document.getElementById('cview');
+
+    let signature_pad = new SignaturePad(canvas,{
+
+        backgroundColor:'rgb(255,255,255)'
+    })
+
+    canvas.width = canvas.parentElement.offsetWidth;
+    canvas.height=canvas.parentElement.offsetHeight;
+
+
+    clear_btn.addEventListener("click", function (event) {
+        signature_pad.clear();
+    });
+
+
+
 
 
 

@@ -233,6 +233,14 @@ if ($artist_flag == 1) {
 	</div>
 </div>
 <article id="reserveCalendarPop4" class="layer-pop-wrap">
+    <input type="hidden" name="log_seq">
+    <input type="hidden" name="log_worker">
+    <input type="hidden" name="log_year">
+    <input type="hidden" name="log_month">
+    <input type="hidden" name="log_date">
+    <input type="hidden" name="log_start_time">
+    <input type="hidden" name="log_end_time">
+
     <div class="layer-pop-parent">
         <div class="layer-pop-children">
             <div class="pop-data alert-pop-data">
@@ -243,7 +251,7 @@ if ($artist_flag == 1) {
                     <div class="msg-txt"><span class="msg-text-date"></span><br><br>선택한 예약을<br>이 곳으로 변경합니다.</div>
                 </div>
                 <div class="pop-footer">
-                    <button type="button" class="btn btn-confirm" onclick="pop.close();">확인</button>
+                    <button type="button" class="btn btn-confirm" onclick="pop.close(); reserve_change_time();">확인</button>
                     <button type="button" class="btn btn-confirm" onclick="location.reload();">예약변경취소</button>
                 </div>
             </div>
@@ -771,6 +779,20 @@ if ($artist_flag == 1) {
                 <div class="pop-footer" id="notice_check">
                     <button type="button" class="btn btn-confirm btn-reserv-block" onclick="reserve_regist(artist_id,session_id,true);">발송</button>
                     <button type="button" class="btn btn-confirm btn-reserv-send" onclick="reserve_regist(artist_id,session_id,false);">미발송</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+<article id="reserveAcceptMsg2" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data alert-pop-data">
+                <div class="pop-body">
+                    <div class="msg-txt" id="msg2_txt"></div>
+                </div>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm" onclick="location.reload()">확인</button>
                 </div>
             </div>
         </div>

@@ -951,7 +951,7 @@ function _renderCalendar_mini(id){
 
                                         })
                                     }
-                                    week_drag();
+                                    setTimeout(function(){week_drag()},200)
 
 
 
