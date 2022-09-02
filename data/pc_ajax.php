@@ -885,7 +885,7 @@ if($r_mode) {
 
         $reserve_regist = $api ->post('/partner/booking/b/join/', $regist_data_json);
 
-        $return_data = array("code" => "000000","data"=>$regist_data_json);
+        $return_data = array("code" => "000000","data"=>$reserve_regist);
 
 
     }else if($r_mode === "pet_info"){

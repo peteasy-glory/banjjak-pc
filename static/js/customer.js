@@ -24,17 +24,35 @@ function search(search_value,id) {
                         body = [body];
                     }
 
+                    console.log(body)
                     if(body.length > 0){
                         document.getElementById('search_phone_none_data').style.display = 'none';
                         document.getElementById('search_phone_inner').innerHTML = ''
                         body.forEach(function (el,i){
+
+                            let image ='';
+                            if(el.beauty_photo !== null && el.beauty_photo !== ""){
+
+                                image = `https://image.banjjakpet.com${el.beauty_photo}`;
+                            }else if(el.pet_photo !== null && el.pet_photo !== ""){
+
+                                image =`https://image.banjjakpet.com${el.pet_photo}`;
+                            }else{
+                                if(el.type === 'dog'){
+                                    image = `/static/images/icon/icon-pup-select-off.png`
+                                }else{
+                                    image = `/static/images/icon/icon-cat-select-off.png`
+                                }
+
+                            }
+
 
                             document.getElementById('search_phone_inner').innerHTML += `<div class="grid-layout-cell grid-2">
                                                                                                 <a href="/customer/customer_view.php" onclick="localStorage.setItem('customer_select','${el.cellphone}')" class="customer-card-item">
                                                                                                     <div class="item-info-wrap">
                                                                                                         <div class="item-thumb">
                                                                                                             <div class="user-thumb large">
-                                                                                                                <img src="${el.photo === "" ? el.type === 'dog' ? `../static/images/icon/icon-pup-select-off.png` : `../static/images/icon/icon-cat-select-off.png` : `https://image.banjjakpet.com${el.photo}`}" alt="">
+                                                                                                                <img src="${image}" alt="">
                                                                                                             </div>
                                                                                                         </div>
                                                                                                         <div class="item-data">
@@ -80,13 +98,16 @@ function search_fam(search_value,id){
     search(search_value,id).then(function(body){
         body.forEach(function (el,i){
             document.getElementById(`grid_layout_inner_${i}`).innerHTML = ''
-            el.family.split(',').forEach(function(el_,i_){
+            if(el.family.length > 0 ){
 
-                document.getElementById(`grid_layout_inner_${i}`).innerHTML += `<div class="grid-layout-cell flex-auto">
-                                                                                                   <div class="value">${i_ < 3 ? el_ : i_ === 3 ? `외 ${el.family.split(',').length-3}개의 연락처` : ""}</div>
+                el.family.forEach(function(el_,i_){
+                    document.getElementById(`grid_layout_inner_${i}`).innerHTML += `<div class="grid-layout-cell flex-auto">
+                                                                                                   <div class="value">${i_ < 3 ? el_.phone : i_ === 3 ? `외 ${el.family.length-3}개의 연락처` : ""}</div>
                                                                                                </div>`
 
-            })
+                })
+            }
+
         })
 
 
@@ -157,6 +178,7 @@ let offset = 1;
 
 function customer_all(id){
 
+    offset =1;
 
     return new Promise(function (resolve){
         if(list_loging || list_end){
