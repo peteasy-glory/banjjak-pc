@@ -680,7 +680,7 @@ function _renderCalendar(id) {
             }
         })
 
-        if(location.href.match('home/index')){
+        if(location.href.match('home/index') || location.href === 'http://stg-partner-pc.banjjakpet.com/'){
             window.onload = function(){
                 document.getElementById('wrap').style.display = 'block';
                 document.getElementById('splash').style.display = 'none';
