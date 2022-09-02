@@ -438,6 +438,38 @@ if($r_mode) {
         $time_type = $api -> get('/partner/setting/working/'.$login_id);
 
         $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "post_vacation"){
+
+        $partner_id = $_POST['partner_id'];
+        $type = $_POST['break_type'];
+        $all_start = $_POST['all_start'];
+        $all_finish = $_POST['all_finish'];
+        $notall_year = $_POST['notall_year'];
+        $notall_month = $_POST['notall_month'];
+        $notall_day = $_POST['notall_day'];
+        $notall_st_time = $_POST['notall_st_time'];
+        $notall_fi_time = $_POST['notall_fi_time'];
+        $break_worker = $_POST['break_worker'];
+
+        $worker = [];
+        for($i=0;$i<count($break_worker);$i++){
+            $work_data = array('name'=>$break_worker[$i]);
+            array_push($worker, $work_data);
+        }
+        if($type == 'all'){
+            $st_date = $all_start;
+            $fi_date = $all_finish;
+        }else{
+            $st_date = $notall_year.$notall_month.$notall_day.$notall_st_time;
+            $fi_date = $notall_year.$notall_month.$notall_day.$notall_fi_time;
+        }
+
+        $data = array('partner_id'=>$partner_id,'worker'=>$worker,'type'=>$type,'st_date'=>$st_date,'fi_date'=>$fi_date);
+        $data_json = json_encode($data);
+
+        $result = $api ->post('/partner/setting/artist-vacation' ,$data_json);
+
+        $return_data = array("code"=>"000000",'data'=>$result);
     }else if($r_mode === "show_modify_artist"){
 
         $artist_id = $_POST['login_id'];
