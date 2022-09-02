@@ -105,9 +105,10 @@ if ($artist_flag == 1) {
         search_txt = data.shop_name+" 애견";
         get_naver_blog_list(artist_id, search_txt, 10, limit);
         get_blog_list_view(shop_array[idx].items);
-        console.log(shop_array[1]);
+        //console.log(shop_array[1]);
 
         $(".search_text").val(search_txt);
+        //console.log(link_array);
     })
 
     // 리스트 뿌려주기
@@ -117,7 +118,8 @@ if ($artist_flag == 1) {
             if(array.length){
                 $.each(array, function(i,v){
                     var result = jQuery.inArray(v.link, link_array);
-                    var disabled = (result > 0)? " checked disabled":"";
+                    console.log(result);
+                    var disabled = (result >= 0)? " checked disabled":"";
                     //var thumbnail = (v.thumbnail != '')? `<div class="thumb"><img src="${img_link_change(v.thumbnail)}" alt=""></div>` : ``;
                     var year = v.postdate.substr(0,4);
                     var month = v.postdate.substr(4,2);
@@ -147,7 +149,7 @@ if ($artist_flag == 1) {
             }else{
                 var v = array;
                 var result = jQuery.inArray(v.link, link_array);
-                var disabled = (result > 0)? " checked disabled":"";
+                var disabled = (result >= 0)? " checked disabled":"";
                 //var thumbnail = (v.thumbnail != '')? `<div class="thumb"><img src="${img_link_change(v.thumbnail)}" alt=""></div>` : ``;
                 var year = v.postdate.substr(0,4);
                 var month = v.postdate.substr(4,2);
@@ -200,20 +202,29 @@ if ($artist_flag == 1) {
     })
 
     // 추가하기 클릭
+    var double_chk = false;
     $(document).on("click",".btn-page-bottom",function(){
-        //console.log("test");
-        $("input[type='checkbox']").each(function(i, v){
-            var isChked = $(this).prop("checked");
-            var isdisabled = $(this).prop("disabled");
-            if (isChked && !isdisabled) {
-                var post_title = $(this).data('title');
-                var post_link = $(this).data('link');
-                var post_desc = $(this).data('desc');
-                var post_date = $(this).data('date');
-                var post_blogger = $(this).data('blogger');
-                post_naver_blog_list(artist_id, post_link, post_title, post_desc, post_date, post_blogger);
+        if($(".btn-page-bottom").hasClass("disabled") == false){
+            if(double_chk == false){
+                double_chk = true;
+                $("input[type='checkbox']").each(function(i, v){
+                    var isChked = $(this).prop("checked");
+                    var isdisabled = $(this).prop("disabled");
+                    if (isChked && !isdisabled) {
+                        var post_title = $(this).data('title');
+                        var post_link = $(this).data('link');
+                        var post_desc = $(this).data('desc');
+                        var post_date = $(this).data('date');
+                        var post_blogger = $(this).data('blogger');
+                        post_naver_blog_list(artist_id, post_link, post_title, post_desc, post_date, post_blogger);
+                    }
+                })
+                pop.open('reloadPop', '추가되었습니다.');
+                double_chk = false;
+            }else{
+                pop.open('firstRequestMsg1', '추가중입니다.');
             }
-        })
+        }
     })
 
     // 스크롤 다운

@@ -230,7 +230,8 @@ if ($artist_flag == 1) {
     <!-- //container -->
 
     <!-- 임시휴일 설정 팝업 -->
-    <article id="holidaySet" class="layer-pop-wrap">
+    <form id="holidaySet" class="layer-pop-wrap">
+        <input type="hidden" name="partner_id" value="<?=$artist_id?>">
         <div class="layer-pop-parent">
             <div class="layer-pop-children">
                 <div class="pop-data data-pop-view large">
@@ -554,8 +555,8 @@ if ($artist_flag == 1) {
                                 </div>
                                 <div class="form-check-group">
                                     <div class="form-check-inner">
-                                        <div class="check-cell"><label class="form-radiobox"><input type="radio" name="time2" class="break_type" value="all" checked><span class="form-check-icon"><em>종일 쉬어요</em></span></label></div>
-                                        <div class="check-cell"><label class="form-radiobox"><input type="radio" name="time2" class="break_type" value="notall"><span class="form-check-icon"><em>몇시간만 쉬어요</em></span></label></div>
+                                        <div class="check-cell"><label class="form-radiobox"><input type="radio" name="break_type" class="break_type" value="all" checked><span class="form-check-icon"><em>종일 쉬어요</em></span></label></div>
+                                        <div class="check-cell"><label class="form-radiobox"><input type="radio" name="break_type" class="break_type" value="notall"><span class="form-check-icon"><em>몇시간만 쉬어요</em></span></label></div>
                                     </div>
                                 </div>
                                 <!-- display:none 으로 기본 처리 -->
@@ -569,7 +570,7 @@ if ($artist_flag == 1) {
                                                     <div class="form-item-data type-2">
                                                         <div class="form-datepicker-group">
                                                             <div class="form-datepicker">
-                                                                <select>
+                                                                <select name="all_start" class="all_start">
                                                                     <?php
                                                                     $next_year = date('Y-m-d',strtotime('+1 year'));
                                                                     for($i=strtotime($next_year);$i>=strtotime(date('Y-m-d'));$i-=86400){
@@ -580,7 +581,7 @@ if ($artist_flag == 1) {
                                                             </div>
                                                             <div class="form-unit">~</div>
                                                             <div class="form-datepicker">
-                                                                <select>
+                                                                <select name="all_finish" class="all_finish">
                                                                     <?php
                                                                     $next_year = date('Y-m-d',strtotime('+1 year'));
                                                                     for($i=strtotime($next_year);$i>=strtotime(date('Y-m-d'));$i-=86400){
@@ -608,20 +609,20 @@ if ($artist_flag == 1) {
                                                         <div class="grid-layout margin-12">
                                                             <div class="grid-layout-inner">
                                                                 <div class="grid-layout-cell grid-3">
-                                                                    <select>
+                                                                    <select name="notall_year" class="notall_year">
                                                                         <option value="2021">2021 년</option>
                                                                         <option value="2022">2022 년</option>
                                                                     </select>
                                                                 </div>
                                                                 <div class="grid-layout-cell grid-3">
-                                                                    <select>
+                                                                    <select name="notall_month" class="notall_month">
                                                                         <?php for($i=1;$i<=12;$i++){ ?>
                                                                             <option value="<?php echo ($i<10)? '0'.$i : $i;?>" <?php echo ($i==date('n'))?'selected':'';?> ><?php echo sprintf('%02d',$i);?> 월</option>
                                                                         <?php } ?>
                                                                     </select>
                                                                 </div>
                                                                 <div class="grid-layout-cell grid-3">
-                                                                    <select>
+                                                                    <select name="notall_day" class="notall_day">
                                                                         <?php for($i=1;$i<=date('t');$i++){ ?>
                                                                             <option value="<?php echo ($i<10)? '0'.$i : $i;?>" <?php echo ($i==date('d'))?'selected':'';?> ><?php echo sprintf('%02d',$i);?> 일</option>
                                                                         <?php } ?>
@@ -638,7 +639,7 @@ if ($artist_flag == 1) {
                                                     <div class="form-item-data type-2">
                                                         <div class="form-datepicker-group">
                                                             <div class="form-datepicker auto" style="width:124px">
-                                                                <select>
+                                                                <select name="notall_st_time" class="notall_st_time">
                                                                     <?php
                                                                     for($i=strtotime('08:00');$i<=strtotime('23:00');$i+=1800){
                                                                         ?>
@@ -648,7 +649,7 @@ if ($artist_flag == 1) {
                                                             </div>
                                                             <div class="form-unit">~</div>
                                                             <div class="form-datepicker auto" style="width:124px">
-                                                                <select>
+                                                                <select name="notall_fi_time" class="notall_fi_time">
                                                                     <?php
                                                                     for($i=strtotime('08:00');$i<=strtotime('23:00');$i+=1800){
                                                                         ?>
@@ -672,12 +673,6 @@ if ($artist_flag == 1) {
                                 <div class="basic-data-group vsmall">
                                     <div class="grid-layout basic">
                                         <div class="grid-layout-inner modify_wrap">
-                                            <div class="grid-layout-cell flex-auto"><label class="form-toggle-box"><input type="radio" name="time3"><em>실장</em></label></div>
-                                            <div class="grid-layout-cell flex-auto"><label class="form-toggle-box"><input type="radio" name="time3"><em>윤아</em></label></div>
-                                            <div class="grid-layout-cell flex-auto"><label class="form-toggle-box"><input type="radio" name="time3"><em>마이크리</em></label></div>
-                                            <div class="grid-layout-cell flex-auto"><label class="form-toggle-box"><input type="radio" name="time3"><em>케이</em></label></div>
-                                            <div class="grid-layout-cell flex-auto"><label class="form-toggle-box"><input type="radio" name="time3"><em>수</em></label></div>
-                                            <div class="grid-layout-cell flex-auto"><label class="form-toggle-box"><input type="radio" name="time3"><em>이름이 길경우 입니다</em></label></div>
                                         </div>
                                     </div>
                                 </div>
@@ -685,13 +680,13 @@ if ($artist_flag == 1) {
                         </div>
                     </div>
                     <div class="pop-footer">
-                        <a href="#" class="btn btn-purple"><strong>저장하기</strong></a>
+                        <a href="#" class="btn btn-purple save_vacation"><strong>저장하기</strong></a>
                     </div>
                     <button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
                 </div>
             </div>
         </div>
-    </article>
+    </form>
     <!-- //임시휴일 설정 팝업 -->
 
     <article id="talkExam" class="layer-pop-wrap">
@@ -799,8 +794,8 @@ if ($artist_flag == 1) {
                     <div class="grid-layout-cell flex-auto"><label class="form-toggle-box"><input type="radio" class="worker" value="${v.idx}" name="time3" ${checked}><em>${name}</em></label></div>
                 `;
 
-                html_modify = `
-                    <div class="grid-layout-cell flex-auto"><label class="form-toggle-box"><input type="radio" name="time3" value="${v.idx}" ${checked}><em>${name}</em></label></div>
+                html_modify += `
+                    <div class="grid-layout-cell flex-auto"><label class="form-toggle-box"><input type="checkbox" name="break_worker[]" value="${v.name}" ${checked}><em>${name}</em></label></div>
                 `;
 
                 start_hour = setting_array[0].open_time;
@@ -821,6 +816,7 @@ if ($artist_flag == 1) {
                 //});
             });
             $(".time_name_wrap").html(html);
+            $(".modify_wrap").html(html_modify);
 
         }else{
             $("input:radio[name='time2']:radio[value='1']").prop('checked', true);
@@ -937,6 +933,14 @@ if ($artist_flag == 1) {
         }
     });
 
+    // 임시휴일설정 저장하기
+    $(document).on("click",".save_vacation",function(){
+        //var break_worker = $("input:checkbox[name='break_worker']").val();
+        var postData = decodeURIComponent($("#holidaySet").serialize());
+        postData += '&mode=post_vacation';
+        console.log(postData);
+        post_vacation(postData);
+    })
 
 </script>
 </body>
