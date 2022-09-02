@@ -593,12 +593,13 @@ if ($artist_flag == 1) {
     let artist_id = "<?=$artist_id?>";
     // data_set(artist_id)
 
-    get_navi(artist_id)
+
     $(document).ready(function(){
 
+        get_navi(artist_id)
         gnb_init();
         set_image('front_image');
-        prepend_data('consulting_count nick');
+        //prepend_data('consulting_count nick');
         gnb_actived('gnb_customer_wrap','gnb_inquire_all');
         customer_view_(artist_id)
 
