@@ -267,9 +267,9 @@ if($artist_flag == 1){
     <!-- //container -->
 </div>
 <!-- //wrap -->
-<script src="/static/js/common.js"></script>
-<script src="/static/js/dev_common.js"></script>
-<script src="/static/js/booking.js"></script>
+<script src="../static/js/common.js"></script>
+<script src="../static/js/dev_common.js"></script>
+<script src="../static/js/booking.js"></script>
 
 <script>
 
