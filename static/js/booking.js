@@ -998,14 +998,10 @@ function book_list(id) {
                     document.getElementById('month_calendar_inner').style.display = 'none';
                     document.getElementById('month_schedule_loading').style.display = 'flex';
                 }
-
-
-
-
-
             },
 
             success: function (res) {
+                console.log(res)
                 let response = JSON.parse(res);
                 let head = response.data.head;
                 let body = response.data.body;
@@ -1013,6 +1009,7 @@ function book_list(id) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
                     list = body;
+                    console.log(list)
 
                     if(location.href.match('reserve_beauty_month')){
                         let cancel = 0;
@@ -3236,6 +3233,7 @@ function today_reserve_month(id){
                 if(date_today_reserve.getFullYear() === new Date().getFullYear()
                     && date_today_reserve.getMonth() === new Date().getMonth()
                     && date_today_reserve.getDate() === new Date().getDate()
+                    && el.product.is_cancel !== 1
                 ){
 
 
@@ -5876,14 +5874,13 @@ let beauty,bath,add_svc;
 
         },
         success:function(res){
-
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                // location.reload()
+                location.reload()
             }
 
         }

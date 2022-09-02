@@ -105,7 +105,7 @@ $search = ($_POST['search'] && $_POST['search'] !== "") ? $_POST['search']:"";
         gnb_init();
         set_image('front_image');
         prepend_data('consult_count nickname');
-        //search_fam('<?//=$search?>//',artist_id);
+        search_fam('<?=$search?>',artist_id);
         input_enter('search','search_btn');
         gnb_actived('gnb_customer_wrap','gnb_inquire')
 

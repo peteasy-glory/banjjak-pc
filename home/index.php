@@ -26,6 +26,11 @@ if($artist_flag == 1){
         <img src="/static/images/splash.gif" alt="" style="max-width:230px;max-height: 170px">
     </div>
 </article>
+<script>
+    if(localStorage.getItem('splash') === null || localStorage.getItem('splash') === undefined || localStorage.getItem('splash') !== '1'){
+        document.getElementById('splash').style.display = 'block'
+    }
+</script>
 <body>
 
 <!-- wrap -->

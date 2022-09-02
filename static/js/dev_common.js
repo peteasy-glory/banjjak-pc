@@ -688,6 +688,8 @@ function _renderCalendar(id) {
             window.onload = function(){
                 document.getElementById('wrap').style.display = 'block';
                 document.getElementById('splash').style.display = 'none';
+                localStorage.setItem('splash','1');
+
             }
         }
 
