@@ -65,6 +65,23 @@ if ($artist_flag == 1) {
 		<!-- //contents -->
     </section>
     <!-- //container -->
+
+    <form id="delete_pop" class="layer-pop-wrap">
+        <input type="hidden" name="idx" class="idx" value="">
+        <div class="layer-pop-parent">
+            <div class="layer-pop-children">
+                <div class="pop-data alert-pop-data">
+                    <div class="pop-body">
+                        <div class="msg-txt">답글을 삭제하시겠습니까?</div>
+                    </div>
+                    <div class="pop-footer">
+                        <button type="button" class="btn btn-confirm" onclick="delete_ok();">삭제</button>
+                        <button type="button" class="btn btn-confirm" onclick="pop.close();">취소</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
 <!-- //wrap -->
 <script src="../static/js/common.js"></script>
@@ -189,14 +206,18 @@ if ($artist_flag == 1) {
 
         });
 
-        $(document).on('click' , '.btn-data-del' , function(){
-            //$(this).parents('.list-cell').remove();
-            var idx = parseInt($(this).data("idx"));
-            console.log(typeof idx)
-            del_gallery(idx);
-        });
-
     });
+
+    $(document).on('click' , '.btn-data-del' , function(){
+        pop.open('delete_pop');
+        var idx = parseInt($(this).data("idx"));
+        $("#delete_pop .idx").val(idx);
+    });
+
+    function delete_ok(){
+        var idx = $("#delete_pop .idx").val();
+        del_gallery(idx);
+    }
 </script>
 </body>
 </html>
