@@ -35,7 +35,7 @@ if ($artist_flag == 1) {
 							<div class="card-header">
 								<h3 class="card-header-title">일정관리</h3>
 							</div>
-							<div class="card-body">
+							<form id="scheduleForm" class="card-body">
 								<div class="card-body-inner">
 									<div class="set-schedule-wrap">										
 										<div class="basic-data-group">
@@ -51,42 +51,44 @@ if ($artist_flag == 1) {
 																<div class="form-item-data type-2">
 																	<div class="form-datepicker-group">
 																		<div class="form-datepicker">
-																			<select class="start_time">
-																				<option value="09:00">오전 09:00</option>
-																				<option value="10:00">오전 10:00</option>
-                                                                                <option value="11:00">오전 11:00</option>
-                                                                                <option value="12:00">오후 12:00</option>
-                                                                                <option value="13:00">오후 01:00</option>
-                                                                                <option value="14:00">오후 02:00</option>
-                                                                                <option value="15:00">오후 03:00</option>
-                                                                                <option value="16:00">오후 04:00</option>
-                                                                                <option value="17:00">오후 05:00</option>
-                                                                                <option value="18:00">오후 06:00</option>
-                                                                                <option value="19:00">오후 07:00</option>
-                                                                                <option value="20:00">오후 08:00</option>
-                                                                                <option value="21:00">오후 09:00</option>
-                                                                                <option value="22:00">오후 10:00</option>
-                                                                                <option value="23:00">오후 11:00</option>
+																			<select name="start_time" class="start_time">
+                                                                                <option value="08">오전 08:00</option>
+																				<option value="09">오전 09:00</option>
+																				<option value="10">오전 10:00</option>
+                                                                                <option value="11">오전 11:00</option>
+                                                                                <option value="12">오후 12:00</option>
+                                                                                <option value="13">오후 01:00</option>
+                                                                                <option value="14">오후 02:00</option>
+                                                                                <option value="15">오후 03:00</option>
+                                                                                <option value="16">오후 04:00</option>
+                                                                                <option value="17">오후 05:00</option>
+                                                                                <option value="18">오후 06:00</option>
+                                                                                <option value="19">오후 07:00</option>
+                                                                                <option value="20">오후 08:00</option>
+                                                                                <option value="21">오후 09:00</option>
+                                                                                <option value="22">오후 10:00</option>
+                                                                                <option value="23">오후 11:00</option>
 																			</select>
 																		</div>
 																		<div class="form-unit">~</div>
 																		<div class="form-datepicker">
-																			<select class="close_time">
-                                                                                <option value="09:00">오전 09:00</option>
-                                                                                <option value="10:00">오전 10:00</option>
-                                                                                <option value="11:00">오전 11:00</option>
-                                                                                <option value="12:00">오후 12:00</option>
-                                                                                <option value="13:00">오후 01:00</option>
-                                                                                <option value="14:00">오후 02:00</option>
-                                                                                <option value="15:00">오후 03:00</option>
-                                                                                <option value="16:00">오후 04:00</option>
-                                                                                <option value="17:00">오후 05:00</option>
-                                                                                <option value="18:00">오후 06:00</option>
-                                                                                <option value="19:00">오후 07:00</option>
-                                                                                <option value="20:00">오후 08:00</option>
-                                                                                <option value="21:00">오후 09:00</option>
-                                                                                <option value="22:00">오후 10:00</option>
-                                                                                <option value="23:00">오후 11:00</option>
+																			<select name="close_time" class="close_time">
+                                                                                <option value="08">오전 08:00</option>
+                                                                                <option value="09">오전 09:00</option>
+                                                                                <option value="10">오전 10:00</option>
+                                                                                <option value="11">오전 11:00</option>
+                                                                                <option value="12">오후 12:00</option>
+                                                                                <option value="13">오후 01:00</option>
+                                                                                <option value="14">오후 02:00</option>
+                                                                                <option value="15">오후 03:00</option>
+                                                                                <option value="16">오후 04:00</option>
+                                                                                <option value="17">오후 05:00</option>
+                                                                                <option value="18">오후 06:00</option>
+                                                                                <option value="19">오후 07:00</option>
+                                                                                <option value="20">오후 08:00</option>
+                                                                                <option value="21">오후 09:00</option>
+                                                                                <option value="22">오후 10:00</option>
+                                                                                <option value="23">오후 11:00</option>
 																			</select>
 																		</div>
 																	</div>
@@ -127,8 +129,8 @@ if ($artist_flag == 1) {
 											</div>
 											<div class="form-check-group">
 												<div class="form-check-inner">
-													<div class="check-cell"><label class="form-radiobox"><input type="radio" class="time_schedule" name="time2" value="1"><span class="form-check-icon"><em>자유시간제</em></span></label></div>
-													<div class="check-cell"><label class="form-radiobox"><input type="radio" class="time_schedule" name="time2" value="2"><span class="form-check-icon"><em>타임제</em></span></label></div>
+													<div class="check-cell"><label class="form-radiobox"><input type="radio" class="time_schedule" name="time_type" value="1"><span class="form-check-icon"><em>자유시간제</em></span></label></div>
+													<div class="check-cell"><label class="form-radiobox"><input type="radio" class="time_schedule" name="time_type" value="2"><span class="form-check-icon"><em>타임제</em></span></label></div>
 												</div>
 											</div>
 											<!-- 타임제 -->
@@ -157,9 +159,9 @@ if ($artist_flag == 1) {
 													<div class="grid-layout-cell flex-auto">
 														<div class="grid-layout basic">
 															<div class="grid-layout-inner">
-																<div class="grid-layout-cell flex-auto"><label class="form-toggle-box h-45"><input type="radio" value="1" name="time4"><em>매주</em></label></div>
-																<div class="grid-layout-cell flex-auto"><label class="form-toggle-box h-45"><input type="radio" value="2" name="time4"><em>1/3주</em></label></div>
-																<div class="grid-layout-cell flex-auto"><label class="form-toggle-box h-45"><input type="radio" value="3" name="time4"><em>2/4주</em></label></div>
+																<div class="grid-layout-cell flex-auto"><label class="form-toggle-box h-45"><input type="radio" value="1" name="week_type"><em>매주</em></label></div>
+																<div class="grid-layout-cell flex-auto"><label class="form-toggle-box h-45"><input type="radio" value="2" name="week_type"><em>1/3주</em></label></div>
+																<div class="grid-layout-cell flex-auto"><label class="form-toggle-box h-45"><input type="radio" value="3" name="week_type"><em>2/4주</em></label></div>
 															</div>
 														</div>
 													</div>
@@ -214,10 +216,10 @@ if ($artist_flag == 1) {
 										</div>
 									</div>
 								</div>
-							</div>
+							</form>
 							<div class="card-footer">
 								<!-- btn-page-bottom 클래스에 disabled 클래스 추가시 비활성화 또는 button 태그일 시 disabled 속성 추가시 비활성화 -->
-								<a href="#" class="btn-page-bottom">저장하기</a>								
+								<a href="#" class="btn-page-bottom save_schedule">저장하기</a>
 							</div>
 						</div>			
 					</div>
@@ -737,12 +739,13 @@ if ($artist_flag == 1) {
         part_time(artist_id); // 3
         regular_holiday(artist_id); // 4
         artist_vacation(artist_id); // 5
+        get_artist_list(artist_id);
         console.log(setting_array);
 
         // 샵 오픈, 종료 시간
         $(".open_close").text(am_pm_check(fill_zero(setting_array[0].open_time))+":00 ~ "+am_pm_check(setting_array[0].close_time)+":00");
-        var start_time = fill_zero(setting_array[0].open_time)+":00";
-        var close_time = fill_zero(setting_array[0].close_time)+":00";
+        var start_time = fill_zero(setting_array[0].open_time);
+        var close_time = fill_zero(setting_array[0].close_time);
         $(".start_time").val(start_time);
         $(".close_time").val(close_time);
 
@@ -780,9 +783,9 @@ if ($artist_flag == 1) {
         // 자유시간제, 타임제
         var t_type = setting_array[2].shop_time_type; // 1:자유시간제, 2:타임제
         if(t_type == '2'){
-            $("input:radio[name='time2']:radio[value='2']").prop('checked', true);
+            $("input:radio[name='time_type']:radio[value='2']").prop('checked', true);
             $(".time_type_2_wrap").css("display","block");
-            var time_array = setting_array[3];
+            var time_array = setting_array[6];
             var html = '';
             var html_2 = '';
             var html_modify = '';
@@ -791,7 +794,7 @@ if ($artist_flag == 1) {
                 var checked = (name == '실장')? "checked" : "";
                 var is_block = (name == '실장')? "flex" : "none";
                 html += `
-                    <div class="grid-layout-cell flex-auto"><label class="form-toggle-box"><input type="radio" class="worker" value="${v.idx}" name="time3" ${checked}><em>${name}</em></label></div>
+                    <div class="grid-layout-cell flex-auto"><label class="form-toggle-box"><input type="radio" class="worker" value="${i}" name="worker" ${checked}><em>${name}</em></label></div>
                 `;
 
                 html_modify += `
@@ -800,11 +803,11 @@ if ($artist_flag == 1) {
 
                 start_hour = setting_array[0].open_time;
                 close_hour = setting_array[0].close_time;
-                html_2 += `<div class="grid-layout-inner worker_time_wrap worker_${v.idx}" style="display: ${is_block}">`;
+                html_2 += `<div class="grid-layout-inner worker_time_wrap worker_${i}" style="display: ${is_block}">`;
                 for(start_hour;start_hour<close_hour;start_hour++){
                     html_2 += `
-                        <div class="grid-layout-cell grid-8"><label class="form-toggle-box auto middle"><input type="checkbox" name="time1" class="time_${fill_zero(start_hour)}00" value="${fill_zero(start_hour)}:00"><em>${am_pm_check(fill_zero(start_hour))}:00</em></label></div>
-                        <div class="grid-layout-cell grid-8"><label class="form-toggle-box auto middle"><input type="checkbox" name="time1" class="time_${fill_zero(start_hour)}30" value="${fill_zero(start_hour)}:30"><em>${am_pm_check(fill_zero(start_hour))}:30</em></label></div>
+                        <div class="grid-layout-cell grid-8"><label class="form-toggle-box auto middle"><input type="checkbox" name="time2" class="time_${fill_zero(start_hour)}00" value="${fill_zero(start_hour)}:00"><em>${am_pm_check(fill_zero(start_hour))}:00</em></label></div>
+                        <div class="grid-layout-cell grid-8"><label class="form-toggle-box auto middle"><input type="checkbox" name="time2" class="time_${fill_zero(start_hour)}30" value="${fill_zero(start_hour)}:30"><em>${am_pm_check(fill_zero(start_hour))}:30</em></label></div>
                     `;
                 }
                 html_2 += '</div>';
@@ -819,18 +822,18 @@ if ($artist_flag == 1) {
             $(".modify_wrap").html(html_modify);
 
         }else{
-            $("input:radio[name='time2']:radio[value='1']").prop('checked', true);
+            $("input:radio[name='time_type']:radio[value='1']").prop('checked', true);
             $(".time_type_2_wrap").css("display","none");
         }
 
         // 정기휴일
         var holiday = setting_array[4];
         if(holiday.week_type == '1'){
-            $("input:radio[name='time4']:radio[value='1']").prop('checked', true);
+            $("input:radio[name='week_type']:radio[value='1']").prop('checked', true);
         }else if(holiday.week_type == '2'){
-            $("input:radio[name='time4']:radio[value='2']").prop('checked', true);
+            $("input:radio[name='week_type']:radio[value='2']").prop('checked', true);
         }else if(holiday.week_type == '3'){
-            $("input:radio[name='time4']:radio[value='3']").prop('checked', true);
+            $("input:radio[name='week_type']:radio[value='3']").prop('checked', true);
         }
         if(holiday.is_work_mon == true){
             $(".mon").prop("checked", true);
@@ -880,14 +883,14 @@ if ($artist_flag == 1) {
 
         // 타임제일 경우 선택 (순서때문에 checked 안되는 현상때문에 뒤로 따로 빼놓음)
         if(t_type == '2'){
-            $("input:radio[name='time2']:radio[value='2']").prop('checked', true);
+            $("input:radio[name='time_type']:radio[value='2']").prop('checked', true);
             $(".time_type_2_wrap").css("display","block");
             var time_array = setting_array[3];
             var html = '';
             var html_2 = '';
             $.each(time_array,function(i, v){
                 $.each(v.res_time_off,function(index, value){
-                    var st_time = ".time_wrap .worker_"+v.idx+" .time_"+((value.time).split('~')[0]).replace(':','');
+                    var st_time = ".time_wrap .worker_"+i+" .time_"+((value.time).split('~')[0]).replace(':','');
                     $(st_time).prop("checked", true);
                 });
             });
@@ -940,6 +943,13 @@ if ($artist_flag == 1) {
         postData += '&mode=post_vacation';
         console.log(postData);
         post_vacation(postData);
+    })
+
+    // 일정관리 수정 저장하기
+    $(document).on("click",".save_schedule",function(){
+        var postData = decodeURIComponent($("#scheduleForm").serialize());
+        postData += '&mode=put_schedule';
+        console.log(postData);
     })
 
 </script>
