@@ -99,11 +99,7 @@ function data_set(id){
                     } else if (head.code === 200) {
                         data = body;
 
-
-                        // setTimeout(function (){
-
-
-                        // },2000)
+                        
 
 
                         localStorage.setItem('total_count',data.total_count);
