@@ -1244,6 +1244,49 @@ if($r_mode) {
         $return_data = array("code"=>"000000","data"=>$result);
 
 
+    }else if($r_mode === "pet_list"){
+
+
+        $login_id = $_POST['login_id'];
+        $cellphone = $_POST['cellphone'];
+
+        $data = array(cellphone=>$cellphone);
+
+
+        $data_json = json_encode($data);
+
+        $result = $api -> get('/partner/customer/petlist/'.$login_id,$data_json);
+        $return_data = array("code"=>"000000","data"=>$result);
+
+
+    }else if($r_mode === "usage_history"){
+
+
+        $login_id = $_POST['login_id'];
+        $cellphone = $_POST['cellphone'];
+
+        $data = array(cellphone=>$cellphone);
+
+
+        $data_json = json_encode($data);
+
+        $result = $api -> get('/partner/customer/usage-history/'.$login_id,$data_json);
+        $return_data = array("code"=>"000000","data"=>$result);
+
+
+    }else if($r_mode === "customer_delete"){
+
+        $login_id = $_POST['login_id'];
+        $cellphone = $_POST['cellphone'];
+
+        $data = array(partner_id=>$login_id,cellphone=>$cellphone);
+
+        $data_json = json_encode($data);
+
+        $result = $api -> delete('/partner/customer/user',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
     }
 }
 

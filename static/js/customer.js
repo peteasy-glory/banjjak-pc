@@ -31,12 +31,25 @@ function search(search_value,id) {
                         body.forEach(function (el,i){
 
                             let image ='';
+
+
                             if(el.beauty_photo !== null && el.beauty_photo !== ""){
 
-                                image = `https://image.banjjakpet.com${el.beauty_photo}`;
-                            }else if(el.pet_photo !== null && el.pet_photo !== ""){
+                                if(el.beauty_photo.substr(0,4) === '/pet'){
 
-                                image =`https://image.banjjakpet.com${el.pet_photo}`;
+                                    image = `https://image.banjjakpet.com${el.beauty_photo.replace('/pet','')}`;
+                                }else{
+                                    image = `https://image.banjjakpet.com${el.beauty_photo}`;
+                                }
+
+
+                            }else if(el.pet_photo !== null && el.pet_photo !== ""){
+                                if(el.pet_photo.substr(0,4) === '/pet'){
+
+                                    image = `https://image.banjjakpet.com${el.pet_photo.replace('/pet','')}`;
+                                }else{
+                                    image = `https://image.banjjakpet.com${el.pet_photo}`;
+                                }
                             }else{
                                 if(el.type === 'dog'){
                                     image = `/static/images/icon/icon-pup-select-off.png`
@@ -46,9 +59,18 @@ function search(search_value,id) {
 
                             }
 
+                            let sub_cellphone = '0';
+                            if(el.family.length >0){
+                                sub_cellphone ='';
+                                el.family.forEach(function(fam){
+
+                                    sub_cellphone += `${fam.phone}|`
+                                })
+                            }
+
 
                             document.getElementById('search_phone_inner').innerHTML += `<div class="grid-layout-cell grid-2">
-                                                                                                <a href="/customer/customer_view.php" onclick="localStorage.setItem('customer_select','${el.cellphone}')" class="customer-card-item">
+                                                                                                <a href="/customer/customer_view.php" onclick="localStorage.setItem('customer_select','${el.cellphone}'); localStorage.setItem('noshow_cnt','${el.no_show_count > 0 ? el.no_show_count : 0}'); localStorage.setItem('sub_cellphone','${sub_cellphone}')" class="customer-card-item">
                                                                                                     <div class="item-info-wrap">
                                                                                                         <div class="item-thumb">
                                                                                                             <div class="user-thumb large">
@@ -799,9 +821,9 @@ function customer_view(id){
             type:'post',
             data:{
 
-                mode:'search',
+                mode:'pet_list',
                 login_id:id,
-                search:localStorage.getItem('customer_select'),
+                cellphone:localStorage.getItem('customer_select'),
             },
             success:function(res){
                 let response = JSON.parse(res);
@@ -810,81 +832,137 @@ function customer_view(id){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
+
+                    if(body.length === undefined){
+
+                        body =[body];
+                    }
                     console.log(body)
+
+                    $.ajax({
+
+                        url:'/data/pc_ajax.php',
+                        type:'post',
+                        data:{
+
+                            mode:'usage_history',
+                            login_id:id,
+                            cellphone:localStorage.getItem('customer_select')
+                        },success:function(res) {
+                            let response = JSON.parse(res);
+                            let head_ = response.data.head;
+                            let body_ = response.data.body;
+                            if (head_.code === 401) {
+                                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                            } else if (head_.code === 200) {
+                                console.log(body_)
+
+                                let body_data= [body,body_]
+
+                                document.getElementById('customer_view_cellphone').innerText = phone_edit(localStorage.getItem('customer_select'));
+                                document.getElementById('user_table').innerHTML = `<div class="customer-user-table-row">
+                                                                        <div class="customer-user-table-title">
+                                                                            <div class="table-title">대표 펫</div>
+                                                                        </div>
+                                                                        <div class="customer-user-table-data">
+                                                                            <div class="table-data">
+                                                                                <div class="table-user-name">
+                                                                                    ${body[0].name}
+                                                                                    <div class="user-grade-item">
+                                                                                        <div class="icon icon-grade-vip"></div>
+                                                                                        <div class="icon-grade-label">VIP</div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="customer-user-info-ui">
+                                                                            <div class="label label-outline-pink">NO SHOW ${localStorage.getItem('noshow_cnt')}회</div>
+                                                                            <button type="button" class="btn btn-red">초기화</button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="customer-user-table-row">
+                                                                        <div class="customer-user-table-title">
+                                                                            <div class="table-title">최근이용내역</div>
+                                                                        </div>
+                                                                        <div class="customer-user-table-data">
+                                                                            <div class="table-data">
+                                                                                <div class="table-data-txt">${body_[0].product.split('|')[3]}</div>
+                                                                            </div>
+                                                                            <div class="table-data-side">
+                                                                                <button type="button" class="font-color-purple font-underline btn-text">알림톡 발송 조회
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="customer-user-table-row">
+                                                                        <div class="customer-user-table-title">
+                                                                            <div class="table-title">연락처</div>
+                                                                        </div>
+                                                                        <div class="customer-user-table-data">
+                                                                            <div class="table-data">
+                                                                                <div class="customer-user-phone-wrap">
+                                                                                    <div class="item-main-phone">
+                                                                                        <div class="value">${localStorage.getItem('customer_select')}</div>
+                                                                                        <button type="button" class="btn-data-modify">편집</button>
+                                                                                    </div>
+                                                                                    <div class="item-sub-phone" id="sub_cellphone">
+                                                                                        <div class="value">010-1234-1234</div>
+                                                                                        <div class="value">010-1234-1234</div>
+                                                                                        <div class="value">010-1234-1234</div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="customer-user-table-row wide">
+                                                                        <div class="customer-user-table-title">
+                                                                            <div class="table-title">메모</div>
+                                                                        </div>
+                                                                        <div class="customer-user-table-data">
+                                                                            <div class="table-data">
+                                                                                <div>
+                                                                                    <textarea style="height:60px;" placeholder="입력"></textarea>
+                                                                                    <div class="form-input-info">*메모는 입력 후 자동 저장됩니다.</div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>`
+
+                                body.forEach(function(el,i){
+
+                                    document.getElementById('pet_table').innerHTML += `<div class="grid-layout-cell flex-auto">
+                                                                                                    <label class="form-toggle-box" for="pet_list_${i}">
+                                                                                                        <input type="radio" name="pet_list" class="btn-toggle-button pet-list-btn" data-pet_seq="${el.pet_seq}" id="pet_list_${i}">
+                                                                                                        <em>${el.name}</em>
+                                                                                                    </label>
+                                                                                                </div>`
+                                })
+
+                                    document.getElementById('pet_table').innerHTML += `<div class="grid-layout-cell flex-auto" onClick="pop.open('petAddPop')">
+                                                                                                    <button type="button" class="btn-toggle-button btn-toggle-basic">
+                                                                                                        <span class="icon icon-plus-more-small"></span>
+                                                                                                    </button>
+                                                                                                </div>`
+
+
+
+                                resolve(body_data);
+                            }
+
+                        }
+
+
+                    })
+
+
 
                 }
             }
         })
 
-        // document.getElementById('user-table').innerHTML = `<div className="customer-user-table-row">
-        //                                                                 <div className="customer-user-table-title">
-        //                                                                     <div className="table-title">대표 펫 (수)</div>
-        //                                                                 </div>
-        //                                                                 <div className="customer-user-table-data">
-        //                                                                     <div className="table-data">
-        //                                                                         <div className="table-user-name">
-        //                                                                             boong_232321
-        //                                                                             <div className="user-grade-item">
-        //                                                                                 <div className="icon icon-grade-vip"></div>
-        //                                                                                 <div className="icon-grade-label">VIP</div>
-        //                                                                             </div>
-        //                                                                         </div>
-        //                                                                     </div>
-        //                                                                 </div>
-        //                                                                 <div className="customer-user-info-ui">
-        //                                                                     <div className="label label-outline-pink">NO SHOW 1회</div>
-        //                                                                     <button type="button" className="btn btn-red">초기화</button>
-        //                                                                 </div>
-        //                                                             </div>
-        //                                                             <div className="customer-user-table-row">
-        //                                                                 <div className="customer-user-table-title">
-        //                                                                     <div className="table-title">최근이용내역</div>
-        //                                                                 </div>
-        //                                                                 <div className="customer-user-table-data">
-        //                                                                     <div className="table-data">
-        //                                                                         <div className="table-data-txt">중형견미용</div>
-        //                                                                     </div>
-        //                                                                     <div className="table-data-side">
-        //                                                                         <button type="button" className="font-color-purple font-underline btn-text">알림톡 발송 조회
-        //                                                                         </button>
-        //                                                                     </div>
-        //                                                                 </div>
-        //                                                             </div>
-        //                                                             <div className="customer-user-table-row">
-        //                                                                 <div className="customer-user-table-title">
-        //                                                                     <div className="table-title">연락처</div>
-        //                                                                 </div>
-        //                                                                 <div className="customer-user-table-data">
-        //                                                                     <div className="table-data">
-        //                                                                         <div className="customer-user-phone-wrap">
-        //                                                                             <div className="item-main-phone">
-        //                                                                                 <div className="value">010-1234-1234</div>
-        //                                                                                 <button type="button" className="btn-data-modify">편집</button>
-        //                                                                             </div>
-        //                                                                             <div className="item-sub-phone">
-        //                                                                                 <div className="value">010-1234-1234</div>
-        //                                                                                 <div className="value">010-1234-1234</div>
-        //                                                                                 <div className="value">010-1234-1234</div>
-        //                                                                             </div>
-        //                                                                         </div>
-        //                                                                     </div>
-        //                                                                 </div>
-        //                                                             </div>
-        //                                                             <div className="customer-user-table-row wide">
-        //                                                                 <div className="customer-user-table-title">
-        //                                                                     <div className="table-title">메모</div>
-        //                                                                 </div>
-        //                                                                 <div className="customer-user-table-data">
-        //                                                                     <div className="table-data">
-        //                                                                         <div>
-        //                                                                             <textarea style="height:60px;" placeholder="입력"></textarea>
-        //                                                                             <div className="form-input-info">*메모는 입력 후 자동 저장됩니다.</div>
-        //                                                                         </div>
-        //                                                                     </div>
-        //                                                                 </div>
-        //                                                             </div>`
 
-        resolve();
+
+
     })
 
 
@@ -892,8 +970,9 @@ function customer_view(id){
 
 function customer_view_(id){
 
-    customer_view(id).then(function(body_){
+    customer_view(id).then(function(body_data){
 
+        pet_reserve_info(body_data);
 
     })
 
@@ -965,5 +1044,55 @@ function post_grade(){
             }
         })
 
+    })
+}
+
+function customer_delete(id){
+
+    let cellphone = localStorage.getItem('customer_select');
+    let partner_id = id;
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:'customer_delete',
+            partner_id:partner_id,
+            cellphone:cellphone
+        },
+        success:function(res){
+            document.getElementById('msg3_txt').innerText = '삭제되었습니다.'
+            pop.open('reserveAcceptMsg3');
+        }
+
+    })
+
+}
+
+function pet_reserve_info(data){
+
+    console.log(data)
+
+    let pet_list = data[0];
+
+
+    Array.from(document.getElementsByClassName('pet-list-btn')).forEach(function(el){
+
+        el.addEventListener('click',function(){
+
+
+            pet_list.forEach(function(el_){
+
+                if(parseInt(el.getAttribute('data-pet_seq')) === el_.pet_seq){
+
+                    console.log(el_)
+                }
+            })
+
+
+
+        })
     })
 }

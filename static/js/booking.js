@@ -2367,6 +2367,7 @@ function pay_management(id){
 
                 // work_body_inner.innerHTML = ''
 
+
                 work_body_inner.innerHTML += `<div class="basic-data-group vsmall">
                                         <div class="con-title-group">
                                             <h4 class="con-title">예약자 정보</h4>
@@ -2430,7 +2431,7 @@ function pay_management(id){
                                         </div>
                                         <div class="customer-view-pet-info detail-toggle-parents">
                                             <div class="item-thumb">
-                                                <div class="user-thumb large"><img src="${body.photo === "" ? body.type === "dog" ? '../static/images/icon/icon-pup-select-off.png' : '../static/images/icon/icon-cat-select-off.png' : `https://image.banjjakpet.com${body.photo}`}" alt=""></div>
+                                                <div class="user-thumb large"><img src="" id="beauty_img_target" alt=""></div>
                                                 <div class="item-thumb-ui">
                                                     <a href="#" class="btn btn-outline-gray btn-vsmall-size btn-inline" id="modify_pet">펫 정보 수정</a>
                                                 </div>
@@ -3121,7 +3122,7 @@ function pay_management_(id){
 
 
 
-        beauty_gallery_get().then(function(){
+        beauty_gallery_get(body_).then(function(){
 
             beauty_gallery_add(id,body_[2]);
         });
@@ -7052,8 +7053,12 @@ function beauty_gallery_add(id,pet_seq){
 
 }
 
-function beauty_gallery_get(){
+function beauty_gallery_get(body_data){
 
+
+    let _data = body_data[3]
+
+    console.log(_data)
 
 
     return new Promise(function(resolve){
@@ -7083,6 +7088,24 @@ function beauty_gallery_get(){
 
                         body = [body];
                     }
+
+
+                    let file_path = '';
+                    if(body.length >0){
+                        file_path = `https://image.banjjakpet.com${body[0].file_path}`
+                         document.getElementById('beauty_img_target').setAttribute('src', file_path)
+                    }else{
+
+                        if(_data.type === 'dog'){
+                            file_path = `/static/images/icon/icon-pup-select-off.png`
+                            document.getElementById('beauty_img_target').setAttribute('src', file_path)
+                        }else{
+                            file_path = `/static/images/icon/icon-cat-select-off.png`
+                            document.getElementById('beauty_img_target').setAttribute('src', file_path)
+                        }
+
+                    }
+
 
                     body.forEach(function(el){
 
