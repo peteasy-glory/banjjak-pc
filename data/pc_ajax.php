@@ -603,6 +603,19 @@ if($r_mode) {
         $time_type = $api -> get('/partner/setting/artist-vacation/'.$login_id);
 
         $return_data = array("code"=>"000000",'data'=>$time_type);
+
+    }else if($r_mode === "put_schedule"){
+        $partner_id = $_POST['partner_id'];
+        $start_time = $_POST['start_time'];
+        $time1 = $_POST['time1']; // 휴게시간
+        $time_type = $_POST['time_type']; // 예약스케줄 운영방식
+        $time_type_2_cnt = $_POST['time_type_2_cnt']; // 미용사 수
+        $partner_id = $_POST['partner_id'];
+        $partner_id = $_POST['partner_id'];
+
+        $week_type = $_POST['week_type']; // 정기휴무 매주 여부
+        $week = $_POST['week']; // 정기휴무 요일
+
     }else if($r_mode === "get_notice"){
 
         $login_id = $_POST['login_id'];

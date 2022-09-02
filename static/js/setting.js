@@ -442,3 +442,24 @@ function artist_ord_change(id, name){
         }
     })
 }
+
+//////////// 일정관리 수정 저장 시작 //////////
+function put_schedule(data){
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: data,
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            console.log(res);
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                pop.open('reloadPop', '완료되었습니다.');
+            }
+        }
+    })
+}
+//////////// 일정관리 수정 저장 끝 //////////

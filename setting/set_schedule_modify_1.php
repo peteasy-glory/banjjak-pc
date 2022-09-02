@@ -36,6 +36,7 @@ if ($artist_flag == 1) {
 								<h3 class="card-header-title">일정관리</h3>
 							</div>
 							<form id="scheduleForm" class="card-body">
+                                <input type="hidden" name="partner_id" value="<?=$artist_id?>">
 								<div class="card-body-inner">
 									<div class="set-schedule-wrap">										
 										<div class="basic-data-group">
@@ -131,6 +132,7 @@ if ($artist_flag == 1) {
 												<div class="form-check-inner">
 													<div class="check-cell"><label class="form-radiobox"><input type="radio" class="time_schedule" name="time_type" value="1"><span class="form-check-icon"><em>자유시간제</em></span></label></div>
 													<div class="check-cell"><label class="form-radiobox"><input type="radio" class="time_schedule" name="time_type" value="2"><span class="form-check-icon"><em>타임제</em></span></label></div>
+                                                    <input type="hidden" name="time_type_2_cnt" class="time_type_2_cnt" value="">
 												</div>
 											</div>
 											<!-- 타임제 -->
@@ -168,13 +170,13 @@ if ($artist_flag == 1) {
 													<div class="grid-layout-cell flex-1">
 														<div class="form-week-select">
 															<div class="form-week-select-inner">
-																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week" class="mon"><em>월</em></label></div>
-																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week" class="tue"><em>화</em></label></div>
-																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week" class="wed"><em>수</em></label></div>
-																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week" class="thu"><em>목</em></label></div>
-																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week" class="fri"><em>금</em></label></div>
-																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week" class="sat"><em>토</em></label></div>
-																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week" class="sun"><em>일</em></label></div>
+																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week" value="100000" class="mon"><em>월</em></label></div>
+																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week" value="10000" class="tue"><em>화</em></label></div>
+																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week" value="1000" class="wed"><em>수</em></label></div>
+																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week" value="100" class="thu"><em>목</em></label></div>
+																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week" value="10" class="fri"><em>금</em></label></div>
+																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week" value="1" class="sat"><em>토</em></label></div>
+																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week" value="1000000" class="sun"><em>일</em></label></div>
 															</div>
 														</div>
 													</div>
@@ -784,6 +786,7 @@ if ($artist_flag == 1) {
         var t_type = setting_array[2].shop_time_type; // 1:자유시간제, 2:타임제
         if(t_type == '2'){
             $("input:radio[name='time_type']:radio[value='2']").prop('checked', true);
+            $(".time_type_2_cnt").val(setting_array[6].length);
             $(".time_type_2_wrap").css("display","block");
             var time_array = setting_array[6];
             var html = '';
@@ -804,10 +807,11 @@ if ($artist_flag == 1) {
                 start_hour = setting_array[0].open_time;
                 close_hour = setting_array[0].close_time;
                 html_2 += `<div class="grid-layout-inner worker_time_wrap worker_${i}" style="display: ${is_block}">`;
+                html_2 += `<input type="hidden" name="worker_${i}" v>`;
                 for(start_hour;start_hour<close_hour;start_hour++){
                     html_2 += `
-                        <div class="grid-layout-cell grid-8"><label class="form-toggle-box auto middle"><input type="checkbox" name="time2" class="time_${fill_zero(start_hour)}00" value="${fill_zero(start_hour)}:00"><em>${am_pm_check(fill_zero(start_hour))}:00</em></label></div>
-                        <div class="grid-layout-cell grid-8"><label class="form-toggle-box auto middle"><input type="checkbox" name="time2" class="time_${fill_zero(start_hour)}30" value="${fill_zero(start_hour)}:30"><em>${am_pm_check(fill_zero(start_hour))}:30</em></label></div>
+                        <div class="grid-layout-cell grid-8"><label class="form-toggle-box auto middle"><input type="checkbox" name="time2_${i}" class="time_${fill_zero(start_hour)}00" value="${fill_zero(start_hour)}:00"><em>${am_pm_check(fill_zero(start_hour))}:00</em></label></div>
+                        <div class="grid-layout-cell grid-8"><label class="form-toggle-box auto middle"><input type="checkbox" name="time2_${i}" class="time_${fill_zero(start_hour)}30" value="${fill_zero(start_hour)}:30"><em>${am_pm_check(fill_zero(start_hour))}:30</em></label></div>
                     `;
                 }
                 html_2 += '</div>';
@@ -950,6 +954,7 @@ if ($artist_flag == 1) {
         var postData = decodeURIComponent($("#scheduleForm").serialize());
         postData += '&mode=put_schedule';
         console.log(postData);
+        //put_schedule(postData);
     })
 
 </script>
