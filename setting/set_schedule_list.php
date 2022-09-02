@@ -42,8 +42,8 @@ if ($artist_flag == 1) {
 											<div class="wide-tab-inner">
 												<!-- 활성화시 actived클래스 추가 -->
 												<div class="tab-cell actived"><a href="#" class="btn-tab-item">미용</a></div>
-												<div class="tab-cell"><a href="#" class="btn-tab-item">호텔</a></div>
-												<div class="tab-cell"><a href="#" class="btn-tab-item">유치원</a></div>
+												<div class="tab-cell"><a href="#" class="btn-tab-item" onclick="pop.open('firstRequestMsg1', '준비중입니다.')">호텔</a></div>
+												<div class="tab-cell"><a href="#" class="btn-tab-item" onclick="pop.open('firstRequestMsg1', '준비중입니다.')">유치원</a></div>
 											</div>
 										</div>
 										<!-- 내용이 있을 경우 -->
