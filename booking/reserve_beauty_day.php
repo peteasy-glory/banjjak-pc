@@ -101,6 +101,9 @@ if ($artist_flag == 1) {
 																<div class="mini-calendar-month-header-col saturday">토</div>
 															</div>
 														</div>
+                                                        <div class="loading-container" id="day_mini_calendar_loading" >
+                                                            <div class="mexican-wave"></div>
+                                                        </div>
 														<div class="mini-calendar-month-body" id="mini-calendar-month-body">
 
 														</div>
@@ -162,11 +165,15 @@ if ($artist_flag == 1) {
 								</div>
 								<!-- //캘린더 상단 -->
 							</div>
-							<div class="card-body">								
+							<div class="card-body">
+
 								<!-- 캘린더 상세 -->
 								<div>
 									<div class="reserve-calendar-data">
-										<div class="reserve-calendar-inner">
+                                        <div class="loading-container" id="day_schedule_loading" style="height:648px">
+                                            <div class="mexican-wave"></div>
+                                        </div>
+										<div class="reserve-calendar-inner" id="reserve_calendar_inner_day" style="height:648px;">
 											<!--
 											// calendar-month-header-col 클래스 정의
 											// calendar-month-body-col 클래스 정의

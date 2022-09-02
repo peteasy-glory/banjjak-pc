@@ -726,7 +726,7 @@ if ($artist_flag == 1) {
                     <div class="msg-txt">1. 변경을 위해 주간 스케줄로 이동합니다.<br>현재 페이지에서 저장하지 않은 정보는 분실될 수 있으니 변경전에 확인해주세요.<br><br>2. 변경을 완료하기 전에 다른 페이지로 이동하면 오류가 발생할 수 있으니 주의해주세요.<br><br>변경하시겠습니까?<br><br>[주의] 주간 스케줄표에서만 변경 가능합니다!</div>
                 </div>
                 <div class="pop-footer">
-                    <button type="button" class="btn btn-confirm" onclick="location.href = '/booking/reserve_beauty_week.php'">변경</button>
+                    <button type="button" class="btn btn-confirm" id="change_check_btn" onclick="change_check()">변경</button>
                     <button type="button" class="btn btn-confirm" onclick="pop.close();">취소</button>
                 </div>
             </div>

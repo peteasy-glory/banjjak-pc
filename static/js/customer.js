@@ -157,6 +157,7 @@ let offset = 1;
 
 function customer_all(id){
 
+    offset =1;
 
     return new Promise(function (resolve){
         if(list_loging || list_end){

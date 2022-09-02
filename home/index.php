@@ -20,10 +20,16 @@ if($artist_flag == 1){
 }
 
 ?>
-<body>        
+<article id="splash" class="splash-wrap">
+
+    <div class="splash">
+        <img src="/static/images/splash.gif" alt="" style="max-width:230px;max-height: 170px">
+    </div>
+</article>
+<body>
 
 <!-- wrap -->
-<div id="wrap">
+<div id="wrap" style="display: none";>
 	<!-- header -->
 	<header id="header"></header>
 	<!-- //header -->
@@ -61,6 +67,7 @@ if($artist_flag == 1){
 													<div class="main-calendar-stats-group">
 														<div class="main-reserve-calendar">
 															<div class="main-reserve-calendar-top">
+
 																<button type="button" class="btn-main-reserve-calendar-ui btn-month-prev" id="btn-month-prev"><span class="icon icon-calendar-prev-small"></span></button>
 																<div class="main-reserve-calendar-title">
 																	<div class="txt year-month"></div>
@@ -86,6 +93,7 @@ if($artist_flag == 1){
 																		// current : 선택됨
 																		-->
 																		<div class="main-calendar-month-wrap">
+
 																			<div class="main-calendar-month-header">
 																				<div class="main-calendar-month-header-row">
 																					<div class="main-calendar-month-header-col sunday">일</div>
@@ -97,6 +105,9 @@ if($artist_flag == 1){
 																					<div class="main-calendar-month-header-col saturday">토</div>
 																				</div>
 																			</div>
+                                                                            <div class="loading-container" id="home_main_calendar_loading" >
+                                                                                <div class="mexican-wave"></div>
+                                                                            </div>
 																			<div class="main-calendar-month-body" id="main-calendar-month-body">
 
 
@@ -149,11 +160,13 @@ if($artist_flag == 1){
 															<!-- //내용이 있을 때 -->
 															<!-- 내용이 없을 때 -->
 															<div class="reserve-after-none" id="reserve_after_none">
-																<div class="item-desc">오늘은 확정된 예약일정이 없습니다.<br>빈 시간을 판매해보세요.</div>
-																<div class="item-btn"><a href="#" class="btn-point-underline">빈 시간 판매 알아보기</a></div>
-																<div class="item-btn-buy">
-																	<a href="#" class="btn btn-outline-gray">빈 시간 판매하기</a>
-																</div>
+																<div class="item-desc">오늘은 확정된 예약일정이 없습니다.
+<!--                                                                    <br>빈 시간을 판매해보세요.-->
+                                                                </div>
+<!--																<div class="item-btn"><a href="#" class="btn-point-underline">빈 시간 판매 알아보기</a></div>-->
+<!--																<div class="item-btn-buy">-->
+<!--																	<a href="#" class="btn btn-outline-gray">빈 시간 판매하기</a>-->
+<!--																</div>-->
 															</div>
 															<!--//내용이 없을 때 -->
 														</div>
@@ -258,12 +271,17 @@ if($artist_flag == 1){
     let session_id = "<?=session_id()?>";
     let artist_id = "<?=$artist_id?>";
 
-    data_set(artist_id)
-    banner();
 
 
 
     $(document).ready(function(){
+
+        data_set(artist_id).then(function(){
+
+            banner()
+
+
+        })
 
         gnb_init();
         _renderCalendar(artist_id);
@@ -278,7 +296,6 @@ if($artist_flag == 1){
         stats();
         gnb_actived('gnb_home');
         break_time(artist_id);
-
 
     })
 

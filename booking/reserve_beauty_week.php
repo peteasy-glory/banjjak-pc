@@ -102,6 +102,9 @@ if ($artist_flag == 1) {
 																<div class="mini-calendar-month-header-col saturday">토</div>
 															</div>
 														</div>
+                                                        <div class="loading-container" id="week_mini_calendar_loading">
+                                                            <div class="mexican-wave"></div>
+                                                        </div>
 														<div class="mini-calendar-month-body" id="mini-calendar-month-body">
 
 														</div>
@@ -163,7 +166,10 @@ if ($artist_flag == 1) {
 								</div>
 								<!-- //캘린더 상단 -->
 							</div>
-							<div class="card-body">	
+                            <div class="loading-container" id="week_schedule_loading">
+                                <div class="mexican-wave"></div>
+                            </div>
+							<div class="card-body" id="week_schedule_card_body">
 								<!-- 캘린더 라벨 -->
 								<div class="reserve-calendar-label">
 									<div class="reserve-calendar-master">
@@ -215,6 +221,9 @@ if ($artist_flag == 1) {
 														<div class="calendar-week-header-col calendar-week-header-col-add"><div class="day week-date"></div><div class="th week-day-check" data-day="6">(토)</div></div>
 													</div>
 												</div>
+                                                <div class="loading-container" id="week_mini_calendar_loading">
+                                                    <div class="mexican-wave"></div>
+                                                </div>
 												<div class="calendar-week-body" id="day_body">
 
 												</div>
@@ -867,10 +876,15 @@ if ($artist_flag == 1) {
         reserve_merchandise_load_event(artist_id)
         reserve_regist_event(artist_id,session_id);
         reserve_time().then(function (){reserve_time_date()});
-        reserve_time_init()
+        reserve_time_init();
+
+
 
 
     })
+
+
+
 
 
 
