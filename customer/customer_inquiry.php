@@ -104,7 +104,6 @@ $search = ($_POST['search'] && $_POST['search'] !== "") ? $_POST['search']:"";
         get_navi(artist_id);
         gnb_init();
         set_image('front_image');
-        prepend_data('consult_count nickname');
         if('<?=$search?>' !== ''){
             search_fam('<?=$search?>',artist_id);
         }
