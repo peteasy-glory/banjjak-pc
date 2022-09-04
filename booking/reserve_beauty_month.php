@@ -137,7 +137,10 @@ if ($artist_flag == 1) {
 								<!-- 캘린더 상세 -->
 								<div>
 									<div class="reserve-calendar-data">
-										<div class="reserve-calendar-inner">
+                                        <div class="loading-container" id="month_schedule_loading" style="min-height: 490px;">
+                                            <div class="mexican-wave"></div>
+                                        </div>
+										<div class="reserve-calendar-inner" id="month_calendar_inner">
 											<!--
 											// calendar-month-header-col 클래스 정의
 											//	sunday : 일요일

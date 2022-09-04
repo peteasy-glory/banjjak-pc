@@ -14,6 +14,18 @@ function schedule_render(id){
             st_date:`${date.getFullYear()}-${fill_zero(date.getMonth()+1)}-${fill_zero(date.getDate())}`,
             fi_date:`${date.getFullYear()}-${fill_zero(date.getMonth()+1)}-${fill_zero(date.getDate()+1)}`,
         },
+        beforeSend:function(){
+            let height;
+
+
+            if(document.getElementById('reserve_calendar_inner_day')){
+                height = document.getElementById('reserve_calendar_inner_day').offsetHeight;
+                document.getElementById('reserve_calendar_inner_day').style.display = 'none';
+                document.getElementById('day_schedule_loading').style.height = `${height}px`;
+                document.getElementById('day_schedule_loading').style.display = 'flex';
+
+            }
+        },
         success:function (res){
             let response = JSON.parse(res);
             let head = response.data.head;
@@ -174,7 +186,8 @@ function schedule_render(id){
             }
 
 
-        }
+        },
+
     })
 }
 
@@ -253,7 +266,7 @@ function reserve_schedule_week_cols(body,body_,parent,id){
                             el__.setAttribute('data-time_length',(new Date(_el.product.date.booking_fi).getTime()-new Date(_el.product.date.booking_st).getTime())/1000/60)
 
                             el__.innerHTML = `<div class="calendar-drag-item-group">
-                                                    <a href="/booking/reserve_pay_management_beauty_1.php" onclick="localStorage.setItem('payment_idx',${_el.product.payment_idx})" class="calendar-week-time-item toggle green ${color} ${_el.product.is_no_show === 1 ? "red" : ''}" style="height: calc(100% * ${multiple}); ">
+                                                    <a href="/booking/reserve_pay_management_beauty_1.php" onclick="localStorage.setItem('payment_idx',${_el.product.payment_idx})" data-pay="${_el.product.payment_idx}" class="calendar-week-time-item toggle green ${color} ${_el.product.is_no_show === 1 ? "red" : ''}" style="height: calc(100% * ${multiple}); ">
                                                         <div class="item-inner">
                                                             <div class="item-name">
                                                                 <div class="txt">${_el.pet.name}</div>
@@ -366,6 +379,8 @@ function reserve_schedule_week_cols(body,body_,parent,id){
             });
             reserve_prohibition_list(id);
             setTimeout(function(){week_drag()},200)
+
+
 
 
 
@@ -564,6 +579,7 @@ function week_holiday(parent,id){
                 }
 
             }
+
         })
 
     })
@@ -607,7 +623,7 @@ function week_working(id){
                     })
 
 
-                    document.getElementById('grid_layout_inner').innerHTML+= `<div class="grid-layout-cell flex-auto"><button type="button" class="btn-toggle-button btn-toggle-basic"><span class="icon icon-plus-more-small"></span></button></div>`
+                    document.getElementById('grid_layout_inner').innerHTML+= `<div class="grid-layout-cell flex-auto"><button type="button" onclick="location.href = '/setting/set_teacher.php'" class="btn-toggle-button btn-toggle-basic"><span class="icon icon-plus-more-small"></span></button></div>`
 
                     resolve(body);
                 }
@@ -818,15 +834,27 @@ return new Promise(function (resolve){
             console.log(fi_date.substring(5))
             $.ajax({
 
+
                 url: '/data/pc_ajax.php',
                 type: 'post',
-                async:false,
+                // async:false,
                 data: {
 
                     mode: 'week_book',
                     login_id: id,
                     st_date: st_date,
                     fi_date: fi_date
+                },
+                beforeSend:function(){
+                    let height;
+
+                    if(document.getElementById('week_schedule_card_body')){
+                        height = document.getElementById('week_schedule_card_body').offsetHeight;
+                        document.getElementById('week_schedule_card_body').style.display = 'none';
+                        document.getElementById('week_schedule_loading').style.height =`${height}px`;
+                        document.getElementById('week_schedule_loading').style.display ='flex';
+                    }
+
                 },
                 success: function (res) {
                     let response = JSON.parse(res);
@@ -851,11 +879,11 @@ return new Promise(function (resolve){
                             }
                         })
 
-                        document.getElementById('day_today').innerHTML = `${st_date.replaceAll('-', '.')} ~ ${fi_date.replaceAll('-', '.')}`
+                        document.getElementById('day_today').innerHTML = `${st_date.replaceAll('-', '.')} ~ ${fi_date.substr(0,4)}.${fi_date.substring(5).split('-')[0]}.${parseInt(fi_date.substring(5).split('-')[1])-1}`
                         document.getElementById('day_total').innerHTML = `${body_.length}건`
                         document.getElementById('day_cancel').innerHTML = `${cancel}건`
                         document.getElementById('day_noshow').innerHTML = `${noshow}건`
-                        document.getElementById('schedule_day').innerHTML = `${st_date.substring(5).replaceAll('-', '.')} ~ ${fi_date.substring(5).split('-')[0]}.${parseInt(fi_date.substring(5).split('-')[1])-1}`
+                        document.getElementById('schedule_day').innerHTML = `${st_date.substring(5).replaceAll('-', '.')} ~ ${fi_date.substring(5).split('-')[0]}.${fill_zero(parseInt(fi_date.substring(5).split('-')[1])-1)}`
                         let days = [];
 
 
@@ -941,8 +969,39 @@ function book_list(id) {
                 month: date.getMonth()+1,
             },
             type: 'POST',
+            beforeSend:function(){
+                let height;
+                if(document.getElementById('main-calendar-month-body')){
+
+
+                    height = document.getElementById('main-calendar-month-body').offsetHeight;
+                    document.getElementById('main-calendar-month-body').style.display = 'none';
+                    document.getElementById('home_main_calendar_loading').style.height = `${height}px`;
+                    document.getElementById('home_main_calendar_loading').style.display = 'flex';
+                }else if(document.getElementById('mini-calendar-month-body')){
+                    height = document.getElementById('mini-calendar-month-body').offsetHeight;
+                    document.getElementById('mini-calendar-month-body').style.display = 'none';
+                    if(document.getElementById('day_mini_calendar_loading')){
+
+                        document.getElementById('day_mini_calendar_loading').style.height = `${height}px`;
+                        document.getElementById('day_mini_calendar_loading').style.display = 'flex';
+                    }else if(document.getElementById('week_mini_calendar_loading')){
+
+                        document.getElementById('week_mini_calendar_loading').style.height = `${height}px`;
+                        document.getElementById('week_mini_calendar_loading').style.display = 'flex';
+                    }
+
+
+                }else if(document.getElementById('month_calendar_inner')){
+
+                    height = document.getElementById('month_calendar_inner').offsetHeight;
+                    document.getElementById('month_calendar_inner').style.display = 'none';
+                    document.getElementById('month_schedule_loading').style.display = 'flex';
+                }
+            },
 
             success: function (res) {
+                console.log(res)
                 let response = JSON.parse(res);
                 let head = response.data.head;
                 let body = response.data.body;
@@ -950,6 +1009,7 @@ function book_list(id) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
                     list = body;
+                    console.log(list)
 
                     if(location.href.match('reserve_beauty_month')){
                         let cancel = 0;
@@ -1013,6 +1073,26 @@ function book_list(id) {
                     }
                 }
                 resolve(body);
+            },complete:function(){
+                if(document.getElementById('main-calendar-month-body')){
+
+
+                    document.getElementById('main-calendar-month-body').style.display = 'block';
+                    document.getElementById('home_main_calendar_loading').style.display = 'none';
+                }else if(document.getElementById('mini-calendar-month-body')){
+                    document.getElementById('mini-calendar-month-body').style.display = 'block';
+                    if(document.getElementById('day_mini_calendar_loading')){
+
+                        document.getElementById('day_mini_calendar_loading').style.display = 'none';
+                    }else if(document.getElementById('week_mini_calendar_loading')){
+                        document.getElementById('week_mini_calendar_loading').style.display = 'none';
+
+                    }
+
+                }
+
+
+
             }
         })
     })
@@ -1083,10 +1163,9 @@ function consulting_hold_list(){
         switch (el.approval){
 
             case 0: status = '대기'; break;
-            case 1: status = '보류'; break;
-            case 2: status = '승인'; break;
-            case 3: status = '반려'; break;
-            case 4: status = '견주 측 취소'; break;
+            case 1: status = '미용'; break;
+            case 2: status = '완료'; break;
+            case 3: status = '거부'; break;
         }
 
         if(status === '대기' && i < data.consulting_count){
@@ -1130,13 +1209,12 @@ function consulting_history_list(){
         switch (el.approval){
 
             case 0: status = '대기'; break;
-            case 1: status = '보류'; break;
-            case 2: status = '승인'; break;
-            case 3: status = '반려'; break;
-            case 4: status = '견주 측 취소'; break;
+            case 1: status = '미용'; break;
+            case 2: status = '완료'; break;
+            case 3: status = '거부'; break;
         }
 
-        if(i >= data.consulting_count) {
+        if(i >= data.consulting_count &&  status !== '미용') {
             if(status === '대기'){
                 status = '자동 취소';
             }
@@ -1511,7 +1589,7 @@ function mini_calendar_init(){
 }
 
 //일간 예약관리 스케쥴 시간cols
-function reserve_schedule(id){
+function                                        reserve_schedule(id){
 
     return new Promise(function (resolve){
 
@@ -1540,6 +1618,7 @@ function reserve_schedule(id){
                     localStorage.setItem('open_close',`${open}/${close}`)
                     let row = document.getElementsByClassName('calendar-day-body-row');
                     let day_body = document.getElementById('day_body');
+
                     day_body.innerHTML = '';
                     for(let i=open; i<close; i++){
 
@@ -1584,19 +1663,7 @@ function reserve_schedule(id){
 
 
 
-                    let day_height = day_body.offsetHeight;
 
-                    let now_hour = new Date().getHours();
-                    let now_minutes = new Date().getMinutes();
-
-                    let work_time = (close-open)*60;
-                    let division = day_height/work_time;
-                    let div_height = (((now_hour-open)*60)+now_minutes)*division;
-
-
-                    if(open <= now_hour && now_hour < close ){
-                        day_body.innerHTML += `<div class="calendar-day-current-time" style="top:${div_height}px"><div class="bar"></div><div class="value">${fill_zero(date.getHours())}:${fill_zero(date.getMinutes())}</div></div>`
-                    }
 
 
 
@@ -1711,6 +1778,38 @@ function cols(id){
 
 
                 }
+            },
+            complete:function(){
+
+
+
+                if(document.getElementById('reserve_calendar_inner_day')){
+
+                    document.getElementById('reserve_calendar_inner_day').style.display='block';
+                    document.getElementById('day_schedule_loading').style.display ='none';
+
+                    document.getElementById('btn-schedule-prev').removeAttribute('disabled');
+                    document.getElementById('btn-schedule-next').removeAttribute('disabled')
+                    let day_body = document.getElementById('day_body');
+
+                    let day_height = day_body.offsetHeight;
+
+                    let open = parseInt(localStorage.getItem('open_close').split('/')[0]);
+                    let close = parseInt(localStorage.getItem('open_close').split('/')[1]);
+
+                    let now_hour = new Date().getHours();
+                    let now_minutes = new Date().getMinutes();
+
+                    let work_time = (close-open)*60;
+                    let division = day_height/work_time;
+                    let div_height = (((now_hour-open)*60)+now_minutes)*division;
+
+
+                    if(open <= now_hour && now_hour < close ){
+                        day_body.innerHTML += `<div class="calendar-day-current-time" style="top:${div_height}px"><div class="bar"></div><div class="value">${fill_zero(date.getHours())}:${fill_zero(date.getMinutes())}</div></div>`
+                    }
+
+                }
             }
         })
     })
@@ -1719,9 +1818,10 @@ function cols(id){
 //일간 예약관리 스케쥴 버튼 날짜변경
 function btn_schedule(id){
 
-    if(location.href.match('reserve_beauty_day') || location.href.match('reserve_beauty_list')){//여기수정해야함
+    if(location.href.match('reserve_beauty_day') || location.href.match('reserve_beauty_list')){
 
         document.getElementById('btn-schedule-next').addEventListener('click',function(){
+            this.setAttribute('disabled',true);
             date.setDate(date.getDate()+1)
             if(date.getDate() === 1){
                 book_list(id).then(function (){
@@ -1816,9 +1916,12 @@ function btn_schedule(id){
 
                 schedule_render(id);
             }
+
+
         })
 
         document.getElementById('btn-schedule-prev').addEventListener('click',function (){
+            this.setAttribute('disabled',true);
             date.setDate(date.getDate()-1)
             if(date.getDate() >= 28){
                 book_list(id).then(function (){
@@ -1926,10 +2029,9 @@ function btn_schedule(id){
 
         document.getElementById('btn-schedule-next').addEventListener('click',function(){
 
+            this.setAttribute('disabled',true);
 
             if(select_low !== lows.length-1){
-
-
                 lows[select_low+1].children[0].click();
                 localStorage.setItem('select_row',select_low+1)
                 select_low = parseInt(localStorage.getItem('select_row'));
@@ -1941,6 +2043,8 @@ function btn_schedule(id){
         })
 
         document.getElementById('btn-schedule-prev').addEventListener('click',function(){
+            this.setAttribute('disabled',true);
+
 
             if(select_low !== 0){
 
@@ -2013,18 +2117,17 @@ function day_drag(){
                 draggable : '.calendar-week-time-item',
                 onStart : function(evt){
                     //드래그 시작
-                    console.log('drag start');
+                    // console.log('drag start');
                 },
                 onEnd : function(evt){
                     //드래그 끝
-                    console.log('drag end');
+                    // console.log('drag end');
                     //evt.to;    // 현재 아이템
                     //evt.from;  // 이전 아이템
                     //evt.oldIndex;  // 이전 인덱스값
                     //evt.newIndex;  // 새로운 인덱스값
 
                     if(evt.from != evt.to){
-                        console.log($(evt.from).parent().attr("data-nick"));
                         _thisWorker = $(evt.from).parent().attr("data-nick");
                         _thisYear = $(evt.from).parent().attr("data-year");
                         _thisMonth = $(evt.from).parent().attr("data-month")
@@ -2074,13 +2177,13 @@ function day_drag(){
                     }
                 },
                 onUpdate : function(evt){
-                    console.log('update');
+                    // console.log('update');
                 },
                 onUpdate : function(evt){
-                    console.log('onChange');
+                    // console.log('onChange');
                 },
                 onRemove: function (/**Event*/evt) {
-                    console.log('remove');
+                    // console.log('remove');
                 }
 
             });
@@ -2092,7 +2195,6 @@ function week_drag(){
 
     $('.calendar-week-body-col-add').each(function(){
 
-        console.log($(this).hasClass('break4'))
         if(!$(this).hasClass('time') && !$(this).hasClass('break4')){
             //휴무가 아닐 경우 드래그앤 드롭 가능 처리
             var sortable = Sortable.create($(this).find('.calendar-drag-item-group')[0] , {
@@ -2103,11 +2205,11 @@ function week_drag(){
                 draggable : '.calendar-week-time-item',
                 onStart : function(evt){
                     //드래그 시작
-                    console.log('drag start');
+                    // console.log('drag start');
                 },
                 onEnd : function(evt){
                     //드래그 끝
-                    console.log('drag end');
+                    // console.log('drag end');
                     //evt.to;    // 현재 아이템
                     //evt.from;  // 이전 아이템
                     //evt.oldIndex;  // 이전 인덱스값
@@ -2115,10 +2217,6 @@ function week_drag(){
 
 
                     if(evt.from != evt.to){
-
-                        console.log(evt.from)
-                        console.log(evt.to);
-
 
                         let thisWorker;
                         let thisWorker2;
@@ -2154,12 +2252,10 @@ function week_drag(){
 
                         let target_date = new Date(2022,0,1,thisTimeStart.split(':')[0],thisTimeStart.split(':')[1]);
 
-                        console.log(time_length)
-                        console.log(target_date)
+
 
                         target_date.setMinutes(target_date.getMinutes()+120);
 
-                        console.log(target_date)
 
                         let fi_time = `${fill_zero(target_date.getHours())}:${fill_zero(target_date.getMinutes())}`
 
@@ -2184,13 +2280,13 @@ function week_drag(){
                     }
                 },
                 onUpdate : function(evt){
-                    console.log('update');
+                    // console.log('update');
                 },
                 onUpdate : function(evt){
-                    console.log('onChange');
+                    // console.log('onChange');
                 },
                 onRemove: function (/**Event*/evt) {
-                    console.log('remove');
+                    // console.log('remove');
                 }
 
             });
@@ -2228,7 +2324,6 @@ function pay_management(id){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
-                console.log(body)
                 let work_body_inner = document.getElementById('work_body_inner');
                 let data_col_right = document.getElementById('data_col_right');
 
@@ -2271,6 +2366,7 @@ function pay_management(id){
                 })
 
                 // work_body_inner.innerHTML = ''
+
 
                 work_body_inner.innerHTML += `<div class="basic-data-group vsmall">
                                         <div class="con-title-group">
@@ -2335,7 +2431,7 @@ function pay_management(id){
                                         </div>
                                         <div class="customer-view-pet-info detail-toggle-parents">
                                             <div class="item-thumb">
-                                                <div class="user-thumb large"><img src="${body.photo === "" ? body.type === "dog" ? '../static/images/icon/icon-pup-select-off.png' : '../static/images/icon/icon-cat-select-off.png' : `https://image.banjjakpet.com${body.photo}`}" alt=""></div>
+                                                <div class="user-thumb large"><img src="" id="beauty_img_target" alt=""></div>
                                                 <div class="item-thumb-ui">
                                                     <a href="#" class="btn btn-outline-gray btn-vsmall-size btn-inline" id="modify_pet">펫 정보 수정</a>
                                                 </div>
@@ -2648,7 +2744,7 @@ function pay_management(id){
                                                                             <div class="grid-layout btn-grid-group">
                                                                                 <div class="grid-layout-inner">
                                                                                     <div class="grid-layout-cell grid-2">
-                                                                                        <button type="button" class="btn btn-purple" onclick="pop.open('reservePayManagementMsg1')">날짜/미용사 변경</button>
+                                                                                        <button type="button" class="btn btn-purple" id="change_check_worker_btn" data-worker="${body.worker}" onclick="pop.open('reservePayManagementMsg1')">날짜/미용사 변경</button>
                                                                                     </div>
                                                                                     <div class="grid-layout-cell grid-2">
                                                                                         <button type="button" class="btn btn-outline-purple" onclick="pop.open('reserveCancel')">예약 취소</button>
@@ -3026,7 +3122,7 @@ function pay_management_(id){
 
 
 
-        beauty_gallery_get().then(function(){
+        beauty_gallery_get(body_).then(function(){
 
             beauty_gallery_add(id,body_[2]);
         });
@@ -3048,7 +3144,6 @@ function pay_management_(id){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
-                    console.log(body)
 
                   if(body.length === 0){
 
@@ -3136,9 +3231,10 @@ function today_reserve_month(id){
                 let today_reserve_fi = el.product.date.booking_fi;
                 let date_today_reserve_fi = new Date(today_reserve_fi);
 
-                if(date_today_reserve.getFullYear() === date.getFullYear()
-                    && date_today_reserve.getMonth() === date.getMonth()
-                    && date_today_reserve.getDate() === date.getDate()
+                if(date_today_reserve.getFullYear() === new Date().getFullYear()
+                    && date_today_reserve.getMonth() === new Date().getMonth()
+                    && date_today_reserve.getDate() === new Date().getDate()
+                    && el.product.is_cancel !== 1
                 ){
 
 
@@ -3280,37 +3376,46 @@ function month_reserve_cols(body){
 
 return new Promise(function (resolve){
 
-    console.log(body)
-    Array.from(document.getElementsByClassName('insert_data')).forEach(function(el){
+    if(body === undefined){
+        if(document.getElementById('month_calendar_inner')){
 
-        body.beauty.forEach(function(el_){
+            document.getElementById('month_calendar_inner').style.display = 'block';
+            document.getElementById('month_schedule_loading').style.display = 'none';
+        }
+    }else{
+        Array.from(document.getElementsByClassName('insert_data')).forEach(function(el){
 
-
-            let color;
-            switch(el_.product.pay_type){
-
-                case "pos-card": case "pos-cash" : color = 'yellow'; break;
-                case "offline-card" : case "offline-cash" : color = 'purple'; break;
-                default : color = ''; break;
-
-            }
-
-            let date_init = el_.product.date.booking_st.split(' ')[0].split('-');
+            body.beauty.forEach(function(el_){
 
 
+                let color;
+                switch(el_.product.pay_type){
 
-            if(!el.parentElement.parentElement.classList.contains('before') && !el.parentElement.parentElement.classList.contains('after') ){
+                    case "pos-card": case "pos-cash" : color = 'yellow'; break;
+                    case "offline-card" : case "offline-cash" : color = 'purple'; break;
+                    default : color = ''; break;
 
-                if(new Date(date_init[0],date_init[1]-1,date_init[2]).getTime() === new Date(el.getAttribute('data-year'),el.getAttribute('data-month'),el.getAttribute('data-date')).getTime() && el_.product.is_cancel === 0 ){
-
-                    el.innerHTML += `<div class="calendar-drag-item"><a href="./reserve_pay_management_beauty_1.php" onclick="localStorage.setItem('payment_idx',${el_.product.payment_idx})" class="calendar-month-day-item green ${color} ${el_.product.pay_type} ${el_.product.is_no_show === 1 ? "red" : ''} " style="color: white;"><div class="calendar-month-day-item-name"><strong>${el_.pet.name}</strong><span>(${el_.pet.type})</span></div></a></div>`
                 }
-            }
+
+                let date_init = el_.product.date.booking_st.split(' ')[0].split('-');
+
+
+
+                if(!el.parentElement.parentElement.classList.contains('before') && !el.parentElement.parentElement.classList.contains('after') ){
+
+                    if(new Date(date_init[0],date_init[1]-1,date_init[2]).getTime() === new Date(el.getAttribute('data-year'),el.getAttribute('data-month'),el.getAttribute('data-date')).getTime() && el_.product.is_cancel === 0 ){
+
+                        el.innerHTML += `<div class="calendar-drag-item"><a href="./reserve_pay_management_beauty_1.php" onclick="localStorage.setItem('payment_idx',${el_.product.payment_idx})" class="calendar-month-day-item green ${color} ${el_.product.pay_type} ${el_.product.is_no_show === 1 ? "red" : ''} " style="color: white;"><div class="calendar-month-day-item-name"><strong>${el_.pet.name}</strong><span>(${el_.pet.type})</span></div></a></div>`
+                    }
+                }
+
+            })
+
 
         })
+    }
 
 
-    })
 
 
     resolve();
@@ -3440,6 +3545,15 @@ function month_holiday(id){
                 }
             }
 
+        },
+        complete:function(){
+            if(document.getElementById('month_calendar_inner')){
+                document.getElementById('month_calendar_inner').style.display = 'block';
+                document.getElementById('month_schedule_loading').style.display = 'none';
+                document.getElementById('btn-month-next').removeAttribute('disabled')
+                document.getElementById('btn-month-prev').removeAttribute('disabled')
+            }
+
         }
     })
 
@@ -3450,6 +3564,8 @@ function btn_month_calendar(id){
 
 
     document.getElementById('btn-month-prev').addEventListener('click', function (evt) {
+
+        this.setAttribute('disabled',true);
 
 
         date.setMonth(date.getMonth() - 1);
@@ -3469,6 +3585,7 @@ function btn_month_calendar(id){
 
     document.getElementById('btn-month-next').addEventListener('click', function (evt) {
 
+        this.setAttribute('disabled',true);
 
         date.setMonth(date.getMonth() + 1 );
         book_list(id).then(function(body){
@@ -3504,6 +3621,18 @@ function schedule_render_list(id){
                 st_date: `${date.getFullYear()}-${fill_zero(date.getMonth() + 1)}-${fill_zero(date.getDate())}`,
                 fi_date: `${date.getFullYear()}-${fill_zero(date.getMonth() + 1)}-${fill_zero(date.getDate() + 1)}`,
             },
+            beforeSend:function(){
+                let height;
+
+                if(document.getElementById('list_inner')){
+
+                    height = document.getElementById('list_inner').offsetHeight;
+                    document.getElementById('list_inner').style.display = 'none';
+                    document.getElementById('list_schedule_loading').style.height =`${height}px`;
+                    document.getElementById('list_schedule_loading').style.display ='flex';
+                }
+
+            },
             success: function (res) {
                 let response = JSON.parse(res);
                 let head = response.data.head;
@@ -3511,6 +3640,7 @@ function schedule_render_list(id){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
+
 
                     document.getElementById('day_today').innerHTML = `${date.getFullYear()}.${fill_zero(date.getMonth() + 1)}.${fill_zero(date.getDate())}`
                     document.getElementById('day_total').innerHTML = `${body.length}건`
@@ -3528,6 +3658,8 @@ function schedule_render_list(id){
                     document.getElementById('day_cancel').innerHTML = `${cancel}건`
                     document.getElementById('day_noshow').innerHTML = `${noshow}건`
 
+
+
                     let week = ['일', '월', '화', '수', '목', '금', '토']
                     document.getElementById('schedule_day').innerHTML = `${fill_zero(date.getMonth() + 1)}.${fill_zero(date.getDate())}(${week[date.getDay()]})`
 
@@ -3536,23 +3668,30 @@ function schedule_render_list(id){
 
                     let list_inner = document.getElementById('list_inner');
 
-                    let set = new Set();
-                    body.forEach(function (el){
+                    if(body.length > 0){
+                        let set = new Set();
+                        body.forEach(function (el){
 
-                        set.add(el.product.worker);
+                            set.add(el.product.worker);
 
-                    })
+                        })
 
                         list_inner.innerHTML = '';
-                    set.forEach(function (el){
+                        set.forEach(function (el){
 
-                        list_inner.innerHTML +=`<div class="reserve-calendar-list-group">
+                            list_inner.innerHTML +=`<div class="reserve-calendar-list-group">
                                                 <div class="con-title-group">
                                                     <h5 class="con-title worker_id">${el === id ? '실장' : el}</h5>
                                                 </div>
                                                 <div class="reserve-calendar-list-data" id="list-data-${el}"></div>
                                             </div>`
-                    })
+                        })
+                    }else{
+
+
+                        list_inner.innerHTML = `<div style="height:300px; margin:0 auto; line-height: 300px; text-align: center">확정된 예약일정이 없습니다.</div>`
+                    }
+
 
 
                     resolve(body);
@@ -3569,7 +3708,6 @@ function schedule_render_list(id){
 function _schedule_render_list(body){
 
 
-    console.log(body)
 
 
     let color;
@@ -3617,6 +3755,13 @@ function _schedule_render_list(body){
             }
         })
     })
+
+
+    if(document.getElementById('list_inner')){
+        document.getElementById('list_inner').style.display = 'block';
+        document.getElementById('list_schedule_loading').style.display = 'none';
+    }
+
 
 }
 
@@ -3835,7 +3980,7 @@ function reserve_prohibition(id){
             fi_date:end,
         },
         success:function(res){
-            console.log(res)
+
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -3882,7 +4027,6 @@ function reserve_search(id){
                         body = [body];
                     }
 
-                    console.log(body)
 
                     if(body.length > 0 ){
                         document.getElementById('common_none_data').setAttribute('style','display:none');
@@ -4004,7 +4148,6 @@ function reserve_prohibition_list(id){
             fi_date:fi_date,
         },
         success:function (res){
-            console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -4018,7 +4161,7 @@ function reserve_prohibition_list(id){
                 }
 
                 if(body.length > 0){
-                    console.log(body)
+
 
 
                     if(location.href.match('reserve_beauty_day')){
@@ -4140,6 +4283,16 @@ function reserve_prohibition_list(id){
                 }
             }
 
+        },
+        complete:function(){
+
+            if(document.getElementById('week_schedule_card_body')){
+                document.getElementById('week_schedule_card_body').style.display = 'block';
+                document.getElementById('week_schedule_loading').style.display ='none';
+                console.log('!')
+                document.getElementById('btn-schedule-prev').removeAttribute('disabled');
+                document.getElementById('btn-schedule-next').removeAttribute('disabled');
+            }
         }
     })
 }
@@ -4314,9 +4467,6 @@ function reserve_merchandise_load_init(id){
                         } else if (head.code === 200) {
 
 
-
-
-                            console.log(body)
                             let service = document.getElementById('service');
                             let service2 = document.getElementById('service2');
                             let basic_service = document.getElementById('basic_service');
@@ -4873,7 +5023,6 @@ function reserve_merchandise_load_2(base_svc){
 
 function reserve_merchandise_load_3(base_svc){
 
-    console.log(base_svc);
 
     Array.from(document.getElementsByClassName('toggle-button-cell-service')).forEach(function(el){
 
@@ -5318,10 +5467,8 @@ let beauty,bath,add_svc;
 
         weight_price = weight_input === null ? '' : weight_input.getAttribute('data-price');
         hair_length_price = hair_length_input === null ? '' : hair_length_input.getAttribute('data-price');
-        console.log("dog");
     }else{
 
-        console.log("cat");
         beauty = beauty_input === null ? '' : beauty_input.value;
         bath = bath_input === null ? '' : bath_input.value;
 
@@ -5404,9 +5551,6 @@ let beauty,bath,add_svc;
 
         }
     })
-
-
-    console.log(total_price)
 
 
 
@@ -5632,50 +5776,50 @@ let beauty,bath,add_svc;
 
 
     }
-
-
-
-    console.log('---------------------')
-    console.log(`partner_id : ${login}`);
-    console.log(`wokrer : ${document.getElementById('reserveCalendarPop2').getAttribute('data-name')}`)
-    console.log(`customer_id : ${document.getElementById('customer_id').value}`)
-    console.log(`cellphone : ${cellphone}`)
-    console.log(`pet_seq : ${document.getElementById('pet_seq').value}`)
-    console.log(`animal : ${breed}`)
-    console.log(`pet_type:${breed_select}`)
-    console.log(`pet_name :${name}`)
-    console.log(`pet_year : ${pet_year}`);
-    console.log(`pet_month : ${pet_month}`)
-    console.log(`pet_day : ${pet_date}`)
-    console.log(`gender:${gender}`)
-    console.log(`neutral:${neutral}`)
-    console.log(`weight:${weight}`)
-    console.log(`beauty_exp:${beauty_exp}`)
-    console.log(`vaccination:${vaccination}`)
-    console.log(`luxation:${luxation}`)
-    console.log(`bite:${bite}`)
-    console.log(`dermatosis:${dermatosis}`)
-    console.log(`heart_trouble:${heart_trouble}`)
-    console.log(`marking:${marking}`)
-    console.log(`mounting:${mounting}`)
-    console.log(`year:${date.getFullYear()}`)
-    console.log(`month:${date.getMonth()+1}`)
-    console.log(`day:${date.getDate()}`)
-    console.log(`hour:${document.getElementById('reserve_st_time').value.split(':')[0]}`)
-    console.log(`min:${document.getElementById('reserve_st_time').value.split(':')[1]}`)
-    console.log(`session_id:${session}`)
-    console.log(`order_id:''`)
-    console.log(`local_price:${total_price}`)
-    console.log(`pay_type:'pos-card'`)
-    console.log(`pay_status:'pos'`)
-    console.log(`pay_data : ${JSON.stringify(pay_data)}`)
-    console.log(`to_hour :${document.getElementById('reserve_fi_time').value.split(':')[0]}`)
-    console.log(`to_min:${document.getElementById('reserve_fi_time').value.split(':')[1]}`)
-    console.log(`use_coupon_yn:'N'`)
-    console.log(`is_vat : ${is_vat}`)
-    console.log(`product : ${product}`)
-    console.log(`reserve_yn : ${document.getElementById('notice_check').getAttribute('data-notice')}`)
-    console.log(`aday_ago_yn :${yesterday ? 'Y':'N'}`)
+    //
+    //
+    //
+    // console.log('---------------------')
+    // console.log(`partner_id : ${login}`);
+    // console.log(`wokrer : ${document.getElementById('reserveCalendarPop2').getAttribute('data-name')}`)
+    // console.log(`customer_id : ${document.getElementById('customer_id').value}`)
+    // console.log(`cellphone : ${cellphone}`)
+    // console.log(`pet_seq : ${document.getElementById('pet_seq').value}`)
+    // console.log(`animal : ${breed}`)
+    // console.log(`pet_type:${breed_select}`)
+    // console.log(`pet_name :${name}`)
+    // console.log(`pet_year : ${pet_year}`);
+    // console.log(`pet_month : ${pet_month}`)
+    // console.log(`pet_day : ${pet_date}`)
+    // console.log(`gender:${gender}`)
+    // console.log(`neutral:${neutral}`)
+    // console.log(`weight:${weight}`)
+    // console.log(`beauty_exp:${beauty_exp}`)
+    // console.log(`vaccination:${vaccination}`)
+    // console.log(`luxation:${luxation}`)
+    // console.log(`bite:${bite}`)
+    // console.log(`dermatosis:${dermatosis}`)
+    // console.log(`heart_trouble:${heart_trouble}`)
+    // console.log(`marking:${marking}`)
+    // console.log(`mounting:${mounting}`)
+    // console.log(`year:${date.getFullYear()}`)
+    // console.log(`month:${date.getMonth()+1}`)
+    // console.log(`day:${date.getDate()}`)
+    // console.log(`hour:${document.getElementById('reserve_st_time').value.split(':')[0]}`)
+    // console.log(`min:${document.getElementById('reserve_st_time').value.split(':')[1]}`)
+    // console.log(`session_id:${session}`)
+    // console.log(`order_id:''`)
+    // console.log(`local_price:${total_price}`)
+    // console.log(`pay_type:'pos-card'`)
+    // console.log(`pay_status:'pos'`)
+    // console.log(`pay_data : ${JSON.stringify(pay_data)}`)
+    // console.log(`to_hour :${document.getElementById('reserve_fi_time').value.split(':')[0]}`)
+    // console.log(`to_min:${document.getElementById('reserve_fi_time').value.split(':')[1]}`)
+    // console.log(`use_coupon_yn:'N'`)
+    // console.log(`is_vat : ${is_vat}`)
+    // console.log(`product : ${product}`)
+    // console.log(`reserve_yn : ${document.getElementById('notice_check').getAttribute('data-notice')}`)
+    // console.log(`aday_ago_yn :${yesterday ? 'Y':'N'}`)
 
 
 
@@ -5731,16 +5875,13 @@ let beauty,bath,add_svc;
 
         },
         success:function(res){
-
-            console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body)
-                // location.reload()
+                location.reload()
             }
 
         }
@@ -6210,7 +6351,6 @@ function exist_user_reserve(cellphone,pet_seq){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
-                    console.log(body)
 
                     document.getElementById('reserve_cellphone').value = cellphone;
                     document.getElementById('reserve_name').value = body.name;
@@ -6913,8 +7053,12 @@ function beauty_gallery_add(id,pet_seq){
 
 }
 
-function beauty_gallery_get(){
+function beauty_gallery_get(body_data){
 
+
+    let _data = body_data[3]
+
+    console.log(_data)
 
 
     return new Promise(function(resolve){
@@ -6944,6 +7088,24 @@ function beauty_gallery_get(){
 
                         body = [body];
                     }
+
+
+                    let file_path = '';
+                    if(body.length >0){
+                        file_path = `https://image.banjjakpet.com${body[0].file_path}`
+                         document.getElementById('beauty_img_target').setAttribute('src', file_path)
+                    }else{
+
+                        if(_data.type === 'dog'){
+                            file_path = `/static/images/icon/icon-pup-select-off.png`
+                            document.getElementById('beauty_img_target').setAttribute('src', file_path)
+                        }else{
+                            file_path = `/static/images/icon/icon-cat-select-off.png`
+                            document.getElementById('beauty_img_target').setAttribute('src', file_path)
+                        }
+
+                    }
+
 
                     body.forEach(function(el){
 
@@ -7523,6 +7685,8 @@ function reserve_change_time(){
                         } else if (head.code === 200) {
 
                             localStorage.removeItem('payment_idx');
+                            localStorage.removeItem('change_check');
+                            localStorage.removeItem('change_check_worker');
                             document.getElementById('msg2_txt').innerText = '변경되었습니다.'
                             pop.open('reserveAcceptMsg2');
                             return;
@@ -7538,5 +7702,60 @@ function reserve_change_time(){
     })
 
 
+
+}
+
+function change_check(){
+
+
+    let worker = document.getElementById('change_check_worker_btn').getAttribute('data-worker');
+
+    localStorage.setItem('change_check_worker',worker);
+    localStorage.setItem('change_check','1');
+
+    location.href = '/booking/reserve_beauty_week.php';
+
+}
+
+function guide_reserve_1(){
+
+    return new Promise(function(resolve){
+
+        Array.from(document.getElementsByClassName('header-worker')).forEach(function(el){
+
+
+            if(el.getAttribute('data-worker') === localStorage.getItem('change_check_worker')){
+
+
+                el.click();
+            }
+        })
+
+        resolve();
+    })
+
+
+
+
+}
+
+function guide_reserve(){
+
+
+    guide_reserve_1().then(function(){
+
+
+        Array.from(document.getElementsByClassName('calendar-week-time-item')).forEach(function(el){
+
+
+            if(el.getAttribute('data-pay') === localStorage.getItem('payment_idx')){
+
+
+                el.style.border = 'red dotted'
+            }
+
+
+        })
+    })
 
 }

@@ -78,27 +78,43 @@ function get_navi(id){
 
 function data_set(id){
 
-    $.ajax({
-        url: '/data/pc_ajax.php',
-        data: {
-            mode: 'home',
-            login_id: id,
-        },
-        type: 'POST',
-        async:false,
-        success: function (res) {
-            let response = JSON.parse(res);
-            let head = response.data.head;
-            let body = response.data.body;
-            if (head.code === 401) {
-                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-            } else if (head.code === 200) {
-                data = body;
+    return new Promise(function(resolve){
 
-                localStorage.setItem('total_count',data.total_count);
-            }
-        }
+
+
+            $.ajax({
+                url: '/data/pc_ajax.php',
+                data: {
+                    mode: 'home',
+                    login_id: id,
+                },
+                type: 'POST',
+                async:false,
+                success: function (res) {
+                    let response = JSON.parse(res);
+                    let head = response.data.head;
+                    let body = response.data.body;
+                    if (head.code === 401) {
+                        pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                    } else if (head.code === 200) {
+                        data = body;
+
+                        
+
+
+                        localStorage.setItem('total_count',data.total_count);
+
+                        resolve();
+                    }
+                }
+            })
+
+
+
     })
+
+
+
 }
 // 데이터 갱신
 function data_interval(){
@@ -392,18 +408,21 @@ function stats(){
         document.getElementById('main_reserve_graph_none').style.display = 'none';
         stats.beauty.forEach(function (el, i) {
 
-            if (el.product.pay_type.match(/card/i)) {
-                pay_type_card++;
-            } else {
-                pay_type_cash++;
-            }
+           if(el.pet.animal !== null){
+               if (el.product.pay_type.match(/card/i)) {
+                   pay_type_card++;
+               } else {
+                   pay_type_cash++;
+               }
 
-            if (el.pet.animal.match(/dog/i)) {
+               if (el.pet.animal.match(/dog/i)) {
 
-                pet_type_dog++;
-            } else {
-                pet_type_cat++;
-            }
+                   pet_type_dog++;
+               } else {
+                   pet_type_cat++;
+               }
+           }
+
         })
 
 
@@ -660,6 +679,25 @@ function _renderCalendar(id) {
                 el.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add('today');
             }
         })
+
+        if(location.href.match('home/index') || location.href === 'http://stg-partner-pc.banjjakpet.com/'){
+            window.onload = function(){
+                setTimeout(function(){
+                    document.getElementById('wrap').style.display = 'block';
+                    document.getElementById('splash').style.display = 'none';
+                    localStorage.setItem('splash','1');
+
+                },1000)
+
+
+            }
+        }
+
+
+
+
+
+
     })
 }
 
@@ -952,6 +990,21 @@ function _renderCalendar_mini(id){
                                         })
                                     }
                                     setTimeout(function(){week_drag()},200)
+
+
+                                    if(localStorage.getItem('change_check') === '1'){
+
+                                        setTimeout(function(){
+
+
+                                            guide_reserve();
+
+
+
+                                        },100)
+                                    }
+
+
 
 
 
