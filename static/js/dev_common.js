@@ -680,7 +680,8 @@ function _renderCalendar(id) {
             }
         })
 
-        if(location.href.match('home/index') || location.href === 'http://stg-partner-pc.banjjakpet.com/'){
+        // if(location.href.match('home/index') || location.href === 'http://stg-partner-pc.banjjakpet.com/'){
+        if(localStorage.getItem('splash') === '' || localStorage.getItem('splash') === undefined || localStorage.getItem('splash') === null)
             window.onload = function(){
                 setTimeout(function(){
                     document.getElementById('wrap').style.display = 'block';
@@ -691,7 +692,7 @@ function _renderCalendar(id) {
 
 
             }
-        }
+        // }
 
 
 
