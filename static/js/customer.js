@@ -13,6 +13,15 @@ function search(search_value,id) {
                 login_id:id,
                 search:search_value,
             },
+            beforeSend:function(){
+                let height;
+
+                if(document.getElementById('search_phone_data')){
+
+                    document.getElementById('search_phone_data').style.display = 'none';
+                    document.getElementById('customer_inquiry_loading').style.display = 'flex';
+                }
+            },
             success:function(res){
                 let response = JSON.parse(res);
                 let head = response.data.head;
@@ -104,11 +113,14 @@ function search(search_value,id) {
                     }else{
                         document.getElementById('search_phone_inner').innerHTML = ''
                         document.getElementById('search_phone_none_data').style.display = 'block';
+                        document.getElementById('customer_inquiry_loading').style.display ='none';
                     }
 
                 }else{
                     document.getElementById('search_phone_inner').innerHTML = ''
                     document.getElementById('search_phone_none_data').style.display = 'block';
+
+                    document.getElementById('customer_inquiry_loading').style.display ='none';
                 }
             }
         })
@@ -131,6 +143,12 @@ function search_fam(search_value,id){
             }
 
         })
+
+        if(document.getElementById('search_phone_data')){
+
+            document.getElementById('search_phone_data').style.display = 'block';
+            document.getElementById('customer_inquiry_loading').style.display ='none';
+        }
 
 
 
@@ -855,13 +873,14 @@ function customer_view(id){
                             if (head_.code === 401) {
                                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                             } else if (head_.code === 200) {
-                                console.log(body_)
+
                                 if(body_.length === undefined){
 
                                     body_ = [body_]
                                 }
 
                                 let body_data= [body,body_]
+                                console.log(body_)
 
                                 document.getElementById('customer_view_cellphone').innerText = phone_edit(localStorage.getItem('customer_select'));
                                 document.getElementById('user_table').innerHTML = `<div class="customer-user-table-row">
@@ -873,8 +892,9 @@ function customer_view(id){
                                                                                 <div class="table-user-name">
                                                                                     ${body[0].name}
                                                                                     <div class="user-grade-item">
-                                                                                        <div class="icon icon-grade-vip"></div>
-                                                                                        <div class="icon-grade-label">VIP</div>
+                                                                                        <div class="icon" id="customer_grade_icon"></div>
+                                                                                        <div class="icon-grade-label" id="customer_grade_value"></div>
+                                                                                        <button type="button" class="btn-data-modify" onclick="pop.open('memberGradeAddPop')">편집</button>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -891,7 +911,7 @@ function customer_view(id){
                                                                         </div>
                                                                         <div class="customer-user-table-data">
                                                                             <div class="table-data">
-                                                                                <div class="table-data-txt">${body_[0].product.split('|')[3]}</div>
+                                                                                <div class="table-data-txt">${body_.length === (undefined || 0) ? '' : body_[0].product.split('|')[3]   }</div>
                                                                             </div>
                                                                             <div class="table-data-side">
                                                                                 <button type="button" class="font-color-purple font-underline btn-text">알림톡 발송 조회
@@ -907,13 +927,10 @@ function customer_view(id){
                                                                             <div class="table-data">
                                                                                 <div class="customer-user-phone-wrap">
                                                                                     <div class="item-main-phone">
-                                                                                        <div class="value">${localStorage.getItem('customer_select')}</div>
-                                                                                        <button type="button" class="btn-data-modify">편집</button>
+                                                                                        <div class="value">${phone_edit(localStorage.getItem('customer_select'))}</div>
+                                                                                        <button type="button" class="btn-data-modify" onclick="pop.open('numberAddPop')">편집</button>
                                                                                     </div>
                                                                                     <div class="item-sub-phone" id="sub_cellphone">
-                                                                                        <div class="value">010-1234-1234</div>
-                                                                                        <div class="value">010-1234-1234</div>
-                                                                                        <div class="value">010-1234-1234</div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -926,7 +943,7 @@ function customer_view(id){
                                                                         <div class="customer-user-table-data">
                                                                             <div class="table-data">
                                                                                 <div>
-                                                                                    <textarea style="height:60px;" placeholder="입력"></textarea>
+                                                                                    <textarea style="height:60px;" id="customer_memo" placeholder="입력"></textarea>
                                                                                     <div class="form-input-info">*메모는 입력 후 자동 저장됩니다.</div>
                                                                                 </div>
                                                                             </div>
@@ -977,8 +994,25 @@ function customer_view_(id){
 
     customer_view(id).then(function(body_data){
 
+        document.getElementById('customer_cellphone').value = localStorage.getItem('customer_select');
         pet_reserve_info(body_data);
-        noshow_initialize(body_data);
+        noshow_initialize(id,body_data);
+        insert_customer_memo(id,body_data);
+        insert_customer_grade(id,body_data);
+        insert_customer_special(id);
+
+        $(document).ready(function(){
+
+            document.querySelector('.pet-list-btn').click();
+        })
+
+        insert_customer_usage(id);
+
+        sub_phone_pop_init(id);
+
+
+
+
 
     })
 
@@ -1056,7 +1090,6 @@ function post_grade(){
 function customer_delete(id){
 
     let cellphone = localStorage.getItem('customer_select');
-    let partner_id = id;
 
     $.ajax({
 
@@ -1065,10 +1098,11 @@ function customer_delete(id){
         data:{
 
             mode:'customer_delete',
-            partner_id:partner_id,
+            partner_id:id,
             cellphone:cellphone
         },
         success:function(res){
+            console.log(res);
             document.getElementById('msg3_txt').innerText = '삭제되었습니다.'
             pop.open('reserveAcceptMsg3');
         }
@@ -1079,45 +1113,932 @@ function customer_delete(id){
 
 function pet_reserve_info(data){
 
-    console.log(data)
 
     let pet_list = data[0];
 
+    console.log(pet_list);
 
     Array.from(document.getElementsByClassName('pet-list-btn')).forEach(function(el){
 
         el.addEventListener('click',function(){
 
 
+
             pet_list.forEach(function(el_){
+                if(parseInt(el.getAttribute('data-pet_seq'))  === el_.pet_seq){
 
-                if(parseInt(el.getAttribute('data-pet_seq')) === el_.pet_seq){
 
-                    console.log(el_)
-                }
+                    let time = new Date(el_.year,el_.month+1,el_.day).getTime()
+                    let now = new Date().getTime();
+
+                    let subtract_year= Math.floor((now-time)/1000/60/60/24/30/12);
+                    let subtract_month = Math.floor((now-time)/1000/60/60/24/30%12) ;
+
+                    console.log(el_);
+
+
+
+
+                    document.getElementById('target_pet_name').innerText = el_.name;
+                    document.getElementById('target_pet_type').innerText = el_.pet_type;
+                    document.getElementById('target_pet_gender').innerText = el_.gender;
+                    document.getElementById('target_pet_weight').innerText = `${el_.weight}kg`;
+
+                    document.getElementById('target_pet_birthday').innerText = `${el_.year}.${fill_zero(el_.month)}.${fill_zero(el_.day)}(${subtract_year}년 ${subtract_month}개월)`
+
+                    document.getElementById('target_pet_neutral').innerText = `${el_.neutral === 0 ? 'X' : 'O'}`;
+                    document.getElementById('target_pet_beauty_exp').innerText = `${el_.beauty_exp}`;
+                    document.getElementById('target_pet_vaccination').innerText = `${el_.vaccination}`;
+                    document.getElementById('target_pet_bite').innerText = `${el_.bite === '해요' || el_.bite === '1' ? '해요' : '안해요'}`;
+                    document.getElementById('target_pet_luxation').innerText = `${el_.luxation}`;
+                    document.getElementById('target_pet_special').innerText = `${el_.dermatosis ? '피부병' : ''} ${el_.heart_trouble ? '심장 질환' : ''} ${el_.marking ? '마킹': ''} ${el_.mounting ? '마운팅' : ''}`;
+                    document.getElementById('target_pet_disliked').innerText = `${el_.dt_body ? '몸':''} ${el_.dt_ear ? '귀':''} ${el_.dt_eye ? '눈':''} ${el_.dt_genitilia ? '생식기':''} ${el_.dt_leg ? '다리':''} ${el_.dt_mouth ? '입' : ''} ${el_.dt_neck ? '목':''} ${el_.dt_nose ? '코':''} ${el_.dt_tail ? '꼬리' : ''}`;
+
+
+                    document.getElementById('target_pet_etc').innerText = `${el_.etc}`;
+
+
+                    let image = '';
+                    if(el_.photo === ""){
+                        if(el_.type ==="dog"){
+                            image = '/static/images/icon/icon-pup-select-off.png'
+                        }else{
+                            image = '/static/images/icon/icon-cat-select-off.png'
+                        }
+                    }else{
+
+                        image = `https://image.banjjakpet.com${el_.photo}`
+                    }
+                    document.getElementById('target_pet_img').setAttribute('src',image);
+
+
+                    agree_birthday().then(function(){ agree_birthday_date()})
+                    agree_pet_type(artist_id);
+
+
+                    setTimeout(function (){
+                        customer_beauty_agree(artist_id,el_).then(function(data_){
+
+                            customer_beauty_agree_(data_);
+                        });
+
+
+                    },50)
+
+
+
+               }
+
             })
-
 
 
         })
     })
 }
 
-function noshow_initialize(data){
-
-    let payment_list = data[1];
+function noshow_initialize(id,data){
 
 
-    document.getElementById('noshow_initialize_btn').addEventListener('click',function(){
+    if(document.getElementById('noshow_initialize_btn')){
 
 
-        payment_list.forEach(function(el){
+        document.getElementById('noshow_initialize_btn').addEventListener('click',function(){
 
-            if(el.is_no_show === 1){
 
-                console.log(el)
+            $.ajax({
+
+                url:'/data/pc_ajax.php',
+                type:'post',
+                data:{
+                    mode:'cancel_noshow',
+                    partner_id:id,
+                    payment_idx:0,
+                    cellphone:localStorage.getItem('customer_select')
+
+                },
+                success:function (res){
+
+                    console.log(res);
+
+                    localStorage.removeItem('noshow_cnt');
+                    document.getElementById('msg2_txt').innerText = '노쇼가 초기화 되었습니다.'
+                    pop.open('reserveAcceptMsg2');
+                    return;
+                }
+            })
+        })
+    }
+
+}
+
+
+function insert_customer_memo(id,data){
+
+
+    let customer_id = data[0][0].customer_id;
+    let tmp_seq = data[0][0].tmp_seq;
+    let cellphone = localStorage.getItem('customer_select');
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:'get_customer_memo',
+            login_id:id,
+            customer_id:customer_id,
+            tmp_seq:tmp_seq,
+            cellphone:cellphone
+        },
+        success:function (res){
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+
+                document.getElementById('customer_memo').innerText = body.memo;
+
+                document.getElementById('customer_memo').addEventListener('change',function(){
+
+
+
+                    $.ajax({
+
+                        url:'/data/pc_ajax.php',
+                        type:'post',
+                        data:{
+                            mode:'put_customer_memo',
+                            idx:body.scm_seq,
+                            memo:document.getElementById('customer_memo').value,
+                        },
+                        success:function (res){
+
+                        }
+                    })
+
+                })
+
+            }
+
+        }
+
+    })
+
+
+
+}
+
+function insert_customer_grade(id,data){
+
+
+    let customer_id = data[0][0].customer_id !== "" ? data[0][0].customer_id : '';
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:'get_customer_grade',
+            partner_id:id,
+            cellphone:localStorage.getItem('customer_select'),
+
+        },success:function (res){
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+
+
+                let grade= '';
+                switch(body.grade_ord){
+
+                    case 1: grade = 'vip'; break;
+                    case 2: grade = 'normal'; break;
+                    case 3: grade = 'normalb'; break;
+                }
+
+
+                document.getElementById('customer_grade_icon').classList.add(`icon-grade-${grade}`);
+                document.getElementById('customer_grade_value').innerText= body.grade_name;
+
+                document.getElementById('memberGrageMsg').innerText = `현재 ${data[0][0].name} (${phone_edit(localStorage.getItem('customer_select'))}) 고객님의 등급은 ${body.grade_name} 입니다.`
+
+
+                $.ajax({
+
+                    url:'/data/pc_ajax.php',
+                    type:'post',
+                    data:{
+                        mode:'get_grade',
+                        login_id:id,
+
+                    },
+                    success:function(res){
+                        let response = JSON.parse(res);
+                        let head = response.data.head;
+                        let body_ = response.data.body;
+                        if (head.code === 401) {
+                            pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                        } else if (head.code === 200) {
+
+                            body_.forEach(function(el){
+
+                                if(el.is_delete !== 1){
+
+
+                                    document.getElementById('memberGradeSelect').innerHTML += `<option data-ord="${el.grade_ord}" value="${el.idx}">${el.grade_name}</option>`
+
+
+
+                                }
+                            })
+
+                            document.getElementById('set_grade_btn').addEventListener('click',function(){
+
+
+                                set_grade(body,customer_id);
+                            })
+                        }
+                    }
+
+                })
+            }
+
+        }
+
+    })
+}
+
+
+function set_grade(data,customer_id){
+
+
+    let customer_idx = data.customer_idx;
+
+    let grade_idx = document.getElementById('memberGradeSelect').value;
+
+
+
+
+    if(customer_idx >0){
+
+
+        $.ajax({
+
+            url:'/data/pc_ajax.php',
+            type:'post',
+            data:{
+                mode:"put_customer_grade_1",
+                customer_idx:customer_idx,
+                grade_idx:grade_idx
+            },
+            success:function(res) {
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+
+                    document.getElementById('msg2_txt').innerText = '변경되었습니다.'
+                    pop.open('reserveAcceptMsg2');
+
+                }
+
+
+            }
+
+        })
+
+    }else{
+
+        $.ajax({
+
+            url:'/data/pc_ajax.php',
+            type:'post',
+            data:{
+
+                mode:"put_customer_grade_2",
+                grade_idx:grade_idx,
+                customer_id:customer_id,
+
+            },
+            success:function(res) {
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+
+                    document.getElementById('msg2_txt').innerText = '변경되었습니다.'
+                    pop.open('reserveAcceptMsg2');
+
+                }
             }
         })
+
+    }
+}
+
+function insert_customer_special(id){
+
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:'get_customer_special',
+            partner_id:id,
+            cellphone:localStorage.getItem('customer_select')
+        },
+        success:function(res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+
+                if(body.length === undefined){
+
+                    body = [body];
+                }
+
+                body.forEach(function(el){
+
+                    document.getElementById('special_note').innerHTML =`<div class="grid-layout-cell grid-2 note-toggle-cell">
+                                                                                        <div class="special-note">
+                                                                                            <div class="note-desc"><em>${el.recent}</em>
+                                                                                                <div class="txt">${el.etc_memo}
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>`
+
+                })
+
+            }
+        }
     })
+
+}
+
+function customer_beauty_agree(id,el){
+
+    return new Promise(function(resolve){
+
+        let pet_seq = el.pet_seq;
+
+        $.ajax({
+
+            url:'/data/pc_ajax.php',
+            type:'post',
+            data:{
+                mode:'get_beauty_agree',
+                partner_id:id,
+                pet_idx:pet_seq
+            },
+            success:function(res) {
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+
+                    if(body.length ===0){
+
+                        document.getElementById('beauty_agree_title').innerText ='미용 동의서 작성';
+                        document.getElementById('agree_name').value = '';
+                        document.getElementById('beauty_agree_view').innerHTML =  `<button type="button" class="btn btn-outline-gray btn-vsmall-size btn-inline" id="beauty_agree_btn">미용 동의서 작성</button>`
+
+                        document.getElementById('beauty_agree_btn').addEventListener('click',function(){
+
+                            pop.open('beautyAgreeWritePop')
+                        })
+                        document.getElementById('beauty_agree_all_btn').removeAttribute('checked');
+                        document.getElementById('beauty_agree_1_btn').removeAttribute('checked');
+                        document.getElementById('beauty_agree_2_btn').removeAttribute('checked');
+                        document.getElementById('agree_cellphone').value = localStorage.getItem('customer_select');
+                        if(el.type==='dog'){
+
+                            document.getElementById('agree_breed1').click();
+                        }else{
+
+                            document.getElementById('agree_breed2').click();
+                        }
+
+                        document.getElementById('beauty_agree_footer').innerHTML =`<a href="#" class="btn-page-bottom" onClick="beauty_agree_submit(artist_id,${
+                            
+                            pet_seq})">저장</a>`
+
+
+                        document.getElementById('user_sign_wrap').innerHTML = `<canvas id="cview2"></canvas>`
+                        let wrapper = document.getElementById('signature_pad');
+                        let clear_btn = document.getElementById('signature_clear');
+
+                        let canvas = document.getElementById('cview2');
+
+                        let signature_pad = new SignaturePad(canvas,{
+
+                            backgroundColor:'rgb(255,255,255)'
+                        })
+
+                        canvas.width = canvas.parentElement.offsetWidth;
+                        canvas.height=canvas.parentElement.offsetHeight;
+
+
+                        clear_btn.addEventListener("click", function (event) {
+                            signature_pad.clear();
+                        });
+
+
+
+
+                        resolve(el)
+
+
+                    }else{
+
+                        document.getElementById('beauty_agree_view').innerHTML = `<button type="button" class="btn btn-outline-gray btn-vsmall-size btn-inline" id="beauty_agree_view_btn">미용 동의서 보기</button>`
+
+
+                        setTimeout(function(){
+                            document.getElementById('beauty_agree_view_btn').addEventListener('click',function(){
+
+
+
+                                    document.getElementById('beauty_agree_title').innerText ='미용 동의서 보기';
+                                    document.getElementById('agree_name').value = body.customer_name;
+                                document.getElementById('agree_cellphone').value = localStorage.getItem('customer_select');
+                                if(el.type==='dog'){
+
+                                    document.getElementById('agree_breed1').click();
+                                }else{
+
+                                    document.getElementById('agree_breed2').click();
+                                }
+                                resolve(el);
+                                    document.getElementById('agree_name2').innerText = body.customer_name;
+
+                                    document.getElementById('beauty_agree_all_btn').setAttribute('checked',true);
+                                    document.getElementById('beauty_agree_1_btn').setAttribute('checked',true);
+                                    document.getElementById('beauty_agree_2_btn').setAttribute('checked',true);
+                                    document.getElementById('agree_date').innerText= `${body.reg_date.substr(0,4)}.${body.reg_date.substr(4,2)}.${body.reg_date.substr(6,2)}`
+                                    // document.getElementById('signature_clear').remove();
+                                    document.getElementById('user_sign_wrap').innerHTML = `<img src="https://image.banjjakpet.com${body.image}" alt="">`
+                                pop.open('beautyAgreeWritePop');
+
+                                    setTimeout(function(){
+                                        document.getElementById('beauty_agree_footer').innerHTML = '';
+
+                                    },100)
+
+
+
+
+
+                            });
+
+                        },50)
+
+                    }
+
+
+                }
+            }
+
+        })
+    })
+
+}
+
+function customer_beauty_agree_(_data){
+
+    console.log(_data.pet_type)
+
+    document.getElementById('agree_date').innerText = `${new Date().getFullYear()}.${fill_zero(new Date().getMonth()+1)}.${fill_zero(new Date().getDate())}`
+    document.getElementById('agree_name').addEventListener('change',function(){
+
+        document.getElementById('agree_name2').innerText = document.getElementById('agree_name').value;
+    })
+    document.getElementById('agree_info').innerText = `${data.shop_name}은(는) 미용요청견(묘)의 나이가 10세 이상인 노령견(묘)이나, 질병이 있는 경우 건강상태를 고려하여 안내사항을 말씀드리고, 미용 동의서를 받고자 합니다.`
+
+    setTimeout(function (){
+
+        for(let i=0; i<document.getElementById('agree_breed_select').options.length; i++){
+
+            if(document.getElementById('agree_breed_select').options[i].value === _data.pet_type){
+
+                document.getElementById('agree_breed_select').options[i].selected = true;
+            }
+        }
+    },500)
+
+
+    if(_data.gender === '남아'){
+
+        document.getElementById('agree_gender1').checked = true;
+    }else{
+
+        document.getElementById('agree_gender2').checked = true;
+    }
+
+
+    if(_data.neutral === 0){
+
+        document.getElementById('agree_neutralize1').checked = true;
+    }else{
+
+        document.getElementById('agree_neutralize2').checked=true;
+    }
+
+    for(let i=0; i<document.getElementById('agree_birthday_year').options.length; i++){
+
+        if(document.getElementById('agree_birthday_year').options[i].value == _data.year){
+
+            document.getElementById('agree_birthday_year').options[i].selected = true;
+        }
+    }
+
+    for(let i=0; i<document.getElementById('agree_birthday_month').options.length; i++){
+
+        if(document.getElementById('agree_birthday_month').options[i].value == fill_zero(_data.month)){
+
+            document.getElementById('agree_birthday_month').options[i].selected = true;
+        }
+    }    for(let i=0; i<document.getElementById('agree_birthday_date').options.length; i++){
+
+        if(document.getElementById('agree_birthday_date').options[i].value === fill_zero(_data.day)){
+
+            document.getElementById('agree_birthday_date').options[i].selected = true;
+        }
+    }
+
+
+    for(let i=0; i<document.getElementById('agree_vaccination').options.length; i++){
+
+        if(document.getElementById('agree_vaccination').options[i].value === _data.vaccination){
+
+            document.getElementById('agree_vaccination').options[i].selected = true;
+        }
+    }
+
+    if(_data.heart_trouble === 1){
+
+        document.getElementById('disease2').checked = true;
+    }
+
+    if(_data.dermatosis === 1){
+
+        document.getElementById('disease3').checked =true;
+    }
+
+    if(_data.bite == 1 || _data.bite === "해요"){
+
+        document.getElementById('agree_special1').checked =true;
+    }
+
+    if(_data.marking === 1){
+
+        document.getElementById('agree_special2').checked = true;
+    }
+
+    if(_data.mounting === 1){
+
+        document.getElementById('agree_special3').checked = true;
+    }
+
+    for (let i =0; i<document.getElementById('agree_luxation').options.length; i++){
+
+        if(document.getElementById('agree_luxation').options[i].value === _data.luxation){
+
+            document.getElementById('agree_luxation').options[i].selected = true;
+        }
+    }
+
+
+
+
+
+
+
+
+}
+
+
+function insert_customer_usage(id){
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data: {
+
+            mode: 'usage_history',
+            login_id: id,
+            cellphone: localStorage.getItem('customer_select')
+        },
+        success:function(res){
+
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+
+                console.log(body)
+                if(body.length === undefined){
+
+                    body = [body]
+                }
+
+                if(body.length > 0){
+
+                    body.forEach(function(el,i){
+
+                        document.getElementById('usage_history_list').innerHTML += `<tr class="customer-table-cell"  onclick="if(document.getElementById('customer_table_view_${i}').classList.contains('actived')){document.getElementById('customer_table_view_${i}').classList.remove('actived')}else{document.getElementById('customer_table_view_${i}').classList.add('actived')}; if(document.getElementById('customer_table_cell_${i}').classList.contains('actived')){document.getElementById('customer_table_cell_${i}').classList.remove('actived')}else{document.getElementById('customer_table_cell_${i}').classList.add('actived')}">
+                                                                                                    <td>
+                                                                                                        <!-- customer-table-toggle 클래스에 actived클래스 추가시 활성화 -->
+                                                                                                        <button type="button" class="customer-table-toggle type-2 actived" id="customer_table_cell_${i}">
+                                                                                                            <span class="toggle-title"><span class="ellipsis">${el.product.split('|')[0]}</span></span>
+                                                                                                        </button>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <div class="customer-table-txt">${el.year}.${fill_zero(el.month)}.${fill_zero(el.day)}</div>
+                                                                                                        <div class="customer-table-txt">${am_pm_check(el.hour)}:${fill_zero(el.minute)}</div>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <div class="customer-table-txt" style="font-size:10px;">${el.product.split('|')[3]}</div>
+                                                                                                        <div class="customer-table-txt" style="font-size:10px;">${el.product.split('|')[4]}</div>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <div class="customer-table-txt" style="font-size:10px;">${el.local_price === "" ? '0' : el.local_price}원</div>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <div class="customer-table-txt" style="font-size:10px;">${el.local_price_cash === "" ? '0' : el.local_price_cash}원</div>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                                <!-- actived클래스 추가시 활성화 -->
+                                                                                                <tr class="customer-table-view" id="customer_table_view_${i}">
+                                                                                                    <td colSpan="5">
+                                                                                                        <div class="flex-table">
+                                                                                                            <div class="flex-table-cell">
+                                                                                                                <div class="flex-table-item">
+                                                                                                                    <div class="flex-table-title">
+                                                                                                                        <div class="txt">예약일시</div>
+                                                                                                                    </div>
+                                                                                                                    <div class="flex-table-data">
+                                                                                                                        <div class="flex-table-data-inner">
+                                                                                                                            ${el.buy_time.substr(0,4)}.${el.buy_time.substr(4,2)}.${el.buy_time.substr(6,2)} ${el.buy_time.substr(8,2)}:${el.buy_time.substr(10,2)}:${el.buy_time.substr(12,2)}
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            <div class="flex-table-cell">
+                                                                                                                <div class="flex-table-item">
+                                                                                                                    <div class="flex-table-title">
+                                                                                                                        <div class="txt">미용사</div>
+                                                                                                                    </div>
+                                                                                                                    <div class="flex-table-data">
+                                                                                                                        <div class="flex-table-data-inner">
+                                                                                                                            ${el.worker}
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            <div class="flex-table-cell">
+                                                                                                                <div class="flex-table-item">
+                                                                                                                    <div class="flex-table-title">
+                                                                                                                        <div class="txt">추가</div>
+                                                                                                                    </div>
+                                                                                                                    <div class="flex-table-data">
+                                                                                                                        <div class="flex-table-data-inner">
+                                                                                                                            ${el.product.split('|')[8]}
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            <div class="flex-table-cell">
+                                                                                                                <div class="flex-table-item">
+                                                                                                                    <div class="flex-table-title">
+                                                                                                                        <div class="txt">취소일시</div>
+                                                                                                                    </div>
+                                                                                                                    <div class="flex-table-data">
+                                                                                                                        <div class="flex-table-data-inner">
+                                                                                                                            ${el.is_cancel === 1 ? el.cancel_time : 'X'}
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            <div class="flex-table-cell">
+                                                                                                                <div class="flex-table-item">
+                                                                                                                    <div class="flex-table-title">
+                                                                                                                        <div class="txt">적립금</div>
+                                                                                                                    </div>
+                                                                                                                    <div class="flex-table-data">
+                                                                                                                        <div class="flex-table-data-inner">
+                                                                                                                            사용:0 누적:0
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            <div class="flex-table-cell">
+                                                                                                                <div class="flex-table-item">
+                                                                                                                    <div class="flex-table-title">
+                                                                                                                        <div class="txt">결제방식</div>
+                                                                                                                    </div>
+                                                                                                                    <div class="flex-table-data">
+                                                                                                                        <div class="flex-table-data-inner">
+                                                                                                                            ${el.pay_type === 'pos-card' ? '카드' : '현금'}
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </td>
+                                                                                                </tr>`
+
+                    })
+                }
+            }
+        }
+
+    })
+}
+
+function sub_phone_pop_init(id){
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:'get_sub_phone',
+            partner_id:id,
+            cellphone:localStorage.getItem('customer_select')
+        },
+        success:function(res) {
+
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+
+
+                if(body.length === undefined){
+
+                    body = [body];
+                }
+
+                console.log(body)
+                body.forEach(function(el,i){
+
+
+                    if(i <3){
+
+
+                        document.getElementById('sub_cellphone').innerHTML += `<div class="value">${el.from_cellphone}</div>`
+                    }
+                    if(i === 3){
+                        document.getElementById('sub_cellphone').innerHTML += `<div class="value">외 ${el.length-3}개 연락처</div>`
+                    }
+
+
+                    document.getElementById('phone_add_list').innerHTML += `<div class="phone-add-item">
+                                                                                        <!--                                <div class="item-check"><label for="phone1" class="form-radiobox"><input type="radio" id="phone1" name="phone"><span class="form-check-icon"><em>대표</em></span></label></div>-->
+                                                                                        <div class="item-data">
+                                                                                            <div class="phone-add-item-value">
+                                                                                                <div class="phone-add-name">
+                                                                                                    <div class="ellipsis">${el.from_nickname}</div>
+                                                                                                </div>
+                                                                                                <div class="phone-add-num">
+                                                                                                    <div class="ellipsis">${el.from_cellphone}</div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="item-ui">
+                                                                                            <button type="button" class="btn-phone-del" onclick="document.getElementById('msg4_txt').innerText = '해당 연락처를 삭제하시겠습니까?' ;pop.open('reserveAcceptMsg4'); document.getElementById('reserveAcceptMsg4').setAttribute('data-seq',\'${el.family_seq}\')"><span
+                                                                                                class="icon icon-phone-add-del"></span></button>
+                                                                                        </div>
+                                                                                    </div>`
+                })
+
+
+                document.getElementById('phone_add_list').innerHTML += `<div class="phone-add-input">
+                                                                                        <div class="form-group">
+                                                                                            <div class="form-group-cell">
+                                                                                                <div class="form-group-item">
+                                                                                                    <div class="form-item-label">등록이름</div>
+                                                                                                    <div class="form-item-data type-6">
+                                                                                                        <input type="text" class="" placeholder="입력" id="add_sub_cellphone_1" ${body.length >2 ? 'disabled':''} >
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="form-group-cell">
+                                                                                                <div class="form-group-item">
+                                                                                                    <div class="form-item-label">전화번호</div>
+                                                                                                    <div class="form-item-data type-6">
+                                                                                                        <input type="text" class="" placeholder="'-' 제외하고 입력" id="add_sub_cellphone_2" ${body.length >2 ? 'disabled':''}>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="form-input-info">*보조연락처는 3개까지 등록 가능합니다.</div>`
+
+
+                setInputFilter(document.getElementById("add_sub_cellphone_2"), function(value) {
+                    return /^\d*\.?\d*$/.test(value);
+                })
+            }
+
+        }
+
+    })
+
+}
+
+function delete_sub_phone(){
+
+    let seq = document.getElementById('reserveAcceptMsg4').getAttribute('data-seq');
+
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:'delete_sub_phone',
+            sub_phone_idx:seq,
+        },
+        success:function(res) {
+            console.log(res);
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+
+                console.log(body);
+
+                document.getElementById('msg2_txt').innerText = '삭제되었습니다.'
+                pop.open('reserveAcceptMsg2');
+                return;
+            }
+        }
+
+    })
+}
+
+function add_sub_phone(id){
+
+
+    let main_phone = localStorage.getItem('customer_select');
+    let sub_name = document.getElementById('add_sub_cellphone_1').value;
+    let sub_phone = document.getElementById('add_sub_cellphone_2').value;
+
+    $.ajax({
+
+        url: '/data/pc_ajax.php',
+        type: 'post',
+        data: {
+            mode:'add_sub_phone',
+            partner_id: id,
+            main_phone: main_phone,
+            sub_name: sub_name,
+            sub_phone: sub_phone,
+        },
+        success: function (res) {
+            console.log(res);
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                document.getElementById('msg2_txt').innerText = '등록록되었습다.'
+                pop.open('reserveAcceptMsg2');
+                return;
+
+            }
+
+        }
+    })
+
+
 
 }

@@ -673,7 +673,7 @@ if ($artist_flag == 1) {
                                     <div class="wide-tab">
                                         <div class="wide-tab-inner" id="wide-tab-inner2">
                                             <!-- 활성화시 actived클래스 추가 -->
-                                            <div class="tab-cell hit actived"><button type="button" class="btn-tab-item" id="basic_service_btn"><span>기본 서비스</span></button></div>
+                                            <div class="tab-cell"><button type="button" class="btn-tab-item" id="basic_service_btn"><span>기본 서비스</span></button></div>
                                             <div class="tab-cell"><button type="button" class="btn-tab-item" id="other_service_btn"><span>추가</span></button></div>
                                         </div>
                                     </div>

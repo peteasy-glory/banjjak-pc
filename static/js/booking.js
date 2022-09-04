@@ -2325,7 +2325,7 @@ function pay_management(id){
             } else if (head.code === 200) {
 
                 let work_body_inner = document.getElementById('work_body_inner');
-                let data_col_right = document.getElementById('data_col_right');
+                let data_col_right = document.getElementById('data_col_right_1');
 
                 let data = body.disliked_part;
                 let text = '';
@@ -2368,7 +2368,7 @@ function pay_management(id){
                 // work_body_inner.innerHTML = ''
 
 
-                work_body_inner.innerHTML += `<div class="basic-data-group vsmall">
+                work_body_inner.innerHTML += `<div  id="manage_1"><div class="basic-data-group vsmall" >
                                         <div class="con-title-group">
                                             <h4 class="con-title">예약자 정보</h4>
                                         </div>
@@ -2405,11 +2405,10 @@ function pay_management(id){
                                                                 <div class="item-main-phone">
                                                                     <div class="value" id="cellphone_detail">${body.cell_phone}</div>
                                                                 </div>
-<!--                                                                <div class="item-sub-phone">-->
-<!--                                                                -->
-<!--                                                                    <div class="value">010-1234-1234</div>-->
-<!--                                                                    -->
-<!--                                                                </div>-->
+                                                                <div class="item-sub-phone" id="item_sub_phone">
+                                                                
+                                                                
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2566,7 +2565,8 @@ function pay_management(id){
                                                                 </div>
                                                                 <div class="flex-table-data">
                                                                     <div class="flex-table-data-inner">
-                                                                        ${body.etc === "" ? '없음' : body.etc}
+                                                                    ${body.dermatosis ? '피부병' : '' } ${body.heart_trouble ? '심장 질환' : ''} ${body.marking ? '마킹': ''} ${body.mounting ? '마운팅' : ''}
+                                                                        
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -2590,7 +2590,7 @@ function pay_management(id){
                                                                 </div>
                                                                 <div class="flex-table-data">
                                                                     <div class="flex-table-data-inner">
-                                                                        ${body.dermatosis ? '피부병' : '' } ${body.heart_trouble ? '심장 질환' : ''} ${body.marking ? '마킹': ''} ${body.mounting ? '마운팅' : ''}
+                                                                        ${body.etc === "" ? '없음' : body.etc}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -2689,7 +2689,7 @@ function pay_management(id){
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>`
+                                                </div></div>`
 
                 
                 
@@ -2823,6 +2823,32 @@ function pay_management(id){
 function pay_management_(id){
 
     pay_management(id).then(function (body_){
+
+        management_wide_tab()
+        wide_tab();
+
+        let sub_phone;
+        if(body_[3].sub_phone !== ""){
+            sub_phone = body_[3].sub_phone.split(',');
+
+            sub_phone.forEach(function (el,i){
+
+                if(i<3){
+                    document.getElementById('item_sub_phone').innerHTML += `<div class="value">${el.split('|')[1]}</div>`
+                }
+
+                if(i===3){
+
+                    document.getElementById('item_sub_phone').innerHTML += `<div class="value">외 ${sub_phone.length -3}개 연락처처</div>`
+                }
+
+           })
+        }
+
+
+
+
+        document.getElementById('item_sub_phone').innerHTML += ``
 
         body_[0].forEach(function (el){
 
@@ -3125,6 +3151,18 @@ function pay_management_(id){
         beauty_gallery_get(body_).then(function(){
 
             beauty_gallery_add(id,body_[2]);
+        });
+
+
+        management_service_1(id,body_).then(function(body){
+
+            management_service_2(body).then(function(base_svc){
+
+                management_service_3(base_svc).then(function(base_svc){
+
+                    management_service_4(base_sv);
+                })
+            })
         });
 
 
@@ -6506,7 +6544,7 @@ function exist_user_reserve_init(body){
     }
 }
 
-function set_noshow(){
+function set_noshow(id){
 
 
     let payment_idx = localStorage.getItem('payment_idx');
@@ -6518,6 +6556,8 @@ function set_noshow(){
         data:{
 
             mode:'set_noshow',
+            partner_id:"",
+            cellphone:"",
             payment_idx:payment_idx
         },
         success:function(res) {
@@ -6548,6 +6588,8 @@ function cancel_noshow(){
         data:{
 
             mode:'cancel_noshow',
+            partner_id:"",
+            cellphone:"",
             payment_idx:payment_idx
         },
         success:function(res) {
@@ -7054,6 +7096,7 @@ function beauty_gallery_add(id,pet_seq){
 }
 
 function beauty_gallery_get(body_data){
+
 
 
     let _data = body_data[3]
@@ -7565,18 +7608,25 @@ function beauty_agree_submit(id,pet_seq){
     }
 
 
-
-    if(signature_pad.isEmpty()){
-
-        document.getElementById('msg1_txt').innerText = '서명을 작성해주세요.'
-        pop.open('reserveAcceptMsg1');
-        return;
-    }
+    //
+    // if(signature_pad.isEmpty()){
+    //
+    //     document.getElementById('msg1_txt').innerText = '서명을 작성해주세요.'
+    //     pop.open('reserveAcceptMsg1');
+    //     return;
+    // }
 
 
     let data_url = signature_pad.toDataURL();
     let artist_id = id;
-    let customer_id = document.getElementById('customer_id').innerText;
+
+    let customer_id ='';
+
+    if(document.getElementById('customer_id')) {
+
+        customer_id = document.getElementById('customer_id').innerText;
+    }
+
     let customer_name = document.getElementById('agree_name').value;
     let pet_idx = pet_seq;
     let cellphone = document.getElementById('agree_cellphone').value;
@@ -7757,5 +7807,547 @@ function guide_reserve(){
 
         })
     })
+
+}
+
+function management_wide_tab(){
+
+    document.getElementById('manage_1_btn').addEventListener('click',function (){
+
+            document.getElementById('manage_1').style.display = 'block';
+            document.getElementById('manage_2').style.display = 'none';
+            document.getElementById('data_col_right_1').style.display = 'block';
+            document.getElementById('data_col_right_2').style.display = 'none';
+
+    })
+
+
+    document.getElementById('manage_2_btn').addEventListener('click',function (){
+
+
+            document.getElementById('manage_1').style.display = 'none';
+            document.getElementById('manage_2').style.display = 'block';
+        document.getElementById('data_col_right_1').style.display = 'none';
+        document.getElementById('data_col_right_2').style.display = 'block';
+        }
+    )
+}
+
+function management_service_1(id,data){
+
+    // reserve_merchandise_load_init(id).then(function(body){
+    //     reserve_merchandise_load(body).then(function(base_svc){
+    //
+    //         reserve_merchandise_load_2(base_svc).then(function (base_svc){
+    //
+    //             reserve_merchandise_load_3(base_svc)
+    //
+    //         })
+    //     })
+    // })
+
+    return new Promise(function (resolve){
+
+        console.log(data)
+
+        let body = data[3];
+        let type = body.type;
+
+        $.ajax({
+
+            url:'/data/pc_ajax.php',
+            type:'post',
+            data:{
+                mode:'merchandise',
+
+                login_id:id,
+                animal:type,
+            },
+            success:function (res){
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+
+                    let service = document.getElementById('service');
+                    let service2 = document.getElementById('service2');
+                    let basic_service_inner = document.getElementById('basic_service_inner');
+                    let other_service_inner = document.getElementById('other_service_inner');
+                    let other2_service_inner = document.getElementById('other2_service_inner');
+                    let other3_service_inner = document.getElementById('other3_service_inner');
+
+
+                    basic_service_inner.innerHTML = '';
+                    other_service_inner.innerHTML ='';
+
+                    if(type === 'dog'){
+
+                        if(body.base_svc.length > 0){
+
+                            basic_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
+                                                                    <div class="form-group-item">
+                                                                        <div class="form-item-label">크기 선택</div>
+                                                                        <div class="form-item-data type-2">
+                                                                            <div class="toggle-button-group vertical" id="basic_size">
+                                                                          <div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(1)"><label class="form-toggle-box large"><input type="radio" value="" name="size" onclick="reserve_service_list('service2_basic_size','','0')" checked><em>선택 안함</em></label></div>
+                                                                     
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="grid-layout-cell grid-5">
+                                                                    <div class="form-group-item">
+                                                                        <div class="form-item-label">서비스</div>
+                                                                        <div class="form-item-data type-2">
+                                                                            <div class="toggle-button-group vertical" id="basic_service_select">
+                                                                              <div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(2)"><label class="form-toggle-box large"><input type="radio" value="" name="s1" onclick="reserve_service_list('service2_basic_service','','0')" checked ><em>선택 안함</em></label></div>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                            </div>
+                                                            <div class="grid-layout-cell grid-5">
+                                                                <div class="form-group-item">
+                                                                    <div class="form-item-label">무게</div>
+                                                                    <div class="form-item-data type-2">
+                                                                        <div class="toggle-button-group vertical" id="basic_weight">
+                                                                            <div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" onclick="reserve_service_list('service2_basic_weight','','0')" checked><em><span>선택 안함</span></em></label></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>`
+                        }
+
+
+                        if(body.hair_feature.length > 0){
+
+
+                            basic_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
+                                                                        <div class="form-group-item">
+                                                                            <div class="form-item-label">털특징</div>
+                                                                            <div class="form-item-data type-2">
+                                                                                <div class="toggle-button-group vertical" id="basic_hair_feature">
+                                                                             </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>`
+                        }
+
+                        if(body.hair_length.length > 0){
+
+
+
+                            basic_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
+                                                                    <div class="form-group-item">
+                                                                        <div class="form-item-label">미용털길이</div>
+                                                                        <div class="form-item-data type-2">
+                                                                            <div class="toggle-button-group vertical" id="basic_hair_length">
+                                                                            <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="hairBeauty" onclick="reserve_service_list('service2_basic_hair_length','','0')" checked ><em>선택 안함</em></label></div>
+                                                                                </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>`
+
+                        }
+
+                        if(body.face.length > 0){
+
+                            other_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
+                                                                    <div class="form-group-item">
+                                                                        <div class="form-item-label">얼굴컷</div>
+                                                                        <div class="form-item-data type-2">
+                                                                            <div class="toggle-button-group vertical" id="other_face">
+                                                                                
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>`
+                        }
+
+                        if(body.leg.length > 0){
+
+                            other_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
+                                                                        <div class="form-group-item">
+                                                                            <div class="form-item-label">다리</div>
+                                                                            <div class="form-item-data type-2">
+                                                                                <div class="toggle-button-group vertical" id="other_leg">
+                
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>`
+                        }
+
+                        if(body.spa.length > 0){
+
+                            other_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
+                                                                    <div class="form-group-item">
+                                                                        <div class="form-item-label">스파</div>
+                                                                        <div class="form-item-data type-2">
+                                                                            <div class="toggle-button-group vertical" id="other_spa">
+                                                                                
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>`
+                        }
+
+                        if(body.dyeing.length > 0){
+
+
+                            other_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
+                                                                    <div class="form-group-item">
+                                                                        <div class="form-item-label">염색</div>
+                                                                        <div class="form-item-data type-2">
+                                                                            <div class="toggle-button-group vertical" id="other_dyeing">
+                                                                                
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>`
+                        }
+
+                        if(body.etc.length > 0){
+
+                            other_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
+                                                                        <div class="form-group-item">
+                                                                            <div class="form-item-label">기타</div>
+                                                                            <div class="form-item-data type-2">
+                                                                                <div class="toggle-button-group vertical" id="other_etc">
+                                                                                   
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>`
+
+                        }
+                    }else if(breed === 'cat'){
+                        if(body.beauty.length > 0){
+
+                            basic_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
+                                                                            <div class="form-group-item">
+                                                                                <div class="form-item-label">미용</div>
+                                                                                <div class="form-item-data type-2">
+                                                                                    <div class="toggle-button-group vertical" id="basic_beauty">
+                                                                                        <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="beauty" onclick="reserve_service_list('service2_basic_beauty','','0')" checked><em>선택 안함</em></label></div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>`
+                        }
+
+                        if(body.bath.length > 0){
+
+
+                            basic_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
+                                                                            <div class="form-group-item">
+                                                                                <div class="form-item-label">목욕</div>
+                                                                                <div class="form-item-data type-2">
+                                                                                    <div class="toggle-button-group vertical" id="basic_bath">
+                                                                                        <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="bath" onclick="reserve_service_list('service2_basic_bath','','0')" checked><em>선택 안함</em></label></div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>`
+                        }
+
+                        if(body.add_svc.length > 0){
+
+
+                            other_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
+                                                                    <div class="form-group-item">
+                                                                        <div class="form-item-label">추가서비스</div>
+                                                                        <div class="form-item-data type-2">
+                                                                            <div class="toggle-button-group vertical" id="other_add_svc">
+                                                                                
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>`
+                        }
+
+
+
+                    }
+
+                    resolve(body);
+
+                }
+
+            }
+        })
+    })
+
+    
+}
+
+
+function management_service_2(body){
+
+    console.log(body)
+    return new Promise(function(resolve){
+
+        document.getElementById('is_vat').value = body.is_vat;
+
+        if(body.base_svc !== undefined){
+            if(body.base_svc.length > 0){
+
+
+                body.base_svc.forEach(function(el){
+
+                    document.getElementById('basic_size').innerHTML += `<div class="toggle-button-cell toggle-button-cell-size">
+                                                                                        <label class="form-toggle-box large">
+                                                                                            <input type="radio" value="${el.size}" name="size" onclick="reserve_service_list('service2_basic_size','${el.size}')">
+                                                                                            <em>${el.size}</em>
+                                                                                        </label>
+                                                                                    </div>`
+
+                })
+            }
+
+            if(body.hair_feature.length > 0){
+
+                body.hair_feature.forEach(function(el,i){
+
+                    if(el.price !== ''){
+
+                        document.getElementById('basic_hair_feature').innerHTML += `<div class="toggle-button-cell">
+                                                                                                    <label class="form-toggle-box form-toggle-price large" for="hair${i}">
+                                                                                                        <input type="checkbox" name="hair" value="${el.type}" data-price="${el.price}" id="hair${i}" onclick="if(this.checked === true){reserve_service_list_2('service2_basic_hair_feature','${el.type}','${el.price}')}else{reserve_service_list_2_delete('service2_basic_hair_feature','${el.type}')}" >
+                                                                                                        <em>
+                                                                                                            <span>${el.type}</span>
+                                                                                                            <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                                        </em>
+                                                                                                    </label>
+                                                                                                </div>`
+
+                    }
+
+
+                })
+            }
+
+            if(body.hair_length.length > 0){
+
+
+                body.hair_length.forEach(function(el,i){
+
+                    document.getElementById('basic_hair_length').innerHTML += `<div class="toggle-button-cell">
+                                                                                            <label class="form-toggle-box form-toggle-price large" for="hairBeauty${i}">
+                                                                                                <input type="radio" name="hairBeauty" value="${el.type}"  data-price="${el.price}" id="hairBeauty${i}" onclick="reserve_service_list('service2_basic_hair_length','${el.type}',${el.price})">
+                                                                                                <em>
+                                                                                                    <span>${el.type}</span>
+                                                                                                    <strong>${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                                </em>
+                                                                                            </label>
+                                                                                        </div>`
+
+                })
+            }
+
+            if(body.face.length >0){
+
+                body.face.forEach(function(el,i){
+
+                    document.getElementById('other_face').innerHTML += `<div class="toggle-button-cell">
+                                                                                        <label class="form-toggle-box form-toggle-price middle">
+                                                                                            <input type="checkbox" name="f1" data-price="${el.price}" value="${el.type}" onclick="if(this.checked === true){reserve_service_list_2('service2_other_list_face','+${el.type}','${el.price}')}else{reserve_service_list_2_delete('service2_other_list_face','+${el.type}')}">
+                                                                                            <em>
+                                                                                                <span>${el.type}</span>
+                                                                                                <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                            </em>
+                                                                                        </label>
+                                                                                    </div>`
+
+                    if(i===body.face.length-1){
+
+                        document.getElementById('service2_other_list').innerHTML += `<div class="service-selected-list-cell">
+                                                                                                    <div class="list-title" id="service2_other_list_face">얼굴컷</div>
+                                                                                                </div>`
+                    }
+                })
+            }
+
+
+            if(body.leg.length>0){
+
+                body.leg.forEach(function(el,i){
+
+                    document.getElementById('other_leg').innerHTML += `<div class="toggle-button-cell">
+                                                                                    <label class="form-toggle-box form-toggle-price middle">
+                                                                                        <input type="checkbox" name="f2" value="${el.type}" data-price="${el.price}" onclick="if(this.checked === true){reserve_service_list_2('service2_other_list_leg','+${el.type}','${el.price}')}else{reserve_service_list_2_delete('service2_other_list_leg','+${el.type}')}">
+                                                                                        <em>
+                                                                                            <span>${el.type}</span>
+                                                                                            <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                        </em>
+                                                                                    </label>
+                                                                                </div>`
+
+
+                    if(i===body.leg.length-1){
+
+                        document.getElementById('service2_other_list').innerHTML += `<div class="service-selected-list-cell">
+                                                                                                    <div class="list-title" id="service2_other_list_leg">다리</div>
+                                                                                                </div>`
+                    }
+
+                })
+            }
+
+            if(body.spa.length>0){
+
+                body.spa.forEach(function(el,i){
+
+                    document.getElementById('other_spa').innerHTML += `<div class="toggle-button-cell">
+                                                                                    <label class="form-toggle-box form-toggle-price middle">
+                                                                                        <input type="checkbox" name="f3"  value="${el.type}" data-price="${el.price}" onclick="if(this.checked === true){reserve_service_list_2('service2_other_list_spa','+${el.type}','${el.price}')}else{reserve_service_list_2_delete('service2_other_list_spa','+${el.type}')}"> 
+                                                                                        <em>
+                                                                                            <span>${el.type}</span>
+                                                                                            <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                        </em>
+                                                                                    </label>
+                                                                                </div>`
+
+                    if(i===body.spa.length-1){
+
+                        document.getElementById('service2_other_list').innerHTML += `<div class="service-selected-list-cell">
+                                                                                                    <div class="list-title" id="service2_other_list_spa">스파</div>
+                                                                                                </div>`
+                    }
+                })
+            }
+
+            if(body.dyeing.length >0 ){
+
+                body.dyeing.forEach(function(el,i){
+
+                    document.getElementById('other_dyeing').innerHTML += `<div class="toggle-button-cell">
+                                                                                        <label class="form-toggle-box form-toggle-price middle">
+                                                                                            <input type="checkbox" name="f4" value="${el.type}" data-price="${el.price}" onclick="if(this.checked === true){reserve_service_list_2('service2_other_list_dyeing','+${el.type}','${el.price}')}else{reserve_service_list_2_delete('service2_other_list_dyeing','+${el.type}')}">
+                                                                                            <em>
+                                                                                                <span>${el.type}</span>
+                                                                                                <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                            </em>
+                                                                                        </label>
+                                                                                    </div>`
+
+                    if(i===body.dyeing.length-1){
+
+                        document.getElementById('service2_other_list').innerHTML += `<div class="service-selected-list-cell">
+                                                                                                    <div class="list-title" id="service2_other_list_dyeing">염색</div>
+                                                                                                </div>`
+                    }
+                })
+            }
+
+
+            if(body.etc.length >0){
+
+                body.etc.forEach(function(el,i){
+
+                    document.getElementById('other_etc').innerHTML += `<div class="toggle-button-cell">
+                                                                            <label class="form-toggle-box form-toggle-price middle">
+                                                                                <input type="checkbox" name="f5" value="${el.type}" data-price="${el.price}" onclick="if(this.checked === true){reserve_service_list_2('service2_other_list_etc','+${el.type}','${el.price}')}else{reserve_service_list_2_delete('service2_other_list_etc','+${el.type}')}">
+                                                                                <em>
+                                                                                    <span>${el.type}</span>
+                                                                                    <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                               </em>
+                                                                            </label>
+                                                                        </div>`
+
+                    if(i===body.etc.length-1){
+
+                        document.getElementById('service2_other_list').innerHTML += `<div class="service-selected-list-cell">
+                                                                                                    <div class="list-title" id="service2_other_list_etc">기타</div>
+                                                                                                </div>`
+                    }
+                })
+
+
+            }
+
+
+
+
+
+
+
+        }else {
+
+
+            if(body.beauty.length > 0){
+
+                body.beauty.forEach(function(el){
+
+                    document.getElementById('basic_beauty').innerHTML += `<div class="toggle-button-cell">
+                                                                                        <label class="form-toggle-box large form-toggle-price">
+                                                                                            <input type="radio" value="${el.type}" name="beauty" data-price="${el.price}" onclick="reserve_service_list('service2_basic_beauty','${el.type}',${el.price})">
+                                                                                            <em> 
+                                                                                                <span>${el.type}</span>
+                                                                                                <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                            </em>
+                                                                                        </label>
+                                                                                    </div>`
+
+                })
+            }
+
+            if(body.bath.length >0){
+
+                body.bath.forEach(function(el){
+
+                    document.getElementById('basic_bath').innerHTML += `<div class="toggle-button-cell">
+                                                                                        <label class="form-toggle-box large form-toggle-price">
+                                                                                            <input type="radio" value="${el.type}" name="bath" data-price="${el.price}" onclick="reserve_service_list('service2_basic_bath','${el.type}',${el.price})">
+                                                                                            <em> 
+                                                                                                <span>${el.type}</span>
+                                                                                                <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                            </em>
+                                                                                        </label>
+                                                                                    </div>`
+                })
+            }
+
+
+            if(body.add_svc.length > 0 ){
+
+                body.add_svc.forEach(function(el,i){
+
+                    document.getElementById('other_add_svc').innerHTML += `<div class="toggle-button-cell">
+                                                                            <label class="form-toggle-box form-toggle-price middle">
+                                                                                <input type="checkbox" name="add_svc" value="${el.type}" data-price="${el.price}" onclick="if(this.checked === true){reserve_service_list_2('service2_other_list_add_svc','+${el.type}','${el.price}')}else{reserve_service_list_2_delete('service2_other_list_add_svc','+${el.type}')}">
+                                                                                <em>
+                                                                                    <span>${el.type}</span>
+                                                                                    <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                               </em>
+                                                                            </label>
+                                                                        </div>`
+
+                    if(i===body.add_svc.length-1){
+
+                        document.getElementById('service2_other_list').innerHTML += `<div class="service-selected-list-cell">
+                                                                                                    <div class="list-title" id="service2_other_list_add_svc">추가서비스</div>
+                                                                                                </div>`
+                    }
+                })
+            }
+
+
+        }
+
+    })
+
+
+}
+
+function management_service_3(body){
+
+
+}
+
+function management_service_4(body){
+
 
 }

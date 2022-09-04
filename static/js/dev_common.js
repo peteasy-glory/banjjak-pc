@@ -1064,6 +1064,7 @@ function wide_tab(){
         el.addEventListener('click', function () {
             if (!this.classList.contains('actived')) {
 
+
                 Array.from(tab_cell).forEach(function (el) {
                     el.classList.remove('actived');
                 })

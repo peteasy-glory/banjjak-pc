@@ -972,10 +972,14 @@ if($r_mode) {
     }else if($r_mode === "set_noshow"){
 
         $payment_idx = $_POST['payment_idx'];
+        $partner_id = $_POST['partner_id'];
+        $cellphone = $_POST['cellphone'];
+
+
 
         $is_no_show = true ;
 
-        $set_noshow_data = array(payment_idx=>$payment_idx,is_no_show=>$is_no_show);
+        $set_noshow_data = array(partner_id=>$partner_id,payment_idx=>intval($payment_idx),is_no_show=>$is_no_show,cellphone=>$cellphone);
 
         $set_noshow_data_json = json_encode($set_noshow_data);
 
@@ -988,10 +992,13 @@ if($r_mode) {
     }else if($r_mode === "cancel_noshow"){
 
         $payment_idx = $_POST['payment_idx'];
+        $partner_id = $_POST['partner_id'];
+        $cellphone = $_POST['cellphone'];
+
 
         $is_no_show = false;
 
-        $cancel_noshow_data = array(payment_idx=>$payment_idx,is_no_show=>$is_no_show);
+        $cancel_noshow_data = array(partner_id=>$partner_id,payment_idx=>intval($payment_idx),is_no_show=>$is_no_show,cellphone=>$cellphone);
 
         $cancel_noshow_data_json = json_encode($cancel_noshow_data);
 
@@ -1094,7 +1101,7 @@ if($r_mode) {
 
         $put_customer_memo = $api ->put('/partner/booking/customer-memo',$put_memo_data_json);
 
-        $return_data = array("code"=>"000000","data"=>$put_customer_memo);
+        $return_data = array("code"=>"000000","data"=>$put_memo_data);
 
 
 
@@ -1308,10 +1315,10 @@ if($r_mode) {
 
     }else if($r_mode === "customer_delete"){
 
-        $login_id = $_POST['login_id'];
+        $partner_id = $_POST['partner_id'];
         $cellphone = $_POST['cellphone'];
 
-        $data = array(partner_id=>$login_id,cellphone=>$cellphone);
+        $data = array(partner_id=>$partner_id,cellphone=>$cellphone);
 
         $data_json = json_encode($data);
 
@@ -1319,6 +1326,93 @@ if($r_mode) {
 
         $return_data = array("code"=>"000000","data"=>$result);
 
+    }else if($r_mode === "get_customer_grade"){
+
+        $partner_id = $_POST['partner_id'];
+        $cellphone = $_POST['cellphone'];
+
+        $data = array (cellphone=>$cellphone);
+
+        $data_json = json_encode($data);
+
+        $result = $api -> get('/partner/booking/grade/shop/'.$partner_id,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "put_customer_grade_1"){
+
+
+        $customer_idx=$_POST['customer_idx'];
+        $grade_idx=$_POST['grade_idx'];
+
+        $data= array(customer_idx=>$customer_idx,grade_idx=>intval($grade_idx));
+
+        $data_json = json_encode($data);
+
+        $result = $api ->put('/partner/booking/grade-shop',$data_json);
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "put_customer_grade_2"){
+
+        $customer_id = $_POST['customer_id'];
+        $grade_idx = $_POST['grade_idx'];
+
+        $data= array(grade_idx=>intval($grade_idx),customer_id=>$customer_id);
+
+        $data_json = json_encode($data);
+
+        $result = $api -> post('/partner/booking/grade-shop',$data_json);
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode ==='get_customer_special'){
+
+        $partner_id=$_POST['partner_id'];
+        $cellphone = $_POST['cellphone'];
+
+        $data = array(cellphone=>$cellphone);
+
+        $data_json = json_encode($data);
+
+        $result = $api -> get('/partner/customer/unique-memo/'.$partner_id,$data_json);
+
+        $return_data = array('code'=>"000000","data"=>$result);
+
+
+    }else if($r_mode === "get_sub_phone"){
+
+        $partner_id = $_POST['partner_id'];
+        $cellphone = $_POST['cellphone'];
+
+        $data = array(cellphone=>$cellphone);
+
+        $data_json = json_encode($data);
+
+        $result = $api -> get('/partner/customer/subphone/'.$partner_id,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "delete_sub_phone"){
+
+        $sub_phone_idx = $_POST['sub_phone_idx'];
+
+        $data = array(sub_phone_idx=>intval($sub_phone_idx));
+
+        $data_json = json_encode($data);
+
+        $result = $api -> delete('/partner/customer/subphone',$data_json);
+
+        $return_data =array("code"=>"000000","data"=>$result);
+
+    }else if($r_mode ==="add_sub_phone"){
+
+        $partner_id = $_POST['partner_id'];
+        $main_phone = $_POST['main_phone'];
+        $sub_name = $_POST['sub_name'];
+        $sub_phone = $_POST['sub_phone'];
+
+        $data = array(partner_id=>$partner_id,main_phone=>$main_phone,sub_name=>$sub_name,sub_phone=>$sub_phone);
+
+        $data_json = json_encode($data);
+
+        $result = $api -> post('/partner/customer/subphone',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
     }
 }
 
