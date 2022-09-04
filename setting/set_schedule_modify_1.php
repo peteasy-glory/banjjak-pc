@@ -158,7 +158,7 @@ if ($artist_flag == 1) {
 											</div>
 											<div class="grid-layout margin-14-17">
 												<div class="grid-layout-inner">
-													<div class="grid-layout-cell flex-auto">
+													<div class="grid-layout-cell flex-auto" style="display: none;">
 														<div class="grid-layout basic">
 															<div class="grid-layout-inner">
 																<div class="grid-layout-cell flex-auto"><label class="form-toggle-box h-45"><input type="radio" value="1" name="week_type"><em>매주</em></label></div>
@@ -170,13 +170,13 @@ if ($artist_flag == 1) {
 													<div class="grid-layout-cell flex-1">
 														<div class="form-week-select">
 															<div class="form-week-select-inner">
-																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week" value="100000" class="mon"><em>월</em></label></div>
-																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week" value="10000" class="tue"><em>화</em></label></div>
-																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week" value="1000" class="wed"><em>수</em></label></div>
-																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week" value="100" class="thu"><em>목</em></label></div>
-																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week" value="10" class="fri"><em>금</em></label></div>
-																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week" value="1" class="sat"><em>토</em></label></div>
-																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week" value="1000000" class="sun"><em>일</em></label></div>
+																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week[]" value="100000" class="mon"><em>월</em></label></div>
+																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week[]" value="10000" class="tue"><em>화</em></label></div>
+																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week[]" value="1000" class="wed"><em>수</em></label></div>
+																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week[]" value="100" class="thu"><em>목</em></label></div>
+																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week[]" value="10" class="fri"><em>금</em></label></div>
+																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week[]" value="1" class="sat"><em>토</em></label></div>
+																<div class="form-week-select-cell"><label class="form-toggle-box circle"><input type="checkbox" name="week[]" value="1000000" class="sun"><em>일</em></label></div>
 															</div>
 														</div>
 													</div>
@@ -768,63 +768,72 @@ if ($artist_flag == 1) {
         var html = '';
         for(start_hour;start_hour<close_hour;start_hour++){
             html += `
-                <div class="grid-layout-cell grid-8"><label class="form-toggle-box auto middle"><input type="checkbox" name="time1" class="time_${fill_zero(start_hour)}00" value="${fill_zero(start_hour)}:00"><em>${am_pm_check(fill_zero(start_hour))}:00</em></label></div>
-                <div class="grid-layout-cell grid-8"><label class="form-toggle-box auto middle"><input type="checkbox" name="time1" class="time_${fill_zero(start_hour)}30" value="${fill_zero(start_hour)}:30"><em>${am_pm_check(fill_zero(start_hour))}:30</em></label></div>
+                <div class="grid-layout-cell grid-8"><label class="form-toggle-box auto middle"><input type="checkbox" name="time1[]" class="time_${fill_zero(start_hour)}00" value="${fill_zero(start_hour)}:00~${fill_zero(start_hour)}:30"><em>${am_pm_check(fill_zero(start_hour))}:00</em></label></div>
+                <div class="grid-layout-cell grid-8"><label class="form-toggle-box auto middle"><input type="checkbox" name="time1[]" class="time_${fill_zero(start_hour)}30" value="${fill_zero(start_hour)}:30~${fill_zero(start_hour+1)}:00"><em>${am_pm_check(fill_zero(start_hour))}:30</em></label></div>
             `;
         }
         $(".break_time_wrap").html(html);
 
         // 휴게시간
-        var break_array = setting_array[1].res_time_off;
-        var html = '';
-        $.each(break_array, function(i,v){
-            var st_time = ".break_time_wrap .time_"+((v.time).split('~')[0]).replace(':','');
-            $(st_time).prop("checked", true);
-        });
+        if(setting_array[1] != '' && setting_array[1] != undefined){
+            var break_array = setting_array[1].res_time_off;
+            var html = '';
+            $.each(break_array, function(i,v){
+                var st_time = ".break_time_wrap .time_"+((v.time).split('~')[0]).replace(':','');
+                $(st_time).prop("checked", true);
+            });
+        }
 
         // 자유시간제, 타임제
-        var t_type = setting_array[2].shop_time_type; // 1:자유시간제, 2:타임제
-        if(t_type == '2'){
-            $("input:radio[name='time_type']:radio[value='2']").prop('checked', true);
-            $(".time_type_2_cnt").val(setting_array[6].length);
-            $(".time_type_2_wrap").css("display","block");
-            var time_array = setting_array[6];
-            var html = '';
-            var html_2 = '';
-            var html_modify = '';
-            $.each(time_array,function(i, v){
-                var name = (v.name == artist_id)? "실장" : v.name;
-                var checked = (name == '실장')? "checked" : "";
-                var is_block = (name == '실장')? "flex" : "none";
-                html += `
+        $(".time_type_2_cnt").val(setting_array[6].length);
+        var time_array = setting_array[6];
+        var html = '';
+        var html_2 = '';
+        var html_modify = '';
+        $.each(time_array,function(i, v){
+            var name = (v.name == artist_id)? v.nick : v.name;
+            var checked = (i == 0)? "checked" : "";
+            var is_block = (i == 0)? "flex" : "none";
+            html += `
                     <div class="grid-layout-cell flex-auto"><label class="form-toggle-box"><input type="radio" class="worker" value="${i}" name="worker" ${checked}><em>${name}</em></label></div>
                 `;
 
-                html_modify += `
+            html_modify += `
                     <div class="grid-layout-cell flex-auto"><label class="form-toggle-box"><input type="checkbox" name="break_worker[]" value="${v.name}" ${checked}><em>${name}</em></label></div>
                 `;
 
-                start_hour = setting_array[0].open_time;
-                close_hour = setting_array[0].close_time;
-                html_2 += `<div class="grid-layout-inner worker_time_wrap worker_${i}" style="display: ${is_block}">`;
-                html_2 += `<input type="hidden" name="worker_${i}" v>`;
-                for(start_hour;start_hour<close_hour;start_hour++){
-                    html_2 += `
-                        <div class="grid-layout-cell grid-8"><label class="form-toggle-box auto middle"><input type="checkbox" name="time2_${i}" class="time_${fill_zero(start_hour)}00" value="${fill_zero(start_hour)}:00"><em>${am_pm_check(fill_zero(start_hour))}:00</em></label></div>
-                        <div class="grid-layout-cell grid-8"><label class="form-toggle-box auto middle"><input type="checkbox" name="time2_${i}" class="time_${fill_zero(start_hour)}30" value="${fill_zero(start_hour)}:30"><em>${am_pm_check(fill_zero(start_hour))}:30</em></label></div>
+            start_hour = setting_array[0].open_time;
+            close_hour = setting_array[0].close_time;
+            var worker_idx = '';
+            if(i < setting_array[3].length){
+                worker_idx = setting_array[3][i].idx;
+            }else{
+                worker_idx = '0';
+            }
+
+            html_2 += `<div class="grid-layout-inner worker_time_wrap worker_${i}" style="display: ${is_block}">`;
+            html_2 += `<input type="hidden" name="worker_${i}" value="${worker_idx}">`;
+            html_2 += `<input type="hidden" name="worker_name_${i}" value="${v.name}">`;
+            for(start_hour;start_hour<close_hour;start_hour++){
+                html_2 += `
+                        <div class="grid-layout-cell grid-8"><label class="form-toggle-box auto middle"><input type="checkbox" name="time2_${i}[]" class="time_${fill_zero(start_hour)}00" value="${fill_zero(start_hour)}:00~${fill_zero(start_hour)}:30"><em>${am_pm_check(fill_zero(start_hour))}:00</em></label></div>
+                        <div class="grid-layout-cell grid-8"><label class="form-toggle-box auto middle"><input type="checkbox" name="time2_${i}[]" class="time_${fill_zero(start_hour)}30" value="${fill_zero(start_hour)}:30~${fill_zero(start_hour+1)}:00"><em>${am_pm_check(fill_zero(start_hour))}:30</em></label></div>
                     `;
-                }
-                html_2 += '</div>';
-                $(".time_wrap").html(html_2);
+            }
+            html_2 += '</div>';
+            $(".time_wrap").html(html_2);
 
-                //$.each(v.res_time_off,function(index, value){
-                    // var st_time = ".time_wrap .worker_"+v.idx+" .time_"+((value.time).split('~')[0]).replace(':','');
-                    // $(st_time).prop("checked", true);
-                //});
-            });
-            $(".time_name_wrap").html(html);
-            $(".modify_wrap").html(html_modify);
-
+            //$.each(v.res_time_off,function(index, value){
+            // var st_time = ".time_wrap .worker_"+v.idx+" .time_"+((value.time).split('~')[0]).replace(':','');
+            // $(st_time).prop("checked", true);
+            //});
+        });
+        $(".time_name_wrap").html(html);
+        $(".modify_wrap").html(html_modify);
+        var t_type = setting_array[2].shop_time_type; // 1:자유시간제, 2:타임제
+        if(t_type == '2'){
+            $("input:radio[name='time_type']:radio[value='2']").prop('checked', true);
+            $(".time_type_2_wrap").css("display","block");
         }else{
             $("input:radio[name='time_type']:radio[value='1']").prop('checked', true);
             $(".time_type_2_wrap").css("display","none");
@@ -885,21 +894,16 @@ if ($artist_flag == 1) {
         });
         $(".vacation_wrap").html(html);
 
-        // 타임제일 경우 선택 (순서때문에 checked 안되는 현상때문에 뒤로 따로 빼놓음)
-        if(t_type == '2'){
-            $("input:radio[name='time_type']:radio[value='2']").prop('checked', true);
-            $(".time_type_2_wrap").css("display","block");
-            var time_array = setting_array[3];
-            var html = '';
-            var html_2 = '';
-            $.each(time_array,function(i, v){
-                $.each(v.res_time_off,function(index, value){
-                    var st_time = ".time_wrap .worker_"+i+" .time_"+((value.time).split('~')[0]).replace(':','');
-                    $(st_time).prop("checked", true);
-                });
+        // 타임제 미용사 선택 (순서때문에 checked 안되는 현상때문에 뒤로 따로 빼놓음)
+        var time_array = setting_array[3];
+        var html = '';
+        var html_2 = '';
+        $.each(time_array,function(i, v){
+            $.each(v.res_time_off,function(index, value){
+                var st_time = ".time_wrap .worker_"+i+" .time_"+((value.time).split('~')[0]).replace(':','');
+                $(st_time).prop("checked", true);
             });
-
-        }
+        });
     })
 
     // 공휴일 휴무설정 변경 이벤트
@@ -954,7 +958,20 @@ if ($artist_flag == 1) {
         var postData = decodeURIComponent($("#scheduleForm").serialize());
         postData += '&mode=put_schedule';
         console.log(postData);
-        //put_schedule(postData);
+
+        var artist_cnt = $(".time_type_2_cnt").val();
+        // console.log($('input[name="time2"]:checked').val());
+        if($('input[name="time_type"]:checked').val() == 2){
+            for(var i=0; i<artist_cnt; i++){
+                console.log($('input[name="time2_'+i+'[]"]:checked').length);
+                if($('input[name="time2_'+i+'[]"]:checked').length < 2){
+                    pop.open('firstRequestMsg1','최소 2개의 타임을 선택해주세요.');
+                    return false;
+                }
+            }
+        }
+
+        put_schedule(postData);
     })
 
 </script>

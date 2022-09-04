@@ -457,7 +457,7 @@ function put_schedule(data){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                pop.open('reloadPop', '완료되었습니다.');
+                pop.open('firstRequestMsg1', '완료되었습니다.');
             }
         }
     })
