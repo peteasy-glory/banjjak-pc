@@ -856,6 +856,10 @@ function customer_view(id){
                                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                             } else if (head_.code === 200) {
                                 console.log(body_)
+                                if(body_.length === undefined){
+
+                                    body_ = [body_]
+                                }
 
                                 let body_data= [body,body_]
 
@@ -876,8 +880,9 @@ function customer_view(id){
                                                                             </div>
                                                                         </div>
                                                                         <div class="customer-user-info-ui">
-                                                                            <div class="label label-outline-pink">NO SHOW ${localStorage.getItem('noshow_cnt')}회</div>
-                                                                            <button type="button" class="btn btn-red">초기화</button>
+                                                                            ${parseInt(localStorage.getItem('noshow_cnt')) > 0 ? `<div class="label label-outline-pink">NO SHOW ${localStorage.getItem('noshow_cnt')}회</div>
+                                                                            <button type="button" class="btn btn-red" id="noshow_initialize_btn">초기화</button>` : ''}
+                                                                            
                                                                         </div>
                                                                     </div>
                                                                     <div class="customer-user-table-row">
@@ -973,6 +978,7 @@ function customer_view_(id){
     customer_view(id).then(function(body_data){
 
         pet_reserve_info(body_data);
+        noshow_initialize(body_data);
 
     })
 
@@ -1095,4 +1101,23 @@ function pet_reserve_info(data){
 
         })
     })
+}
+
+function noshow_initialize(data){
+
+    let payment_list = data[1];
+
+
+    document.getElementById('noshow_initialize_btn').addEventListener('click',function(){
+
+
+        payment_list.forEach(function(el){
+
+            if(el.is_no_show === 1){
+
+                console.log(el)
+            }
+        })
+    })
+
 }

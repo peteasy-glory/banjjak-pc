@@ -613,6 +613,8 @@ function renderCalendar(id) {
 }
 
 function _renderCalendar(id) {
+
+
     renderCalendar(id)
         .then(function (div_dates) {
             //row에 col data 넣기
@@ -671,35 +673,26 @@ function _renderCalendar(id) {
                     })
                 }
             })
-        }).then(function(){
+        }).then(function() {
 
         //오늘날짜 표시시
-        Array.from(document.getElementsByClassName('date-info')).forEach(function (el){
-            if(el.innerText.trim() === `${new Date().getFullYear().toString().substr(2,2)}.${fill_zero(new Date().getMonth()+1).toString()}.${fill_zero(new Date().getDate()).toString()}`){
+        Array.from(document.getElementsByClassName('date-info')).forEach(function (el) {
+            if (el.innerText.trim() === `${new Date().getFullYear().toString().substr(2, 2)}.${fill_zero(new Date().getMonth() + 1).toString()}.${fill_zero(new Date().getDate()).toString()}`) {
                 el.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add('today');
             }
         })
+        window.onload = function () {
+            setTimeout(function () {
+                document.getElementById('wrap').style.display = 'block';
+                document.getElementById('splash').style.display = 'none';
+                localStorage.setItem('splash', '1');
 
-        if(location.href.match('home/index') || location.href === 'http://stg-partner-pc.banjjakpet.com/'){
-            window.onload = function(){
-                setTimeout(function(){
-                    document.getElementById('wrap').style.display = 'block';
-                    document.getElementById('splash').style.display = 'none';
-                    localStorage.setItem('splash','1');
-
-                },1000)
-
-
-            }
+            }, 1000)
         }
-
-
-
-
-
 
     })
 }
+
 
 function statutory_holiday(id){
     $.ajax({
