@@ -11,7 +11,8 @@ if ($artist_flag == 1) {
     $artist_id = (isset($_SESSION['gobeauty_user_id'])) ? $_SESSION['gobeauty_user_id'] : "";
 }
 
-
+$startDate = DATE('Y-m-01');
+$endDate = DATE('Y-m-d');
 ?>
 <body>        
 
@@ -49,17 +50,18 @@ if ($artist_flag == 1) {
 									</div>
 									<div class="basic-data-group middle">
 										<div class="board-form-sort">
-											<div class="sort-inner">
+											<form id="statsForm" class="sort-inner">
+                                                <input type="hidden" name="partner_id" value="<?=$artist_id?>">
 												<div class="sort-cell flex-auto">
 													<div class="form-group-item">
 														<div class="form-item-label">검색기간 선택</div>
 														<div class="form-item-data type-2">
 															<div class="grid-layout toggle-button-group">
 																<div class="grid-layout-inner">
-																	<div class="grid-layout-cell grid-4"><label class="form-toggle-box middle auto"><input type="radio" name="time1"><em>금일</em></label></div>
-																	<div class="grid-layout-cell grid-4"><label class="form-toggle-box middle auto"><input type="radio" name="time1"><em>1주</em></label></div>
-																	<div class="grid-layout-cell grid-4"><label class="form-toggle-box middle auto"><input type="radio" name="time1"><em>1달</em></label></div>
-																	<div class="grid-layout-cell grid-4"><label class="form-toggle-box middle auto"><input type="radio" name="time1"><em>3달</em></label></div>
+																	<div class="grid-layout-cell grid-4"><label class="form-toggle-box middle auto"><input type="radio" name="quick" class="quick" value="today"><em>금일</em></label></div>
+																	<div class="grid-layout-cell grid-4"><label class="form-toggle-box middle auto"><input type="radio" name="quick" class="quick" value="a_week"><em>1주</em></label></div>
+																	<div class="grid-layout-cell grid-4"><label class="form-toggle-box middle auto"><input type="radio" name="quick" class="quick" value="a_month"><em>1달</em></label></div>
+																	<div class="grid-layout-cell grid-4"><label class="form-toggle-box middle auto"><input type="radio" name="quick" class="quick" value="three_month"><em>3달</em></label></div>
 																</div>
 															</div>
 														</div>
@@ -70,9 +72,9 @@ if ($artist_flag == 1) {
 														<div class="form-item-label">검색일자 선택</div>
 														<div class="form-item-data type-2">
 															<div class="form-datepicker-group">
-																<div class="form-datepicker auto"><input type="text" class="datepicker-start"></div>
+																<div class="form-datepicker auto"><input type="text" name="st_date" class="datepicker-start" value="<?=$startDate?>"></div>
 																<div class="form-unit">~</div>
-																<div class="form-datepicker auto"><input type="text" class="datepicker-end"></div>
+																<div class="form-datepicker auto"><input type="text" name="fi_date" class="datepicker-end" value="<?=$endDate?>"></div>
 															</div>
 														</div>
 													</div>
@@ -84,23 +86,25 @@ if ($artist_flag == 1) {
 															<div class="grid-layout basic">
 																<div class="grid-layout-inner">
 																	<div class="grid-layout-cell grid-4">
-																		<select>
-																			<option value="">전체</option>
-																			<option value="">전체</option>
-																			<option value="">전체</option>
+																		<select name="order_type" class="order_type">
+                                                                            <option value="date" selected>최신순</option>
+                                                                            <option value="payment">예약/결제방식별</option>
+                                                                            <option value="service">미용-미용별</option>
+                                                                            <option value="artist">미용-미용사별</option>
 																		</select>										
 																	</div>
 																	<div class="grid-layout-cell grid-4">
-																		<select>
-																			<option value="">전체</option>
-																			<option value="">전체</option>
-																			<option value="">전체</option>
+																		<select name="where_type" class="where_type">
+                                                                            <option value="" selected>전체</option>
+																			<option value="미용">미용</option>
+																			<option value="호텔">호텔</option>
+																			<option value="유치원">유치원</option>
 																		</select>										
 																	</div>
 																	<div class="grid-layout-cell grid-2">
 																		<div class="board-form-btns">
 																			<button type="button" class="btn-data-refresh">초기화</button>
-																			<a href="#" class="btn btn-purple btn-inline btn-basic-small">조회</a>
+																			<a href="#" class="btn btn-purple btn-inline btn-basic-small submit_stats">조회</a>
 																		</div>
 																	</div>
 																</div>
@@ -108,7 +112,7 @@ if ($artist_flag == 1) {
 														</div>
 													</div>
 												</div>
-											</div>
+											</form>
 										</div>
 									</div>
 									<div class="basic-data-group">
@@ -149,18 +153,18 @@ if ($artist_flag == 1) {
 																<div class="stacked-horizontal-bar-group">
 																	<div class="stacked-horizontal-bar">
 																		<div class="stacked-horizontal-items">
-																			<div class="graph-item yellow" style="width:70%"><em>70%</em></div>
-																			<div class="graph-item purple" style="width:30%"><em>30%</em></div>
+																			<div class="graph-item yellow card_percent" style="width:70%"><em>70%</em></div>
+																			<div class="graph-item purple cash_percent" style="width:30%"><em>30%</em></div>
 																		</div>
 																	</div>
 																	<div class="stacked-horizontal-labels">
 																		<div class="stacked-horizontal-label">
 																			<div class="label-title"><div class="colors" style="background-color:#8667c1;"></div>카드</div>
-																			<div class="label-value"><strong>1,450,000</strong>원</div>
+																			<div class="label-value"><strong class="total_card">0</strong>원</div>
 																		</div>
 																		<div class="stacked-horizontal-label">
 																			<div class="label-title"><div class="colors" style="background-color:#fed84e;"></div>현금</div>
-																			<div class="label-value"><strong>1,450,000</strong>원</div>
+																			<div class="label-value"><strong class="total_cash">0</strong>원</div>
 																		</div>
 																	</div>
 																</div>
@@ -179,8 +183,8 @@ if ($artist_flag == 1) {
 													<div class="sort-tab big">
 														<div class="sort-tab-inner">
 															<!-- 활성화시 actived클래스 추가 -->
-															<div class="tab-cell actived"><a href="#" class="btn-tab-item"><strong>고객</strong> (187)</a></div>
-															<div class="tab-cell"><a href="#" class="btn-tab-item"><strong>동물</strong> (340)</a></div>
+															<div class="tab-cell actived"><a href="#" class="btn-tab-item"><strong>고객</strong> (<span class="customer_cnt">0</span>)</a></div>
+															<div class="tab-cell"><a href="#" class="btn-tab-item"><strong>동물</strong> (<span class="pet_cnt">0</span>)</a></div>
 														</div>
 													</div>
 												</div>
@@ -207,65 +211,13 @@ if ($artist_flag == 1) {
 																	<th>현금</th>
 																</tr>
 															</thead>
-															<tbody>
+															<tbody class="table_wrap">
 																<!-- 없을 경우 -->
 																<tr>
 																	<td class="none" colspan="5">결제 내역이 없습니다.</td>
 																</tr>
 																<!-- //없을 경우 -->
 																<!-- 하나의 아이템 -->
-																<tr class="customer-table-cell">		
-																	<td>
-																		<div class="customer-table-txt"><strong>콩돌이</strong></div>
-																	</td>
-																	<td>
-																		<div class="customer-table-txt">2021.12.25 오후 01:25</div>
-																	</td>
-																	<td>
-																		<div class="customer-table-txt">미용 | 가위컷</div>
-																	</td>
-																	<td>
-																		<div class="customer-table-txt">130,000</div>
-																	</td>
-																	<td>
-																		<div class="customer-table-txt">0</div>
-																	</td>
-																</tr>
-																<!-- //하나의 아이템 -->
-																<tr class="customer-table-cell">		
-																	<td>
-																		<div class="customer-table-txt"><strong>콩돌이</strong></div>
-																	</td>
-																	<td>
-																		<div class="customer-table-txt">2021.12.25 오후 01:25</div>
-																	</td>
-																	<td>
-																		<div class="customer-table-txt">미용 | 가위컷</div>
-																	</td>
-																	<td>
-																		<div class="customer-table-txt">130,000</div>
-																	</td>
-																	<td>
-																		<div class="customer-table-txt">0</div>
-																	</td>
-																</tr>
-																<tr class="customer-table-cell">		
-																	<td>
-																		<div class="customer-table-txt"><strong>콩돌이</strong></div>
-																	</td>
-																	<td>
-																		<div class="customer-table-txt">2021.12.25 오후 01:25</div>
-																	</td>
-																	<td>
-																		<div class="customer-table-txt">미용 | 가위컷</div>
-																	</td>
-																	<td>
-																		<div class="customer-table-txt">130,000</div>
-																	</td>
-																	<td>
-																		<div class="customer-table-txt">0</div>
-																	</td>
-																</tr>
 															</tbody>
 														</table>														
 													</div>
@@ -282,13 +234,13 @@ if ($artist_flag == 1) {
 									<div class="grid-layout">
 										<div class="grid-layout-inner">
 											<div class="grid-layout-cell">
-												<div class="stats-result-total-item"><em>건수</em><p>999건</p></div>
+												<div class="stats-result-total-item"><em>건수</em><p><span class="total_cnt">0</span>건</p></div>
 											</div>
 											<div class="grid-layout-cell">
-												<div class="stats-result-total-item"><em>카드</em><p>20,500,000원</p></div>
+												<div class="stats-result-total-item"><em>카드</em><p><span class="total_card">0</span>원</p></div>
 											</div>
 											<div class="grid-layout-cell">
-												<div class="stats-result-total-item"><em>현금</em><p>10,450,000원</p></div>
+												<div class="stats-result-total-item"><em>현금</em><p><span class="total_cash">0</span>원</p></div>
 											</div>
 										</div>
 									</div>
@@ -297,7 +249,7 @@ if ($artist_flag == 1) {
 									<div class="grid-layout">
 										<div class="grid-layout-inner">
 											<div class="grid-layout-cell total">
-												<div class="stats-result-total-item total"><em>실적합계</em><p>3,950,000원</p></div>
+												<div class="stats-result-total-item total"><em>실적합계</em><p><span class="total_card_cash">0</span>원</p></div>
 											</div>
 										</div>
 									</div>
@@ -322,11 +274,284 @@ if ($artist_flag == 1) {
 <script src="../static/js/report.js"></script>
 <script>
     let artist_id = "<?=$artist_id?>";
+    let today = new Date('<?=$endDate?>');
     $(document).ready(function() {
         get_navi(artist_id);
         gnb_init();
-        get_performancee(artist_id);
-        console.log(report_array);
+        get_beauty_list(artist_id);
+        get_artist_list(artist_id);
+
+    })
+
+    // 검색기간 선택
+    $(document).on("click", ".quick", function(){
+        //console.log($(this).val());
+        //today.setMonth(today.getMonth()-1);
+        var quick_date = new Date(today);
+        //console.log(quick_date);
+        var quick_val = $(this).val();
+        var year = 0;
+        var month = 0;
+        var day = 0;
+        if(quick_val == 'today'){
+            year = quick_date.getFullYear();
+            month = quick_date.getMonth()+1;
+            day = quick_date.getDate();
+        }else if(quick_val == 'a_week'){
+            quick_date.setDate(quick_date.getDate() -7);
+            year = quick_date.getFullYear();
+            month = quick_date.getMonth()+1;
+            day = quick_date.getDate();
+
+        }else if(quick_val == 'a_month'){
+            quick_date.setMonth(quick_date.getMonth() -1);
+            year = quick_date.getFullYear();
+            month = quick_date.getMonth()+1;
+            day = quick_date.getDate();
+
+        }else if(quick_val == 'three_month'){
+            quick_date.setMonth(quick_date.getMonth() -3);
+            year = quick_date.getFullYear();
+            month = quick_date.getMonth()+1;
+            day = quick_date.getDate();
+        }
+        $(".datepicker-start").val(year+'-'+((month<10)?'0'+month:month)+'-'+((day<10)?'0'+day:day));
+        $(".datepicker-end").val('<?=$endDate?>');
+    })
+
+    // 검색조건 변경
+    $(document).on("change",".order_type",function(){
+        var type = $(this).val();
+        console.log(type);
+        var html = '<option value="" selected>전체</option>';
+        if(type == 'date'){
+            html += `
+                <option value="미용">미용</option>
+                <option value="호텔">호텔</option>
+                <option value="유치원">유치원</option>
+            `;
+        }else if(type == 'payment'){
+            html += `
+                <option value="앱-선결제">앱-선결제</option>
+                <option value="앱-매장결제">앱-매장결제</option>
+                <option value="매장접수 ">매장접수 </option>
+            `;
+        }else if(type == 'service'){
+            $.each(report_array[0], function(i,v){
+                var txt = '';
+                switch (i){
+                    case 'bath' : txt = '목욕'; break;
+                    case 'part' : txt = '부분미용'; break;
+                    case 'bath_part' : txt = '부분'; break;
+                    case 'sanitation' : txt = '위생'; break;
+                    case 'sanitation_bath' : txt = '위생+목욕'; break;
+                    case 'all' : txt = '전체미용'; break;
+                    case 'spoting' : txt = '스포팅'; break;
+                    case 'scissors' : txt = '가위컷'; break;
+                    case 'summercut' : txt = '써머컷'; break;
+                    default : txt = i;
+                }
+                //console.log(txt);
+                if(v.is_use == 'y'){
+                    html += `
+                        <option value="${i}">${txt}</option>
+                    `;
+                }
+            })
+
+        }else if(type == 'artist'){
+            $.each(report_array[1], function(i,v){
+                var name = (v.name == artist_id)? v.nick : v.name;
+                if(v.is_leave == false){
+                    html += `
+                        <option value="${name}">${name}</option>
+                    `;
+                }
+            })
+        }
+        $(".where_type").html(html);
+    })
+
+    // 조회 클릭
+    $(document).on("click",".submit_stats",function(){
+        var postData = decodeURIComponent($("#statsForm").serialize());
+        postData += '&mode=get_performancee';
+        console.log(postData);
+        get_performancee(postData);
+        console.log(result);
+        $(".customer_cnt").text(result.customer_number);
+        $(".pet_cnt").text(result.animal_number);
+        var html = '';
+        var total_card = 0;
+        var total_cash = 0;
+        var next_type = '';
+        var little_cnt = 0;
+        var little_card = 0;
+        var little_cash = 0;
+        var little_idx = 0;
+        $.each(result.data, function(i,v){
+            total_card += parseInt(v.card);
+            total_cash += parseInt(v.cash);
+
+            var type = $(".order_type").val();
+
+            var html_form = `
+                <tr class="customer-table-cell">
+                    <td>
+                        <div class="customer-table-txt"><strong>${v.name}</strong></div>
+                    </td>
+                    <td>
+                        <div class="customer-table-txt">${am_pm_check2(v.reservationDate)}</div>
+                    </td>
+                    <td>
+                        <div class="customer-table-txt">${v.payment_type} | ${v.service}</div>
+                    </td>
+                    <td>
+                        <div class="customer-table-txt">${(v.card).format()}</div>
+                    </td>
+                    <td>
+                        <div class="customer-table-txt">${(v.cash).format()}</div>
+                    </td>
+                </tr>
+            `;
+
+            if(type == 'date'){
+                if(next_type == v.payment_type){
+                    html += html_form;
+                }else{
+                    next_type = v.payment_type;
+                    little_idx += 1;
+                    html += `
+                        <tr>
+                            <td class="none" colspan="2">${v.payment_type} 소계</td>
+                            <td class="customer-table-txt"><span class="little_cnt_${little_idx}"></span>건</td>
+                            <td class="customer-table-txt"><span class="little_card_${little_idx}"></span>원</td>
+                            <td class="customer-table-txt"><span class="little_cash_${little_idx}"></span>원</td>
+                        </tr>
+                    `;
+                    html += html_form;
+                }
+            }else if(type == 'payment'){
+                if(next_type == v.pay_type){
+                    html += html_form;
+                }else{
+                    next_type = v.pay_type;
+                    little_idx += 1;
+                    html += `
+                        <tr>
+                            <td class="none" colspan="2">${v.pay_type} 소계</td>
+                            <td class="customer-table-txt"><span class="little_cnt_${little_idx}"></span>건</td>
+                            <td class="customer-table-txt"><span class="little_card_${little_idx}"></span>원</td>
+                            <td class="customer-table-txt"><span class="little_cash_${little_idx}"></span>원</td>
+                        </tr>
+                    `;
+                    html += html_form;
+                }
+            }else if(type == 'service'){
+                if(next_type == v.service){
+                    html += html_form;
+                }else{
+                    next_type = v.service;
+                    little_idx += 1;
+                    html += `
+                        <tr>
+                            <td class="none" colspan="2">${v.service} 소계</td>
+                            <td class="customer-table-txt"><span class="little_cnt_${little_idx}"></span>건</td>
+                            <td class="customer-table-txt"><span class="little_card_${little_idx}"></span>원</td>
+                            <td class="customer-table-txt"><span class="little_cash_${little_idx}"></span>원</td>
+                        </tr>
+                    `;
+                    html += html_form;
+                }
+            }else if(type == 'artist'){
+                var worker = (v.worker == artist_id)? "대표" : v.worker;
+                if(next_type == worker){
+                    html += html_form;
+                }else{
+                    next_type = worker;
+                    little_idx += 1;
+                    html += `
+                        <tr>
+                            <td class="none" colspan="2">${worker} 소계</td>
+                            <td class="customer-table-txt"><span class="little_cnt_${little_idx}"></span>건</td>
+                            <td class="customer-table-txt"><span class="little_card_${little_idx}"></span>원</td>
+                            <td class="customer-table-txt"><span class="little_cash_${little_idx}"></span>원</td>
+                        </tr>
+                    `;
+                    html += html_form;
+                }
+            }
+
+        })
+        $(".table_wrap").html(html);
+        $(".total_cnt").text((result.data.length).format());
+        $(".total_card").text(total_card.format());
+        $(".total_cash").text(total_cash.format());
+        $(".total_card_cash").text((total_card+total_cash).format());
+
+        // 소계 값 넣기
+        little_idx = 0;
+        next_type = '';
+        $.each(result.data, function(i,v){
+
+            var type = $(".order_type").val();
+
+            if(type == 'date'){
+                if(next_type == v.payment_type){
+                    little_cnt += 1;
+                    little_card += parseInt(v.card);
+                    little_cash += parseInt(v.cash);
+                    console.log(little_idx);
+                }else{
+                    next_type = v.payment_type;
+                    little_idx = little_idx + 1;
+                    little_cnt = 1;
+                    little_card = parseInt(v.card);
+                    little_cash = parseInt(v.cash);
+                }
+            }else if(type == 'payment'){
+                if(next_type == v.pay_type){
+                    little_cnt += 1;
+                    little_card += parseInt(v.card);
+                    little_cash += parseInt(v.cash);
+                }else{
+                    next_type = v.pay_type;
+                    little_idx += 1;
+                    little_cnt = 1;
+                    little_card = parseInt(v.card);
+                    little_cash = parseInt(v.cash);
+                }
+            }else if(type == 'service'){
+                if(next_type == v.service){
+                    little_cnt += 1;
+                    little_card += parseInt(v.card);
+                    little_cash += parseInt(v.cash);
+                }else{
+                    next_type = v.service;
+                    little_idx += 1;
+                    little_cnt = 1;
+                    little_card = parseInt(v.card);
+                    little_cash = parseInt(v.cash);
+                }
+            }else if(type == 'artist'){
+                var worker = (v.worker == artist_id)? "대표" : v.worker;
+                if(next_type == worker){
+                    little_cnt += 1;
+                    little_card += parseInt(v.card);
+                    little_cash += parseInt(v.cash);
+                }else{
+                    next_type = worker;
+                    little_idx += 1;
+                    little_cnt = 1;
+                    little_card = parseInt(v.card);
+                    little_cash = parseInt(v.cash);
+                }
+            }
+            $(".little_cnt_"+little_idx).text(little_cnt);
+            $(".little_card_"+little_idx).text(little_card.format());
+            $(".little_card_"+little_idx).text(little_card.format());
+
+        })
     })
 
         var chart = bb.generate({
@@ -381,7 +606,7 @@ if ($artist_flag == 1) {
 
 	$(".datepicker-start").datepicker({
 		showOn: "both",
-		buttonImage: "../assets/images/icon/icon-datepicker_black.png",
+		buttonImage: "../static/images/icon/icon-datepicker_black.png",
 		buttonImageOnly: true,
 		dateFormat: 'yy-mm-dd',//포맷 설정
 		prevText: '이전 달',//이전 버튼
@@ -400,7 +625,7 @@ if ($artist_flag == 1) {
 
 	$(".datepicker-end").datepicker({
 		showOn: "both",
-		buttonImage: "../assets/images/icon/icon-datepicker_black.png",
+		buttonImage: "../static/images/icon/icon-datepicker_black.png",
 		buttonImageOnly: true,
 		dateFormat: 'yy-mm-dd',//포맷 설정
 		prevText: '이전 달',//이전 버튼

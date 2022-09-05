@@ -2,6 +2,26 @@
 let data;
 let list;
 
+// 세자리 숫자 콤마
+Number.prototype.format = function() {
+    if (this == 0) return 0;
+
+    var reg = /(^[+-]?\d+)(\d{3})/;
+    var n = (this + '');
+
+    while (reg.test(n)) n = n.replace(reg, '$1' + ',' + '$2');
+
+    return n;
+};
+
+// 문자열 타입에서 쓸 수 있도록 format() 함수 추가
+String.prototype.format = function() {
+    var num = parseFloat(this);
+    if (isNaN(num)) return "0";
+
+    return num.format();
+};
+
 // image 링크 바꾸기 함수
 function img_link_change(img){
     var img 	= img.replace("/pet/images", "/images");
@@ -681,14 +701,15 @@ function _renderCalendar(id) {
                 el.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add('today');
             }
         })
-        window.onload = function () {
+       $(document).ready( function () {
             setTimeout(function () {
+                console.log(1)
                 document.getElementById('wrap').style.display = 'block';
                 document.getElementById('splash').style.display = 'none';
                 localStorage.setItem('splash', '1');
 
             }, 1000)
-        }
+        })
 
     })
 }

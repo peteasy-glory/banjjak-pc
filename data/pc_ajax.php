@@ -745,9 +745,23 @@ if($r_mode) {
         $return_data = array("code"=>"000000","data"=>$result);
     }else if($r_mode === "get_performancee"){
 
-        $login_id = $_POST['login_id'];
+        $partner_id = $_POST['partner_id'];
+        $st_date = $_POST['st_date'];
+        $fi_date = $_POST['fi_date'];
+        $order_type = $_POST['order_type'];
+        $where_type = $_POST['where_type'];
 
-        $time_type = $api -> get('/partner/sales/performance/'.$login_id);
+        $data = array('st_date'=>$st_date,'fi_date'=>$fi_date,'order_type'=>$order_type,'where_type'=>$where_type);
+        $data_json = json_encode($data);
+
+        $time_type = $api -> get('/partner/sales/performance/'.$partner_id, $data_json);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "get_beauty_list"){
+
+        $partner_id = $_POST['login_id'];
+
+        $time_type = $api -> get('/partner/setting/beauty-product/'.$partner_id);
 
         $return_data = array("code"=>"000000",'data'=>$time_type);
     }else if($r_mode === "pay_management"){
