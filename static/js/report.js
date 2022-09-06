@@ -1,7 +1,7 @@
 var report_array = [];
 var result = [];
 
-// 기본 영업시간 가져오기
+// 판매실적 가져오기
 function get_performancee(data){
 
     $.ajax({
@@ -10,6 +10,7 @@ function get_performancee(data){
         type: 'POST',
         async:false,
         success: function (res) {
+            //$("#loading_icon").css('display','none');
             //console.log(res);
             let response = JSON.parse(res);
             let head = response.data.head;
