@@ -978,6 +978,8 @@ if ($artist_flag == 1) {
 
             sessionStorage.removeItem('direct_pet_seq');
             sessionStorage.removeItem('direct');
+            sessionStorage.removeItem('direct_cellphone');
+            sessionStorage.removeItem('direct_new');
         })
 
 

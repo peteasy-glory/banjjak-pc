@@ -1018,8 +1018,12 @@ function _renderCalendar_mini(id,session_id){
                                         },100)
                                     }
 
+                                    if(sessionStorage.getItem('direct_new') === '1'){
+                                        direct_new(id,sessionStorage.getItem('direct_cellphone')).then(function(){direct_event(id,session_id)});
+                                    }else{
+                                        direct_event(id,session_id)
+                                    }
 
-                                    direct_event(id,session_id)
 
 
 

@@ -759,28 +759,35 @@ function customer_new_cellphone_chk(id){
                 if(body.length === undefined){
                     body = [body];
                 }
+                let check = true;
 
                 body.forEach(function (el){
 
                     if(cellphone === el.cellphone) {
-                        console.log(1)
                         cellphone_input.setAttribute('style', 'background : rgb(255, 204, 204);')
 
+                        check = false;
                         validate = false;
                         document.getElementById('msg1_txt').innerText = '이미 가입된 번호입니다.'
                         pop.open('reserveAcceptMsg1');
-                    }else{
-                        validate=true;
-                        cellphone_input.setAttribute('style', 'background : rgb(204, 255, 204);')
+                        return false;
                     }
-
-
                 })
-            }else if(head.code === 999){
-                validate=true;
-                cellphone_input.setAttribute('style', 'background : rgb(204, 255, 204);')
+
+                if(check){
+                    validate=true;
+                    cellphone_input.setAttribute('style', 'background : rgb(204, 255, 204);')
+                }
+
+
+
 
             }
+            // else if(head.code === 999){
+            //     validate=true;
+            //     cellphone_input.setAttribute('style', 'background : rgb(204, 255, 204);')
+            //
+            // }
         }
 
     })
@@ -942,18 +949,22 @@ function customer_new(id){
 
         },
         success:function(res){
-            console.log(res);
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body)
-                location.reload();
-                // if(submit_and_reserve){
-                //
-                // }
+                if(submit_and_reserve){
+                    sessionStorage.setItem('direct','1');
+                    sessionStorage.setItem('direct_new','1');
+                    sessionStorage.setItem('direct_cellphone',`${cellphone}`)
+
+                    location.href='/booking/reserve_beauty_week.php'
+
+                }else{
+                    location.reload();
+                }
             }
         }
     })
@@ -2710,4 +2721,43 @@ function direct_reserve_regist(){
 
 
 
+}
+
+function direct_new(id,cellphone){
+
+
+    return new Promise(function(resolve){
+
+
+
+        $.ajax({
+
+            url:'/data/pc_ajax.php',
+            type:'post',
+            data:{
+                mode:'pet_list',
+                login_id:id,
+                cellphone:cellphone
+
+
+            },
+            success:function(res){
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+
+                    if(body.length === undefined){
+                        body = [body];
+                    }
+
+                    sessionStorage.setItem('direct_pet_seq',body[0].pet_seq)
+                    resolve();
+                }
+
+            }
+        })
+    })
 }
