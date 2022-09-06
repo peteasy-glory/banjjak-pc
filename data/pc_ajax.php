@@ -175,7 +175,7 @@ if($r_mode) {
 
         $login_id = $_POST['login_id'];
 
-        $time_type = $api -> get('/partner/shop/info/'.$login_id);
+        $time_type = $api -> get('/partner/setting/part-time-set/'.$login_id);
 
         $return_data = array("code"=>"000000",'data'=>$time_type);
     }else if($r_mode === "get_front_img"){
@@ -603,6 +603,115 @@ if($r_mode) {
         $time_type = $api -> get('/partner/setting/artist-vacation/'.$login_id);
 
         $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "del_vacation"){
+
+        $idx = intval($_POST['idx']);
+
+        $data = array('idx'=>$idx);
+        $data_json = json_encode($data);
+
+        $result = $api ->delete('/partner/setting/artist-vacation' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
+    }else if($r_mode === "put_schedule"){
+
+        $partner_id = $_POST['partner_id'];
+        $start_time = intval($_POST['start_time']);
+        $close_time = intval($_POST['close_time']);
+        $is_work_holiday = ($_POST['is_work_holiday'] == '0')? false : true;
+        $time1 = $_POST['time1']; // 휴게시간
+        $time_type = intval($_POST['time_type']); // 예약스케줄 운영방식
+        $time_type_2_cnt = intval($_POST['time_type_2_cnt']); // 미용사 수
+
+        $week_type = $_POST['week_type']; // 정기휴무 매주 여부
+        $week = $_POST['week']; // 정기휴무 요일
+
+        // 영업시간, 공휴일휴무 설정
+        $open_close_data = array('partner_id'=>$partner_id,'open_time'=>$start_time,'close_time'=>$close_time,'is_work_on_holiday'=>$is_work_holiday);
+        $open_close_data_json = json_encode($open_close_data);
+        $open_close_result = $api ->put('/partner/setting/open-close' ,$open_close_data_json);
+        if($open_close_result['head']['code'] != 200){
+            $return_data = array("code"=>"000000","data"=>$open_close_result);
+            return false;
+        }
+
+        // 휴게시간 설정
+        $is_tb_time_off = $api -> get('/partner/setting/break-time/'.$partner_id);
+        $break_time = '';
+        for($i=0;$i<count($time1);$i++){
+            $break_time .= $time1[$i].",";
+        }
+        $break_time = substr($break_time, 0, -1);
+        if(count($is_tb_time_off['body']) > 0){
+            $break_data = array('partner_id'=>$partner_id,'break_time'=>$break_time);
+            $break_data_json = json_encode($break_data);
+            $break_result = $api ->put('/partner/setting/break-time' ,$break_data_json);
+        }else{
+            $break_data = array('partner_id'=>$partner_id,'break_time'=>$break_time);
+            $break_data_json = json_encode($break_data);
+            $break_result = $api ->post('/partner/setting/break-time' ,$break_data_json);
+        }
+        if($break_result['head']['code'] != 200){
+            $return_data = array("code"=>"000000","data"=>$break_result);
+            return false;
+        }
+
+        // 정기휴일 설정
+        $is_tb_regular_holiday = $api -> get('/partner/setting/regular-holiday/'.$partner_id);
+        $week_day = 0;
+        for($i=0;$i<count($week);$i++){
+            $week_day += intval($week[$i]);
+        }
+        if(count($is_tb_regular_holiday['body']) > 0){
+            $regular_data = array('partner_id'=>$partner_id,'week'=>$week_day);
+            $regular_data_json = json_encode($regular_data);
+            $regular_result = $api ->put('/partner/setting/regular-holiday' ,$regular_data_json);
+        }else{
+            $regular_data = array('partner_id'=>$partner_id,'week'=>$week_day);
+            $regular_data_json = json_encode($regular_data);
+            $regular_result = $api ->post('/partner/setting/regular-holiday' ,$regular_data_json);
+        }
+        if($regular_result['head']['code'] != 200){
+            $return_data = array("code"=>"000000","data"=>$regular_result);
+            return false;
+        }
+
+        // 예약 스케줄 운영방식 설정
+        $time_type_data = array('partner_id'=>$partner_id,'is_time_Type'=>$time_type);
+        $time_type_json = json_encode($time_type_data);
+        $time_type_result = $api ->put('/partner/setting/part-time-set' ,$time_type_json);
+
+        // 타임제 설정
+        if($time_type > 1){
+            for($i=0;$i<$time_type_2_cnt;$i++){
+                $worker = intval($_POST['worker_'.$i]);
+                $worker_name = $_POST['worker_name_'.$i];
+                $time2 = $_POST['time2_'.$i];
+                $part_time = '';
+                for($j=0;$j<count($time2);$j++){
+                    $part_time .= $time2[$j].",";
+                }
+                $part_time = substr($part_time, 0, -1);
+
+                if($worker > 0){
+                    $part_data = array('idx'=>$worker,'partner_id'=>$partner_id,'name'=>$worker_name,'times'=>$part_time);
+                    $part_data_json = json_encode($part_data);
+                    $part_result = $api ->put('/partner/setting/part-time' ,$part_data_json);
+                }else{
+                    $part_data = array('idx'=>$worker,'partner_id'=>$partner_id,'name'=>$worker_name,'times'=>$part_time);
+                    $part_data_json = json_encode($part_data);
+                    $part_result = $api ->post('/partner/setting/part-time' ,$part_data_json);
+                }
+                if($part_result['head']['code'] != 200){
+                    $return_data = array("code"=>"000000","data"=>$part_result);
+                    return false;
+                }
+            }
+        }
+
+        $return_data = array("code"=>"000000","data"=>$time_type_result);
+
     }else if($r_mode === "get_notice"){
 
         $login_id = $_POST['login_id'];
@@ -652,6 +761,27 @@ if($r_mode) {
         $result = $api ->put('/partner/etc/passwd' ,$data_json);
 
         $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === "get_performancee"){
+
+        $partner_id = $_POST['partner_id'];
+        $st_date = $_POST['st_date'];
+        $fi_date = $_POST['fi_date'];
+        $order_type = $_POST['order_type'];
+        $where_type = $_POST['where_type'];
+
+        $data = array('st_date'=>$st_date,'fi_date'=>$fi_date,'order_type'=>$order_type,'where_type'=>$where_type);
+        $data_json = json_encode($data);
+
+        $time_type = $api -> get('/partner/sales/performance/'.$partner_id, $data_json);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "get_beauty_list"){
+
+        $partner_id = $_POST['login_id'];
+
+        $time_type = $api -> get('/partner/setting/beauty-product/'.$partner_id);
+
+        $return_data = array("code"=>"000000",'data'=>$time_type);
     }else if($r_mode === "pay_management"){
 
         $payment_idx = $_POST['payment_idx'];

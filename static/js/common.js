@@ -337,7 +337,7 @@ var include = {
                                         </a>
                                         <div class="snb-menu-list" id="gnb_stats">
                                             <div class="snb-menu-cell">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="/report/stats_sale_1.php" class="btn-snb-nav">
                                                     <div class="txt">판매실적 조회</div>
                                                 </a>
                                             </div>

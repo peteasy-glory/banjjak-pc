@@ -216,7 +216,7 @@ if ($artist_flag == 1) {
         $(".break_time_wrap").html(html);
 
         // 자유시간제, 타임제
-        var t_type = setting_array[2].shop_time_type; // 1:자유시간제, 2:타임제
+        var t_type = setting_array[2].is_time_Type; // 1:자유시간제, 2:타임제
         if(t_type == '2'){
             $('.time_type_title').text("타임제");
             var time_array = setting_array[3];
