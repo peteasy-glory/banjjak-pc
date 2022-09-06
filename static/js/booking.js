@@ -1,5 +1,6 @@
 
-
+var idx_array = [];
+var tooltip_array = [];
 
 //일간 예약관리 렌더
 function schedule_render(id){
@@ -75,7 +76,8 @@ function schedule_render(id){
 
                                     }
 
-
+                                    // 툴팁배열에 idx 넣기
+                                    idx_array.push(el.product.payment_idx);
 
                                     el_.setAttribute('data-pay',el.product.payment_idx)
                                     el_.setAttribute('data-time_length',(new Date(el.product.date.booking_fi).getTime()-new Date(el.product.date.booking_st).getTime())/1000/60)
@@ -117,6 +119,9 @@ function schedule_render(id){
 
                         })
 
+                        $.each(idx_array, function(i, v){
+                            tooltip(v);
+                        })
 
 
                         $.ajax({
@@ -7703,6 +7708,32 @@ function reserve_change_time(){
 
 
 
+}
+
+// 이전 특이사항 툴팁
+function tooltip(idx){
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: "pay_management",
+            payment_idx: idx,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            //console.log(res);
+            let response = JSON.parse(res);
+            console.log(response);
+            let head = response.data2.head;
+            let body = response.data2.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                //tooltip_array.push(body);
+                console.log(JSON.stringify(body));
+            }
+        }
+    })
 }
 
 function change_check(){

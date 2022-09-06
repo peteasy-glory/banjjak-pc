@@ -858,9 +858,7 @@ if ($artist_flag == 1) {
         reserve_time().then(function (){reserve_time_date()});
         reserve_time_init()
 
-
-
-
+//console.log(tooltip_array);
     })
 
 
@@ -869,6 +867,8 @@ if ($artist_flag == 1) {
 
 </script>
 <script>
+
+
 $(function(){
 	/*
 	$( "#sortable" ).sortable({
@@ -881,6 +881,7 @@ $(function(){
 	//https://github.com/SortableJS/Sortable
 
 	$(document).on('mouseenter mouseleave mousemove' , '.calendar-week-time-item' , function(e){
+        //console.log($(this).data('payment_idx'));
 		var x = e.pageX;
 		var y = e.pageY;
 
