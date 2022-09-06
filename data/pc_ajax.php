@@ -175,7 +175,7 @@ if($r_mode) {
 
         $login_id = $_POST['login_id'];
 
-        $time_type = $api -> get('/partner/shop/info/'.$login_id);
+        $time_type = $api -> get('/partner/setting/part-time-set/'.$login_id);
 
         $return_data = array("code"=>"000000",'data'=>$time_type);
     }else if($r_mode === "get_front_img"){
@@ -603,14 +603,25 @@ if($r_mode) {
         $time_type = $api -> get('/partner/setting/artist-vacation/'.$login_id);
 
         $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "del_vacation"){
+
+        $idx = intval($_POST['idx']);
+
+        $data = array('idx'=>$idx);
+        $data_json = json_encode($data);
+
+        $result = $api ->delete('/partner/setting/artist-vacation' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
 
     }else if($r_mode === "put_schedule"){
+
         $partner_id = $_POST['partner_id'];
         $start_time = intval($_POST['start_time']);
         $close_time = intval($_POST['close_time']);
         $is_work_holiday = ($_POST['is_work_holiday'] == '0')? false : true;
         $time1 = $_POST['time1']; // 휴게시간
-        $time_type = $_POST['time_type']; // 예약스케줄 운영방식
+        $time_type = intval($_POST['time_type']); // 예약스케줄 운영방식
         $time_type_2_cnt = intval($_POST['time_type_2_cnt']); // 미용사 수
 
         $week_type = $_POST['week_type']; // 정기휴무 매주 여부
@@ -666,33 +677,40 @@ if($r_mode) {
             return false;
         }
 
-        // 타임제 설정
-        for($i=0;$i<$time_type_2_cnt;$i++){
-            $worker = intval($_POST['worker_'.$i]);
-            $worker_name = $_POST['worker_name_'.$i];
-            $time2 = $_POST['time2_'.$i];
-            $part_time = '';
-            for($j=0;$j<count($time2);$j++){
-                $part_time .= $time2[$j].",";
-            }
-            $part_time = substr($part_time, 0, -1);
+        // 예약 스케줄 운영방식 설정
+        $time_type_data = array('partner_id'=>$partner_id,'is_time_Type'=>$time_type);
+        $time_type_json = json_encode($time_type_data);
+        $time_type_result = $api ->put('/partner/setting/part-time-set' ,$time_type_json);
 
-            if($worker > 0){
-                $part_data = array('idx'=>$worker,'partner_id'=>$partner_id,'name'=>$worker_name,'times'=>$part_time);
-                $part_data_json = json_encode($part_data);
-                $part_result = $api ->put('/partner/setting/part-time' ,$part_data_json);
-            }else{
-                $part_data = array('idx'=>$worker,'partner_id'=>$partner_id,'name'=>$worker_name,'times'=>$part_time);
-                $part_data_json = json_encode($part_data);
-                $part_result = $api ->post('/partner/setting/part-time' ,$part_data_json);
-            }
-            if($part_result['head']['code'] != 200){
-                $return_data = array("code"=>"000000","data"=>$part_result);
-                return false;
+        // 타임제 설정
+        if($time_type > 1){
+            for($i=0;$i<$time_type_2_cnt;$i++){
+                $worker = intval($_POST['worker_'.$i]);
+                $worker_name = $_POST['worker_name_'.$i];
+                $time2 = $_POST['time2_'.$i];
+                $part_time = '';
+                for($j=0;$j<count($time2);$j++){
+                    $part_time .= $time2[$j].",";
+                }
+                $part_time = substr($part_time, 0, -1);
+
+                if($worker > 0){
+                    $part_data = array('idx'=>$worker,'partner_id'=>$partner_id,'name'=>$worker_name,'times'=>$part_time);
+                    $part_data_json = json_encode($part_data);
+                    $part_result = $api ->put('/partner/setting/part-time' ,$part_data_json);
+                }else{
+                    $part_data = array('idx'=>$worker,'partner_id'=>$partner_id,'name'=>$worker_name,'times'=>$part_time);
+                    $part_data_json = json_encode($part_data);
+                    $part_result = $api ->post('/partner/setting/part-time' ,$part_data_json);
+                }
+                if($part_result['head']['code'] != 200){
+                    $return_data = array("code"=>"000000","data"=>$part_result);
+                    return false;
+                }
             }
         }
 
-        $return_data = array("code"=>"000000","data"=>$part_result);
+        $return_data = array("code"=>"000000","data"=>$time_type_result);
 
     }else if($r_mode === "get_notice"){
 

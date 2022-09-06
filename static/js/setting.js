@@ -463,3 +463,25 @@ function put_schedule(data){
     })
 }
 //////////// 일정관리 수정 저장 끝 //////////
+
+// 임시휴무 삭제하기
+function del_vacation(idx){
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode:"del_vacation",
+            idx: idx,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                pop.open('reloadPop', '삭제되었습니다.');
+            }
+        }
+    })
+}

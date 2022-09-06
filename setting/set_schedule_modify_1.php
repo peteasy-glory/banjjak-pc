@@ -725,6 +725,22 @@ if ($artist_flag == 1) {
             </div>
         </div>
     </article>
+    <form id="delete_pop" class="layer-pop-wrap">
+        <input type="hidden" name="idx" class="idx" value="">
+        <div class="layer-pop-parent">
+            <div class="layer-pop-children">
+                <div class="pop-data alert-pop-data">
+                    <div class="pop-body">
+                        <div class="msg-txt">삭제하시겠습니까?</div>
+                    </div>
+                    <div class="pop-footer">
+                        <button type="button" class="btn btn-confirm" onclick="delete_ok();">삭제</button>
+                        <button type="button" class="btn btn-confirm" onclick="pop.close();">취소</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
 <!-- //wrap -->
 <script src="../static/js/common.js"></script>
@@ -830,7 +846,7 @@ if ($artist_flag == 1) {
         });
         $(".time_name_wrap").html(html);
         $(".modify_wrap").html(html_modify);
-        var t_type = setting_array[2].shop_time_type; // 1:자유시간제, 2:타임제
+        var t_type = setting_array[2].is_time_Type; // 1:자유시간제, 2:타임제
         if(t_type == '2'){
             $("input:radio[name='time_type']:radio[value='2']").prop('checked', true);
             $(".time_type_2_wrap").css("display","block");
@@ -886,7 +902,7 @@ if ($artist_flag == 1) {
                 }
                 html += `
                     <div class="grid-layout-cell grid-2">
-                        <div class="memo-item modify">${vacation_time} (${name})<button type="button" class="btn-memo-del"><span class="icon icon-close-small-black"></span></button></div>
+                        <div class="memo-item modify">${vacation_time} (${name})<button type="button" class="btn-memo-del" onclick="delete_pop(${value.idx});"><span class="icon icon-close-small-black"></span></button></div>
                     </div>
                 `;
             });
@@ -973,6 +989,19 @@ if ($artist_flag == 1) {
 
         put_schedule(postData);
     })
+
+    // 임시휴무 삭제 팝업
+    function delete_pop(idx){
+        $("#delete_pop .idx").val(idx);
+        pop.open('delete_pop');
+    }
+
+    // 임시휴무 삭제하기
+    function delete_ok(){
+        pop.close();
+        var idx = $("#delete_pop .idx").val();
+        del_vacation(idx);
+    }
 
 </script>
 </body>
