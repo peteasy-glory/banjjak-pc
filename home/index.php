@@ -27,7 +27,7 @@ if($artist_flag == 1){
     </div>
 </article>
 <script>
-    if(localStorage.getItem('splash') === null || localStorage.getItem('splash') === undefined || localStorage.getItem('splash') !== '1'){
+    if(sessionStorage.getItem('splash') === null || sessionStorage.getItem('splash') === undefined || sessionStorage.getItem('splash') !== '1'){
         document.getElementById('splash').style.display = 'block'
     }
 </script>
@@ -110,7 +110,7 @@ if($artist_flag == 1){
 																					<div class="main-calendar-month-header-col saturday">토</div>
 																				</div>
 																			</div>
-                                                                            <div class="loading-container" id="home_main_calendar_loading" >
+                                                                            <div class="loading-container">
                                                                                 <div class="mexican-wave"></div>
                                                                             </div>
 																			<div class="main-calendar-month-body" id="main-calendar-month-body">
@@ -301,6 +301,31 @@ if($artist_flag == 1){
         stats();
         gnb_actived('gnb_home');
         break_time(artist_id);
+
+        $.ajax({
+
+            url: '/data/pc_ajax.php',
+            type: 'post',
+            data: {
+                mode: 'open_close',
+                login_id: artist_id,
+
+            },
+            success: function (res) {
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+
+                    let open = body[0].open_time;
+                    let close = body[0].close_time;
+                    localStorage.setItem('open_close', `${open}/${close}`)
+                }
+            }
+        })
+
 
     })
 

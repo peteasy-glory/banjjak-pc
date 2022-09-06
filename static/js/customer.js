@@ -530,6 +530,77 @@ function customer_pet_type(){
     })
 }
 
+function modify_customer_pet_type(){
+
+
+    let breed_input;
+
+    let breed;
+
+    let breed_select = document.getElementById('modify_customer_breed_select')
+
+    breed_select.addEventListener('change',function(){
+        if(breed_select.options[breed_select.selectedIndex].value === "기타"){
+
+            document.getElementById('modify_customer_breed_other_box').setAttribute('style','display:block');
+        }else{
+            document.getElementById('modify_customer_breed_other_box').setAttribute('style','display:none');
+        }
+
+    })
+    Array.from(document.getElementsByClassName('modify_customer_load-pet-type')).forEach(function(el){
+
+
+        el.addEventListener('click',function(){
+            document.getElementById('modify_customer_breed_other_box').setAttribute('style','display:none');
+            breed_input = document.querySelector('input[name="modify_customer_breed"]:checked');
+            breed = breed_input.value
+
+            $.ajax({
+
+                url:'/data/pc_ajax.php',
+                type:'post',
+                data:{
+                    mode:'pet_type',
+                    breed:breed
+                },
+                success:function(res){
+                    let response = JSON.parse(res);
+                    let head = response.data.head;
+                    let body = response.data.body;
+                    if (head.code === 401) {
+                        pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                    } else if (head.code === 200) {
+                        document.getElementById('modify_customer_breed_select').innerHTML = '<option value="선택">선택</option>';
+                        body.forEach(function(el){
+
+
+                            if(el.name !== "기타"){
+                                document.getElementById('modify_customer_breed_select').innerHTML += `<option value="${el.name}">${el.name}</option>`
+                            }
+
+
+                        })
+
+                        document.getElementById('modify_customer_breed_select').innerHTML += '<option value="기타">기타</option>';
+
+
+
+
+                    }
+
+
+                }
+            })
+
+
+
+
+
+        })
+    })
+}
+
 function customer_new_birthday(){
 
     return new Promise(function (resolve){
@@ -589,6 +660,67 @@ function customer_new_weight(){
     for(let i=0; i<=50; i++){
 
         document.getElementById('weight1').innerHTML += `<option value=${i}>${i}</option>`
+    }
+}
+
+function modify_customer_new_birthday(){
+
+    return new Promise(function (resolve){
+
+        for(let i = 2000; i<=new Date().getFullYear(); i++){
+
+            document.getElementById('modify_customer_birthday_year').innerHTML += `<option value="${fill_zero(i)}" ${i===2022 ? 'selected':''}>${i}</option>`
+        }
+
+
+        for(let i = 1; i<=12; i++){
+            document.getElementById('modify_customer_birthday_month').innerHTML += `<option value="${fill_zero(i)}">${i}</option>`
+        }
+
+        resolve();
+    })
+
+}
+
+
+function modify_customer_new_birthday_date(){
+
+
+    let year = document.getElementById('modify_customer_birthday_year').value;
+    let month = document.getElementById('modify_customer_birthday_month').value;
+
+    let date_length = new Date(year,month,0).getDate();
+    document.getElementById('modify_customer_birthday_date').innerHTML = '';
+    for(let i = 1; i<=date_length; i++){
+        document.getElementById('modify_customer_birthday_date').innerHTML += `<option value="${fill_zero(i)}">${i}</option>`
+
+    }
+
+    Array.from(document.getElementsByClassName('birthday')).forEach(function(el){
+
+        el.addEventListener('change',function(){
+
+            year = document.getElementById('modify_customer_birthday_year').value;
+            month = document.getElementById('modify_customer_birthday_month').value;
+
+            date_length = new Date(year,month,0).getDate();
+            document.getElementById('modify_customer_birthday_date').innerHTML = '';
+            for(let i = 1; i<=date_length; i++){
+                document.getElementById('modify_customer_birthday_date').innerHTML += `<option value="${i}">${i}</option>`
+
+            }
+        })
+    })
+
+}
+
+function modify_customer_new_weight(){
+
+    document.getElementById('modify_customer_weight1').innerHTML = '';
+
+    for(let i=0; i<=50; i++){
+
+        document.getElementById('modify_customer_weight1').innerHTML += `<option value=${i}>${i}</option>`
     }
 }
 
@@ -927,7 +1059,7 @@ function customer_view(id){
                                                                             <div class="table-data">
                                                                                 <div class="customer-user-phone-wrap">
                                                                                     <div class="item-main-phone">
-                                                                                        <div class="value">${phone_edit(localStorage.getItem('customer_select'))}</div>
+                                                                                        <div class="value" id="representative_cellphone"></div>
                                                                                         <button type="button" class="btn-data-modify" onclick="pop.open('numberAddPop')">편집</button>
                                                                                     </div>
                                                                                     <div class="item-sub-phone" id="sub_cellphone">
@@ -1000,6 +1132,8 @@ function customer_view_(id){
         insert_customer_memo(id,body_data);
         insert_customer_grade(id,body_data);
         insert_customer_special(id);
+
+
 
         $(document).ready(function(){
 
@@ -1154,6 +1288,8 @@ function pet_reserve_info(data){
                     document.getElementById('target_pet_special').innerText = `${el_.dermatosis ? '피부병' : ''} ${el_.heart_trouble ? '심장 질환' : ''} ${el_.marking ? '마킹': ''} ${el_.mounting ? '마운팅' : ''}`;
                     document.getElementById('target_pet_disliked').innerText = `${el_.dt_body ? '몸':''} ${el_.dt_ear ? '귀':''} ${el_.dt_eye ? '눈':''} ${el_.dt_genitilia ? '생식기':''} ${el_.dt_leg ? '다리':''} ${el_.dt_mouth ? '입' : ''} ${el_.dt_neck ? '목':''} ${el_.dt_nose ? '코':''} ${el_.dt_tail ? '꼬리' : ''}`;
 
+                    document.getElementById('modify_pet').setAttribute('data-pet_seq',`${el_.pet_seq}`)
+                    document.getElementById('modify_pet').setAttribute('onclick',`customer_modify_pet(${document.getElementById('modify_pet').getAttribute('data-pet_seq')}).then(function(body){ customer_modify_pet_(body)});`)
 
                     document.getElementById('target_pet_etc').innerText = `${el_.etc}`;
 
@@ -1184,6 +1320,8 @@ function pet_reserve_info(data){
 
 
                     },50)
+
+                    document.getElementById('direct_reserve_btn').setAttribute('data-pet_seq',el_.pet_seq)
 
 
 
@@ -1345,6 +1483,7 @@ function insert_customer_grade(id,data){
                         if (head.code === 401) {
                             pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                         } else if (head.code === 200) {
+                            console.log(body);
 
                             body_.forEach(function(el){
 
@@ -1897,13 +2036,16 @@ function sub_phone_pop_init(id){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
+                console.log(body)
+
+                document.getElementById('representative_cellphone').innerText = body.to_cellphone;
+
 
                 if(body.length === undefined){
 
                     body = [body];
                 }
 
-                console.log(body)
                 body.forEach(function(el,i){
 
 
@@ -1918,7 +2060,7 @@ function sub_phone_pop_init(id){
 
 
                     document.getElementById('phone_add_list').innerHTML += `<div class="phone-add-item">
-                                                                                        <!--                                <div class="item-check"><label for="phone1" class="form-radiobox"><input type="radio" id="phone1" name="phone"><span class="form-check-icon"><em>대표</em></span></label></div>-->
+                                                                                                                        <div class="item-check representative" style="display: none;"><label for="phone1" class="form-radiobox"><input type="radio" id="phone1" name="phone" data-nick="${el.from_nickname}" data-cellphone="${el.from_cellphone}" onclick="representative(this)"><span class="form-check-icon"><em>대표</em></span></label></div>
                                                                                         <div class="item-data">
                                                                                             <div class="phone-add-item-value">
                                                                                                 <div class="phone-add-name">
@@ -1962,6 +2104,13 @@ function sub_phone_pop_init(id){
                 setInputFilter(document.getElementById("add_sub_cellphone_2"), function(value) {
                     return /^\d*\.?\d*$/.test(value);
                 })
+
+                if(!body[0].client_id.match('@')){
+                    Array.from(document.getElementsByClassName('representative')).forEach(function(el){
+
+                        el.style.display = 'block';
+                    })
+                }
             }
 
         }
@@ -2034,6 +2183,526 @@ function add_sub_phone(id){
                 pop.open('reserveAcceptMsg2');
                 return;
 
+            }
+
+        }
+    })
+
+
+
+}
+
+function representative(target){
+
+    console.log(target);
+
+    let nick = target.getAttribute('data-nick');
+    let cellphone = target.getAttribute('data-cellphone');
+
+
+
+}
+
+
+function customer_modify_pet(pet_seq){
+
+
+    return new Promise(function (resolve){
+
+
+
+        $.ajax({
+
+            url:'/data/pc_ajax.php',
+            type:'post',
+            data:{
+
+                mode:'pet_info',
+                pet_seq:pet_seq
+            },
+            success:function(res) {
+                console.log(res)
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+
+                    console.log(body)
+                    document.getElementById('modify_customer_name').value = body.name;
+
+                    if(body.type === 'dog'){
+
+
+                        document.getElementById('modify_customer_breed1').click();
+                    }else{
+                        document.getElementById('modify_customer_breed2').click();
+
+                    }
+
+                    setTimeout(function(){
+
+                        resolve(body);
+                    },300)
+
+
+
+
+                }
+            }
+        })
+
+    })
+
+
+
+}
+function customer_modify_pet_(body){
+
+
+    console.log(body);
+
+
+    for(let i=0; i<document.getElementById('modify_customer_breed_select').options.length; i++){
+
+        if(document.getElementById('modify_customer_breed_select').options[i].value === body.pet_type){
+
+            document.getElementById('modify_customer_breed_select').options[i].selected = true;
+        }
+    }
+    for(let i=0; i<document.getElementById('modify_customer_birthday_year').options.length; i++){
+
+        if(document.getElementById('modify_customer_birthday_year').options[i].value === body.year.toString()){
+
+            document.getElementById('modify_customer_birthday_year').options[i].selected = true;
+        }
+    }
+    for(let i=0; i<document.getElementById('modify_customer_birthday_month').options.length; i++){
+
+        if(document.getElementById('modify_customer_birthday_month').options[i].value === fill_zero(body.month)){
+
+            document.getElementById('modify_customer_birthday_month').options[i].selected = true;
+        }
+    }
+    for(let i=0; i<document.getElementById('modify_customer_birthday_date').options.length; i++){
+
+        if(document.getElementById('modify_customer_birthday_date').options[i].value === fill_zero(body.day)){
+
+            document.getElementById('modify_customer_birthday_date').options[i].selected = true;
+        }
+    }
+
+    if(body.gender === '남아'){
+
+        document.getElementById('modify_customer_gender1').checked = true;
+    }else{
+        document.getElementById('modify_customer_gender2').checked = true;
+
+    }
+
+    if(body.neutral === 0){
+
+        document.getElementById('modify_customer_neutralize1').checked = true;
+    }else{
+
+        document.getElementById('modify_customer_neutralize2').checked = true;
+
+    }
+
+
+    for(let i=0; i<document.getElementById('modify_customer_weight1').options.length; i++){
+
+        if(document.getElementById('modify_customer_weight1').options[i].value === body.weight.split('.')[0]){
+
+
+            document.getElementById('modify_customer_weight1').options[i].selected = true;
+        }
+    }
+
+
+    for(let i=0; i<document.getElementById('modify_customer_weight2').options.length; i++){
+
+        if(document.getElementById('modify_customer_weight2').options[i].value === body.weight.split('.')[1]){
+
+
+            document.getElementById('modify_customer_weight2').options[i].selected = true;
+        }
+    }
+
+    for(let i=0; i<document.getElementById('modify_customer_beauty_exp').options.length; i++){
+
+        if(document.getElementById('modify_customer_beauty_exp').options[i].value === body.beauty_exp){
+
+            document.getElementById('modify_customer_beauty_exp').options[i].selected = true;
+        }
+    }
+
+    for(let i=0; i<document.getElementById('modify_customer_vaccination').options.length; i++){
+
+        if(document.getElementById('modify_customer_vaccination').options[i].value === body.vaccination){
+
+            document.getElementById('modify_customer_vaccination').options[i].selected = true;
+        }
+    }
+
+    for(let i=0; i<document.getElementById('modify_customer_bite').options.length; i++){
+
+        if(document.getElementById('modify_customer_bite').options[i].value === body.bite){
+
+            document.getElementById('modify_customer_bite').options[i].selected = true;
+        }
+    }
+
+    for(let i=0; i<document.getElementById('modify_customer_luxation').options.length; i++){
+
+        if(document.getElementById('modify_customer_luxation').options[i].value === body.luxation){
+
+            document.getElementById('modify_customer_luxation').options[i].selected = true;
+        }
+    }
+
+    if(body.dermatosis === 1){
+
+        document.getElementById('modify_customer_special1').checked = true;
+
+    }
+
+    if(body.heart_trouble === 1){
+
+        document.getElementById('modify_customer_special2').checked = true;
+    }
+
+    if(body.marking === 1){
+
+        document.getElementById('modify_customer_special3').checked = true;
+    }
+
+    if(body.mounting === 1){
+
+        document.getElementById('modify_customer_special4').checked = true;
+    }
+
+    document.getElementById('modify_pet_info_btn').addEventListener('click',function(){
+
+
+        customer_modify_pet_info(body)
+    },{once:true})
+
+    pop.open('petModifyPop');
+}
+
+function customer_modify_pet_info(body){
+
+    if(document.getElementById('modify_customer_name').value === '' || document.getElementById('modify_customer_name').value === null || document.getElementById('modify_customer_name').value === undefined ){
+
+        document.getElementById('msg1_txt').innerText = '펫 이름을 입력해주세요.'
+        pop.open('reserveAcceptMsg1');
+        return;
+    }
+
+
+
+    if(document.querySelector('input[name="modify_customer_breed"]:checked') === null || document.querySelector('input[name="modify_customer_breed"]:checked') === undefined || document.querySelector('input[name="modify_customer_breed"]:checked') === ''){
+
+        document.getElementById('msg1_txt').innerText = '품종을 선택해주세요.'
+        pop.open('reserveAcceptMsg1');
+        return;
+    }
+
+    if(document.getElementById('modify_customer_breed_select').value === "선택" || document.getElementById('modify_customer_breed_select').value === ''){
+        document.getElementById('msg1_txt').innerText = '품종을 선택해주세요.'
+        pop.open('reserveAcceptMsg1');
+        return;
+
+    }
+    if((document.getElementById('modify_customer_breed_select').value === "기타" || document.getElementById('modify_customer_breed_select').value === "") && document.getElementById('modify_customer_breed_other').value === ''){
+        document.getElementById('msg1_txt').innerText = '품종을 선택해주세요.'
+        pop.open('reserveAcceptMsg1');
+        return;
+
+    }
+
+    if(document.getElementById('modify_customer_weight1').value === "0" && document.getElementById('modify_customer_weight2').value ==="0"){
+
+        document.getElementById('msg1_txt').innerText = '몸무게를 입력해주세요.'
+        pop.open('reserveAcceptMsg1');
+        return;
+    }
+
+
+    let breed = document.getElementById('modify_customer_breed_select').value === '기타' ? document.getElementById('modify_customer_breed_other').value : document.getElementById('modify_customer_breed_select').value;
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:"modify_pet_info",
+            idx:body.pet_seq,
+            name:document.getElementById('modify_customer_name').value,
+            type:document.querySelector('input[name="modify_customer_breed"]:checked').value,
+            pet_type:breed,
+            year:document.getElementById('modify_customer_birthday_year').value,
+            month:document.getElementById('modify_customer_birthday_month').value,
+            day:document.getElementById('modify_customer_birthday_date').value,
+            gender:document.querySelector('input[name="modify_customer_gender"]:checked') === null ? '0' : document.querySelector('input[name="modify_customer_gender"]:checked').value,
+            neutral:document.querySelector('input[name="modify_customer_neutralize"]:checked') === null ? '0' : document.querySelector('input[name="modify_customer_neutralize"]:checked').value,
+            weight:`${document.getElementById('modify_customer_weight1').value}.${document.getElementById('modify_customer_weight2').value}`,
+            beauty_exp : document.getElementById('modify_customer_beauty_exp').value,
+            vaccination : document.getElementById('modify_customer_vaccination').value,
+            luxation : document.getElementById('modify_customer_luxation').value,
+            bite : document.getElementById('modify_customer_bite').value,
+            dermatosis:document.getElementById('modify_customer_special1').checked === true ? 1:0,
+            heart_trouble:document.getElementById('modify_customer_special2').checked === true ? 1:0,
+            marking:document.getElementById('modify_customer_special3').checked === true ? 1:0,
+            mounting:document.getElementById('modify_customer_special4').checked === true ? 1:0,
+            etc:"",
+
+
+
+
+
+        },
+        success:function(res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+
+                document.getElementById('msg2_txt').innerText = '펫 정보가 변경되었습니다.'
+                pop.open('reserveAcceptMsg2');
+
+            }
+        }
+
+    })
+}
+
+function direct_reserve(target){
+
+
+    sessionStorage.setItem('direct','1');
+    sessionStorage.setItem('direct_pet_seq',`${target.getAttribute('data-pet_seq')}`)
+    sessionStorage.setItem('direct_cellphone',`${document.getElementById('representative_cellphone').innerText}`)
+
+    location.href='/booking/reserve_beauty_week.php'
+
+
+}
+
+function direct_event(id,session_id){
+
+    if(sessionStorage.getItem('direct') === '1'){
+
+        Array.from(document.getElementsByClassName('btn-calendar-add')).forEach(function(el){
+
+            el.removeAttribute('onclick');
+            el.setAttribute('onclick',`direct_get_pet_info('${id}',this,${sessionStorage.getItem('direct_pet_seq')},'${session_id}')`)
+
+        })
+
+    }
+}
+
+function direct_get_pet_info(id,target,pet_seq,session_id){
+    let parent = target.parentElement.parentElement
+
+
+    let thisYear = parent.getAttribute('data-year');
+    let thisMonth = parent.getAttribute('data-month');
+    let thisDate = parent.getAttribute('data-date');
+    let thisHour = parent.getAttribute('data-hour');
+    let thisMinutes = parent.getAttribute('data-minutes');
+
+    let thisWorker;
+    let thisWorker2;
+
+    console.log(thisHour)
+    console.log(thisMinutes);
+
+    Array.from(document.getElementsByClassName('header-worker')).forEach(function (el){
+
+        if(el.classList.contains('actived')){
+
+            thisWorker = el.getAttribute('data-worker');
+            thisWorker2 = el.getAttribute('data-nick');
+        }
+    })
+
+    let a = new Date(date.getFullYear(),date.getMonth(),date.getDate(),thisHour,thisMinutes);
+    a.setMinutes(a.getMinutes()+120);
+
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+            mode:'pet_info',
+            pet_seq:pet_seq
+        },
+        success:function (res){
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                console.log(body);
+
+                let is_vat;
+                $.ajax({
+
+                    url:'/data/pc_ajax.php',
+                    type:'post',
+                    async:false,
+                    data:{
+
+                        mode:'merchandise',
+                        login_id:id,
+                        animal:body.type,
+                    },
+                    success:function(res){
+                        let response = JSON.parse(res);
+                        let head = response.data.head;
+                        let body = response.data.body;
+                        if (head.code === 401) {
+                            pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                        } else if (head.code === 200) {
+                            is_vat = body.is_vat
+                        }
+                    }
+                })
+
+
+                document.getElementById('d_partner_id').value = id;
+                document.getElementById('d_worker').value = thisWorker;
+                document.getElementById('d_customer_id').value = body.customer_id;
+                document.getElementById('d_cellphone').value= sessionStorage.getItem('direct_cellphone');
+                document.getElementById('d_pet_seq').value= body.pet_seq;
+                document.getElementById('d_animal').value= body.type;
+                document.getElementById('d_pet_type').value=body.pet_type;
+                document.getElementById('d_pet_year').value=body.year;
+                document.getElementById('d_pet_month').value=body.month;
+                document.getElementById('d_pet_day').value=body.day;
+                document.getElementById('d_gender').value=body.gender;
+                document.getElementById('d_neutral').value=body.neutral;
+                document.getElementById('d_weight').value=body.weight;
+                document.getElementById('d_beauty_exp').value=body.beauty_exp;
+                document.getElementById('d_vaccination').value=body.vaccination;
+                document.getElementById('d_luxation').value=body.luxation;
+                document.getElementById('d_bite').value=body.bite;
+                document.getElementById('d_dermatosis').value=body.dermatosis;
+                document.getElementById('d_heart_trouble').value=body.heart_trouble;
+                document.getElementById('d_marking').value=body.marking;
+                document.getElementById('d_mounting').value=body.mounting;
+                document.getElementById('d_year').value=thisYear;
+                document.getElementById('d_month').value=parseInt(thisMonth)+1;
+                document.getElementById('d_day').value=thisDate;
+                document.getElementById('d_hour').value=thisHour
+                document.getElementById('d_min').value=thisMinutes;
+                document.getElementById('d_session_id').value= session_id
+                document.getElementById('d_order_id').value=""
+                document.getElementById('d_local_price').value=null
+                document.getElementById('d_pay_type').value="pos-card"
+                document.getElementById('d_pay_status').value="POS"
+
+                document.getElementById('d_to_hour').value=fill_zero(a.getHours());
+                document.getElementById('d_to_min').value=fill_zero(a.getMinutes());
+                document.getElementById('d_use_coupon_yn').value=""
+                document.getElementById('d_is_vat').value= is_vat
+                document.getElementById('d_product').value=`${body.name}|${body.type}|${data.shop_name}|||:0|||||||||0|0|0|0|0|0`
+                // document.getElementById('d_pay_data').value=`{"mode":"directRev","date":"${thisYear}-${fill_zero(thisMonth)}-${fill_zero(thisDate)}","time":"${fill_zero(thisHour)}:${fill_zero(thisMinutes)}","worker":"${thisWorker}","msg_send":"${document.querySelector('input[name="msg_send"]:checked').value}","msg_send1":"${document.querySelector('input[name="msg_send1"]:checked').value}"`
+                // document.getElementById('d_reserve_yn').value=document.querySelector('input[name="msg_send"]:checked').value;
+                // document.getElementById('d_aday_ago_yn').value=document.querySelector('input[name="msg_send1"]:checked').value;
+
+                document.getElementById('direct_title').innerText=thisWorker2;
+                document.getElementById('thisDate1').innerText = `${thisYear}-${fill_zero(thisMonth)}-${fill_zero(thisDate)}`;
+                document.getElementById('thisTime1').innerText = `${fill_zero(am_pm_check(thisHour))}:${fill_zero(thisMinutes)}`;
+                document.getElementById('pet_n').innerText = body.name;
+
+            }
+
+        }
+
+    })
+
+
+
+
+
+    pop.open('reserveCalendarPop100')
+
+}
+
+function direct_reserve_regist(){
+
+
+
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:'reserve_regist',
+            partner_id : document.getElementById('d_partner_id').value,
+            worker : document.getElementById('d_worker').value,
+            customer_id :document.getElementById('d_customer_id').value,
+            cellphone : document.getElementById('d_cellphone').value,
+            pet_seq : document.getElementById('d_pet_seq').value,
+            animal : document.getElementById('d_animal').value,
+            pet_type : document.getElementById('d_pet_type').value,
+            pet_name : document.getElementById('pet_n').value,
+            pet_year : document.getElementById('d_pet_year').value,
+            pet_month: document.getElementById('d_pet_month').value,
+            pet_day : document.getElementById('d_pet_day').value,
+            gender:document.getElementById('d_gender').value,
+            neutral:document.getElementById('d_neutral').value,
+            weight:document.getElementById('d_weight').value,
+            beauty_exp:document.getElementById('d_beauty_exp').value,
+            vaccination:document.getElementById('d_vaccination').value,
+            luxation:document.getElementById('d_luxation').value,
+            bite:document.getElementById('d_bite').value,
+            dermatosis:document.getElementById('d_dermatosis').value,
+            heart_trouble:document.getElementById('d_heart_trouble').value,
+            marking:document.getElementById('d_marking').value,
+            mounting:document.getElementById('d_mounting').value,
+            year:document.getElementById('d_year').value,
+            month:document.getElementById('d_month').value,
+            day:document.getElementById('d_day').value,
+            hour:document.getElementById('d_hour').value,
+            min:document.getElementById('d_min').value,
+            session_id:document.getElementById('d_session_id').value,
+            order_id:'',
+            local_price:null,
+            pay_type:'pos-card',
+            pay_status:'pos',
+            pay_data:`{"mode":"directRev","date":"${document.getElementById('d_year').value}-${fill_zero(document.getElementById('d_month').value)}-${fill_zero(document.getElementById('d_day').value)}","time":"${fill_zero(document.getElementById('d_hour').value)}:${fill_zero(document.getElementById('d_min').value)}","worker":"${document.getElementById('d_worker').value}","msg_send":"${document.querySelector('input[name="msg_send"]:checked').value}","msg_send1":"${document.querySelector('input[name="msg_send1"]:checked').value}"`,
+            to_hour:document.getElementById('d_to_hour').value,
+            to_min:document.getElementById('d_to_min').value,
+            use_coupon_yn:'N', // 수정필
+            is_vat:document.getElementById('d_is_vat').value,
+            product:document.getElementById('d_product').value,
+            reserve_yn : document.querySelector('input[name="msg_send"]:checked').value ,
+            aday_ago_yn : document.querySelector('input[name="msg_send1"]:checked').value
+
+
+
+        },
+        success:function(res){
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                location.reload()
             }
 
         }

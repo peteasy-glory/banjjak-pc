@@ -82,7 +82,7 @@ function schedule_render(id){
 
                                     let multiple = (new Date(el.product.date.booking_fi).getTime() - new Date(el.product.date.booking_st).getTime())/1800000;
                                     el_.innerHTML = `<div class="calendar-drag-item-group">
-                                                                        <a href="./reserve_pay_management_beauty_1.php" data-payment_idx="${el_.getAttribute('data-pay')}" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-pay')})" class="calendar-week-time-item toggle green ${color} ${el.product.is_no_show === 1 ? "red" : ''}" style="height: calc(100% * ${multiple}); ">
+                                                                        <a href="./reserve_pay_management_beauty_1.php" data-payment_idx="${el_.getAttribute('data-pay')}" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-pay')})" class="calendar-week-time-item toggle green ${color} ${el.product.is_no_show === 1 ? "red" : ''} ${el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); ">
                                                                             <div class="item-inner" style=" ${multiple <4 ? `` : `border:none !important`}">
                                                                                 <div class="item-name">
                                                                                     <div class="txt">${el.pet.name}</div>
@@ -192,7 +192,7 @@ function schedule_render(id){
 }
 
 
-function reserve_schedule_week_cols(body,body_,parent,id){
+function reserve_schedule_week_cols(body,body_,parent,id,session_id){
 
 
 
@@ -218,9 +218,16 @@ function reserve_schedule_week_cols(body,body_,parent,id){
 
             Array.from(body_col).forEach(function(__el){
 
-                __el.innerHTML =`<div class="calendar-drag-item-group">
+                if(sessionStorage.getItem('direct') === '1'){
+                    __el.innerHTML =`<div class="calendar-drag-item-group">
+                                    <a href="#add" onclick="direct_get_pet_info('${id}',this,${sessionStorage.getItem('direct_pet_seq')},'${session_id}')" class="btn-calendar-add">등록하기</a>
+                                    </div>`
+                }else{
+                    __el.innerHTML =`<div class="calendar-drag-item-group">
                                     <a href="#add" onclick="reserve_pop(this)" class="btn-calendar-add">등록하기</a>
                                     </div>`
+                }
+
             })
             el.classList.add('actived');
 
@@ -266,7 +273,7 @@ function reserve_schedule_week_cols(body,body_,parent,id){
                             el__.setAttribute('data-time_length',(new Date(_el.product.date.booking_fi).getTime()-new Date(_el.product.date.booking_st).getTime())/1000/60)
 
                             el__.innerHTML = `<div class="calendar-drag-item-group">
-                                                    <a href="/booking/reserve_pay_management_beauty_1.php" onclick="localStorage.setItem('payment_idx',${_el.product.payment_idx})" data-pay="${_el.product.payment_idx}" class="calendar-week-time-item toggle green ${color} ${_el.product.is_no_show === 1 ? "red" : ''}" style="height: calc(100% * ${multiple}); ">
+                                                    <a href="/booking/reserve_pay_management_beauty_1.php" onclick="localStorage.setItem('payment_idx',${_el.product.payment_idx})" data-pay="${_el.product.payment_idx}" class="calendar-week-time-item toggle green ${color} ${_el.product.is_no_show === 1 ? "red" : ''} ${_el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); ">
                                                         <div class="item-inner">
                                                             <div class="item-name">
                                                                 <div class="txt">${_el.pet.name}</div>
@@ -1589,7 +1596,7 @@ function mini_calendar_init(){
 }
 
 //일간 예약관리 스케쥴 시간cols
-function                                        reserve_schedule(id){
+function reserve_schedule(id){
 
     return new Promise(function (resolve){
 
@@ -2028,7 +2035,8 @@ function btn_schedule(id){
 
 
         document.getElementById('btn-schedule-next').addEventListener('click',function(){
-
+            select_low = parseInt(localStorage.getItem('select_row'));
+            console.log(select_low)
             this.setAttribute('disabled',true);
 
             if(select_low !== lows.length-1){
@@ -2044,7 +2052,7 @@ function btn_schedule(id){
 
         document.getElementById('btn-schedule-prev').addEventListener('click',function(){
             this.setAttribute('disabled',true);
-
+            select_low = parseInt(localStorage.getItem('select_row'));
 
             if(select_low !== 0){
 
@@ -2316,6 +2324,7 @@ function pay_management(id){
             payment_idx:localStorage.getItem('payment_idx'),
         },
         success:function (res){
+            console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -2324,8 +2333,59 @@ function pay_management(id){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
+                console.log(body)
                 let work_body_inner = document.getElementById('work_body_inner');
                 let data_col_right = document.getElementById('data_col_right_1');
+
+                if(body.is_approve === 0){
+
+                    document.getElementById('approve').innerText ='상담대기'
+                    document.getElementById('waiting_footer').style.display = 'block';
+                    $.ajax({
+                        url:'/data/pc_ajax.php',
+                        type:'post',
+                        data:{
+                            mode:'waiting',
+                            partner_id:id,
+                        },
+                        success:function(res) {
+                            console.log(res)
+                            let response = JSON.parse(res);
+                            let head = response.data.head;
+                            let body1 = response.data.body;
+                            if (head.code === 401) {
+                                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                            } else if (head.code === 200) {
+
+                                console.log(body1);
+
+                                body1.forEach(function(el){
+
+                                    if(el.product.payment_idx === parseInt(localStorage.getItem('payment_idx'))){
+                                        Array.from(document.getElementsByClassName('approve_idx')).forEach(function(el_){
+
+
+                                            el_.setAttribute('data-approve',`${el.product.approve_idx}`)
+                                        })
+
+                                    }
+                                })
+
+
+
+                            }
+                        }
+
+
+                    })
+                }else if(body.is_approve === 1 || body.is_approve === 2 || body.is_approve === -1){
+                    document.getElementById('approve').innerText ='예약확정'
+                }else if(body.is_approve === 3){
+                    document.getElementById('approve').innerText = '상담거절'
+                }
+
+
+
 
                 let data = body.disliked_part;
                 let text = '';
@@ -2810,6 +2870,222 @@ function pay_management(id){
                                                                     </div>
                                                                 </div>
                                                             </div>`
+                
+                document.getElementById('data_col_right_2').innerHTML += `<div class="basic-data-card">
+                                                                            <div class="card-header">
+                                                                                <h3 class="card-header-title">서비스 내역</h3>
+                                                                            </div>
+                                                                            <div class="card-body">
+                                                                                <div class="card-body-inner">
+                                                                                    <div class="user-receipt-item total">
+                                                                                        <div class="receipt-buy-detail">
+                                                                                            <div class="item-data-list" id="service_list">
+                                                                                                
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="receipt-buy-detail total-price">
+                                                                                            <div class="item-data-list" id="price_list">
+                                                                                                <div class="list-cell">
+                                                                                                    <div class="list-title"><strong>합산 금액</strong></div>
+                                                                                                    <div class="list-value"><strong id="total_price"></strong></div>
+                                                                                                </div>
+                                                                                                
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="receipt-buy-detail result-price">
+                                                                                            <div class="item-data-list">
+                                                                                                <div class="list-cell">
+                                                                                                    <div class="list-title font-color-purple"><strong>총 결제 합산 금액</strong>
+                                                                                                    </div>
+                                                                                                    <div class="list-value font-color-purple"><strong id="real_total_price" value="0"></strong></div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="pay-accordion-group">
+                                                                                        <div class="pay-accordion-items">
+                                                                                            <div class="items-header">
+                                                                                                <div class="items-title">보유 쿠폰</div>
+                                                                                                <div class="items-value">4개 보유</div>
+                                                                                                <button type="button" class="btn-data-view">열기</button>
+                                                                                            </div>
+                                                                                            <div class="items-body">
+                                                                                                <div class="form-group">
+                                                                                                    <div class="form-group-cell small">
+                                                                                                        <div class="form-group-item">
+                                                                                                            <div class="form-item-label">쿠폰 명</div>
+                                                                                                            <div class="form-item-data type-2">
+                                                                                                                <div class="form-control-btns small">
+                                                                                                                    <select>
+                                                                                                                        <option value="">쿠폰명1</option>
+                                                                                                                        <option value="">쿠폰명2</option>
+                                                                                                                        <option value="">쿠폰명3</option>
+                                                                                                                    </select>
+                                                                                                                    <div class="btn btn-gray btn-inline">보유 4</div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="form-group-cell small">
+                                                                                                        <div class="form-group-item">
+                                                                                                            <div class="form-item-label">쿠폰 차감</div>
+                                                                                                            <div class="form-item-data type-2">
+                                                                                                                <div class="form-control-btns small">
+                                                                                                                    <select>
+                                                                                                                        <option value="">1</option>
+                                                                                                                        <option value="">2</option>
+                                                                                                                        <option value="">3</option>
+                                                                                                                    </select>
+                                                                                                                    <button type="button"
+                                                                                                                            class="btn btn-outline-gray btn-inline">적용
+                                                                                                                    </button>
+                                                                                                                </div>
+                                                                                                                <div
+                                                                                                                    class="form-bottom-info font-color-purple text-align-right">적용
+                                                                                                                    후 잔액 3회
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="pay-accordion-items">
+                                                                                            <div class="items-header">
+                                                                                                <div class="items-title">단골 고객 확인</div>
+                                                                                                <button type="button" class="btn-data-view">열기</button>
+                                                                                            </div>
+                                                                                            <div class="items-body">
+                                                                                                <div class="items-info">*원하시는 할인방법을 선택하신 후 적용을 누르세요.</div>
+                                                                                                <div class="regular-user-confirm-select">
+                                                                                                    <div class="regular-user-confirm-input">
+                                                                                                        <div class="item-check"><label class="form-radiobox"><input
+                                                                                                            type="radio" name="regular" id="discount_1_btn"><span
+                                                                                                            class="form-check-icon"><em>퍼센트할인</em></span></label></div>
+                                                                                                        <div class="item-data">
+                                                                                                            <select id="discount_1">
+                                                                                                                
+                                                                                                            </select>
+                                                                                                            <div class="unit">%</div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="regular-user-confirm-input">
+                                                                                                        <div class="item-check"><label class="form-radiobox"><input
+                                                                                                            type="radio" name="regular" id="discount_2_btn"><span
+                                                                                                            class="form-check-icon"><em>금액할인</em></span></label></div>
+                                                                                                        <div class="item-data">
+                                                                                                            <select id="discount_2">
+                                                                                                                
+                                                                                                            </select>
+                                                                                                            <div class="unit">원</div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="form-bottom-info font-color-purple text-align-right">할인금액 : <span class="discount_price" value="0"></span>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="pay-accordion-items">
+                                                                                            <div class="items-header">
+                                                                                                <div class="items-title">펫샵 적립금
+                                                                                                    <button type="button" class="btn-data-helper" onclick="pop.open('reservePayManagementMsg8')">도움말</button>
+                                                                                                </div>
+                                                                                                <div class="items-value now_reserves"></div>
+                                                                                                <button type="button" class="btn-data-view">열기</button>
+                                                                                            </div>
+                                                                                            <div class="items-body">
+                                                                                                <div class="receipt-buy-detail">
+                                                                                                    <div class="item-data-list">
+                                                                                                        <div class="list-cell">
+                                                                                                            <div class="list-title"><strong>현 적립금</strong></div>
+                                                                                                            <div class="list-value"><strong
+                                                                                                                class="large now_reserves"></strong></div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="basic-data-group vsmall line">
+                                                                                                    <div class="form-group">
+                                                                                                        <div class="form-group-cell">
+                                                                                                            <div class="form-group-item">
+                                                                                                                <div class="form-item-label">사용적립금</div>
+                                                                                                                <div class="form-item-data type-2">
+                                                                                                                    <div class="form-point-input">
+                                                                                                                        <input type="text" id="use_reserves" class="" placeholder="">
+                                                                                                                            <div class="char">원</div>
+                                                                                                                            <button type="button"
+                                                                                                                                    class="btn btn-outline-gray btn-round btn-inline" onclick="document.getElementById('use_reserves').value = document.querySelector('.now_reserves').getAttribute('value')">전액
+                                                                                                                                사용
+                                                                                                                            </button>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="basic-data-group vsmall">
+                                                                                                    <button type="button"
+                                                                                                            class="btn btn-outline-gray btn-middle-size btn-basic-full" onclick="reserves_set()">적용
+                                                                                                    </button>
+                                                                                                </div>
+<!--                                                                                                <div class="form-bottom-info font-color-purple text-align-right">본 예약의 적립금이-->
+<!--                                                                                                    아직 지급되지 않았습니다.-->
+<!--                                                                                                </div>-->
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="pay-accordion-total">
+                                                                                            <div class="receipt-buy-detail">
+                                                                                                <div class="item-data-list">
+                                                                                                    <div class="list-cell">
+                                                                                                        <div class="list-title"><strong>할인금액</strong></div>
+                                                                                                        <div class="list-value"><strong class="discount_price" value="0"></strong></div>
+                                                                                                    </div>
+                                                                                                    <div class="list-cell">
+                                                                                                        <div class="list-title"><strong>적립금 사용</strong></div>
+                                                                                                        <div class="list-value"><strong class="reserves_use" value="0"></strong></div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="receipt-buy-detail result-price">
+                                                                                                <div class="item-data-list">
+                                                                                                    <div class="list-cell">
+                                                                                                        <div class="list-title font-color-purple"><strong>최종 결제액</strong>
+                                                                                                        </div>
+                                                                                                        <div class="list-value font-color-purple"><strong id="last_price"></strong>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="basic-data-group vmiddle">
+                                                                                                <div class="form-change-wrap">
+                                                                                                    <div class="form-change-item">
+                                                                                                        <div class="form-change-label"><strong>카드</strong> (단위:원)</div>
+                                                                                                        <div class="form-change-data"><input type="text" id="last_card" value="0"></div>
+                                                                                                    </div>
+                                                                                                    <button type="button" class="btn-data-change" onclick="data_change()">전환하기</button>
+                                                                                                    <div class="form-change-item">
+                                                                                                        <div class="form-change-label"><strong>현금</strong> (단위:원)</div>
+                                                                                                        <div class="form-change-data"><input type="text" id="last_cash" value="0"></div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="basic-data-group vsmall">
+                                                                                                <button type="button"
+                                                                                                        class="btn btn-outline-gray btn-middle-size btn-basic-full">적용
+                                                                                                </button>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="basic-data-group none">
+                                                                                        <div class="con-title-group">
+                                                                                            <h5 class="con-title">결제완료 처리</h5>
+                                                                                            <label htmlFor="switch-toggle" class="form-switch-toggle"><input type="checkbox"
+                                                                                                                                                                 id="switch-toggle"><span
+                                                                                                class="bar"></span></label>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>`
 
                 resolve(body_);
             }
@@ -2825,6 +3101,7 @@ function pay_management_(id){
     pay_management(id).then(function (body_){
 
         management_wide_tab()
+        management_wide_tab2()
         wide_tab();
 
         let sub_phone;
@@ -2915,6 +3192,7 @@ function pay_management_(id){
                 cellphone: document.getElementById('cellphone_detail').innerText,
             },
             success:function(res) {
+               console.log(res);
                 let response = JSON.parse(res);
                 let head = response.data.head;
                 let body = response.data.body;
@@ -3153,14 +3431,22 @@ function pay_management_(id){
             beauty_gallery_add(id,body_[2]);
         });
 
+        get_coupon(id);
+        get_etc_product(id);
+
+
 
         management_service_1(id,body_).then(function(body){
+            management_total_price();
+            discount_init();
+            reserves(id,body_);
 
             management_service_2(body).then(function(base_svc){
 
                 management_service_3(base_svc).then(function(base_svc){
 
-                    management_service_4(base_sv);
+                    management_service_4(base_svc);
+
                 })
             })
         });
@@ -3443,7 +3729,7 @@ return new Promise(function (resolve){
 
                     if(new Date(date_init[0],date_init[1]-1,date_init[2]).getTime() === new Date(el.getAttribute('data-year'),el.getAttribute('data-month'),el.getAttribute('data-date')).getTime() && el_.product.is_cancel === 0 ){
 
-                        el.innerHTML += `<div class="calendar-drag-item"><a href="./reserve_pay_management_beauty_1.php" onclick="localStorage.setItem('payment_idx',${el_.product.payment_idx})" class="calendar-month-day-item green ${color} ${el_.product.pay_type} ${el_.product.is_no_show === 1 ? "red" : ''} " style="color: white;"><div class="calendar-month-day-item-name"><strong>${el_.pet.name}</strong><span>(${el_.pet.type})</span></div></a></div>`
+                        el.innerHTML += `<div class="calendar-drag-item"><a href="./reserve_pay_management_beauty_1.php" onclick="localStorage.setItem('payment_idx',${el_.product.payment_idx})" class="calendar-month-day-item green ${color} ${el_.product.pay_type} ${el_.product.is_no_show === 1 ? "red" : ''} ${el_.product.is_approve === 0 ? 'gray':''}" style="color: white;"><div class="calendar-month-day-item-name"><strong>${el_.pet.name}</strong><span>(${el_.pet.type})</span></div></a></div>`
                     }
                 }
 
@@ -4036,8 +4322,8 @@ function reserve_prohibition(id){
 function reserve_search(id){
 
 
-    return new Promise(function(resolve){
 
+    return new Promise(function(resolve){
 
 
         let search_value = document.getElementById('reserve_search').value.trim();
@@ -4072,13 +4358,12 @@ function reserve_search(id){
                         document.getElementById('reserve_inner').innerHTML = '';
                         body.forEach(function(el,i){
 
-
                             document.getElementById('reserve_inner').innerHTML += `<div class="grid-layout-cell grid-2">
-                                                                                            <a href="#" onclick="exist_user_reserve('${el.cellphone}','${el.pet_seq}').then(function(body){exist_user_reserve_init(body)});" class="customer-card-item">
+                                                                                            <a href="#" onclick="exist_user_reserve(artist_id,'${el.cellphone}')" class="customer-card-item">
                                                                                                 <div class="item-info-wrap">
                                                                                                     <div class="item-thumb">
                                                                                                         <div class="user-thumb large">
-                                                                                                        <img src="${el.photo === "" ? el.type === 'dog' ? `../static/images/icon/icon-pup-select-off.png` : `../static/images/icon/icon-cat-select-off.png` : `https://image.banjjakpet.com${el.photo}`}" alt="">
+                                                                                                        <img src="${el.pet_photo === "" ? el.type === 'dog' ? `../static/images/icon/icon-pup-select-off.png` : `../static/images/icon/icon-cat-select-off.png` : `https://image.banjjakpet.com${el.pet_photo}`}" alt="">
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     <div class="item-data">
@@ -4122,16 +4407,28 @@ function reserve_search(id){
 function reserve_search_fam(id){
 
     reserve_search(id).then(function(body){
+        console.log(body)
 
         body.forEach(function (el,i){
+            console.log(el)
             document.getElementById(`grid_layout_inner_${i}`).innerHTML = ''
-            el.family.split(',').forEach(function(el_,i_){
+            // el.family.split(',').forEach(function(el_,i_){
+            //
+            //     document.getElementById(`grid_layout_inner_${i}`).innerHTML += `<div class="grid-layout-cell flex-auto">
+            //                                                                                        <div class="value">${i_ < 3 ? el_ : i_ === 3 ? `외 ${el.family.split(',').length-3}개의 연락처` : ""}</div>
+            //                                                                                    </div>`
+            //
+            // })
 
-                document.getElementById(`grid_layout_inner_${i}`).innerHTML += `<div class="grid-layout-cell flex-auto">
-                                                                                                   <div class="value">${i_ < 3 ? el_ : i_ === 3 ? `외 ${el.family.split(',').length-3}개의 연락처` : ""}</div>
+            if(el.family.length >0){
+                el.family.forEach(function(el_,i_){
+
+                    document.getElementById(`grid_layout_inner_${i}`).innerHTML += `<div class="grid-layout-cell flex-auto">
+                                                                                                    <div class="value">${i_ < 3 ? el_.phone : i_ === 3 ? `외 ${el.family.length-3}개의 연락처` : ""}</div>
                                                                                                </div>`
+                })
+            }
 
-            })
         })
 
 
@@ -4150,7 +4447,9 @@ function reserve_toggle(){
 
     document.getElementById('new_btn').addEventListener('click',function(){
 
+        document.getElementById('reserve_cellphone').removeAttribute('readonly');
         document.getElementById('exist_user').style.display = 'none';
+        document.getElementById('select_pet').style.display = 'none';
         document.getElementById('new_user').style.display = 'block';
         document.getElementById('reserve_footer').style.display = 'block';
     })
@@ -4392,8 +4691,8 @@ function reserve_merchandise_load_reset(i){
 
     switch (i){
 
-        case 1 : document.getElementById('basic_service_select').innerHTML = '<div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(2)"><label class="form-toggle-box large "><input type="radio" value="" name="s1" checked><em>선택 안함</em></label></div>';
-            document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" checked><em><span>선택 안함</span></em></label></div>';
+        case 1 : document.getElementById('basic_service_select').innerHTML = '<div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(2)"><label class="form-toggle-box large "><input type="radio" value="" name="s1"><em>선택 안함</em></label></div>';
+            document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" checked ><em><span>선택 안함</span></em></label></div>';
 
             break;
         case 2 :
@@ -6363,17 +6662,72 @@ function reserve_pop_init(id){
 
 
 }
-function exist_user_reserve(cellphone,pet_seq){
+function exist_user_reserve(id,cellphone){
 
 
 
-    return new Promise(function(resolve){
+        $.ajax({
+
+            url:'/data/pc_ajax.php',
+            type:'post',
+            data:{
+                mode:'pet_list',
+                login_id:id,
+                cellphone:cellphone,
+            },
+            success:function(res){
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+                    console.log(body);
+
+                    document.getElementById('reserve_cellphone').value = cellphone;
+                    if(body.length === undefined){
+                        body = [body];
+                    }
+                    if(body.length > 0){
+                        document.getElementById('select_pet_list').innerHTML = '';
+                        document.getElementById('select_pet').style.display = 'block';
+                        body.forEach(function(el){
+
+                            document.getElementById('select_pet_list').innerHTML += `<div class="grid-layout-cell flex-auto">
+                                                                                                <label class="form-toggle-box">
+                                                                                                    <input name="pet_no" class="pet-no" type="radio"  value="${el.pet_seq}" onclick="exist_user_reserve_('${el.pet_seq}').then(function(body){exist_user_reserve_init(body)})">
+                                                                                                    <em>${el.name}</em>
+                                                                                                </label>
+                                                                                            </div>`
+                        })
+                    }
+
+                }
+            }
+
+        })
+
         document.getElementById('exist_user').style.display = 'none';
 
         document.getElementById('new_user').style.display = 'block';
 
         document.getElementById('reserve_footer').style.display = 'block';
 
+
+
+
+}
+
+function exist_user_reserve_(pet_seq){
+
+
+
+    return new Promise(function(resolve){
+        document.getElementById('reserve_cellphone').setAttribute('readonly',true);
+        document.getElementById('special1').checked = false;
+        document.getElementById('special2').checked = false;
+        document.getElementById('special3').checked = false;
+        document.getElementById('special4').checked = false;
         $.ajax({
 
             url:'/data/pc_ajax.php',
@@ -6390,7 +6744,6 @@ function exist_user_reserve(cellphone,pet_seq){
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
 
-                    document.getElementById('reserve_cellphone').value = cellphone;
                     document.getElementById('reserve_name').value = body.name;
 
                     if(body.type === 'dog'){
@@ -6415,9 +6768,7 @@ function exist_user_reserve(cellphone,pet_seq){
                 }
             }
         })
-
     })
-
 
 }
 
@@ -6631,9 +6982,11 @@ function pay_management_modify_pet(pet_seq){
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
 
+                    console.log(body)
                     document.getElementById('customer_name').value = body.name;
 
                     if(body.type === 'dog'){
+
 
                         document.getElementById('breed1').click();
                     }else{
@@ -7833,6 +8186,53 @@ function management_wide_tab(){
     )
 }
 
+function management_wide_tab2(){
+
+    Array.from(document.getElementsByClassName('btn-tab-item-add')).forEach(function(el){
+
+        el.addEventListener('click',function (){
+
+
+            console.log(1)
+            Array.from(document.getElementsByClassName('btn-tab-item-add')).forEach(function(el_){
+
+                el_.parentElement.classList.remove('actived');
+            })
+
+            el.parentElement.classList.add('actived');
+
+
+
+            if(el.getAttribute('id') === 'basic_service_btn'){
+
+                document.getElementById('basic_service').style.display = 'block';
+                document.getElementById('other_service').style.display = 'none';
+                document.getElementById('other2_service').style.display = 'none';
+                document.getElementById('other3_service').style.display = 'none';
+
+
+            }else if(el.getAttribute('id') === 'other_service_btn'){
+                document.getElementById('basic_service').style.display = 'none';
+                document.getElementById('other_service').style.display = 'block';
+                document.getElementById('other2_service').style.display = 'none';
+                document.getElementById('other3_service').style.display = 'none';
+
+            }else if(el.getAttribute('id')==='other2_service_btn'){
+
+                document.getElementById('basic_service').style.display = 'none';
+                document.getElementById('other_service').style.display = 'none';
+                document.getElementById('other2_service').style.display = 'block';
+                document.getElementById('other3_service').style.display = 'none';
+            }else if(el.getAttribute('id') === 'other3_service_btn'){
+
+                document.getElementById('basic_service').style.display = 'none';
+                document.getElementById('other_service').style.display = 'none';
+                document.getElementById('other2_service').style.display = 'none';
+                document.getElementById('other3_service').style.display = 'block';
+            }
+        })
+    })
+}
 function management_service_1(id,data){
 
     // reserve_merchandise_load_init(id).then(function(body){
@@ -7870,6 +8270,7 @@ function management_service_1(id,data){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
+                    localStorage.setItem('is_vat',body.is_vat === 0 ? '0':'1')
 
                     let service = document.getElementById('service');
                     let service2 = document.getElementById('service2');
@@ -7891,7 +8292,7 @@ function management_service_1(id,data){
                                                                         <div class="form-item-label">크기 선택</div>
                                                                         <div class="form-item-data type-2">
                                                                             <div class="toggle-button-group vertical" id="basic_size">
-                                                                          <div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(1)"><label class="form-toggle-box large"><input type="radio" value="" name="size" onclick="reserve_service_list('service2_basic_size','','0')" checked><em>선택 안함</em></label></div>
+                                                                          <div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(1); "><label class="form-toggle-box large"><input type="radio" value="" name="size" onclick="set_product2(this,'','','list_title_3',true)" checked><em>선택 안함</em></label></div>
                                                                      
                                                                             </div>
                                                                         </div>
@@ -7902,7 +8303,7 @@ function management_service_1(id,data){
                                                                         <div class="form-item-label">서비스</div>
                                                                         <div class="form-item-data type-2">
                                                                             <div class="toggle-button-group vertical" id="basic_service_select">
-                                                                              <div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(2)"><label class="form-toggle-box large"><input type="radio" value="" name="s1" onclick="reserve_service_list('service2_basic_service','','0')" checked ><em>선택 안함</em></label></div>
+                                                                              <div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(2)"><label class="form-toggle-box large"><input type="radio" value="" name="s1" checked  onclick="set_product2(this,'','','list_title_3',true)"><em>선택 안함</em></label></div>
 
                                                                             </div>
                                                                         </div>
@@ -7913,7 +8314,7 @@ function management_service_1(id,data){
                                                                     <div class="form-item-label">무게</div>
                                                                     <div class="form-item-data type-2">
                                                                         <div class="toggle-button-group vertical" id="basic_weight">
-                                                                            <div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" onclick="reserve_service_list('service2_basic_weight','','0')" checked><em><span>선택 안함</span></em></label></div>
+                                                                            <div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" checked onclick="set_product2(this,'','','list_title_3',true)"><em><span>선택 안함</span></em></label></div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -7944,7 +8345,7 @@ function management_service_1(id,data){
                                                                         <div class="form-item-label">미용털길이</div>
                                                                         <div class="form-item-data type-2">
                                                                             <div class="toggle-button-group vertical" id="basic_hair_length">
-                                                                            <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="hairBeauty" onclick="reserve_service_list('service2_basic_hair_length','','0')" checked ><em>선택 안함</em></label></div>
+                                                                            <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="hairBeauty" onclick="set_product2(this,'','','list_title_2',true)" checked ><em>선택 안함</em></label></div>
                                                                                 </div>
                                                                         </div>
                                                                     </div>
@@ -8031,7 +8432,7 @@ function management_service_1(id,data){
                                                                                 <div class="form-item-label">미용</div>
                                                                                 <div class="form-item-data type-2">
                                                                                     <div class="toggle-button-group vertical" id="basic_beauty">
-                                                                                        <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="beauty" onclick="reserve_service_list('service2_basic_beauty','','0')" checked><em>선택 안함</em></label></div>
+                                                                                        <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="beauty" checked><em>선택 안함</em></label></div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -8046,7 +8447,7 @@ function management_service_1(id,data){
                                                                                 <div class="form-item-label">목욕</div>
                                                                                 <div class="form-item-data type-2">
                                                                                     <div class="toggle-button-group vertical" id="basic_bath">
-                                                                                        <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="bath" onclick="reserve_service_list('service2_basic_bath','','0')" checked><em>선택 안함</em></label></div>
+                                                                                        <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="bath" checked><em>선택 안함</em></label></div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -8086,7 +8487,6 @@ function management_service_1(id,data){
 
 function management_service_2(body){
 
-    console.log(body)
     return new Promise(function(resolve){
 
         document.getElementById('is_vat').value = body.is_vat;
@@ -8099,7 +8499,7 @@ function management_service_2(body){
 
                     document.getElementById('basic_size').innerHTML += `<div class="toggle-button-cell toggle-button-cell-size">
                                                                                         <label class="form-toggle-box large">
-                                                                                            <input type="radio" value="${el.size}" name="size" onclick="reserve_service_list('service2_basic_size','${el.size}')">
+                                                                                            <input type="radio" value="${el.size}" name="size">
                                                                                             <em>${el.size}</em>
                                                                                         </label>
                                                                                     </div>`
@@ -8115,7 +8515,7 @@ function management_service_2(body){
 
                         document.getElementById('basic_hair_feature').innerHTML += `<div class="toggle-button-cell">
                                                                                                     <label class="form-toggle-box form-toggle-price large" for="hair${i}">
-                                                                                                        <input type="checkbox" name="hair" value="${el.type}" data-price="${el.price}" id="hair${i}" onclick="if(this.checked === true){reserve_service_list_2('service2_basic_hair_feature','${el.type}','${el.price}')}else{reserve_service_list_2_delete('service2_basic_hair_feature','${el.type}')}" >
+                                                                                                        <input type="checkbox" name="hair" value="${el.type}" data-price="${el.price}" id="hair${i}" onclick="set_product(this,'${el.type}','${el.price.toLocaleString()}')">
                                                                                                         <em>
                                                                                                             <span>${el.type}</span>
                                                                                                             <strong>+${parseInt(el.price).toLocaleString()}원</strong>
@@ -8136,7 +8536,7 @@ function management_service_2(body){
 
                     document.getElementById('basic_hair_length').innerHTML += `<div class="toggle-button-cell">
                                                                                             <label class="form-toggle-box form-toggle-price large" for="hairBeauty${i}">
-                                                                                                <input type="radio" name="hairBeauty" value="${el.type}"  data-price="${el.price}" id="hairBeauty${i}" onclick="reserve_service_list('service2_basic_hair_length','${el.type}',${el.price})">
+                                                                                                <input type="radio" name="hairBeauty" value="${el.type}"  data-price="${el.price}" id="hairBeauty${i}" onclick="set_product2(this,'${el.type}','${el.price.toLocaleString()}','list_title_2',true)">
                                                                                                 <em>
                                                                                                     <span>${el.type}</span>
                                                                                                     <strong>${parseInt(el.price).toLocaleString()}원</strong>
@@ -8153,7 +8553,7 @@ function management_service_2(body){
 
                     document.getElementById('other_face').innerHTML += `<div class="toggle-button-cell">
                                                                                         <label class="form-toggle-box form-toggle-price middle">
-                                                                                            <input type="checkbox" name="f1" data-price="${el.price}" value="${el.type}" onclick="if(this.checked === true){reserve_service_list_2('service2_other_list_face','+${el.type}','${el.price}')}else{reserve_service_list_2_delete('service2_other_list_face','+${el.type}')}">
+                                                                                            <input type="checkbox" name="f1" data-price="${el.price}" value="${el.type}" onclick="set_product(this,'${el.type}','${el.price}')" >
                                                                                             <em>
                                                                                                 <span>${el.type}</span>
                                                                                                 <strong>+${parseInt(el.price).toLocaleString()}원</strong>
@@ -8161,12 +8561,6 @@ function management_service_2(body){
                                                                                         </label>
                                                                                     </div>`
 
-                    if(i===body.face.length-1){
-
-                        document.getElementById('service2_other_list').innerHTML += `<div class="service-selected-list-cell">
-                                                                                                    <div class="list-title" id="service2_other_list_face">얼굴컷</div>
-                                                                                                </div>`
-                    }
                 })
             }
 
@@ -8177,7 +8571,7 @@ function management_service_2(body){
 
                     document.getElementById('other_leg').innerHTML += `<div class="toggle-button-cell">
                                                                                     <label class="form-toggle-box form-toggle-price middle">
-                                                                                        <input type="checkbox" name="f2" value="${el.type}" data-price="${el.price}" onclick="if(this.checked === true){reserve_service_list_2('service2_other_list_leg','+${el.type}','${el.price}')}else{reserve_service_list_2_delete('service2_other_list_leg','+${el.type}')}">
+                                                                                        <input type="checkbox" name="f2" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')" >
                                                                                         <em>
                                                                                             <span>${el.type}</span>
                                                                                             <strong>+${parseInt(el.price).toLocaleString()}원</strong>
@@ -8186,12 +8580,7 @@ function management_service_2(body){
                                                                                 </div>`
 
 
-                    if(i===body.leg.length-1){
 
-                        document.getElementById('service2_other_list').innerHTML += `<div class="service-selected-list-cell">
-                                                                                                    <div class="list-title" id="service2_other_list_leg">다리</div>
-                                                                                                </div>`
-                    }
 
                 })
             }
@@ -8202,7 +8591,7 @@ function management_service_2(body){
 
                     document.getElementById('other_spa').innerHTML += `<div class="toggle-button-cell">
                                                                                     <label class="form-toggle-box form-toggle-price middle">
-                                                                                        <input type="checkbox" name="f3"  value="${el.type}" data-price="${el.price}" onclick="if(this.checked === true){reserve_service_list_2('service2_other_list_spa','+${el.type}','${el.price}')}else{reserve_service_list_2_delete('service2_other_list_spa','+${el.type}')}"> 
+                                                                                        <input type="checkbox" name="f3"  value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')"> 
                                                                                         <em>
                                                                                             <span>${el.type}</span>
                                                                                             <strong>+${parseInt(el.price).toLocaleString()}원</strong>
@@ -8210,12 +8599,6 @@ function management_service_2(body){
                                                                                     </label>
                                                                                 </div>`
 
-                    if(i===body.spa.length-1){
-
-                        document.getElementById('service2_other_list').innerHTML += `<div class="service-selected-list-cell">
-                                                                                                    <div class="list-title" id="service2_other_list_spa">스파</div>
-                                                                                                </div>`
-                    }
                 })
             }
 
@@ -8225,7 +8608,7 @@ function management_service_2(body){
 
                     document.getElementById('other_dyeing').innerHTML += `<div class="toggle-button-cell">
                                                                                         <label class="form-toggle-box form-toggle-price middle">
-                                                                                            <input type="checkbox" name="f4" value="${el.type}" data-price="${el.price}" onclick="if(this.checked === true){reserve_service_list_2('service2_other_list_dyeing','+${el.type}','${el.price}')}else{reserve_service_list_2_delete('service2_other_list_dyeing','+${el.type}')}">
+                                                                                            <input type="checkbox" name="f4" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
                                                                                             <em>
                                                                                                 <span>${el.type}</span>
                                                                                                 <strong>+${parseInt(el.price).toLocaleString()}원</strong>
@@ -8233,12 +8616,6 @@ function management_service_2(body){
                                                                                         </label>
                                                                                     </div>`
 
-                    if(i===body.dyeing.length-1){
-
-                        document.getElementById('service2_other_list').innerHTML += `<div class="service-selected-list-cell">
-                                                                                                    <div class="list-title" id="service2_other_list_dyeing">염색</div>
-                                                                                                </div>`
-                    }
                 })
             }
 
@@ -8249,7 +8626,7 @@ function management_service_2(body){
 
                     document.getElementById('other_etc').innerHTML += `<div class="toggle-button-cell">
                                                                             <label class="form-toggle-box form-toggle-price middle">
-                                                                                <input type="checkbox" name="f5" value="${el.type}" data-price="${el.price}" onclick="if(this.checked === true){reserve_service_list_2('service2_other_list_etc','+${el.type}','${el.price}')}else{reserve_service_list_2_delete('service2_other_list_etc','+${el.type}')}">
+                                                                                <input type="checkbox" name="f5" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
                                                                                 <em>
                                                                                     <span>${el.type}</span>
                                                                                     <strong>+${parseInt(el.price).toLocaleString()}원</strong>
@@ -8257,12 +8634,7 @@ function management_service_2(body){
                                                                             </label>
                                                                         </div>`
 
-                    if(i===body.etc.length-1){
 
-                        document.getElementById('service2_other_list').innerHTML += `<div class="service-selected-list-cell">
-                                                                                                    <div class="list-title" id="service2_other_list_etc">기타</div>
-                                                                                                </div>`
-                    }
                 })
 
 
@@ -8283,7 +8655,7 @@ function management_service_2(body){
 
                     document.getElementById('basic_beauty').innerHTML += `<div class="toggle-button-cell">
                                                                                         <label class="form-toggle-box large form-toggle-price">
-                                                                                            <input type="radio" value="${el.type}" name="beauty" data-price="${el.price}" onclick="reserve_service_list('service2_basic_beauty','${el.type}',${el.price})">
+                                                                                            <input type="radio" value="${el.type}" name="beauty" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
                                                                                             <em> 
                                                                                                 <span>${el.type}</span>
                                                                                                 <strong>+${parseInt(el.price).toLocaleString()}원</strong>
@@ -8300,7 +8672,7 @@ function management_service_2(body){
 
                     document.getElementById('basic_bath').innerHTML += `<div class="toggle-button-cell">
                                                                                         <label class="form-toggle-box large form-toggle-price">
-                                                                                            <input type="radio" value="${el.type}" name="bath" data-price="${el.price}" onclick="reserve_service_list('service2_basic_bath','${el.type}',${el.price})">
+                                                                                            <input type="radio" value="${el.type}" name="bath" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
                                                                                             <em> 
                                                                                                 <span>${el.type}</span>
                                                                                                 <strong>+${parseInt(el.price).toLocaleString()}원</strong>
@@ -8317,7 +8689,7 @@ function management_service_2(body){
 
                     document.getElementById('other_add_svc').innerHTML += `<div class="toggle-button-cell">
                                                                             <label class="form-toggle-box form-toggle-price middle">
-                                                                                <input type="checkbox" name="add_svc" value="${el.type}" data-price="${el.price}" onclick="if(this.checked === true){reserve_service_list_2('service2_other_list_add_svc','+${el.type}','${el.price}')}else{reserve_service_list_2_delete('service2_other_list_add_svc','+${el.type}')}">
+                                                                                <input type="checkbox" name="add_svc" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
                                                                                 <em>
                                                                                     <span>${el.type}</span>
                                                                                     <strong>+${parseInt(el.price).toLocaleString()}원</strong>
@@ -8325,16 +8697,633 @@ function management_service_2(body){
                                                                             </label>
                                                                         </div>`
 
-                    if(i===body.add_svc.length-1){
 
-                        document.getElementById('service2_other_list').innerHTML += `<div class="service-selected-list-cell">
-                                                                                                    <div class="list-title" id="service2_other_list_add_svc">추가서비스</div>
-                                                                                                </div>`
-                    }
                 })
             }
 
 
+        }
+
+        resolve(body.base_svc);
+    })
+
+
+}
+
+function management_service_3(base_svc){
+    console.log(base_svc);
+
+    return new Promise(function (resolve){
+
+        Array.from(document.getElementsByClassName('toggle-button-cell-size')).forEach(function(el){
+
+
+
+            el.addEventListener('click',function(){
+
+                console.log(1)
+
+                document.getElementById('basic_service_select').innerHTML= '<div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(2)"><label class="form-toggle-box large"><input type="radio" value="" name="s1" checked><em>선택 안함</em></label></div>';
+                document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" checked><em><span>선택 안함</span></em></label></div>';
+                let value = el.children[0].children[0].value;
+
+                base_svc.forEach(function(el_){
+
+
+                    if(value === el_.size){
+
+                        el_.svc.forEach(function (_el){
+
+
+                            if(_el.is_show === "y" && _el.unit.length >0){
+                                document.getElementById('basic_service_select').innerHTML += `<div class="toggle-button-cell toggle-button-cell-service">
+                                                                                                        <label class="form-toggle-box large">
+                                                                                                            <input type="radio" value="${_el.type}" data-size="${el_.size}" data-time="${_el.time}" name="s1">
+                                                                                                            <em>${_el.type} ${_el.time}분</em>
+                                                                                                        </label>
+                                                                                                    </div>`
+                            }
+
+
+
+                        })
+                    }
+                })
+                management_service_4(base_svc);
+
+                resolve(base_svc)
+            })
+        })
+
+
+    })
+
+
+
+
+
+}
+
+function management_service_4(base_svc){
+
+
+
+    Array.from(document.getElementsByClassName('toggle-button-cell-service')).forEach(function(el){
+
+        el.addEventListener('click',function (){
+
+            document.getElementById('basic_weight').innerHTML= '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" data-price="" name="s2"><em><span>선택 안함</span></em></label></div>'
+
+
+            let size = el.children[0].children[0].getAttribute('data-size');
+            let value = el.children[0].children[0].value;
+
+
+
+            let surcharge ;
+            base_svc.forEach(function(el_){
+
+
+                if(el_.size === size){
+
+
+                    el_.svc.forEach(function(_el){
+
+                        if(_el.type === value){
+
+
+                            if(_el.unit.length > 0){
+
+                                _el.unit.forEach(function (ele,i){
+
+
+                                    document.getElementById('basic_weight').innerHTML += `<div class="toggle-button-cell">
+                                                                                                    <label class="form-toggle-box form-toggle-price large">
+                                                                                                        <input type="radio" value="${ele.kg}" name="s2" data-price="${ele.price}" ${i ===  _el.unit.length-1 ? 'id="weight_target"':''}onclick="set_product2(this,'${document.querySelector('input[name="size"]:checked').value}/${document.querySelector('input[name="s1"]:checked').value}/${ele.kg}kg','${ele.price}','list_title_3',true)">
+                                                                                                            <em>
+                                                                                                                <span>~${ele.kg}Kg</span>
+                                                                                                            <strong>${ele.is_consulting === "0" ? `${parseInt(ele.price).toLocaleString()}원` : '상담'}</strong>
+                                                                                                            
+                                                                                                        </em>
+                                                                                                    </label>
+                                                                                                </div>`
+
+
+                                    if(el_.surcharge.is_have ===1 && i === _el.unit.length-1){
+
+
+                                        let surcharge_kg = el_.surcharge.kg ;
+                                        let surcharge_std_price = ele.kg === surcharge_kg ? ele.price : '';
+                                        localStorage.setItem('surcharge_std_price',surcharge_std_price);
+                                        localStorage.setItem('surcharge_kg',surcharge_kg);
+                                        localStorage.setItem('surcharge_price',el_.surcharge.price);
+
+
+
+                                        document.getElementById('basic_weight').innerHTML += `<div class="toggle-button-cell">
+                                                                                                <div class="form-toggle-options">
+                                                                                                    <input type="radio" name="s2" name="options1"  id="surcharge"  onclick="set_product2(this,'${document.querySelector('input[name="size"]:checked').value}/${document.querySelector('input[name="s1"]:checked').value}/${el_.surcharge.kg}kg','${el_.surcharge.price}','list_title_3',true)">
+                                                                                                        <div class="form-toggle-options-data">
+                                                                                                            <div class="options-labels">
+                                                                                                                <span>${el_.surcharge.kg}kg~</span><strong style="font-size:10px">kg당 <br> +${parseInt(el_.surcharge.price).toLocaleString()}원</strong></div>
+                                                                                                            <div class="form-amount-input">
+                                                                                                                <button type="button" 
+                                                                                                                        class="btn-form-amount-minus" id="surcharge" onclick="set_etc_product_count(this,'${document.querySelector('input[name="size"]:checked').value}/${document.querySelector('input[name="s1"]:checked').value}/${el_.surcharge.kg}kg','${el_.surcharge.price}',false)">감소
+                                                                                                                </button>
+                                                                                                                <div class="form-amount-info">
+                                                                                                                    <input type="number" readOnly=""  value="10" data-weight="10kg+" id="weight_target"
+                                                                                                                           class="form-amount-val">
+                                                                                                                </div>
+                                                                                                                <button type="button" 
+                                                                                                                        class="btn-form-amount-plus" id="surcharge" onclick="set_etc_product_count(this,'${document.querySelector('input[name="size"]:checked').value}/${document.querySelector('input[name="s1"]:checked').value}/${el_.surcharge.kg}kg','${el_.surcharge.price}',true)">증가
+                                                                                                                </button>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                </div>
+                                                                                            </div>`
+
+
+                                    }
+
+
+
+                                })
+                            }else{
+                                document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2"><em><span>선택 안함</span></em></label></div>';
+                            }
+
+                        }
+                    })
+                }
+            })
+
+
+
+            //
+            // let st_time_input = document.getElementById('reserve_st_time');
+            // let st_time = st_time_input.options[st_time_input.selectedIndex].value;
+            // let fi_time_input = document.getElementById('reserve_fi_time');
+            //
+            // let selected = document.querySelector('input[name="s1"]:checked').getAttribute('data-time');
+            //
+            // let st_time_value = new Date(date.getFullYear(),date.getMonth(),date.getDate(),st_time.split(':')[0],st_time.split(':')[1]);
+            //
+            // st_time_value.setMinutes(st_time_value.getMinutes()+parseInt(selected));
+            //
+            // let fi_hour = st_time_value.getHours();
+            // let fi_minutes = st_time_value.getMinutes();
+            // let fi_time = `${fi_hour}:${fill_zero(fi_minutes)}`;
+            //
+            //
+            //
+            //
+            //
+            // for(let i=0; i<fi_time_input.options.length; i++){
+            //
+            //     if(fi_time_input.options[i].value === fi_time){
+            //
+            //         fi_time_input.options[i].selected = true;
+            //
+            //     }
+            // }
+
+
+
+        })
+    })
+
+}
+
+function get_coupon(id){
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+            mode:'get_coupon',
+            partner_id:id
+        },
+        success:function(res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+
+                if(body.length === undefined){
+
+                    body = [body];
+                }
+                console.log(body)
+
+                body.forEach(function(el){
+
+                    if(el.type === 'C'){
+
+                        document.getElementById('c_coupon').innerHTML +=  `<div class="form-item-data type-2">
+                                                                            <div class="toggle-button-group vertical">
+                                                                                <div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" htmlFor="cp1-1">
+                                                                                    <input type="checkbox" name="cp1" id="cp1-1" onclick="set_product(this,'${el.name}','${el.price}')"><em><span>${el.name}</span><strong>+${el.price.toLocaleString()}원</strong></em></label>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>`
+                    }else{
+
+                        document.getElementById('f_coupon').innerHTML +=  `<div class="form-item-data type-2">
+                                                                                <div class="toggle-button-group vertical">
+                                                                                    <div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" htmlFor="cp1-1">
+                                                                                        <input type="checkbox" name="cp2" id="cp2-1" onclick="set_product(this,'${el.name}','${el.price}')"><em><span>${el.name}</span><strong>+${el.price.toLocaleString()}원</strong></em></label>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>`
+                    }
+                })
+            }
+        }
+
+    })
+
+}
+
+function get_etc_product(id){
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:'get_etc_product',
+            partner_id:id,
+        },
+        success:function(res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+
+                if(body.length === undefined){
+
+                    body = [body];
+                }
+
+
+                console.log(body);
+
+                body.forEach(function(el){
+
+                    switch (parseInt(el.type)){
+                        
+                        case 1: document.getElementById('etc_product_list_1').innerHTML += `<div class="toggle-button-cell">
+                                                                                                <div class="form-toggle-options">
+                                                                                                    <input type="checkbox" name="options1-1" onclick="set_product(this,'${el.name}','${el.price}')">
+                                                                                                        <div class="form-toggle-options-data">
+                                                                                                            <div class="options-labels"><span>${el.name}</span><strong>+${el.price === null ? '': el.price.toLocaleString()}원</strong></div>
+                                                                                                            <div class="form-amount-input">
+                                                                                                                <button type="button" class="btn-form-amount-minus" onclick="set_etc_product_count(this,'${el.name}','${el.price}',false)">감소</button>
+                                                                                                                <div class="form-amount-info">
+                                                                                                                    <input type="number" value="1" class="form-amount-val">
+                                                                                                                </div>
+                                                                                                                <button type="button" class="btn-form-amount-plus" onclick="set_etc_product_count(this,'${el.name}','${el.price}',true)">증가</button>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                </div>
+                                                                                            </div>`
+                            break;
+                        case 2:  document.getElementById('etc_product_list_2').innerHTML += `<div class="toggle-button-cell">
+                                                                                                <div class="form-toggle-options">
+                                                                                                    <input type="checkbox" name="options2-1"  onclick="set_product(this,'${el.name}','${el.price}')">
+                                                                                                        <div class="form-toggle-options-data">
+                                                                                                            <div class="options-labels"><span>${el.name}</span><strong>+${el.price === null ? '': el.price.toLocaleString()}원</strong></div>
+                                                                                                            <div class="form-amount-input">
+                                                                                                                <button type="button" class="btn-form-amount-minus" onclick="set_etc_product_count(this,'${el.name}','${el.price}',false)">감소</button>
+                                                                                                                <div class="form-amount-info">
+                                                                                                                    <input type="number" value="1" class="form-amount-val">
+                                                                                                                </div>
+                                                                                                                <button type="button" class="btn-form-amount-plus" onclick="set_etc_product_count(this,'${el.name}','${el.price}',true)">증가</button>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                </div>
+                                                                                            </div>`
+                            break;
+                        case 3:  document.getElementById('etc_product_list_3').innerHTML += `<div class="toggle-button-cell">
+                                                                                                <div class="form-toggle-options">
+                                                                                                    <input type="checkbox" name="options3-1"  onclick="set_product(this,'${el.name}','${el.price}')">
+                                                                                                        <div class="form-toggle-options-data">
+                                                                                                            <div class="options-labels"><span>${el.name}</span><strong>+${el.price === null ? '': el.price.toLocaleString()}원</strong></div>
+                                                                                                            <div class="form-amount-input">
+                                                                                                                <button type="button" class="btn-form-amount-minus" onclick="set_etc_product_count(this,'${el.name}','${el.price}',false)">감소</button>
+                                                                                                                <div class="form-amount-info">
+                                                                                                                    <input type="number" value="1" class="form-amount-val">
+                                                                                                                </div>
+                                                                                                                <button type="button" class="btn-form-amount-plus" onclick="set_etc_product_count(this,'${el.name}','${el.price}',true)">증가</button>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                </div>
+                                                                                            </div>`
+                            break;
+                        case 4:  document.getElementById('etc_product_list_4').innerHTML += `<div class="toggle-button-cell">
+                                                                                                <div class="form-toggle-options">
+                                                                                                    <input type="checkbox" name="options4-1" onclick="set_product(this,'${el.name}','${el.price}')">
+                                                                                                        <div class="form-toggle-options-data">
+                                                                                                            <div class="options-labels"><span>${el.name}</span><strong>+${el.price === null ? '': el.price.toLocaleString()}원</strong></div>
+                                                                                                            <div class="form-amount-input">
+                                                                                                                <button type="button" class="btn-form-amount-minus" onclick="set_etc_product_count(this,'${el.name}','${el.price}',false)">감소</button>
+                                                                                                                <div class="form-amount-info">
+                                                                                                                    <input type="number" value="1" class="form-amount-val">
+                                                                                                                </div>
+                                                                                                                <button type="button" class="btn-form-amount-plus" onclick="set_etc_product_count(this,'${el.name}','${el.price}',true)">증가</button>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                </div>
+                                                                                            </div>`
+                            break;
+
+
+                    }
+                })
+            }
+        }
+    })
+}
+
+function set_product(target,name,price){
+
+    name= name.trim()
+
+
+    if(target.checked){
+
+        document.getElementById('service_list').innerHTML += `<div class="list-cell">
+                                                                        <div class="list-title list-title-add">${name}</div>
+                                                                     <div class="list-value list-value-add">${price.toLocaleString()}원</div>
+                                                                    </div>`
+    }else{
+
+        Array.from(document.getElementsByClassName('list-title-add')).forEach(function(el){
+
+            if(el.innerText === name){
+                el.parentElement.remove();
+            }
+        })
+    }
+
+
+}
+
+function set_product2(target,name,price,className,bool){
+
+    name = name.trim()
+    if(!location.href.match('management')){
+
+        return;
+    }
+
+    if(bool){
+
+            Array.from(document.getElementsByClassName(className)).forEach(function(el){
+
+                el.parentElement.remove();
+            });
+    }
+
+
+    if(name !== ''){
+
+        document.getElementById('service_list').innerHTML += `<div class="list-cell">
+                                                                        <div class="list-title list-title-add ${className}">${name}</div>
+                                                                     <div class="list-value list-value-add">${price.toLocaleString()}원</div>
+                                                                    </div>`
+    }
+
+
+
+
+
+}
+
+
+function set_etc_product_count(target,name,price,bool){
+
+
+
+    name =name.trim();
+
+    Array.from(document.getElementsByClassName('list-title-add')).forEach(function(el){
+
+
+
+
+        if(el.innerText === name){
+
+            if(bool){
+
+                siblings(target,1).children[0].value = parseInt(siblings(target,1).children[0].value)+1;
+
+                let value = siblings(target,1).children[0].value;
+
+                if(target.getAttribute('id') === 'surcharge'){
+
+
+                    siblings(el,1).innerText = `${((price*value)-(price*parseInt(document.getElementById('weight_target').value))+parseInt(document.getElementById('weight_target').getAttribute('data-price')))}원`
+                }else{
+                    siblings(el,1).innerText = `${(price*value)}원`;
+                }
+
+
+
+            }else{
+
+                if(parseInt(siblings(target,1).children[0].value ) === 1){
+                    return;
+                }
+
+                siblings(target,1).children[0].value = parseInt(siblings(target,1).children[0].value)-1;
+
+                let value = siblings(target,1).children[0].value;
+
+                if(target.getAttribute('id') === 'surcharge'){
+
+                    siblings(el,1).innerText = `${((price*value)-(price*parseInt(document.getElementById('weight_target').value))+parseInt(document.getElementById('weight_target').getAttribute('data-price')))}원`
+                }else{
+                    siblings(el,1).innerText = `${(price*value)}원`;
+                }
+            }
+        }
+    })
+
+
+}
+
+function management_total_price(){
+
+    if(localStorage.getItem('is_vat') === '1'){
+
+        document.getElementById('price_list').innerHTML += `<div class="list-cell">
+                                                                <div class="list-title"><strong>부가세 10%</strong></div>
+                                                                <div class="list-value"><strong id="vat"></strong></div>
+                                                            </div>`
+    }
+
+    let target = document.getElementById('service_list');
+
+    let observer = new MutationObserver(function(mutations){
+
+        mutations.forEach(function(mutation){
+            console.log(mutation);
+
+            let sum = 0;
+            Array.from(document.getElementsByClassName('list-value-add')).forEach(function(el){
+
+                console.log(parseInt(el.innerText.replace('원','')));
+                sum += parseInt(el.innerText.replace('원',''));
+
+
+
+            })
+
+            document.getElementById('total_price').innerText = `${sum.toLocaleString()}원`
+            document.getElementById('total_price').setAttribute('value', `${sum}`);
+            document.getElementById('vat').innerText = `${(sum/10).toLocaleString()}원`
+            document.getElementById('vat').setAttribute('value', `${sum/10}`);
+            document.getElementById('real_total_price').innerText = `${(sum + (sum/10)).toLocaleString()}원`
+            document.getElementById('real_total_price').setAttribute('value', `${sum+(sum/10)}`);
+
+            last_price()
+
+       })
+    })
+
+    let config = {
+        attributes:true,
+        childList:true,
+        characterData:true,
+        subtree:true
+    }
+
+
+    observer.observe(target,config);
+
+
+}
+
+function discount_init(){
+
+
+
+    for(let i=0; i<=100;i++){
+
+        document.getElementById('discount_1').innerHTML +=`<option value="${i}">${i}</option>`
+    }
+
+
+    for(let i=0; i<=50000; i+=100){
+
+        document.getElementById('discount_2').innerHTML += `<option value="${i}">${i}</option>`
+    }
+
+    document.getElementById('discount_1_btn').addEventListener('click',function(){
+
+        document.getElementById('discount_2').setAttribute('disabled','');
+        document.getElementById('discount_1').removeAttribute('disabled');
+    })
+
+    document.getElementById('discount_2_btn').addEventListener('click',function(){
+
+        document.getElementById('discount_1').setAttribute('disabled','');
+        document.getElementById('discount_2').removeAttribute('disabled');
+
+
+    })
+
+
+    document.getElementById('discount_1').addEventListener('change',function(){
+
+        if(document.getElementById('real_total_price').getAttribute('value') === null){
+
+            document.getElementById('msg1_txt').innerText = '상품을 먼저 적용해주세요..'
+            pop.open('reserveAcceptMsg1');
+            return;
+        }
+
+        let result = (parseInt(document.getElementById('real_total_price').getAttribute('value'))*(parseInt(document.getElementById('discount_1').value)/100));
+
+        Array.from(document.getElementsByClassName('discount_price')).forEach(function(el){
+
+            el.innerText= `${Math.floor(result).toLocaleString()}원`
+            el.setAttribute('value',`${Math.floor(result)}`)
+            last_price()
+        })
+
+        pop.open('reservePayManagementMsg4')
+    })
+
+    document.getElementById('discount_2').addEventListener('change',function(){
+
+        if(document.getElementById('real_total_price').getAttribute('value') === null){
+
+            document.getElementById('msg1_txt').innerText = '상품을 먼저 적용해주세요..'
+            pop.open('reserveAcceptMsg1');
+            return;
+        }
+
+        let result = (parseInt(document.getElementById('discount_2').value));
+        Array.from(document.getElementsByClassName('discount_price')).forEach(function(el){
+
+            el.innerText= `${Math.floor(result).toLocaleString()}원`
+            el.setAttribute('value',`${Math.floor(result)}`)
+            last_price()
+        })
+        pop.open('reservePayManagementMsg4')
+    })
+
+    document.getElementById('discount_1_btn').click();
+
+
+}
+
+
+function reserves(id,body){
+
+    let data =body[3];
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+            mode:'reserves',
+            partner_id:id,
+            payment_idx:localStorage.getItem('payment_idx'),
+            customer_id:data.customer_Id,
+            tmp_user_idx : data.tmp_id,
+            service : 'B',
+            reserve_type : 'U',
+        },
+        success:function(res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+
+
+
+                setInputFilter(document.getElementById("use_reserves"), function(value) {
+                    return /^\d*\.?\d*$/.test(value);
+                })
+
+                Array.from(document.getElementsByClassName('now_reserves')).forEach(function(el){
+
+                    el.innerText = `${(body.accum_reserve - body.use_reserve).toLocaleString()}원`
+                    el.setAttribute('value',`${body.accum_reserve - body.use_reserve}`)
+                })
+            }
         }
 
     })
@@ -8342,12 +9331,209 @@ function management_service_2(body){
 
 }
 
-function management_service_3(body){
+function reserves_set(){
+
+    let now = parseInt(document.querySelector('.now_reserves').getAttribute('value'));
+
+    let use = parseInt(document.getElementById('use_reserves').value);
+
+
+    if (use === 0){
+
+        document.getElementById('msg1_txt').innerText = '사용할 수 있는 적립금이 없습니다.'
+        pop.open('reserveAcceptMsg1');
+        return;
+    }
+    if (use>now){
+
+        document.getElementById('msg1_txt').innerText = '적립금을 확인해주세요.'
+        pop.open('reserveAcceptMsg1');
+        return;
+    }
+
+
+    Array.from(document.getElementsByClassName('reserves_use')).forEach(function(el){
+
+        el.innerText = `${use.toLocaleString()}원`
+        el.setAttribute('value',`${use}`);
+
+    })
+    last_price()
+    pop.open('reservePayManagementMsg5')
+
+}
+
+function last_price(){
+
+    let sum =  parseInt(document.getElementById('real_total_price').getAttribute('value')) ;
+    let discount =  parseInt(document.querySelector('.discount_price').getAttribute('value'));
+    let reserves =  parseInt(document.querySelector('.reserves_use').getAttribute('value'))
+
+
+    document.getElementById('last_price').innerText = `${(sum-discount-reserves)}원`
+
+    document.getElementById('last_card').value = `${(sum-discount-reserves)}`
+    document.getElementById('last_cash').value =0;
 
 
 }
 
-function management_service_4(body){
+function data_change(){
+
+    let sum =  parseInt(document.getElementById('real_total_price').getAttribute('value')) ;
+    let discount =  parseInt(document.querySelector('.discount_price').getAttribute('value'));
+    let reserves =  parseInt(document.querySelector('.reserves_use').getAttribute('value'))
+
+    if(document.getElementById('last_card').value == 0){
+
+        document.getElementById('last_cash').value =0;
+        document.getElementById('last_card').value =  `${(sum-discount-reserves)}`;
+
+    }else if(document.getElementById('last_cash').value == 0){
+        document.getElementById('last_cash').value = `${(sum-discount-reserves)}`;
+        document.getElementById('last_card').value = 0;
+    }
+
+}
+
+function waiting(id){
+
+        $.ajax({
+            url:'/data/pc_ajax.php',
+            type:'post',
+            data:{
+                mode:'waiting',
+                partner_id:id,
+            },
+            success:function(res) {
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+
+                    if(body.length === undefined){
+                        body = [body]
+                    }
+                    if(body.length > 0){
+
+                        if(sessionStorage.getItem('waiting') !=='check'){
+                            document.getElementById('a_cnt').innerText = `${body.length}`
+                            pop.open('approveOnly');
+                        }
+                    }
 
 
+
+
+
+                }
+            }
+
+
+        })
+
+
+}
+
+
+
+
+function set_approve(target,bool){
+
+    let decision_code ;
+
+
+    if(bool){
+        decision_code = 2;
+    }else{
+        decision_code = 3;
+    }
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:'put_waiting',
+            approve_idx:target.getAttribute('data-approve'),
+            decision_code :decision_code,
+            payment_idx:localStorage.getItem('payment_idx'),
+
+        },
+        success:function(res){
+
+            console.log(res)
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+
+                if(bool){
+                    document.getElementById('msg2_txt').innerText = '예약이 확정되었습니다.'
+                }else{
+                    document.getElementById('msg2_txt').innerText = '예약이 취소되었습니다.'
+                }
+
+
+                pop.open('reserveAcceptMsg2')
+
+
+
+            }
+        }
+    })
+
+
+
+
+
+}
+
+function new_exist_check(id){
+
+    document.getElementById('reserve_cellphone').addEventListener('focusout',function(){
+
+
+        $.ajax({
+
+            url:'/data/pc_ajax.php',
+            type:'post',
+            data:{
+                mode:'search',
+                login_id:id,
+                search:document.getElementById('reserve_cellphone').value,
+            },
+            success:function(res){
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+
+                    if(body.length === undefined){
+                        body = [body];
+                    }
+                    if(body.length > 0){
+
+                        body.forEach(function(el){
+
+                            if(el.cellphone === document.getElementById('reserve_cellphone').value){
+
+                                document.getElementById('msg1_txt').innerText = '이 번호의 고객이 샵 이용 이력이 있습니다.\n 기존고객예약을 이용해주세요.'
+                                pop.open('reserveAcceptMsg1');
+                            }
+                        })
+
+                    }
+
+                }
+            }
+
+        })
+    })
 }

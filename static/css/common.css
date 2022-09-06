@@ -2943,6 +2943,7 @@ a.calendar-month-day-item,
 .calendar-month-day-item.red {background:#ff4848;}
 .calendar-month-day-item.mint {background:#72d6b0;}
 .calendar-month-day-item.orange {background:#fdab73;}
+.calendar-month-day-item.gray {background:#b4b4b4;}
 .calendar-month-day-item.wait {background:#fff; color:#ff4848; font-weight:500; padding:8px;}
 .calendar-month-day-item.whitepink {background:#feb8b1; text-align:center;}
 .calendar-month-day-item.whiteapricot {background:#ffd3b5; text-align:center;}

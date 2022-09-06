@@ -685,7 +685,7 @@ function _renderCalendar(id) {
             setTimeout(function () {
                 document.getElementById('wrap').style.display = 'block';
                 document.getElementById('splash').style.display = 'none';
-                localStorage.setItem('splash', '1');
+                sessionStorage.setItem('splash', '1');
 
             }, 1000)
         }
@@ -867,7 +867,7 @@ function renderCalendar_mini(id) {
 }
 
 //새로고침 달력
-function _renderCalendar_mini(id){
+function _renderCalendar_mini(id,session_id){
     renderCalendar_mini(id)
         .then(function (div_dates){
             for (let i = 0; i < div_dates.length; i++) {
@@ -961,7 +961,7 @@ function _renderCalendar_mini(id){
 
                             week_working(id).then(function (body_data){
 
-                                reserve_schedule_week_cols(body_data,body_,parent,id)
+                                reserve_schedule_week_cols(body_data,body_,parent,id,session_id)
                                 reserve_schedule_week(id,body_data).then(function(_body){
 
                                     document.getElementById('grid_layout_inner').children[0].children[0].click();
@@ -998,6 +998,7 @@ function _renderCalendar_mini(id){
                                     }
 
 
+                                    direct_event(id,session_id)
 
 
 

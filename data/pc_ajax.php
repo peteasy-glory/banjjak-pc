@@ -1101,7 +1101,7 @@ if($r_mode) {
 
         $put_customer_memo = $api ->put('/partner/booking/customer-memo',$put_memo_data_json);
 
-        $return_data = array("code"=>"000000","data"=>$put_memo_data);
+        $return_data = array("code"=>"000000","data"=>$put_customer_memo);
 
 
 
@@ -1413,6 +1413,78 @@ if($r_mode) {
         $result = $api -> post('/partner/customer/subphone',$data_json);
 
         $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode ==="get_coupon"){
+
+        $partner_id = $_POST['partner_id'];
+
+        $result = $api -> get('/partner/setting/beauty-coupon/'.$partner_id);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
+    }else if($r_mode ==='get_etc_product'){
+
+        $partner_id =$_POST['partner_id'];
+
+        $result = $api -> get('/partner/setting/etc-product/'.$partner_id);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
+    }else if($r_mode ==="coupon"){
+
+        $partner_id = $_POST['partner_id'];
+
+        $type = "B";
+        $coupon_type = "A";
+
+        $data = array(type=>$type,coupon_type=>$coupon_type);
+        $data_json = json_encode($data);
+
+        $result = $api ->get('/partner/booking/coupon/'.$partner_id,$data_json);
+
+    }else if($r_mode === 'reserves'){
+
+        $partner_id=$_POST['partner_id'];
+        $payment_idx = $_POST['payment_idx'];
+        $customer_id = $_POST['customer_id'];
+        $tmp_user_idx = $_POST['tmp_user_idx'];
+        $service = $_POST['service'];
+        $reserve_type = $_POST['reserve_type'];
+
+        $data = array(payment_idx=>intval($payment_idx),customer_id=>$customer_id,tmp_user_idx=>intval($tmp_user_idx),service=>$service,reserve_type=>$reserve_type);
+
+        $data_json = json_encode($data);
+
+        $result = $api -> get('/partner/customer/reserves/'.$partner_id,$data_json);
+
+        $return_data =array("code"=>"000000","data"=>$result);
+
+
+    }else if($r_mode ==="waiting"){
+        $partner_id = $_POST['partner_id'];
+
+        $result =$api ->get("/partner/booking/waiting/".$partner_id);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode ==="get_representative"){
+
+        $partner_id = $_POST['partner_id'];
+        $result = $api ->get('/partner/customer/phone-change/'.$partner_id);
+        $return_data = array("code"=>"000000","data"=>$result);
+
+    }else if($r_mode ==="put_waiting"){
+
+        $approve_idx=$_POST['approve_idx'];
+        $decision_code = $_POST['decision_code'];
+        $payment_idx = $_POST['payment_idx'];
+
+        $data = array(approve_idx=>intval($approve_idx),decision_code=>intval($decision_code),payment_idx=>intval($payment_idx));
+
+        $data_json =json_encode($data);
+
+        $result = $api ->put('/partner/booking/waiting',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
     }
 }
 

@@ -76,7 +76,7 @@ if ($artist_flag == 1) {
 										<div class="customer-view-pet-info detail-toggle-parents">
 											<div class="item-thumb">
 												<div class="user-thumb large"><img src="" id="target_pet_img" alt=""></div>
-												<div class="item-thumb-ui"><a href="#" class="btn btn-outline-gray btn-vsmall-size btn-inline">펫 정보 수정</a></div>
+												<div class="item-thumb-ui"><a href="#" class="btn btn-outline-gray btn-vsmall-size btn-inline" id="modify_pet">펫 정보 수정</a></div>
 											</div>
 											<div class="item-user-data">
 												<div class="grid-layout flex-table">
@@ -213,9 +213,9 @@ if ($artist_flag == 1) {
 											</div>
 										</div>
 										<div class="basic-data-group middle text-align-center">
-											<a href="#" class="btn btn-purple btn-inline btn-basic-wide" >즉시 예약</a>
+											<a href="#" class="btn btn-purple btn-inline btn-basic-wide" id="direct_reserve_btn" onclick="direct_reserve(this)">즉시 예약</a>
 										</div>
-										<div class="form-bottom-info text-align-center"><strong>*[즉시예약]</strong>은 주간 스케줄에서만 사용 가능</div>
+										<div class="form-bottom-info text-align-center" ><strong>*[즉시예약]</strong>은 주간 스케줄에서만 사용 가능</div>
 									</div>
 									<div class="basic-data-group large">
 										<div class="con-title-group">
@@ -867,7 +867,218 @@ if ($artist_flag == 1) {
         </div>
     </div>
 </article>
+<article id="petModifyPop" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data data-pop-view large">
+                <div class="pop-header">
+                    <h4 class="con-title">펫 정보 수정하기</h4>
+                </div>
+                <div class="pop-body">
+                    <div class="basic-data-group">
+                        <div class="con-title-group">
+                            <h4 class="con-title">펫 정보</h4>
+                        </div>
+                        <div class="form-group">
+                            <div class="grid-layout margin-14-17">
+                                <div class="grid-layout-inner">
+                                    <div class="grid-layout-cell grid-1">
+                                        <div class="form-group-item">
+                                            <div class="form-item-label"><em class="need">*</em>펫 이름</div>
+                                            <div class="form-item-data">
+                                                <input type="text" class="form-control" maxlength="20" id="modify_customer_name" placeholder="펫 이름 입력">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="grid-layout-cell grid-1">
+                                        <div class="form-group-item">
+                                            <div class="form-item-label"><em class="need">*</em>품종</div>
+                                            <div class="form-item-data type-2">
+                                                <div class="pet-breed-select-wrap">
+                                                    <div class="pet-breed-select">
+                                                        <div class="breed-select">
+                                                            <label class="form-toggle-box" for="modify_customer_breed1"><input type="radio" name="modify_customer_breed" class="modify_customer_load-pet-type" value="dog" id="modify_customer_breed1"><em><span>강아지</span></em></label>
+                                                            <label class="form-toggle-box" for="modify_customer_breed2"><input type="radio" name="modify_customer_breed" class="modify_customer_load-pet-type" value="cat" id="modify_customer_breed2"><em><span>고양이</span></em></label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="pet-breed-sort">
+                                                        <div style="display:block">
+                                                            <select id="modify_customer_breed_select">
+                                                                <option value="">선택</option>
+                                                            </select>
+                                                            <div class="pet-breed-other" id="modify_customer_breed_other_box" style="display:none;">
+                                                                <input type="text" placeholder="입력" id="modify_customer_breed_other" class="form-control">
+                                                            </div>
+                                                        </div>
 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="grid-layout-cell grid-2">
+                                        <div class="form-group-item">
+                                            <div class="form-item-label">생일</div>
+                                            <div class="form-item-data type-2">
+                                                <div class="grid-layout margin-12">
+                                                    <div class="grid-layout-inner">
+                                                        <div class="grid-layout-cell grid-3">
+                                                            <select id="modify_customer_birthday_year" class="birthday">
+
+                                                            </select>
+                                                        </div>
+                                                        <div class="grid-layout-cell grid-3">
+                                                            <select id="modify_customer_birthday_month" class="birthday">
+
+                                                            </select>
+                                                        </div>
+                                                        <div class="grid-layout-cell grid-3">
+                                                            <select id="modify_customer_birthday_date">
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="grid-layout-cell grid-2">
+                                        <div class="form-group-item">
+                                            <div class="form-item-label">성별 선택</div>
+                                            <div class="form-item-data type-2">
+                                                <div class="grid-layout toggle-button-group">
+                                                    <div class="grid-layout-inner">
+                                                        <div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="modify_customer_gender1"><input type="radio" name="modify_customer_gender" value="남아" id="modify_customer_gender1"><em>남아</em></label></div>
+                                                        <div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="modify_customer_gender2"><input type="radio" name="modify_customer_gender" value="여아" id="modify_customer_gender2"><em>여아</em></label></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="grid-layout-cell grid-2">
+                                        <div class="form-group-item">
+                                            <div class="form-item-label">중성화</div>
+                                            <div class="form-item-data type-2">
+                                                <div class="grid-layout toggle-button-group">
+                                                    <div class="grid-layout-inner">
+                                                        <div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="modify_customer_neutralize1"><input type="radio" name="modify_customer_neutralize" value="0" id="modify_customer_neutralize1"><em>X</em></label></div>
+                                                        <div class="grid-layout-cell grid-2"><label class="form-toggle-box middle" for="modify_customer_neutralize2"><input type="radio" name="modify_customer_neutralize" value="1" id="modify_customer_neutralize2"><em>O</em></label></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="grid-layout-cell grid-2">
+                                        <div class="form-group-item">
+                                            <div class="form-item-label"><em class="need">*</em>몸무게</div>
+                                            <div class="form-item-data type-2">
+                                                <div class="form-flex">
+                                                    <select class="inline-block" id="modify_customer_weight1">
+
+                                                    </select>
+                                                    <div class="form-unit-point">.</div>
+                                                    <select class="inline-block" id="modify_customer_weight2">
+                                                        <option value="0">0</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                        <option value="9">9</option>
+                                                    </select>
+                                                    <div class="form-unit-label">kg</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="grid-layout-cell grid-2">
+                                        <div class="form-group-item">
+                                            <div class="form-item-label">미용 경험</div>
+                                            <div class="form-item-data type-2">
+                                                <select id="modify_customer_beauty_exp">
+                                                    <option value="0">선택</option>
+                                                    <option value="없음">없음</option>
+                                                    <option value="1회">1회</option>
+                                                    <option value="2회">2회</option>
+                                                    <option value="3회 이상">3회 이상</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="grid-layout-cell grid-2">
+                                        <div class="form-group-item">
+                                            <div class="form-item-label">예방 접종</div>
+                                            <div class="form-item-data type-2">
+                                                <select id="modify_customer_vaccination">
+                                                    <option value="0">선택</option>
+                                                    <option value="2차 이하">2차 이하</option>
+                                                    <option value="3차">3차 완료</option>
+                                                    <option value="4차">4차 완료</option>
+                                                    <option value="5차">5차 완료</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="grid-layout-cell grid-2">
+                                        <div class="form-group-item">
+                                            <div class="form-item-label">입질</div>
+                                            <div class="form-item-data type-2">
+                                                <select id="modify_customer_bite">
+                                                    <option value="0">선택</option>
+                                                    <option value="안해요">안해요</option>
+                                                    <option value="해요">해요</option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="grid-layout-cell grid-2">
+                                        <div class="form-group-item">
+                                            <div class="form-item-label">슬개골 탈구</div>
+                                            <div class="form-item-data type-2">
+                                                <select id="modify_customer_luxation">
+                                                    <option value="0">선택</option>
+                                                    <option value="없음">없음</option>
+                                                    <option value="1기">1기</option>
+                                                    <option value="2기">2기</option>
+                                                    <option value="3기">3기</option>
+                                                    <option value="4기">4기</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="grid-layout-cell grid-1">
+                                        <div class="form-group-item">
+                                            <div class="form-item-label">특이사항</div>
+                                            <div class="form-item-data type-2">
+                                                <div class="grid-layout toggle-button-group">
+                                                    <div class="grid-layout-inner">
+                                                        <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="modify_customer_special1"><input type="checkbox" name="modify_customer_special" id="modify_customer_special1"><em>피부병</em></label></div>
+                                                        <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="modify_customer_special2"><input type="checkbox" name="modify_customer_special" id="modify_customer_special2"><em>심장질환</em></label></div>
+                                                        <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="modify_customer_special3"><input type="checkbox" name="modify_customer_special" id="modify_customer_special3"><em>마킹</em></label></div>
+                                                        <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="modify_customer_special4"><input type="checkbox" name="modify_customer_special" id="modify_customer_special4"><em>마운팅</em></label></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pop-footer type-2">
+                    <!-- btn-page-bottom 클래스에 disabled 클래스 추가시 비활성화 또는 button 태그일 시 disabled 속성 추가시 비활성화 -->
+                    <a href="#" class="btn-page-bottom" id="modify_pet_info_btn">저장</a>
+                </div>
+                <button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
+            </div>
+        </div>
+    </div>
+</article>
 <article id="reserveAcceptMsg3" class="layer-pop-wrap">
     <div class="layer-pop-parent">
         <div class="layer-pop-children">
@@ -978,6 +1189,9 @@ if ($artist_flag == 1) {
         customer_new_birthday().then(function(){ customer_new_birthday_date()})
         customer_pet_type(artist_id);
         customer_new_weight();
+        modify_customer_new_birthday().then(function(){ modify_customer_new_birthday_date()})
+        modify_customer_pet_type(artist_id);
+        modify_customer_new_weight();
 
     })
 
