@@ -72,7 +72,7 @@ if ($artist_flag == 1) {
             <div class="layer-pop-children">
                 <div class="pop-data alert-pop-data">
                     <div class="pop-body">
-                        <div class="msg-txt">답글을 삭제하시겠습니까?</div>
+                        <div class="msg-txt">삭제하시겠습니까?</div>
                     </div>
                     <div class="pop-footer">
                         <button type="button" class="btn btn-confirm" onclick="delete_ok();">삭제</button>
@@ -105,7 +105,7 @@ if ($artist_flag == 1) {
                     <div class="master-portfolio-item">
                         <div class="item-thumb"><img src="${img_path}" alt=""></div>
                         <div class="item-info">
-                            <div class="item-number">${v.sort_number}</div>
+                            <!--<div class="item-number">${v.sort_number}</div>-->
                             <button type="button" class="btn-item-hand"></button>
                         </div>
                         <button type="button" class="btn-data-del" data-idx=${v.idx}>데이타삭제</button>

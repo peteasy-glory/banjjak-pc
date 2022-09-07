@@ -345,19 +345,19 @@ $endDate = DATE('Y-m-d');
                 switch (i){
                     case 'bath' : txt = '목욕'; break;
                     case 'part' : txt = '부분미용'; break;
-                    case 'bath_part' : txt = '부분'; break;
+                    case 'bath_part' : txt = '부분+목욕'; break;
                     case 'sanitation' : txt = '위생'; break;
                     case 'sanitation_bath' : txt = '위생+목욕'; break;
                     case 'all' : txt = '전체미용'; break;
                     case 'spoting' : txt = '스포팅'; break;
                     case 'scissors' : txt = '가위컷'; break;
-                    case 'summercut' : txt = '써머컷'; break;
+                    case 'summercut' : txt = '썸머컷'; break;
                     default : txt = i;
                 }
                 //console.log(txt);
                 if(v.is_use == 'y'){
                     html += `
-                        <option value="${i}">${txt}</option>
+                        <option value="${txt}">${txt}</option>
                     `;
                 }
             })
@@ -380,274 +380,495 @@ $endDate = DATE('Y-m-d');
         //$("#loading_icon").css('display','block');
         var postData = decodeURIComponent($("#statsForm").serialize());
         postData += '&mode=get_performancee';
-        //console.log(postData);
+        console.log(postData);
         get_performancee(postData);
-        //console.log(result);
-        $(".customer_cnt").text(result.customer_number);
-        $(".pet_cnt").text(result.animal_number);
-        var html = '';
-        var total_card = 0;
-        var total_cash = 0;
-        var next_type = '';
-        var little_cnt = 0;
-        var little_card = 0;
-        var little_cash = 0;
-        var little_idx = 0;
-        $.each(result.data, function(i,v){
-            total_card += parseInt(v.card);
-            total_cash += parseInt(v.cash);
+        console.log(result);
+        if(result != ''){
+            console.log('잇');
+            $(".customer_cnt").text(result.customer_number);
+            $(".pet_cnt").text(result.animal_number);
+            var html = '';
+            var total_card = 0;
+            var total_cash = 0;
+            var next_type = '';
+            var little_cnt = 0;
+            var little_card = 0;
+            var little_cash = 0;
+            var little_idx = 0;
+            if(result.data.length > 1){
+                console.log('1개 이상');
+                $.each(result.data, function(i,v){
+                    total_card += parseInt(v.card);
+                    total_cash += parseInt(v.cash);
 
-            var type = $(".order_type").val();
+                    var type = $(".order_type").val();
 
-            var html_form = `
-                <tr class="customer-table-cell">
-                    <td>
-                        <div class="customer-table-txt"><strong>${v.name}</strong></div>
-                    </td>
-                    <td>
-                        <div class="customer-table-txt">${am_pm_check2(v.reservationDate)}</div>
-                    </td>
-                    <td>
-                        <div class="customer-table-txt">${v.payment_type} | ${v.service}</div>
-                    </td>
-                    <td>
-                        <div class="customer-table-txt">${(v.card).format()}</div>
-                    </td>
-                    <td>
-                        <div class="customer-table-txt">${(v.cash).format()}</div>
-                    </td>
-                </tr>
-            `;
-
-            if(type == 'date'){
-                if(next_type == v.payment_type){
-                    html += html_form;
-                }else{
-                    next_type = v.payment_type;
-                    little_idx += 1;
-                    html += `
-                        <tr>
-                            <td class="none" colspan="2">${v.payment_type} 소계</td>
-                            <td class="customer-table-txt"><span class="little_cnt_${little_idx}"></span>건</td>
-                            <td class="customer-table-txt"><span class="little_card_${little_idx}"></span>원</td>
-                            <td class="customer-table-txt"><span class="little_cash_${little_idx}"></span>원</td>
+                    var html_form = `
+                        <tr class="customer-table-cell">
+                            <td>
+                                <div class="customer-table-txt"><strong>${v.name}</strong></div>
+                            </td>
+                            <td>
+                                <div class="customer-table-txt">${am_pm_check2(v.reservationDate)}</div>
+                            </td>
+                            <td>
+                                <div class="customer-table-txt">${v.payment_type} | ${v.service}</div>
+                            </td>
+                            <td>
+                                <div class="customer-table-txt">${(v.card).format()}</div>
+                            </td>
+                            <td>
+                                <div class="customer-table-txt">${(v.cash).format()}</div>
+                            </td>
                         </tr>
                     `;
-                    html += html_form;
-                }
-            }else if(type == 'payment'){
-                if(next_type == v.pay_type){
-                    html += html_form;
-                }else{
-                    next_type = v.pay_type;
-                    little_idx += 1;
-                    html += `
-                        <tr>
-                            <td class="none" colspan="2">${v.pay_type} 소계</td>
-                            <td class="customer-table-txt"><span class="little_cnt_${little_idx}"></span>건</td>
-                            <td class="customer-table-txt"><span class="little_card_${little_idx}"></span>원</td>
-                            <td class="customer-table-txt"><span class="little_cash_${little_idx}"></span>원</td>
-                        </tr>
-                    `;
-                    html += html_form;
-                }
-            }else if(type == 'service'){
-                if(next_type == v.service){
-                    html += html_form;
-                }else{
-                    next_type = v.service;
-                    little_idx += 1;
-                    html += `
-                        <tr>
-                            <td class="none" colspan="2">${v.service} 소계</td>
-                            <td class="customer-table-txt"><span class="little_cnt_${little_idx}"></span>건</td>
-                            <td class="customer-table-txt"><span class="little_card_${little_idx}"></span>원</td>
-                            <td class="customer-table-txt"><span class="little_cash_${little_idx}"></span>원</td>
-                        </tr>
-                    `;
-                    html += html_form;
-                }
-            }else if(type == 'artist'){
-                var worker = (v.worker == artist_id)? "대표" : v.worker;
-                if(next_type == worker){
-                    html += html_form;
-                }else{
-                    next_type = worker;
-                    little_idx += 1;
-                    html += `
-                        <tr>
-                            <td class="none" colspan="2">${worker} 소계</td>
-                            <td class="customer-table-txt"><span class="little_cnt_${little_idx}"></span>건</td>
-                            <td class="customer-table-txt"><span class="little_card_${little_idx}"></span>원</td>
-                            <td class="customer-table-txt"><span class="little_cash_${little_idx}"></span>원</td>
-                        </tr>
-                    `;
-                    html += html_form;
-                }
-            }
 
-        })
-
-        var total_price = total_card + total_cash;
-        var card_percent = ((total_card/total_price)*100).toFixed(1);
-        var cash_percent = ((total_cash/total_price)*100).toFixed(1);
-
-        $(".table_wrap").html(html);
-        $(".total_cnt").text((result.data.length).format());
-        $(".total_card").text(total_card.format());
-        $(".total_cash").text(total_cash.format());
-        $(".total_card_cash").text((total_price).format());
-
-        // if(card_percent>80){
-        //     $(".card_percent").css('width','80%');
-        // }else if(card_percent<20){
-        //     $(".card_percent").css('width','20%');
-        // }else{
-            $(".card_percent").css('width',card_percent+'%');
-        // }
-        // if(cash_percent>80){
-        //     $(".cash_percent").css('width','80%');
-        // }else if(cash_percent<20){
-        //     $(".cash_percent").css('width','20%');
-        // }else{
-            $(".cash_percent").css('width',cash_percent+'%');
-        // }
-
-        $(".card_percent_txt").text(card_percent+'%');
-        $(".cash_percent_txt").text(cash_percent+'%');
-
-        //console.log(chart);
-
-
-        // 소계 값 넣기
-        // 차트 같이 넣기
-        little_idx = 0;
-        next_type = '';
-        var chart_array = [];
-        var in_array = [];
-        $.each(result.data, function(i,v){
-
-            var type = $(".order_type").val();
-
-            if(type == 'date'){
-                if(next_type == v.payment_type){
-                    little_cnt += 1;
-                    little_card += parseInt(v.card);
-                    little_cash += parseInt(v.cash);
-                    in_array = [next_type, (little_cnt/(result.data.length)*100).toFixed(1)];
-                }else{
-                    if(i != 0){
-                        chart_array.push(in_array);
+                    if(type == 'date'){
+                        if(next_type == v.payment_type){
+                            html += html_form;
+                        }else{
+                            next_type = v.payment_type;
+                            little_idx += 1;
+                            html += `
+                                <tr>
+                                    <td class="none" colspan="2">${v.payment_type} 소계</td>
+                                    <td class="customer-table-txt"><span class="little_cnt_${little_idx}"></span>건</td>
+                                    <td class="customer-table-txt"><span class="little_card_${little_idx}"></span>원</td>
+                                    <td class="customer-table-txt"><span class="little_cash_${little_idx}"></span>원</td>
+                                </tr>
+                            `;
+                            html += html_form;
+                        }
+                    }else if(type == 'payment'){
+                        if(next_type == v.pay_type){
+                            html += html_form;
+                        }else{
+                            next_type = v.pay_type;
+                            little_idx += 1;
+                            html += `
+                                <tr>
+                                    <td class="none" colspan="2">${v.pay_type} 소계</td>
+                                    <td class="customer-table-txt"><span class="little_cnt_${little_idx}"></span>건</td>
+                                    <td class="customer-table-txt"><span class="little_card_${little_idx}"></span>원</td>
+                                    <td class="customer-table-txt"><span class="little_cash_${little_idx}"></span>원</td>
+                                </tr>
+                            `;
+                            html += html_form;
+                        }
+                    }else if(type == 'service'){
+                        if(next_type == v.service){
+                            html += html_form;
+                        }else{
+                            next_type = v.service;
+                            little_idx += 1;
+                            html += `
+                                <tr>
+                                    <td class="none" colspan="2">${v.service} 소계</td>
+                                    <td class="customer-table-txt"><span class="little_cnt_${little_idx}"></span>건</td>
+                                    <td class="customer-table-txt"><span class="little_card_${little_idx}"></span>원</td>
+                                    <td class="customer-table-txt"><span class="little_cash_${little_idx}"></span>원</td>
+                                </tr>
+                            `;
+                            html += html_form;
+                        }
+                    }else if(type == 'artist'){
+                        var worker = (v.worker == artist_id)? "대표" : v.worker;
+                        if(next_type == worker){
+                            html += html_form;
+                        }else{
+                            next_type = worker;
+                            little_idx += 1;
+                            html += `
+                                <tr>
+                                    <td class="none" colspan="2">${worker} 소계</td>
+                                    <td class="customer-table-txt"><span class="little_cnt_${little_idx}"></span>건</td>
+                                    <td class="customer-table-txt"><span class="little_card_${little_idx}"></span>원</td>
+                                    <td class="customer-table-txt"><span class="little_cash_${little_idx}"></span>원</td>
+                                </tr>
+                            `;
+                            html += html_form;
+                        }
                     }
-                    next_type = v.payment_type;
+
+                })
+
+                var total_price = total_card + total_cash;
+                var card_percent = ((total_card/total_price)*100).toFixed(1);
+                var cash_percent = ((total_cash/total_price)*100).toFixed(1);
+
+                $(".table_wrap").html(html);
+                $(".total_cnt").text((result.data.length).format());
+                $(".total_card").text(total_card.format());
+                $(".total_cash").text(total_cash.format());
+                $(".total_card_cash").text((total_price).format());
+
+                // if(card_percent>80){
+                //     $(".card_percent").css('width','80%');
+                // }else if(card_percent<20){
+                //     $(".card_percent").css('width','20%');
+                // }else{
+                $(".card_percent").css('width',card_percent+'%');
+                // }
+                // if(cash_percent>80){
+                //     $(".cash_percent").css('width','80%');
+                // }else if(cash_percent<20){
+                //     $(".cash_percent").css('width','20%');
+                // }else{
+                $(".cash_percent").css('width',cash_percent+'%');
+                // }
+
+                $(".card_percent_txt").text(card_percent+'%');
+                $(".cash_percent_txt").text(cash_percent+'%');
+
+                //console.log(chart);
+
+
+                // 소계 값 넣기
+                // 차트 같이 넣기
+                little_idx = 0;
+                next_type = '';
+                var chart_array = [];
+                var in_array = [];
+                $.each(result.data, function(i,v){
+
+                    var type = $(".order_type").val();
+
+                    if(type == 'date'){
+                        if(next_type == v.payment_type){
+                            little_cnt += 1;
+                            little_card += parseInt(v.card);
+                            little_cash += parseInt(v.cash);
+                            in_array = [next_type, (little_cnt/(result.data.length)*100).toFixed(1)];
+                        }else{
+                            if(i != 0){
+                                chart_array.push(in_array);
+                            }
+                            next_type = v.payment_type;
+                            little_idx = little_idx + 1;
+                            little_cnt = 1;
+                            little_card = parseInt(v.card);
+                            little_cash = parseInt(v.cash);
+                            in_array = [next_type, (little_cnt/(result.data.length)*100).toFixed(1)];
+                        }
+                    }else if(type == 'payment'){
+                        if(next_type == v.pay_type){
+                            little_cnt += 1;
+                            little_card += parseInt(v.card);
+                            little_cash += parseInt(v.cash);
+                            in_array = [next_type, (little_cnt/(result.data.length)*100).toFixed(1)];
+                        }else{
+                            if(i != 0){
+                                chart_array.push(in_array);
+                            }
+                            next_type = v.pay_type;
+                            little_idx += 1;
+                            little_cnt = 1;
+                            little_card = parseInt(v.card);
+                            little_cash = parseInt(v.cash);
+                            in_array = [next_type, (little_cnt/(result.data.length)*100).toFixed(1)];
+                        }
+                    }else if(type == 'service'){
+                        if(next_type == v.service){
+                            little_cnt += 1;
+                            little_card += parseInt(v.card);
+                            little_cash += parseInt(v.cash);
+                            in_array = [next_type, (little_cnt/(result.data.length)*100).toFixed(1)];
+                        }else{
+                            if(i != 0){
+                                chart_array.push(in_array);
+                            }
+                            next_type = v.service;
+                            little_idx += 1;
+                            little_cnt = 1;
+                            little_card = parseInt(v.card);
+                            little_cash = parseInt(v.cash);
+                            in_array = [next_type, (little_cnt/(result.data.length)*100).toFixed(1)];
+                        }
+                    }else if(type == 'artist'){
+                        var worker = (v.worker == artist_id)? "대표" : v.worker;
+                        if(next_type == worker){
+                            little_cnt += 1;
+                            little_card += parseInt(v.card);
+                            little_cash += parseInt(v.cash);
+                            in_array = [next_type, (little_cnt/(result.data.length)*100).toFixed(1)];
+                        }else{
+                            if(i != 0){
+                                chart_array.push(in_array);
+                            }
+                            next_type = worker;
+                            little_idx += 1;
+                            little_cnt = 1;
+                            little_card = parseInt(v.card);
+                            little_cash = parseInt(v.cash);
+                            in_array = [next_type, (little_cnt/(result.data.length)*100).toFixed(1)];
+                        }
+                    }
+                    $(".little_cnt_"+little_idx).text(little_cnt);
+                    $(".little_card_"+little_idx).text(little_card.format());
+                    $(".little_cash_"+little_idx).text(little_cash.format());
+
+                })
+                chart_array.push(in_array);
+                //console.log(chart_array);
+                var chart_innerRadius = '{';
+                $.each(chart_array, function(i,v){
+                    chart_innerRadius += '"'+v[0]+'"' + ': 90,';
+                })
+                chart_innerRadius = chart_innerRadius.slice(0,-1);
+                chart_innerRadius += '}';
+                chart_innerRadius = JSON.parse(chart_innerRadius);
+                var chart = bb.generate({
+                    size: {
+                        height: 285,
+                        width: 285
+                    },
+                    data: {
+                        columns: chart_array,
+                        type: "pie",
+                        labels: {
+                            show: false
+                        }
+                    },
+                    /* order: "asc", */ // 그래프 순서 변경하기
+                    legend: {
+                        show: false
+                    },
+                    // tooltip: {
+                    //     show: false
+                    // },
+                    pie: {
+                        startingAngle: 0.75,
+                        innerRadius: chart_innerRadius,
+                        label: {   // text 위치
+                            ratio: 1,
+                            format: function(value, id) {		return value +"%";       }
+                        }
+                    },
+                    tooltip: {
+                        format: {
+                            value:
+                                function(value, id) {		return value +"%";    }
+                        }
+                    },
+                    bindto: "#labelRatio"
+                });
+            }else{
+                console.log('1개');
+                var v = result.data;
+                total_card += parseInt(v.card);
+                total_cash += parseInt(v.cash);
+
+                var type = $(".order_type").val();
+
+                var html_form = `
+                    <tr class="customer-table-cell">
+                        <td>
+                            <div class="customer-table-txt"><strong>${v.name}</strong></div>
+                        </td>
+                        <td>
+                            <div class="customer-table-txt">${am_pm_check2(v.reservationDate)}</div>
+                        </td>
+                        <td>
+                            <div class="customer-table-txt">${v.payment_type} | ${v.service}</div>
+                        </td>
+                        <td>
+                            <div class="customer-table-txt">${(v.card).format()}</div>
+                        </td>
+                        <td>
+                            <div class="customer-table-txt">${(v.cash).format()}</div>
+                        </td>
+                    </tr>
+                `;
+
+                if(type == 'date'){
+                    if(next_type == v.payment_type){
+                        html += html_form;
+                    }else{
+                        next_type = v.payment_type;
+                        little_idx += 1;
+                        html += `
+                            <tr>
+                                <td class="none" colspan="2">${v.payment_type} 소계</td>
+                                <td class="customer-table-txt"><span class="little_cnt_${little_idx}"></span>건</td>
+                                <td class="customer-table-txt"><span class="little_card_${little_idx}"></span>원</td>
+                                <td class="customer-table-txt"><span class="little_cash_${little_idx}"></span>원</td>
+                            </tr>
+                        `;
+                        html += html_form;
+                    }
+                }else if(type == 'payment'){
+                    if(next_type == v.pay_type){
+                        html += html_form;
+                    }else{
+                        next_type = v.pay_type;
+                        little_idx += 1;
+                        html += `
+                            <tr>
+                                <td class="none" colspan="2">${v.pay_type} 소계</td>
+                                <td class="customer-table-txt"><span class="little_cnt_${little_idx}"></span>건</td>
+                                <td class="customer-table-txt"><span class="little_card_${little_idx}"></span>원</td>
+                                <td class="customer-table-txt"><span class="little_cash_${little_idx}"></span>원</td>
+                            </tr>
+                        `;
+                        html += html_form;
+                    }
+                }else if(type == 'service'){
+                    if(next_type == v.service){
+                        html += html_form;
+                    }else{
+                        next_type = v.service;
+                        little_idx += 1;
+                        html += `
+                            <tr>
+                                <td class="none" colspan="2">${v.service} 소계</td>
+                                <td class="customer-table-txt"><span class="little_cnt_${little_idx}"></span>건</td>
+                                <td class="customer-table-txt"><span class="little_card_${little_idx}"></span>원</td>
+                                <td class="customer-table-txt"><span class="little_cash_${little_idx}"></span>원</td>
+                            </tr>
+                        `;
+                        html += html_form;
+                    }
+                }else if(type == 'artist'){
+                    var worker = (v.worker == artist_id)? "대표" : v.worker;
+                    if(next_type == worker){
+                        html += html_form;
+                    }else{
+                        next_type = worker;
+                        little_idx += 1;
+                        html += `
+                            <tr>
+                                <td class="none" colspan="2">${worker} 소계</td>
+                                <td class="customer-table-txt"><span class="little_cnt_${little_idx}"></span>건</td>
+                                <td class="customer-table-txt"><span class="little_card_${little_idx}"></span>원</td>
+                                <td class="customer-table-txt"><span class="little_cash_${little_idx}"></span>원</td>
+                            </tr>
+                        `;
+                        html += html_form;
+                    }
+                }
+
+
+                var total_price = total_card + total_cash;
+                var card_percent = ((total_card/total_price)*100).toFixed(1);
+                var cash_percent = ((total_cash/total_price)*100).toFixed(1);
+
+                $(".table_wrap").html(html);
+                $(".total_cnt").text((1).format());
+                $(".total_card").text(total_card.format());
+                $(".total_cash").text(total_cash.format());
+                $(".total_card_cash").text((total_price).format());
+
+                // if(card_percent>80){
+                //     $(".card_percent").css('width','80%');
+                // }else if(card_percent<20){
+                //     $(".card_percent").css('width','20%');
+                // }else{
+                $(".card_percent").css('width',card_percent+'%');
+                // }
+                // if(cash_percent>80){
+                //     $(".cash_percent").css('width','80%');
+                // }else if(cash_percent<20){
+                //     $(".cash_percent").css('width','20%');
+                // }else{
+                $(".cash_percent").css('width',cash_percent+'%');
+                // }
+
+                $(".card_percent_txt").text(card_percent+'%');
+                $(".cash_percent_txt").text(cash_percent+'%');
+
+                //console.log(chart);
+
+
+                // 소계 값 넣기
+                // 차트 같이 넣기
+                little_idx = 0;
+                var chart_array = [];
+                var in_array = [];
+
+                var type = $(".order_type").val();
+
+                if(type == 'date'){
                     little_idx = little_idx + 1;
                     little_cnt = 1;
                     little_card = parseInt(v.card);
                     little_cash = parseInt(v.cash);
-                    in_array = [next_type, (little_cnt/(result.data.length)*100).toFixed(1)];
-                }
-            }else if(type == 'payment'){
-                if(next_type == v.pay_type){
-                    little_cnt += 1;
-                    little_card += parseInt(v.card);
-                    little_cash += parseInt(v.cash);
-                    in_array = [next_type, (little_cnt/(result.data.length)*100).toFixed(1)];
-                }else{
-                    if(i != 0){
-                        chart_array.push(in_array);
-                    }
-                    next_type = v.pay_type;
+                    in_array = [v.payment_type, (little_cnt/(1)*100).toFixed(1)];
+                    chart_array.push(in_array);
+                }else if(type == 'payment'){
                     little_idx += 1;
                     little_cnt = 1;
                     little_card = parseInt(v.card);
                     little_cash = parseInt(v.cash);
-                    in_array = [next_type, (little_cnt/(result.data.length)*100).toFixed(1)];
-                }
-            }else if(type == 'service'){
-                if(next_type == v.service){
-                    little_cnt += 1;
-                    little_card += parseInt(v.card);
-                    little_cash += parseInt(v.cash);
-                    in_array = [next_type, (little_cnt/(result.data.length)*100).toFixed(1)];
-                }else{
-                    if(i != 0){
-                        chart_array.push(in_array);
-                    }
-                    next_type = v.service;
+                    in_array = [v.pay_type, (little_cnt/(1)*100).toFixed(1)];
+                    chart_array.push(in_array);
+                }else if(type == 'service'){
                     little_idx += 1;
                     little_cnt = 1;
                     little_card = parseInt(v.card);
                     little_cash = parseInt(v.cash);
-                    in_array = [next_type, (little_cnt/(result.data.length)*100).toFixed(1)];
-                }
-            }else if(type == 'artist'){
-                var worker = (v.worker == artist_id)? "대표" : v.worker;
-                if(next_type == worker){
-                    little_cnt += 1;
-                    little_card += parseInt(v.card);
-                    little_cash += parseInt(v.cash);
-                    in_array = [next_type, (little_cnt/(result.data.length)*100).toFixed(1)];
-                }else{
-                    if(i != 0){
+                    in_array = [v.service, (little_cnt/(1)*100).toFixed(1)];
+                    chart_array.push(in_array);
+                }else if(type == 'artist'){
+                    var worker = (v.worker == artist_id)? "대표" : v.worker;
+                        little_idx += 1;
+                        little_cnt = 1;
+                        little_card = parseInt(v.card);
+                        little_cash = parseInt(v.cash);
+                        in_array = [worker, (little_cnt/(1)*100).toFixed(1)];
                         chart_array.push(in_array);
-                    }
-                    next_type = worker;
-                    little_idx += 1;
-                    little_cnt = 1;
-                    little_card = parseInt(v.card);
-                    little_cash = parseInt(v.cash);
-                    in_array = [next_type, (little_cnt/(result.data.length)*100).toFixed(1)];
                 }
-            }
-            $(".little_cnt_"+little_idx).text(little_cnt);
-            $(".little_card_"+little_idx).text(little_card.format());
-            $(".little_card_"+little_idx).text(little_card.format());
+                $(".little_cnt_"+little_idx).text(little_cnt);
+                $(".little_card_"+little_idx).text(little_card.format());
+                $(".little_cash_"+little_idx).text(little_cash.format());
 
-        })
-        chart_array.push(in_array);
-        //console.log(chart_array);
-        var chart_innerRadius = '{';
-        $.each(chart_array, function(i,v){
-            chart_innerRadius += '"'+v[0]+'"' + ': 90,';
-        })
-        chart_innerRadius = chart_innerRadius.slice(0,-1);
-        chart_innerRadius += '}';
-        chart_innerRadius = JSON.parse(chart_innerRadius);
-        var chart = bb.generate({
-            size: {
-                height: 285,
-                width: 285
-            },
-            data: {
-                columns: chart_array,
-                type: "pie",
-                labels: {
-                    show: false
-                }
-            },
-            /* order: "asc", */ // 그래프 순서 변경하기
-            legend: {
-                show: false
-            },
-            // tooltip: {
-            //     show: false
-            // },
-            pie: {
-                startingAngle: 0.75,
-                innerRadius: chart_innerRadius,
-                label: {   // text 위치
-                    ratio: 1,
-                    format: function(value, id) {		return value +"%";       }
-                }
-            },
-            tooltip: {
-                format: {
-                    value:
-                        function(value, id) {		return value +"%";    }
-                }
-            },
-            bindto: "#labelRatio"
-        });
+                chart_array.push(in_array);
+                //console.log(chart_array);
+                var chart_innerRadius = '{';
+                $.each(chart_array, function(i,v){
+                    chart_innerRadius += '"'+v[0]+'"' + ': 90,';
+                })
+                chart_innerRadius = chart_innerRadius.slice(0,-1);
+                chart_innerRadius += '}';
+                chart_innerRadius = JSON.parse(chart_innerRadius);
+                var chart = bb.generate({
+                    size: {
+                        height: 285,
+                        width: 285
+                    },
+                    data: {
+                        columns: chart_array,
+                        type: "pie",
+                        labels: {
+                            show: false
+                        }
+                    },
+                    /* order: "asc", */ // 그래프 순서 변경하기
+                    legend: {
+                        show: false
+                    },
+                    // tooltip: {
+                    //     show: false
+                    // },
+                    pie: {
+                        startingAngle: 0.75,
+                        innerRadius: chart_innerRadius,
+                        label: {   // text 위치
+                            ratio: 1,
+                            format: function(value, id) {		return value +"%";       }
+                        }
+                    },
+                    tooltip: {
+                        format: {
+                            value:
+                                function(value, id) {		return value +"%";    }
+                        }
+                    },
+                    bindto: "#labelRatio"
+                });
+            }
+        }else{
+            console.log('없');
+        }
     })
 
     var chart = bb.generate({

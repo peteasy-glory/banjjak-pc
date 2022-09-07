@@ -767,7 +767,7 @@ if($r_mode) {
         $st_date = $_POST['st_date'];
         $fi_date = $_POST['fi_date'];
         $order_type = $_POST['order_type'];
-        $where_type = $_POST['where_type'];
+        $where_type = ($_POST['where_type'] != "")? str_replace(" ","+", $_POST['where_type']) : "";
 
         $data = array('st_date'=>$st_date,'fi_date'=>$fi_date,'order_type'=>$order_type,'where_type'=>$where_type);
         $data_json = json_encode($data);

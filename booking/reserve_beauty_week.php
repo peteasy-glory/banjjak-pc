@@ -263,8 +263,8 @@ if ($artist_flag == 1) {
 
 <div class="reserve-calendar-tooltip">
 	<div class="tooltip-inner">
-		<div class="tooltip-date" id="tooltip_date"></div>
-		<div class="tooltip-desc" id="tooltip_desc"></div>
+		<div class="tooltip-date" id="tooltip-date-text"></div>
+		<div class="tooltip-desc" id="tooltip-desc-text"></div>
 	</div>
 </div>
 
@@ -1008,25 +1008,25 @@ $(function(){
 
 
 	$(document).on('mouseenter mouseleave mousemove' , '.calendar-week-time-item' , function(e){
-		var x = e.pageX;
-		var y = e.pageY;
-
-		/* 확장용 */
-		if(e.type == 'mouseenter'){
-			$(this).addClass('actived');
-		}else if(e.type == 'mouseleave'){
-			$(this).removeClass('actived');
+        var x = e.pageX;
+        var y = e.pageY;
+        var tooltip = $('.reserve-calendar-tooltip');
+        var idx = $(this).data('tooltip_idx');
+        /* 확장용 */
+        if(e.type == 'mouseenter'){
+            $(this).addClass('actived');
+            if(memo_array[idx] == ''){
+                return;
+            }
+            tooltip.addClass('actived');
+            document.getElementById("tooltip-date-text").innerHTML = "특이 사항";
+            document.getElementById("tooltip-desc-text").innerHTML = memo_array[idx];
+        }else if(e.type == 'mouseleave'){
+            $(this).removeClass('actived');
+            tooltip.removeClass('actived');
+        }else if(e.type == 'mousemove'){
+            tooltip.css({'top' : y , 'left' : x});
 		}
-		/* 툴팁용 */
-		var $tooltip = $('.reserve-calendar-tooltip');
-		if(e.type == 'mouseenter'){
-			$tooltip.addClass('actived');
-		}else if(e.type == 'mouseleave'){
-			$tooltip.removeClass('actived');
-		}else if(e.type == 'mousemove'){
-			$tooltip.css({'top' : y , 'left' : x});
-		};
-		
 
 	});
 
