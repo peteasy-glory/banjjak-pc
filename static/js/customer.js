@@ -1023,7 +1023,8 @@ function customer_view(id){
                                 }
 
                                 let body_data= [body,body_]
-                                console.log(body_)
+
+
 
                                 document.getElementById('customer_view_cellphone').innerText = phone_edit(localStorage.getItem('customer_select'));
                                 document.getElementById('user_table').innerHTML = `<div class="customer-user-table-row">
@@ -1111,6 +1112,117 @@ function customer_view(id){
 
 
 
+                                if(body_.length > 0) {
+
+
+                                    body_.forEach(function (el, i) {
+
+                                        document.getElementById('usage_history_list').innerHTML += `<tr class="customer-table-cell gallery-check" data-payment_idx="${el.payment_log_seq}" data-pet_seq="${el.pet_seq}" onclick="if(document.getElementById('customer_table_view_${i}').classList.contains('actived')){document.getElementById('customer_table_view_${i}').classList.remove('actived')}else{document.getElementById('customer_table_view_${i}').classList.add('actived')}; if(document.getElementById('customer_table_cell_${i}').classList.contains('actived')){document.getElementById('customer_table_cell_${i}').classList.remove('actived')}else{document.getElementById('customer_table_cell_${i}').classList.add('actived')}">
+                                                                                                    <td>
+                                                                                                        <!-- customer-table-toggle 클래스에 actived클래스 추가시 활성화 -->
+                                                                                                        <button type="button" class="customer-table-toggle type-2 actived" id="customer_table_cell_${i}">
+                                                                                                            <span class="toggle-title"><span class="ellipsis">${el?.product.split('|')[0]}</span></span>
+                                                                                                        </button>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <div class="customer-table-txt">${el.year}.${fill_zero(el.month)}.${fill_zero(el.day)}</div>
+                                                                                                        <div class="customer-table-txt">${am_pm_check(el.hour)}:${fill_zero(el.minute)}</div>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <div class="customer-table-txt" style="font-size:10px;">${el?.product.split('|')[3]}</div>
+                                                                                                        <div class="customer-table-txt" style="font-size:10px;">${el?.product.split('|')[4]}</div>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <div class="customer-table-txt" style="font-size:10px;">${el.local_price === "" ? '0' : el.local_price}원</div>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <div class="customer-table-txt" style="font-size:10px;">${el.local_price_cash === "" ? '0' : el.local_price_cash}원</div>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                                <!-- actived클래스 추가시 활성화 -->
+                                                                                                <tr class="customer-table-view" id="customer_table_view_${i}">
+                                                                                                    <td colSpan="5">
+                                                                                                        <div class="flex-table">
+                                                                                                            <div class="flex-table-cell">
+                                                                                                                <div class="flex-table-item">
+                                                                                                                    <div class="flex-table-title">
+                                                                                                                        <div class="txt">예약일시</div>
+                                                                                                                    </div>
+                                                                                                                    <div class="flex-table-data">
+                                                                                                                        <div class="flex-table-data-inner">
+                                                                                                                            ${el.buy_time.substr(0, 4)}.${el.buy_time.substr(4, 2)}.${el.buy_time.substr(6, 2)} ${el.buy_time.substr(8, 2)}:${el.buy_time.substr(10, 2)}:${el.buy_time.substr(12, 2)}
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            <div class="flex-table-cell">
+                                                                                                                <div class="flex-table-item">
+                                                                                                                    <div class="flex-table-title">
+                                                                                                                        <div class="txt">미용사</div>
+                                                                                                                    </div>
+                                                                                                                    <div class="flex-table-data">
+                                                                                                                        <div class="flex-table-data-inner">
+                                                                                                                            ${el.worker}
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            <div class="flex-table-cell">
+                                                                                                                <div class="flex-table-item">
+                                                                                                                    <div class="flex-table-title">
+                                                                                                                        <div class="txt">추가</div>
+                                                                                                                    </div>
+                                                                                                                    <div class="flex-table-data">
+                                                                                                                        <div class="flex-table-data-inner">
+                                                                                                                            ${el.product.split('|')[8]}
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            <div class="flex-table-cell">
+                                                                                                                <div class="flex-table-item">
+                                                                                                                    <div class="flex-table-title">
+                                                                                                                        <div class="txt">취소일시</div>
+                                                                                                                    </div>
+                                                                                                                    <div class="flex-table-data">
+                                                                                                                        <div class="flex-table-data-inner">
+                                                                                                                            ${el.is_cancel === 1 ? el.cancel_time : 'X'}
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            <div class="flex-table-cell">
+                                                                                                                <div class="flex-table-item">
+                                                                                                                    <div class="flex-table-title">
+                                                                                                                        <div class="txt">적립금</div>
+                                                                                                                    </div>
+                                                                                                                    <div class="flex-table-data">
+                                                                                                                        <div class="flex-table-data-inner">
+                                                                                                                            사용:0 누적:0
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            <div class="flex-table-cell">
+                                                                                                                <div class="flex-table-item">
+                                                                                                                    <div class="flex-table-title">
+                                                                                                                        <div class="txt">결제방식</div>
+                                                                                                                    </div>
+                                                                                                                    <div class="flex-table-data">
+                                                                                                                        <div class="flex-table-data-inner">
+                                                                                                                            ${el.pay_type === 'pos-card' ? '카드' : '현금'}
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </td>
+                                                                                                </tr>`
+                                    })
+                                }
+
+
+
                                 resolve(body_data);
                             }
 
@@ -1151,7 +1263,6 @@ function customer_view_(id){
             document.querySelector('.pet-list-btn').click();
         })
 
-        insert_customer_usage(id);
 
         sub_phone_pop_init(id);
 
@@ -1259,88 +1370,107 @@ function customer_delete(id){
 function pet_reserve_info(data){
 
 
-    let pet_list = data[0];
-
-    console.log(pet_list);
-
-    Array.from(document.getElementsByClassName('pet-list-btn')).forEach(function(el){
-
-        el.addEventListener('click',function(){
+    return new Promise(function(resolve){
 
 
-
-            pet_list.forEach(function(el_){
-                if(parseInt(el.getAttribute('data-pet_seq'))  === el_.pet_seq){
+        let pet_list = data[0];
 
 
-                    let time = new Date(el_.year,el_.month+1,el_.day).getTime()
-                    let now = new Date().getTime();
+        Array.from(document.getElementsByClassName('pet-list-btn')).forEach(function(el){
 
-                    let subtract_year= Math.floor((now-time)/1000/60/60/24/30/12);
-                    let subtract_month = Math.floor((now-time)/1000/60/60/24/30%12) ;
+            el.addEventListener('click',function(){
 
-                    console.log(el_);
+                Array.from(document.getElementsByClassName('gallery-check')).forEach(function(el_,i){
 
+                    if(el.getAttribute('data-pet_seq') === el_.getAttribute('data-pet_seq')){
 
+                        if(i===0){
 
-
-                    document.getElementById('target_pet_name').innerText = el_.name;
-                    document.getElementById('target_pet_type').innerText = el_.pet_type;
-                    document.getElementById('target_pet_gender').innerText = el_.gender;
-                    document.getElementById('target_pet_weight').innerText = `${el_.weight}kg`;
-
-                    document.getElementById('target_pet_birthday').innerText = `${el_.year}.${fill_zero(el_.month)}.${fill_zero(el_.day)}(${subtract_year}년 ${subtract_month}개월)`
-
-                    document.getElementById('target_pet_neutral').innerText = `${el_.neutral === 0 ? 'X' : 'O'}`;
-                    document.getElementById('target_pet_beauty_exp').innerText = `${el_.beauty_exp}`;
-                    document.getElementById('target_pet_vaccination').innerText = `${el_.vaccination}`;
-                    document.getElementById('target_pet_bite').innerText = `${el_.bite === '해요' || el_.bite === '1' ? '해요' : '안해요'}`;
-                    document.getElementById('target_pet_luxation').innerText = `${el_.luxation}`;
-                    document.getElementById('target_pet_special').innerText = `${el_.dermatosis ? '피부병' : ''} ${el_.heart_trouble ? '심장 질환' : ''} ${el_.marking ? '마킹': ''} ${el_.mounting ? '마운팅' : ''}`;
-                    document.getElementById('target_pet_disliked').innerText = `${el_.dt_body ? '몸':''} ${el_.dt_ear ? '귀':''} ${el_.dt_eye ? '눈':''} ${el_.dt_genitilia ? '생식기':''} ${el_.dt_leg ? '다리':''} ${el_.dt_mouth ? '입' : ''} ${el_.dt_neck ? '목':''} ${el_.dt_nose ? '코':''} ${el_.dt_tail ? '꼬리' : ''}`;
-
-                    document.getElementById('modify_pet').setAttribute('data-pet_seq',`${el_.pet_seq}`)
-                    document.getElementById('modify_pet').setAttribute('onclick',`customer_modify_pet(${document.getElementById('modify_pet').getAttribute('data-pet_seq')}).then(function(body){ customer_modify_pet_(body)});`)
-
-                    document.getElementById('target_pet_etc').innerText = `${el_.etc}`;
-
-
-                    let image = '';
-                    if(el_.photo === ""){
-                        if(el_.type ==="dog"){
-                            image = '/static/images/icon/icon-pup-select-off.png'
-                        }else{
-                            image = '/static/images/icon/icon-cat-select-off.png'
+                            el.setAttribute('data-payment_idx',el_.getAttribute('data-payment_idx'))
                         }
-                    }else{
 
-                        image = `https://image.banjjakpet.com${el_.photo}`
+
                     }
-                    document.getElementById('target_pet_img').setAttribute('src',image);
-
-
-                    agree_birthday().then(function(){ agree_birthday_date()})
-                    agree_pet_type(artist_id);
-
-
-                    setTimeout(function (){
-                        customer_beauty_agree(artist_id,el_).then(function(data_){
-
-                            customer_beauty_agree_(data_);
-                        });
-
-
-                    },50)
-
-                    document.getElementById('direct_reserve_btn').setAttribute('data-pet_seq',el_.pet_seq)
+                })
 
 
 
-               }
+
+
+
+                pet_list.forEach(function(el_){
+                    if(parseInt(el.getAttribute('data-pet_seq'))  === el_.pet_seq){
+
+
+                        let time = new Date(el_.year,el_.month+1,el_.day).getTime()
+                        let now = new Date().getTime();
+
+                        let subtract_year= Math.floor((now-time)/1000/60/60/24/30/12);
+                        let subtract_month = Math.floor((now-time)/1000/60/60/24/30%12) ;
+
+                        console.log(el_);
+
+
+
+
+                        document.getElementById('target_pet_name').innerText = el_.name;
+                        document.getElementById('target_pet_type').innerText = el_.pet_type;
+                        document.getElementById('target_pet_gender').innerText = el_.gender;
+                        document.getElementById('target_pet_weight').innerText = `${el_.weight}kg`;
+
+                        document.getElementById('target_pet_birthday').innerText = `${el_.year}.${fill_zero(el_.month)}.${fill_zero(el_.day)}(${subtract_year}년 ${subtract_month}개월)`
+
+                        document.getElementById('target_pet_neutral').innerText = `${el_.neutral === 0 ? 'X' : 'O'}`;
+                        document.getElementById('target_pet_beauty_exp').innerText = `${el_.beauty_exp}`;
+                        document.getElementById('target_pet_vaccination').innerText = `${el_.vaccination}`;
+                        document.getElementById('target_pet_bite').innerText = `${el_.bite === '해요' || el_.bite === '1' ? '해요' : '안해요'}`;
+                        document.getElementById('target_pet_luxation').innerText = `${el_.luxation}`;
+                        document.getElementById('target_pet_special').innerText = `${el_.dermatosis ? '피부병' : ''} ${el_.heart_trouble ? '심장 질환' : ''} ${el_.marking ? '마킹': ''} ${el_.mounting ? '마운팅' : ''}`;
+                        document.getElementById('target_pet_disliked').innerText = `${el_.dt_body ? '몸':''} ${el_.dt_ear ? '귀':''} ${el_.dt_eye ? '눈':''} ${el_.dt_genitilia ? '생식기':''} ${el_.dt_leg ? '다리':''} ${el_.dt_mouth ? '입' : ''} ${el_.dt_neck ? '목':''} ${el_.dt_nose ? '코':''} ${el_.dt_tail ? '꼬리' : ''}`;
+
+                        document.getElementById('modify_pet').setAttribute('data-pet_seq',`${el_.pet_seq}`)
+                        document.getElementById('modify_pet').setAttribute('onclick',`customer_modify_pet(${document.getElementById('modify_pet').getAttribute('data-pet_seq')}).then(function(body){ customer_modify_pet_(body)});`)
+
+                        document.getElementById('target_pet_etc').innerText = `${el_.etc}`;
+
+
+                        let image = '';
+                        if(el_.photo === ""){
+                            if(el_.type ==="dog"){
+                                image = '/static/images/icon/icon-pup-select-off.png'
+                            }else{
+                                image = '/static/images/icon/icon-cat-select-off.png'
+                            }
+                        }else{
+
+                            image = `https://image.banjjakpet.com${el_.photo}`
+                        }
+                        document.getElementById('target_pet_img').setAttribute('src',image);
+
+
+                        agree_birthday().then(function(){ agree_birthday_date()})
+                        agree_pet_type(artist_id);
+
+
+                        setTimeout(function (){
+                            customer_beauty_agree(artist_id,el_).then(function(data_){
+
+                                customer_beauty_agree_(data_);
+                            });
+
+
+                        },50)
+
+                        document.getElementById('direct_reserve_btn').setAttribute('data-pet_seq',el_.pet_seq)
+
+
+
+                   }
+
+                })
+
 
             })
-
-
         })
     })
 }
@@ -1396,11 +1526,12 @@ function insert_customer_memo(id,data){
 
             mode:'get_customer_memo',
             login_id:id,
-            customer_id:customer_id,
-            tmp_seq:tmp_seq,
+            customer_id:"",
+            tmp_seq:"",
             cellphone:cellphone
         },
         success:function (res){
+            console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -1408,9 +1539,10 @@ function insert_customer_memo(id,data){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
+
                 document.getElementById('customer_memo').innerText = body.memo;
 
-                document.getElementById('customer_memo').addEventListener('change',function(){
+                document.getElementById('customer_memo').addEventListener('focusout',function(){
 
 
 
@@ -1424,6 +1556,7 @@ function insert_customer_memo(id,data){
                             memo:document.getElementById('customer_memo').value,
                         },
                         success:function (res){
+                            console.log(res)
 
                         }
                     })
@@ -1885,147 +2018,6 @@ function customer_beauty_agree_(_data){
 }
 
 
-function insert_customer_usage(id){
-
-    $.ajax({
-
-        url:'/data/pc_ajax.php',
-        type:'post',
-        data: {
-
-            mode: 'usage_history',
-            login_id: id,
-            cellphone: localStorage.getItem('customer_select')
-        },
-        success:function(res){
-
-            let response = JSON.parse(res);
-            let head = response.data.head;
-            let body = response.data.body;
-            if (head.code === 401) {
-                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-            } else if (head.code === 200) {
-
-                console.log(body)
-                if(body.length === undefined){
-
-                    body = [body]
-                }
-
-                if(body.length > 0){
-
-                    body.forEach(function(el,i){
-
-                        document.getElementById('usage_history_list').innerHTML += `<tr class="customer-table-cell"  onclick="if(document.getElementById('customer_table_view_${i}').classList.contains('actived')){document.getElementById('customer_table_view_${i}').classList.remove('actived')}else{document.getElementById('customer_table_view_${i}').classList.add('actived')}; if(document.getElementById('customer_table_cell_${i}').classList.contains('actived')){document.getElementById('customer_table_cell_${i}').classList.remove('actived')}else{document.getElementById('customer_table_cell_${i}').classList.add('actived')}">
-                                                                                                    <td>
-                                                                                                        <!-- customer-table-toggle 클래스에 actived클래스 추가시 활성화 -->
-                                                                                                        <button type="button" class="customer-table-toggle type-2 actived" id="customer_table_cell_${i}">
-                                                                                                            <span class="toggle-title"><span class="ellipsis">${el.product.split('|')[0]}</span></span>
-                                                                                                        </button>
-                                                                                                    </td>
-                                                                                                    <td>
-                                                                                                        <div class="customer-table-txt">${el.year}.${fill_zero(el.month)}.${fill_zero(el.day)}</div>
-                                                                                                        <div class="customer-table-txt">${am_pm_check(el.hour)}:${fill_zero(el.minute)}</div>
-                                                                                                    </td>
-                                                                                                    <td>
-                                                                                                        <div class="customer-table-txt" style="font-size:10px;">${el.product.split('|')[3]}</div>
-                                                                                                        <div class="customer-table-txt" style="font-size:10px;">${el.product.split('|')[4]}</div>
-                                                                                                    </td>
-                                                                                                    <td>
-                                                                                                        <div class="customer-table-txt" style="font-size:10px;">${el.local_price === "" ? '0' : el.local_price}원</div>
-                                                                                                    </td>
-                                                                                                    <td>
-                                                                                                        <div class="customer-table-txt" style="font-size:10px;">${el.local_price_cash === "" ? '0' : el.local_price_cash}원</div>
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                                <!-- actived클래스 추가시 활성화 -->
-                                                                                                <tr class="customer-table-view" id="customer_table_view_${i}">
-                                                                                                    <td colSpan="5">
-                                                                                                        <div class="flex-table">
-                                                                                                            <div class="flex-table-cell">
-                                                                                                                <div class="flex-table-item">
-                                                                                                                    <div class="flex-table-title">
-                                                                                                                        <div class="txt">예약일시</div>
-                                                                                                                    </div>
-                                                                                                                    <div class="flex-table-data">
-                                                                                                                        <div class="flex-table-data-inner">
-                                                                                                                            ${el.buy_time.substr(0,4)}.${el.buy_time.substr(4,2)}.${el.buy_time.substr(6,2)} ${el.buy_time.substr(8,2)}:${el.buy_time.substr(10,2)}:${el.buy_time.substr(12,2)}
-                                                                                                                        </div>
-                                                                                                                    </div>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                            <div class="flex-table-cell">
-                                                                                                                <div class="flex-table-item">
-                                                                                                                    <div class="flex-table-title">
-                                                                                                                        <div class="txt">미용사</div>
-                                                                                                                    </div>
-                                                                                                                    <div class="flex-table-data">
-                                                                                                                        <div class="flex-table-data-inner">
-                                                                                                                            ${el.worker}
-                                                                                                                        </div>
-                                                                                                                    </div>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                            <div class="flex-table-cell">
-                                                                                                                <div class="flex-table-item">
-                                                                                                                    <div class="flex-table-title">
-                                                                                                                        <div class="txt">추가</div>
-                                                                                                                    </div>
-                                                                                                                    <div class="flex-table-data">
-                                                                                                                        <div class="flex-table-data-inner">
-                                                                                                                            ${el.product.split('|')[8]}
-                                                                                                                        </div>
-                                                                                                                    </div>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                            <div class="flex-table-cell">
-                                                                                                                <div class="flex-table-item">
-                                                                                                                    <div class="flex-table-title">
-                                                                                                                        <div class="txt">취소일시</div>
-                                                                                                                    </div>
-                                                                                                                    <div class="flex-table-data">
-                                                                                                                        <div class="flex-table-data-inner">
-                                                                                                                            ${el.is_cancel === 1 ? el.cancel_time : 'X'}
-                                                                                                                        </div>
-                                                                                                                    </div>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                            <div class="flex-table-cell">
-                                                                                                                <div class="flex-table-item">
-                                                                                                                    <div class="flex-table-title">
-                                                                                                                        <div class="txt">적립금</div>
-                                                                                                                    </div>
-                                                                                                                    <div class="flex-table-data">
-                                                                                                                        <div class="flex-table-data-inner">
-                                                                                                                            사용:0 누적:0
-                                                                                                                        </div>
-                                                                                                                    </div>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                            <div class="flex-table-cell">
-                                                                                                                <div class="flex-table-item">
-                                                                                                                    <div class="flex-table-title">
-                                                                                                                        <div class="txt">결제방식</div>
-                                                                                                                    </div>
-                                                                                                                    <div class="flex-table-data">
-                                                                                                                        <div class="flex-table-data-inner">
-                                                                                                                            ${el.pay_type === 'pos-card' ? '카드' : '현금'}
-                                                                                                                        </div>
-                                                                                                                    </div>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </td>
-                                                                                                </tr>`
-
-                    })
-                }
-            }
-        }
-
-    })
-}
-
 function sub_phone_pop_init(id){
 
     $.ajax({
@@ -2049,7 +2041,7 @@ function sub_phone_pop_init(id){
 
                 console.log(body)
 
-                document.getElementById('representative_cellphone').innerText = body.to_cellphone;
+
 
 
                 if(body.length === undefined){
@@ -2057,8 +2049,42 @@ function sub_phone_pop_init(id){
                     body = [body];
                 }
 
+                if(body.length === 0){
+                    document.getElementById('representative_cellphone').innerText = localStorage.getItem('customer_select');
+
+
+
+                    document.getElementById('phone_add_list').innerHTML += `<div class="phone-add-input">
+                                                                                        <div class="form-group">
+                                                                                            <div class="form-group-cell">
+                                                                                                <div class="form-group-item">
+                                                                                                    <div class="form-item-label">등록이름</div>
+                                                                                                    <div class="form-item-data type-6">
+                                                                                                        <input type="text" class="" placeholder="입력" id="add_sub_cellphone_1" ${body.length >2 ? 'disabled':''} >
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="form-group-cell">
+                                                                                                <div class="form-group-item">
+                                                                                                    <div class="form-item-label">전화번호</div>
+                                                                                                    <div class="form-item-data type-6">
+                                                                                                        <input type="text" class="" placeholder="'-' 제외하고 입력" id="add_sub_cellphone_2" ${body.length >2 ? 'disabled':''}>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="form-input-info">*보조연락처는 3개까지 등록 가능합니다.</div>`
+
+
+                    return;
+
+                }
+
+                document.getElementById('representative_cellphone').innerText = body[0].to_cellphone;
+
                 body.forEach(function(el,i){
 
+                    console.log(el)
 
                     if(i <3){
 
@@ -2066,12 +2092,12 @@ function sub_phone_pop_init(id){
                         document.getElementById('sub_cellphone').innerHTML += `<div class="value">${el.from_cellphone}</div>`
                     }
                     if(i === 3){
-                        document.getElementById('sub_cellphone').innerHTML += `<div class="value">외 ${el.length-3}개 연락처</div>`
+                        document.getElementById('sub_cellphone').innerHTML += `<div class="value">외 ${body.length-3}개 연락처</div>`
                     }
 
 
                     document.getElementById('phone_add_list').innerHTML += `<div class="phone-add-item">
-                                                                                                                        <div class="item-check representative" style="display: none;"><label for="phone1" class="form-radiobox"><input type="radio" id="phone1" name="phone" data-nick="${el.from_nickname}" data-cellphone="${el.from_cellphone}" onclick="representative(this)"><span class="form-check-icon"><em>대표</em></span></label></div>
+                                                                                                                        <div class="item-check representative" style="display: none;"><label for="phone${i}" class="form-radiobox"><input type="radio" id="phone${i}" name="phone" data-idx="${el.client_id}" data-nick="${el.from_nickname}" data-cellphone="${el.from_cellphone}" data-to_cellphone ="${el.to_cellphone}" onclick="representative(this,artist_id)"><span class="form-check-icon"><em>대표</em></span></label></div>
                                                                                         <div class="item-data">
                                                                                             <div class="phone-add-item-value">
                                                                                                 <div class="phone-add-name">
@@ -2190,9 +2216,18 @@ function add_sub_phone(id){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                document.getElementById('msg2_txt').innerText = '등록록되었습다.'
-                pop.open('reserveAcceptMsg2');
-                return;
+                console.log(body)
+
+                if(body.err === 0){
+                    document.getElementById('msg2_txt').innerText = '등록되었습니다.'
+                    pop.open('reserveAcceptMsg2');
+                    return;
+                }else if(body.err === 906){
+                    document.getElementById('msg1_txt').innerText = '이미 등록된 번호입니다.'
+                    pop.open('reserveAcceptMsg1');
+                    return;
+                }
+
 
             }
 
@@ -2203,12 +2238,54 @@ function add_sub_phone(id){
 
 }
 
-function representative(target){
+function representative(target,id){
 
     console.log(target);
 
     let nick = target.getAttribute('data-nick');
-    let cellphone = target.getAttribute('data-cellphone');
+    let old_phone = target.getAttribute('data-to_cellphone');
+    let new_phone = target.getAttribute('data-cellphone');
+    let client_id = target.getAttribute('data-idx');
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:'post_representative',
+            partner_id:id,
+            tmp_user_idx: client_id,
+            old_phone:old_phone,
+            new_phone:new_phone,
+
+        },
+        success: function (res) {
+                console.log(res);
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+
+                    if(body.err ===0){
+                        document.getElementById('msg3_txt').innerText = '대표 번호가 변경되었습니다.'
+                        pop.open('reserveAcceptMsg3');
+                        return;
+
+                    }else{
+                        document.getElementById('msg2_txt').innerText = '잠시 후 다시 시도 해주세요.'
+                        pop.open('reserveAcceptMsg2');
+                        return;
+                    }
+                }
+
+
+            }
+        })
+
+
 
 
 

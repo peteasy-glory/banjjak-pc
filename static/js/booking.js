@@ -639,11 +639,11 @@ function week_working(id){
     })
 }
 
-function week_timebar(body){
+function week_timebar(){
     let day_body = document.getElementById('day_body');
 
-    let open = body[0].open_time;
-    let close = body[0].close_time;
+    let open = localStorage.getItem('open_close').split('/')[0]
+    let close = localStorage.getItem('open_close').split('/')[1]
 
 
     let day_height = day_body.offsetHeight;
@@ -655,6 +655,9 @@ function week_timebar(body){
     let division = day_height / work_time;
     let div_height = (((now_hour - open) * 60) + now_minutes) * division;
 
+    console.log(day_height);
+    console.log(division);
+    console.log(div_height);
     if (open <= now_hour && now_hour < close) {
         day_body.innerHTML += `<div class="calendar-day-current-time" style="top:${div_height}px"><div class="bar"></div><div class="value">${fill_zero(date.getHours())}:${fill_zero(date.getMinutes())}</div></div>`
     }
@@ -860,6 +863,8 @@ return new Promise(function (resolve){
                         document.getElementById('week_schedule_card_body').style.display = 'none';
                         document.getElementById('week_schedule_loading').style.height =`${height}px`;
                         document.getElementById('week_schedule_loading').style.display ='flex';
+
+
                     }
 
                 },
@@ -4626,9 +4631,10 @@ function reserve_prohibition_list(id){
             if(document.getElementById('week_schedule_card_body')){
                 document.getElementById('week_schedule_card_body').style.display = 'block';
                 document.getElementById('week_schedule_loading').style.display ='none';
-                console.log('!')
                 document.getElementById('btn-schedule-prev').removeAttribute('disabled');
                 document.getElementById('btn-schedule-next').removeAttribute('disabled');
+                week_timebar();
+
             }
         }
     })

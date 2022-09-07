@@ -1595,10 +1595,20 @@ if($r_mode) {
         $result =$api ->get("/partner/booking/waiting/".$partner_id);
 
         $return_data = array("code"=>"000000","data"=>$result);
-    }else if($r_mode ==="get_representative"){
+    }else if($r_mode ==="post_representative"){
 
         $partner_id = $_POST['partner_id'];
-        $result = $api ->get('/partner/customer/phone-change/'.$partner_id);
+        $customer_id = "";
+        $tmp_user_idx = $_POST['tmp_user_idx'];
+        $old_phone = $_POST['old_phone'];
+        $new_phone = $_POST['new_phone'];
+
+        $data = array(partner_id=>$partner_id,customer_id=>$customer_id,tmp_user_idx=>intval($tmp_user_idx),old_phone=>$old_phone,new_phone=>$new_phone);
+
+        $data_json = json_encode($data);
+
+
+        $result = $api ->post('/partner/customer/phone-change',$data_json);
         $return_data = array("code"=>"000000","data"=>$result);
 
     }else if($r_mode ==="put_waiting"){
