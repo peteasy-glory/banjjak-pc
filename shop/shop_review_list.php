@@ -147,6 +147,14 @@ if ($artist_flag == 1) {
             var html = '';
             if(shop_array[0].length){
                 $.each(shop_array[0], function(i,v){
+                    var reg_year = v.reg_time.substr(0,4);
+                    var reg_month = v.reg_time.substr(4,2);
+                    var reg_day = v.reg_time.substr(6,2);
+
+                    var reply_year = v.reply_time.substr(0,4);
+                    var reply_month = v.reply_time.substr(4,2);
+                    var reply_day = v.reply_time.substr(6,2);
+
                     var customer_photo = (v.photo != '')? img_link_change(v.photo) : "";
                     var rating = '';
                     for(var i=0;i<v.rating;i++){
@@ -169,7 +177,7 @@ if ($artist_flag == 1) {
                                             <div class="user-thumb"><img src="${img_link_change(v.front_image)}" alt=""></div>
                                         </div>
                                         <div class="recomment-data">
-                                            <div class="item-name">${v.name}<span class="date">1일 전</span></div>
+                                            <div class="item-name">${v.name}<span class="date">${reply_year}-${reply_month}-${reply_day}</span></div>
                                             <div class="item-detail">${db_to_str(v.artist_reply)}</div>
                                         </div>
                                     </div>
@@ -201,7 +209,7 @@ if ($artist_flag == 1) {
                                                 <div class="icon-star-group">
                                                     ${rating}
                                                 </div>
-                                                <div class="time">5시간 전</div>
+                                                <div class="time">${reg_year}-${reg_month}-${reg_day}</div>
                                             </div>
                                         </div>
                                     </div>

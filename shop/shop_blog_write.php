@@ -81,6 +81,22 @@ if ($artist_flag == 1) {
 			<!-- //view -->
 		</section>
 		<!-- //contents -->
+        <article id="add_sucess" class="layer-pop-wrap">
+            <div class="layer-pop-parent">
+                <div class="layer-pop-children">
+
+                    <div class="pop-data alert-pop-data">
+                        <div class="pop-body">
+                            <div class="msg-txt"></div>
+                        </div>
+                        <div class="pop-footer">
+                            <button type="button" class="btn btn-confirm" onclick="location.href='shop_blog.php';">확인</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </article>
     </section>
     <!-- //container -->
 </div>
@@ -99,13 +115,20 @@ if ($artist_flag == 1) {
         get_navi(artist_id);
         gnb_init();
         get_blog_list(artist_id);
-        $.each(shop_array[0],function(i,v){
-            link_array.push(v.link);
-        })
+        if(shop_array[0].length > 1){
+            $.each(shop_array[0],function(i,v){
+                link_array.push(v.link);
+            })
+        }else{
+            link_array[0] = shop_array[0].link;
+        }
+        // $.each(shop_array[0],function(i,v){
+        //     link_array.push(v.link);
+        // })
         search_txt = data.shop_name+" 애견";
         get_naver_blog_list(artist_id, search_txt, 10, limit);
         get_blog_list_view(shop_array[idx].items);
-        //console.log(shop_array[1]);
+        //console.log(shop_array);
 
         $(".search_text").val(search_txt);
         //console.log(link_array);
@@ -118,7 +141,7 @@ if ($artist_flag == 1) {
             if(array.length){
                 $.each(array, function(i,v){
                     var result = jQuery.inArray(v.link, link_array);
-                    console.log(result);
+                    //console.log(result);
                     var disabled = (result >= 0)? " checked disabled":"";
                     //var thumbnail = (v.thumbnail != '')? `<div class="thumb"><img src="${img_link_change(v.thumbnail)}" alt=""></div>` : ``;
                     var year = v.postdate.substr(0,4);
@@ -219,7 +242,7 @@ if ($artist_flag == 1) {
                         post_naver_blog_list(artist_id, post_link, post_title, post_desc, post_date, post_blogger);
                     }
                 })
-                pop.open('reloadPop', '추가되었습니다.');
+                pop.open('add_sucess', '추가되었습니다.');
                 double_chk = false;
             }else{
                 pop.open('firstRequestMsg1', '추가중입니다.');
