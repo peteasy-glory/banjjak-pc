@@ -1057,7 +1057,7 @@ if($r_mode) {
 
         $reserve_regist = $api ->post('/partner/booking/b/join/', $regist_data_json);
 
-        $return_data = array("code" => "000000","data"=>$reserve_regist);
+        $return_data = array("code" => "000000","data"=>$regist_data);
 
 
     }else if($r_mode === "pet_info"){
@@ -1339,7 +1339,6 @@ if($r_mode) {
     }else if($r_mode === "beauty_gal_get"){
 
         $payment_idx = $_POST['idx'];
-
 
         $result = $api ->get('/partner/booking/beauty-gallery/'.$payment_idx);
 

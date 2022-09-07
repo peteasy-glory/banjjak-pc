@@ -428,6 +428,7 @@ function stats(){
         document.getElementById('main_reserve_graph_none').style.display = 'none';
         stats.beauty.forEach(function (el, i) {
 
+            console.log(el)
            if(el.pet.animal !== null){
                if (el.product.pay_type.match(/card/i)) {
                    pay_type_card++;
@@ -1313,6 +1314,26 @@ function holiday(id){
                     }
                 }
             }
+
+        },complete:function(){
+            if(document.getElementById('main-calendar-month-body')){
+
+
+                document.getElementById('main-calendar-month-body').style.display = 'block';
+                document.getElementById('home_main_calendar_loading').style.display = 'none';
+            }else if(document.getElementById('mini-calendar-month-body')){
+                document.getElementById('mini-calendar-month-body').style.display = 'block';
+                if(document.getElementById('day_mini_calendar_loading')){
+
+                    document.getElementById('day_mini_calendar_loading').style.display = 'none';
+                }else if(document.getElementById('week_mini_calendar_loading')){
+                    document.getElementById('week_mini_calendar_loading').style.display = 'none';
+
+                }
+
+            }
+
+
 
         }
     })

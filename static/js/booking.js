@@ -1012,7 +1012,7 @@ function book_list(id) {
             },
 
             success: function (res) {
-                console.log(res)
+                
                 let response = JSON.parse(res);
                 let head = response.data.head;
                 let body = response.data.body;
@@ -1084,26 +1084,6 @@ function book_list(id) {
                     }
                 }
                 resolve(body);
-            },complete:function(){
-                if(document.getElementById('main-calendar-month-body')){
-
-
-                    document.getElementById('main-calendar-month-body').style.display = 'block';
-                    document.getElementById('home_main_calendar_loading').style.display = 'none';
-                }else if(document.getElementById('mini-calendar-month-body')){
-                    document.getElementById('mini-calendar-month-body').style.display = 'block';
-                    if(document.getElementById('day_mini_calendar_loading')){
-
-                        document.getElementById('day_mini_calendar_loading').style.display = 'none';
-                    }else if(document.getElementById('week_mini_calendar_loading')){
-                        document.getElementById('week_mini_calendar_loading').style.display = 'none';
-
-                    }
-
-                }
-
-
-
             }
         })
     })
@@ -2327,8 +2307,23 @@ function pay_management(id){
             mode:'pay_management',
             payment_idx:localStorage.getItem('payment_idx'),
         },
+        beforeSend:function (){
+
+            let height;
+
+            if(document.getElementById('pay_management_body')){
+
+                height = document.getElementById('pay_management_body').offsetHeight;
+                document.getElementById('pay_management_body').style.display = 'none';
+                document.getElementById('pay_management_loading').style.height = `${height}px`;
+                document.getElementById('pay_management_loading').style.display = `flex`;
+
+            }
+
+
+        },
         success:function (res){
-            console.log(res)
+            
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -2345,6 +2340,7 @@ function pay_management(id){
 
                     document.getElementById('approve').innerText ='상담대기'
                     document.getElementById('waiting_footer').style.display = 'block';
+                    document.getElementById('approve_wrap').style.display ='block';
                     $.ajax({
                         url:'/data/pc_ajax.php',
                         type:'post',
@@ -2353,7 +2349,7 @@ function pay_management(id){
                             partner_id:id,
                         },
                         success:function(res) {
-                            console.log(res)
+                            
                             let response = JSON.parse(res);
                             let head = response.data.head;
                             let body1 = response.data.body;
@@ -2384,8 +2380,11 @@ function pay_management(id){
                     })
                 }else if(body.is_approve === 1 || body.is_approve === 2 || body.is_approve === -1){
                     document.getElementById('approve').innerText ='예약확정'
+                    document.getElementById('approve_wrap').style.display ='block';
+
                 }else if(body.is_approve === 3){
                     document.getElementById('approve').innerText = '상담거절'
+                    document.getElementById('approve_wrap').style.display ='block';
                 }
 
 
@@ -3196,7 +3195,7 @@ function pay_management_(id){
                 cellphone: document.getElementById('cellphone_detail').innerText,
             },
             success:function(res) {
-               console.log(res);
+               
                 let response = JSON.parse(res);
                 let head = response.data.head;
                 let body = response.data.body;
@@ -3523,6 +3522,18 @@ function pay_management_(id){
 
                 }
 
+            },
+            complete:function(){
+                if(document.getElementById('pay_management_body')){
+
+                    if(document.getElementById('pay_management_body')){
+
+
+                        document.getElementById('pay_management_body').style.display = 'block';
+                        document.getElementById('pay_management_loading').style.display = `none`;
+
+                    }
+                }
             }
         })
 
@@ -4088,6 +4099,10 @@ function _schedule_render_list(body){
     if(document.getElementById('list_inner')){
         document.getElementById('list_inner').style.display = 'block';
         document.getElementById('list_schedule_loading').style.display = 'none';
+        document.getElementById('btn-schedule-next').removeAttribute('disabled');
+        document.getElementById('btn-schedule-prev').removeAttribute('disabled');
+
+
     }
 
 
@@ -4655,7 +4670,7 @@ function reserve_prohibition_delete(){
             ph_seq:ph_seq
         },
         success:function(res) {
-            // console.log(res)
+            // 
             location.reload();
         }
     })
@@ -7258,7 +7273,7 @@ function customer_memo(){
             memo:memo,
         },
         success:function(res) {
-            console.log(res)
+            
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -7292,7 +7307,7 @@ function payment_memo(){
             memo:memo,
         },
         success:function(res) {
-            console.log(res)
+            
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -7364,7 +7379,7 @@ function set_change_time(bool){
 
         },
         success:function(res) {
-            console.log(res)
+            
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -8084,7 +8099,7 @@ function reserve_change_time(){
 
                     },
                     success:function(res) {
-                        console.log(res)
+                        
                         let response = JSON.parse(res);
                         let head = response.data.head;
                         let body = response.data.body;
@@ -8124,7 +8139,7 @@ function tooltip(idx){
         type: 'POST',
         async:false,
         success: function (res) {
-            //console.log(res);
+            //
             let response = JSON.parse(res);
             //console.log(response);
             let head = response.data.head;
@@ -8465,7 +8480,7 @@ function management_service_1(id,data){
                                                                     </div>`
 
                         }
-                    }else if(breed === 'cat'){
+                    }else if(type === 'cat'){
                         if(body.beauty.length > 0){
 
                             basic_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
@@ -9505,7 +9520,7 @@ function set_approve(target,bool){
         },
         success:function(res){
 
-            console.log(res)
+            
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;

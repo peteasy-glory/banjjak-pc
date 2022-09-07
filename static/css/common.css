@@ -2075,7 +2075,7 @@ body {background:#fafafa;}
 .main-calendar-month-body-col .main-calendar-month-cate-group .main-calendar-drag-item-group {height:auto;}
 .main-calendar-month-body-col .main-calendar-month-cate-title {font-size:12px; line-height:15px; color:#666; width:100%; padding:4px 0; width:100%; text-align:center;}
 .main-calendar-month-body-col .main-calendar-drag-item-group {width:100%; height:100%; flex:1; padding:0 2px; box-sizing:border-box;}
-.main-calendar-month-body-col.break {background:#fafafa; transition:0.5s}
+.main-calendar-month-body-col.break {background:#fafafa; }
 .main-calendar-month-body-col.before .main-calendar-day-value,
 .main-calendar-month-body-col.after .main-calendar-day-value {display:none;}
 .main-calendar-month-body-col.today .main-calendar-day-value {background:#e3e3e3;}
@@ -4540,3 +4540,50 @@ button.btn-surtax-set{height:26px;  padding:0 10px 0 4px; border-radius:13px;}
 .dark .card-link-item .item-date {color:#8f8f8f;}
 
 
+
+.dark .main-dashboard-group .title .txt{
+	color:#d8d8d8
+}
+.dark .main-dashboard-group .value {
+	color:#d8d8d8
+}
+
+.dark .main-reserve-calendar-title .txt{
+	color:#d8d8d8
+}
+
+.dark .customer-card-item .item-time{
+	color:#ffe481
+}
+
+.dark .main-calendar-month-header-col{
+	color:#d8d8d8;
+}
+.dark .main-reserve-stats-header .item-title{
+	color:#d8d8d8;
+}
+
+.dark .main-calendar-month-body-col{
+
+	border-color: #47484b;
+	background: #2c2d30;
+
+}
+
+.dark .main-calendar-day-value .number{
+	color:#d8d8d8
+}
+
+.dark .main-calendar-month-body-col.break{
+
+	background: #666666;
+
+}
+
+.dark .mini-calendar-month-body-col.break{
+	background: #666666;
+}
+
+.dark .form-item-label{
+	color:white
+}

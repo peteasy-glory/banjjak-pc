@@ -295,9 +295,7 @@ if ($artist_flag == 1) {
                 <div class="pop-body">
                     <div class="reserve-beauty-gallery">
                         <div class="shop-gate-picture-select">
-                            <div class="list-inner img_wrap" id="beauty_gal_wrap">
-                                <div class="list-cell"><a href="#" class="btn-gate-picture-register" onclick="MemofocusNcursor()"><span><em>이미지 추가</em></span></a></div>
-                                <div style="display:block;position:absolute;top:-50px;"><input type="file" accept="image/*" name="imgupfile" id="addimgfile"></div>
+                            <div class="list-inner img_wrap" id="beauty_gal_wrap" style="min-height:176px;">
 
                             </div>
                         </div>
