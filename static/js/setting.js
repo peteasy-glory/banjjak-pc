@@ -485,3 +485,100 @@ function del_vacation(idx){
         }
     })
 }
+
+// 판매상품관리
+// 기본미용상품가져오기
+function get_beauty_product(id){
+
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'get_beauty_product',
+            login_id: id,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                setting_array.push(body);
+            }
+        }
+    })
+}
+
+// 강아지 추가옵션 가져오기
+function get_option_product(id){
+
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'get_option_product',
+            login_id: id,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                setting_array.push(body);
+            }
+        }
+    })
+}
+
+// 쿠폰상품 가져오기
+function get_beauty_coupon(id){
+
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'get_beauty_coupon',
+            login_id: id,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                setting_array.push(body);
+            }
+        }
+    })
+}
+
+// 매장판매 물품 가져오기
+function get_etc_product(id){
+
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode: 'get_etc_product',
+            login_id: id,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                setting_array.push(body);
+            }
+        }
+    })
+}
