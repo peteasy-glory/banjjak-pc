@@ -448,6 +448,17 @@ if ($artist_flag == 1) {
                                     </div>
                                 </div>
                             </div>
+                            <div class="basic-data-group middle" id="select_pet" style="display: none;">
+                                <div class="form-group-item">
+                                    <div class="form-item-label">펫 선택</div>
+                                    <div class="form-item-data type-2">
+                                        <div class="grid-layout basic">
+                                            <div class="grid-layout-inner" id="select_pet_list">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="basic-data-group">
                                 <div class="con-title-group">
                                     <h4 class="con-title">펫 정보<p class="title-need font-color-red">*필수사항만 입력해도 예약등록 가능</p></h4>
@@ -630,7 +641,7 @@ if ($artist_flag == 1) {
                                                                 <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special1"><input type="checkbox" name="special" id="special1"><em>피부병</em></label></div>
                                                                 <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special2"><input type="checkbox" name="special" id="special2"><em>심장질환</em></label></div>
                                                                 <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special3"><input type="checkbox" name="special" id="special3"><em>마킹</em></label></div>
-                                                                <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special4"><input type="checkbox" name="special" id="special3"><em>마운팅</em></label></div>
+                                                                <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="special4"><input type="checkbox" name="special" id="special4"><em>마운팅</em></label></div>
 
                                                             </div>
                                                         </div>
@@ -833,7 +844,88 @@ if ($artist_flag == 1) {
         </div>
     </div>
 </article>
-
+<article id="approveOnly" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data alert-pop-data">
+                <div class="pop-body">
+                    <div class="msg-txt">승인대기중인 예약 <span id="a_cnt">0</span>건 </div>
+                    <div class="msg-txt">대기리스트를 확인해주세요.</div>
+                </div>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm btn-reserv-block" id="close-approve-only" onclick="pop.close();">닫기</button>
+                    <button type="button" class="btn btn-confirm btn-reserv-send" onclick="location.href='/booking/reserve_waiting.php';">지금확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+<article id="reserveCalendarPop100" class="layer-pop-wrap" style="z-index: 100000;">
+        <input type="hidden" name="d_partner_id" id="d_partner_id" value="">
+        <input type="hidden" name="d_worker" id="d_worker" value="">
+        <input type="hidden" name="d_customer_id" id="d_customer_id" value="">
+        <input type="hidden" name="d_cellphone" id="d_cellphone" value="">
+        <input type="hidden" name="d_pet_seq" id="d_pet_seq" value="">
+        <input type="hidden" name="d_animal" id="d_animal" value="">
+        <input type="hidden" name="d_pet_type" id="d_pet_type" value="">
+        <input type="hidden" name="d_pet_year" id="d_pet_year" value="">
+        <input type="hidden" name="d_pet_month" id="d_pet_month" value="">
+        <input type="hidden" name="d_pet_day" id="d_pet_day" value="">
+        <input type="hidden" name="d_gender" id="d_gender" value="">
+        <input type="hidden" name="d_neutral" id="d_neutral" value="">
+        <input type="hidden" name="d_weight" id="d_weight" value="">
+        <input type="hidden" name="d_beauty_exp" id="d_beauty_exp" value="">
+        <input type="hidden" name="d_vaccination" id="d_vaccination" value="">
+        <input type="hidden" name="d_luxation" id="d_luxation" value="">
+        <input type="hidden" name="d_bite" id="d_bite" value="">
+        <input type="hidden" name="d_dermatosis" id="d_dermatosis" value="">
+        <input type="hidden" name="d_heart_trouble" id="d_heart_trouble" value="">
+        <input type="hidden" name="d_marking" id="d_marking" value="">
+        <input type="hidden" name="d_mounting" id="d_mounting" value="">
+        <input type="hidden" name="d_year" id="d_year" value="">
+        <input type="hidden" name="d_month" id="d_month" value="">
+        <input type="hidden" name="d_day" id="d_day" value="">
+        <input type="hidden" name="d_hour" id="d_hour" value="">
+        <input type="hidden" name="d_min" id="d_min" value="">
+        <input type="hidden" name="d_session_id" id="d_session_id" value="">
+        <input type="hidden" name="d_order_id" id="d_order_id" value="">
+        <input type="hidden" name="d_local_price" id="d_local_price" value="">
+        <input type="hidden" name="d_pay_type" id="d_pay_type" value="">
+        <input type="hidden" name="d_pay_status" id="d_pay_status" value="">
+        <input type="hidden" name="d_to_hour" id="d_to_hour" value="">
+        <input type="hidden" name="d_to_min" id="d_to_min" value="">
+        <input type="hidden" name="d_use_coupon_yn" id="d_use_coupon_yn" value="">
+        <input type="hidden" name="d_is_vat" id="d_is_vat" value="">
+        <input type="hidden" name="d_product" id="d_product" value="">
+        <div class="layer-pop-parent">
+            <div class="layer-pop-children">
+                <div class="pop-data alert-pop-data">
+                    <div class="pop-header">
+                        <h4 class="con-title" id="direct_title"></h4>
+                    </div>
+                    <div class="pop-body type-3">
+                        <div class="msg-txt"><span id="thisDate1"></span>&nbsp;&nbsp;&nbsp;&nbsp; <span id="thisTime1"></span><br><br><span id="pet_n"></span></div>
+                        <div>
+                            <br>
+                            예약접수알림
+                            <input type="radio" name="msg_send" value="Y" checked> 발송
+                            <input type="radio" name="msg_send" value="N"> 미발송
+                        </div>
+                        <div>
+                            <br>
+                            미용 하루전 알림
+                            <input type="radio" name="msg_send1" value="Y" checked> 발송
+                            <input type="radio" name="msg_send1" value="N"> 미발송
+                        </div>
+                    </div>
+                    <div class="pop-footer">
+                        <button type="button" class="btn btn-confirm" onclick="direct_reserve_regist()";pop.close();">즉시예약접수</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
 <script src="../static/js/Sortable.min.js"></script>
 
 <script src="../static/js/common.js"></script>
@@ -856,7 +948,7 @@ if ($artist_flag == 1) {
         btn_month_simple();
         mini_calendar_init()
             .then(function(){
-                _renderCalendar_mini(artist_id);
+                _renderCalendar_mini(artist_id,session_id);
             })
         reload_list(artist_id);
 
@@ -869,7 +961,7 @@ if ($artist_flag == 1) {
         })
 
 
-
+        input_enter('reserve_search','reserve_search_btn');
         customer_new_birthday().then(function(){ customer_new_birthday_date()})
         customer_pet_type();
         customer_new_weight()
@@ -877,6 +969,18 @@ if ($artist_flag == 1) {
         reserve_regist_event(artist_id,session_id);
         reserve_time().then(function (){reserve_time_date()});
         reserve_time_init();
+
+        waiting(artist_id)
+
+
+
+        window.addEventListener('beforeunload',function(){
+
+            sessionStorage.removeItem('direct_pet_seq');
+            sessionStorage.removeItem('direct');
+            sessionStorage.removeItem('direct_cellphone');
+            sessionStorage.removeItem('direct_new');
+        })
 
 
 

@@ -61,8 +61,11 @@ $search = ($_POST['search'] && $_POST['search'] !== "") ? $_POST['search']:"";
 										</div>
 									</div>
 									<div class="basic-data-group vvsmall3">
+                                        <div class="loading-container" id="customer_inquiry_loading" style="height:300px;">
+                                            <div class="mexican-wave"></div>
+                                        </div>
 										<!-- 검색결과 있을 때 -->
-										<div class="customer-card-list">
+										<div class="customer-card-list" id="search_phone_data">
 											<div class="grid-layout margin-8-12">
 												<div class="grid-layout-inner" id="search_phone_inner">
 
@@ -111,6 +114,10 @@ $search = ($_POST['search'] && $_POST['search'] !== "") ? $_POST['search']:"";
         //search_fam('<?//=$search?>//',artist_id);
         input_enter('search','search_btn');
         gnb_actived('gnb_customer_wrap','gnb_inquire')
+        localStorage.removeItem('noshow_cnt');
+        localStorage.removeItem('customer_select');
+        localStorage.removeItem('sub_cellphone');
+
 
     })
 

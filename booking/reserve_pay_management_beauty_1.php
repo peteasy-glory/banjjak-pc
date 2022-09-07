@@ -34,7 +34,7 @@ if ($artist_flag == 1) {
 							<div class="card-header">
 								<h3 class="card-header-title">작업 / 결제관리</h3>
 								<div class="card-header-right">
-									<div class="label label-outline-purple large round"><em>예약확정</em></div>
+									<div class="label label-outline-purple large round"><em id="approve"></em></div>
 								</div>
 							</div>
 							<div class="card-body">
@@ -42,19 +42,141 @@ if ($artist_flag == 1) {
                                     <div class="wide-tab">
                                         <div class="wide-tab-inner" id="wide-tab-inner">
                                             <!-- 활성화시 actived클래스 추가 -->
-                                            <div class="tab-cell actived"><a href="#" class="btn-tab-item">작업 관리</a></div>
-                                            <div class="tab-cell"><a href="#" class="btn-tab-item">결제 관리</a></div>
+                                            <div class="tab-cell actived"><a href="#" class="btn-tab-item" id="manage_1_btn" >작업 관리</a></div>
+                                            <div class="tab-cell"><a href="#" class="btn-tab-item" id="manage_2_btn">결제 관리</a></div>
+                                        </div>
+                                    </div>
+                                    <div class="basic-data-group vsmall" id="manage_2" style="display:none;">
+                                        <div class="con-title-group">
+                                            <h4 class="con-title">결제정보</h4>
+                                        </div>
+                                        <div class="wide-tab">
+                                            <div class="wide-tab-inner" id="wide-tab-inner2">
+                                                <!-- 활성화시 actived클래스 추가 -->
+                                                <!-- 변경사항 있을 경우 hit클래스 추가 -->
+                                                <div class="tab-cell actived"><button type="button" class="btn-tab-item btn-tab-item-add" id="basic_service_btn"><span>기본 서비스</span></button></div>
+                                                <div class="tab-cell"><button type="button" class="btn-tab-item btn-tab-item-add"  id="other_service_btn"><span>추가</span></button></div>
+                                                <div class="tab-cell"><button type="button" class="btn-tab-item btn-tab-item-add"  id="other2_service_btn"><span>쿠폰상품</span></button></div>
+                                                <div class="tab-cell"><button type="button" class="btn-tab-item btn-tab-item-add"  id="other3_service_btn"><span>제품</span></button></div>
+                                            </div>
+                                        </div>
+                                        <div class="basic-data-group vmiddle tab-data-group">
+                                            <input type="hidden" value="" id="customer_id">
+                                            <input type="hidden" value="" id="pet_seq">
+                                            <input type="hidden" value="" id="is_vat">
+                                            <!-- tab-data-cell 클래스에 actived클래스 추가시 활성화-->
+                                            <!-- 기본 서비스 -->
+                                            <div class="tab-data-cell actived" id="basic_service">
+                                                <div class="grid-layout basic">
+                                                    <div class="grid-layout-inner" id="basic_service_inner">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- //기본 서비스 -->
+                                            <!-- 추가 -->
+                                            <div class="tab-data-cell" id="other_service">
+                                                <div class="grid-layout basic">
+                                                    <div class="grid-layout-inner" id="other_service_inner">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- //추가 -->
+                                            <!-- 쿠폰상품 -->
+                                            <div class="tab-data-cell" id="other2_service">
+                                                <div class="grid-layout basic">
+                                                    <div class="grid-layout-inner" id="other2_service_inner">
+
+                                                        <div class="grid-layout-cell grid-2">
+                                                            <div class="form-group-item" id="c_coupon">
+                                                                <div class="form-item-label">쿠폰상품</div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid-layout-cell grid-2" >
+                                                            <div class="form-group-item" id="f_coupon">
+                                                                <div class="form-item-label">정액상품</div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- //쿠폰상품 -->
+                                            <!-- 제품 -->
+                                            <div class="tab-data-cell" id="other3_service">
+                                                <div class="grid-layout basic">
+                                                    <div class="grid-layout-inner" id="other3_service_inner">
+                                                        <div class="grid-layout-cell grid-4">
+                                                            <div class="form-group-item">
+                                                                <div class="form-item-label">용품</div>
+                                                                <div class="form-item-data type-2">
+                                                                    <div class="toggle-button-group vertical" id="etc_product_list_1">
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid-layout-cell grid-4">
+                                                            <div class="form-group-item">
+                                                                <div class="form-item-label">간식</div>
+                                                                <div class="form-item-data type-2">
+                                                                    <div class="toggle-button-group vertical" id="etc_product_list_2">
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid-layout-cell grid-4">
+                                                            <div class="form-group-item">
+                                                                <div class="form-item-label">사료</div>
+                                                                <div class="form-item-data type-2">
+                                                                    <div class="toggle-button-group vertical" id="etc_product_list_3">
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid-layout-cell grid-4">
+                                                            <div class="form-group-item">
+                                                                <div class="form-item-label">기타</div>
+                                                                <div class="form-item-data type-2">
+                                                                    <div class="toggle-button-group vertical" id="etc_product_list_4">
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- //제품 -->
                                         </div>
                                     </div>
 
-
 								</div>
 							</div>
+                            <div class="card-footer line" id="waiting_footer" style="display:none;">
+                                <div class="grid-layout btn-grid-group">
+                                    <div class="grid-layout-inner">
+                                        <div class="grid-layout-cell grid-2 approve_idx"  onclick="set_approve(this,true)"><a href="#" class="btn btn-outline-purple"><strong>예약 확정</strong></a></div>
+                                        <div class="grid-layout-cell grid-2 approve_idx" onclick="set_approve(this,false);"><a href="#" class="btn btn-outline-purple"><strong>예약신청 취소</strong></a></div>
+                                    </div>
+                                </div>
+                            </div>
 						</div>			
 					</div>
-					<div class="data-col-right" id="data_col_right">
+					<div class="data-col-right" id="data_col_right_1">
 
 					</div>
+
+                    <div class="data-col-right" id="data_col_right_2" style="display: none;">
+
+
+                    </div>
+
 				</div>
 			</div>
 			<!-- //view -->
@@ -75,7 +197,7 @@ if ($artist_flag == 1) {
                     <div class="msg-txt">해당 예약정보를 노쇼로 등록을 하시겠습니까?</div>
                 </div>
                 <div class="pop-footer">
-                    <button type="button" class="btn btn-confirm btn-cf" onclick="set_noshow(); location.reload();">확인</button>
+                    <button type="button" class="btn btn-confirm btn-cf" onclick="set_noshow(artist_id); location.reload();">확인</button>
                     <button type="button" class="btn btn-confirm btn-cc" onclick="pop.close();">취소</button>
 
                 </div>
@@ -324,6 +446,66 @@ if ($artist_flag == 1) {
             <div class="pop-data alert-pop-data">
                 <div class="pop-body">
                     <div class="msg-txt" id="msg1_txt"></div>
+                </div>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm" onclick="pop.close();">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+
+<article id="reservePayManagementMsg4" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+
+            <div class="pop-data alert-pop-data">
+                <div class="pop-body">
+                    <div class="msg-txt">단골 고객 할인이 적용되었습니다.<br>최종 결제액을 확인해주세요.</div>
+                </div>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm" onclick="pop.close();">확인</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</article>
+<article id="reservePayManagementMsg5" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data alert-pop-data">
+                <div class="pop-body">
+                    <div class="msg-txt">적립금이 적용되었습니다.<br>최종 결제액을 확인해주세요.</div>
+                </div>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm" onclick="pop.close();">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+
+<article id="reservePayManagementMsg6" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data alert-pop-data">
+                <div class="pop-body">
+                    <div class="msg-txt">최종 결제액이 적용되었습니다.<br>최종 결제액을 확인해주세요.</div>
+                </div>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm" onclick="pop.close();">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+<article id="reservePayManagementMsg7" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data alert-pop-data">
+                <div class="pop-body">
+                    <div class="msg-txt">결제가 완료처리되었습니다.</div>
                 </div>
                 <div class="pop-footer">
                     <button type="button" class="btn btn-confirm" onclick="pop.close();">확인</button>
@@ -608,7 +790,7 @@ if ($artist_flag == 1) {
                                                 <div class="grid-layout toggle-button-group">
                                                     <div class="grid-layout-inner">
                                                         <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="agree_special1"><input type="checkbox" name="agree_special" id="agree_special1"><em>입질</em></label></div>
-                                                        <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="agree_special2"><input type="checkbox" name="agree_special" id="agree_special3"><em>마킹</em></label></div>
+                                                        <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="agree_special2"><input type="checkbox" name="agree_special" id="agree_special2"><em>마킹</em></label></div>
                                                         <div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle" for="agree_special3"><input type="checkbox" name="agree_special" id="agree_special3"><em>마운팅</em></label></div>
                                                         <div class="grid-layout-cell grid-1">
                                                             <textarea style="height:60px;" placeholder="입력" id="special_textarea"></textarea>
@@ -734,6 +916,22 @@ if ($artist_flag == 1) {
     </div>
 </article>
 
+<article id="reservePayManagementMsg8" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data alert-pop-data middle">
+                <div class="pop-body">
+                    <div class="msg-title">펫샵적립금 적립시점 안내</div>
+                    <div class="msg-txt">해당 미용종료시간 10분이 지나면 자동으로 직접 설정하신 기준에 따라 자동 적립됩니다.<br>(설정방법: <strong>상세설정 > 적립금설정</strong>)</div>
+                </div>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm" onclick="pop.close();">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+
 <script src="/static/js/common.js"></script>
 <script src="/static/js/dev_common.js"></script>
 <script src="/static/js/booking.js"></script>
@@ -753,7 +951,6 @@ if ($artist_flag == 1) {
         gnb_init();
         prepend_data('consulting_count nick');
         set_image('front_image');
-        wide_tab();
         pay_management_(artist_id)
         gnb_actived('gnb_reserve_wrap','gnb_beauty')
 
@@ -771,6 +968,7 @@ if ($artist_flag == 1) {
 
         var main = '';
         var html = '';
+
 
 
 

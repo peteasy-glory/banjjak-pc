@@ -495,8 +495,11 @@ function today_reserve(){
                 ){
 
                     document.getElementById('reserve_after_none').style.display = 'none';
+                    if(el.pet.photo !== null && el.pet.photo.substr(0,4) === '/pet'){
+                        el.pet.photo = el.pet.photo.replace('/pet','');
+                    }
                     reserve_list.innerHTML += `<div class="main-reserve-list-cell">
-                                                <a href="../booking/reserve_pay_management_beauty_1.php" onclick="localStorage.setItem('payment_idx',${el.product.payment_idx})" class="customer-card-item transparent">
+                                                <a href="/booking/reserve_pay_management_beauty_1.php" onclick="localStorage.setItem('payment_idx',${el.product.payment_idx})" class="customer-card-item transparent">
                                                     <div class="item-info-wrap">
                                                         <div class="item-thumb">
                                                             <div class="user-thumb middle"><img src="${el.pet.photo !== null ? `https://image.banjjakpet.com${el.pet.photo}`  : `${el.pet.animal === 'dog' ? `../static/images/icon/icon-pup-select-off.png`: `../static/images/icon/icon-cat-select-off.png`}` }" alt=""></div>
@@ -706,7 +709,7 @@ function _renderCalendar(id) {
                 console.log(1)
                 document.getElementById('wrap').style.display = 'block';
                 document.getElementById('splash').style.display = 'none';
-                localStorage.setItem('splash', '1');
+                sessionStorage.setItem('splash', '1');
 
             }, 1000)
         })
@@ -888,7 +891,7 @@ function renderCalendar_mini(id) {
 }
 
 //새로고침 달력
-function _renderCalendar_mini(id){
+function _renderCalendar_mini(id,session_id){
     renderCalendar_mini(id)
         .then(function (div_dates){
             for (let i = 0; i < div_dates.length; i++) {
@@ -982,11 +985,10 @@ function _renderCalendar_mini(id){
 
                             week_working(id).then(function (body_data){
 
-                                reserve_schedule_week_cols(body_data,body_,parent,id)
+                                reserve_schedule_week_cols(body_data,body_,parent,id,session_id)
                                 reserve_schedule_week(id,body_data).then(function(_body){
 
                                     document.getElementById('grid_layout_inner').children[0].children[0].click();
-                                    week_timebar(_body);
                                     let test = document.getElementsByClassName('week-date');
 
                                     let text = [''];
@@ -1018,6 +1020,11 @@ function _renderCalendar_mini(id){
                                         },100)
                                     }
 
+                                    if(sessionStorage.getItem('direct_new') === '1'){
+                                        direct_new(id,sessionStorage.getItem('direct_cellphone')).then(function(){direct_event(id,session_id)});
+                                    }else{
+                                        direct_event(id,session_id)
+                                    }
 
 
 
@@ -1084,6 +1091,7 @@ function wide_tab(){
 
         el.addEventListener('click', function () {
             if (!this.classList.contains('actived')) {
+
 
                 Array.from(tab_cell).forEach(function (el) {
                     el.classList.remove('actived');

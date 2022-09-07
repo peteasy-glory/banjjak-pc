@@ -213,6 +213,22 @@ if ($artist_flag == 1) {
     <!-- //container -->
 </div>
 <!-- //wrap -->
+<article id="approveOnly" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data alert-pop-data">
+                <div class="pop-body">
+                    <div class="msg-txt">승인대기중인 예약 <span id="a_cnt">0</span>건 </div>
+                    <div class="msg-txt">대기리스트를 확인해주세요.</div>
+                </div>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm btn-reserv-block" id="close-approve-only" onclick="pop.close();">닫기</button>
+                    <button type="button" class="btn btn-confirm btn-reserv-send" onclick="location.href='/booking/reserve_waiting.php';">지금확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
 <script src="../static/js/common.js"></script>
 <script src="../static/js/dev_common.js"></script>
 <script src="../static/js/booking.js"></script>
@@ -246,7 +262,7 @@ if ($artist_flag == 1) {
         });
         gnb_actived('gnb_reserve_wrap','gnb_beauty');
         btn_month_calendar(artist_id)
-
+        waiting(artist_id)
 
     })
 

@@ -414,6 +414,17 @@ if ($artist_flag == 1) {
                                     </div>
                                 </div>
                             </div>
+                            <div class="basic-data-group middle" id="select_pet" style="display: none;">
+                                <div class="form-group-item">
+                                    <div class="form-item-label">펫 선택</div>
+                                    <div class="form-item-data type-2">
+                                        <div class="grid-layout basic">
+                                            <div class="grid-layout-inner" id="select_pet_list">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="basic-data-group">
                                 <div class="con-title-group">
                                     <h4 class="con-title">펫 정보<p class="title-need font-color-red">*필수사항만 입력해도 예약등록 가능</p></h4>
@@ -667,7 +678,7 @@ if ($artist_flag == 1) {
                                     <div class="wide-tab">
                                         <div class="wide-tab-inner" id="wide-tab-inner2">
                                             <!-- 활성화시 actived클래스 추가 -->
-                                            <div class="tab-cell hit actived"><button type="button" class="btn-tab-item" id="basic_service_btn"><span>기본 서비스</span></button></div>
+                                            <div class="tab-cell"><button type="button" class="btn-tab-item" id="basic_service_btn"><span>기본 서비스</span></button></div>
                                             <div class="tab-cell"><button type="button" class="btn-tab-item" id="other_service_btn"><span>추가</span></button></div>
                                         </div>
                                     </div>
@@ -799,12 +810,31 @@ if ($artist_flag == 1) {
         </div>
     </div>
 </article>
+
 <div class="reserve-calendar-tooltip">
     <div class="tooltip-inner">
         <div class="tooltip-date" id="tooltip-date-text"></div>
         <div class="tooltip-desc" id="tooltip-desc-text"></div>
     </div>
 </div>
+
+
+<article id="approveOnly" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data alert-pop-data">
+                <div class="pop-body">
+                    <div class="msg-txt">승인대기중인 예약 <span id="a_cnt">0</span>건 </div>
+                    <div class="msg-txt">대기리스트를 확인해주세요.</div>
+                </div>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm btn-reserv-block" id="close-approve-only" onclick="pop.close();">닫기</button>
+                    <button type="button" class="btn btn-confirm btn-reserv-send" onclick="location.href='/booking/reserve_waiting.php';">지금확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
 
 <script src="../static/js/common.js"></script>
 <script src="../static/js/dev_common.js"></script>
@@ -857,8 +887,17 @@ if ($artist_flag == 1) {
         reserve_regist_event(artist_id,session_id);
         reserve_time().then(function (){reserve_time_date()});
         reserve_time_init()
+        waiting(artist_id)
+        setTimeout(function(){
 
-        console.log(memo_array);
+
+            sessionStorage.removeItem('waiting');
+        },300)
+
+        new_exist_check(artist_id);
+
+
+
     })
 
 
