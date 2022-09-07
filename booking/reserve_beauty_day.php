@@ -233,12 +233,6 @@ if ($artist_flag == 1) {
 </div>
 <!-- //wrap -->
 
-<div class="reserve-calendar-tooltip">
-	<div class="tooltip-inner">
-		<div class="tooltip-date">22.09.12</div>
-		<div class="tooltip-desc">내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. </div>
-	</div>
-</div>
 <article id="reserveCalendarPop4" class="layer-pop-wrap">
     <input type="hidden" name="log_seq">
     <input type="hidden" name="log_worker">
@@ -805,6 +799,12 @@ if ($artist_flag == 1) {
         </div>
     </div>
 </article>
+<div class="reserve-calendar-tooltip">
+    <div class="tooltip-inner">
+        <div class="tooltip-date" id="tooltip-date-text"></div>
+        <div class="tooltip-desc" id="tooltip-desc-text"></div>
+    </div>
+</div>
 
 <script src="../static/js/common.js"></script>
 <script src="../static/js/dev_common.js"></script>
@@ -858,7 +858,7 @@ if ($artist_flag == 1) {
         reserve_time().then(function (){reserve_time_date()});
         reserve_time_init()
 
-//console.log(tooltip_array);
+        console.log(memo_array);
     })
 
 
@@ -884,13 +884,23 @@ $(function(){
         //console.log($(this).data('payment_idx'));
 		var x = e.pageX;
 		var y = e.pageY;
-
+        var tooltip = $('.reserve-calendar-tooltip');
+        var idx = $(this).data('tooltip_idx');
 		/* 확장용 */
 		if(e.type == 'mouseenter'){
 			$(this).addClass('actived');
+            if(memo_array[idx] == ''){
+                return;
+            }
+            tooltip.addClass('actived');
+            document.getElementById("tooltip-date-text").innerHTML = "특이 사항";
+            document.getElementById("tooltip-desc-text").innerHTML = memo_array[idx];
 		}else if(e.type == 'mouseleave'){
 			$(this).removeClass('actived');
-		}
+            tooltip.removeClass('actived');
+		}else if(e.type == 'mousemove'){
+            tooltip.css({'top' : y , 'left' : x});
+        }
 
 	});
 

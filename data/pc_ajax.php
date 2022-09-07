@@ -782,6 +782,16 @@ if($r_mode) {
         $time_type = $api -> get('/partner/setting/beauty-product/'.$partner_id);
 
         $return_data = array("code"=>"000000",'data'=>$time_type);
+    }else if($r_mode === "get_tooltip"){
+
+        $payment_idx = $_POST['payment_idx'];
+        $is_beauty_false = array("is_beauty" => false, "get_count" => 5);
+
+        $is_beauty_false_data_json = json_encode($is_beauty_false);
+
+        $payment_before_etc_false = $api->get('/partner/booking/payment-before-etc/' . $payment_idx, $is_beauty_false_data_json);
+
+        $return_data = array("code"=>"000000",'data'=>$payment_before_etc_false);
     }else if($r_mode === "pay_management"){
 
         $payment_idx = $_POST['payment_idx'];

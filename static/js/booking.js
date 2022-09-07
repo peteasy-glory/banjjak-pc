@@ -1,6 +1,5 @@
 
-var idx_array = [];
-var tooltip_array = [];
+var memo_array = [];
 
 //일간 예약관리 렌더
 function schedule_render(id){
@@ -62,8 +61,9 @@ function schedule_render(id){
                         no_one(body_data);
 
                         let color;
-                        body.forEach(function (el){
-
+                        body.forEach(function (el, index){
+                            // 툴팁배열에 idx 넣기
+                            tooltip(el.product.payment_idx);
 
                             Array.from(document.getElementsByClassName('calendar-day-body-col')).forEach(function (el_){
 
@@ -76,15 +76,13 @@ function schedule_render(id){
 
                                     }
 
-                                    // 툴팁배열에 idx 넣기
-                                    idx_array.push(el.product.payment_idx);
 
                                     el_.setAttribute('data-pay',el.product.payment_idx)
                                     el_.setAttribute('data-time_length',(new Date(el.product.date.booking_fi).getTime()-new Date(el.product.date.booking_st).getTime())/1000/60)
 
                                     let multiple = (new Date(el.product.date.booking_fi).getTime() - new Date(el.product.date.booking_st).getTime())/1800000;
                                     el_.innerHTML = `<div class="calendar-drag-item-group">
-                                                                        <a href="./reserve_pay_management_beauty_1.php" data-payment_idx="${el_.getAttribute('data-pay')}" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-pay')})" class="calendar-week-time-item toggle green ${color} ${el.product.is_no_show === 1 ? "red" : ''}" style="height: calc(100% * ${multiple}); ">
+                                                                        <a href="./reserve_pay_management_beauty_1.php" data-tooltip_idx="${index}" data-payment_idx="${el_.getAttribute('data-pay')}" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-pay')})" class="calendar-week-time-item toggle green ${color} ${el.product.is_no_show === 1 ? "red" : ''}" style="height: calc(100% * ${multiple}); ">
                                                                             <div class="item-inner" style=" ${multiple <4 ? `` : `border:none !important`}">
                                                                                 <div class="item-name">
                                                                                     <div class="txt">${el.pet.name}</div>
@@ -117,10 +115,6 @@ function schedule_render(id){
 
 
 
-                        })
-
-                        $.each(idx_array, function(i, v){
-                            tooltip(v);
                         })
 
 
@@ -7715,7 +7709,7 @@ function tooltip(idx){
     $.ajax({
         url: '../data/pc_ajax.php',
         data: {
-            mode: "pay_management",
+            mode: "get_tooltip",
             payment_idx: idx,
         },
         type: 'POST',
@@ -7723,14 +7717,24 @@ function tooltip(idx){
         success: function (res) {
             //console.log(res);
             let response = JSON.parse(res);
-            console.log(response);
-            let head = response.data2.head;
-            let body = response.data2.body;
+            //console.log(response);
+            let head = response.data.head;
+            let body = response.data.body;
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                //tooltip_array.push(body);
-                console.log(JSON.stringify(body));
+
+                if(body && body.length>0){
+                    var memo = '';
+                    $.each(body, function(index,value){
+                        memo += value.booking_date+'</br>';
+                        memo += value.memo+'</br>';
+                    })
+                    memo_array.push(memo);
+                }else{
+                    memo_array.push('')
+                }
+
             }
         }
     })
