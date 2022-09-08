@@ -1183,6 +1183,93 @@ if ($artist_flag == 1) {
         </div>
     </div>
 </article>
+
+<!-- 알림톡발송조회 팝업 -->
+<article id="customerAlarmInquiryPop" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data data-pop-view large">
+                <div class="pop-header">
+                    <h4 class="con-title">알림톡 발송이력 조회</h4>
+                </div>
+                <div class="pop-body">
+                    <div class="customer-alarm-inquiry">
+                        <div class="basic-data-group">
+                            <div class="board-sort-wrap">
+                                <div class="left">
+                                    <div class="form-datepicker-group">
+                                        <div class="form-datepicker"><input type="text" class="datepicker-start" value="<?php echo date('Y-m-d', strtotime(DATE('Y-m-d')."-1 days"));?>"></div>
+                                        <div class="form-unit">~</div>
+                                        <div class="form-datepicker"><input type="text" class="datepicker-end" value="<?php echo DATE('Y-m-d'); ?>"></div>
+                                    </div>
+                                </div>
+                                <div class="right">
+                                    <div class="board-sort-btns">
+                                        <button type="button" class="btn-data-refresh">초기화</button>
+                                        <a href="#" class="btn btn-purple btn-inline btn-basic-small pop_inquiry">조회</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="basic-data-group vvsmall3">
+                            <div class="con-title-group">
+                                <input type="hidden" id="allim_cellphone_val" class="allim_cellphone_val" value="">
+                                <h5 class="con-title"><span id="allim_cellphone"></span> 고객님의 발송이력 조회입니다.</h5>
+                            </div>
+                            <div>
+                                <!-- 검색결과 있을 때 -->
+                                <div class="customer-alarm-result do_allim">
+                                    <table class="customer-table">
+                                        <colgroup>
+                                            <col style="width:20%">
+                                            <col style="width:15%">
+                                            <col style="width:46%">
+                                            <col style="width:19%">
+                                        </colgroup>
+                                        <thead>
+                                        <tr>
+                                            <th>발송시간</th>
+                                            <th>구분</th>
+                                            <th>내용</th>
+                                            <th>결과</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="allim_table">
+                                            <tr>
+                                                <td class="">2021.12.25<br>13:25</td>
+                                                <td class="">예약등록</td>
+                                                <td class="text-align-left">1776님의 범shop 예약이 내일이네요^^<br><br>반려생황읠 단짝, 반짝에서 내일 예약 내용을 알려드립니다.<br><br>-예약펫샵: 글로리<br>-예약일시: 2021년 9월26일 9시 0분<br><br>예약내용 상세 확인과 변경은 반려생활의 단짝, 반짝에서도 간능합니다.<br>알림톡 발송</td>
+                                                <td class="">알림톡 발송</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="">2021.12.25<br>13:25</td>
+                                                <td class="">예약등록</td>
+                                                <td class="text-align-left">1776님의 범shop 예약이 내일이네요^^<br><br>반려생황읠 단짝, 반짝에서 내일 예약 내용을 알려드립니다.<br><br>-예약펫샵: 글로리<br>-예약일시: 2021년 9월26일 9시 0분<br><br>예약내용 상세 확인과 변경은 반려생활의 단짝, 반짝에서도 간능합니다.<br>알림톡 발송</td>
+                                                <td class="">알림톡 발송</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="">2021.12.25<br>13:25</td>
+                                                <td class="">예약등록</td>
+                                                <td class="text-align-left">1776님의 범shop 예약이 내일이네요^^<br><br>반려생황읠 단짝, 반짝에서 내일 예약 내용을 알려드립니다.<br><br>-예약펫샵: 글로리<br>-예약일시: 2021년 9월26일 9시 0분<br><br>예약내용 상세 확인과 변경은 반려생활의 단짝, 반짝에서도 간능합니다.<br>알림톡 발송</td>
+                                                <td class="">알림톡 발송</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- //검색결과 있을 때 -->
+                                <!-- 검색결과 없을 때 -->
+                                <div class="list-none-data none_allim">검색 결과가 없습니다.</div>
+                                <!-- //검색결과 없을 때 -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
+            </div>
+        </div>
+    </div>
+</article>
+<!-- //알림톡발송조회 팝업 -->
 <script src="/static/js/common.js"></script>
 <script src="/static/js/dev_common.js"></script>
 <script src="/static/js/customer.js"></script>
@@ -1191,6 +1278,7 @@ if ($artist_flag == 1) {
 <script src="/static/js/signature_pad.umd.js"></script>
 <script src="/static/js/swiper.min.js"></script>
 <script src="/static/js/imagesloaded.pkgd.min.js"></script>
+<script src="/static/js/jquery-ui.min.js"></script>
 <script>
 
     let artist_id = "<?=$artist_id?>";
@@ -1240,6 +1328,45 @@ if ($artist_flag == 1) {
 
 
 
+    $(".datepicker-start").datepicker({
+        showOn: "both",
+        buttonImage: "../static/images/icon/icon-datepicker_black.png",
+        buttonImageOnly: true,
+        dateFormat: 'yy-mm-dd',//포맷 설정
+        prevText: '이전 달',//이전 버튼
+        nextText: '다음 달', //다음달 버튼
+        monthNames: ['1','2','3','4','5','6','7','8','9','10','11','12'],//월 설정
+        monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'], //월 설정
+        dayNames: ['일','월','화','수','목','금','토'],//주 타이틀 설정
+        dayNamesShort: ['일','월','화','수','목','금','토'],//주 타이틀 설정
+        dayNamesMin: ['일','월','화','수','목','금','토'], //주 타이틀 설정
+        minDate: new Date('2021-06-05'),
+        showMonthAfterYear: true, // 년도가 앞으로 설정
+        yearSuffix: '.', //년도 뒤 블릿 설정
+        changeMonth: false, //월 선택 불가
+        changeYear: false, //년 선택 불가
+        showOtherMonths:true, //이전 , 다음 달 일수 활성화
+    });
+
+    $(".datepicker-end").datepicker({
+        showOn: "both",
+        buttonImage: "../static/images/icon/icon-datepicker_black.png",
+        buttonImageOnly: true,
+        dateFormat: 'yy-mm-dd',//포맷 설정
+        prevText: '이전 달',//이전 버튼
+        nextText: '다음 달', //다음달 버튼
+        monthNames: ['1','2','3','4','5','6','7','8','9','10','11','12'],//월 설정
+        monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'], //월 설정
+        dayNames: ['일','월','화','수','목','금','토'],//주 타이틀 설정
+        dayNamesShort: ['일','월','화','수','목','금','토'],//주 타이틀 설정
+        dayNamesMin: ['일','월','화','수','목','금','토'], //주 타이틀 설정
+        minDate: new Date('2021-06-05'),
+        showMonthAfterYear: true, // 년도가 앞으로 설정
+        yearSuffix: '.', //년도 뒤 블릿 설정
+        changeMonth: false, //월 선택 불가
+        changeYear: false, //년 선택 불가
+        showOtherMonths:true, //이전 , 다음 달 일수 활성화
+    });
 
 </script>
 </body>

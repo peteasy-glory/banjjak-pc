@@ -1347,6 +1347,27 @@ function holiday(id){
 
 }
 
+// 발송실패 알림톡 문자조회
+function mms_log(cellphone,date,seq){
+    var txt = '';
+    $.ajax({
+        url: '../data/mms_alarm_inquiry.php',
+        data: {
+            cellphone:cellphone,
+            date: date,
+            seq: seq,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            //console.log(res);
+            let response = JSON.parse(res);
+            //console.log(response);
+            txt = response.data;
+        }
+    })
+    return txt;
+}
 
 function between(int,int2){
 
