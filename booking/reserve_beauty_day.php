@@ -847,17 +847,16 @@ if ($artist_flag == 1) {
     let artist_id = "<?=$artist_id?>";
     let session_id = "<?=session_id()?>"
 
-    data_set(artist_id)
+    // data_set(artist_id)
 
 
     $(document).ready(function(){
 
+        get_navi(artist_id)
 
         gnb_init();
         wide_tab();
         wide_tab_2();
-        prepend_data('consulting_count nick');
-        set_image('front_image');
         calendar_change_month(artist_id);
         btn_month(artist_id);
         btn_month_simple()

@@ -1,6 +1,8 @@
 
 let data;
 let list;
+console.log(data);
+console.log(list)
 
 // 세자리 숫자 콤마
 Number.prototype.format = function() {

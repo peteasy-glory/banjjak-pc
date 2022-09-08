@@ -1663,6 +1663,21 @@ if($r_mode) {
 
         $return_data = array("code"=>"000000","data"=>$result);
 
+    }else if($r_mode ==="get_consulting"){
+
+        $login_id = $_POST['login_id'];
+
+        $result = $api -> get('/partner/home/consulting/'.$login_id);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
+    }else if($r_mode ==="get_consulting_count"){
+        $login_id = $_POST['login_id'];
+
+        $result = $api -> get('/partner/home/waiting/'.$login_id);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
     }
 }
 
