@@ -28,8 +28,6 @@ if ($artist_flag == 1) {
 
         <!-- contents -->
 		<section id="contents">
-            <div style="background: black; width:300px; height: 300px; z-index:9999999" onclick="pay_management_toggle()"></div>
-
             <!-- view -->
 			<div class="view">
 				<div class="data-row">
@@ -222,7 +220,7 @@ if ($artist_flag == 1) {
 								<!-- //캘린더 라벨 -->
 							</div>
 						</div>
-                        <div id="pay_management" style=" width:373px; height:100%; max-height: calc( 100vh - 129px ); background: forestgreen; position: absolute; right: 0; margin-right: 25px; z-index:5000">
+                        <div id="pay_management" class="pay_management">
 
                         </div>
 					</div>
@@ -850,6 +848,7 @@ if ($artist_flag == 1) {
 <script src="../static/js/Sortable.min.js"></script>
 
 <script src="../static/js/booking.js"></script>
+<script src="../static/js/jquery.easing.min.js"></script>
 <script src="../static/js/customer.js"></script>
 <script>
 

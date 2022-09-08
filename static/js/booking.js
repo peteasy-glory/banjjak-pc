@@ -82,7 +82,7 @@ function schedule_render(id){
 
                                     let multiple = (new Date(el.product.date.booking_fi).getTime() - new Date(el.product.date.booking_st).getTime())/1800000;
                                     el_.innerHTML = `<div class="calendar-drag-item-group">
-                                                                        <a href="./reserve_pay_management_beauty_1.php" data-tooltip_idx="${index}" data-payment_idx="${el_.getAttribute('data-pay')}" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-pay')})" class="calendar-week-time-item toggle green ${color} ${el.product.is_no_show === 1 ? "red" : ''} ${el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); ">
+                                                                        <a href="#" onclick="pay_management_toggle()" data-tooltip_idx="${index}" data-payment_idx="${el_.getAttribute('data-pay')}" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-pay')})" class="calendar-week-time-item toggle green ${color} ${el.product.is_no_show === 1 ? "red" : ''} ${el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); ">
                                                                             <div class="item-inner" style=" ${multiple <4 ? `` : `border:none !important`}">
                                                                                 <div class="item-name">
                                                                                     <div class="txt">${el.pet.name}</div>
@@ -9927,18 +9927,32 @@ function new_exist_check(id){
 
 function pay_management_toggle(){
 
-    let target = document.getElementById('pay_management');
+    if(document.getElementById('pay_management').classList.contains('animate-check')){
+        document.getElementById('pay_management').classList.remove('animate-check');
+        $('#pay_management').stop().animate({
+            marginRight:`-${$('#pay_management').width()}px`,
+            opacity:'0'
 
-    if(target.classList.contains('move-left')){
-
-        target.classList.remove('move-left')
-        target.classList.add('move-right')
+        },500,'swing')
 
     }else{
-        target.classList.remove('move-right');
-        target.classList.remove('move-right');
-        target.classList.add('move-left');
+        document.getElementById('pay_management').classList.add('animate-check');
+        $('#pay_management').stop().animate({
+            marginRight:`25px`,
+            opacity:'1'
+        },500,'swing')
+
     }
+
+
+
+
+
+
+
+
+
+
 
 
 }
