@@ -1013,7 +1013,7 @@ function book_list(id) {
             },
 
             success: function (res) {
-                console.log(res)
+                
                 let response = JSON.parse(res);
                 let head = response.data.head;
                 let body = response.data.body;
@@ -1085,26 +1085,6 @@ function book_list(id) {
                     }
                 }
                 resolve(body);
-            },complete:function(){
-                if(document.getElementById('main-calendar-month-body')){
-
-
-                    document.getElementById('main-calendar-month-body').style.display = 'block';
-                    document.getElementById('home_main_calendar_loading').style.display = 'none';
-                }else if(document.getElementById('mini-calendar-month-body')){
-                    document.getElementById('mini-calendar-month-body').style.display = 'block';
-                    if(document.getElementById('day_mini_calendar_loading')){
-
-                        document.getElementById('day_mini_calendar_loading').style.display = 'none';
-                    }else if(document.getElementById('week_mini_calendar_loading')){
-                        document.getElementById('week_mini_calendar_loading').style.display = 'none';
-
-                    }
-
-                }
-
-
-
             }
         })
     })
@@ -2328,8 +2308,23 @@ function pay_management(id){
             mode:'pay_management',
             payment_idx:localStorage.getItem('payment_idx'),
         },
+        beforeSend:function (){
+
+            let height;
+
+            if(document.getElementById('pay_management_body')){
+
+                height = document.getElementById('pay_management_body').offsetHeight;
+                document.getElementById('pay_management_body').style.display = 'none';
+                document.getElementById('pay_management_loading').style.height = `${height}px`;
+                document.getElementById('pay_management_loading').style.display = `flex`;
+
+            }
+
+
+        },
         success:function (res){
-            console.log(res)
+            
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -2346,6 +2341,7 @@ function pay_management(id){
 
                     document.getElementById('approve').innerText ='상담대기'
                     document.getElementById('waiting_footer').style.display = 'block';
+                    document.getElementById('approve_wrap').style.display ='block';
                     $.ajax({
                         url:'/data/pc_ajax.php',
                         type:'post',
@@ -2354,7 +2350,7 @@ function pay_management(id){
                             partner_id:id,
                         },
                         success:function(res) {
-                            console.log(res)
+                            
                             let response = JSON.parse(res);
                             let head = response.data.head;
                             let body1 = response.data.body;
@@ -2385,8 +2381,11 @@ function pay_management(id){
                     })
                 }else if(body.is_approve === 1 || body.is_approve === 2 || body.is_approve === -1){
                     document.getElementById('approve').innerText ='예약확정'
+                    document.getElementById('approve_wrap').style.display ='block';
+
                 }else if(body.is_approve === 3){
                     document.getElementById('approve').innerText = '상담거절'
+                    document.getElementById('approve_wrap').style.display ='block';
                 }
 
 
@@ -3197,7 +3196,7 @@ function pay_management_(id){
                 cellphone: document.getElementById('cellphone_detail').innerText,
             },
             success:function(res) {
-               console.log(res);
+               
                 let response = JSON.parse(res);
                 let head = response.data.head;
                 let body = response.data.body;
@@ -3524,6 +3523,18 @@ function pay_management_(id){
 
                 }
 
+            },
+            complete:function(){
+                if(document.getElementById('pay_management_body')){
+
+                    if(document.getElementById('pay_management_body')){
+
+
+                        document.getElementById('pay_management_body').style.display = 'block';
+                        document.getElementById('pay_management_loading').style.display = `none`;
+
+                    }
+                }
             }
         })
 
@@ -4089,6 +4100,10 @@ function _schedule_render_list(body){
     if(document.getElementById('list_inner')){
         document.getElementById('list_inner').style.display = 'block';
         document.getElementById('list_schedule_loading').style.display = 'none';
+        document.getElementById('btn-schedule-next').removeAttribute('disabled');
+        document.getElementById('btn-schedule-prev').removeAttribute('disabled');
+
+
     }
 
 
@@ -4656,7 +4671,7 @@ function reserve_prohibition_delete(){
             ph_seq:ph_seq
         },
         success:function(res) {
-            // console.log(res)
+            // 
             location.reload();
         }
     })
@@ -5725,6 +5740,8 @@ function reserve_regist_event(artist_id,session_id){
 }
 function reserve_regist(artist_id,session_id,yesterday){
 
+    let customer_id = document.querySelector('input[name="pet_no"]:checked') === null ? '' : document.querySelector('input[name="pet_no"]:checked').getAttribute('data-id');
+    let pet_seq = document.querySelector('input[name="pet_no"]:checked') === null ? '' :document.querySelector('input[name="pet_no"]:checked').getAttribute('value')
     const shop_name = data.shop_name;
     const login = artist_id;
     const session = session_id;
@@ -6175,9 +6192,9 @@ let beauty,bath,add_svc;
             mode:'reserve_regist',
             partner_id : login,
             worker : document.getElementById('reserveCalendarPop2').getAttribute('data-name'),
-            customer_id : document.getElementById('customer_id').value,
+            customer_id : customer_id,
             cellphone : cellphone,
-            pet_seq : document.getElementById('pet_seq').value, //수정필
+            pet_seq : pet_seq,
             animal : breed,
             pet_type : breed_select,
             pet_name : name,
@@ -6195,9 +6212,9 @@ let beauty,bath,add_svc;
             heart_trouble:heart_trouble,
             marking:marking,
             mounting:mounting,
-            year:date.getFullYear(),
-            month:date.getMonth()+1,
-            day:date.getDate(),
+            year:document.getElementById('reserve_time_year').value,
+            month:document.getElementById('reserve_time_month').value,
+            day:document.getElementById('reserve_time_date').value,
             hour:document.getElementById('reserve_st_time').value.split(':')[0],
             min:document.getElementById('reserve_st_time').value.split(':')[1],
             session_id:session,
@@ -6218,6 +6235,7 @@ let beauty,bath,add_svc;
 
         },
         success:function(res){
+            console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -6701,7 +6719,7 @@ function exist_user_reserve(id,cellphone){
 
                             document.getElementById('select_pet_list').innerHTML += `<div class="grid-layout-cell flex-auto">
                                                                                                 <label class="form-toggle-box">
-                                                                                                    <input name="pet_no" class="pet-no" type="radio"  value="${el.pet_seq}" onclick="exist_user_reserve_('${el.pet_seq}').then(function(body){exist_user_reserve_init(body)})">
+                                                                                                    <input name="pet_no" class="pet-no" type="radio" data-id="${el.detail.customer_id}" value="${el.pet_seq}" onclick="exist_user_reserve_('${el.pet_seq}').then(function(body){exist_user_reserve_init(body)})">
                                                                                                     <em>${el.name}</em>
                                                                                                 </label>
                                                                                             </div>`
@@ -7259,7 +7277,7 @@ function customer_memo(){
             memo:memo,
         },
         success:function(res) {
-            console.log(res)
+            
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -7293,7 +7311,7 @@ function payment_memo(){
             memo:memo,
         },
         success:function(res) {
-            console.log(res)
+            
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -7365,7 +7383,7 @@ function set_change_time(bool){
 
         },
         success:function(res) {
-            console.log(res)
+            
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -8085,7 +8103,7 @@ function reserve_change_time(){
 
                     },
                     success:function(res) {
-                        console.log(res)
+                        
                         let response = JSON.parse(res);
                         let head = response.data.head;
                         let body = response.data.body;
@@ -8125,7 +8143,7 @@ function tooltip(idx){
         type: 'POST',
         async:false,
         success: function (res) {
-            //console.log(res);
+            //
             let response = JSON.parse(res);
             //console.log(response);
             let head = response.data.head;
@@ -8466,7 +8484,7 @@ function management_service_1(id,data){
                                                                     </div>`
 
                         }
-                    }else if(breed === 'cat'){
+                    }else if(type === 'cat'){
                         if(body.beauty.length > 0){
 
                             basic_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
@@ -9506,7 +9524,7 @@ function set_approve(target,bool){
         },
         success:function(res){
 
-            console.log(res)
+            
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;

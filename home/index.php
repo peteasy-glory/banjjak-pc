@@ -110,7 +110,7 @@ if($artist_flag == 1){
 																					<div class="main-calendar-month-header-col saturday">토</div>
 																				</div>
 																			</div>
-                                                                            <div class="loading-container">
+                                                                            <div class="loading-container" id="home_main_calendar_loading">
                                                                                 <div class="mexican-wave"></div>
                                                                             </div>
 																			<div class="main-calendar-month-body" id="main-calendar-month-body">
@@ -261,6 +261,10 @@ if($artist_flag == 1){
 			<!-- footer -->
 			<footer id="footer"></footer>
 			<!-- //footer -->
+            <button type="button" class="btn-broswer-mode" onclick="darkMode();">
+                <span class="off"><span class="icons"></span>다크 모드 보기</span>
+                <span class="on"><span class="icons"></span>라이트 모드 보기</span>
+            </button>
 			</section>
 			<!-- //contents -->
     </section>

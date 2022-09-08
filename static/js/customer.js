@@ -272,7 +272,6 @@ function customer_all(id){
 
             },
             success:function (res){
-                console.log(res)
                 let response = JSON.parse(res);
                 let customers =response.data
                 let head = response.data.head;
@@ -749,7 +748,6 @@ function customer_new_cellphone_chk(id){
             search:cellphone
         },
         success:function (res){
-            console.log(res);
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -987,6 +985,7 @@ function customer_view(id){
                 cellphone:localStorage.getItem('customer_select'),
             },
             success:function(res){
+                console.log(res)
                 let response = JSON.parse(res);
                 let head = response.data.head;
                 let body = response.data.body;
@@ -1010,6 +1009,7 @@ function customer_view(id){
                             login_id:id,
                             cellphone:localStorage.getItem('customer_select')
                         },success:function(res) {
+                            console.log(res)
                             let response = JSON.parse(res);
                             let head_ = response.data.head;
                             let body_ = response.data.body;
@@ -1250,7 +1250,7 @@ function customer_view_(id){
     customer_view(id).then(function(body_data){
 
         document.getElementById('customer_cellphone').value = localStorage.getItem('customer_select');
-        pet_reserve_info(body_data);
+        pet_reserve_info(body_data)
         noshow_initialize(id,body_data);
         insert_customer_memo(id,body_data);
         insert_customer_grade(id,body_data);
@@ -1336,7 +1336,7 @@ function post_grade(){
             },
             success:function(res){
 
-                console.log(res)
+                
             }
         })
 
@@ -1358,7 +1358,6 @@ function customer_delete(id){
             cellphone:cellphone
         },
         success:function(res){
-            console.log(res);
             document.getElementById('msg3_txt').innerText = '삭제되었습니다.'
             pop.open('reserveAcceptMsg3');
         }
@@ -1370,8 +1369,6 @@ function customer_delete(id){
 function pet_reserve_info(data){
 
 
-    return new Promise(function(resolve){
-
 
         let pet_list = data[0];
 
@@ -1380,18 +1377,20 @@ function pet_reserve_info(data){
 
             el.addEventListener('click',function(){
 
-                Array.from(document.getElementsByClassName('gallery-check')).forEach(function(el_,i){
+                Array.from(document.getElementsByClassName('gallery-check')).forEach(function(el_){
 
                     if(el.getAttribute('data-pet_seq') === el_.getAttribute('data-pet_seq')){
 
-                        if(i===0){
+
 
                             el.setAttribute('data-payment_idx',el_.getAttribute('data-payment_idx'))
-                        }
+
 
 
                     }
                 })
+
+                customer_beauty_gallery()
 
 
 
@@ -1401,49 +1400,49 @@ function pet_reserve_info(data){
                 pet_list.forEach(function(el_){
                     if(parseInt(el.getAttribute('data-pet_seq'))  === el_.pet_seq){
 
+                        console.log(el_)
 
-                        let time = new Date(el_.year,el_.month+1,el_.day).getTime()
+                        let time = new Date(el_.detail.year,el_.detail.month+1,el_.detail.day).getTime()
                         let now = new Date().getTime();
 
                         let subtract_year= Math.floor((now-time)/1000/60/60/24/30/12);
                         let subtract_month = Math.floor((now-time)/1000/60/60/24/30%12) ;
 
-                        console.log(el_);
 
 
 
 
                         document.getElementById('target_pet_name').innerText = el_.name;
-                        document.getElementById('target_pet_type').innerText = el_.pet_type;
-                        document.getElementById('target_pet_gender').innerText = el_.gender;
-                        document.getElementById('target_pet_weight').innerText = `${el_.weight}kg`;
+                        document.getElementById('target_pet_type').innerText = el_.detail.pet_type;
+                        document.getElementById('target_pet_gender').innerText = el_.detail.gender;
+                        document.getElementById('target_pet_weight').innerText = `${el_.detail.weight}kg`;
 
-                        document.getElementById('target_pet_birthday').innerText = `${el_.year}.${fill_zero(el_.month)}.${fill_zero(el_.day)}(${subtract_year}년 ${subtract_month}개월)`
+                        document.getElementById('target_pet_birthday').innerText = `${el_.detail.year}.${fill_zero(el_.detail.month)}.${fill_zero(el_.detail.day)}(${subtract_year}년 ${subtract_month}개월)`
 
-                        document.getElementById('target_pet_neutral').innerText = `${el_.neutral === 0 ? 'X' : 'O'}`;
-                        document.getElementById('target_pet_beauty_exp').innerText = `${el_.beauty_exp}`;
-                        document.getElementById('target_pet_vaccination').innerText = `${el_.vaccination}`;
-                        document.getElementById('target_pet_bite').innerText = `${el_.bite === '해요' || el_.bite === '1' ? '해요' : '안해요'}`;
-                        document.getElementById('target_pet_luxation').innerText = `${el_.luxation}`;
-                        document.getElementById('target_pet_special').innerText = `${el_.dermatosis ? '피부병' : ''} ${el_.heart_trouble ? '심장 질환' : ''} ${el_.marking ? '마킹': ''} ${el_.mounting ? '마운팅' : ''}`;
-                        document.getElementById('target_pet_disliked').innerText = `${el_.dt_body ? '몸':''} ${el_.dt_ear ? '귀':''} ${el_.dt_eye ? '눈':''} ${el_.dt_genitilia ? '생식기':''} ${el_.dt_leg ? '다리':''} ${el_.dt_mouth ? '입' : ''} ${el_.dt_neck ? '목':''} ${el_.dt_nose ? '코':''} ${el_.dt_tail ? '꼬리' : ''}`;
+                        document.getElementById('target_pet_neutral').innerText = `${el_.detail.neutral === 0 ? 'X' : 'O'}`;
+                        document.getElementById('target_pet_beauty_exp').innerText = `${el_.detail.beauty_exp}`;
+                        document.getElementById('target_pet_vaccination').innerText = `${el_.detail.vaccination}`;
+                        document.getElementById('target_pet_bite').innerText = `${el_.detail.bite === '해요' || el_.detail.bite === '1' ? '해요' : '안해요'}`;
+                        document.getElementById('target_pet_luxation').innerText = `${el_.detail.luxation}`;
+                        document.getElementById('target_pet_special').innerText = `${el_.detail.dermatosis ? '피부병' : ''} ${el_.detail.heart_trouble ? '심장 질환' : ''} ${el_.detail.marking ? '마킹': ''} ${el_.detail.mounting ? '마운팅' : ''}`;
+                        document.getElementById('target_pet_disliked').innerText = `${el_.detail.dt_body ? '몸':''} ${el_.detail.dt_ear ? '귀':''} ${el_.detail.dt_eye ? '눈':''} ${el_.detail.dt_genitilia ? '생식기':''} ${el_.dt_leg ? '다리':''} ${el_.detail.dt_mouth ? '입' : ''} ${el_.detail.dt_neck ? '목':''} ${el_.detail.dt_nose ? '코':''} ${el_.detail.dt_tail ? '꼬리' : ''}`;
 
-                        document.getElementById('modify_pet').setAttribute('data-pet_seq',`${el_.pet_seq}`)
+                        document.getElementById('modify_pet').setAttribute('data-pet_seq',`${el_.detail.pet_seq}`)
                         document.getElementById('modify_pet').setAttribute('onclick',`customer_modify_pet(${document.getElementById('modify_pet').getAttribute('data-pet_seq')}).then(function(body){ customer_modify_pet_(body)});`)
 
-                        document.getElementById('target_pet_etc').innerText = `${el_.etc}`;
+                        document.getElementById('target_pet_etc').innerText = `${el_.detail.etc}`;
 
 
                         let image = '';
-                        if(el_.photo === ""){
-                            if(el_.type ==="dog"){
+                        if(el_.detail.photo === ""){
+                            if(el_.detail.type ==="dog"){
                                 image = '/static/images/icon/icon-pup-select-off.png'
                             }else{
                                 image = '/static/images/icon/icon-cat-select-off.png'
                             }
                         }else{
 
-                            image = `https://image.banjjakpet.com${el_.photo}`
+                            image = `https://image.banjjakpet.com${el_.detail.photo}`
                         }
                         document.getElementById('target_pet_img').setAttribute('src',image);
 
@@ -1461,7 +1460,7 @@ function pet_reserve_info(data){
 
                         },50)
 
-                        document.getElementById('direct_reserve_btn').setAttribute('data-pet_seq',el_.pet_seq)
+                        document.getElementById('direct_reserve_btn').setAttribute('data-pet_seq',el_.detail.pet_seq)
 
 
 
@@ -1472,7 +1471,7 @@ function pet_reserve_info(data){
 
             })
         })
-    })
+
 }
 
 function noshow_initialize(id,data){
@@ -1497,7 +1496,6 @@ function noshow_initialize(id,data){
                 },
                 success:function (res){
 
-                    console.log(res);
 
                     localStorage.removeItem('noshow_cnt');
                     document.getElementById('msg2_txt').innerText = '노쇼가 초기화 되었습니다.'
@@ -1531,7 +1529,6 @@ function insert_customer_memo(id,data){
             cellphone:cellphone
         },
         success:function (res){
-            console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -1556,7 +1553,6 @@ function insert_customer_memo(id,data){
                             memo:document.getElementById('customer_memo').value,
                         },
                         success:function (res){
-                            console.log(res)
 
                         }
                     })
@@ -1778,7 +1774,7 @@ function customer_beauty_agree(id,el){
 
     return new Promise(function(resolve){
 
-        let pet_seq = el.pet_seq;
+        let pet_seq = el.detail.pet_seq;
 
         $.ajax({
 
@@ -1906,8 +1902,8 @@ function customer_beauty_agree(id,el){
 
 function customer_beauty_agree_(_data){
 
-    console.log(_data.pet_type)
 
+    console.log(_data)
     document.getElementById('agree_date').innerText = `${new Date().getFullYear()}.${fill_zero(new Date().getMonth()+1)}.${fill_zero(new Date().getDate())}`
     document.getElementById('agree_name').addEventListener('change',function(){
 
@@ -1919,7 +1915,7 @@ function customer_beauty_agree_(_data){
 
         for(let i=0; i<document.getElementById('agree_breed_select').options.length; i++){
 
-            if(document.getElementById('agree_breed_select').options[i].value === _data.pet_type){
+            if(document.getElementById('agree_breed_select').options[i].value === _data.detail.pet_type){
 
                 document.getElementById('agree_breed_select').options[i].selected = true;
             }
@@ -1927,7 +1923,7 @@ function customer_beauty_agree_(_data){
     },500)
 
 
-    if(_data.gender === '남아'){
+    if(_data.detail.gender === '남아'){
 
         document.getElementById('agree_gender1').checked = true;
     }else{
@@ -1936,7 +1932,7 @@ function customer_beauty_agree_(_data){
     }
 
 
-    if(_data.neutral === 0){
+    if(_data.detail.neutral === 0){
 
         document.getElementById('agree_neutralize1').checked = true;
     }else{
@@ -1946,7 +1942,7 @@ function customer_beauty_agree_(_data){
 
     for(let i=0; i<document.getElementById('agree_birthday_year').options.length; i++){
 
-        if(document.getElementById('agree_birthday_year').options[i].value == _data.year){
+        if(document.getElementById('agree_birthday_year').options[i].value == _data.detail.year){
 
             document.getElementById('agree_birthday_year').options[i].selected = true;
         }
@@ -1954,13 +1950,13 @@ function customer_beauty_agree_(_data){
 
     for(let i=0; i<document.getElementById('agree_birthday_month').options.length; i++){
 
-        if(document.getElementById('agree_birthday_month').options[i].value == fill_zero(_data.month)){
+        if(document.getElementById('agree_birthday_month').options[i].value == fill_zero(_data.detail.month)){
 
             document.getElementById('agree_birthday_month').options[i].selected = true;
         }
     }    for(let i=0; i<document.getElementById('agree_birthday_date').options.length; i++){
 
-        if(document.getElementById('agree_birthday_date').options[i].value === fill_zero(_data.day)){
+        if(document.getElementById('agree_birthday_date').options[i].value === fill_zero(_data.detail.day)){
 
             document.getElementById('agree_birthday_date').options[i].selected = true;
         }
@@ -1969,40 +1965,40 @@ function customer_beauty_agree_(_data){
 
     for(let i=0; i<document.getElementById('agree_vaccination').options.length; i++){
 
-        if(document.getElementById('agree_vaccination').options[i].value === _data.vaccination){
+        if(document.getElementById('agree_vaccination').options[i].value === _data.detail.vaccination){
 
             document.getElementById('agree_vaccination').options[i].selected = true;
         }
     }
 
-    if(_data.heart_trouble === 1){
+    if(_data.detail.heart_trouble === 1){
 
         document.getElementById('disease2').checked = true;
     }
 
-    if(_data.dermatosis === 1){
+    if(_data.detail.dermatosis === 1){
 
         document.getElementById('disease3').checked =true;
     }
 
-    if(_data.bite == 1 || _data.bite === "해요"){
+    if(_data.detail.bite == 1 || _data.detail.bite === "해요"){
 
         document.getElementById('agree_special1').checked =true;
     }
 
-    if(_data.marking === 1){
+    if(_data.detail.marking === 1){
 
         document.getElementById('agree_special2').checked = true;
     }
 
-    if(_data.mounting === 1){
+    if(_data.detail.mounting === 1){
 
         document.getElementById('agree_special3').checked = true;
     }
 
     for (let i =0; i<document.getElementById('agree_luxation').options.length; i++){
 
-        if(document.getElementById('agree_luxation').options[i].value === _data.luxation){
+        if(document.getElementById('agree_luxation').options[i].value === _data.detail.luxation){
 
             document.getElementById('agree_luxation').options[i].selected = true;
         }
@@ -2171,7 +2167,6 @@ function delete_sub_phone(){
             sub_phone_idx:seq,
         },
         success:function(res) {
-            console.log(res);
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -2209,7 +2204,7 @@ function add_sub_phone(id){
             sub_phone: sub_phone,
         },
         success: function (res) {
-            console.log(res);
+            ;
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -2261,7 +2256,7 @@ function representative(target,id){
 
         },
         success: function (res) {
-                console.log(res);
+
                 let response = JSON.parse(res);
                 let head = response.data.head;
                 let body = response.data.body;
@@ -2309,7 +2304,7 @@ function customer_modify_pet(pet_seq){
                 pet_seq:pet_seq
             },
             success:function(res) {
-                console.log(res)
+                
                 let response = JSON.parse(res);
                 let head = response.data.head;
                 let body = response.data.body;
@@ -2672,6 +2667,7 @@ function direct_get_pet_info(id,target,pet_seq,session_id){
                 document.getElementById('d_customer_id').value = body.customer_id;
                 document.getElementById('d_cellphone').value= sessionStorage.getItem('direct_cellphone');
                 document.getElementById('d_pet_seq').value= body.pet_seq;
+                document.getElementById('d_pet_name').value= body.name;
                 document.getElementById('d_animal').value= body.type;
                 document.getElementById('d_pet_type').value=body.pet_type;
                 document.getElementById('d_pet_year').value=body.year;
@@ -2709,7 +2705,7 @@ function direct_get_pet_info(id,target,pet_seq,session_id){
                 // document.getElementById('d_aday_ago_yn').value=document.querySelector('input[name="msg_send1"]:checked').value;
 
                 document.getElementById('direct_title').innerText=thisWorker2;
-                document.getElementById('thisDate1').innerText = `${thisYear}-${fill_zero(thisMonth)}-${fill_zero(thisDate)}`;
+                document.getElementById('thisDate1').innerText = `${thisYear}-${fill_zero(parseInt(thisMonth)+1)}-${fill_zero(thisDate)}`;
                 document.getElementById('thisTime1').innerText = `${fill_zero(am_pm_check(thisHour))}:${fill_zero(thisMinutes)}`;
                 document.getElementById('pet_n').innerText = body.name;
 
@@ -2746,7 +2742,7 @@ function direct_reserve_regist(){
             pet_seq : document.getElementById('d_pet_seq').value,
             animal : document.getElementById('d_animal').value,
             pet_type : document.getElementById('d_pet_type').value,
-            pet_name : document.getElementById('pet_n').value,
+            pet_name : document.getElementById('d_pet_name').value,
             pet_year : document.getElementById('d_pet_year').value,
             pet_month: document.getElementById('d_pet_month').value,
             pet_day : document.getElementById('d_pet_day').value,
@@ -2784,13 +2780,14 @@ function direct_reserve_regist(){
 
         },
         success:function(res){
+            console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                location.reload()
+                // location.reload()
             }
 
         }
@@ -2836,5 +2833,145 @@ function direct_new(id,cellphone){
 
             }
         })
+    })
+}
+
+
+function customer_beauty_gallery(){
+
+
+
+
+        let payment_idx = document.querySelector('input[name="pet_list"]:checked').getAttribute('data-payment_idx')
+
+
+
+
+        if(payment_idx === null){
+            document.getElementById('beauty_gal_wrap').innerHTML ='';
+            return;
+        }
+
+        let idx = parseInt(payment_idx);
+
+
+
+
+
+        $.ajax({
+
+            url:'/data/pc_ajax.php',
+            type:'post',
+            data:{
+                mode:'beauty_gal_get',
+                idx:idx,
+            },
+            success:function(res){
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+
+                    console.log(body)
+                    if(body.length === undefined){
+
+                        body = [body];
+                    }
+
+                    let imgs ='';
+
+                    body.forEach(function(el){
+
+                        imgs += `${el.file_path}|`
+                    })
+
+
+                    document.getElementById('beauty_gal_wrap').innerHTML ='';
+
+                    body.forEach(function(el,i){
+
+
+                        document.getElementById('beauty_gal_wrap').innerHTML += `<div class="list-cell">
+                                                                                    <div class="picture-thumb-view">
+                                                                                        <div class="picture-obj" onclick="showReviewGallery(${i},'${imgs}')"><img src="https://image.banjjakpet.com${el.file_path}" alt=""></div>
+                                                                                        <div class="picture-date">${el.upload_dt.substr(0,4)}.${el.upload_dt.substr(4,2)}.${el.upload_dt.substr(6,2)}</div>
+                                                                                        <div class="picture-ui">
+                                                                                            <button type="button" class="btn-picture-ui"></button>
+                                                                                        </div>
+                                                                                        <div class="picture-ui-list">
+                                                                                            <div class="picture-ui-list-inner">
+                                                                                             <a href="#" onclick="event.preventDefault(); beauty_gallery_del(${el.idx})" class="btn-picture-ui-nav">삭제</a>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>`
+                    })
+
+
+                }
+
+            }
+
+        })
+
+
+
+}
+
+function customer_beauty_gallery_add(id,pet_data){
+
+    let payment_idx = pet_data[0];
+    let pet_seq = pet_data[1];
+
+
+    document.getElementById('addimgfile').addEventListener('change',function(e){
+
+        let ext = document.getElementById('addimgfile').value.split('.').pop().toLowerCase()
+
+        if(!ext.match(/png|jpg|jpeg/i)){
+
+            alert('gif,png,jpg,jpeg 파일만 업로드 할 수 있습니다.')
+            return;
+        }
+
+        let filename = document.querySelector('input[name="imgupfile"]').files[0]
+
+
+        let type = filename.type.split('/')[1];
+
+        let formData = new FormData();
+        formData.append('mode','beauty_gal_add');
+        formData.append('login_id',id);
+        formData.append('payment_log_seq',payment_idx);
+        formData.append('pet_seq',pet_seq);
+        formData.append('prnt_title',filename.name.split('.')[0])
+        formData.append('mime',type);
+        formData.append('image',filename);
+
+
+
+
+        $.ajax({
+
+            url:'/data/pc_ajax.php',
+            type:'post',
+            enctype:'multipart/form-data',
+            data:formData,
+            processData:false,
+            contentType:false,
+            success:function(data){
+
+                document.getElementById('msg2_txt').innerText = '완료되었습니다.'
+                pop.open('reserveAcceptMsg2');
+
+            }
+
+
+        })
+
+
+
     })
 }

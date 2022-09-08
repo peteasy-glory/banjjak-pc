@@ -295,9 +295,7 @@ if ($artist_flag == 1) {
                 <div class="pop-body">
                     <div class="reserve-beauty-gallery">
                         <div class="shop-gate-picture-select">
-                            <div class="list-inner img_wrap" id="beauty_gal_wrap">
-                                <div class="list-cell"><a href="#" class="btn-gate-picture-register" onclick="MemofocusNcursor()"><span><em>이미지 추가</em></span></a></div>
-                                <div style="display:block;position:absolute;top:-50px;"><input type="file" accept="image/*" name="imgupfile" id="addimgfile"></div>
+                            <div class="list-inner img_wrap" id="beauty_gal_wrap" style="min-height:176px;">
 
                             </div>
                         </div>
@@ -309,6 +307,43 @@ if ($artist_flag == 1) {
         </div>
     </div>
 </article>
+
+<div class="gallery-pop-wrap">
+    <div class="gallery-pop-inner">
+        <div class="gallery-pop-data">
+            <div class="gallery-pop-slider">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="slider-item">
+                                <span class="loading-bar"><span class="sk-fading-circle"><span class="sk-circle1 sk-circle"></span><span class="sk-circle2 sk-circle"></span><span class="sk-circle3 sk-circle"></span><span class="sk-circle4 sk-circle"></span><span class="sk-circle5 sk-circle"></span><span class="sk-circle6 sk-circle"></span><span class="sk-circle7 sk-circle"></span><span class="sk-circle8 sk-circle"></span><span class="sk-circle9 sk-circle"></span><span class="sk-circle10 sk-circle"></span><span class="sk-circle11 sk-circle"></span><span class="sk-circle12 sk-circle"></span></span></span>
+                                <img src="/static/pub/images/gate_picture.jpg" alt=""/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-page"></div>
+                <button type="button" class="btn-swiper-slider-prev"></button>
+                <button type="button" class="btn-swiper-slider-next"></button>
+            </div>
+            <div class="gallery-pop-ui">
+                <button type="button" class="btn-gallery-pop-nav btn-gallery-mode" onclick="gallery.viewModeChange(this);">
+                    <span class="icon icon-size-24 icon-viewall-white off"></span>
+                    <span class="icon icon-size-24 icon-viewmax-white on"></span>
+                </button>
+                <button type="button" class="btn-gallery-pop-nav" onclick="gallery.close();"><span class="icon icon-size-24 icon-close-white"></span></button>
+            </div>
+        </div>
+        <div class="gallery-thumb-data">
+            <div class="gallery-thumb-list">
+                <button type="button" class="btn-gallery-thumb-nav">
+                    <span class="loading-bar"><span class="sk-fading-circle"><span class="sk-circle1 sk-circle"></span><span class="sk-circle2 sk-circle"></span><span class="sk-circle3 sk-circle"></span><span class="sk-circle4 sk-circle"></span><span class="sk-circle5 sk-circle"></span><span class="sk-circle6 sk-circle"></span><span class="sk-circle7 sk-circle"></span><span class="sk-circle8 sk-circle"></span><span class="sk-circle9 sk-circle"></span><span class="sk-circle10 sk-circle"></span><span class="sk-circle11 sk-circle"></span><span class="sk-circle12 sk-circle"></span></span></span>
+                    <img src="/static/pub/images/user_thumb.png" alt="">
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <article id="petAddPop" class="layer-pop-wrap">
     <div class="layer-pop-parent">
@@ -853,20 +888,6 @@ if ($artist_flag == 1) {
         </div>
     </div>
 </article>
-<article id="show_image" class="layer-pop-wrap">
-    <div class="layer-pop-parent">
-        <div class="layer-pop-children">
-            <div class="pop-data alert-pop-data">
-                <div class="pop-body">
-                    <img src="" alt="" id="show_image_wrap">
-                </div>
-                <div class="pop-footer">
-                    <button type="button" class="btn btn-confirm" onclick="pop.close()">확인</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</article>
 <article id="petModifyPop" class="layer-pop-wrap">
     <div class="layer-pop-parent">
         <div class="layer-pop-children">
@@ -1168,6 +1189,7 @@ if ($artist_flag == 1) {
 <script src="/static/js/shop.js"></script>
 <script src="/static/js/booking.js"></script>
 <script src="/static/js/signature_pad.umd.js"></script>
+<script src="/static/js/swiper.min.js"></script>
 
 <script>
 
@@ -1193,6 +1215,8 @@ if ($artist_flag == 1) {
         modify_customer_pet_type(artist_id);
         modify_customer_new_weight();
 
+        gallery.init();
+
     })
 
 
@@ -1213,6 +1237,143 @@ if ($artist_flag == 1) {
     clear_btn.addEventListener("click", function (event) {
         signature_pad.clear();
     });
+
+
+    var gallery = {
+
+        element : null,
+        swiper : null,
+        swiperCur : 0,
+        swiperLen : -1,
+
+        init : function(){
+            gallery.element = $('.gallery-pop-wrap');
+            gallery.swiperLen = gallery.element.find('.swiper-slide').length;
+            gallery.swiper = new Swiper( gallery.element.find('.swiper-container')[0] , {
+                loop : false,
+                slidesPerView : 1 ,
+                spaceBetween : 0,
+                simulateTouch : true,
+                speed : 450,
+                navigation: {
+                    nextEl: gallery.element.find('.btn-swiper-slider-next')[0],
+                    prevEl: gallery.element.find('.btn-swiper-slider-prev')[0]
+                }
+            });
+            gallery.swiper.on('slideChange' , function(){
+                gallery.swiperCur = this.realIndex;
+                gallery.pageSort();
+            });
+            gallery.pageSort();
+
+            $(document).on('click' , '.btn-gallery-thumb-nav' , function(){
+                var $index = $(this).index();
+                gallery.swiper.slideTo($index , 450);
+            });
+        },
+        pageSort : function(){
+            var _value = '<em>' + String((gallery.swiperCur + 1) + '</em> / ' + gallery.swiperLen);
+            gallery.element.find('.swiper-page').html(_value);
+            gallery.element.find('.gallery-thumb-list > .btn-gallery-thumb-nav').eq(gallery.swiperCur).addClass('actived').siblings().removeClass('actived');
+        },
+
+        dataSet : function(imgList){
+            //샘플링 데이타
+            // -> <div class="swiper-slide"><div class="slider-item"><img src="/static/pub/images/gate_picture.jpg" alt=""/></div></div>
+            var i = 0;
+            var len = Math.floor(Math.random() * (14 - 1)) + 1;
+            var result = '';
+            var resultThumb = '';
+            for(i = 0; i < imgList.length; i++){
+                result += '<div class="swiper-slide"><div class="slider-item hide">';
+                result += '<span class="loading-bar"><span class="sk-fading-circle"><span class="sk-circle1 sk-circle"></span><span class="sk-circle2 sk-circle"></span><span class="sk-circle3 sk-circle"></span><span class="sk-circle4 sk-circle"></span><span class="sk-circle5 sk-circle"></span><span class="sk-circle6 sk-circle"></span><span class="sk-circle7 sk-circle"></span><span class="sk-circle8 sk-circle"></span><span class="sk-circle9 sk-circle"></span><span class="sk-circle10 sk-circle"></span><span class="sk-circle11 sk-circle"></span><span class="sk-circle12 sk-circle"></span></span></span>	';
+                result += '<img src="https://image.banjjakpet.com'+imgList[i]+'" alt="" />';
+                result += '</div></div>';
+
+                resultThumb += '<button type="button" class="btn-gallery-thumb-nav hide">';
+                resultThumb += '<span class="loading-bar"><span class="sk-fading-circle"><span class="sk-circle1 sk-circle"></span><span class="sk-circle2 sk-circle"></span><span class="sk-circle3 sk-circle"></span><span class="sk-circle4 sk-circle"></span><span class="sk-circle5 sk-circle"></span><span class="sk-circle6 sk-circle"></span><span class="sk-circle7 sk-circle"></span><span class="sk-circle8 sk-circle"></span><span class="sk-circle9 sk-circle"></span><span class="sk-circle10 sk-circle"></span><span class="sk-circle11 sk-circle"></span><span class="sk-circle12 sk-circle"></span></span></span>';
+                resultThumb += '<img src="https://image.banjjakpet.com'+imgList[i]+'" alt="" >';
+                resultThumb += '</button>';
+            };
+
+            //데이타 삽입
+            gallery.element.find('.swiper-wrapper').html(result);
+            gallery.element.find('.gallery-thumb-list').html(resultThumb);
+
+            gallery.element.find('.swiper-wrapper .slider-item').each(function(){
+                $(this).imagesLoaded().always(function(instance){
+                    //console.log('model image loaded');
+                }).done(function(instance){
+                    $(instance.elements).removeClass('hide');
+                }).fail( function(){
+                    //alert('프로필 이미지가 없습니다.');
+                }).progress(function(instance,image){
+
+                });
+            });
+
+            gallery.element.find('.gallery-thumb-list .btn-gallery-thumb-nav').each(function(){
+                $(this).imagesLoaded().always(function(instance){
+                    //console.log('model image loaded');
+                }).done(function(instance){
+                    $(instance.elements).removeClass('hide');
+                }).fail( function(){
+                    //alert('프로필 이미지가 없습니다.');
+                }).progress(function(instance,image){
+
+                });
+            });
+
+            //데이타 삽입 후 재설정
+            gallery.swiperCur = 0;
+            gallery.swiperLen = i;
+
+            //데이타 삽입 후 재정렬
+            gallery.viewUpdate();
+            gallery.pageSort();
+        },
+
+        open : function(startIndex){
+            gallery.element.addClass('actived');
+            gallery.viewUpdate();
+            gallery.swiper.slideTo(startIndex,0);
+        },
+        close : function(){
+            gallery.element.removeClass('actived');
+        },
+        viewModeChange : function(obj){
+            if($(obj).hasClass('actived')){
+                //리스트 비활성화
+                $(obj).removeClass('actived');
+                gallery.element.removeClass('thumb');
+            }else{
+                //리스트 활성화
+                $(obj).addClass('actived')
+                gallery.element.addClass('thumb');
+            }
+
+            setTimeout(function(){
+                if(gallery.swiper) gallery.viewUpdate();
+            } , 300);
+        },
+        viewUpdate : function(){
+            gallery.swiper.update();
+            gallery.swiper.updateSize();
+            gallery.swiper.updateSlides();
+            gallery.swiper.updateProgress();
+        }
+    };
+
+    function showReviewGallery(startIndex, img_list){
+        var imgs	= img_list.split('|');
+        imgs.forEach(element => {
+            element = img_link_change(element);
+        });
+        console.log(imgs);
+        gallery.dataSet(imgs);
+        gallery.open(startIndex);
+    };
+
 
 
 </script>

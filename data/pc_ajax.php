@@ -13,6 +13,7 @@ $user_name = (isset($_SESSION['gobeauty_user_nickname'])) ? $_SESSION['gobeauty_
 
 //$api = new TRestAPI("https://partnerapi.banjjakpet.com","Token 2156d1824c98f27a1f163a102cf742002b15e624");
 $api = new TRestAPI("http://stg-partnerapi.banjjakpet.com:8080","Token 55dda3818c897ef163b09a13d37199a7d211b6d2");
+$api2 = new TRestAPI("http://192.168.20.216:8080","Token 2156d1824c98f27a1f163a102cf742002b15e624");
 
 
 $data = array();
@@ -1036,46 +1037,46 @@ if($r_mode) {
         $aday_ago_yn = $_POST['aday_ago_yn'];
 
         $regist_data = array(
-            partner_id => $partner_id,
-            worker => $worker,
-            customer_id => $customer_id,
-            cellphone => $cellphone,
-            pet_seq => intval($pet_seq),
-            animal => $animal,
-            pet_type => $pet_type,
-            pet_name => $pet_name,
-            pet_year => intval($pet_year),
-            pet_month => intval($pet_month),
-            pet_day => intval($pet_day),
-            gender => $gender,
-            neutral => $neutral,
-            weight => $weight,
-            beauty_exp => $beauty_exp,
-            vaccination => $vaccination,
-            luxation => $luxation,
-            bite => $bite,
-            dermatosis => $dermatosis,
-            heart_trouble => $heart_trouble,
-            marking => $marking,
-            mounting => $mounting,
-            year => intval($year),
-            month => intval($month),
-            day => intval($day),
-            hour => intval($hour),
-            min => intval($min),
-            session_id => $session_id,
-            order_id => $order_id,
-            local_price => $local_price,
-            pay_type => $pay_type,
-            pay_status => $pay_status,
-            pay_data => $pay_data,
-            to_hour => intval($to_hour),
-            to_min => intval($to_min),
-            use_coupon_yn => $use_coupon_yn,
-            is_vat => $is_vat,
-            product => $product,
-            reserve_yn => $reserve_yn,
-            aday_ago_yn => $aday_ago_yn,
+            'partner_id' => $partner_id,
+            'worker' => $worker,
+            'customer_id' => $customer_id,
+            'cellphone' => $cellphone,
+            'pet_seq' => intval($pet_seq),
+            'animal' => $animal,
+            'pet_type' => $pet_type,
+            'pet_name' => $pet_name,
+            'pet_year' => intval($pet_year),
+            'pet_month' => intval($pet_month),
+            'pet_day' => intval($pet_day),
+            'gender' => $gender,
+            'neutral' => $neutral,
+            'weight' => $weight,
+            'beauty_exp' => $beauty_exp,
+            'vaccination' => $vaccination,
+            'luxation' => $luxation,
+            'bite' => $bite,
+            'dermatosis' => $dermatosis,
+            'heart_trouble' => $heart_trouble,
+            'marking' => $marking,
+            'mounting' => $mounting,
+            'year' => intval($year),
+            'month' => intval($month),
+            'day' => intval($day),
+            'hour' => intval($hour),
+            'min' => intval($min),
+            'session_id' => $session_id,
+            'order_id' => $order_id,
+            'local_price' => $local_price,
+            'pay_type' => $pay_type,
+            'pay_status' => $pay_status,
+            'pay_data' => $pay_data,
+            'to_hour' => intval($to_hour),
+            'to_min' => intval($to_min),
+            'use_coupon_yn' => $use_coupon_yn,
+            'is_vat' => $is_vat,
+            'product' => $product,
+            'reserve_yn' => $reserve_yn,
+            'aday_ago_yn' => $aday_ago_yn,
 
 
         );
@@ -1367,7 +1368,6 @@ if($r_mode) {
     }else if($r_mode === "beauty_gal_get"){
 
         $payment_idx = $_POST['idx'];
-
 
         $result = $api ->get('/partner/booking/beauty-gallery/'.$payment_idx);
 

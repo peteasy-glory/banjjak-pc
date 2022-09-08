@@ -20,10 +20,10 @@ if ($artist_flag == 1) {
 	<header id="header"></header>
 	<!-- //header -->
 	<!-- gnb -->
-	<nav id="gnb"></nav>
+	<nav id="gnb" class="hide"></nav>
 	<!-- //gnb -->
     <!-- container -->
-    <section id="container">
+    <section id="container" class="hide">
 
 		<!-- contents -->
 		<section id="contents">
@@ -868,20 +868,22 @@ if ($artist_flag == 1) {
         <input type="hidden" name="d_pet_seq" id="d_pet_seq" value="">
         <input type="hidden" name="d_animal" id="d_animal" value="">
         <input type="hidden" name="d_pet_type" id="d_pet_type" value="">
+        <input type="hidden" name="d_pet_name" id="d_pet_name" value="">
+
         <input type="hidden" name="d_pet_year" id="d_pet_year" value="">
         <input type="hidden" name="d_pet_month" id="d_pet_month" value="">
         <input type="hidden" name="d_pet_day" id="d_pet_day" value="">
         <input type="hidden" name="d_gender" id="d_gender" value="">
-        <input type="hidden" name="d_neutral" id="d_neutral" value="">
+        <input type="hidden" name="d_neutral" id="d_neutral" value="0">
         <input type="hidden" name="d_weight" id="d_weight" value="">
-        <input type="hidden" name="d_beauty_exp" id="d_beauty_exp" value="">
-        <input type="hidden" name="d_vaccination" id="d_vaccination" value="">
-        <input type="hidden" name="d_luxation" id="d_luxation" value="">
-        <input type="hidden" name="d_bite" id="d_bite" value="">
-        <input type="hidden" name="d_dermatosis" id="d_dermatosis" value="">
-        <input type="hidden" name="d_heart_trouble" id="d_heart_trouble" value="">
-        <input type="hidden" name="d_marking" id="d_marking" value="">
-        <input type="hidden" name="d_mounting" id="d_mounting" value="">
+        <input type="hidden" name="d_beauty_exp" id="d_beauty_exp" value="0">
+        <input type="hidden" name="d_vaccination" id="d_vaccination" value="0">
+        <input type="hidden" name="d_luxation" id="d_luxation" value="0">
+        <input type="hidden" name="d_bite" id="d_bite" value="0">
+        <input type="hidden" name="d_dermatosis" id="d_dermatosis" value="0">
+        <input type="hidden" name="d_heart_trouble" id="d_heart_trouble" value="0">
+        <input type="hidden" name="d_marking" id="d_marking" value="0">
+        <input type="hidden" name="d_mounting" id="d_mounting" value="0">
         <input type="hidden" name="d_year" id="d_year" value="">
         <input type="hidden" name="d_month" id="d_month" value="">
         <input type="hidden" name="d_day" id="d_day" value="">
