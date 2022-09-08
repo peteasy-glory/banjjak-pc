@@ -3104,6 +3104,7 @@ function pay_management_(id){
 
     pay_management(id).then(function (body_){
 
+        console.log(body_)
         management_wide_tab()
         management_wide_tab2()
         wide_tab();
@@ -3142,7 +3143,10 @@ function pay_management_(id){
                                                                           </div>`
         })
 
-        body_[1].forEach(function (el){
+        body_[1].forEach(function (el,i){
+
+            console.log(el)
+            if(i===0){
 
             let split_el = el.product.split('|');
             document.getElementById('etc2_list').innerHTML += `<div class="memo-item note-toggle-cell">${el.booking_date} / ${split_el[0]} / ${split_el[4]} / ${el.product_parsing === null || el.product_parsing === undefined ? '미기입':  el.product_parsing.base.weight.unit }Kg / ${el.product_parsing === null || el.product_parsing === undefined ? '미기입': el.product_parsing.base.weight.price }원
@@ -3152,6 +3156,7 @@ function pay_management_(id){
                                                                                     </a>
                                                                                 </div>
                                                                           </div>`
+            }
 
         })
 

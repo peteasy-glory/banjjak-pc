@@ -310,9 +310,9 @@ if ($artist_flag == 1) {
 
 <div class="gallery-pop-wrap">
     <div class="gallery-pop-inner">
-        <div class="gallery-pop-data">
-            <div class="gallery-pop-slider">
-                <div class="swiper-container">
+        <div class="gallery-pop-data" id="ga-da">
+            <div class="gallery-pop-slider" id="ga-sl" style="width:100%;height:100%;">
+                <div class="swiper-container" id="sw-con">
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
                             <div class="slider-item">
@@ -326,7 +326,7 @@ if ($artist_flag == 1) {
                 <button type="button" class="btn-swiper-slider-prev"></button>
                 <button type="button" class="btn-swiper-slider-next"></button>
             </div>
-            <div class="gallery-pop-ui">
+            <div class="gallery-pop-ui" id="ga-btn">
                 <button type="button" class="btn-gallery-pop-nav btn-gallery-mode" onclick="gallery.viewModeChange(this);">
                     <span class="icon icon-size-24 icon-viewall-white off"></span>
                     <span class="icon icon-size-24 icon-viewmax-white on"></span>
@@ -1190,7 +1190,7 @@ if ($artist_flag == 1) {
 <script src="/static/js/booking.js"></script>
 <script src="/static/js/signature_pad.umd.js"></script>
 <script src="/static/js/swiper.min.js"></script>
-
+<script src="/static/js/imagesloaded.pkgd.min.js"></script>
 <script>
 
     let artist_id = "<?=$artist_id?>";
@@ -1344,11 +1344,23 @@ if ($artist_flag == 1) {
         viewModeChange : function(obj){
             if($(obj).hasClass('actived')){
                 //리스트 비활성화
+
+                document.getElementById('sw-con').style.width = 'auto';
+                document.getElementById('ga-da').style.height = 'auto';
+                document.getElementById('ga-sl').style.height = 'auto';
+                document.getElementById('ga-sl').style.width = 'auto';
+                document.getElementById('ga-btn').style.right = '0';
                 $(obj).removeClass('actived');
                 gallery.element.removeClass('thumb');
             }else{
                 //리스트 활성화
+                document.getElementById('sw-con').style.width = '100%';
+                document.getElementById('ga-da').style.height = '80%';
+                document.getElementById('ga-sl').style.height = '100%';
+                document.getElementById('ga-sl').style.width = '70%';
+                document.getElementById('ga-btn').style.right = '15%';
                 $(obj).addClass('actived')
+
                 gallery.element.addClass('thumb');
             }
 
