@@ -347,6 +347,10 @@ function time_compare(time1,time2){
 function gnb_init() {
 
 
+    if(localStorage.getItem('dark') === '1'){
+
+        document.querySelector('html').classList.add('dark');
+    }
     //shop_name
     document.querySelector('.shop_name').prepend(data.shop_name);
 

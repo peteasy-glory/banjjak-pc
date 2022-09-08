@@ -1238,7 +1238,7 @@ function consulting_history_list(){
                                                                                                     <div class="item-name">
                                                                                                         <strong>${el.pet_name}</strong>
                                                                                                         <br>
-                                                                                                        <div class="">${phone_edit(el.phone)}</div>
+                                                                                                        <div class="item-phone">${phone_edit(el.phone)}</div>
                                                                                                     </div>
                                                                                                     <div class="item-date2">${am_pm_check2(el.date)}</div>
                                                                                                 </div>
