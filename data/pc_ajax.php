@@ -713,6 +713,34 @@ if($r_mode) {
 
         $return_data = array("code"=>"000000","data"=>$time_type_result);
 
+    }else if($r_mode === "get_beauty_product"){
+
+        $login_id = $_POST['login_id'];
+
+        $type = $api -> get('/partner/setting/beauty-product/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$type);
+    }else if($r_mode === "get_option_product"){
+
+        $login_id = $_POST['login_id'];
+
+        $type = $api -> get('/partner/setting/option-product/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$type);
+    }else if($r_mode === "get_beauty_coupon"){
+
+        $login_id = $_POST['login_id'];
+
+        $type = $api -> get('/partner/setting/beauty-coupon/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$type);
+    }else if($r_mode === "get_etc_product"){
+
+        $login_id = $_POST['login_id'];
+
+        $type = $api -> get('/partner/setting/etc-product/'.$login_id);
+
+        $return_data = array("code"=>"000000",'data'=>$type);
     }else if($r_mode === "get_notice"){
 
         $login_id = $_POST['login_id'];

@@ -311,7 +311,7 @@ var include = {
                                                 </a>
                                             </div>
                                             <div class="snb-menu-cell" id="gnb_merchandise">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="/setting/set_beauty_management.php" class="btn-snb-nav">
                                                     <div class="txt">판매 상품 관리</div>
                                                 </a>
                                             </div>
