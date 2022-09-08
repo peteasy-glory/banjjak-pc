@@ -740,7 +740,7 @@ var pop = {
     element: null,
     elementArr: [],
     isActive: false,
-    zIndex: 99999,
+    zIndex: 99959,
 
     init: function () {
         //팝업 컨텐츠 외 영역 클릭시 닫기 이벤트

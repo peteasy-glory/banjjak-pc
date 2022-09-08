@@ -1371,25 +1371,30 @@ function pet_reserve_info(data){
 
 
         let pet_list = data[0];
+        let payment_idx_list = '';
 
 
         Array.from(document.getElementsByClassName('pet-list-btn')).forEach(function(el){
 
             el.addEventListener('click',function(){
+                document.getElementById('beauty_gal_wrap').innerHTML ='';
+
 
                 Array.from(document.getElementsByClassName('gallery-check')).forEach(function(el_){
 
                     if(el.getAttribute('data-pet_seq') === el_.getAttribute('data-pet_seq')){
 
+                        payment_idx_list += `${el_.getAttribute('data-payment_idx')}|`
 
-
-                            el.setAttribute('data-payment_idx',el_.getAttribute('data-payment_idx'))
+                            el.setAttribute('data-payment_idx',payment_idx_list)
 
 
 
                     }
+
                 })
 
+                payment_idx_list ='';
                 customer_beauty_gallery()
 
 
@@ -2842,58 +2847,65 @@ function customer_beauty_gallery(){
 
 
 
-        let payment_idx = document.querySelector('input[name="pet_list"]:checked').getAttribute('data-payment_idx')
+        let payment_idx_list = document.querySelector('input[name="pet_list"]:checked').getAttribute('data-payment_idx')
 
 
-
-
-        if(payment_idx === null){
+        if(payment_idx_list === null){
             document.getElementById('beauty_gal_wrap').innerHTML ='';
             return;
         }
 
-        let idx = parseInt(payment_idx);
+
+        let payment_idxs = payment_idx_list.split('|');
+
+
+        payment_idxs.forEach(function(el,i){
+
+            if(i === payment_idxs.length-1){
+
+                return;
+            }
+
+
+            $.ajax({
+
+                url:'/data/pc_ajax.php',
+                type:'post',
+                data:{
+                    mode:'beauty_gal_get',
+                    idx:el,
+                },
+                success:function(res){
+                    let response = JSON.parse(res);
+                    let head = response.data.head;
+                    let body = response.data.body;
+                    if (head.code === 401) {
+                        pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                    } else if (head.code === 200) {
+
+                        if(body.length === undefined){
+
+                            body = [body];
+                        }
+
+                        let imgs ='';
+
+                        body.forEach(function(el,i){
+                            if(i === body.length -1){
+                                imgs += `${el.file_path}`
+                            }else{
+                                imgs += `${el.file_path}|`
+                            }
+
+
+                        })
 
 
 
+                        body.forEach(function(el,i){
 
 
-        $.ajax({
-
-            url:'/data/pc_ajax.php',
-            type:'post',
-            data:{
-                mode:'beauty_gal_get',
-                idx:idx,
-            },
-            success:function(res){
-                let response = JSON.parse(res);
-                let head = response.data.head;
-                let body = response.data.body;
-                if (head.code === 401) {
-                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-                } else if (head.code === 200) {
-
-                    console.log(body)
-                    if(body.length === undefined){
-
-                        body = [body];
-                    }
-
-                    let imgs ='';
-
-                    body.forEach(function(el){
-
-                        imgs += `${el.file_path}|`
-                    })
-
-
-                    document.getElementById('beauty_gal_wrap').innerHTML ='';
-
-                    body.forEach(function(el,i){
-
-
-                        document.getElementById('beauty_gal_wrap').innerHTML += `<div class="list-cell">
+                            document.getElementById('beauty_gal_wrap').innerHTML += `<div class="list-cell">
                                                                                     <div class="picture-thumb-view">
                                                                                         <div class="picture-obj" onclick="showReviewGallery(${i},'${imgs}')"><img src="https://image.banjjakpet.com${el.file_path}" alt=""></div>
                                                                                         <div class="picture-date">${el.upload_dt.substr(0,4)}.${el.upload_dt.substr(4,2)}.${el.upload_dt.substr(6,2)}</div>
@@ -2907,14 +2919,24 @@ function customer_beauty_gallery(){
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>`
-                    })
+                        })
 
+
+                    }
 
                 }
 
-            }
+            })
 
         })
+
+
+
+
+
+
+
+
 
 
 
