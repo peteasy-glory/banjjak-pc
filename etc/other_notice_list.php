@@ -67,7 +67,7 @@ $artist_id = (isset($_SESSION['gobeauty_user_id'])) ? $_SESSION['gobeauty_user_i
             var type_txt = (v.type == '1')? "업데이트" : "공지";
             html += `
                 <li>
-                    <a href="other_notice_view.php?idx=${v.idx}" class="btn-board-item">
+                    <a href="other_notice_view.php?type=${type_txt}&title=${v.title}&date=${date}&img=${v.image}" class="btn-board-item">
                         <div class="item-cate">${type_txt}</div>
                         <div class="item-info">
                             <div class="item-subject">${v.title}</div>
