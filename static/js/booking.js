@@ -5740,6 +5740,8 @@ function reserve_regist_event(artist_id,session_id){
 }
 function reserve_regist(artist_id,session_id,yesterday){
 
+    let customer_id = document.querySelector('input[name="pet_no"]:checked') === null ? '' : document.querySelector('input[name="pet_no"]:checked').getAttribute('data-id');
+    let pet_seq = document.querySelector('input[name="pet_no"]:checked') === null ? '' :document.querySelector('input[name="pet_no"]:checked').getAttribute('value')
     const shop_name = data.shop_name;
     const login = artist_id;
     const session = session_id;
@@ -6190,9 +6192,9 @@ let beauty,bath,add_svc;
             mode:'reserve_regist',
             partner_id : login,
             worker : document.getElementById('reserveCalendarPop2').getAttribute('data-name'),
-            customer_id : document.getElementById('customer_id').value,
+            customer_id : customer_id,
             cellphone : cellphone,
-            pet_seq : document.getElementById('pet_seq').value, //수정필
+            pet_seq : pet_seq,
             animal : breed,
             pet_type : breed_select,
             pet_name : name,
@@ -6210,9 +6212,9 @@ let beauty,bath,add_svc;
             heart_trouble:heart_trouble,
             marking:marking,
             mounting:mounting,
-            year:date.getFullYear(),
-            month:date.getMonth()+1,
-            day:date.getDate(),
+            year:document.getElementById('reserve_time_year').value,
+            month:document.getElementById('reserve_time_month').value,
+            day:document.getElementById('reserve_time_date').value,
             hour:document.getElementById('reserve_st_time').value.split(':')[0],
             min:document.getElementById('reserve_st_time').value.split(':')[1],
             session_id:session,
@@ -6233,6 +6235,7 @@ let beauty,bath,add_svc;
 
         },
         success:function(res){
+            console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -6716,7 +6719,7 @@ function exist_user_reserve(id,cellphone){
 
                             document.getElementById('select_pet_list').innerHTML += `<div class="grid-layout-cell flex-auto">
                                                                                                 <label class="form-toggle-box">
-                                                                                                    <input name="pet_no" class="pet-no" type="radio"  value="${el.pet_seq}" onclick="exist_user_reserve_('${el.pet_seq}').then(function(body){exist_user_reserve_init(body)})">
+                                                                                                    <input name="pet_no" class="pet-no" type="radio" data-id="${el.detail.customer_id}" value="${el.pet_seq}" onclick="exist_user_reserve_('${el.pet_seq}').then(function(body){exist_user_reserve_init(body)})">
                                                                                                     <em>${el.name}</em>
                                                                                                 </label>
                                                                                             </div>`

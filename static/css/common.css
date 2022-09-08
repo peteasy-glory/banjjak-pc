@@ -4584,6 +4584,19 @@ button.btn-surtax-set{height:26px;  padding:0 10px 0 4px; border-radius:13px;}
 	background: #666666;
 }
 
-.dark .form-item-label{
-	color:white
+
+
+.dark .customer-card-item .item-pet-name {
+	color:#d8d8d8;
+}
+
+.dark .customer-card-item .item-sort .txt-1 {
+	color:#d8d8d8;
+}
+.dark .customer-card-item .item-sort .txt-2 {
+	color:#d8d8d8;
+}
+
+.dark .main-notice-list .btn-main-notice-item .txt{
+	color:#d8d8d8
 }

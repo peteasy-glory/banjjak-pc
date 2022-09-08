@@ -817,8 +817,10 @@ $(function () {
 function darkMode() {
     if ($('html').hasClass('dark')) {
         $('html').removeClass('dark');
+        localStorage.removeItem('dark');
     } else {
         $('html').addClass('dark');
+        localStorage.setItem('dark','1');
     }
     ;
 };
