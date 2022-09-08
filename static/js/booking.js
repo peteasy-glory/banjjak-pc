@@ -9924,3 +9924,21 @@ function new_exist_check(id){
         })
     })
 }
+
+function pay_management_toggle(){
+
+    let target = document.getElementById('pay_management');
+
+    if(target.classList.contains('move-left')){
+
+        target.classList.remove('move-left')
+        target.classList.add('move-right')
+
+    }else{
+        target.classList.remove('move-right');
+        target.classList.remove('move-right');
+        target.classList.add('move-left');
+    }
+
+
+}

@@ -12,11 +12,12 @@ if ($artist_flag == 1) {
 }
 
 ?>
-<body>        
+<body style="overflow-x: hidden">
 
 <!-- wrap -->
 <div id="wrap">
-	<!-- header -->
+
+    <!-- header -->
 	<header id="header"></header>
 	<!-- //header -->
 	<!-- gnb -->
@@ -24,9 +25,12 @@ if ($artist_flag == 1) {
 	<!-- //gnb -->
     <!-- container -->
     <section id="container" class="hide">
-		<!-- contents -->
+
+        <!-- contents -->
 		<section id="contents">
-			<!-- view -->
+            <div style="background: black; width:300px; height: 300px; z-index:9999999" onclick="pay_management_toggle()"></div>
+
+            <!-- view -->
 			<div class="view">
 				<div class="data-row">
 					<div class="data-col-left">
@@ -136,7 +140,7 @@ if ($artist_flag == 1) {
 							<!-- //빈시간 판매하기 -->
 						</div>					
 					</div>
-					<div class="data-col-middle">
+					<div class="data-col-middle" style="flex-direction: row">
 						<div class="basic-data-card reserve-calendar-view">
 							<div class="card-header">
 								<!-- 캘린더 상단 -->
@@ -217,7 +221,10 @@ if ($artist_flag == 1) {
 								</div>
 								<!-- //캘린더 라벨 -->
 							</div>
-						</div>			
+						</div>
+                        <div id="pay_management" style=" width:373px; height:100%; max-height: calc( 100vh - 129px ); background: forestgreen; position: absolute; right: 0; margin-right: 25px; z-index:5000">
+
+                        </div>
 					</div>
 				</div>
 			</div>
@@ -835,6 +842,8 @@ if ($artist_flag == 1) {
         </div>
     </div>
 </article>
+
+
 
 <script src="../static/js/common.js"></script>
 <script src="../static/js/dev_common.js"></script>

@@ -130,13 +130,53 @@ if ($artist_flag == 1) {
         </div>
     </form>
 </div>
+<div class="gallery-pop-wrap">
+    <div class="gallery-pop-inner">
+        <div class="gallery-pop-data" id="ga-da">
+            <div class="gallery-pop-slider" id="ga-sl" style="width:100%;height:100%;">
+                <div class="swiper-container" id="sw-con">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="slider-item">
+                                <span class="loading-bar"><span class="sk-fading-circle"><span class="sk-circle1 sk-circle"></span><span class="sk-circle2 sk-circle"></span><span class="sk-circle3 sk-circle"></span><span class="sk-circle4 sk-circle"></span><span class="sk-circle5 sk-circle"></span><span class="sk-circle6 sk-circle"></span><span class="sk-circle7 sk-circle"></span><span class="sk-circle8 sk-circle"></span><span class="sk-circle9 sk-circle"></span><span class="sk-circle10 sk-circle"></span><span class="sk-circle11 sk-circle"></span><span class="sk-circle12 sk-circle"></span></span></span>
+                                <img src="/static/pub/images/gate_picture.jpg" alt=""/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-page"></div>
+                <button type="button" class="btn-swiper-slider-prev"></button>
+                <button type="button" class="btn-swiper-slider-next"></button>
+            </div>
+            <div class="gallery-pop-ui" id="ga-btn">
+                <button type="button" class="btn-gallery-pop-nav btn-gallery-mode" onclick="gallery.viewModeChange(this);">
+                    <span class="icon icon-size-24 icon-viewall-white off"></span>
+                    <span class="icon icon-size-24 icon-viewmax-white on"></span>
+                </button>
+                <button type="button" class="btn-gallery-pop-nav" onclick="gallery.close();"><span class="icon icon-size-24 icon-close-white"></span></button>
+            </div>
+        </div>
+        <div class="gallery-thumb-data">
+            <div class="gallery-thumb-list">
+                <button type="button" class="btn-gallery-thumb-nav">
+                    <span class="loading-bar"><span class="sk-fading-circle"><span class="sk-circle1 sk-circle"></span><span class="sk-circle2 sk-circle"></span><span class="sk-circle3 sk-circle"></span><span class="sk-circle4 sk-circle"></span><span class="sk-circle5 sk-circle"></span><span class="sk-circle6 sk-circle"></span><span class="sk-circle7 sk-circle"></span><span class="sk-circle8 sk-circle"></span><span class="sk-circle9 sk-circle"></span><span class="sk-circle10 sk-circle"></span><span class="sk-circle11 sk-circle"></span><span class="sk-circle12 sk-circle"></span></span></span>
+                    <img src="/static/pub/images/user_thumb.png" alt="">
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <!-- //wrap -->
 <script src="../static/js/common.js"></script>
 <script src="../static/js/dev_common.js"></script>
 <script src="../static/js/shop.js"></script>
+<script src="/static/js/imagesloaded.pkgd.min.js"></script>
 <script>
     let artist_id = "<?=$artist_id?>";
     $(document).ready(function() {
+        gallery.init();
         get_navi(artist_id);
         gnb_init();
         get_review_list(artist_id);
@@ -146,7 +186,27 @@ if ($artist_flag == 1) {
         if(shop_array[0] != ''){
             var html = '';
             if(shop_array[0].length){
+                console.log(1)
+                let img_list = '';
+                $.each(shop_array[0],function(i,v){
+
+                    console.log(v)
+
+                    var img_path = img_link_change(v.photo);
+
+                    if( i === shop_array[0].length-1){
+
+
+                        img_list += `${img_path.replace('https://image.banjjakpet.com','')}`
+                    }else{
+
+                        img_list += `${img_path.replace('https://image.banjjakpet.com','')}|`
+                    }
+
+                })
+
                 $.each(shop_array[0], function(i,v){
+                    console.log(v)
                     var reg_year = v.reg_time.substr(0,4);
                     var reg_month = v.reg_time.substr(4,2);
                     var reg_day = v.reg_time.substr(6,2);
@@ -165,7 +225,7 @@ if ($artist_flag == 1) {
                     }
                     var review_photo = '';
                     $.each(v.review_images, function(index,value){
-                        review_photo += `<div class="list-cell"><div class="btn-portfolio-item"><img src="${img_link_change(value.path)}" alt=""></div></div>`;
+                        review_photo += `<div class="list-cell"><div class="btn-portfolio-item" onclick="showReviewGallery(${i},'${img_list}')"><img src="${img_link_change(value.path)}" alt=""></div></div>`;
                     })
                     var artist_reply = '';
                     if(v.artist_reply != ''){
