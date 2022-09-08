@@ -1027,6 +1027,8 @@ function customer_view(id){
 
 
                                 document.getElementById('customer_view_cellphone').innerText = phone_edit(localStorage.getItem('customer_select'));
+                                document.getElementById('allim_cellphone').innerText = phone_edit(localStorage.getItem('customer_select'));
+                                document.getElementById('allim_cellphone_val').value = localStorage.getItem('customer_select');
                                 document.getElementById('user_table').innerHTML = `<div class="customer-user-table-row">
                                                                         <div class="customer-user-table-title">
                                                                             <div class="table-title">대표 펫</div>
@@ -1058,7 +1060,7 @@ function customer_view(id){
                                                                                 <div class="table-data-txt">${body_.length === (undefined || 0) ? '' : body_[0].product.split('|')[3]   }</div>
                                                                             </div>
                                                                             <div class="table-data-side">
-                                                                                <button type="button" class="font-color-purple font-underline btn-text">알림톡 발송 조회
+                                                                                <button type="button" class="font-color-purple font-underline btn-text" onclick="open_customer_allim('${localStorage.getItem('customer_select')}');">알림톡 발송 조회
                                                                                 </button>
                                                                             </div>
                                                                         </div>
@@ -1447,7 +1449,7 @@ function pet_reserve_info(data){
                             }
                         }else{
 
-                            image = `https://image.banjjakpet.com${el_.detail.photo}`
+                            image = img_link_change(el_.detail.photo);
                         }
                         document.getElementById('target_pet_img').setAttribute('src',image);
 
@@ -2997,3 +2999,92 @@ function customer_beauty_gallery_add(id,pet_data){
 
     })
 }
+
+// 고객조회 알림톡 팝업 오픈
+function open_customer_allim(cellphone){
+    pop.open('customerAlarmInquiryPop');
+    customer_allim_inquiry('','',cellphone);
+}
+// 고객조회 알림톡 조회
+function customer_allim_inquiry(st_time, fi_time, cellphone){
+    $.ajax({
+        url: '../data/customer_alarm_inquiry.php',
+        data: {
+            startDate: st_time,
+            endDate: fi_time,
+            cellphone:cellphone,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            //console.log(res);
+            let response = JSON.parse(res);
+            //console.log(response);
+            // let head = response.data.head;
+            let body = response.data;
+            // if (head.code === 401) {
+            //     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            // } else if (head.code === 200) {
+            //     shop_array.push(body);
+            // }
+            console.log(body);
+            var html = '';
+            if(body != null){
+                $.each(body, function(i,v){
+                    //console.log(v.date_client_req.split(' ')[0]);
+                    var template_code = "";
+                    switch(v.template_code){
+                        case "1000004530_14040" : template_code = "예약알림";
+                            break;
+                        case "1000004530_20001" : template_code = "예약알림";
+                            break;
+                        case "1000004530_14041" : template_code = "예약변경알림";
+                            break;
+                        case "1000004530_20002" : template_code = "예약변경알림";
+                            break;
+                        case "1000004530_14042" : template_code = "미용종료알림";
+                            break;
+                        case "1000004530_14042_1" : template_code = "미용종료알림";
+                            break;
+                        case "1000004530_14043" : template_code = "전날알림";
+                            break;
+                        case "1000004530_20003" : template_code = "전날알림";
+                            break;
+                        case "1000004530_14044" : template_code = "예약취소알림";
+                            break;
+
+                    }
+                    html += `
+                    <tr>
+                        <td class="">${v.date_client_req.split(' ')[0]}<br>${v.date_client_req.split(' ')[1]}</td>
+                        <td class="">${template_code}</td>
+                        <td class="text-align-left">${(v.content).replace(/\n/g, "<br />")}</td>
+                        <td class="">`;
+                    if(v.report_code != '1000'){
+                        html += mms_log(cellphone,v.date_client_req,v.payment_log);
+                    }else{
+                        html += `알림톡발송`;
+                    }
+                    html += `
+                        </td>
+                    </tr>
+                `;
+                })
+                document.getElementById('allim_table').innerHTML = html;
+                $("#customerAlarmInquiryPop .none_allim").css("display","none");
+                $("#customerAlarmInquiryPop .do_allim").css("display","block");
+            }else{
+                $("#customerAlarmInquiryPop .none_allim").css("display","block");
+                $("#customerAlarmInquiryPop .do_allim").css("display","none");
+            }
+        }
+    })
+}
+
+$(document).on("click",".pop_inquiry",function(){
+    var st_time = $("#customerAlarmInquiryPop .datepicker-start").val();
+    var fi_time = $("#customerAlarmInquiryPop .datepicker-end").val();
+    var cellphone = $("#customerAlarmInquiryPop .allim_cellphone_val").val();
+    customer_allim_inquiry(st_time, fi_time, cellphone);
+})
+
