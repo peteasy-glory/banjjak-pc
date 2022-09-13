@@ -77,7 +77,7 @@ if ($artist_flag == 1) {
 												<div class="sort-tab big" style="justify-content: space-between">
 													<div class="sort-tab-inner" id="sort_inner">
 														<!-- 활성화시 actived클래스 추가 -->
-														<div class="tab-cell actived"><a href="#" class="btn-tab-item"><strong id="count_people"></strong></a></div>
+														<div class="tab-cell actived"><a href="#" class="btn-tab-item" style="cursor:default"><strong id="count_people"></strong></a></div>
 														<div class="tab-cell"><a href="#" class="btn-tab-item" style="cursor:default"><strong id="count_animal"></strong> </a></div>
 													</div>
                                                     <div class="sort-tab big toggle-button-cell">

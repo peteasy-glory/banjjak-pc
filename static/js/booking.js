@@ -82,8 +82,8 @@ function schedule_render(id){
 
                                     let multiple = (new Date(el.product.date.booking_fi).getTime() - new Date(el.product.date.booking_st).getTime())/1800000;
                                     el_.innerHTML = `<div class="calendar-drag-item-group">
-                                                                        <a href="#" onclick="pay_management_toggle()" data-tooltip_idx="${index}" data-payment_idx="${el_.getAttribute('data-pay')}" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-pay')})" class="calendar-week-time-item toggle green ${color} ${el.product.is_no_show === 1 ? "red" : ''} ${el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); ">
-                                                                            <div class="item-inner" style=" ${multiple <4 ? `` : `border:none !important`}">
+                                                                        <a href="#" onclick="pay_management_toggle()" data-tooltip_idx="${index}" data-payment_idx="${el_.getAttribute('data-pay')}" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-pay')})" class="calendar-week-time-item toggle green ${color} ${el.product.is_no_show === 1 ? "red" : ''} ${el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
+                                                                            <div class="item-inner" >
                                                                                 <div class="item-name">
                                                                                     <div class="txt">${el.pet.name}</div>
                                                                                     ${multiple <4 ? `<button type="button" class="btn-calendar-item-more"></button>`:``}
@@ -273,7 +273,7 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
                             el__.setAttribute('data-time_length',(new Date(_el.product.date.booking_fi).getTime()-new Date(_el.product.date.booking_st).getTime())/1000/60)
 
                             el__.innerHTML = `<div class="calendar-drag-item-group">
-                                                    <a href="/booking/reserve_pay_management_beauty_1.php" data-tooltip_idx="${index}" onclick="localStorage.setItem('payment_idx',${_el.product.payment_idx})" data-pay="${_el.product.payment_idx}" class="calendar-week-time-item toggle green ${color} ${_el.product.is_no_show === 1 ? "red" : ''} ${_el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); ">
+                                                    <a href="/booking/reserve_pay_management_beauty_1.php" data-tooltip_idx="${index}" onclick="localStorage.setItem('payment_idx',${_el.product.payment_idx})" data-pay="${_el.product.payment_idx}" class="calendar-week-time-item toggle green ${color} ${_el.product.is_no_show === 1 ? "red" : ''} ${_el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
                                                         <div class="item-inner">
                                                             <div class="item-name">
                                                                 <div class="txt">${_el.pet.name}</div>
