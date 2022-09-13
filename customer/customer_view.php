@@ -310,9 +310,9 @@ if ($artist_flag == 1) {
 
 <div class="gallery-pop-wrap">
     <div class="gallery-pop-inner">
-        <div class="gallery-pop-data">
-            <div class="gallery-pop-slider">
-                <div class="swiper-container">
+        <div class="gallery-pop-data" id="ga-da">
+            <div class="gallery-pop-slider" id="ga-sl" style="width:100%;height:100%;">
+                <div class="swiper-container" id="sw-con">
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
                             <div class="slider-item">
@@ -326,7 +326,7 @@ if ($artist_flag == 1) {
                 <button type="button" class="btn-swiper-slider-prev"></button>
                 <button type="button" class="btn-swiper-slider-next"></button>
             </div>
-            <div class="gallery-pop-ui">
+            <div class="gallery-pop-ui" id="ga-btn">
                 <button type="button" class="btn-gallery-pop-nav btn-gallery-mode" onclick="gallery.viewModeChange(this);">
                     <span class="icon icon-size-24 icon-viewall-white off"></span>
                     <span class="icon icon-size-24 icon-viewmax-white on"></span>
@@ -1183,6 +1183,93 @@ if ($artist_flag == 1) {
         </div>
     </div>
 </article>
+
+<!-- 알림톡발송조회 팝업 -->
+<article id="customerAlarmInquiryPop" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data data-pop-view large">
+                <div class="pop-header">
+                    <h4 class="con-title">알림톡 발송이력 조회</h4>
+                </div>
+                <div class="pop-body">
+                    <div class="customer-alarm-inquiry">
+                        <div class="basic-data-group">
+                            <div class="board-sort-wrap">
+                                <div class="left">
+                                    <div class="form-datepicker-group">
+                                        <div class="form-datepicker"><input type="text" class="datepicker-start" value="<?php echo date('Y-m-d', strtotime(DATE('Y-m-d')."-1 days"));?>"></div>
+                                        <div class="form-unit">~</div>
+                                        <div class="form-datepicker"><input type="text" class="datepicker-end" value="<?php echo DATE('Y-m-d'); ?>"></div>
+                                    </div>
+                                </div>
+                                <div class="right">
+                                    <div class="board-sort-btns">
+                                        <button type="button" class="btn-data-refresh">초기화</button>
+                                        <a href="#" class="btn btn-purple btn-inline btn-basic-small pop_inquiry">조회</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="basic-data-group vvsmall3">
+                            <div class="con-title-group">
+                                <input type="hidden" id="allim_cellphone_val" class="allim_cellphone_val" value="">
+                                <h5 class="con-title"><span id="allim_cellphone"></span> 고객님의 발송이력 조회입니다.</h5>
+                            </div>
+                            <div>
+                                <!-- 검색결과 있을 때 -->
+                                <div class="customer-alarm-result do_allim">
+                                    <table class="customer-table">
+                                        <colgroup>
+                                            <col style="width:20%">
+                                            <col style="width:15%">
+                                            <col style="width:46%">
+                                            <col style="width:19%">
+                                        </colgroup>
+                                        <thead>
+                                        <tr>
+                                            <th>발송시간</th>
+                                            <th>구분</th>
+                                            <th>내용</th>
+                                            <th>결과</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="allim_table">
+                                            <tr>
+                                                <td class="">2021.12.25<br>13:25</td>
+                                                <td class="">예약등록</td>
+                                                <td class="text-align-left">1776님의 범shop 예약이 내일이네요^^<br><br>반려생황읠 단짝, 반짝에서 내일 예약 내용을 알려드립니다.<br><br>-예약펫샵: 글로리<br>-예약일시: 2021년 9월26일 9시 0분<br><br>예약내용 상세 확인과 변경은 반려생활의 단짝, 반짝에서도 간능합니다.<br>알림톡 발송</td>
+                                                <td class="">알림톡 발송</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="">2021.12.25<br>13:25</td>
+                                                <td class="">예약등록</td>
+                                                <td class="text-align-left">1776님의 범shop 예약이 내일이네요^^<br><br>반려생황읠 단짝, 반짝에서 내일 예약 내용을 알려드립니다.<br><br>-예약펫샵: 글로리<br>-예약일시: 2021년 9월26일 9시 0분<br><br>예약내용 상세 확인과 변경은 반려생활의 단짝, 반짝에서도 간능합니다.<br>알림톡 발송</td>
+                                                <td class="">알림톡 발송</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="">2021.12.25<br>13:25</td>
+                                                <td class="">예약등록</td>
+                                                <td class="text-align-left">1776님의 범shop 예약이 내일이네요^^<br><br>반려생황읠 단짝, 반짝에서 내일 예약 내용을 알려드립니다.<br><br>-예약펫샵: 글로리<br>-예약일시: 2021년 9월26일 9시 0분<br><br>예약내용 상세 확인과 변경은 반려생활의 단짝, 반짝에서도 간능합니다.<br>알림톡 발송</td>
+                                                <td class="">알림톡 발송</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- //검색결과 있을 때 -->
+                                <!-- 검색결과 없을 때 -->
+                                <div class="list-none-data none_allim">검색 결과가 없습니다.</div>
+                                <!-- //검색결과 없을 때 -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
+            </div>
+        </div>
+    </div>
+</article>
+<!-- //알림톡발송조회 팝업 -->
 <script src="/static/js/common.js"></script>
 <script src="/static/js/dev_common.js"></script>
 <script src="/static/js/customer.js"></script>
@@ -1190,7 +1277,8 @@ if ($artist_flag == 1) {
 <script src="/static/js/booking.js"></script>
 <script src="/static/js/signature_pad.umd.js"></script>
 <script src="/static/js/swiper.min.js"></script>
-
+<script src="/static/js/imagesloaded.pkgd.min.js"></script>
+<script src="/static/js/jquery-ui.min.js"></script>
 <script>
 
     let artist_id = "<?=$artist_id?>";
@@ -1239,142 +1327,46 @@ if ($artist_flag == 1) {
     });
 
 
-    var gallery = {
 
-        element : null,
-        swiper : null,
-        swiperCur : 0,
-        swiperLen : -1,
+    $(".datepicker-start").datepicker({
+        showOn: "both",
+        buttonImage: "../static/images/icon/icon-datepicker_black.png",
+        buttonImageOnly: true,
+        dateFormat: 'yy-mm-dd',//포맷 설정
+        prevText: '이전 달',//이전 버튼
+        nextText: '다음 달', //다음달 버튼
+        monthNames: ['1','2','3','4','5','6','7','8','9','10','11','12'],//월 설정
+        monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'], //월 설정
+        dayNames: ['일','월','화','수','목','금','토'],//주 타이틀 설정
+        dayNamesShort: ['일','월','화','수','목','금','토'],//주 타이틀 설정
+        dayNamesMin: ['일','월','화','수','목','금','토'], //주 타이틀 설정
+        minDate: new Date('2021-06-05'),
+        showMonthAfterYear: true, // 년도가 앞으로 설정
+        yearSuffix: '.', //년도 뒤 블릿 설정
+        changeMonth: false, //월 선택 불가
+        changeYear: false, //년 선택 불가
+        showOtherMonths:true, //이전 , 다음 달 일수 활성화
+    });
 
-        init : function(){
-            gallery.element = $('.gallery-pop-wrap');
-            gallery.swiperLen = gallery.element.find('.swiper-slide').length;
-            gallery.swiper = new Swiper( gallery.element.find('.swiper-container')[0] , {
-                loop : false,
-                slidesPerView : 1 ,
-                spaceBetween : 0,
-                simulateTouch : true,
-                speed : 450,
-                navigation: {
-                    nextEl: gallery.element.find('.btn-swiper-slider-next')[0],
-                    prevEl: gallery.element.find('.btn-swiper-slider-prev')[0]
-                }
-            });
-            gallery.swiper.on('slideChange' , function(){
-                gallery.swiperCur = this.realIndex;
-                gallery.pageSort();
-            });
-            gallery.pageSort();
-
-            $(document).on('click' , '.btn-gallery-thumb-nav' , function(){
-                var $index = $(this).index();
-                gallery.swiper.slideTo($index , 450);
-            });
-        },
-        pageSort : function(){
-            var _value = '<em>' + String((gallery.swiperCur + 1) + '</em> / ' + gallery.swiperLen);
-            gallery.element.find('.swiper-page').html(_value);
-            gallery.element.find('.gallery-thumb-list > .btn-gallery-thumb-nav').eq(gallery.swiperCur).addClass('actived').siblings().removeClass('actived');
-        },
-
-        dataSet : function(imgList){
-            //샘플링 데이타
-            // -> <div class="swiper-slide"><div class="slider-item"><img src="/static/pub/images/gate_picture.jpg" alt=""/></div></div>
-            var i = 0;
-            var len = Math.floor(Math.random() * (14 - 1)) + 1;
-            var result = '';
-            var resultThumb = '';
-            for(i = 0; i < imgList.length; i++){
-                result += '<div class="swiper-slide"><div class="slider-item hide">';
-                result += '<span class="loading-bar"><span class="sk-fading-circle"><span class="sk-circle1 sk-circle"></span><span class="sk-circle2 sk-circle"></span><span class="sk-circle3 sk-circle"></span><span class="sk-circle4 sk-circle"></span><span class="sk-circle5 sk-circle"></span><span class="sk-circle6 sk-circle"></span><span class="sk-circle7 sk-circle"></span><span class="sk-circle8 sk-circle"></span><span class="sk-circle9 sk-circle"></span><span class="sk-circle10 sk-circle"></span><span class="sk-circle11 sk-circle"></span><span class="sk-circle12 sk-circle"></span></span></span>	';
-                result += '<img src="https://image.banjjakpet.com'+imgList[i]+'" alt="" />';
-                result += '</div></div>';
-
-                resultThumb += '<button type="button" class="btn-gallery-thumb-nav hide">';
-                resultThumb += '<span class="loading-bar"><span class="sk-fading-circle"><span class="sk-circle1 sk-circle"></span><span class="sk-circle2 sk-circle"></span><span class="sk-circle3 sk-circle"></span><span class="sk-circle4 sk-circle"></span><span class="sk-circle5 sk-circle"></span><span class="sk-circle6 sk-circle"></span><span class="sk-circle7 sk-circle"></span><span class="sk-circle8 sk-circle"></span><span class="sk-circle9 sk-circle"></span><span class="sk-circle10 sk-circle"></span><span class="sk-circle11 sk-circle"></span><span class="sk-circle12 sk-circle"></span></span></span>';
-                resultThumb += '<img src="https://image.banjjakpet.com'+imgList[i]+'" alt="" >';
-                resultThumb += '</button>';
-            };
-
-            //데이타 삽입
-            gallery.element.find('.swiper-wrapper').html(result);
-            gallery.element.find('.gallery-thumb-list').html(resultThumb);
-
-            gallery.element.find('.swiper-wrapper .slider-item').each(function(){
-                $(this).imagesLoaded().always(function(instance){
-                    //console.log('model image loaded');
-                }).done(function(instance){
-                    $(instance.elements).removeClass('hide');
-                }).fail( function(){
-                    //alert('프로필 이미지가 없습니다.');
-                }).progress(function(instance,image){
-
-                });
-            });
-
-            gallery.element.find('.gallery-thumb-list .btn-gallery-thumb-nav').each(function(){
-                $(this).imagesLoaded().always(function(instance){
-                    //console.log('model image loaded');
-                }).done(function(instance){
-                    $(instance.elements).removeClass('hide');
-                }).fail( function(){
-                    //alert('프로필 이미지가 없습니다.');
-                }).progress(function(instance,image){
-
-                });
-            });
-
-            //데이타 삽입 후 재설정
-            gallery.swiperCur = 0;
-            gallery.swiperLen = i;
-
-            //데이타 삽입 후 재정렬
-            gallery.viewUpdate();
-            gallery.pageSort();
-        },
-
-        open : function(startIndex){
-            gallery.element.addClass('actived');
-            gallery.viewUpdate();
-            gallery.swiper.slideTo(startIndex,0);
-        },
-        close : function(){
-            gallery.element.removeClass('actived');
-        },
-        viewModeChange : function(obj){
-            if($(obj).hasClass('actived')){
-                //리스트 비활성화
-                $(obj).removeClass('actived');
-                gallery.element.removeClass('thumb');
-            }else{
-                //리스트 활성화
-                $(obj).addClass('actived')
-                gallery.element.addClass('thumb');
-            }
-
-            setTimeout(function(){
-                if(gallery.swiper) gallery.viewUpdate();
-            } , 300);
-        },
-        viewUpdate : function(){
-            gallery.swiper.update();
-            gallery.swiper.updateSize();
-            gallery.swiper.updateSlides();
-            gallery.swiper.updateProgress();
-        }
-    };
-
-    function showReviewGallery(startIndex, img_list){
-        var imgs	= img_list.split('|');
-        imgs.forEach(element => {
-            element = img_link_change(element);
-        });
-        console.log(imgs);
-        gallery.dataSet(imgs);
-        gallery.open(startIndex);
-    };
-
-
+    $(".datepicker-end").datepicker({
+        showOn: "both",
+        buttonImage: "../static/images/icon/icon-datepicker_black.png",
+        buttonImageOnly: true,
+        dateFormat: 'yy-mm-dd',//포맷 설정
+        prevText: '이전 달',//이전 버튼
+        nextText: '다음 달', //다음달 버튼
+        monthNames: ['1','2','3','4','5','6','7','8','9','10','11','12'],//월 설정
+        monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'], //월 설정
+        dayNames: ['일','월','화','수','목','금','토'],//주 타이틀 설정
+        dayNamesShort: ['일','월','화','수','목','금','토'],//주 타이틀 설정
+        dayNamesMin: ['일','월','화','수','목','금','토'], //주 타이틀 설정
+        minDate: new Date('2021-06-05'),
+        showMonthAfterYear: true, // 년도가 앞으로 설정
+        yearSuffix: '.', //년도 뒤 블릿 설정
+        changeMonth: false, //월 선택 불가
+        changeYear: false, //년 선택 불가
+        showOtherMonths:true, //이전 , 다음 달 일수 활성화
+    });
 
 </script>
 </body>

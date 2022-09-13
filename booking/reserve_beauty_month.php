@@ -34,7 +34,7 @@ if ($artist_flag == 1) {
 							<!-- 오늘의 미용 예약 -->
 							<div class="basic-data-card reserve-today fluid"><!-- 20220519 수정 : fluid 클래스 추가 -->
 								<div class="card-header">
-									<div class="card-header-title">오늘의 미용 예약<div class="card-header-label schedule_count"></div></div>
+									<div class="card-header-title">오늘의 미용 예약</div>
 								</div>
 								<div class="card-body">
 									<!-- 내용이 있을 때 -->
@@ -236,14 +236,14 @@ if ($artist_flag == 1) {
 <script>
 
     let artist_id = "<?=$artist_id?>";
-    data_set(artist_id)
+    // data_set(artist_id)
 
 
     $(document).ready(function(){
 
+        get_navi(artist_id)
         gnb_init();
-        prepend_data('consulting_count schedule_count nick');
-        set_image('front_image');
+
         book_list(artist_id).then(function(body){
 
 
@@ -262,7 +262,7 @@ if ($artist_flag == 1) {
         });
         gnb_actived('gnb_reserve_wrap','gnb_beauty');
         btn_month_calendar(artist_id)
-        waiting(artist_id)
+        // waiting(artist_id)
 
     })
 

@@ -12,11 +12,12 @@ if ($artist_flag == 1) {
 }
 
 ?>
-<body>        
+<body style="overflow-x: hidden">
 
 <!-- wrap -->
 <div id="wrap">
-	<!-- header -->
+
+    <!-- header -->
 	<header id="header"></header>
 	<!-- //header -->
 	<!-- gnb -->
@@ -24,9 +25,10 @@ if ($artist_flag == 1) {
 	<!-- //gnb -->
     <!-- container -->
     <section id="container" class="hide">
-		<!-- contents -->
+
+        <!-- contents -->
 		<section id="contents">
-			<!-- view -->
+            <!-- view -->
 			<div class="view">
 				<div class="data-row">
 					<div class="data-col-left">
@@ -136,7 +138,7 @@ if ($artist_flag == 1) {
 							<!-- //빈시간 판매하기 -->
 						</div>					
 					</div>
-					<div class="data-col-middle">
+					<div class="data-col-middle" style="flex-direction: row">
 						<div class="basic-data-card reserve-calendar-view">
 							<div class="card-header">
 								<!-- 캘린더 상단 -->
@@ -217,7 +219,10 @@ if ($artist_flag == 1) {
 								</div>
 								<!-- //캘린더 라벨 -->
 							</div>
-						</div>			
+						</div>
+                        <div id="pay_management" class="pay_management">
+
+                        </div>
 					</div>
 				</div>
 			</div>
@@ -836,28 +841,30 @@ if ($artist_flag == 1) {
     </div>
 </article>
 
+
+
 <script src="../static/js/common.js"></script>
 <script src="../static/js/dev_common.js"></script>
 <script src="../static/js/Sortable.min.js"></script>
 
 <script src="../static/js/booking.js"></script>
+<script src="../static/js/jquery.easing.min.js"></script>
 <script src="../static/js/customer.js"></script>
 <script>
 
     let artist_id = "<?=$artist_id?>";
     let session_id = "<?=session_id()?>"
 
-    data_set(artist_id)
+    // data_set(artist_id)
 
 
     $(document).ready(function(){
 
+        get_navi(artist_id)
 
         gnb_init();
         wide_tab();
         wide_tab_2();
-        prepend_data('consulting_count nick');
-        set_image('front_image');
         calendar_change_month(artist_id);
         btn_month(artist_id);
         btn_month_simple()

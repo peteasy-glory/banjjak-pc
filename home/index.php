@@ -111,7 +111,7 @@ if($artist_flag == 1){
 																				</div>
 																			</div>
                                                                             <div class="loading-container" id="home_main_calendar_loading">
-                                                                                <div class="mexican-wave"></div>
+                                                                                <img src="/static/images/loading.gif" alt="">
                                                                             </div>
 																			<div class="main-calendar-month-body" id="main-calendar-month-body">
 

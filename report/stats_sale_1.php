@@ -398,6 +398,12 @@ $endDate = DATE('Y-m-d');
             if(result.data.length > 1){
                 console.log('1개 이상');
                 $.each(result.data, function(i,v){
+                    if(v.card === "" || v.card === null || v.card === undefined){
+                        v.card = 0;
+                    }
+                    if(v.cash === "" || v.cash === null || v.cash === undefined){
+                        v.cash = 0;
+                    }
                     total_card += parseInt(v.card);
                     total_cash += parseInt(v.cash);
 
@@ -493,8 +499,10 @@ $endDate = DATE('Y-m-d');
                 })
 
                 var total_price = total_card + total_cash;
+
                 var card_percent = ((total_card/total_price)*100).toFixed(1);
                 var cash_percent = ((total_cash/total_price)*100).toFixed(1);
+
 
                 $(".table_wrap").html(html);
                 $(".total_cnt").text((result.data.length).format());
@@ -520,6 +528,14 @@ $endDate = DATE('Y-m-d');
                 $(".card_percent_txt").text(card_percent+'%');
                 $(".cash_percent_txt").text(cash_percent+'%');
 
+                if(cash_percent < 12){
+
+                    document.querySelector('.cash_percent_txt').style.display = 'none';
+
+                }
+                if(card_percent <12){
+                    document.querySelector('.card_percent_txt').style.display = 'none';
+                }
                 //console.log(chart);
 
 

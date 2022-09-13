@@ -67,27 +67,84 @@ if ($artist_flag == 1) {
     </section>
     <!-- //container -->
 </div>
+
+
+<div class="gallery-pop-wrap">
+    <div class="gallery-pop-inner">
+        <div class="gallery-pop-data" id="ga-da">
+            <div class="gallery-pop-slider" id="ga-sl" style="width:100%;height:100%;">
+                <div class="swiper-container" id="sw-con">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="slider-item">
+                                <span class="loading-bar"><span class="sk-fading-circle"><span class="sk-circle1 sk-circle"></span><span class="sk-circle2 sk-circle"></span><span class="sk-circle3 sk-circle"></span><span class="sk-circle4 sk-circle"></span><span class="sk-circle5 sk-circle"></span><span class="sk-circle6 sk-circle"></span><span class="sk-circle7 sk-circle"></span><span class="sk-circle8 sk-circle"></span><span class="sk-circle9 sk-circle"></span><span class="sk-circle10 sk-circle"></span><span class="sk-circle11 sk-circle"></span><span class="sk-circle12 sk-circle"></span></span></span>
+                                <img src="/static/pub/images/gate_picture.jpg" alt=""/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-page"></div>
+                <button type="button" class="btn-swiper-slider-prev"></button>
+                <button type="button" class="btn-swiper-slider-next"></button>
+            </div>
+            <div class="gallery-pop-ui" id="ga-btn">
+                <button type="button" class="btn-gallery-pop-nav btn-gallery-mode" onclick="gallery.viewModeChange(this);">
+                    <span class="icon icon-size-24 icon-viewall-white off"></span>
+                    <span class="icon icon-size-24 icon-viewmax-white on"></span>
+                </button>
+                <button type="button" class="btn-gallery-pop-nav" onclick="gallery.close();"><span class="icon icon-size-24 icon-close-white"></span></button>
+            </div>
+        </div>
+        <div class="gallery-thumb-data">
+            <div class="gallery-thumb-list">
+                <button type="button" class="btn-gallery-thumb-nav">
+                    <span class="loading-bar"><span class="sk-fading-circle"><span class="sk-circle1 sk-circle"></span><span class="sk-circle2 sk-circle"></span><span class="sk-circle3 sk-circle"></span><span class="sk-circle4 sk-circle"></span><span class="sk-circle5 sk-circle"></span><span class="sk-circle6 sk-circle"></span><span class="sk-circle7 sk-circle"></span><span class="sk-circle8 sk-circle"></span><span class="sk-circle9 sk-circle"></span><span class="sk-circle10 sk-circle"></span><span class="sk-circle11 sk-circle"></span><span class="sk-circle12 sk-circle"></span></span></span>
+                    <img src="/static/pub/images/user_thumb.png" alt="">
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- //wrap -->
 <script src="../static/js/common.js"></script>
 <script src="../static/js/dev_common.js"></script>
 <script src="../static/js/shop.js"></script>
+<script src="/static/js/imagesloaded.pkgd.min.js"></script>
 <script>
     let artist_id = "<?=$artist_id?>";
     $(document).ready(function() {
         get_navi(artist_id);
         gnb_init();
         get_front_img(artist_id);
+        gallery.init();
         console.log(shop_array);
 
         var main = '';
         var html = '';
+        let img_list = '';
+
         $.each(shop_array[0], function(i, v){
             var img_path = img_link_change(v.image);
+            if( i === shop_array[0].length-1){
+
+
+                img_list += `${img_path.replace('https://image.banjjakpet.com','')}`
+            }else{
+
+                img_list += `${img_path.replace('https://image.banjjakpet.com','')}|`
+            }
+
+        })
+        $.each(shop_array[0], function(i, v,i2){
+            var img_path = img_link_change(v.image);
+
+
+
             if(v.main_image == 1){
                 main = `
                     <div class="list-cell">
                         <div class="picture-thumb-view">
-                            <div class="picture-obj"><img src="${img_path}" alt=""></div>
+                            <div class="picture-obj" onclick="showReviewGallery(${i},'${img_list}')" ><img src="${img_path}" alt=""></div>
                             <div class="check-point"></div>
                         </div>
                     </div>
@@ -96,7 +153,7 @@ if ($artist_flag == 1) {
                 html += `
                     <div class="list-cell">
                         <div class="picture-thumb-view">
-                            <div class="picture-obj"><img src="${img_path}" alt=""></div>
+                            <div class="picture-obj" onclick="showReviewGallery(${i},'${img_list}')"><img src="${img_path}" alt=""></div>
                             <div class="picture-ui">
                                 <button type="button" class="btn-picture-ui"></button>
                             </div>

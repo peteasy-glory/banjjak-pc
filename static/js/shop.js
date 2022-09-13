@@ -405,3 +405,53 @@ function del_blog(data){
         }
     })
 }
+
+// 알림톡 테스트
+function allim_reserve_test(seq, cellphone, pet_name){
+    $.ajax({
+        url: '../data/reserve_alarm_inquiry.php',
+        data: {
+            payment_log_seq: seq,
+            cellphone:cellphone,
+            pet_name:pet_name
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            //console.log(res);
+            let response = JSON.parse(res);
+            console.log(response);
+            // let head = response.data.head;
+            // let body = response.data.body;
+            // if (head.code === 401) {
+            //     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            // } else if (head.code === 200) {
+            //     shop_array.push(body);
+            // }
+        }
+    })
+}
+function allim_customer_test(st_time, fi_time, cellphone){
+    $.ajax({
+        url: '../data/customer_alarm_inquiry.php',
+        data: {
+            startDate: st_time,
+            endDate: fi_time,
+            cellphone:cellphone,
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            //console.log(res);
+            let response = JSON.parse(res);
+            console.log(response);
+            // let head = response.data.head;
+            // let body = response.data.body;
+            // if (head.code === 401) {
+            //     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            // } else if (head.code === 200) {
+            //     shop_array.push(body);
+            // }
+        }
+    })
+}

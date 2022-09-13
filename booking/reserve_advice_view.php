@@ -62,8 +62,8 @@ if ($artist_flag == 1) {
 										<div class="wide-tab">
 											<div class="wide-tab-inner" id="wide-tab-inner">
 												<!-- 활성화시 actived클래스 추가 -->
-												<div class="tab-cell actived"><a href="#" class="btn-tab-item" id="consulting_hold_tab" onclick="consulting_hold_list(); consulting_list_select();">상담대기</a></div>
-												<div class="tab-cell"><a href="#" class="btn-tab-item" id="consulting_history_tab" onclick="consulting_history_list(); consulting_list_select()">처리내역</a></div>
+												<div class="tab-cell actived"><a href="#" class="btn-tab-item" id="consulting_hold_tab" onclick="consulting_toggle(true);">상담대기</a></div>
+												<div class="tab-cell"><a href="#" class="btn-tab-item" id="consulting_history_tab" onclick="consulting_toggle(false);">처리내역</a></div>
 											</div>
 										</div>
 										<div class="basic-data-group vmiddle" id="consulting_hold_desc">
@@ -78,6 +78,10 @@ if ($artist_flag == 1) {
 												<div class="grid-layout-inner" id="consulting_list">
 
 												</div>
+                                                <div class="grid-layout-inner" id="consulting_list_2" style="display: none;">
+
+
+                                                </div>
 
 											</div>											
 										</div>
@@ -113,15 +117,13 @@ if ($artist_flag == 1) {
 <script>
 
     let artist_id = "<?=$artist_id?>";
-    data_set(artist_id)
-    // get_navi(artist_id)
+    // data_set(artist_id)
+
 
     $(document).ready(function(){
-
+        get_navi(artist_id)
         gnb_init();
-        prepend_data('consulting_count nick');
-        set_image('front_image');
-        consulting_hold_list();
+        consulting_hold_list(artist_id);
         consulting_list_select();
         wide_tab();
         Array.from(document.getElementsByClassName('actived consulting-select')).forEach(function (el){

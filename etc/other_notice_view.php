@@ -5,17 +5,11 @@ include($_SERVER['DOCUMENT_ROOT']."/include/check_login_shop.php");
 
 $artist_id = (isset($_SESSION['gobeauty_user_id'])) ? $_SESSION['gobeauty_user_id'] : "";
 
-$idx = (isset($_GET['idx']))? $_GET['idx'] : "";
+$type = (isset($_GET['type']))? $_GET['type'] : "";
+$title = (isset($_GET['title']))? $_GET['title'] : "";
+$date = (isset($_GET['date']))? $_GET['date'] : "";
+$img = (isset($_GET['img']))? img_link_change($_GET['img']) : "";
 
-$sql = "SELECT title, type, FILE1 photo, date_format(reg_dt, '%Y-%m-%d') date, notice FROM tb_admin_notice WHERE notice_seq = {$idx}";
-$result = mysqli_query($connection, $sql);
-if ($datas = mysqli_fetch_object($result)) {
-    $type = ($datas->title == '1')? "업데이트" : "공지";
-    $title = $datas->title;
-    $date = $datas->date;
-    $photo = img_link_change($datas->photo);
-    $notice = $datas->notice;
-}
 
 ?>
 <body>        
@@ -55,8 +49,7 @@ if ($datas = mysqli_fetch_object($result)) {
 										</div>
 									</div>
 									<div class="board-view-detail">
-                                        <?=$notice?>
-										<img src="https://image.banjjakpet.com<?=$photo?>" alt="">
+										<img src="https://image.banjjakpet.com<?=$img?>" alt="">
 									</div>
 								</div>
 							</div>
