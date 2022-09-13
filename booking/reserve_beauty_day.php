@@ -729,8 +729,64 @@ if ($artist_flag == 1) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- //제품 -->
+
+                                            <div class="pay-product-save-btn-wrap">
+
+
+                                                <button type="button" class="pay-product-save btn btn-outline-purple btn-middle-size btn-round">변경</button>
+                                            </div>
+
+                                            <div class="pay-basic-data-group-2  basic-data-group vvsmall2" id="receipt">
+                                                <div class="user-receipt-item user-receipt-item-add">
+                                                    <div class="receipt-buy-detail">
+                                                        <div class="item-data-list">
+                                                            <div class="list-cell">
+                                                                <div class="list-title">
+                                                                </div>
+                                                                <div class="list-value">0원</div>
+                                                            </div>
+                                                            <div class="list-cell">
+                                                                <div class="list-title"></div>
+                                                                <div class="list-value">0원</div>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="receipt-buy-detail total-price" style="border-top: 1px solid #f4f4f4; margin-top: 12px; padding-top: 12px;">
+                                                        <div class="item-data-list">
+                                                            <div class="list-cell">
+                                                                <div class="list-title"><strong>합산 금액</strong></div>
+                                                                <div class="list-value"><strong>0원</strong></div>
+                                                            </div>
+                                                            <div class="list-cell">
+                                                                <div class="list-title"><strong>부가세 10%</strong></div>
+                                                                <div class="list-value"><strong>0원</strong></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="receipt-buy-detail result-price">
+                                                        <div class="item-data-list">
+                                                            <div class="list-cell">
+                                                                <div class="list-title font-color-purple"><strong>예상 금액</strong></div>
+                                                                <div class="list-value font-color-purple"><strong><span id="total_pay_money">0</span>원</strong></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
+
+
+
+                                        <div class="pay-card-content-7">
+                                            <div class="pay-card-body-title">
+                                                <h4 class="con-title">단골 고객 할인</h4>
+                                            </div>
+                                        </div>
+
+
+
 
 
 
