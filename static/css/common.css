@@ -2075,7 +2075,7 @@ body {background:#fafafa;}
 .main-calendar-month-body-col .main-calendar-month-cate-group .main-calendar-drag-item-group {height:auto;}
 .main-calendar-month-body-col .main-calendar-month-cate-title {font-size:12px; line-height:15px; color:#666; width:100%; padding:4px 0; width:100%; text-align:center;}
 .main-calendar-month-body-col .main-calendar-drag-item-group {width:100%; height:100%; flex:1; padding:0 2px; box-sizing:border-box;}
-.main-calendar-month-body-col.break {background:#fafafa; transition:0.5s}
+.main-calendar-month-body-col.break {background:#fafafa; }
 .main-calendar-month-body-col.before .main-calendar-day-value,
 .main-calendar-month-body-col.after .main-calendar-day-value {display:none;}
 .main-calendar-month-body-col.today .main-calendar-day-value {background:#e3e3e3;}
@@ -4541,14 +4541,19 @@ button.btn-surtax-set{height:26px;  padding:0 10px 0 4px; border-radius:13px;}
 
 
 
+
 /* 예약관리 > 상담대기 */
 .dark .thema-gray-item.white {
 	background: #2c2d30;
-	border: 1px solid #47484b;
+	border-color: #47484b;
+}
+
+.dark .thema-gray-item.white.actived {
+	border-color: #fdd94e;
 }
 
 .dark .basic-list-item .item-name {
-	color: #fff;
+	color: #fdd94e;
 }
 
 .dark .basic-list-item .item-phone {
@@ -4559,9 +4564,42 @@ button.btn-surtax-set{height:26px;  padding:0 10px 0 4px; border-radius:13px;}
 	color: #666;
 }
 
+.dark .reserve-advice-view-info {
+	color: #fdd94e;
+}
+
+.dark .btn-data-helper {
+	background: url("../images/icon/info_dark.png") left center no-repeat;
+	background-size: 28px auto;
+}
+
+.dark .flex-table.type-2 .flex-table-title .txt {
+	color: #fff;
+}
+
+.dark .flex-table.type-2 .flex-table-data-inner {
+	color:  #d8d8d8;
+}
+
+.dark .btn-data-tel {
+	background: url("../images/icon/shop_call_dark.png") left center no-repeat;
+	background-size: 30px auto;
+}
+
+.dark .btn-data-message {
+	background: url("../images/icon/message_dark.png") left center no-repeat;
+	background-size: 30px auto;
+}
+
+
+
 /* 고객관리 > 빠른조회 */
 .dark .user-thumb.large {
-	background: #2c2d30;
+	background: transparent;
+}
+
+.dark .customer-card-item {
+	border-color: #47484b;
 }
 
 .dark .customer-card-item .item-pet-name {
@@ -4573,5 +4611,163 @@ button.btn-surtax-set{height:26px;  padding:0 10px 0 4px; border-radius:13px;}
 }
 
 .dark .label-outline-pink {
-	background-color: #2c2d30;
+	background-color: #ff4848;
+	color: #fff;
+}
+
+.dark .customer-user-table {
+	border-color: #47484b;
+}
+
+.dark .customer-user-table-row {
+	border-color: #47484b;
+}
+
+.dark .customer-user-table-title .table-title {
+	color: #fff;
+}
+
+.dark .customer-user-table-data .table-user-name {
+	color: #d8d8d8;
+}
+
+.dark .btn-data-modify {
+	background: url("../images/icon/edit_dark.png") left top no-repeat;
+	background-size: 32px auto;
+}
+
+.dark .customer-user-table-data .table-data-txt {
+	color: #d8d8d8;
+}
+
+.dark .font-color-purple {
+	color: #fdd94e !important;
+}
+
+.dark .customer-user-phone-wrap .item-main-phone {
+	color: #d8d8d8;
+}
+
+.dark .customer-view-pet-info {
+	border-color: #47484b;
+}
+
+.dark .customer-view-pet-info .flex-table-item {
+	border-color: #47484b;
+}
+
+.dark .customer-view-pet-info .flex-table-title .txt {
+	color: #fff;
+}
+
+.dark .customer-view-pet-info .flex-table-data-inner {
+	color: #d8d8d8;
+}
+
+.dark .btn-detail-toggle {
+	color: #8f8f8f;
+}
+
+.dark .special-note {
+	background: #47484b;
+	color: #d8d8d8;
+}
+
+.dark .btn-note-toggle {
+	color: #8f8f8f;
+}
+
+.dark .customer-table-toggle.type-2 .toggle-title {
+	color: #fff;
+}
+
+.dark .btn-detail-toggle:after {
+	background: url("../images/icon/icon_select_arrow_dark.png")center center no-repeat;
+	background-size: 10px auto;
+}
+
+.dark .btn-note-toggle:after {
+	background: url("../images/icon/icon_select_arrow_dark.png")center center no-repeat;
+	background-size: 10px auto;
+}
+
+.dark .customer-table-toggle.type-2 .toggle-title:after {
+	background: url("../images/icon/icon-table-toggle-arrow_dark.png")left center no-repeat;
+	background-size: 16px auto;
+}
+
+.dark .flex-table-title .txt {
+	color: #d8d8d8;
+}
+
+.dark .flex-table-data-inner {
+	color:  #8f8f8f;
+}
+
+.dark .flex-table-cell {
+	border-color: #47484b;
+}
+/*여기서 부터 작업하시요*/
+
+
+
+/* 메인 */
+.dark .main-dashboard-group .title .txt{
+	color:#d8d8d8
+}
+.dark .main-dashboard-group .value {
+	color:#d8d8d8
+}
+
+.dark .main-reserve-calendar-title .txt{
+	color:#d8d8d8
+}
+
+.dark .customer-card-item .item-time{
+	color:#ffe481
+}
+
+.dark .main-calendar-month-header-col{
+	color:#d8d8d8;
+}
+.dark .main-reserve-stats-header .item-title{
+	color:#d8d8d8;
+}
+
+.dark .main-calendar-month-body-col{
+
+	border-color: #47484b;
+	background: #2c2d30;
+
+}
+
+.dark .main-calendar-day-value .number{
+	color:#d8d8d8
+}
+
+.dark .main-calendar-month-body-col.break{
+
+	background: #666666;
+
+}
+
+.dark .mini-calendar-month-body-col.break{
+	background: #666666;
+}
+
+
+
+.dark .customer-card-item .item-pet-name {
+	color:#d8d8d8;
+}
+
+.dark .customer-card-item .item-sort .txt-1 {
+	color:#d8d8d8;
+}
+.dark .customer-card-item .item-sort .txt-2 {
+	color:#d8d8d8;
+}
+
+.dark .main-notice-list .btn-main-notice-item .txt{
+	color:#d8d8d8
 }

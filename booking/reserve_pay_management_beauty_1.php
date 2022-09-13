@@ -34,10 +34,13 @@ if ($artist_flag == 1) {
 							<div class="card-header">
 								<h3 class="card-header-title">작업 / 결제관리</h3>
 								<div class="card-header-right">
-									<div class="label label-outline-purple large round"><em id="approve"></em></div>
+									<div class="label label-outline-purple large round" id="approve_wrap" style="display:none;"><em id="approve"></em></div>
 								</div>
 							</div>
-							<div class="card-body">
+                            <div class="loading-container" id="pay_management_loading">
+                                <div class="mexican-wave"></div>
+                            </div>
+							<div class="card-body" id="pay_management_body">
 								<div class="card-body-inner" id="work_body_inner">
                                     <div class="wide-tab">
                                         <div class="wide-tab-inner" id="wide-tab-inner">
