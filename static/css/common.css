@@ -4542,7 +4542,7 @@ button.btn-surtax-set{height:26px;  padding:0 10px 0 4px; border-radius:13px;}
 
 
 
-/* 예약관리 > 상담대기 */
+/* 예약관리*/
 .dark .thema-gray-item.white {
 	background: #2c2d30;
 	border-color: #47484b;
@@ -4593,7 +4593,7 @@ button.btn-surtax-set{height:26px;  padding:0 10px 0 4px; border-radius:13px;}
 
 
 
-/* 고객관리 > 빠른조회 */
+/* 고객관리 */
 .dark .user-thumb.large {
 	background: transparent;
 }
@@ -4707,6 +4707,175 @@ button.btn-surtax-set{height:26px;  padding:0 10px 0 4px; border-radius:13px;}
 .dark .flex-table-cell {
 	border-color: #47484b;
 }
+
+.dark .sort-tab.big .sort-tab-inner .tab-cell .btn-tab-item {
+	color: #fff;
+}
+
+.dark .new-doughnutgraph-subject .item-name {
+	color: #fff;
+}
+
+.dark .new-doughnutgraph-label {
+	color: #fff;
+}
+
+.dark .form-item-label {
+	color: #fff;
+}
+
+.dark .btn-more-toggle-nav:before {
+	background: url("../images/icon/icon_select_arrow_dark.png")center center no-repeat;
+	background-size: 10px auto;
+}
+
+.dark .btn-more-toggle-nav .txt {
+	color: #8f8f8f;
+}
+
+.dark .customer-grade-title {
+	color: #d8d8d8;
+}
+
+.dark .customer-grade-info {
+	color: #8f8f8f;
+}
+
+.dark .customer-grade-card {
+	border-color: #666;
+}
+
+.dark .customer-grade-card .card-header {
+	background: #47484b;
+}
+
+.dark .user-grade-item > .icon-grade-label {
+	color: #d8d8d8;
+}
+
+
+
+/* 샵 관리 */
+.dark .shop-gate-info-title {
+	color: #fff;
+}
+
+.dark .shop-gate-info-desc {
+	color: #d8d8d8;
+}
+
+.dark .btn-gate-picture-register {
+	color: #8f8f8f;
+	border-color: #47484b;
+}
+
+.dark .btn-gate-picture-register:hover {
+	background: #1e1f21;
+}
+
+/*펫샵 상세보기의 경우 파트너앱 화면을 불러온것으로 해당 파일에서 다크모드 적용 불가 하여
+임시방편으로 배경색 #fff 로 설정*/
+.dark .page-preview-view {
+	background-color: #fff;
+}
+
+.dark .shop-picture-modify .shop-picture-info .shop-name {
+	color: #fff;
+}
+
+.dark .shop-picture-modify .shop-picture-info .shop-info {
+	color: #d8d8d8;
+}
+
+.dark .shop-picture-modify .shop-picture-info .btn-modify {
+	color: #fff;
+}
+
+.dark .shop-picture-modify .shop-picture-info .btn-modify:hover {
+	background: #1e1f21;
+}
+
+.dark .icon-camera-gray {
+	background: url("../images/icon/camera_dark.png")center center no-repeat;
+	background-size: 24px auto;
+}
+
+.dark .form-year .unit {
+	color: #d8d8d8;
+}
+
+.dark .vertical-list-wrap.line .list-cell + .list-cell {
+	border-color: #47484b;
+}
+
+.dark .basic-list-item.license .item-info {
+	color: #d8d8d8;
+}
+
+.dark .btn-picture-add:hover {
+	background: #1e1f21;
+}
+
+.dark .master-portfolio-item .item-info {
+	background: #47484b;
+	border-color: #47484b;
+}
+
+.dark .comment-item .item-user-info .user-name {
+	color: #fff;
+}
+
+.dark .comment-item .item-gallery + .item-detail {
+	color: #d8d8d8;
+}
+
+.dark .recomment-item .recomment-data {
+	background: #47484b;
+	color: #d8d8d8;
+}
+
+.dark .recomment-item .item-name {
+	color: #fff;
+}
+
+.dark .review-detail-cell + .review-detail-cell {
+	border-color: #47484b;
+}
+
+.dark .basic-list-item.blog .item-desc {
+	color: #d8d8d8;
+}
+
+.dark .shop-blog-review-title {
+	color: #fff;
+}
+
+.dark .shop-blog-review-info {
+	color: #d8d8d8;
+}
+
+a.btn-reserve.disabled, a.btn-page-bottom.disabled, a.btn-reserve:disabled, a.btn-page-bottom:disabled, .btn-reserve.disabled, .btn-page-bottom.disabled, .btn-reserve:disabled, .btn-page-bottom:disabled {
+	background-color: #666;
+}
+
+
+
+/* 상세설정 */
+.dark .msg-item {
+	border-color: #47484b;
+}
+
+.dark .msg-item.read {
+	color: #d8d8d8;
+}
+
+.dark .flex-table.read .flex-table-cell {
+	border-color:#47484b;
+}
+
+.dark .customer-card-item .item-right-name {
+	color: #fff;
+}
 /*여기서 부터 작업하시요*/
 
 
@@ -4742,7 +4911,7 @@ button.btn-surtax-set{height:26px;  padding:0 10px 0 4px; border-radius:13px;}
 }
 
 .dark .main-calendar-day-value .number{
-	color:#d8d8d8
+	color: #d8d8d8;
 }
 
 .dark .main-calendar-month-body-col.break{
