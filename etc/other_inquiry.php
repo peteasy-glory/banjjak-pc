@@ -204,6 +204,7 @@ $artist_id = (isset($_SESSION['gobeauty_user_id'])) ? $_SESSION['gobeauty_user_i
     $(document).ready(function() {
         get_navi(artist_id);
         gnb_init();
+        gnb_actived('gnb_etc_wrap','gnb_ask');
         get_qna(artist_id);
         console.log(etc_array)
 

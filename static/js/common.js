@@ -258,8 +258,8 @@ var include = {
                                             </span>
                                             <span class="nav-txt">샵 관리</span>
                                         </a>
-                                        <div class="snb-menu-list" id="gnb_front">
-                                            <div class="snb-menu-cell">
+                                        <div class="snb-menu-list">
+                                            <div class="snb-menu-cell" id="gnb_front">
                                                 <a href="/shop/shop_gate_picture.php" class="btn-snb-nav">
                                                     <div class="txt">샵 대문 관리</div>
                                                 </a>
@@ -294,8 +294,8 @@ var include = {
                                             </span>
                                             <span class="nav-txt">상세 설정</span>
                                         </a>
-                                        <div class="snb-menu-list" id="gnb_schedule">
-                                            <div class="snb-menu-cell">
+                                        <div class="snb-menu-list">
+                                            <div class="snb-menu-cell" id="gnb_schedule">
                                                 <a href="/setting/set_schedule_list.php" class="btn-snb-nav">
                                                     <div class="txt">일정 관리</div>
                                                 </a>
@@ -335,8 +335,8 @@ var include = {
                                             </span>
                                             <span class="nav-txt">판매 실적</span>
                                         </a>
-                                        <div class="snb-menu-list" id="gnb_stats">
-                                            <div class="snb-menu-cell">
+                                        <div class="snb-menu-list">
+                                            <div class="snb-menu-cell" id="gnb_stats">
                                                 <a href="/report/stats_sale_1.php" class="btn-snb-nav">
                                                     <div class="txt">판매실적 조회</div>
                                                 </a>

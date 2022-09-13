@@ -146,6 +146,9 @@
 
 
     }
+    .loading-container img{
+        max-width:50px;
+    }
 
     .splash-wrap {
         display:none;

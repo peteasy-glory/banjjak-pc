@@ -87,7 +87,7 @@ if ($artist_flag == 1) {
 										</div>
 										<!-- //내용 있을 때 -->
 										<!-- 내용 없을 때 -->
-										<div class="common-none-data" id="consulting_hold_list_none_data">
+										<div class="common-none-data" id="consulting_hold_list_none_data" style="display:none;">
 											<div class="none-inner">
 												<div class="item-visual"><img src="../static/images/icon/img-illust-3@2x.png" alt="" width="103"></div>
 												<div class="item-info">등록된 상담내역이 없습니다.</div>
@@ -110,6 +110,36 @@ if ($artist_flag == 1) {
     <!-- //container -->
 </div>
 <!-- //wrap -->
+<article id="adviceCustomer1" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data alert-pop-data">
+                <div class="pop-body">
+                    <div class="msg-txt">이 고객이 예약하는 것을 거부합니다.</div>
+                </div>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm" onclick="approve_consult(false)">확인</button>
+                    <button type="button" class="btn btn-confirm" onclick="pop.close();">취소</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+<article id="adviceCustomer2" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data alert-pop-data">
+                <div class="pop-body">
+                    <div class="msg-txt">이 고객이 예약하는 것을 허용하고 상담을 완료합니다.</div>
+                </div>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm" onclick="approve_consult(true)">확인</button>
+                    <button type="button" class="btn btn-confirm" onclick="pop.close();">취소</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
 <script src="../static/js/common.js"></script>
 <script src="../static/js/dev_common.js"></script>
 <script src="../static/js/booking.js"></script>
@@ -124,7 +154,6 @@ if ($artist_flag == 1) {
         get_navi(artist_id)
         gnb_init();
         consulting_hold_list(artist_id);
-        consulting_list_select();
         wide_tab();
         Array.from(document.getElementsByClassName('actived consulting-select')).forEach(function (el){
             el.click();

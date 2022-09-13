@@ -133,6 +133,7 @@ if ($artist_flag == 1) {
         gallery.init();
         get_navi(artist_id);
         gnb_init();
+        gnb_actived('gnb_shop_wrap','gnb_portfolio');
         get_portfolio(artist_id);
         allim_reserve_test('600990','01086331776','범shop수정');
         allim_customer_test('2022-08-01','2022-09-01','01086331776');

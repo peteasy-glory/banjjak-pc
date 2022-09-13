@@ -1139,10 +1139,12 @@ function consulting() {
 
 function consulting_toggle(bool){
 
+    document.getElementById('consulting_data').style.opacity = '0'
 
     if(bool){
         document.getElementById('consulting_list_2').style.display = 'none';
         document.getElementById('consulting_list').style.display = 'flex';
+
 
     }else{
         document.getElementById('consulting_list').style.display = 'none';
@@ -1226,8 +1228,9 @@ function consulting_hold_list(id){
                                 }
 
                                 if(status === '대기' && i < body.consult_waiting_num){
+
                                     document.getElementById('consulting_list').innerHTML += `<div class="grid-layout-cell grid-2">
-                                                                                         <div class="${(el.pet_name+el.phone).toString() === localStorage.getItem('consulting_select') ? 'actived':''} thema-gray-item white consulting-select" data-pet_name="${el.pet_name}" data-phone="${el.phone}">
+                                                                                         <div class="thema-gray-item white consulting-select" data-pet_name="${el.pet_name}" data-phone="${el.phone}">
                                                                                             <a href="#" class="basic-list-item store">
                                                                                                 <div class="info-wrap">
                                                                                                     <div class="item-name">
@@ -1235,7 +1238,7 @@ function consulting_hold_list(id){
                                                                                                         <br>
                                                                                                         <div class="">${phone_edit(el.phone)}</div>
                                                                                                     </div>
-                                                                                                    <div class="item-date2">${am_pm_check2(el.date)}</div>
+                                                                                                    <div class="item-date2">${am_pm_check2(el.date.replace('T',' '))}</div>
                                                                                                 </div>
                                                                                             </a>
                                                                                             <div class="item-state2">
@@ -1330,6 +1333,17 @@ function consulting_hold_list(id){
                                                 //         }
                                                 //     }
                                                 // })
+
+                                                let consult_photo = '';
+                                                if(el_.consult_photo.length >0){
+
+                                                    consult_photo = `https://image.banjjakpet.com${el_.consult_photo[0].photo.replace('/pet','')}`
+
+                                                }else{
+
+
+                                                    consult_photo = '/static/images/icon/icon-pup-select-off.png'
+                                                }
 
                                                 document.getElementById('consulting_data').innerHTML = '';
                                                 document.getElementById('consulting_data').innerHTML +=`<div class="basic-data-card">
@@ -1509,7 +1523,7 @@ function consulting_hold_list(id){
                                                                                                                     <div class="list-inner">
                                                                                                                         <div class="list-cell">
                                                                                                                             <a href="#" class="btn-portfolio-item">
-                                                                                                                                <img src="https://image.banjjakpet.com${el_.consult_photo.length >0 ? el_.consult_photo[0].photo : `${el_.photo ? el_.photo.replace('/pet','') : ``}`}" alt="">
+                                                                                                                                <img src="${consult_photo}" alt="">
                                                                                                                             </a>
                                                                                                                         </div>
                                                                                                                     </div>
@@ -1517,14 +1531,14 @@ function consulting_hold_list(id){
                                                                                                             </div>
                                                                                                         </div>
                                                                                                         <div class="basic-data-group">
-                                                                                                            <button type="button" class="btn btn-outline-red btn-basic-full">예약 거부</button>
+                                                                                                            <button type="button" class="btn btn-outline-red btn-basic-full" onclick="pop.open('adviceCustomer1');">예약 거부</button>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
                                                                                             <div class="card-footer">
                                                                                             <!-- btn-page-bottom 클래스에 disabled 클래스 추가시 비활성화 또는 button 태그일 시 disabled 속성 추가시 비활성화 -->
-                                                                                                <button type="button" class="btn-page-bottom">상담완료</button>
+                                                                                                <button type="button" class="btn-page-bottom" id="consult_btn" data-payment_idx="${el_.payment_log_seq}" onclick="pop.open('adviceCustomer2')" >상담완료</button>
                                                                                             </div>
                                                                                         </div>`
 
@@ -1556,275 +1570,275 @@ function consulting_hold_list(id){
 
 }
 
-//상담내역선택
-function consulting_list_select(){
-    let select = document.getElementsByClassName('consulting-select');
-    Array.from(select).forEach(function (el){
-
-        el.addEventListener('click',function (){
-
-            if(el.classList.contains('actived')){
-
-                el.classList.remove('actived');
-                document.getElementById('consulting_data').style.opacity = 0;
-            }else{
-
-                Array.from(select).forEach(function (el_){
-
-
-                    el_.classList.remove('actived')
-                })
-
-
-                el.classList.add('actived');
-
-                document.getElementById('consulting_data').style.opacity = 1;
-                document.getElementById('consulting_data').innerHTML = '';
-                data.consulting.forEach(function(el_){
-                    // console.log(el_)
-
-
-                    if(el_.pet_name === el.getAttribute('data-pet_name') && el_.phone === el.getAttribute('data-phone')){
-                        let data = el_.disliked_part;
-                        let text = '';
-                        data = [...data];
-                        data.forEach(function (d,i){
-                            if(parseInt(d)===1){
-                                if(i===0){
-                                    text += '눈 '
-                                }
-                                if(i===1){
-                                    text += '코 '
-                                }
-                                if(i===2){
-                                    text += '입 '
-                                }
-                                if(i===3){
-                                    text += '귀 '
-                                }
-                                if(i===4){
-                                    text += '목 '
-                                }
-                                if(i===5){
-                                    text += '몸통 '
-                                }
-                                if(i===6){
-                                    text += '다리 '
-                                }
-                                if(i===7){
-                                    text += '꼬리 '
-                                }
-                                if(i===8){
-                                    text += '생식기 '
-                                }
-                                if(i===9){
-                                    text += '없음 '
-                                }
-                            }
-                        })
-
-                        document.getElementById('consulting_data').innerHTML = '';
-                        document.getElementById('consulting_data').innerHTML +=`<div class="basic-data-card">
-                                                                                                <div class="card-header">
-                                                                                                    <h3 class="card-header-title">이용상담 정보</h3>
-                                                                                                </div>
-                                                                                                <div class="card-body">
-                                                                                                    <div class="card-body-inner">
-                                                                                                        <div class="reserve-advice-view">
-                                                                                                            <div class="reserve-advice-view-info">* 상담신청 후 12시간 이내에 상담 완료를 꼭 눌러주세요.
-                                                                                                                <button type="button" onclick="pop.open('reserveAdviceMsg1')" class="btn-data-helper">도움말</button>
-                                                                                                            </div>
-                                                                                                        <div class="basic-data-group">
-                                                                                                            <div class="con-title-group">
-                                                                                                                <h4 class="con-title">신청고객정보</h4>
-                                                                                                            </div>
-                                                                                                            <div class="flex-table type-2">
-                                                                                                                <div class="flex-table-cell">
-                                                                                                                    <div class="flex-table-item">
-                                                                                                                        <div class="flex-table-title">
-                                                                                                                            <div class="txt">연락처</div>
-                                                                                                                        </div>
-                                                                                                                        <div class="flex-table-data">
-                                                                                                                            <div class="flex-table-data-inner">${phone_edit(el_.phone)}</div>
-                                                                                                                            <div class="flex-table-data-side">
-                                                                                                                                <div class="btn-ui-group">
-                                                                                                                                    <a href="tel:${el_.phone}"><button type="button" class="btn-data-tel">전화하기</button></a>
-                                                                                                                                    <a href="sms:${el_.phone}"><button type="button" class="btn-data-message">메시지보내기</button></a>
-                                                                                                                                </div>
-                                                                                                                            </div>
-                                                                                                                        </div>
-                                                                                                                    </div>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                        <div class="basic-data-group">
-                                                                                                            <div class="con-title-group">
-                                                                                                                <h4 class="con-title">기본 정보</h4>
-                                                                                                            </div>
-                                                                                                            <div class="flex-table type-2">
-                                                                                                                <div class="flex-table-cell">
-                                                                                                                    <div class="flex-table-item">
-                                                                                                                        <div class="flex-table-title">
-                                                                                                                            <div class="txt">이름</div>
-                                                                                                                        </div>
-                                                                                                                        <div class="flex-table-data">
-                                                                                                                            <div class="flex-table-data-inner">${el_.pet_name}</div>
-                                                                                                                        </div>
-                                                                                                                    </div>
-                                                                                                                </div>
-                                                                                                                <div class="flex-table-cell">
-                                                                                                                    <div class="flex-table-item">
-                                                                                                                        <div class="flex-table-title">
-                                                                                                                            <div class="txt">품종</div>
-                                                                                                                        </div>
-                                                                                                                        <div class="flex-table-data">
-                                                                                                                            <div class="flex-table-data-inner">${el_.pet_type}</div>
-                                                                                                                        </div>
-                                                                                                                    </div>
-                                                                                                                </div>
-                                                                                                                <div class="flex-table-cell">
-                                                                                                                    <div class="flex-table-item">
-                                                                                                                        <div class="flex-table-title">
-                                                                                                                            <div class="txt">생일</div>
-                                                                                                                        </div>
-                                                                                                                        <div class="flex-table-data">
-                                                                                                                            <div class="flex-table-data-inner">${el_.birth}</div>
-                                                                                                                        </div>
-                                                                                                                    </div>
-                                                                                                                </div>
-                                                                                                                <div class="flex-table-cell">
-                                                                                                                    <div class="flex-table-item">
-                                                                                                                        <div class="flex-table-title">
-                                                                                                                            <div class="txt">성별</div>
-                                                                                                                        </div>
-                                                                                                                        <div class="flex-table-data">
-                                                                                                                            <div class="flex-table-data-inner">${el_.gender}</div>
-                                                                                                                        </div>
-                                                                                                                    </div>
-                                                                                                                </div>
-                                                                                                                <div class="flex-table-cell">
-                                                                                                                    <div class="flex-table-item">
-                                                                                                                        <div class="flex-table-title">
-                                                                                                                            <div class="txt">중성화</div>
-                                                                                                                        </div>
-                                                                                                                        <div class="flex-table-data">
-                                                                                                                            <div class="flex-table-data-inner">${el_.neutral ? 'O' : 'X'}</div>
-                                                                                                                        </div>
-                                                                                                                    </div>
-                                                                                                                </div>
-                                                                                                                <div class="flex-table-cell">
-                                                                                                                    <div class="flex-table-item">
-                                                                                                                        <div class="flex-table-title">
-                                                                                                                            <div class="txt">몸무게</div>
-                                                                                                                        </div>
-                                                                                                                        <div class="flex-table-data">
-                                                                                                                            <div class="flex-table-data-inner">${el_.weight}Kg</div>
-                                                                                                                        </div>
-                                                                                                                    </div>
-                                                                                                                </div>
-                                                                                                                <div class="flex-table-cell">
-                                                                                                                    <div class="flex-table-item">
-                                                                                                                        <div class="flex-table-title">
-                                                                                                                            <div class="txt">미용경험</div>
-                                                                                                                        </div>
-                                                                                                                        <div class="flex-table-data">
-                                                                                                                            <div class="flex-table-data-inner">${el_.beauty_exp}</div>
-                                                                                                                        </div>
-                                                                                                                   </div>
-                                                                                                                </div>
-                                                                                                                <div class="flex-table-cell">
-                                                                                                                    <div class="flex-table-item">
-                                                                                                                        <div class="flex-table-title">
-                                                                                                                            <div class="txt">예방접종</div>
-                                                                                                                        </div>
-                                                                                                                        <div class="flex-table-data">
-                                                                                                                            <div class="flex-table-data-inner">${el_.vaccination === "" || el_.vaccination === null ? '미기입' : el_.vaccination}</div>
-                                                                                                                        </div>
-                                                                                                                    </div>
-                                                                                                                </div>
-                                                                                                                <div class="flex-table-cell">
-                                                                                                                    <div class="flex-table-item">
-                                                                                                                        <div class="flex-table-title">
-                                                                                                                            <div class="txt">입질</div>
-                                                                                                                        </div>
-                                                                                                                        <div class="flex-table-data">
-                                                                                                                            <div class="flex-table-data-inner">${el_.bite ? '해요' : '안해요'}</div>
-                                                                                                                        </div>
-                                                                                                                    </div>
-                                                                                                                </div>
-                                                                                                                <div class="flex-table-cell">
-                                                                                                                    <div class="flex-table-item">
-                                                                                                                        <div class="flex-table-title">
-                                                                                                                            <div class="txt">싫어하는 부위</div>
-                                                                                                                        </div>
-                                                                                                                        <div class="flex-table-data">
-                                                                                                                            <div class="flex-table-data-inner">${text === '' ? '없음' : text}</div>
-                                                                                                                        </div>
-                                                                                                                    </div>
-                                                                                                                </div>
-                                                                                                                <div class="flex-table-cell">
-                                                                                                                    <div class="flex-table-item">
-                                                                                                                        <div class="flex-table-title">
-                                                                                                                            <div class="txt">슬개골 탈구</div>
-                                                                                                                        </div>
-                                                                                                                        <div class="flex-table-data">
-                                                                                                                            <div class="flex-table-data-inner">${el_.luxation === '' || el_.luxation === null ? '미기입':el_.vaccination }</div>
-                                                                                                                        </div>
-                                                                                                                    </div>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                        <div class="basic-data-group">
-                                                                                                            <div class="con-title-group">
-                                                                                                                <h4 class="con-title">특이사항</h4>
-                                                                                                            </div>
-                                                                                                            <div class="con-title-group">
-                                                                                                                <h5 class="con-title">${el_.dermatosis ? "피부병" : ""} ${el_.heart_trouble ? "심장질환" : ""} ${el_.marking ? "마킹" : ""} ${el_.mounting ? "마운팅" : ""} </h5>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                        <div class="basic-data-group">
-                                                                                                            <div class="con-title-group">
-                                                                                                                <h4 class="con-title">원하는 미용</h4>
-                                                                                                            </div>
-                                                                                                            <div class="con-title-group">
-                                                                                                                <h5 class="con-title">${el_.memo === "" || el_.memo === null ? '미기입' : el_.memo} </h5>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                        <div class="basic-data-group">
-                                                                                                            <div class="con-title-group">
-                                                                                                                <h4 class="con-title">현재 아이 모습</h4>
-                                                                                                            </div>
-                                                                                                            <div class="basic-data-group vvsmall2">
-                                                                                                                <div class="portfolio-list-wrap">
-                                                                                                                    <div class="list-inner">
-                                                                                                                        <div class="list-cell">
-                                                                                                                            <a href="#" class="btn-portfolio-item">
-                                                                                                                                <img src="https://image.banjjakpet.com${el_.consult_photo.length >0 ? el_.consult_photo[0].photo : `${el_.photo ? el_.photo.replace('/pet','') : ``}`}" alt="">
-                                                                                                                            </a>
-                                                                                                                        </div>
-                                                                                                                    </div>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                        <div class="basic-data-group">
-                                                                                                            <button type="button" class="btn btn-outline-red btn-basic-full">예약 거부</button>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="card-footer">
-                                                                                            <!-- btn-page-bottom 클래스에 disabled 클래스 추가시 비활성화 또는 button 태그일 시 disabled 속성 추가시 비활성화 -->
-                                                                                                <button type="button" class="btn-page-bottom">상담완료</button>
-                                                                                            </div>
-                                                                                        </div>`
-
-
-                    }
-                })
-            }
-        })
-    })
-}
+// //상담내역선택
+// function consulting_list_select(){
+//     let select = document.getElementsByClassName('consulting-select');
+//     Array.from(select).forEach(function (el){
+//
+//         el.addEventListener('click',function (){
+//
+//             if(el.classList.contains('actived')){
+//
+//                 el.classList.remove('actived');
+//                 document.getElementById('consulting_data').style.opacity = 0;
+//             }else{
+//
+//                 Array.from(select).forEach(function (el_){
+//
+//
+//                     el_.classList.remove('actived')
+//                 })
+//
+//
+//                 el.classList.add('actived');
+//
+//                 document.getElementById('consulting_data').style.opacity = 1;
+//                 document.getElementById('consulting_data').innerHTML = '';
+//                 data.consulting.forEach(function(el_){
+//                     // console.log(el_)
+//
+//
+//                     if(el_.pet_name === el.getAttribute('data-pet_name') && el_.phone === el.getAttribute('data-phone')){
+//                         let data = el_.disliked_part;
+//                         let text = '';
+//                         data = [...data];
+//                         data.forEach(function (d,i){
+//                             if(parseInt(d)===1){
+//                                 if(i===0){
+//                                     text += '눈 '
+//                                 }
+//                                 if(i===1){
+//                                     text += '코 '
+//                                 }
+//                                 if(i===2){
+//                                     text += '입 '
+//                                 }
+//                                 if(i===3){
+//                                     text += '귀 '
+//                                 }
+//                                 if(i===4){
+//                                     text += '목 '
+//                                 }
+//                                 if(i===5){
+//                                     text += '몸통 '
+//                                 }
+//                                 if(i===6){
+//                                     text += '다리 '
+//                                 }
+//                                 if(i===7){
+//                                     text += '꼬리 '
+//                                 }
+//                                 if(i===8){
+//                                     text += '생식기 '
+//                                 }
+//                                 if(i===9){
+//                                     text += '없음 '
+//                                 }
+//                             }
+//                         })
+//
+//                         document.getElementById('consulting_data').innerHTML = '';
+//                         document.getElementById('consulting_data').innerHTML +=`<div class="basic-data-card">
+//                                                                                                 <div class="card-header">
+//                                                                                                     <h3 class="card-header-title">이용상담 정보</h3>
+//                                                                                                 </div>
+//                                                                                                 <div class="card-body">
+//                                                                                                     <div class="card-body-inner">
+//                                                                                                         <div class="reserve-advice-view">
+//                                                                                                             <div class="reserve-advice-view-info">* 상담신청 후 12시간 이내에 상담 완료를 꼭 눌러주세요.
+//                                                                                                                 <button type="button" onclick="pop.open('reserveAdviceMsg1')" class="btn-data-helper">도움말</button>
+//                                                                                                             </div>
+//                                                                                                         <div class="basic-data-group">
+//                                                                                                             <div class="con-title-group">
+//                                                                                                                 <h4 class="con-title">신청고객정보</h4>
+//                                                                                                             </div>
+//                                                                                                             <div class="flex-table type-2">
+//                                                                                                                 <div class="flex-table-cell">
+//                                                                                                                     <div class="flex-table-item">
+//                                                                                                                         <div class="flex-table-title">
+//                                                                                                                             <div class="txt">연락처</div>
+//                                                                                                                         </div>
+//                                                                                                                         <div class="flex-table-data">
+//                                                                                                                             <div class="flex-table-data-inner">${phone_edit(el_.phone)}</div>
+//                                                                                                                             <div class="flex-table-data-side">
+//                                                                                                                                 <div class="btn-ui-group">
+//                                                                                                                                     <a href="tel:${el_.phone}"><button type="button" class="btn-data-tel">전화하기</button></a>
+//                                                                                                                                     <a href="sms:${el_.phone}"><button type="button" class="btn-data-message">메시지보내기</button></a>
+//                                                                                                                                 </div>
+//                                                                                                                             </div>
+//                                                                                                                         </div>
+//                                                                                                                     </div>
+//                                                                                                                 </div>
+//                                                                                                             </div>
+//                                                                                                         </div>
+//                                                                                                         <div class="basic-data-group">
+//                                                                                                             <div class="con-title-group">
+//                                                                                                                 <h4 class="con-title">기본 정보</h4>
+//                                                                                                             </div>
+//                                                                                                             <div class="flex-table type-2">
+//                                                                                                                 <div class="flex-table-cell">
+//                                                                                                                     <div class="flex-table-item">
+//                                                                                                                         <div class="flex-table-title">
+//                                                                                                                             <div class="txt">이름</div>
+//                                                                                                                         </div>
+//                                                                                                                         <div class="flex-table-data">
+//                                                                                                                             <div class="flex-table-data-inner">${el_.pet_name}</div>
+//                                                                                                                         </div>
+//                                                                                                                     </div>
+//                                                                                                                 </div>
+//                                                                                                                 <div class="flex-table-cell">
+//                                                                                                                     <div class="flex-table-item">
+//                                                                                                                         <div class="flex-table-title">
+//                                                                                                                             <div class="txt">품종</div>
+//                                                                                                                         </div>
+//                                                                                                                         <div class="flex-table-data">
+//                                                                                                                             <div class="flex-table-data-inner">${el_.pet_type}</div>
+//                                                                                                                         </div>
+//                                                                                                                     </div>
+//                                                                                                                 </div>
+//                                                                                                                 <div class="flex-table-cell">
+//                                                                                                                     <div class="flex-table-item">
+//                                                                                                                         <div class="flex-table-title">
+//                                                                                                                             <div class="txt">생일</div>
+//                                                                                                                         </div>
+//                                                                                                                         <div class="flex-table-data">
+//                                                                                                                             <div class="flex-table-data-inner">${el_.birth}</div>
+//                                                                                                                         </div>
+//                                                                                                                     </div>
+//                                                                                                                 </div>
+//                                                                                                                 <div class="flex-table-cell">
+//                                                                                                                     <div class="flex-table-item">
+//                                                                                                                         <div class="flex-table-title">
+//                                                                                                                             <div class="txt">성별</div>
+//                                                                                                                         </div>
+//                                                                                                                         <div class="flex-table-data">
+//                                                                                                                             <div class="flex-table-data-inner">${el_.gender}</div>
+//                                                                                                                         </div>
+//                                                                                                                     </div>
+//                                                                                                                 </div>
+//                                                                                                                 <div class="flex-table-cell">
+//                                                                                                                     <div class="flex-table-item">
+//                                                                                                                         <div class="flex-table-title">
+//                                                                                                                             <div class="txt">중성화</div>
+//                                                                                                                         </div>
+//                                                                                                                         <div class="flex-table-data">
+//                                                                                                                             <div class="flex-table-data-inner">${el_.neutral ? 'O' : 'X'}</div>
+//                                                                                                                         </div>
+//                                                                                                                     </div>
+//                                                                                                                 </div>
+//                                                                                                                 <div class="flex-table-cell">
+//                                                                                                                     <div class="flex-table-item">
+//                                                                                                                         <div class="flex-table-title">
+//                                                                                                                             <div class="txt">몸무게</div>
+//                                                                                                                         </div>
+//                                                                                                                         <div class="flex-table-data">
+//                                                                                                                             <div class="flex-table-data-inner">${el_.weight}Kg</div>
+//                                                                                                                         </div>
+//                                                                                                                     </div>
+//                                                                                                                 </div>
+//                                                                                                                 <div class="flex-table-cell">
+//                                                                                                                     <div class="flex-table-item">
+//                                                                                                                         <div class="flex-table-title">
+//                                                                                                                             <div class="txt">미용경험</div>
+//                                                                                                                         </div>
+//                                                                                                                         <div class="flex-table-data">
+//                                                                                                                             <div class="flex-table-data-inner">${el_.beauty_exp}</div>
+//                                                                                                                         </div>
+//                                                                                                                    </div>
+//                                                                                                                 </div>
+//                                                                                                                 <div class="flex-table-cell">
+//                                                                                                                     <div class="flex-table-item">
+//                                                                                                                         <div class="flex-table-title">
+//                                                                                                                             <div class="txt">예방접종</div>
+//                                                                                                                         </div>
+//                                                                                                                         <div class="flex-table-data">
+//                                                                                                                             <div class="flex-table-data-inner">${el_.vaccination === "" || el_.vaccination === null ? '미기입' : el_.vaccination}</div>
+//                                                                                                                         </div>
+//                                                                                                                     </div>
+//                                                                                                                 </div>
+//                                                                                                                 <div class="flex-table-cell">
+//                                                                                                                     <div class="flex-table-item">
+//                                                                                                                         <div class="flex-table-title">
+//                                                                                                                             <div class="txt">입질</div>
+//                                                                                                                         </div>
+//                                                                                                                         <div class="flex-table-data">
+//                                                                                                                             <div class="flex-table-data-inner">${el_.bite ? '해요' : '안해요'}</div>
+//                                                                                                                         </div>
+//                                                                                                                     </div>
+//                                                                                                                 </div>
+//                                                                                                                 <div class="flex-table-cell">
+//                                                                                                                     <div class="flex-table-item">
+//                                                                                                                         <div class="flex-table-title">
+//                                                                                                                             <div class="txt">싫어하는 부위</div>
+//                                                                                                                         </div>
+//                                                                                                                         <div class="flex-table-data">
+//                                                                                                                             <div class="flex-table-data-inner">${text === '' ? '없음' : text}</div>
+//                                                                                                                         </div>
+//                                                                                                                     </div>
+//                                                                                                                 </div>
+//                                                                                                                 <div class="flex-table-cell">
+//                                                                                                                     <div class="flex-table-item">
+//                                                                                                                         <div class="flex-table-title">
+//                                                                                                                             <div class="txt">슬개골 탈구</div>
+//                                                                                                                         </div>
+//                                                                                                                         <div class="flex-table-data">
+//                                                                                                                             <div class="flex-table-data-inner">${el_.luxation === '' || el_.luxation === null ? '미기입':el_.vaccination }</div>
+//                                                                                                                         </div>
+//                                                                                                                     </div>
+//                                                                                                                 </div>
+//                                                                                                             </div>
+//                                                                                                         </div>
+//                                                                                                         <div class="basic-data-group">
+//                                                                                                             <div class="con-title-group">
+//                                                                                                                 <h4 class="con-title">특이사항</h4>
+//                                                                                                             </div>
+//                                                                                                             <div class="con-title-group">
+//                                                                                                                 <h5 class="con-title">${el_.dermatosis ? "피부병" : ""} ${el_.heart_trouble ? "심장질환" : ""} ${el_.marking ? "마킹" : ""} ${el_.mounting ? "마운팅" : ""} </h5>
+//                                                                                                             </div>
+//                                                                                                         </div>
+//                                                                                                         <div class="basic-data-group">
+//                                                                                                             <div class="con-title-group">
+//                                                                                                                 <h4 class="con-title">원하는 미용</h4>
+//                                                                                                             </div>
+//                                                                                                             <div class="con-title-group">
+//                                                                                                                 <h5 class="con-title">${el_.memo === "" || el_.memo === null ? '미기입' : el_.memo} </h5>
+//                                                                                                             </div>
+//                                                                                                         </div>
+//                                                                                                         <div class="basic-data-group">
+//                                                                                                             <div class="con-title-group">
+//                                                                                                                 <h4 class="con-title">현재 아이 모습</h4>
+//                                                                                                             </div>
+//                                                                                                             <div class="basic-data-group vvsmall2">
+//                                                                                                                 <div class="portfolio-list-wrap">
+//                                                                                                                     <div class="list-inner">
+//                                                                                                                         <div class="list-cell">
+//                                                                                                                             <a href="#" class="btn-portfolio-item">
+//                                                                                                                                 <img src="https://image.banjjakpet.com${el_.consult_photo.length >0 ? el_.consult_photo[0].photo : `${el_.photo ? el_.photo.replace('/pet','') : ``}`}" alt="">
+//                                                                                                                             </a>
+//                                                                                                                         </div>
+//                                                                                                                     </div>
+//                                                                                                                 </div>
+//                                                                                                             </div>
+//                                                                                                         </div>
+//                                                                                                         <div class="basic-data-group">
+//                                                                                                             <button type="button" class="btn btn-outline-red btn-basic-full">예약 거부</button>
+//                                                                                                         </div>
+//                                                                                                     </div>
+//                                                                                                 </div>
+//                                                                                             </div>
+//                                                                                             <div class="card-footer">
+//                                                                                             <!-- btn-page-bottom 클래스에 disabled 클래스 추가시 비활성화 또는 button 태그일 시 disabled 속성 추가시 비활성화 -->
+//                                                                                                 <button type="button" class="btn-page-bottom">상담완료</button>
+//                                                                                             </div>
+//                                                                                         </div>`
+//
+//
+//                     }
+//                 })
+//             }
+//         })
+//     })
+// }
 
 //미니달력 달기준 바꾸기
 function calendar_change_month(id){
@@ -9799,6 +9813,7 @@ function waiting(id){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
+                    console.log(body)
 
                     if(body.length === undefined){
                         body = [body]
@@ -9925,6 +9940,70 @@ function new_exist_check(id){
     })
 }
 
+function approve_consult(bool) {
+
+
+    if (bool) {
+
+        $.ajax({
+
+            url: '/data/pc_ajax.php',
+            type: 'post',
+            data: {
+
+                mode: "approve_consult",
+                payment_idx: document.getElementById('consult_btn').getAttribute('data-payment_idx')
+            },
+            success: function (res) {
+                console.log(res)
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+
+                    location.reload();
+
+
+                }
+
+            }
+
+
+        })
+    }else{
+
+        $.ajax({
+
+            url: '/data/pc_ajax.php',
+            type: 'post',
+            data: {
+
+                mode: "not_approve_consult",
+                payment_idx: document.getElementById('consult_btn').getAttribute('data-payment_idx')
+            },
+            success: function (res) {
+                console.log(res)
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+
+                    location.reload();
+
+
+                }
+
+            }
+
+
+        })
+
+    }
+}
 function pay_management_toggle(){
 
     if(document.getElementById('pay_management').classList.contains('animate-check')){
@@ -9943,16 +10022,5 @@ function pay_management_toggle(){
         },500,'swing')
 
     }
-
-
-
-
-
-
-
-
-
-
-
 
 }

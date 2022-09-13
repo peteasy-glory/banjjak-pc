@@ -751,6 +751,7 @@ if ($artist_flag == 1) {
     $(document).ready(function() {
         get_navi(artist_id);
         gnb_init();
+        gnb_actived('gnb_detail_wrap','gnb_schedule');
         get_open_close(artist_id); // 0
         break_time(artist_id); // 1
         time_type(artist_id); // 2
