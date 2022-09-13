@@ -146,6 +146,9 @@
 
 
     }
+    .loading-container img{
+        max-width:50px;
+    }
 
     .splash-wrap {
         display:none;
@@ -178,3 +181,20 @@
     margin-right: -373px;
     z-index:5000
 }
+
+@keyframes loading {
+    0% {
+        opacity: 0.5;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes loading {
+    0% {
+        opacity: 0.1;
+    }
+    100%{
+        opacity: 1;
+    }

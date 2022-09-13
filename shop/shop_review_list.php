@@ -188,23 +188,18 @@ if ($artist_flag == 1) {
             var html = '';
             if(shop_array[0].length){
                 console.log(1)
-                let img_list = '';
+
                 $.each(shop_array[0],function(i,v){
 
+                    console.log('---')
                     console.log(v)
+                    console.log('---')
 
                     var img_path = img_link_change(v.photo);
 
-                    if( i === shop_array[0].length-1){
-
-
-                        img_list += `${img_path.replace('https://image.banjjakpet.com','')}`
-                    }else{
-
-                        img_list += `${img_path.replace('https://image.banjjakpet.com','')}|`
-                    }
 
                 })
+
 
                 $.each(shop_array[0], function(i,v){
                     console.log(v)
@@ -225,8 +220,24 @@ if ($artist_flag == 1) {
                         rating += '<div class="icon icon-size-16 icon-star-gray"></div>';
                     }
                     var review_photo = '';
+                    let img_list = '';
+
+                    $.each(v.review_images,function (i2,v2){
+
+
+                        if(i2===v.review_images.length-1){
+                            img_list+=`${v2.path}`
+                        }else{
+
+                            img_list+=`${v2.path}|`
+
+                        }
+                    })
+
                     $.each(v.review_images, function(index,value){
-                        review_photo += `<div class="list-cell"><div class="btn-portfolio-item" onclick="showReviewGallery(${i},'${img_list}')"><img src="${img_link_change(value.path)}" alt=""></div></div>`;
+
+
+                        review_photo += `<div class="list-cell"><div class="btn-portfolio-item" onclick="showReviewGallery(${0},'${img_list}')"><img src="${img_link_change(value.path)}" alt=""></div></div>`;
                     })
                     var artist_reply = '';
                     if(v.artist_reply != ''){
