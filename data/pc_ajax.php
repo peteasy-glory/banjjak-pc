@@ -13,7 +13,7 @@ $user_name = (isset($_SESSION['gobeauty_user_nickname'])) ? $_SESSION['gobeauty_
 
 //$api = new TRestAPI("https://partnerapi.banjjakpet.com","Token 2156d1824c98f27a1f163a102cf742002b15e624");
 $api = new TRestAPI("http://stg-partnerapi.banjjakpet.com:8080","Token 55dda3818c897ef163b09a13d37199a7d211b6d2");
-$api2 = new TRestAPI("http://192.168.20.216:8080","Token 2156d1824c98f27a1f163a102cf742002b15e624");
+//$api2 = new TRestAPI("http://192.168.20.216:8080","Token 2156d1824c98f27a1f163a102cf742002b15e624");
 
 
 $data = array();
@@ -1671,10 +1671,37 @@ if($r_mode) {
 
         $return_data = array("code"=>"000000","data"=>$result);
 
-    }else if($r_mode ==="get_consulting_count"){
+    }else if($r_mode ==="get_consulting_count") {
         $login_id = $_POST['login_id'];
 
-        $result = $api -> get('/partner/home/waiting/'.$login_id);
+        $result = $api->get('/partner/home/waiting/' . $login_id);
+
+        $return_data = array("code" => "000000", "data" => $result);
+
+    }else if($r_mode === "approve_consult"){
+
+        $payment_idx = $_POST['payment_idx'];
+
+        $approval = 2;
+
+        $data = array('payment_idx'=>intval($payment_idx),'approval'=>$approval);
+
+        $data_json = json_encode($data);
+
+        $result = $api -> put('/partner/home/consulting/',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
+    }else if($r_mode === "not_approve_consult"){
+        $payment_idx = $_POST['payment_idx'];
+
+        $approval = 3;
+
+        $data = array('payment_idx'=>intval($payment_idx),'approval'=>$approval);
+
+        $data_json = json_encode($data);
+
+        $result = $api -> put('/partner/home/consulting/',$data_json);
 
         $return_data = array("code"=>"000000","data"=>$result);
 
