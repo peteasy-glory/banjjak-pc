@@ -202,6 +202,11 @@ if ($artist_flag == 1) {
                                                                     <option value="4000">4,000</option>
                                                                     <option value="4500">4,500</option>
                                                                     <option value="5000">5,000</option>
+                                                                    <option value="6000">6,000</option>
+                                                                    <option value="7000">7,000</option>
+                                                                    <option value="8000">8,000</option>
+                                                                    <option value="9000">9,000</option>
+                                                                    <option value="10000">10,000</option>
 																</select>
 																<div class="input-txt font-weight-300">원 이하라면 사용할 수 없도록 설정합니다.</div>
 															</div>
@@ -236,6 +241,7 @@ if ($artist_flag == 1) {
     $(document).ready(function() {
         get_navi(artist_id);
         gnb_init();
+        gnb_actived('gnb_detail_wrap','gnb_keep');
         get_pay_reserve(artist_id);
         $(".percent").val(setting_array[0].percent);
         $(".min_pay").val(setting_array[0].min_reserve);

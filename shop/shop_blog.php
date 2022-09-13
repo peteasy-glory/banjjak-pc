@@ -100,6 +100,7 @@ if ($artist_flag == 1) {
     $(document).ready(function() {
         get_navi(artist_id);
         gnb_init();
+        gnb_actived('gnb_shop_wrap','gnb_blog');
         get_blog_list(artist_id);
         console.log(shop_array);
 

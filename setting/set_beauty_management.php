@@ -66,7 +66,7 @@ if ($artist_flag == 1) {
 											<div class="basic-data-group middle all_product_wrap beauty_product_wrap">
 												<div class="btn-group vertical text-align-center">
 													<div class="btn-group-cell"><button type="button" class="btn btn-purple btn-basic-wide"><strong>미용상품 추가하기</strong></button></div>
-													<div class="btn-group-cell"><button type="button" class="btn btn-outline-purple btn-basic-wide"><strong>미용 소요시간 설정하기</strong></button></div>
+													<div class="btn-group-cell" style="display: none;"><button type="button" class="btn btn-outline-purple btn-basic-wide"><strong>미용 소요시간 설정하기</strong></button></div>
 												</div>
 												<!-- 내용이 없을 경우 -->
 												<div class="common-none-data">
@@ -82,13 +82,13 @@ if ($artist_flag == 1) {
 														<h4 class="con-title">강아지</h4>
 													</div>
 													<div>
-														<div class="basic-data-group">				
+														<div class="basic-data-group append_dog_service_wrap">
 															<div class="con-title-group large">
 																<h6 class="con-title">미용별 소요시간</h6>
 															</div>
 															<div class="read-table">
 																<div class="read-table-unit large">(단위:분)</div>
-																<table>
+																<table class="beauty_time_wrap">
 																	<colgroup>
 																		<col style="width:auto;">
 																		<col style="width:auto;">
@@ -1058,12 +1058,159 @@ if ($artist_flag == 1) {
     $(document).ready(function() {
         get_navi(artist_id);
         gnb_init();
+        gnb_actived('gnb_detail_wrap','gnb_merchandise');
         get_beauty_product(artist_id);
         get_option_product(artist_id);
         get_beauty_coupon(artist_id);
         get_etc_product(artist_id);
         console.log(setting_array);
+
+        // 메인 상품 뿌려주기
+        // 미용별 소요시간
+        var col_html = '<colgroup>';
+        var thead_html = '<thead><tr>';
+        var tbody_html = '<tbody><tr>';
+        var add_service = ['무게'];
+        $.each(setting_array[0].worktime, function(i,v){
+            var txt = '';
+            switch (i){
+                case 'bath' : txt = '목욕'; break;
+                case 'part' : txt = '부분미용'; break;
+                case 'bath_part' : txt = '부분+목욕'; break;
+                case 'sanitation' : txt = '위생'; break;
+                case 'sanitation_bath' : txt = '위생+목욕'; break;
+                case 'all' : txt = '전체미용'; break;
+                case 'spoting' : txt = '스포팅'; break;
+                case 'scissors' : txt = '가위컷'; break;
+                case 'summercut' : txt = '썸머컷'; break;
+                default : txt = i; add_service.push(txt);
+            }
+            col_html += '<col style="width:auto;">';
+            thead_html += `<th>${txt}</th>`;
+            tbody_html += `<td>${v.time}</td>`;
+        })
+        col_html += '</colgroup>';
+        thead_html += '</tr></thead>';
+        tbody_html += '</tr></tbody>';
+        $(".beauty_time_wrap").html(col_html+thead_html+tbody_html);
+
+        // 강아지 미용 가격
+        console.log(setting_array[0].dog);
+        var test = `
+
+                        <colgroup>
+                            <col style="width:16.66%;">
+                            <col style="width:auto;">
+                            <col style="width:auto;">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>무게</th>
+                                <th>목욕만</th>
+                                <th>부분 목욕</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>~3kg</td>
+                                <td>20,000</td>
+                                <td>상담</td>
+                            </tr>
+                            <tr>
+                                <td>~5kg</td>
+                                <td>20,000</td>
+                                <td>15,000</td>
+                            </tr>
+                            <tr>
+                                <td>5kg~</td>
+                                <td colspan="2">kg당 5,000원 추가</td>
+                            </tr>
+                        </tbody>
+
+        `;
+        var dog_total_html = '';
+        $.each(setting_array[0].dog, function(index,value){
+            var service_type = '';
+            if(value.in_shop == 1 && value.out_shop == 1){
+                service_type = '출장/매장';
+            }else if(value.in_shop == 1){
+                service_type = '매장상품';
+            }else if(value.out_shop == 1){
+                service_type = '출장상품';
+            }
+            var dog_st_html = `
+                <div class="basic-data-group">
+                    <div class="con-title-group large">
+                        <h6 class="con-title">${value.second_type}<div class="label label-outline-purple vmiddle round">${service_type}</div></h6>
+                    </div>
+                    <div class="read-table">
+                        <div class="read-table-unit large">(단위:원)</div>
+                        <table>
+            `;
+            var dog_col_html = `<colgroup>`;
+            var dog_thead_html = `<thead><tr>`;
+            var dog_tbody_html = ``;
+
+            var is_service = [];
+            $.each(value.service, function(i,v){
+                dog_tbody_html += `<tbody><tr>`;
+                var number = 0;
+                $.each(v, function(_i, _v){
+                    //console.log(i);
+                    var txt = '';
+                    switch (_i){
+                        case 'bath_price' : txt = '목욕'; break;
+                        case 'part_price' : txt = '부분미용'; break;
+                        case 'bath_part_price' : txt = '부분+목욕'; break;
+                        case 'sanitation_price' : txt = '위생'; break;
+                        case 'sanitation_bath_price' : txt = '위생+목욕'; break;
+                        case 'all_price' : txt = '전체미용'; break;
+                        case 'spoting_price' : txt = '스포팅'; break;
+                        case 'scissors_price' : txt = '가위컷'; break;
+                        case 'summercut_price' : txt = '썸머컷'; break;
+                        default : txt = add_service[number]; number ++;
+                    }
+                    is_service.push(_i);
+                    console.log(is_service);
+                    dog_col_html += `<col style="width:auto;">`;
+                    dog_thead_html += `<th class="table_th service_${index}_${_i}">${txt}</th>`;
+
+                    if(_i == 'kg'){
+                        dog_tbody_html += `<td>~${_v}kg</td>`;
+                    }else{
+                        dog_tbody_html += `<td>${_v.price}</td>`;
+                    }
+                })
+                dog_tbody_html += `</tr></tbody>`;
+            })
+
+            dog_col_html += `</colgroup>`;
+            dog_thead_html += `</tr></thead>`;
+            //dog_tbody_html += `</tr></tbody>`;
+            var dog_fi_html = `
+                        </table>
+                    </div>
+                <div class="basic-data-group large">
+                    <div class="memo-item large">
+                        <div class="memo-item-title">상품별 안내사항</div>
+                        <div class="memo-item-txt">프론트 샵페이지 상품하단에 위치하는 안내입니다.</div>
+                    </div>
+                </div>
+                <div class="btn-basic-action">
+                    <div class="grid-layout btn-grid-group">
+                        <div class="grid-layout-inner justify-content-end">
+                            <div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-purple btn-small-size btn-basic-small">수정</button></div>
+                            <div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-gray btn-small-size btn-basic-small">삭제</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `;
+            dog_total_html += dog_st_html + dog_col_html + dog_thead_html + dog_tbody_html + dog_fi_html;
+        })
+        $(".append_dog_service_wrap").append(dog_total_html);
     });
+
 
     // 상품구분 탭 클릭
     $(document).on("click",".product_tab",function(){

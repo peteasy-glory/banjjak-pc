@@ -179,6 +179,7 @@ if ($artist_flag == 1) {
         gallery.init();
         get_navi(artist_id);
         gnb_init();
+        gnb_actived('gnb_shop_wrap','gnb_review');
         get_review_list(artist_id);
         console.log(shop_array);
 
