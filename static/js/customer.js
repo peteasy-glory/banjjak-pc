@@ -763,8 +763,14 @@ function customer_new_cellphone_chk(id){
                 body.forEach(function (el){
 
                     if(cellphone === el.cellphone) {
-                        cellphone_input.setAttribute('style', 'background : rgb(255, 204, 204);')
 
+
+                        if(document.querySelector('html').classList.contains('dark')){
+                            cellphone_input.setAttribute('style', 'background : rgb(255, 204, 204); color:black;')
+                        }else{
+                            cellphone_input.setAttribute('style', 'background : rgb(255, 204, 204);')
+
+                        }
                         check = false;
                         validate = false;
                         document.getElementById('msg1_txt').innerText = '이미 가입된 번호입니다.'
@@ -775,7 +781,14 @@ function customer_new_cellphone_chk(id){
 
                 if(check){
                     validate=true;
-                    cellphone_input.setAttribute('style', 'background : rgb(204, 255, 204);')
+
+                    if(document.querySelector('html').classList.contains('dark')){
+                        cellphone_input.setAttribute('style', 'background : rgb(204, 255, 204); color:black;')
+                    }else{
+                        cellphone_input.setAttribute('style', 'background : rgb(204, 255, 204);')
+
+                    }
+
                 }
 
 
