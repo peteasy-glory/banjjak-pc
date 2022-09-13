@@ -317,7 +317,7 @@ if ($artist_flag == 1) {
                                                     <div class="btn-group-cell"><button type="button" class="btn btn-purple btn-basic-wide"><strong>미용 추가옵션 추가하기</strong></button></div>
                                                 </div>
                                                 <!-- 내용이 없을 경우 -->
-                                                <div class="common-none-data">
+                                                <div class="common-none-data no_option_product">
                                                     <div class="none-inner">
                                                         <div class="item-visual"><img src="../static/images/icon/img-illust-3@2x.png" alt="" width="103"></div>
                                                         <div class="item-info">등록된 상품이 없습니다.<br><span>*쿠폰/제품 탭의 등록 상품은 견주 예약과정에 나타나지 않습니다.<br>*매장판매 상품등록/관리에 활용하시면 좋습니다.</span></div>
@@ -325,7 +325,7 @@ if ($artist_flag == 1) {
                                                 </div>
                                                 <!-- //내용이 없을 경우 -->
                                                 <!-- 내용이 있을을 경우 -->
-                                                <div class="basic-data-group">
+                                                <div class="basic-data-group do_option_product" style="display: none;">
                                                     <div class="con-title-group">
                                                         <h4 class="con-title">강아지</h4>
                                                     </div>
@@ -335,29 +335,13 @@ if ($artist_flag == 1) {
                                                                 <div class="con-title-group large">
                                                                     <h6 class="con-title">얼굴 디자인컷 추가<div class="label label-outline-purple vmiddle round option_type">매장상품</div></h6>
                                                                 </div>
-                                                                <!-- 내용이 없을 때
-                                                                <div class="list-none-data type-2">등록된 상품이 없습니다.</div>
-                                                                //내용이 없을 때 -->
+                                                                <!-- 내용이 없을 때-->
+                                                                <div class="list-none-data type-2 no_face" style="display: none;">등록된 상품이 없습니다.</div>
+                                                                <!--내용이 없을 때 -->
                                                                 <!-- 내용이 있을 때 -->
-                                                                <div class="read-table">
+                                                                <div class="read-table do_face">
                                                                     <div class="read-table-unit large">(단위:원)</div>
                                                                     <table class="face_wrap">
-                                                                        <colgroup>
-                                                                            <col style="width:auto;">
-                                                                            <col style="width:auto;">
-                                                                        </colgroup>
-                                                                        <thead>
-                                                                        <tr>
-                                                                            <th>상품명</th>
-                                                                            <th>가격</th>
-                                                                        </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                        <tr>
-                                                                            <td>기본얼굴컷</td>
-                                                                            <td>20,000</td>
-                                                                        </tr>
-                                                                        </tbody>
                                                                     </table>
                                                                 </div>
                                                                 <!-- //내용이 있을 때 -->
@@ -366,41 +350,13 @@ if ($artist_flag == 1) {
                                                                 <div class="con-title-group large">
                                                                     <h6 class="con-title">미용털길이 조절 추가<div class="label label-outline-purple vmiddle round option_type">매장상품</div></h6>
                                                                 </div>
-                                                                <!-- 내용이 없을 때
-                                                                <div class="list-none-data type-2">등록된 상품이 없습니다.</div>
-                                                                //내용이 없을 때 -->
+                                                                <!-- 내용이 없을 때 -->
+                                                                <div class="list-none-data type-2 no_hair_len" style="display: none;">등록된 상품이 없습니다.</div>
+                                                                <!-- 내용이 없을 때 -->
                                                                 <!-- 내용이 있을 때 -->
-                                                                <div class="read-table">
+                                                                <div class="read-table do_hair_len">
                                                                     <div class="read-table-unit large">(단위:원)</div>
                                                                     <table class="hair_len_wrap">
-                                                                        <colgroup>
-                                                                            <col style="width:auto;">
-                                                                            <col style="width:auto;">
-                                                                        </colgroup>
-                                                                        <thead>
-                                                                        <tr>
-                                                                            <th>상품명</th>
-                                                                            <th>가격</th>
-                                                                        </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                        <tr>
-                                                                            <td>20mm</td>
-                                                                            <td>20,000</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>30mm</td>
-                                                                            <td>20,000</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>40mm</td>
-                                                                            <td>20,000</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>50mm</td>
-                                                                            <td>20,000</td>
-                                                                        </tr>
-                                                                        </tbody>
                                                                     </table>
                                                                 </div>
                                                                 <!-- //내용이 있을 때 -->
@@ -409,29 +365,13 @@ if ($artist_flag == 1) {
                                                                 <div class="con-title-group large">
                                                                     <h6 class="con-title">털 특징 별 추가요금<div class="label label-outline-purple vmiddle round option_type">매장상품</div></h6>
                                                                 </div>
-                                                                <!-- 내용이 없을 때
-                                                                <div class="list-none-data type-2">등록된 상품이 없습니다.</div>
-                                                                //내용이 없을 때 -->
+                                                                <!-- 내용이 없을 때 -->
+                                                                <div class="list-none-data type-2 no_plus" style="display: none;">등록된 상품이 없습니다.</div>
+                                                                <!--내용이 없을 때 -->
                                                                 <!-- 내용이 있을 때 -->
-                                                                <div class="read-table">
+                                                                <div class="read-table do_plus">
                                                                     <div class="read-table-unit large">(단위:원)</div>
                                                                     <table class="plus_wrap">
-                                                                        <colgroup>
-                                                                            <col style="width:auto;">
-                                                                            <col style="width:auto;">
-                                                                        </colgroup>
-                                                                        <thead>
-                                                                        <tr>
-                                                                            <th>상품명</th>
-                                                                            <th>가격</th>
-                                                                        </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                        <tr>
-                                                                            <td>단모 목욕</td>
-                                                                            <td>20,000</td>
-                                                                        </tr>
-                                                                        </tbody>
                                                                     </table>
                                                                 </div>
                                                                 <!-- //내용이 있을 때 -->
@@ -440,33 +380,13 @@ if ($artist_flag == 1) {
                                                                 <div class="con-title-group large">
                                                                     <h6 class="con-title">현장 판단 후 결제 추가 기능 옵션<div class="label label-outline-purple vmiddle round option_type">매장상품</div></h6>
                                                                 </div>
-                                                                <!-- 내용이 없을 때
-                                                                <div class="list-none-data type-2">등록된 상품이 없습니다.</div>
-                                                                //내용이 없을 때 -->
+                                                                <!-- 내용이 없을 때 -->
+                                                                <div class="list-none-data type-2 no_place_plus" style="display: none;">등록된 상품이 없습니다.</div>
+                                                                <!--내용이 없을 때 -->
                                                                 <!-- 내용이 있을 때 -->
-                                                                <div class="read-table">
+                                                                <div class="read-table do_place_plus">
                                                                     <div class="read-table-unit large">(단위:원)</div>
                                                                     <table class="place_plus_wrap">
-                                                                        <colgroup>
-                                                                            <col style="width:auto;">
-                                                                            <col style="width:auto;">
-                                                                        </colgroup>
-                                                                        <thead>
-                                                                        <tr>
-                                                                            <th>상품명</th>
-                                                                            <th>가격</th>
-                                                                        </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                        <tr>
-                                                                            <td>털엉킴</td>
-                                                                            <td>20,000</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>사나움</td>
-                                                                            <td>20,000</td>
-                                                                        </tr>
-                                                                        </tbody>
                                                                     </table>
                                                                 </div>
                                                                 <!-- //내용이 있을 때 -->
@@ -475,33 +395,13 @@ if ($artist_flag == 1) {
                                                                 <div class="con-title-group large">
                                                                     <h6 class="con-title">다리<div class="label label-outline-purple vmiddle round option_type">매장상품</div></h6>
                                                                 </div>
-                                                                <!-- 내용이 없을 때
-                                                                <div class="list-none-data type-2">등록된 상품이 없습니다.</div>
-                                                                //내용이 없을 때 -->
+                                                                <!-- 내용이 없을 때 -->
+                                                                <div class="list-none-data type-2 no_leg" style="display: none;">등록된 상품이 없습니다.</div>
+                                                                <!--내용이 없을 때 -->
                                                                 <!-- 내용이 있을 때 -->
-                                                                <div class="read-table">
+                                                                <div class="read-table do_leg">
                                                                     <div class="read-table-unit large">(단위:원)</div>
                                                                     <table class="leg_wrap">
-                                                                        <colgroup>
-                                                                            <col style="width:auto;">
-                                                                            <col style="width:auto;">
-                                                                        </colgroup>
-                                                                        <thead>
-                                                                        <tr>
-                                                                            <th>상품명</th>
-                                                                            <th>가격</th>
-                                                                        </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                        <tr>
-                                                                            <td>발톱</td>
-                                                                            <td>5,000</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>장화</td>
-                                                                            <td>5,000</td>
-                                                                        </tr>
-                                                                        </tbody>
                                                                     </table>
                                                                 </div>
                                                                 <!-- //내용이 있을 때 -->
@@ -510,37 +410,13 @@ if ($artist_flag == 1) {
                                                                 <div class="con-title-group large">
                                                                     <h6 class="con-title">스파<div class="label label-outline-purple vmiddle round option_type">매장상품</div></h6>
                                                                 </div>
-                                                                <!-- 내용이 없을 때
-                                                                <div class="list-none-data type-2">등록된 상품이 없습니다.</div>
-                                                                //내용이 없을 때 -->
+                                                                <!-- 내용이 없을 때 -->
+                                                                <div class="list-none-data type-2 no_spa" style="display: none;">등록된 상품이 없습니다.</div>
+                                                                <!--내용이 없을 때 -->
                                                                 <!-- 내용이 있을 때 -->
-                                                                <div class="read-table">
+                                                                <div class="read-table do_spa">
                                                                     <div class="read-table-unit large">(단위:원)</div>
                                                                     <table class="spa_wrap">
-                                                                        <colgroup>
-                                                                            <col style="width:auto;">
-                                                                            <col style="width:auto;">
-                                                                        </colgroup>
-                                                                        <thead>
-                                                                        <tr>
-                                                                            <th>상품명</th>
-                                                                            <th>가격</th>
-                                                                        </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                        <tr>
-                                                                            <td>스파1</td>
-                                                                            <td>20,000</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>스파2</td>
-                                                                            <td>20,000</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>스파3</td>
-                                                                            <td>20,000</td>
-                                                                        </tr>
-                                                                        </tbody>
                                                                     </table>
                                                                 </div>
                                                                 <!-- //내용이 있을 때 -->
@@ -550,49 +426,30 @@ if ($artist_flag == 1) {
                                                                     <h6 class="con-title">염색<div class="label label-outline-purple vmiddle round option_type">매장상품</div></h6>
                                                                 </div>
                                                                 <!-- 내용이 없을 때 -->
-                                                                <div class="list-none-data type-2">등록된 상품이 없습니다.</div>
+                                                                <div class="list-none-data type-2 no_dyeing" style="display: none;">등록된 상품이 없습니다.</div>
                                                                 <!-- //내용이 없을 때 -->
                                                                 <!-- 내용이 있을 때 -->
+                                                                <div class="read-table do_dyeing">
+                                                                    <div class="read-table-unit large">(단위:원)</div>
+                                                                    <table class="dyeing_wrap">
+                                                                    </table>
+                                                                </div>
                                                                 <!-- //내용이 있을 때 -->
                                                             </div>
                                                             <div class="grid-layout-cell grid-2">
                                                                 <div class="con-title-group large">
                                                                     <h6 class="con-title">기타<div class="label label-outline-purple vmiddle round option_type">매장상품</div></h6>
                                                                 </div>
-                                                                <!-- 내용이 없을 때
-                                                                <div class="list-none-data type-2">등록된 상품이 없습니다.</div>
-                                                                //내용이 없을 때 -->
+                                                                <!-- 내용이 없을 때 -->
+                                                                <div class="list-none-data type-2 no_etc_etc" style="display: none;">등록된 상품이 없습니다.</div>
+                                                                <!--내용이 없을 때 -->
                                                                 <!-- 내용이 있을 때 -->
-                                                                <div class="read-table">
+                                                                <div class="read-table do_etc_etc">
                                                                     <div class="read-table-unit large">(단위:원)</div>
-                                                                    <table>
-                                                                        <colgroup>
-                                                                            <col style="width:auto;">
-                                                                            <col style="width:auto;">
-                                                                        </colgroup>
-                                                                        <thead>
-                                                                        <tr>
-                                                                            <th>상품명</th>
-                                                                            <th>가격</th>
-                                                                        </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                        <tr>
-                                                                            <td>기타1</td>
-                                                                            <td>20,000</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>기타21</td>
-                                                                            <td>20,000</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>기타3</td>
-                                                                            <td>20,000</td>
-                                                                        </tr>
-                                                                        </tbody>
+                                                                    <table class="etc_etc_wrap">
                                                                     </table>
                                                                 </div>
-                                                                <div class="form-bottom-info">*기타 탭의 상품은 견주예약과정에서 보이지 않습니다.<br>*추가되는 비용(다듬기 정도, 사나움 정도, 등)을 등록하여 예약관리에 활용하시면 좋습니다.</div>
+                                                                <!--<div class="form-bottom-info">*기타 탭의 상품은 견주예약과정에서 보이지 않습니다.<br>*추가되는 비용(다듬기 정도, 사나움 정도, 등)을 등록하여 예약관리에 활용하시면 좋습니다.</div>-->
                                                                 <!-- //내용이 있을 때 -->
                                                             </div>
                                                         </div>
@@ -637,7 +494,7 @@ if ($artist_flag == 1) {
                                                                 <h6 class="con-title">쿠폰(횟수)상품</h6>
                                                             </div>
                                                             <div class="read-table">
-                                                                <table>
+                                                                <table class="coupon_c_wrap">
                                                                     <colgroup>
                                                                         <col style="width:auto;">
                                                                         <col style="width:auto;">
@@ -678,7 +535,7 @@ if ($artist_flag == 1) {
                                                                 <h6 class="con-title">정액 적립 요금 상품</h6>
                                                             </div>
                                                             <div class="read-table">
-                                                                <table>
+                                                                <table class="coupon_f_wrap">
                                                                     <colgroup>
                                                                         <col style="width:auto;">
                                                                         <col style="width:auto;">
@@ -872,10 +729,63 @@ if ($artist_flag == 1) {
         // 메인 상품 뿌려주기
         view_beauty_product();
 
-        console.log(setting_array[1]);
+        // 강아지 추가옵션 뿌려주기
+        view_option_product();
 
+        // 쿠폰상품 뿌려주기
+        console.log(setting_array[2]);
+        var coupon_col_html = `
+            <colgroup>
+                <col style="width:auto;">
+                <col style="width:auto;">
+                <col style="width:auto;">
+            </colgroup>
+        `;
+        var coupon_c_thead_html = `
+            <thead>
+                <tr>
+                    <th>상품명</th>
+                    <th>이용 횟수</th>
+                    <th>가격(단위:원)</th>
+                </tr>
+            </thead>
+        `;
+        var coupon_f_thead_html = `
+            <thead>
+                <tr>
+                    <th>상품명</th>
+                    <th>실 적립금</th>
+                    <th>가격(단위:원)</th>
+                </tr>
+            </thead>
+        `;
+        var coupon_c_tbody_html = `<tbody>`;
+        var coupon_f_tbody_html = `<tbody>`;
+        $.each(setting_array[2], function(i,v){
+            console.log(v);
+            if(v.type == 'C'){
+                coupon_c_tbody_html += `
+                    <tr>
+                        <td>${v.name}</td>
+                        <td>${v.given}</td>
+                        <td>${(v.price).format()}</td>
+                    </tr>
+                `;
+            }else{
+                coupon_f_tbody_html += `
+                    <tr>
+                        <td>${v.name}</td>
+                        <td>${(v.given).format()}</td>
+                        <td>${(v.price).format()}</td>
+                    </tr>
+                `;
+            }
+        })
+        coupon_c_tbody_html += `</tbody>`;
+        coupon_f_tbody_html += `</tbody>`;
 
-
+        $(".coupon_c_wrap").html(coupon_col_html+coupon_c_thead_html+coupon_c_tbody_html);
+        $(".coupon_f_wrap").html(coupon_col_html+coupon_f_thead_html+coupon_f_tbody_html);
     });
 
 

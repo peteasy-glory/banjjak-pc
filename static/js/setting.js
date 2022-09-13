@@ -853,3 +853,226 @@ function view_beauty_product(){
         $(".cat_none_wrap").css("display","none");
     }
 }
+
+// 강아지 추가옵션 뿌려주기
+function view_option_product(){
+    //console.log(setting_array[1].option);
+    if(setting_array[1].option != ''){
+        var option_col_html = `
+            <colgroup>
+                <col style="width:auto;">
+                <col style="width:auto;">
+            </colgroup>
+        `;
+        var option_thead_html = `
+            <thead>
+                <tr>
+                    <th>상품명</th>
+                    <th>가격</th>
+                </tr>
+            </thead>
+        `;
+        //console.log(setting_array[1].option.face);
+        if(setting_array[1].option.face != ''){
+
+            var face_tbody_html = `<tbody>`;
+            $.each(setting_array[1].option.face, function(i,v){
+                var txt = '';
+                switch (i){
+                    case 'basic' : txt = '기본얼굴컷'; break;
+                    case 'bear' : txt = '곰돌이컷'; break;
+                    case 'broccoli' : txt = '브로컬리컷'; break;
+                    case 'highba' : txt = '하이바컷'; break;
+                    default : txt = i;
+                }
+                face_tbody_html += `
+                    <tr>
+                        <td>${txt}</td>
+                        <td>${v.format()}</td>
+                    </tr>
+                `;
+            })
+            face_tbody_html += `</tbody>`;
+            $(".face_wrap").html(option_col_html+option_thead_html+face_tbody_html);
+        }else{
+            $(".do_face").css("display","none");
+            $(".no_face").css("display","block");
+        }
+
+        if(setting_array[1].option.hair_len != ''){
+
+            var hair_len_tbody_html = `<tbody>`;
+            $.each(setting_array[1].option.hair_len, function(i,v){
+                hair_len_tbody_html += `
+                    <tr>
+                        <td>${i}mm</td>
+                        <td>${v.format()}</td>
+                    </tr>
+                `;
+            })
+            hair_len_tbody_html += `</tbody>`;
+            $(".hair_len_wrap").html(option_col_html+option_thead_html+hair_len_tbody_html);
+        }else{
+            $(".do_hair_lene").css("display","none");
+            $(".no_hair_len").css("display","block");
+        }
+
+        if(setting_array[1].option.plus != ''){
+
+            var plus_tbody_html = `<tbody>`;
+            $.each(setting_array[1].option.plus, function(i,v){
+                var txt = '';
+                switch (i){
+                    case 'short_bath' : txt = '단모 목욕'; break;
+                    case 'long_bath' : txt = '장모 목욕'; break;
+                    case 'double_bath' : txt = '이중모 목욕'; break;
+                    case 'highba' : txt = '하이바컷'; break;
+                    default : txt = i;
+                }
+                plus_tbody_html += `
+                    <tr>
+                        <td>${txt}</td>
+                        <td>${v.format()}</td>
+                    </tr>
+                `;
+            })
+            plus_tbody_html += `</tbody>`;
+            $(".plus_wrap").html(option_col_html+option_thead_html+plus_tbody_html);
+        }else{
+            $(".do_plus").css("display","none");
+            $(".no_plus").css("display","block");
+        }
+
+        if(setting_array[1].option.plus != ''){
+
+            var plus_tbody_html = `<tbody>`;
+            $.each(setting_array[1].option.plus, function(i,v){
+                var txt = '';
+                switch (i){
+                    case 'short_bath' : txt = '단모 목욕'; break;
+                    case 'long_bath' : txt = '장모 목욕'; break;
+                    case 'double_bath' : txt = '이중모 목욕'; break;
+                    default : txt = i;
+                }
+                plus_tbody_html += `
+                    <tr>
+                        <td>${txt}</td>
+                        <td>${v.format()}</td>
+                    </tr>
+                `;
+            })
+            plus_tbody_html += `</tbody>`;
+            $(".plus_wrap").html(option_col_html+option_thead_html+plus_tbody_html);
+        }else{
+            $(".do_plus").css("display","none");
+            $(".no_plus").css("display","block");
+        }
+
+        if(setting_array[1].option.place_plus != ''){
+
+            var place_plus_tbody_html = `<tbody>`;
+            $.each(setting_array[1].option.place_plus, function(i,v){
+                var txt = '';
+                switch (i){
+                    case 'hair_clot' : txt = '털엉킴'; break;
+                    case 'ferocity' : txt = '사나움'; break;
+                    case 'tick' : txt = '진드기'; break;
+                    default : txt = i;
+                }
+                place_plus_tbody_html += `
+                    <tr>
+                        <td>${txt}</td>
+                        <td>${v.format()}</td>
+                    </tr>
+                `;
+            })
+            place_plus_tbody_html += `</tbody>`;
+            $(".place_plus_wrap").html(option_col_html+option_thead_html+place_plus_tbody_html);
+        }else{
+            $(".do_place_plus").css("display","none");
+            $(".no_place_plus").css("display","block");
+        }
+
+        if(setting_array[1].option.etc.leg != ''){
+
+            var leg_tbody_html = `<tbody>`;
+            $.each(setting_array[1].option.etc.leg, function(i,v){
+                var txt = '';
+                switch (i){
+                    case 'tonail' : txt = '발톱'; break;
+                    case 'boots' : txt = '장화'; break;
+                    case 'bell' : txt = '방울'; break;
+                    default : txt = i;
+                }
+                leg_tbody_html += `
+                    <tr>
+                        <td>${txt}</td>
+                        <td>${v.format()}</td>
+                    </tr>
+                `;
+            })
+            leg_tbody_html += `</tbody>`;
+            $(".leg_wrap").html(option_col_html+option_thead_html+leg_tbody_html);
+        }else{
+            $(".do_leg").css("display","none");
+            $(".no_leg").css("display","block");
+        }
+
+        if(setting_array[1].option.etc.spa != ''){
+
+            var spa_tbody_html = `<tbody>`;
+            $.each(setting_array[1].option.etc.spa, function(i,v){
+                spa_tbody_html += `
+                    <tr>
+                        <td>${i}</td>
+                        <td>${v.format()}</td>
+                    </tr>
+                `;
+            })
+            spa_tbody_html += `</tbody>`;
+            $(".spa_wrap").html(option_col_html+option_thead_html+spa_tbody_html);
+        }else{
+            $(".do_spa").css("display","none");
+            $(".no_spa").css("display","block");
+        }
+
+        if(setting_array[1].option.etc.dyeing != ''){
+
+            var dyeing_tbody_html = `<tbody>`;
+            $.each(setting_array[1].option.etc.dyeing, function(i,v){
+                dyeing_tbody_html += `
+                    <tr>
+                        <td>${i}</td>
+                        <td>${v.format()}</td>
+                    </tr>
+                `;
+            })
+            dyeing_tbody_html += `</tbody>`;
+            $(".dyeing_wrap").html(option_col_html+option_thead_html+dyeing_tbody_html);
+        }else{
+            $(".do_dyeing").css("display","none");
+            $(".no_dyeing").css("display","block");
+        }
+
+        if(setting_array[1].option.etc.etc_etc != ''){
+
+            var etc_etc_tbody_html = `<tbody>`;
+            $.each(setting_array[1].option.etc.etc_etc, function(i,v){
+                etc_etc_tbody_html += `
+                    <tr>
+                        <td>${i}</td>
+                        <td>${v.format()}</td>
+                    </tr>
+                `;
+            })
+            etc_etc_tbody_html += `</tbody>`;
+            $(".etc_etc_wrap").html(option_col_html+option_thead_html+etc_etc_tbody_html);
+        }else{
+            $(".do_etc_etc").css("display","none");
+            $(".no_etc_etc").css("display","block");
+        }
+
+        $(".no_option_product").css("display","none");
+        $(".do_option_product").css("display","block");
+    }
+}
