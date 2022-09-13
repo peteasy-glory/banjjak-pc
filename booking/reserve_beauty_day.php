@@ -848,7 +848,6 @@ if ($artist_flag == 1) {
 <script src="../static/js/Sortable.min.js"></script>
 
 <script src="../static/js/booking.js"></script>
-<script src="../static/js/jquery.easing.min.js"></script>
 <script src="../static/js/customer.js"></script>
 <script>
 
@@ -932,9 +931,15 @@ $(function(){
 		var y = e.pageY;
         var tooltip = $('.reserve-calendar-tooltip');
         var idx = $(this).data('tooltip_idx');
+        let height;
+
 		/* 확장용 */
 		if(e.type == 'mouseenter'){
 			$(this).addClass('actived');
+            if(parseInt($(this).attr('data-height')) <4){
+                $(this).attr('style',`height:${$(this).children()[0].offsetHeight}px`)
+            }
+
             if(memo_array[idx] == ''){
                 return;
             }
@@ -944,6 +949,7 @@ $(function(){
 		}else if(e.type == 'mouseleave'){
 			$(this).removeClass('actived');
             tooltip.removeClass('actived');
+            $(this).attr('style',`height: calc(100% * ${$(this).attr('data-height')})`)
 		}else if(e.type == 'mousemove'){
             tooltip.css({'top' : y , 'left' : x});
         }

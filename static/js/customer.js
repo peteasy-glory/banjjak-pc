@@ -407,9 +407,10 @@ function customer_list(customers){
             let b_product = product[4];
             let grade = parseInt(el.grade.split('|')[1]);
 
+            console.log(el)
             tbody.innerHTML += `<tr class="customer-table-cell">
                                 <td>
-                                    <div class="customer-table-txt">
+                                    <div class="customer-table-txt" style="cursor:pointer" onclick="localStorage.setItem('customer_select','${el.cellphone}'); location.href = '/customer/customer_view.php';">
                                         <strong>${el.name}</strong>
                                     </div>
                                     <div class="customer-table-txt">
