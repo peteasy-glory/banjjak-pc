@@ -824,3 +824,19 @@ function darkMode() {
     }
     ;
 };
+
+function stopProp(){
+    Array.from(document.getElementsByClassName('btn-snb-nav')).forEach(function(el){
+
+        el.addEventListener('click',function (evt){
+
+            evt.stopPropagation();
+
+        })
+    })
+}
+
+$(document).ready(function(){
+
+    stopProp();
+})

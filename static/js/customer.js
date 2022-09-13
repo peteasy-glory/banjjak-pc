@@ -407,9 +407,10 @@ function customer_list(customers){
             let b_product = product[4];
             let grade = parseInt(el.grade.split('|')[1]);
 
+            console.log(el)
             tbody.innerHTML += `<tr class="customer-table-cell">
                                 <td>
-                                    <div class="customer-table-txt">
+                                    <div class="customer-table-txt" style="cursor:pointer" onclick="localStorage.setItem('customer_select','${el.cellphone}'); location.href = '/customer/customer_view.php';">
                                         <strong>${el.name}</strong>
                                     </div>
                                     <div class="customer-table-txt">
@@ -762,8 +763,14 @@ function customer_new_cellphone_chk(id){
                 body.forEach(function (el){
 
                     if(cellphone === el.cellphone) {
-                        cellphone_input.setAttribute('style', 'background : rgb(255, 204, 204);')
 
+
+                        if(document.querySelector('html').classList.contains('dark')){
+                            cellphone_input.setAttribute('style', 'background : rgb(255, 204, 204); color:black;')
+                        }else{
+                            cellphone_input.setAttribute('style', 'background : rgb(255, 204, 204);')
+
+                        }
                         check = false;
                         validate = false;
                         document.getElementById('msg1_txt').innerText = '이미 가입된 번호입니다.'
@@ -774,7 +781,14 @@ function customer_new_cellphone_chk(id){
 
                 if(check){
                     validate=true;
-                    cellphone_input.setAttribute('style', 'background : rgb(204, 255, 204);')
+
+                    if(document.querySelector('html').classList.contains('dark')){
+                        cellphone_input.setAttribute('style', 'background : rgb(204, 255, 204); color:black;')
+                    }else{
+                        cellphone_input.setAttribute('style', 'background : rgb(204, 255, 204);')
+
+                    }
+
                 }
 
 

@@ -1133,6 +1133,27 @@ function wide_tab_2(){
 }
 
 
+function wide_tab_3(){
+    let tab_cell = document.getElementById('wide-tab-inner3').children;
+
+    Array.from(tab_cell).forEach(function (el) {
+
+        el.addEventListener('click', function () {
+            if (!this.classList.contains('actived')) {
+
+                Array.from(tab_cell).forEach(function (el) {
+                    el.classList.remove('actived');
+                })
+
+                this.classList.add('actived');
+            } else {
+                return;
+            }
+        })
+    })
+}
+
+
 //notice
 function notice(){
 

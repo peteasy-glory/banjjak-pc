@@ -316,7 +316,6 @@ if ($artist_flag == 1) {
         get_navi(artist_id)
         gnb_init();
         set_image('front_image');
-        //prepend_data('consulting_count nick');
         gnb_actived('gnb_customer_wrap','gnb_new');
         setInputFilter(document.getElementById("customer_cellphone"), function(value) {
             return /^\d*\.?\d*$/.test(value);
