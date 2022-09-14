@@ -314,7 +314,7 @@ if ($artist_flag == 1) {
 											</div>
                                             <div class="basic-data-group middle all_product_wrap option_product_wrap" style="display: none;">
                                                 <div class="btn-group vertical text-align-center">
-                                                    <div class="btn-group-cell"><button type="button" class="btn btn-purple btn-basic-wide"><strong>미용 추가옵션 추가하기</strong></button></div>
+                                                    <div class="btn-group-cell"><button type="button" class="btn btn-purple btn-basic-wide" onclick="location.href='set_beauty_option_add_1.php'"><strong>미용 추가옵션 추가하기</strong></button></div>
                                                 </div>
                                                 <!-- 내용이 없을 경우 -->
                                                 <div class="common-none-data no_option_product">
@@ -463,8 +463,8 @@ if ($artist_flag == 1) {
                                                     <div class="btn-basic-action">
                                                         <div class="grid-layout btn-grid-group">
                                                             <div class="grid-layout-inner justify-content-end">
-                                                                <div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-purple btn-small-size btn-basic-small">수정</button></div>
-                                                                <div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-gray btn-small-size btn-basic-small">삭제</button></div>
+                                                                <div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-purple btn-small-size btn-basic-small" onclick="location.href='set_beauty_option_add_1.php'">수정</button></div>
+<!--                                                                <div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-gray btn-small-size btn-basic-small">삭제</button></div>-->
                                                             </div>
                                                         </div>
                                                     </div>
