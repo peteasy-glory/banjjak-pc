@@ -615,6 +615,68 @@ if($r_mode) {
 
         $return_data = array("code"=>"000000","data"=>$result);
 
+    }else if($r_mode === "put_shop_etc"){
+
+        $artist_id = $_POST['artist_id'];
+        $name1 = $_POST['name1'];
+        $price1 = $_POST['price1'];
+        if(count($name1)>0){
+            $goods1 = [];
+            for($i=0;$i<count($name1);$i++){
+                if($name1[$i] != ''){
+                    $array = array('name'=>$name1[$i],'price'=>$price1[$i]);
+                    array_push($goods1, $array);
+                }
+            }
+            $data = array('partner_id'=>$artist_id,'product_kind'=>'1','goods'=>$goods1);
+            $data_json = json_encode($data);
+            $result = $api ->post('/partner/setting/beauty-store-goods' ,$data_json);
+        }
+        $name2 = $_POST['name2'];
+        $price2 = $_POST['price2'];
+        if(count($name2)>0){
+            $goods2 = [];
+            for($i=0;$i<count($name2);$i++){
+                if($name2[$i] != ''){
+                    $array = array('name'=>$name2[$i],'price'=>$price2[$i]);
+                    array_push($goods2, $array);
+                }
+            }
+            $data = array('partner_id'=>$artist_id,'product_kind'=>'2','goods'=>$goods2);
+            $data_json = json_encode($data);
+            $result = $api ->post('/partner/setting/beauty-store-goods' ,$data_json);
+        }
+        $name3 = $_POST['name3'];
+        $price3 = $_POST['price3'];
+        if(count($name3)>0){
+            $goods3 = [];
+            for($i=0;$i<count($name3);$i++){
+                if($name3[$i] != ''){
+                    $array = array('name'=>$name3[$i],'price'=>$price3[$i]);
+                    array_push($goods3, $array);
+                }
+            }
+            $data = array('partner_id'=>$artist_id,'product_kind'=>'3','goods'=>$goods3);
+            $data_json = json_encode($data);
+            $result = $api ->post('/partner/setting/beauty-store-goods' ,$data_json);
+        }
+        $name4 = $_POST['name4'];
+        $price4 = $_POST['price4'];
+        if(count($name4)>0){
+            $goods4 = [];
+            for($i=0;$i<count($name4);$i++){
+                if($name4[$i] != ''){
+                    $array = array('name'=>$name4[$i],'price'=>$price4[$i]);
+                    array_push($goods4, $array);
+                }
+            }
+            $data = array('partner_id'=>$artist_id,'product_kind'=>'4','goods'=>$goods4);
+            $data_json = json_encode($data);
+            $result = $api ->post('/partner/setting/beauty-store-goods' ,$data_json);
+        }
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
     }else if($r_mode === "put_schedule"){
 
         $partner_id = $_POST['partner_id'];

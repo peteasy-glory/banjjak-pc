@@ -1154,6 +1154,7 @@ function view_etc_product(){
                         <th>상품명</th>
                         <th>가격</th>
                     </tr>
+                    </thead>
                 <tbody>
             `;
         var shop_etc_merchandise_body_html = '';
@@ -1205,4 +1206,26 @@ function view_etc_product(){
         $(".shop_etc_feed_wrap").html(shop_etc_st_html+shop_etc_feed_body_html+shop_etc_etc_body_html);
         $(".shop_etc_etc_wrap").html(shop_etc_st_html+shop_etc_etc_body_html+shop_etc_etc_body_html);
     }
+}
+
+// 매장상품 등록/수정
+function put_shop_etc(data){
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: data,
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            console.log(res);
+            let response = JSON.parse(res);
+            console.log(response);
+            let head = response.data.head;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                pop.open('historyBackUrl', '완료되었습니다.');
+
+            }
+        }
+    })
 }
