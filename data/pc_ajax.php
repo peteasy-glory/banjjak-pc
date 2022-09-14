@@ -677,6 +677,81 @@ if($r_mode) {
 
         $return_data = array("code"=>"000000","data"=>$result);
 
+    }else if($r_mode === "put_coupon"){
+
+        $partner_id = $_POST['partner_id'];
+
+        // 횟수쿠폰
+        $idx_c = $_POST['idx_c'];
+        $name_c = $_POST['name_c'];
+        $price_c = $_POST['price_c'];
+        $given_c = $_POST['given_c'];
+        for($i=0;$i<count($idx_c);$i++){
+            if($idx_c[$i] != ''){
+                // 수정
+                $data = array('idx'=>intval($idx_c[$i]),'partner_id'=>$partner_id,'product_type'=>'B','type'=>'C','name'=>$name_c[$i],'given'=>$given_c[$i],'price'=>$price_c[$i]);
+                $data_json = json_encode($data);
+                $result = $api ->put('/partner/setting/beauty-coupon' ,$data_json);
+            }else{
+                // post
+                if($name_c[$i] != ''){
+                    $data = array('partner_id'=>$partner_id,'product_type'=>'B','type'=>'C','name'=>$name_c[$i],'given'=>$given_c[$i],'price'=>$price_c[$i]);
+                    $data_json = json_encode($data);
+                    $result = $api ->post('/partner/setting/beauty-coupon' ,$data_json);
+                }
+            }
+        }
+
+        // 정액쿠폰
+        $idx_f = $_POST['idx_f'];
+        $name_f = $_POST['name_f'];
+        $price_f = $_POST['price_f'];
+        $given_f = $_POST['given_f'];
+        for($i=0;$i<count($idx_f);$i++){
+            if($idx_f[$i] != ''){
+                // 수정
+                $data = array('idx'=>intval($idx_f[$i]),'partner_id'=>$partner_id,'product_type'=>'B','type'=>'F','name'=>$name_f[$i],'given'=>$given_f[$i],'price'=>$price_f[$i]);
+                $data_json = json_encode($data);
+                $result = $api ->put('/partner/setting/beauty-coupon' ,$data_json);
+            }else{
+                // post
+                if($name_f[$i] != ''){
+                    $data = array('partner_id'=>$partner_id,'product_type'=>'B','type'=>'F','name'=>$name_f[$i],'given'=>$given_f[$i],'price'=>$price_f[$i]);
+                    $data_json = json_encode($data);
+                    $result = $api ->post('/partner/setting/beauty-coupon' ,$data_json);
+                }
+            }
+        }
+
+        $coupon_memo_idx = $_POST['coupon_memo_idx'];
+        $coupon_c_memo = $_POST['coupon_c_memo'];
+        $coupon_f_memo = $_POST['coupon_f_memo'];
+        if($coupon_memo_idx>0){
+            // 수정
+            $data = array('idx'=>intval($coupon_memo_idx),'partner_id'=>$partner_id,'coupon_memo'=>$coupon_c_memo,'flat_memo'=>$coupon_f_memo);
+            $data_json = json_encode($data);
+            $result = $api ->put('/partner/setting/beauty-coupon-memo' ,$data_json);
+        }else{
+            // post
+            if($coupon_c_memo != '' || $coupon_f_memo != ''){
+                $data = array('partner_id'=>$partner_id,'coupon_memo'=>$coupon_c_memo,'flat_memo'=>$coupon_f_memo);
+                $data_json = json_encode($data);
+                $result = $api ->post('/partner/setting/beauty-coupon-memo' ,$data_json);
+            }
+        }
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
+    }else if($r_mode === "del_coupon"){
+
+        $idx = intval($_POST['idx']);
+        $data = array('idx'=>$idx);
+        $data_json = json_encode($data);
+        $result = $api ->delete('/partner/setting/beauty-coupon' ,$data_json);
+
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
     }else if($r_mode === "put_schedule"){
 
         $partner_id = $_POST['partner_id'];

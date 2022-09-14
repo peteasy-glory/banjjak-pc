@@ -1216,6 +1216,28 @@ function put_shop_etc(data){
         type: 'POST',
         async:false,
         success: function (res) {
+            //console.log(res);
+            let response = JSON.parse(res);
+            //console.log(response);
+            let head = response.data.head;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                pop.open('historyBackUrl', '완료되었습니다.');
+
+            }
+        }
+    })
+}
+
+// 쿠폰 등록/수정
+function put_coupon(data){
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: data,
+        type: 'POST',
+        async:false,
+        success: function (res) {
             console.log(res);
             let response = JSON.parse(res);
             console.log(response);
@@ -1225,6 +1247,31 @@ function put_shop_etc(data){
             } else if (head.code === 200) {
                 pop.open('historyBackUrl', '완료되었습니다.');
 
+            }
+        }
+    })
+}
+
+function del_coupon(idx){
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode:'del_coupon',
+            idx:idx
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            console.log(res);
+            let response = JSON.parse(res);
+            console.log(response);
+            let head = response.data.head;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                pop.close();
+                pop.open('firstRequestMsg1', '삭제되었습니다.');
+                $(".is_del_"+idx).parents('.tr_data').remove();
             }
         }
     })
