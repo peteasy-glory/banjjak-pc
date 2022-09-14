@@ -8895,7 +8895,7 @@ function management_wide_tab2(){
         })
     })
 }
-function management_service_1(id,data){
+function management_service_1(id,body){
 
     // reserve_merchandise_load_init(id).then(function(body){
     //     reserve_merchandise_load(body).then(function(base_svc){
@@ -8910,9 +8910,7 @@ function management_service_1(id,data){
 
     return new Promise(function (resolve){
 
-        console.log(data)
 
-        let body = data[3];
         let type = body.type;
 
         $.ajax({
@@ -10867,6 +10865,21 @@ function pay_management_init(id,target){
                 document.getElementById('allim_send_btn').setAttribute('data-cellphone',`${body.cell_phone}`);
 
 
+
+                management_service_1(id,body).then(function(body_){
+                    management_total_price();
+                    discount_init();
+                    reserves(id,body);
+
+                    management_service_2(body_).then(function(base_svc){
+
+                        management_service_3(base_svc).then(function(base_svc){
+
+                            management_service_4(base_svc);
+
+                        })
+                    })
+                });
 
 
 
