@@ -1076,3 +1076,133 @@ function view_option_product(){
         $(".do_option_product").css("display","block");
     }
 }
+
+// 쿠폰상품 뿌려주기
+function view_beauty_coupon(){
+    //console.log(setting_array[2]);
+    if(setting_array[2] != ''){
+        var coupon_col_html = `
+            <colgroup>
+                <col style="width:auto;">
+                <col style="width:auto;">
+                <col style="width:auto;">
+            </colgroup>
+        `;
+        var coupon_c_thead_html = `
+            <thead>
+                <tr>
+                    <th>상품명</th>
+                    <th>이용 횟수</th>
+                    <th>가격(단위:원)</th>
+                </tr>
+            </thead>
+        `;
+        var coupon_f_thead_html = `
+            <thead>
+                <tr>
+                    <th>상품명</th>
+                    <th>실 적립금</th>
+                    <th>가격(단위:원)</th>
+                </tr>
+            </thead>
+        `;
+        var coupon_c_tbody_html = `<tbody>`;
+        var coupon_f_tbody_html = `<tbody>`;
+        $.each(setting_array[2], function(i,v){
+            //console.log(v);
+            if(v.type == 'C'){
+                coupon_c_tbody_html += `
+                    <tr>
+                        <td>${v.name}</td>
+                        <td>${v.given}</td>
+                        <td>${(v.price).format()}</td>
+                    </tr>
+                `;
+                $(".coupon_c_memo").text(v.memo);
+            }else{
+                coupon_f_tbody_html += `
+                    <tr>
+                        <td>${v.name}</td>
+                        <td>${(v.given).format()}</td>
+                        <td>${(v.price).format()}</td>
+                    </tr>
+                `;
+                $(".coupon_f_memo").text(v.memo);
+            }
+        })
+        coupon_c_tbody_html += `</tbody>`;
+        coupon_f_tbody_html += `</tbody>`;
+
+        $(".coupon_c_wrap").html(coupon_col_html+coupon_c_thead_html+coupon_c_tbody_html);
+        $(".coupon_f_wrap").html(coupon_col_html+coupon_f_thead_html+coupon_f_tbody_html);
+        $(".do_coupon").css("display","block");
+        $(".no_coupon").css("display","none");
+    }
+}
+
+// 매장상품 뿌려주기
+function view_etc_product(){
+    //console.log(setting_array[3]);
+    if(setting_array[3] != ''){
+        var shop_etc_st_html = `
+                <colgroup>
+                        <col style="width:auto;">
+                        <col style="width:auto;">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>상품명</th>
+                        <th>가격</th>
+                    </tr>
+                <tbody>
+            `;
+        var shop_etc_merchandise_body_html = '';
+        var shop_etc_snack_body_html = '';
+        var shop_etc_feed_body_html = '';
+        var shop_etc_etc_body_html = '';
+        $.each(setting_array[3], function(i,v){
+            if(v.type == 1){
+                shop_etc_merchandise_body_html += `
+                        <tr>
+                            <td>${v.name}</td>
+                            <td>${(v.price).format()}</td>
+                        </tr>
+                    `;
+                $(".no_shop_etc_merchandise").css("display","none");
+                $(".do_shop_etc_merchandise").css("display","block");
+            }else if(v.type == 2){
+                shop_etc_snack_body_html += `
+                        <tr>
+                            <td>${v.name}</td>
+                            <td>${(v.price).format()}</td>
+                        </tr>
+                    `;
+                $(".no_shop_etc_snack").css("display","none");
+                $(".do_shop_etc_snack").css("display","block");
+            }else if(v.type == 3){
+                shop_etc_feed_body_html += `
+                        <tr>
+                            <td>${v.name}</td>
+                            <td>${(v.price).format()}</td>
+                        </tr>
+                    `;
+                $(".no_shop_etc_feed").css("display","none");
+                $(".do_shop_etc_feed").css("display","block");
+            }else if(v.type == 4){
+                shop_etc_etc_body_html += `
+                        <tr>
+                            <td>${v.name}</td>
+                            <td>${(v.price).format()}</td>
+                        </tr>
+                    `;
+                $(".no_shop_etc_etc").css("display","none");
+                $(".do_shop_etc_etc").css("display","block");
+            }
+        })
+        var shop_etc_fi_html = `</tbody>`;
+        $(".shop_etc_merchandise_wrap").html(shop_etc_st_html+shop_etc_merchandise_body_html+shop_etc_etc_body_html);
+        $(".shop_etc_snack_wrap").html(shop_etc_st_html+shop_etc_snack_body_html+shop_etc_etc_body_html);
+        $(".shop_etc_feed_wrap").html(shop_etc_st_html+shop_etc_feed_body_html+shop_etc_etc_body_html);
+        $(".shop_etc_etc_wrap").html(shop_etc_st_html+shop_etc_etc_body_html+shop_etc_etc_body_html);
+    }
+}

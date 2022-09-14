@@ -43,8 +43,8 @@ if ($artist_flag == 1) {
 												<div class="page-tab-inner">
 													<!-- 활성화시 actived클래스 추가 -->
 													<div class="tab-cell actived"><a href="#" class="btn-tab-item"><span>미용</span></a></div>
-													<div class="tab-cell"><a href="#" class="btn-tab-item"><span>호텔</span></a></div>
-													<div class="tab-cell"><a href="#" class="btn-tab-item"><span>유치원</span></a></div>
+													<div class="tab-cell"><a href="javascript:pop.open('firstRequestMsg1','준비중입니다.');" class="btn-tab-item"><span>호텔</span></a></div>
+													<div class="tab-cell"><a href="javascript:pop.open('firstRequestMsg1','준비중입니다.');" class="btn-tab-item"><span>유치원</span></a></div>
 												</div>
 											</div>
 											<!-- actived클래스 추가시 활성화 -->
@@ -476,7 +476,7 @@ if ($artist_flag == 1) {
                                                     <div class="btn-group-cell"><button type="button" class="btn btn-purple btn-basic-wide"><strong>쿠폰상품 추가하기</strong></button></div>
                                                 </div>
                                                 <!-- 내용이 없을 경우 -->
-                                                <div class="common-none-data">
+                                                <div class="common-none-data no_coupon">
                                                     <div class="none-inner">
                                                         <div class="item-visual"><img src="../static/images/icon/img-illust-3@2x.png" alt="" width="103"></div>
                                                         <div class="item-info">등록된 상품이 없습니다.<br><span>*쿠폰/제품 탭의 등록 상품은 견주 예약과정에 나타나지 않습니다.</span></div>
@@ -484,7 +484,7 @@ if ($artist_flag == 1) {
                                                 </div>
                                                 <!-- //내용이 없을 경우 -->
                                                 <!-- 내용이 있을을 경우 -->
-                                                <div class="basic-data-group">
+                                                <div class="basic-data-group do_coupon" style="display: none;">
                                                     <div class="con-title-group">
                                                         <h4 class="con-title">쿠폰 &amp; 적립상품</h4>
                                                     </div>
@@ -519,7 +519,7 @@ if ($artist_flag == 1) {
                                                             <div class="basic-data-group large">
                                                                 <div class="memo-item large">
                                                                     <div class="memo-item-title">상품별 안내사항</div>
-                                                                    <div class="memo-item-txt">프론트 샵페이지 상품하단에 위치하는 안내입니다.</div>
+                                                                    <div class="memo-item-txt coupon_c_memo"></div>
                                                                 </div>
                                                             </div>
                                                             <div class="btn-basic-action">
@@ -560,7 +560,7 @@ if ($artist_flag == 1) {
                                                             <div class="basic-data-group large">
                                                                 <div class="memo-item large">
                                                                     <div class="memo-item-title">상품별 안내사항</div>
-                                                                    <div class="memo-item-txt">프론트 샵페이지 상품하단에 위치하는 안내입니다.</div>
+                                                                    <div class="memo-item-txt coupon_f_memo"></div>
                                                                 </div>
                                                             </div>
                                                             <div class="btn-basic-action">
@@ -580,10 +580,9 @@ if ($artist_flag == 1) {
                                                     <div class="btn-group-cell"><button type="button" class="btn btn-purple btn-basic-wide"><strong>판매상품 추가하기</strong></button></div>
                                                 </div>
                                                 <!-- 내용이 없을 경우 -->
-                                                <div class="common-none-data">
+                                                <div class="common-none-data no_shop_etc">
                                                     <div class="none-inner">
-                                                        <div class="item-visual"><img src="../static/images/icon/img-illust-3@2x.png" alt="" width="103"></div>
-                                                        <div class="item-info">등록된 상품이 없습니다.<br><span>*쿠폰/제품 탭의 등록 상품은 견주 예약과정에 나타나지 않습니다.<br>*매장판매 상품등록/관리에 활용하시면 좋습니다.</span></div>
+<!--                                                        <div class="item-visual"><img src="../static/images/icon/img-illust-3@2x.png" alt="" width="103"></div>-->
                                                     </div>
                                                 </div>
                                                 <!-- //내용이 없을 경우 -->
@@ -591,74 +590,175 @@ if ($artist_flag == 1) {
                                                 <div class="wide-tab card">
                                                     <div class="wide-tab-inner">
                                                         <!-- 활성화시 actived클래스 추가 -->
-                                                        <div class="tab-cell actived"><a href="#" class="btn-tab-item">용품</a></div>
-                                                        <div class="tab-cell"><a href="#" class="btn-tab-item">간식</a></div>
-                                                        <div class="tab-cell"><a href="#" class="btn-tab-item">사료</a></div>
-                                                        <div class="tab-cell"><a href="#" class="btn-tab-item">기타</a></div>
+                                                        <div class="tab-cell shop_etc_tab shop_etc_merchandise_tab actived"><p class="btn-tab-item">용품</p></div>
+                                                        <div class="tab-cell shop_etc_tab shop_etc_snack_tab"><p class="btn-tab-item">간식</p></div>
+                                                        <div class="tab-cell shop_etc_tab shop_etc_feed_tab"><p class="btn-tab-item">사료</p></div>
+                                                        <div class="tab-cell shop_etc_tab shop_etc_etc_tab"><p class="btn-tab-item">기타</p></div>
                                                     </div>
                                                 </div>
-                                                <div>
-                                                    <div class="basic-data-group">
-                                                        <div class="con-title-group large">
-                                                            <h6 class="con-title">용품</h6>
+                                                <div class="shop_etc_wrap shop_etc_merchandise">
+                                                    <div class="list-none-data type-2 no_shop_etc_merchandise">등록된 상품이 없습니다.</div>
+                                                    <div class="do_shop_etc_merchandise" style="display: none;">
+                                                        <div class="basic-data-group">
+                                                            <div class="con-title-group large">
+                                                                <h6 class="con-title">용품</h6>
+                                                            </div>
+                                                            <div class="read-table">
+                                                                <div class="read-table-unit large">(단위:원)</div>
+                                                                <table class="shop_etc_merchandise_wrap">
+                                                                    <colgroup>
+                                                                        <col style="width:auto;">
+                                                                        <col style="width:auto;">
+                                                                    </colgroup>
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>상품명</th>
+                                                                            <th>가격</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>상품명</td>
+                                                                            <td>20,000</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>상품명</td>
+                                                                            <td>20,000</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                            <div class="btn-basic-action">
+                                                                <div class="grid-layout btn-grid-group">
+                                                                    <div class="grid-layout-inner justify-content-end">
+                                                                        <div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-purple btn-small-size btn-basic-small">수정</button></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div class="read-table">
-                                                            <div class="read-table-unit large">(단위:원)</div>
-                                                            <table>
-                                                                <colgroup>
-                                                                    <col style="width:auto;">
-                                                                    <col style="width:auto;">
-                                                                </colgroup>
-                                                                <thead>
-                                                                <tr>
-                                                                    <th>상품명</th>
-                                                                    <th>가격</th>
-                                                                </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                <tr>
-                                                                    <td>상품명</td>
-                                                                    <td>20,000</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>상품명</td>
-                                                                    <td>20,000</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>상품명</td>
-                                                                    <td>20,000</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>상품명</td>
-                                                                    <td>20,000</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>상품명</td>
-                                                                    <td>20,000</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>상품명</td>
-                                                                    <td>20,000</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>상품명</td>
-                                                                    <td>20,000</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>상품명</td>
-                                                                    <td>20,000</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>상품명</td>
-                                                                    <td>20,000</td>
-                                                                </tr>
-                                                                </tbody>
-                                                            </table>
+                                                    </div>
+                                                </div>
+                                                <div class="shop_etc_wrap shop_etc_snack" style="display: none;">
+                                                    <div class="list-none-data type-2 no_shop_etc_snack">등록된 상품이 없습니다.</div>
+                                                    <div class="do_shop_etc_snack" style="display: none;">
+                                                        <div class="basic-data-group">
+                                                            <div class="con-title-group large">
+                                                                <h6 class="con-title">간식</h6>
+                                                            </div>
+                                                            <div class="read-table">
+                                                                <div class="read-table-unit large">(단위:원)</div>
+                                                                <table class="shop_etc_snack_wrap">
+                                                                    <colgroup>
+                                                                        <col style="width:auto;">
+                                                                        <col style="width:auto;">
+                                                                    </colgroup>
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th>상품명</th>
+                                                                        <th>가격</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <td>상품명</td>
+                                                                        <td>20,000</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>상품명</td>
+                                                                        <td>20,000</td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                            <div class="btn-basic-action">
+                                                                <div class="grid-layout btn-grid-group">
+                                                                    <div class="grid-layout-inner justify-content-end">
+                                                                        <div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-purple btn-small-size btn-basic-small">수정</button></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div class="btn-basic-action">
-                                                            <div class="grid-layout btn-grid-group">
-                                                                <div class="grid-layout-inner justify-content-end">
-                                                                    <div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-purple btn-small-size btn-basic-small">수정</button></div>
+                                                    </div>
+                                                </div>
+                                                <div class="shop_etc_wrap shop_etc_feed" style="display: none;">
+                                                    <div class="list-none-data type-2 no_shop_etc_feed">등록된 상품이 없습니다.</div>
+                                                    <div class="do_shop_etc_feed" style="display: none;">
+                                                        <div class="basic-data-group">
+                                                            <div class="con-title-group large">
+                                                                <h6 class="con-title">사료</h6>
+                                                            </div>
+                                                            <div class="read-table">
+                                                                <div class="read-table-unit large">(단위:원)</div>
+                                                                <table class="shop_etc_feed_wrap">
+                                                                    <colgroup>
+                                                                        <col style="width:auto;">
+                                                                        <col style="width:auto;">
+                                                                    </colgroup>
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th>상품명</th>
+                                                                        <th>가격</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <td>상품명</td>
+                                                                        <td>20,000</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>상품명</td>
+                                                                        <td>20,000</td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                            <div class="btn-basic-action">
+                                                                <div class="grid-layout btn-grid-group">
+                                                                    <div class="grid-layout-inner justify-content-end">
+                                                                        <div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-purple btn-small-size btn-basic-small">수정</button></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="shop_etc_wrap shop_etc_etc" style="display: none;">
+                                                    <div class="list-none-data type-2 no_shop_etc_etc">등록된 상품이 없습니다.</div>
+                                                    <div class="do_shop_etc_etc" style="display: none;">
+                                                        <div class="basic-data-group">
+                                                            <div class="con-title-group large">
+                                                                <h6 class="con-title">기타</h6>
+                                                            </div>
+                                                            <div class="read-table">
+                                                                <div class="read-table-unit large">(단위:원)</div>
+                                                                <table class="shop_etc_etc_wrap">
+                                                                    <colgroup>
+                                                                        <col style="width:auto;">
+                                                                        <col style="width:auto;">
+                                                                    </colgroup>
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th>상품명</th>
+                                                                        <th>가격</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    <tr>
+                                                                        <td>상품명</td>
+                                                                        <td>20,000</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>상품명</td>
+                                                                        <td>20,000</td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                            <div class="btn-basic-action">
+                                                                <div class="grid-layout btn-grid-group">
+                                                                    <div class="grid-layout-inner justify-content-end">
+                                                                        <div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-purple btn-small-size btn-basic-small">수정</button></div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -733,59 +833,11 @@ if ($artist_flag == 1) {
         view_option_product();
 
         // 쿠폰상품 뿌려주기
-        console.log(setting_array[2]);
-        var coupon_col_html = `
-            <colgroup>
-                <col style="width:auto;">
-                <col style="width:auto;">
-                <col style="width:auto;">
-            </colgroup>
-        `;
-        var coupon_c_thead_html = `
-            <thead>
-                <tr>
-                    <th>상품명</th>
-                    <th>이용 횟수</th>
-                    <th>가격(단위:원)</th>
-                </tr>
-            </thead>
-        `;
-        var coupon_f_thead_html = `
-            <thead>
-                <tr>
-                    <th>상품명</th>
-                    <th>실 적립금</th>
-                    <th>가격(단위:원)</th>
-                </tr>
-            </thead>
-        `;
-        var coupon_c_tbody_html = `<tbody>`;
-        var coupon_f_tbody_html = `<tbody>`;
-        $.each(setting_array[2], function(i,v){
-            console.log(v);
-            if(v.type == 'C'){
-                coupon_c_tbody_html += `
-                    <tr>
-                        <td>${v.name}</td>
-                        <td>${v.given}</td>
-                        <td>${(v.price).format()}</td>
-                    </tr>
-                `;
-            }else{
-                coupon_f_tbody_html += `
-                    <tr>
-                        <td>${v.name}</td>
-                        <td>${(v.given).format()}</td>
-                        <td>${(v.price).format()}</td>
-                    </tr>
-                `;
-            }
-        })
-        coupon_c_tbody_html += `</tbody>`;
-        coupon_f_tbody_html += `</tbody>`;
+        view_beauty_coupon();
 
-        $(".coupon_c_wrap").html(coupon_col_html+coupon_c_thead_html+coupon_c_tbody_html);
-        $(".coupon_f_wrap").html(coupon_col_html+coupon_f_thead_html+coupon_f_tbody_html);
+        // 매장상품 뿌려주기
+        view_etc_product();
+
     });
 
 
@@ -803,6 +855,23 @@ if ($artist_flag == 1) {
             $(".beauty_coupon_wrap").css("display","block");
         }else if($(this).hasClass('etc_product_tap')){
             $(".etc_product_wrap").css("display","block");
+        }
+    })
+
+    // 매장상품 탭 클릭
+    $(document).on("click",".shop_etc_tab",function(){
+        $(".shop_etc_tab").removeClass("actived");
+        $(this).addClass("actived");
+        $(".shop_etc_wrap").css("display","none");
+
+        if($(this).hasClass('shop_etc_merchandise_tab')){
+            $(".shop_etc_merchandise").css("display","block");
+        }else if($(this).hasClass('shop_etc_snack_tab')){
+            $(".shop_etc_snack").css("display","block");
+        }else if($(this).hasClass('shop_etc_feed_tab')){
+            $(".shop_etc_feed").css("display","block");
+        }else if($(this).hasClass('shop_etc_etc_tab')){
+            $(".shop_etc_etc").css("display","block");
         }
     })
 </script>
