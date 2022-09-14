@@ -530,6 +530,78 @@ function customer_pet_type(){
     })
 }
 
+
+function modify_pet_type(){
+
+
+    let breed_input;
+
+    let breed;
+
+    let breed_select = document.getElementById('modify_breed_select')
+
+    breed_select.addEventListener('change',function(){
+        if(breed_select.options[breed_select.selectedIndex].value === "기타"){
+
+            document.getElementById('modify_breed_other_box').setAttribute('style','display:block');
+        }else{
+            document.getElementById('modify_breed_other_box').setAttribute('style','display:none');
+        }
+
+    })
+    Array.from(document.getElementsByClassName('modify_load-pet-type')).forEach(function(el){
+
+
+        el.addEventListener('click',function(){
+            document.getElementById('modify_breed_other_box').setAttribute('style','display:none');
+            breed_input = document.querySelector('input[name="modify_breed"]:checked');
+            breed = breed_input.value
+
+            $.ajax({
+
+                url:'/data/pc_ajax.php',
+                type:'post',
+                data:{
+                    mode:'pet_type',
+                    breed:breed
+                },
+                success:function(res){
+                    let response = JSON.parse(res);
+                    let head = response.data.head;
+                    let body = response.data.body;
+                    if (head.code === 401) {
+                        pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                    } else if (head.code === 200) {
+                        document.getElementById('modify_breed_select').innerHTML = '<option value="선택">선택</option>';
+                        body.forEach(function(el){
+
+
+                            if(el.name !== "기타"){
+                                document.getElementById('modify_breed_select').innerHTML += `<option value="${el.name}">${el.name}</option>`
+                            }
+
+
+                        })
+
+                        document.getElementById('modify_breed_select').innerHTML += '<option value="기타">기타</option>';
+
+
+
+
+                    }
+
+
+                }
+            })
+
+
+
+
+
+        })
+    })
+}
+
 function modify_customer_pet_type(){
 
 
@@ -620,6 +692,26 @@ function customer_new_birthday(){
 
 }
 
+function modify_new_birthday(){
+
+    return new Promise(function (resolve){
+
+        for(let i = 2000; i<=new Date().getFullYear(); i++){
+
+            document.getElementById('modify_birthday_year').innerHTML += `<option value="${fill_zero(i)}" ${i===2022 ? 'selected':''}>${i}</option>`
+        }
+
+
+        for(let i = 1; i<=12; i++){
+            document.getElementById('modify_birthday_month').innerHTML += `<option value="${fill_zero(i)}">${i}</option>`
+        }
+
+        resolve();
+    })
+
+}
+
+
 
 
 function customer_new_birthday_date(){
@@ -653,6 +745,39 @@ function customer_new_birthday_date(){
 
 }
 
+
+
+function modify_new_birthday_date(){
+
+
+    let year = document.getElementById('modify_birthday_year').value;
+    let month = document.getElementById('modify_birthday_month').value;
+
+    let date_length = new Date(year,month,0).getDate();
+    document.getElementById('modify_birthday_date').innerHTML = '';
+    for(let i = 1; i<=date_length; i++){
+        document.getElementById('modify_birthday_date').innerHTML += `<option value="${fill_zero(i)}">${i}</option>`
+
+    }
+
+    Array.from(document.getElementsByClassName('modify_birthday')).forEach(function(el){
+
+        el.addEventListener('change',function(){
+
+            year = document.getElementById('modify_birthday_year').value;
+            month = document.getElementById('modify_birthday_month').value;
+
+            date_length = new Date(year,month,0).getDate();
+            document.getElementById('modify_birthday_date').innerHTML = '';
+            for(let i = 1; i<=date_length; i++){
+                document.getElementById('modify_birthday_date').innerHTML += `<option value="${i}">${i}</option>`
+
+            }
+        })
+    })
+
+}
+
 function customer_new_weight(){
 
     document.getElementById('weight1').innerHTML = '';
@@ -662,6 +787,16 @@ function customer_new_weight(){
         document.getElementById('weight1').innerHTML += `<option value=${i}>${i}</option>`
     }
 }
+function modify_new_weight(){
+
+    document.getElementById('modify_weight1').innerHTML = '';
+
+    for(let i=0; i<=50; i++){
+
+        document.getElementById('modify_weight1').innerHTML += `<option value=${i}>${i}</option>`
+    }
+}
+
 
 function modify_customer_new_birthday(){
 
@@ -1280,7 +1415,7 @@ function customer_view_(id){
         })
 
 
-        sub_phone_pop_init(id);
+        sub_phone_pop_init(id,false,'');
 
 
 
@@ -1593,6 +1728,7 @@ function insert_customer_memo(id,data){
 function insert_customer_grade(id,data){
 
 
+    console.log(data);
     let customer_id = data[0][0].customer_id !== "" ? data[0][0].customer_id : '';
     $.ajax({
 
@@ -1677,8 +1813,13 @@ function insert_customer_grade(id,data){
 
 function set_grade(data,customer_id){
 
+    let customer_idx;
+    if(typeof data === 'object'){
+        customer_idx = data.customer_idx;
+    }else{
+        customer_idx = data;
+    }
 
-    let customer_idx = data.customer_idx;
 
     let grade_idx = document.getElementById('memberGradeSelect').value;
 
@@ -1852,8 +1993,8 @@ function customer_beauty_agree(id,el){
                             backgroundColor:'rgb(255,255,255)'
                         })
 
-                        canvas.width = canvas.parentElement.offsetWidth;
-                        canvas.height=canvas.parentElement.offsetHeight;
+                        canvas.width = canvas.parentElement.offsetWidth-2;
+                        canvas.height=canvas.parentElement.offsetHeight-2;
 
 
                         clear_btn.addEventListener("click", function (event) {
@@ -2035,8 +2176,16 @@ function customer_beauty_agree_(_data){
 }
 
 
-function sub_phone_pop_init(id){
+function sub_phone_pop_init(id,bool,cellphone){
 
+    let cell_phone;
+
+
+    if(bool){
+        cell_phone = cellphone;
+    }else{
+        cell_phone = localStorage.getItem('customer_select')
+    }
     $.ajax({
 
         url:'/data/pc_ajax.php',
@@ -2045,7 +2194,7 @@ function sub_phone_pop_init(id){
 
             mode:'get_sub_phone',
             partner_id:id,
-            cellphone:localStorage.getItem('customer_select')
+            cellphone:cell_phone
         },
         success:function(res) {
 
@@ -2067,7 +2216,10 @@ function sub_phone_pop_init(id){
                 }
 
                 if(body.length === 0){
-                    document.getElementById('representative_cellphone').innerText = localStorage.getItem('customer_select');
+                    if(!bool){
+                        document.getElementById('representative_cellphone').innerText = localStorage.getItem('customer_select');
+
+                    }
 
 
 
@@ -2097,20 +2249,27 @@ function sub_phone_pop_init(id){
 
                 }
 
-                document.getElementById('representative_cellphone').innerText = body[0].to_cellphone;
+                if(!bool){
+
+                    document.getElementById('representative_cellphone').innerText = body[0].to_cellphone;
+
+                }
 
                 body.forEach(function(el,i){
 
                     console.log(el)
 
-                    if(i <3){
+                    if(!bool){
+                        if(i <3){
 
 
-                        document.getElementById('sub_cellphone').innerHTML += `<div class="value">${el.from_cellphone}</div>`
+                            document.getElementById('sub_cellphone').innerHTML += `<div class="value">${el.from_cellphone}</div>`
+                        }
+                        if(i === 3){
+                            document.getElementById('sub_cellphone').innerHTML += `<div class="value">외 ${body.length-3}개 연락처</div>`
+                        }
                     }
-                    if(i === 3){
-                        document.getElementById('sub_cellphone').innerHTML += `<div class="value">외 ${body.length-3}개 연락처</div>`
-                    }
+
 
 
                     document.getElementById('phone_add_list').innerHTML += `<div class="phone-add-item">
@@ -2206,10 +2365,18 @@ function delete_sub_phone(){
     })
 }
 
-function add_sub_phone(id){
+function add_sub_phone(id,bool){
+    let main_phone;
+    if(bool){
+
+        main_phone = document.getElementById('pay_main_phone').innerText;
+
+    }else{
+        main_phone = localStorage.getItem('customer_select');
+    }
 
 
-    let main_phone = localStorage.getItem('customer_select');
+
     let sub_name = document.getElementById('add_sub_cellphone_1').value;
     let sub_phone = document.getElementById('add_sub_cellphone_2').value;
 

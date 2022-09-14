@@ -1012,7 +1012,7 @@ function _renderCalendar_mini(id,session_id){
 
                                         })
                                     }
-                                    setTimeout(function(){week_drag()},200)
+
 
 
                                     if(localStorage.getItem('change_check') === '1'){
@@ -1043,6 +1043,8 @@ function _renderCalendar_mini(id,session_id){
                             })
 
                         });
+
+
 
                     }else if(location.href.match('reserve_beauty_list')){
 

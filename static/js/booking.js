@@ -82,7 +82,7 @@ function schedule_render(id){
 
                                     let multiple = (new Date(el.product.date.booking_fi).getTime() - new Date(el.product.date.booking_st).getTime())/1800000;
                                     el_.innerHTML = `<div class="calendar-drag-item-group">
-                                                                        <a href="#" onclick="pay_management_toggle()" data-tooltip_idx="${index}" data-payment_idx="${el_.getAttribute('data-pay')}" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-pay')})" class="calendar-week-time-item toggle green ${color} ${el.product.is_no_show === 1 ? "red" : ''} ${el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
+                                                                        <a href="#" onclick="pay_management_init(artist_id,this); pay_management_toggle(false); localStorage.setItem('payment_idx','${el_.getAttribute('data-pay')}')" data-tooltip_idx="${index}" data-payment_idx="${el_.getAttribute('data-pay')}" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-pay')})" class="calendar-week-time-item toggle green ${color} ${el.product.is_no_show === 1 ? "red" : ''} ${el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
                                                                             <div class="item-inner" >
                                                                                 <div class="item-name">
                                                                                     <div class="txt">${el.pet.name}</div>
@@ -385,7 +385,7 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
 
             });
             reserve_prohibition_list(id);
-            setTimeout(function(){week_drag()},200)
+            setTimeout(function(){week_drag()},500)
 
 
 
@@ -3480,22 +3480,22 @@ function pay_management_(id){
                                                                           </div>`
         })
 
-        body_[1].forEach(function (el,i){
-
-            console.log(el)
-            if(i===0){
-
-            let split_el = el.product.split('|');
-            document.getElementById('etc2_list').innerHTML += `<div class="memo-item note-toggle-cell">${el.booking_date} / ${split_el[0]} / ${split_el[4]} / ${el.product_parsing === null || el.product_parsing === undefined ? '미기입':  el.product_parsing.base.weight.unit }Kg / ${el.product_parsing === null || el.product_parsing === undefined ? '미기입': el.product_parsing.base.weight.price }원
-                                                                                <div class="memo-link">
-                                                                                    <a href="#" class="btn-memo-link">상세보기
-                                                                                        <div class="icon icon-arrow-right-small"></div>
-                                                                                    </a>
-                                                                                </div>
-                                                                          </div>`
-            }
-
-        })
+        // body_[1].forEach(function (el,i){
+        //
+        //     console.log(el)
+        //     if(i===0){
+        //
+        //     let split_el = el.product.split('|');
+        //     document.getElementById('etc2_list').innerHTML += `<div class="memo-item note-toggle-cell">${el.booking_date} / ${split_el[0]} / ${split_el[4]} / ${el.product_parsing === null || el.product_parsing === undefined ? '미기입':  el.product_parsing.base.weight.unit }Kg / ${el.product_parsing === null || el.product_parsing === undefined ? '미기입': el.product_parsing.base.weight.price }원
+        //                                                                         <div class="memo-link">
+        //                                                                             <a href="#" class="btn-memo-link">상세보기
+        //                                                                                 <div class="icon icon-arrow-right-small"></div>
+        //                                                                             </a>
+        //                                                                         </div>
+        //                                                                   </div>`
+        //     }
+        //
+        // })
 
 
 
@@ -3770,15 +3770,15 @@ function pay_management_(id){
 
         })
 
-
-
-        beauty_gallery_get(body_).then(function(){
-
-            beauty_gallery_add(id,body_[2]);
-        });
-
-        get_coupon(id);
-        get_etc_product(id);
+        //
+        //
+        // beauty_gallery_get(body_).then(function(){
+        //
+        //     beauty_gallery_add(id,body_[2]);
+        // });
+        //
+        // get_coupon(id);
+        // get_etc_product(id);
 
 
 
@@ -3865,18 +3865,6 @@ function pay_management_(id){
 
                 }
 
-            },
-            complete:function(){
-                if(document.getElementById('pay_management_body')){
-
-                    if(document.getElementById('pay_management_body')){
-
-
-                        document.getElementById('pay_management_body').style.display = 'block';
-                        document.getElementById('pay_management_loading').style.display = `none`;
-
-                    }
-                }
             }
         })
 
@@ -4991,6 +4979,7 @@ function reserve_prohibition_list(id){
                 document.getElementById('btn-schedule-prev').removeAttribute('disabled');
                 document.getElementById('btn-schedule-next').removeAttribute('disabled');
                 week_timebar();
+                week_drag();
 
             }
         }
@@ -7330,6 +7319,12 @@ function pay_management_modify_pet(pet_seq){
     return new Promise(function (resolve){
 
 
+        document.getElementById('modify_special1').checked = false;
+        document.getElementById('modify_special2').checked = false;
+        document.getElementById('modify_special3').checked = false;
+        document.getElementById('modify_special4').checked = false;
+
+
 
         $.ajax({
 
@@ -7349,14 +7344,14 @@ function pay_management_modify_pet(pet_seq){
                 } else if (head.code === 200) {
 
                     console.log(body)
-                    document.getElementById('customer_name').value = body.name;
+                    document.getElementById('modify_customer_name').value = body.name;
 
                     if(body.type === 'dog'){
 
 
-                        document.getElementById('breed1').click();
+                        document.getElementById('modify_breed1').click();
                     }else{
-                        document.getElementById('breed2').click();
+                        document.getElementById('modify_breed2').click();
 
                     }
 
@@ -7383,123 +7378,123 @@ function pay_management_modify_pet_(body){
     console.log(body);
 
 
-    for(let i=0; i<document.getElementById('breed_select').options.length; i++){
+    for(let i=0; i<document.getElementById('modify_breed_select').options.length; i++){
 
-        if(document.getElementById('breed_select').options[i].value === body.pet_type){
+        if(document.getElementById('modify_breed_select').options[i].value === body.pet_type){
 
-            document.getElementById('breed_select').options[i].selected = true;
+            document.getElementById('modify_breed_select').options[i].selected = true;
         }
     }
-    for(let i=0; i<document.getElementById('birthday_year').options.length; i++){
+    for(let i=0; i<document.getElementById('modify_birthday_year').options.length; i++){
 
-        if(document.getElementById('birthday_year').options[i].value === body.year.toString()){
+        if(document.getElementById('modify_birthday_year').options[i].value === body.year.toString()){
 
-            document.getElementById('birthday_year').options[i].selected = true;
+            document.getElementById('modify_birthday_year').options[i].selected = true;
         }
     }
-    for(let i=0; i<document.getElementById('birthday_month').options.length; i++){
+    for(let i=0; i<document.getElementById('modify_birthday_month').options.length; i++){
 
-        if(document.getElementById('birthday_month').options[i].value === fill_zero(body.month)){
+        if(document.getElementById('modify_birthday_month').options[i].value === fill_zero(body.month)){
 
-            document.getElementById('birthday_month').options[i].selected = true;
+            document.getElementById('modify_birthday_month').options[i].selected = true;
         }
     }
-    for(let i=0; i<document.getElementById('birthday_date').options.length; i++){
+    for(let i=0; i<document.getElementById('modify_birthday_date').options.length; i++){
 
-        if(document.getElementById('birthday_date').options[i].value === fill_zero(body.day)){
+        if(document.getElementById('modify_birthday_date').options[i].value === fill_zero(body.day)){
 
-            document.getElementById('birthday_date').options[i].selected = true;
+            document.getElementById('modify_birthday_date').options[i].selected = true;
         }
     }
 
     if(body.gender === '남아'){
 
-        document.getElementById('gender1').checked = true;
+        document.getElementById('modify_gender1').checked = true;
     }else{
-        document.getElementById('gender2').checked = true;
+        document.getElementById('modify_gender2').checked = true;
 
     }
 
     if(body.neutral === 0){
 
-        document.getElementById('neutralize1').checked = true;
+        document.getElementById('modify_neutralize1').checked = true;
     }else{
 
-        document.getElementById('neutralize2').checked = true;
+        document.getElementById('modify_neutralize2').checked = true;
 
     }
 
 
-    for(let i=0; i<document.getElementById('weight1').options.length; i++){
+    for(let i=0; i<document.getElementById('modify_weight1').options.length; i++){
 
-        if(document.getElementById('weight1').options[i].value === body.weight.split('.')[0]){
+        if(document.getElementById('modify_weight1').options[i].value === body.weight.split('.')[0]){
 
 
-            document.getElementById('weight1').options[i].selected = true;
+            document.getElementById('modify_weight1').options[i].selected = true;
         }
     }
 
 
-    for(let i=0; i<document.getElementById('weight2').options.length; i++){
+    for(let i=0; i<document.getElementById('modify_weight2').options.length; i++){
 
-        if(document.getElementById('weight2').options[i].value === body.weight.split('.')[1]){
+        if(document.getElementById('modify_weight2').options[i].value === body.weight.split('.')[1]){
 
 
-            document.getElementById('weight2').options[i].selected = true;
+            document.getElementById('modify_weight2').options[i].selected = true;
         }
     }
 
-    for(let i=0; i<document.getElementById('beauty_exp').options.length; i++){
+    for(let i=0; i<document.getElementById('modify_beauty_exp').options.length; i++){
 
-        if(document.getElementById('beauty_exp').options[i].value === body.beauty_exp){
+        if(document.getElementById('modify_beauty_exp').options[i].value === body.beauty_exp){
 
-            document.getElementById('beauty_exp').options[i].selected = true;
+            document.getElementById('modify_beauty_exp').options[i].selected = true;
         }
     }
 
-    for(let i=0; i<document.getElementById('vaccination').options.length; i++){
+    for(let i=0; i<document.getElementById('modify_vaccination').options.length; i++){
 
-        if(document.getElementById('vaccination').options[i].value === body.vaccination){
+        if(document.getElementById('modify_vaccination').options[i].value === body.vaccination){
 
-            document.getElementById('vaccination').options[i].selected = true;
+            document.getElementById('modify_vaccination').options[i].selected = true;
         }
     }
 
-    for(let i=0; i<document.getElementById('bite').options.length; i++){
+    for(let i=0; i<document.getElementById('modify_bite').options.length; i++){
 
-        if(document.getElementById('bite').options[i].value === body.bite){
+        if(document.getElementById('modify_bite').options[i].value === body.bite){
 
-            document.getElementById('bite').options[i].selected = true;
+            document.getElementById('modify_bite').options[i].selected = true;
         }
     }
 
-    for(let i=0; i<document.getElementById('luxation').options.length; i++){
+    for(let i=0; i<document.getElementById('modify_luxation').options.length; i++){
 
-        if(document.getElementById('luxation').options[i].value === body.luxation){
+        if(document.getElementById('modify_luxation').options[i].value === body.luxation){
 
-            document.getElementById('luxation').options[i].selected = true;
+            document.getElementById('modify_luxation').options[i].selected = true;
         }
     }
 
     if(body.dermatosis === 1){
 
-        document.getElementById('special1').checked = true;
+        document.getElementById('modify_special1').checked = true;
 
     }
 
     if(body.heart_trouble === 1){
 
-        document.getElementById('special2').checked = true;
+        document.getElementById('modify_special2').checked = true;
     }
 
     if(body.marking === 1){
 
-        document.getElementById('special3').checked = true;
+        document.getElementById('modify_special3').checked = true;
     }
 
     if(body.mounting === 1){
 
-        document.getElementById('special4').checked = true;
+        document.getElementById('modify_special4').checked = true;
     }
 
     document.getElementById('modify_pet_info_btn').addEventListener('click',function(){
@@ -7508,12 +7503,12 @@ function pay_management_modify_pet_(body){
         modify_pet_info(body)
     },{once:true})
 
-    pop.open('petModifyPop');
+
 }
 
 function modify_pet_info(body){
 
-    if(document.getElementById('customer_name').value === '' || document.getElementById('customer_name').value === null || document.getElementById('customer_name').value === undefined ){
+    if(document.getElementById('modify_customer_name').value === '' || document.getElementById('modify_customer_name').value === null || document.getElementById('modify_customer_name').value === undefined ){
 
         document.getElementById('msg1_txt').innerText = '펫 이름을 입력해주세요.'
         pop.open('reserveAcceptMsg1');
@@ -7522,27 +7517,27 @@ function modify_pet_info(body){
 
 
 
-    if(document.querySelector('input[name="breed"]:checked') === null || document.querySelector('input[name="breed"]:checked') === undefined || document.querySelector('input[name="breed"]:checked') === ''){
+    if(document.querySelector('input[name="modify_breed"]:checked') === null || document.querySelector('input[name="modify_breed"]:checked') === undefined || document.querySelector('input[name="modify_breed"]:checked') === ''){
 
         document.getElementById('msg1_txt').innerText = '품종을 선택해주세요.'
         pop.open('reserveAcceptMsg1');
         return;
     }
 
-    if(document.getElementById('breed_select').value === "선택" || document.getElementById('breed_select').value === ''){
+    if(document.getElementById('modify_breed_select').value === "선택" || document.getElementById('modify_breed_select').value === ''){
         document.getElementById('msg1_txt').innerText = '품종을 선택해주세요.'
         pop.open('reserveAcceptMsg1');
         return;
 
     }
-    if((document.getElementById('breed_select').value === "기타" || document.getElementById('breed_select').value === "") && document.getElementById('breed_other').value === ''){
+    if((document.getElementById('modify_breed_select').value === "기타" || document.getElementById('modify_breed_select').value === "") && document.getElementById('modify_breed_other').value === ''){
         document.getElementById('msg1_txt').innerText = '품종을 선택해주세요.'
         pop.open('reserveAcceptMsg1');
         return;
 
     }
 
-    if(document.getElementById('weight1').value === "0" && document.getElementById('weight2').value ==="0"){
+    if(document.getElementById('modify_weight1').value === "0" && document.getElementById('modify_weight2').value ==="0"){
 
         document.getElementById('msg1_txt').innerText = '몸무게를 입력해주세요.'
         pop.open('reserveAcceptMsg1');
@@ -7550,7 +7545,7 @@ function modify_pet_info(body){
     }
 
 
-    let breed = document.getElementById('breed_select').value === '기타' ? document.getElementById('breed_other').value : document.getElementById('breed_select').value;
+    let breed = document.getElementById('modify_breed_select').value === '기타' ? document.getElementById('modify_breed_other').value : document.getElementById('modify_breed_select').value;
 
     $.ajax({
 
@@ -7560,23 +7555,23 @@ function modify_pet_info(body){
 
             mode:"modify_pet_info",
             idx:body.pet_seq,
-            name:document.getElementById('customer_name').value,
-            type:document.querySelector('input[name="breed"]:checked').value,
+            name:document.getElementById('modify_customer_name').value,
+            type:document.querySelector('input[name="modify_breed"]:checked').value,
             pet_type:breed,
-            year:document.getElementById('birthday_year').value,
-            month:document.getElementById('birthday_month').value,
-            day:document.getElementById('birthday_date').value,
-            gender:document.querySelector('input[name="gender"]:checked') === null ? '0' : document.querySelector('input[name="gender"]:checked').value,
-            neutral:document.querySelector('input[name="neutralize"]:checked') === null ? '0' : document.querySelector('input[name="neutralize"]:checked').value,
-            weight:`${document.getElementById('weight1').value}.${document.getElementById('weight2').value}`,
-            beauty_exp : document.getElementById('beauty_exp').value,
-            vaccination : document.getElementById('vaccination').value,
-            luxation : document.getElementById('luxation').value,
-            bite : document.getElementById('bite').value,
-            dermatosis:document.getElementById('special1').checked === true ? 1:0,
-            heart_trouble:document.getElementById('special2').checked === true ? 1:0,
-            marking:document.getElementById('special3').checked === true ? 1:0,
-            mounting:document.getElementById('special4').checked === true ? 1:0,
+            year:document.getElementById('modify_birthday_year').value,
+            month:document.getElementById('modify_birthday_month').value,
+            day:document.getElementById('modify_birthday_date').value,
+            gender:document.querySelector('input[name="modify_gender"]:checked') === null ? '0' : document.querySelector('input[name="modify_gender"]:checked').value,
+            neutral:document.querySelector('input[name="modify_neutralize"]:checked') === null ? '0' : document.querySelector('input[name="modify_neutralize"]:checked').value,
+            weight:`${document.getElementById('modify_weight1').value}.${document.getElementById('modify_weight2').value}`,
+            beauty_exp : document.getElementById('modify_beauty_exp').value,
+            vaccination : document.getElementById('modify_vaccination').value,
+            luxation : document.getElementById('modify_luxation').value,
+            bite : document.getElementById('modify_bite').value,
+            dermatosis:document.getElementById('modify_special1').checked === true ? 1:0,
+            heart_trouble:document.getElementById('modify_special2').checked === true ? 1:0,
+            marking:document.getElementById('modify_special3').checked === true ? 1:0,
+            mounting:document.getElementById('modify_special4').checked === true ? 1:0,
             etc:"",
 
 
@@ -7603,8 +7598,8 @@ function modify_pet_info(body){
 
 function customer_memo(){
 
-    let scm_seq = document.getElementById('customer_memo').getAttribute('data-scm_seq');
-    let memo = document.getElementById('customer_memo').value;
+    let scm_seq = document.getElementById('pay_customer_memo_text').getAttribute('data-scm_seq');
+    let memo = document.getElementById('pay_customer_memo_text').value;
 
 
 
@@ -7640,7 +7635,7 @@ function customer_memo(){
 function payment_memo(){
 
     let idx = localStorage.getItem('payment_idx');
-    let memo = document.getElementById('payment_memo').value;
+    let memo = document.getElementById('pay_special_memo_text').value;
 
     $.ajax({
 
@@ -7814,21 +7809,24 @@ function beauty_gallery_add(id,pet_seq){
 
 }
 
-function beauty_gallery_get(body_data){
+function beauty_gallery_get(body_data,payment_idx){
 
 
 
-    let _data = body_data[3]
+    let _data = body_data;
 
-    console.log(_data)
 
 
     return new Promise(function(resolve){
 
-        let idx = localStorage.getItem('payment_idx');
+        let idx = payment_idx
 
 
 
+        document.getElementById('beauty_gal_wrap').innerHTML =`<div class="list-cell"><a href="#" class="btn-gate-picture-register"
+                                                                                                          onClick="MemofocusNcursor()"><span><em>이미지 추가</em></span></a></div>
+                                                                        <div style="display:block;position:absolute;top:-50px;"><input type="file" accept="image/*" name="imgupfile"
+                                                                                                                                       id="addimgfile"></div>`
         $.ajax({
 
             url:'/data/pc_ajax.php',
@@ -7851,6 +7849,7 @@ function beauty_gallery_get(body_data){
                         body = [body];
                     }
 
+                    console.log(_data);
 
                     let file_path = '';
                     if(body.length >0){
@@ -7858,12 +7857,20 @@ function beauty_gallery_get(body_data){
                          document.getElementById('beauty_img_target').setAttribute('src', file_path)
                     }else{
 
-                        if(_data.type === 'dog'){
-                            file_path = `/static/images/icon/icon-pup-select-off.png`
-                            document.getElementById('beauty_img_target').setAttribute('src', file_path)
+                        if(_data.photo !== ''){
+                            document.getElementById('beauty_img_target').setAttribute('src', `https://image.banjjakpet.com${_data.photo}`)
+
                         }else{
-                            file_path = `/static/images/icon/icon-cat-select-off.png`
-                            document.getElementById('beauty_img_target').setAttribute('src', file_path)
+
+
+
+                            if(_data.type === 'dog'){
+                                file_path = `/static/images/icon/icon-pup-select-off.png`
+                                document.getElementById('beauty_img_target').setAttribute('src', file_path)
+                            }else{
+                                file_path = `/static/images/icon/icon-cat-select-off.png`
+                                document.getElementById('beauty_img_target').setAttribute('src', file_path)
+                            }
                         }
 
                     }
@@ -7945,6 +7952,25 @@ function agree_birthday(){
     })
 }
 
+
+function agree_view_birthday(){
+
+    return new Promise(function(resolve){
+
+        for(let i = 2000; i<=new Date().getFullYear(); i++){
+
+            document.getElementById('agree_view_birthday_year').innerHTML += `<option value="${fill_zero(i)}" ${i===2022 ? 'selected':''}>${i}</option>`
+        }
+
+
+        for(let i = 1; i<=12; i++){
+            document.getElementById('agree_view_birthday_month').innerHTML += `<option value="${fill_zero(i)}">${i}</option>`
+        }
+
+        resolve();
+    })
+}
+
 function agree_birthday_date(){
 
     let year = document.getElementById('agree_birthday_year').value;
@@ -7973,6 +7999,36 @@ function agree_birthday_date(){
         })
     })
 }
+
+function agree_view_birthday_date(){
+
+    let year = document.getElementById('agree_view_birthday_year').value;
+    let month = document.getElementById('agree_view_birthday_month').value;
+
+    let date_length = new Date(year,month,0).getDate();
+    document.getElementById('agree_view_birthday_date').innerHTML = '';
+    for(let i = 1; i<=date_length; i++){
+        document.getElementById('agree_view_birthday_date').innerHTML += `<option value="${fill_zero(i)}">${i}</option>`
+
+    }
+
+    Array.from(document.getElementsByClassName('agree_view_birthday')).forEach(function(el){
+
+        el.addEventListener('change',function(){
+
+            year = document.getElementById('agree_view_birthday_year').value;
+            month = document.getElementById('agree_view_birthday_month').value;
+
+            date_length = new Date(year,month,0).getDate();
+            document.getElementById('agree_view_birthday_date').innerHTML = '';
+            for(let i = 1; i<=date_length; i++){
+                document.getElementById('agree_view_birthday_date').innerHTML += `<option value="${i}">${i}</option>`
+
+            }
+        })
+    })
+}
+
 
 function agree_pet_type(){
     let breed_input;
@@ -8043,6 +8099,76 @@ function agree_pet_type(){
     })
 }
 
+
+
+function agree_view_pet_type(){
+    let breed_input;
+
+    let breed;
+
+    let breed_select = document.getElementById('agree_view_breed_select')
+
+    breed_select.addEventListener('change',function(){
+        if(breed_select.options[breed_select.selectedIndex].value === "기타"){
+
+            document.getElementById('agree_view_breed_other_box').setAttribute('style','display:block');
+        }else{
+            document.getElementById('agree_view_breed_other_box').setAttribute('style','display:none');
+        }
+
+    })
+    Array.from(document.getElementsByClassName('agree_view_load-pet-type')).forEach(function(el){
+
+
+        el.addEventListener('click',function(){
+            document.getElementById('agree_view_breed_other_box').setAttribute('style','display:none');
+            breed_input = document.querySelector('input[name="agree_view_breed"]:checked');
+            breed = breed_input.value
+
+            $.ajax({
+
+                url:'/data/pc_ajax.php',
+                type:'post',
+                data:{
+                    mode:'pet_type',
+                    breed:breed
+                },
+                success:function(res){
+                    let response = JSON.parse(res);
+                    let head = response.data.head;
+                    let body = response.data.body;
+                    if (head.code === 401) {
+                        pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                    } else if (head.code === 200) {
+                        document.getElementById('agree_view_breed_select').innerHTML = '<option value="선택">선택</option>';
+                        body.forEach(function(el){
+
+
+                            if(el.name !== "기타"){
+                                document.getElementById('agree_view_breed_select').innerHTML += `<option value="${el.name}">${el.name}</option>`
+                            }
+
+
+                        })
+
+                        document.getElementById('agree_view_breed_select').innerHTML += '<option value="기타">기타</option>';
+
+
+
+
+                    }
+
+
+                }
+            })
+
+
+
+
+
+        })
+    })
+}
 function beauty_agree_init(data){
 
 
@@ -8078,6 +8204,39 @@ function beauty_agree_init(data){
 
 }
 
+
+function beauty_agree_view_init(data){
+
+
+    return new Promise(function(resolve){
+
+
+        document.getElementById('agree_view_cellphone').value = data.cell_phone;
+
+        if(data.type==='dog'){
+
+            document.getElementById('agree_view_breed1').click();
+        }else{
+
+            document.getElementById('agree_view_breed2').click();
+        }
+
+        setTimeout(function(){
+
+            resolve(data)
+        },300);
+
+
+
+
+
+
+
+
+    })
+
+
+}
 function beauty_agree_init_(_data){
 
     console.log(_data)
@@ -8186,7 +8345,109 @@ function beauty_agree_init_(_data){
     document.getElementById('beauty_agree_footer').innerHTML =`<a href="#" class="btn-page-bottom" onClick="beauty_agree_submit(artist_id,${_data.pet_seq})">저장</a>`
 
 
-    pop.open('beautyAgreeWritePop');
+
+
+}
+
+
+function beauty_agree_view_init_(_data){
+
+
+    document.getElementById('agree_view_info').innerText = `${data.shop_name}은(는) 미용요청견(묘)의 나이가 10세 이상인 노령견(묘)이나, 질병이 있는 경우 건강상태를 고려하여 안내사항을 말씀드리고, 미용 동의서를 받고자 합니다.`
+
+
+    for(let i=0; i<document.getElementById('agree_view_breed_select').options.length; i++){
+
+        if(document.getElementById('agree_view_breed_select').options[i].value === _data.pet_type){
+
+            document.getElementById('agree_view_breed_select').options[i].selected = true;
+        }
+    }
+
+    for(let i=0; i<document.getElementById('agree_view_birthday_year').options.length; i++){
+
+        if(document.getElementById('agree_view_birthday_year').options[i].value === _data.birth.split('-')[0]){
+
+            document.getElementById('agree_view_birthday_year').options[i].selected = true;
+        }
+    }
+
+    for(let i=0; i<document.getElementById('agree_view_birthday_month').options.length; i++){
+
+        if(document.getElementById('agree_view_birthday_month').options[i].value === _data.birth.split('-')[1]){
+
+            document.getElementById('agree_view_birthday_month').options[i].selected = true;
+        }
+    }    for(let i=0; i<document.getElementById('agree_view_birthday_date').options.length; i++){
+
+        if(document.getElementById('agree_view_birthday_date').options[i].value === _data.birth.split('-')[2]){
+
+            document.getElementById('agree_view_birthday_date').options[i].selected = true;
+        }
+    }
+
+    if(_data.gender === '남아'){
+
+        document.getElementById('agree_view_gender1').checked = true;
+    }else{
+
+        document.getElementById('agree_view_gender2').checked = true;
+    }
+
+
+    if(_data.neutral === 0){
+
+        document.getElementById('agree_view_neutralize1').checked = true;
+    }else{
+
+        document.getElementById('agree_view_neutralize2').checked=true;
+    }
+
+
+
+    for(let i=0; i<document.getElementById('agree_view_vaccination').options.length; i++){
+
+        if(document.getElementById('agree_view_vaccination').options[i].value === _data.vaccination){
+
+            document.getElementById('agree_view_vaccination').options[i].selected = true;
+        }
+    }
+
+    if(_data.heart_trouble === 1){
+
+        document.getElementById('agree_view_disease2').checked = true;
+    }
+
+    if(_data.dermatosis === 1){
+
+        document.getElementById('agree_view_disease3').checked =true;
+    }
+
+    if(_data.bite == 1 || _data.bite === "해요"){
+
+        document.getElementById('agree_view_special1').checked =true;
+    }
+
+    if(_data.marking === 1){
+
+        document.getElementById('agree_view_special2').checked = true;
+    }
+
+    if(_data.mounting === 1){
+
+        document.getElementById('agree_view_special3').checked = true;
+    }
+
+    for (let i =0; i<document.getElementById('agree_view_luxation').options.length; i++){
+
+        if(document.getElementById('agree_view_luxation').options[i].value === _data.luxation){
+
+            document.getElementById('agree_view_luxation').options[i].selected = true;
+        }
+    }
+
+
+
 
 }
 
@@ -10004,23 +10265,671 @@ function approve_consult(bool) {
 
     }
 }
-function pay_management_toggle(){
+let toggle_validate = true;
+function pay_management_toggle(bool){
 
-    if(document.getElementById('pay_management').classList.contains('animate-check')){
+
+
+    if(bool){
+        console.log('bool');
         document.getElementById('pay_management').classList.remove('animate-check');
         $('#pay_management').stop().animate({
             marginRight:`-${$('#pay_management').width()}px`,
             opacity:'0'
 
         },500,'swing')
+        $('#pay_close_btn').stop().animate({
+            marginRight:`-${$('#pay_management').width()}px`,
+            opacity:'0'
+
+        },500,'swing')
+        toggle_validate= true;
 
     }else{
-        document.getElementById('pay_management').classList.add('animate-check');
-        $('#pay_management').stop().animate({
-            marginRight:`25px`,
-            opacity:'1'
-        },500,'swing')
+
+        if(toggle_validate){
+            console.log('val_true')
+            document.getElementById('pay_management').classList.add('animate-check');
+            $('#pay_management').stop().animate({
+                marginRight:`25px`,
+                opacity:'1'
+            },500,'swing')
+            $('#pay_close_btn').stop().animate({
+                marginRight:`-1px`,
+                opacity:'1'
+            },500,'swing')
+            toggle_validate = false;
+        }else{
+
+            return;
+        }
+
 
     }
+
+}
+
+function pay_management_init(id,target){
+    console.log(id);
+
+
+    let payment_idx = target.getAttribute('data-payment_idx');
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+            mode:'pay_management',
+            payment_idx:payment_idx,
+        },
+        success:function (res){
+
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            let body_2 = response.data2.body;
+            let body_3 = response.data3.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+
+
+                console.log(body)
+                document.getElementById('pay_noshow').innerHTML = `<h4 class="con-title">예약자 정보</h4>
+                                                                <div style="width:95px;" id="noshow_count"></div>`
+                if(body.is_noshow === 0){
+
+                    document.getElementById('pay_noshow').innerHTML += `<div class="pay-noshow btn btn-red btn-small-size btn-round" onclick="pop.open('noshow')">노쇼 등록</div>`
+                }else if(body.is_noshow === 1){
+
+                    document.getElementById('pay_noshow').innerHTML += `<div class="btn btn-inline  btn-small-size btn-round" style="cursor:pointer; margin-right:20px; background: #8f8f8f; color:white;" onclick="pop.open('cancel_noshow')">노쇼 취소</div>`
+                }
+
+                if(body.noshow_count > 0){
+
+                    document.getElementById('noshow_count').innerHTML += `<div class="label label-outline-pink pay-noshow-count">NO SHOW ${body.noshow_count}회</div>`
+                }
+
+
+                switch(body.grade_ord){
+
+                    case 1: document.getElementById('pay_customer_grade').classList.add('icon-grade-vip'); break;
+                    case 2: document.getElementById('pay_customer_grade').classList.add('icon-grade-normal'); break;
+                    case 3: document.getElementById('pay_customer_grade').classList.add('icon-grade-normalb'); break;
+
+                    default : document.getElementById('pay_customer_grade').classList.add('icon-grade-normal'); break;
+                }
+
+                document.getElementById('pay_customer_grade_name').innerText = body.grade_name;
+                document.getElementById('pay_main_phone').innerText = body.cell_phone;
+                document.getElementById('pay_sub_phone').innerHTML = '';
+                if(body.sub_phone !== ''){
+                    let sub_phone = body.sub_phone.split(',');
+
+                    sub_phone.forEach(function(el){
+                        console.log(el)
+                        document.getElementById('pay_sub_phone').innerHTML += `<div class="pay-user-sub-cellphone-wrap">
+                                                                            <div class="pay-user-sub-cellphone-name">${el.split('|')[3]}</div>
+                                                                            <div class="pay-user-sub-cellphone-number">${phone_edit(el.split('|')[1])}</div>
+                                                                        </div>`
+
+
+                    })
+                }
+
+
+
+                document.getElementById('memberGrageMsg').innerText = `현재 ${body.name} (${phone_edit(body.cell_phone)}) 고객님의 등급은 ${body.grade_name} 입니다.`
+
+                $.ajax({
+
+                    url:'/data/pc_ajax.php',
+                    type:'post',
+                    data:{
+                        mode:'get_grade',
+                        login_id:id,
+
+                    },
+                    success:function(res){
+                        let response = JSON.parse(res);
+                        let head = response.data.head;
+                        let body_ = response.data.body;
+                        if (head.code === 401) {
+                            pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                        } else if (head.code === 200) {
+                            console.log(body);
+
+                            body_.forEach(function(el){
+
+                                if(el.is_delete !== 1){
+
+
+                                    document.getElementById('memberGradeSelect').innerHTML += `<option data-ord="${el.grade_ord}" value="${el.idx}">${el.grade_name}</option>`
+
+
+
+                                }
+                            })
+
+                            let customer_id='';
+                            if(body.customer_Id === ''){
+                                customer_id = body.tmp_id;
+                            }else{
+                                customer_id = body.customer_Id;
+                            }
+                            document.getElementById('set_grade_btn').addEventListener('click',function(){
+
+
+                                set_grade(body.customer_grade_idx,customer_id);
+                            })
+                        }
+                    }
+
+                })
+
+
+
+
+
+
+                document.getElementById('phone_add_list').innerHTML = '';
+
+                sub_phone_pop_init(id,true,body.cell_phone)
+
+
+                document.getElementById('pay_customer_memo_text').value = '';
+                document.getElementById('pay_customer_memo_text').removeAttribute('data-scm_seq');
+
+
+
+                // $.ajax({
+                //
+                //     url:'/data/pc_ajax.php',
+                //     type:'post',
+                //     data:{
+                //         mode:'get_customer_memo',
+                //         login_id:id,
+                //         customer_id : body.customer_Id,
+                //         tmp_seq : body.tmp_id,
+                //         cellphone: body.cell_phone
+                //     },
+                //     success:function(res) {
+                //         console.log(res)
+                //
+                //         let response = JSON.parse(res);
+                //         let head = response.data.head;
+                //         let body = response.data.body;
+                //         if (head.code === 401) {
+                //             pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                //         } else if (head.code === 200) {
+                //
+                //
+                //             document.getElementById('pay_customer_memo_text').value = body.memo;
+                //             document.getElementById('pay_customer_memo_text').setAttribute('data-scm_seq',body.scm_seq);
+                //
+                //         }
+                //     }
+                //
+                //
+                // })
+
+                document.getElementById('pay_customer_memo_text').value = body.owner_memo;
+                document.getElementById('beauty_img_target').setAttribute('src','');
+
+                document.getElementById('pay_pet_name').innerText = ''
+                document.getElementById('pay_pet_cate').innerText = ''
+                document.getElementById('pay_pet_name').innerText = body.name;
+                document.getElementById('pay_pet_cate').innerText = body.pet_type;
+
+
+
+                beauty_gallery_get(body,payment_idx).then(function(){
+
+                    beauty_gallery_add(id,body.pet_seq);
+                })
+
+                document.getElementById('agree_name').value = '';
+
+                $.ajax({
+
+                    url:'/data/pc_ajax.php',
+                    type:'post',
+                    data:{
+                        mode:'get_beauty_agree',
+                        partner_id:id,
+                        pet_idx:body.pet_seq
+                    },
+                    success:function(res) {
+                        let response = JSON.parse(res);
+                        let head = response.data.head;
+                        let body_ = response.data.body;
+                        if (head.code === 401) {
+                            pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                        } else if (head.code === 200) {
+
+                            console.log(body_)
+
+                            if(body_.length === 0){
+
+                                console.log(body)
+                                document.getElementById('beauty_agree_view').innerHTML =  `<button type="button" class="btn btn-outline-gray btn-middle-size btn-round" id="beauty_agree_btn">미용 동의서 작성</button>`
+                                document.getElementById('beauty_agree_all_btn').checked = false;
+                                document.getElementById('beauty_agree_1_btn').checked = false;
+                                document.getElementById('beauty_agree_2_btn').checked = false;
+
+                                setTimeout(function(){
+                                    document.getElementById('beauty_agree_btn').addEventListener('click',function(){
+
+                                        beauty_agree_init(body).then(function(data_){
+
+                                            beauty_agree_init_(data_);
+
+                                            pop.open('beautyAgreeWritePop');
+                                        });
+                                    })
+                                },50)
+
+                            }else{
+
+                                console.log(body_)
+                                document.getElementById('agree_view_disease1').checked = false;
+                                document.getElementById('agree_view_disease2').checked = false;
+                                document.getElementById('agree_view_disease3').checked = false;
+                                document.getElementById('agree_view_disease4').checked = false;
+                                document.getElementById('agree_view_special1').checked = false;
+                                document.getElementById('agree_view_special2').checked = false;
+                                document.getElementById('agree_view_special3').checked = false;
+                                document.getElementById('agree_view_name').value = body_.customer_name;
+                                document.getElementById('agree_view_name2').innerText = body_.customer_name;
+                                document.getElementById('agree_view_date').innerText = `${body_.reg_date.substr(0,4)}.${body_.reg_date.substr(4,2)}.${body_.reg_date.substr(6,2)}`
+                                document.getElementById('beauty_agree_view').innerHTML = `<button type="button" class="btn btn-outline-gray btn-middle-size btn-round" id="beauty_agree_view_btn">미용 동의서 보기</button>`
+
+                                document.getElementById('user_sign_img').setAttribute('src',`https://image.banjjakpet.com${body_.image}`)
+                                setTimeout(function(){
+                                    document.getElementById('beauty_agree_view_btn').addEventListener('click',function(){
+
+
+                                        beauty_agree_view_init(body).then(function(data_) {
+
+                                            beauty_agree_view_init_(data_);
+
+                                            pop.open('beautyAgreeViewPop');
+                                        });
+
+
+
+                                    });
+
+                                },50)
+
+
+                            }
+
+                        }
+
+                    }
+                })
+
+
+                pay_management_modify_pet(body.pet_seq).then(function(body){
+
+                    pay_management_modify_pet_(body)
+
+                });
+
+
+
+                let time = new Date().getTime() - new Date(body.birth).getTime();
+
+                let time_year = Math.floor(time/1000/60/60/24/30/12);
+                let time_month = Math.floor(time/1000/60/60/24/30%12);
+
+                let special = '';
+
+                if(body.dermatosis === 1){
+                    special += '피부병 '
+                }
+                if(body.heart_trouble === 1){
+                    special += '심장질환 '
+                }
+                if(body.marking === 1){
+                    special += '마킹 '
+                }
+                if(body.mounting === 1){
+                    special += '마운팅 '
+                }
+
+                document.getElementById('pay_gender').innerText = body.gender;
+                document.getElementById('pay_neutral').innerText = body.neutral === 0 ? 'X' : 'O'
+                document.getElementById('pay_weight').innerText = `${body.weight}kg`;
+                document.getElementById('pay_pet_year').innerText = `${time_year}년 ${time_month}개월`;
+                document.getElementById('pay_bite').innerText = body.bite === "0" || body.bite === "안해요" ? "안해요" : "해요";
+                document.getElementById('pay_luxation').innerText = body.luxation;
+                document.getElementById('pay_gender').innerText = body.gender;
+                document.getElementById('pay_beauty_exp').innerText = body.beauty_exp;
+                document.getElementById('pay_vaccination').innerText = body.vaccination;
+                document.getElementById('pay_special').innerText = special;
+                document.getElementById('pay_etc').innerText = body.etc;
+
+                document.getElementById('pay_special_memo_text').value = body.payment_memo;
+
+
+
+
+
+                document.getElementById('pay_before_beauty_list').innerHTML = ``
+
+                body_3.forEach(function(el){
+
+
+                    document.getElementById('pay_before_beauty_list').innerHTML += `<div class="pay-before-beauty-item">
+                                                                                        <span class="pay-before-beauty-memo">
+                                                                                           ${el.booking_date.split(' ')[0].replaceAll('-','.')}
+                                                                                        </span>
+                                                                                        <a href="#" class="pay-before-beauty-detail" data-payment_idx="${el.payment_idx}" onclick="localStorage.setItem('payment_idx','${el.payment_idx}');pay_management_init('${id}',this)">
+                                                                                            <span class="pay-before-beauty-detail-memo">상세보기</span>
+                                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="5.207" height="9.414" viewBox="0 0 5.207 9.414">
+                                                                                                <path data-name="Path" d="m-4 8 4-4-4-4" transform="translate(4.707 .707)" style="fill:none;stroke:#202020;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;"></path>
+                                                                                            </svg>
+                                                                                        </a>
+                                                                                    </div>`
+
+
+
+                })
+
+
+                document.getElementById('day_book_target').innerText = `${am_pm_check2(body.beauty_date)}`
+
+                document.getElementById('day_book_target_worker').innerText = `${body.worker}`
+
+
+
+                let st_date = body.beauty_date.split(' ')[0];
+
+
+                $.ajax({
+
+                    url:'/data/pc_ajax.php',
+                    type:'post',
+                    data:{
+                        mode:"day_book",
+                        login_id:id,
+                        st_date:st_date,
+                        fi_date:`${st_date.split('-')[0]}-${st_date.split('-')[1]}-${fill_zero(parseInt(st_date.split('-')[2])+1)}`
+
+
+                    },
+                    success:function(res) {
+                        let response = JSON.parse(res);
+                        let head = response.data.head;
+                        let body_ = response.data.body;
+                        if (head.code === 401) {
+                            pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                        } else if (head.code === 200) {
+
+
+
+                            let reserve_st = [];
+                            let reserve_fi = [];
+
+                            body_.forEach(function (el){
+
+
+                                if(body.worker === el.product.worker && el.product.is_cancel === 0){
+                                    reserve_st.push(new Date(el.product.date.booking_st).getTime());
+                                    reserve_fi.push(new Date(el.product.date.booking_fi).getTime());
+                                }
+
+                            })
+
+                            reserve_st.sort();
+                            reserve_fi.sort();
+
+                            for(let i=0; i<reserve_st.length; i++){
+
+                                reserve_st[i] = `${fill_zero(new Date(reserve_st[i]).getHours())}:${fill_zero(new Date(reserve_st[i]).getMinutes())}`;
+                            }
+
+                            for(let i=0; i<reserve_fi.length; i++){
+
+                                reserve_fi[i] = `${fill_zero(new Date(reserve_fi[i]).getHours())}:${fill_zero(new Date(reserve_fi[i]).getMinutes())}`;
+                            }
+
+
+
+
+
+                            document.getElementById('start_time').innerHTML = ''
+                            document.getElementById('end_time').innerHTML = ''
+
+                            let open_close = localStorage.getItem('open_close');
+
+                            let open = parseInt(open_close.split('/')[0]);
+                            let close = parseInt(open_close.split('/')[1]);
+
+                            let time = [];
+
+                            for(open; open<=close; open++){
+
+                                time.push(open);
+
+                            }
+
+
+                            let next = '';
+                            for(let i=0; i< reserve_st.length; i++){
+
+                                if(body.beauty_date.split(' ')[1] === reserve_st[i]){
+
+                                    next = reserve_st[i+1]
+                                    break;
+                                }
+                            }
+
+
+
+                            let prev = '';
+                            for(let i=0; i<reserve_fi.length; i++){
+
+                                if(body.beauty_date.split(' ')[1] === reserve_st[i]){
+
+
+                                    prev = reserve_fi[i-1];
+                                    break;
+                                }
+                            }
+
+
+
+                            if(prev === undefined){
+
+                                loop:
+                                    for(let i=0; i<time.length-1; i++){
+
+                                        for(let t= 0; t<60; t +=30){
+
+
+                                            if(`${fill_zero(time[i])}:${fill_zero(t)}` === next){
+
+                                                break loop;
+                                            }else{
+                                                document.getElementById('start_time').innerHTML += `<option value ="${fill_zero(time[i])}${fill_zero(t)}">${fill_zero(am_pm_check(time[i]))}:${fill_zero(t)}</option>`
+                                            }
+
+
+
+
+
+                                        }
+                                    }
+
+                                loop2:
+                                    for(let i=0; i<time.length; i++){
+
+                                        for(let t=0; t<60; t+=30){
+
+                                            if(i===0){
+                                                t=30;
+                                            }
+                                            if(i===time.length-1 && t ===30){
+
+                                                break;
+                                            }
+                                            if(`${fill_zero(time[i])}:${fill_zero(t)}` === next){
+                                                document.getElementById('end_time').innerHTML += `<option value ="${fill_zero(time[i])}${fill_zero(t)}">${fill_zero(am_pm_check(time[i]))}:${fill_zero(t)}</option>`
+                                                break loop2;
+                                            }else{
+
+
+                                                document.getElementById('end_time').innerHTML += `<option value ="${fill_zero(time[i])}${fill_zero(t)}">${fill_zero(am_pm_check(time[i]))}:${fill_zero(t)}</option>`
+                                            }
+                                        }
+                                    }
+                            }else{
+
+                                loop3:
+                                    for(let i=0; i<time.length-1; i++){
+
+                                        for(let t= 0; t<60; t +=30){
+
+
+                                            if(`${fill_zero(time[i])}:${fill_zero(t)}` === prev){
+
+
+                                                loop4:
+                                                    for(let j=i; j<time.length-1; j++){
+
+                                                        for(let t2=0; t2<60; t2+=30){
+
+                                                            if(`${fill_zero(time[j])}:${fill_zero(t2)}` === next){
+
+                                                                break loop4;
+
+                                                            }else if(`${fill_zero(time[j])}:${fill_zero(t2)}` === `${prev.split(':')[0]}:00`){
+                                                                continue;
+
+                                                            }else{
+                                                                document.getElementById('start_time').innerHTML += `<option value ="${fill_zero(time[j])}${fill_zero(t2)}">${fill_zero(am_pm_check(time[j]))}:${fill_zero(t2)}</option>`
+                                                            }
+
+                                                        }
+                                                    }
+                                                break loop3;
+                                            }
+                                        }
+                                    }
+
+
+                                let fi_times = [];
+
+                                for(let i =0; i<document.getElementById('start_time').options.length; i++){
+
+                                    fi_times.push(document.getElementById('start_time').options[i].value);
+                                }
+
+
+                                for(let i=0; i<fi_times.length; i++){
+
+                                    fi_times[i] = new Date(date.getFullYear(),date.getMonth(),date.getDate(),fi_times[i].substr(0,2),fi_times[i].substr(2,2));
+
+                                    fi_times[i].setMinutes(fi_times[i].getMinutes()+30);
+
+                                    document.getElementById('end_time').innerHTML += `<option value ="${fill_zero(fi_times[i].getHours())}${fill_zero(fi_times[i].getMinutes())}">${am_pm_check(fill_zero(fi_times[i].getHours()))}:${fill_zero(fi_times[i].getMinutes())}</option>`
+                                }
+
+
+
+
+
+
+
+                            }
+
+
+
+                        }
+                    }
+
+
+
+
+
+                })
+
+
+
+                document.getElementById('change_check_worker_btn').setAttribute('data-worker',`${body.worker}`)
+
+
+                document.getElementById('pay_allim_btn').setAttribute('onclick',`open_customer_allim(${body.cell_phone})`)
+
+                document.getElementById('allim_send_btn').setAttribute('data-cellphone',`${body.cell_phone}`);
+
+
+
+
+
+
+            }
+        }
+
+    })
+
+
+
+
+}
+
+function allim_talk_send(target){
+
+
+    let cellphone = target.getAttribute('data-cellphone');
+
+    let when = document.querySelector('input[name="time1"]:checked').getAttribute('id');
+
+    let mode;
+
+
+
+    if(when === 'timer_0'){
+
+        mode = 'allim_now';
+
+    }else{
+        mode = 'allim_before'
+
+    }
+    console.log(mode);
+
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:mode,
+            cellphone:cellphone,
+            message:'테스트 알림톡입니다.'
+
+        },
+        success:function(res) {
+            console.log(res)
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+
+                console.log(body);
+
+            }
+        }
+
+    })
+
+
 
 }

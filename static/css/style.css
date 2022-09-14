@@ -214,15 +214,15 @@
 
 .pay_management{
 
-    width:373px;
-    height:100%;
+    width: 373px;
+    height: 100%;
     max-height: calc( 100vh - 129px );
     position: absolute;
     right: 0;
     margin-right: -373px;
-    z-index:5000;
+    z-index: 5000;
     background: #fff;
-    box-shadow: 0 2px 10px 0 #c2c2c2;
+    box-shadow: -8px 11px 9px -3px #f4f4f4f4;
     border: solid 1px #eaeaea;
     border-radius: 5px;
     box-sizing: border-box;
@@ -249,6 +249,28 @@
     display:flex;
     justify-content: center;
     align-items: center;
+
+    overflow:visible;
+}
+
+.pay-close-btn{
+    width: 40px;
+    height: 53px;
+    background: #fff;
+    box-shadow: -8px -5px 9px -3px #f4f4f4f4;
+    position: fixed;
+    right: calc(25px + 373px);
+    margin-right: -373px;
+    opacity: 0;
+    border: solid 1px #eaeaea;
+    /* border-radius: 5px; */
+    box-sizing: border-box;
+    /* border-right: none; */
+    border-top: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 
 }
 
@@ -340,6 +362,10 @@
 }
 
 .pay-user-sub-cellphone{
+    display: flex;
+    flex-direction: column;
+}
+.pay-user-sub-cellphone-wrap{
     display: flex;
 }
 
@@ -550,6 +576,7 @@
 }
 
 .pay-before-beauty-item{
+    margin-top:8px;
     display:flex;
     justify-content: space-between;
     background: #fff;
@@ -686,4 +713,38 @@
     width:100%;
     padding-left:20px;
     padding-right:20px;
+}
+
+.pay-user-receipt{
+    width:calc(100% - 40px);
+    padding-left:20px;
+    padding-right:20px;
+}
+
+.user-receipt-wrap{
+    display: flex;
+    justify-content: center;
+    margin-top:20px;
+}
+
+.set_update_discount_btn{
+
+    width:100% !important;
+}
+
+.pay-complete-wrap{
+    margin-top:30px;
+    width:calc(100% - 40px);
+    padding-left:20px;
+    padding-right:20px;
+    margin-bottom:30px;
+}
+
+.pay-noshow-count {
+    height: 26px;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0 11px;
+    line-height: 24px;
+    border-radius: 5px;
 }
