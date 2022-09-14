@@ -987,8 +987,8 @@ if ($artist_flag == 1) {
         backgroundColor:'rgb(255,255,255)'
     })
 
-    canvas.width = canvas.parentElement.offsetWidth;
-    canvas.height=canvas.parentElement.offsetHeight;
+    canvas.width = canvas.parentElement.offsetWidth-2;
+    canvas.height=canvas.parentElement.offsetHeight-2;
 
 
     clear_btn.addEventListener("click", function (event) {

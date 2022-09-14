@@ -986,6 +986,8 @@ if ($artist_flag == 1) {
 
 
 
+
+
     })
 
 
@@ -1015,7 +1017,7 @@ $(function(){
         if(e.type == 'mouseenter'){
             $(this).addClass('actived');
             if(parseInt($(this).attr('data-height')) <4){
-                $(this).attr('style',`height:${$(this).children()[0].offsetHeight}px`)
+                $(this).attr('style',`height:${$(this).children()[0].offsetHeight}px; ${localStorage.getItem('change_check') === "1" ? 'border:red dotted' : ''}`)
             }
             if(memo_array[idx] == ''){
                 return;
@@ -1027,7 +1029,7 @@ $(function(){
             $(this).removeClass('actived');
 
             tooltip.removeClass('actived');
-            $(this).attr('style',`height: calc(100% * ${$(this).attr('data-height')})`)
+            $(this).attr('style',`height: calc(100% * ${$(this).attr('data-height')}); ${localStorage.getItem('change_check') === "1" ? 'border:red dotted' : ''}`)
         }else if(e.type == 'mousemove'){
             tooltip.css({'top' : y , 'left' : x});
 		}
