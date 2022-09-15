@@ -65,7 +65,7 @@ if ($artist_flag == 1) {
 											</div>
 											<div class="basic-data-group middle all_product_wrap beauty_product_wrap">
 												<div class="btn-group vertical text-align-center">
-													<div class="btn-group-cell"><button type="button" class="btn btn-purple btn-basic-wide"><strong>강아지 미용상품 추가하기</strong></button></div>
+													<div class="btn-group-cell"><button type="button" class="btn btn-purple btn-basic-wide" onclick="location.href='set_beauty_management_add_1.php'"><strong>강아지 미용상품 추가하기</strong></button></div>
 													<div class="btn-group-cell" style="display: none;"><button type="button" class="btn btn-outline-purple btn-basic-wide"><strong>미용 소요시간 설정하기</strong></button></div>
 												</div>
 												<!-- 내용이 있을을 경우 -->
