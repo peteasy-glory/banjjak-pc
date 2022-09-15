@@ -35,7 +35,9 @@ if ($artist_flag == 1) {
 							<div class="card-header">
 								<h3 class="card-header-title">미용 추가옵션 등록/수정</h3>
 							</div>
-							<div class="card-body">
+							<form id="optionProductForm" class="card-body">
+                                <input type="hidden" name="partner_id" value="<?=$artist_id?>">
+                                <input type="hidden" name="idx" class="option_product_idx">
 								<div class="card-body-inner">
 									<div class="product-management">
 										<div class="basic-data-group small">											
@@ -662,7 +664,7 @@ if ($artist_flag == 1) {
 													<div class="form-group-item">
 														<div class="form-item-label">추가설명</div>
 														<div class="form-item-data type-2">
-															<textarea style="height:100px;" placeholder="입력"></textarea>
+															<textarea style="height:100px;" name="comment" class="comment" placeholder="입력"></textarea>
 															<div class="form-input-info">0/1000</div>
 														</div>
 													</div>
@@ -671,10 +673,10 @@ if ($artist_flag == 1) {
 										</div>
 									</div>
 								</div>
-							</div>
+							</form>
 							<div class="card-footer">
 								<!-- btn-page-bottom 클래스에 disabled 클래스 추가시 비활성화 또는 button 태그일 시 disabled 속성 추가시 비활성화 -->
-								<a href="#" class="btn-page-bottom">저장하기</a>
+								<a href="javascript:open_pop();" class="btn-page-bottom">저장하기</a>
 							</div>
 						</div>			
 					</div>
@@ -683,6 +685,22 @@ if ($artist_flag == 1) {
 			<!-- //view -->
 		</section>
 		<!-- //contents -->
+        <article id="saveOptionProduct" class="layer-pop-wrap">
+            <div class="layer-pop-parent">
+                <div class="layer-pop-children">
+                    <div class="pop-data alert-pop-data">
+                        <div class="pop-body">
+                            <div class="msg-txt">저장하시겠습니까?</div>
+                        </div>
+                        <div class="pop-footer">
+                            <button type="button" class="btn btn-confirm" onclick="save_option_product();">저장</button>
+                            <button type="button" class="btn btn-cancel" onclick="pop.close();">취소</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </article>
     </section>
     <!-- //container -->
 </div>
@@ -987,6 +1005,11 @@ if ($artist_flag == 1) {
             $(".etc_table").html(add_html);
         }
 
+        // 코멘트
+        $(".comment").val(option_array.comment);
+        // idx
+        $(".option_product_idx").val(option_array.idx);
+
     })
 
     // 기타 탭 클릭
@@ -1047,6 +1070,17 @@ if ($artist_flag == 1) {
         }else if(idx == 'etc'){
             $(".etc_table").append(html);
         }
+    }
+
+    function open_pop(){
+        pop.open('saveOptionProduct');
+    }
+
+    function save_option_product(){
+        var postData = decodeURIComponent($("#optionProductForm").serialize());
+        postData += '&mode=put_option_product';
+        //console.log(postData);
+        put_option_product(postData);
     }
 
 $(function(){

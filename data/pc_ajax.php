@@ -752,6 +752,166 @@ if($r_mode) {
 
         $return_data = array("code"=>"000000","data"=>$result);
 
+    }else if($r_mode === "put_option_product"){
+
+        $partner_id = $_POST['partner_id'];
+        $offer = $_POST['offer'];
+        if($offer == 0){
+            $in_shop = '1';
+            $out_shop = '0';
+        }else if($offer == 1){
+            $in_shop = '0';
+            $out_shop = '1';
+        }else if($offer == 2){
+            $in_shop = '1';
+            $out_shop = '1';
+        }
+        // 얼굴컷
+        $basic_price = $_POST['basic_price'];
+        $bear_price = $_POST['bear_price'];
+        $brocoli_price = $_POST['brocoli_price'];
+        $highba_price = $_POST['highba_price'];
+        $face_name = $_POST['face_name'];
+        $face_price = $_POST['face_price'];
+        $addition_face_product = '';
+        if(count($face_name) > 0){
+            for($i=0;$i<count($face_name);$i++){
+                $addition_face_product.= $face_name[$i].":".$face_price[$i].",";
+            }
+            $addition_face_product = substr($addition_face_product, 0, -1);
+        }
+
+        // 털길이
+        $beauty_length_1 = '';
+        $beauty_length_2 = '';
+        $beauty_length_3 = '';
+        $beauty_length_4 = '';
+        $beauty_length_5 = '';
+        $beauty_length_1_price = '';
+        $beauty_length_2_price = '';
+        $beauty_length_3_price = '';
+        $beauty_length_4_price = '';
+        $beauty_length_5_price = '';
+        $hair_len_name = $_POST['hair_len_name'];
+        $hair_len_price = $_POST['hair_len_price'];
+        $hair_length_product = '';
+        if(count($hair_len_name) > 0){
+            $beauty_length_1 = $hair_len_name[0];
+            $beauty_length_1_price = $hair_len_price[0];
+            if(count($hair_len_name) > 1){
+                $beauty_length_2 = $hair_len_name[1];
+                $beauty_length_2_price = $hair_len_price[1];
+            }
+            if(count($hair_len_name) > 2){
+                $beauty_length_3 = $hair_len_name[2];
+                $beauty_length_3_price = $hair_len_price[2];
+            }
+            if(count($hair_len_name) > 3){
+                $beauty_length_4 = $hair_len_name[3];
+                $beauty_length_4_price = $hair_len_price[3];
+            }
+            if(count($hair_len_name) > 4){
+                $beauty_length_5 = $hair_len_name[4];
+                $beauty_length_5_price = $hair_len_price[4];
+            }
+            if(count($hair_len_name) > 5){
+                for($i=5;$i<count($hair_len_name);$i++){
+                    $hair_length_product .= $hair_len_name[$i].":".$hair_len_price[$i].",";
+                }
+                $hair_length_product = substr($hair_length_product, 0, -1);
+            }
+        }
+
+        // 털특징별 추가
+        $short_hair_price = $_POST['short_bath_price'];
+        $long_hair_price = $_POST['long_bath_price'];
+        $double_hair_price = $_POST['double_bath_price'];
+        $plus_name = $_POST['plus_name'];
+        $plus_price = $_POST['plus_price'];
+        $addition_bath_hair = '';
+        if(count($plus_name) > 0){
+            for($i=0;$i<count($plus_name);$i++){
+                $addition_bath_hair.= $plus_name[$i].":".$plus_price[$i].",";
+            }
+            $addition_bath_hair = substr($addition_bath_hair, 0, -1);
+        }
+
+        // 현장판단후 추가
+        $hair_clot_price = $_POST['hair_clot_price'];
+        $ferocity_price = $_POST['ferocity_price'];
+        $tick_price = $_POST['tick_price'];
+        $place_plus_name = $_POST['place_plus_name'];
+        $place_plus_price = $_POST['place_plus_price'];
+        $addition_work_product = '';
+        if(count($place_plus_name) > 0){
+            for($i=0;$i<count($place_plus_name);$i++){
+                $addition_work_product.= $place_plus_name[$i].":".$place_plus_price[$i].",";
+            }
+            $addition_work_product = substr($addition_work_product, 0, -1);
+        }
+
+        // 기타 - 다리
+        $tonail_price = $_POST['tonail_price'];
+        $boots_price = $_POST['boots_price'];
+        $bell_price = $_POST['bell_price'];
+        $leg_name = $_POST['leg_name'];
+        $leg_price = $_POST['leg_price'];
+        $addition_option_product = '';
+        if(count($leg_name) > 0){
+            for($i=0;$i<count($leg_name);$i++){
+                $addition_option_product.= $leg_name[$i].":".$leg_price[$i].",";
+            }
+            $addition_option_product = substr($addition_option_product, 0, -1);
+        }
+
+        // 기타 - 스파
+        $spa_name = $_POST['spa_name'];
+        $spa_price = $_POST['spa_price'];
+        $spa_option_product = '';
+        if(count($spa_name) > 0){
+            for($i=0;$i<count($spa_name);$i++){
+                $spa_option_product.= $spa_name[$i].":".$spa_price[$i].",";
+            }
+            $spa_option_product = substr($spa_option_product, 0, -1);
+        }
+
+        // 기타 - 염색
+        $dyeing_name = $_POST['dyeing_name'];
+        $dyeing_price = $_POST['dyeing_price'];
+        $dyeing_option_product = '';
+        if(count($dyeing_name) > 0){
+            for($i=0;$i<count($dyeing_name);$i++){
+                $dyeing_option_product.= $dyeing_name[$i].":".$dyeing_price[$i].",";
+            }
+            $dyeing_option_product = substr($dyeing_option_product, 0, -1);
+        }
+
+        // 기타 - 기타
+        $etc_name = $_POST['etc_name'];
+        $etc_price = $_POST['etc_price'];
+        $etc_option_product = '';
+        if(count($etc_name) > 0){
+            for($i=0;$i<count($etc_name);$i++){
+                $etc_option_product.= $etc_name[$i].":".$etc_price[$i].",";
+            }
+            $etc_option_product = substr($etc_option_product, 0, -1);
+        }
+
+        // 코멘트
+        $add_comment = $_POST['comment'];
+
+        $data = array('partner_id'=>$partner_id,'first_type'=>'개','second_type'=>'추가공통옵션','in_shop_product'=>$in_shop,'out_shop_product'=>$out_shop,'basic_face_price'=>$basic_price
+        ,'broccoli_price'=>$brocoli_price,'highba_price'=>$highba_price,'bear_price'=>$bear_price,'hair_clot_price'=>$hair_clot_price,'ferocity_price'=>$ferocity_price,'tick_price'=>$tick_price,'short_hair_price'=>$short_hair_price
+        ,'long_hair_price'=>$long_hair_price,'double_hair_price'=>$double_hair_price,'bell_price'=>$bell_price,'toenail_price'=>$tonail_price,'trumpet_etc_price'=>$boots_price,'cheek_touch_price'=>$partner_id,'addition_face_product'=>$addition_face_product
+        ,'addition_work_product'=>$addition_work_product,'addition_option_product'=>$addition_option_product,'addition_bath_hair'=>$addition_bath_hair,'spa_option_product'=>$spa_option_product,'dyeing_option_product'=>$dyeing_option_product,'etc_option_product'=>$etc_option_product,'beauty_length_1'=>$beauty_length_1
+        ,'beauty_length_1_price'=>$beauty_length_1_price,'beauty_length_2'=>$beauty_length_2,'beauty_length_2_price'=>$beauty_length_2_price,'beauty_length_3'=>$beauty_length_3,'beauty_length_3_price'=>$beauty_length_3_price,'beauty_length_4'=>$beauty_length_4,'beauty_length_4_price'=>$beauty_length_4_price
+        ,'beauty_length_5'=>$beauty_length_5,'beauty_length_5_price'=>$beauty_length_5_price,'hair_length_product'=>$hair_length_product,'add_comment'=>$add_comment);
+        $data_json = json_encode($data);
+
+        $result = $api ->put('/partner/setting/b/product/add-opt-etc/dog' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
     }else if($r_mode === "put_schedule"){
 
         $partner_id = $_POST['partner_id'];

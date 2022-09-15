@@ -1074,6 +1074,8 @@ function view_option_product(){
 
         $(".no_option_product").css("display","none");
         $(".do_option_product").css("display","block");
+
+        $(".option_product_comment").text(setting_array[1].option.comment);
     }
 }
 
@@ -1272,6 +1274,29 @@ function del_coupon(idx){
                 pop.close();
                 pop.open('firstRequestMsg1', '삭제되었습니다.');
                 $(".is_del_"+idx).parents('.tr_data').remove();
+            }
+        }
+    })
+}
+
+// 강아지 추가상품 등록/수정
+function put_option_product(data){
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: data,
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            console.log(res);
+            let response = JSON.parse(res);
+            console.log(response);
+            let head = response.data.head;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                pop.close();
+                pop.open('historyBackUrl', '완료되었습니다.');
+
             }
         }
     })

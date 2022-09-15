@@ -457,7 +457,7 @@ if ($artist_flag == 1) {
                                                     <div class="basic-data-group">
                                                         <div class="memo-item large">
                                                             <div class="memo-item-title">상품별 안내사항</div>
-                                                            <div class="memo-item-txt">프론트 샵페이지 상품하단에 위치하는 안내입니다.</div>
+                                                            <div class="memo-item-txt option_product_comment"></div>
                                                         </div>
                                                     </div>
                                                     <div class="btn-basic-action">
