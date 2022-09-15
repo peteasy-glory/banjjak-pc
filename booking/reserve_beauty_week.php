@@ -1014,6 +1014,9 @@ $(function(){
         /* 확장용 */
         if(e.type == 'mouseenter'){
             $(this).addClass('actived');
+            if(parseInt($(this).attr('data-height')) <4){
+                $(this).attr('style',`height:${$(this).children()[0].offsetHeight}px`)
+            }
             if(memo_array[idx] == ''){
                 return;
             }
@@ -1022,7 +1025,9 @@ $(function(){
             document.getElementById("tooltip-desc-text").innerHTML = memo_array[idx];
         }else if(e.type == 'mouseleave'){
             $(this).removeClass('actived');
+
             tooltip.removeClass('actived');
+            $(this).attr('style',`height: calc(100% * ${$(this).attr('data-height')})`)
         }else if(e.type == 'mousemove'){
             tooltip.css({'top' : y , 'left' : x});
 		}

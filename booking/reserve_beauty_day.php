@@ -12,7 +12,7 @@ if ($artist_flag == 1) {
 }
 
 ?>
-<body style="overflow-x: hidden">
+<body >
 
 <!-- wrap -->
 <div id="wrap">
@@ -220,9 +220,526 @@ if ($artist_flag == 1) {
 								<!-- //캘린더 라벨 -->
 							</div>
 						</div>
-                        <div id="pay_management" class="pay_management">
+                        <article id="pay_management" class="pay_management">
+                            <div class="pay-data-card">
+                                <div class="pay-card-header">
+                                    <div class="pay-card-header-title">작업/결제 관리</div>
+                                </div>
+                                <div class="pay-card-body">
+                                    <div class="pay-card-body-inner">
+                                        <div class="pay-card-content-1">
+                                            <div class="pay-card-body-title">
+                                                <h4 class="con-title">예약자 정보</h4>
+                                                <div class="pay-noshow btn btn-red btn-small-size btn-round ">노쇼 등록</div>
+                                            </div>
+                                            <div class="pay-flex-table">
+                                                <div class="pay-flex-table-cell">
+                                                    <div class="pay-flex-table-item">
+                                                        <div class="pay-flex-table-title">
+                                                            <dlv class="pay-txt">등급</dlv>
+                                                        </div>
+                                                        <div class="pay-flex-table-data">
+                                                            <div class="pay-flex-table-data-inner">
+                                                                <div class="pay-user-grade-item">
+                                                                    <div class="icon icon-grade-vip">
 
-                        </div>
+                                                                    </div>
+                                                                    <div class="icon-grade-label">
+                                                                        vip
+                                                                    </div>
+                                                                </div>
+                                                                <div class="pay-flex-table-data-side">
+                                                                    <button type="button" class="pay-grade-modify"></button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="pay-flex-table-cell">
+                                                    <div class="pay-flex-table-item">
+                                                        <div class="pay-flex-table-title">
+                                                            <div class="pay-txt">연락처</div>
+                                                        </div>
+                                                        <div class="pay-flex-table-data">
+                                                            <dlv class="pay-flex-table-data-inner">
+                                                                <div class="pay-user-cellphone">
+                                                                    010-5390-6571
+                                                                </div>
+                                                            </dlv>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="pay-flex-table-cell">
+                                                    <div class="pay-flex-table-item">
+                                                        <div class="pay-flex-table-title">
+                                                            <div class="pay-txt">보조 연락처</div>
+                                                            <div class="call-edit">
+                                                                <span>편집</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="pay-flex-table-data">
+                                                            <div class="pay-flex-table-data-inner">
+                                                                <div class="pay-user-sub-cellphone">
+
+
+                                                                    <div class="pay-user-sub-cellphone-name">테스트</div>
+                                                                    <div class="pay-user-sub-cellphone-number">010-5390-6572</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="pay-customer-memo">
+                                                <div class="pay-customer-memo-title">
+                                                    <div class="pay-txt">견주관련 메모<span class="pay-sub-txt"> (고객에게는 노출되지 않습니다.)</span></div>
+                                                </div>
+                                                <textarea name="pay-customer-memo-text" cols="30" rows="10"></textarea>
+                                                <button type="button" class="pay-customer-memo-save btn btn-outline-purple btn-middle-size btn-round">저장</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="pay-card-content-2">
+                                            <div class="pay-card-body-title">
+                                                <h4 class="con-title">예약동물 정보</h4>
+                                            </div>
+                                            <div class="pay-customer-pet-group">
+                                                <div class="pay-customer-view-pet-picture">
+                                                    <div class="pay-item-thumb">
+                                                        <div class="user-thumb large">
+                                                            <img src="" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="pay-item-user-info">
+                                                        <div class="pay-item-user-info-inner">
+                                                            <div class="pay-pet-name">죠르디</div>
+                                                            <div class="pay-pet-cate">말티즈</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="pay-item-action">
+                                                        <div class="grid-layout btn-grid-group">
+                                                            <div class="grid-layout-inner">
+                                                                <div class="grid-layout-cell grid-2">
+                                                                    <a href="#" class="btn btn-outline-gray btn-middle-size btn-round">미용 갤러리</a>
+                                                                </div>
+                                                                <div class="grid-layout-cell grid-2">
+                                                                    <a href="#" class="btn btn-outline-gray btn-middle-size btn-round">미용동의서 작성</a>
+                                                                </div>
+                                                                <div class="grid-layout-cell grid-1">
+                                                                    <a href="#" class="btn btn-outline-purple btn-middle-size btn-round">펫 정보 수정</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="pay-pet-info">
+                                                    <div class="pay-flex-table-cell">
+                                                        <div class="pay-flex-table-item">
+                                                            <div class="pay-flex-table-title">
+                                                                <div class="pay-txt">
+                                                                    성별
+                                                                </div>
+                                                            </div>
+                                                            <div class="pay-flex-table-data">
+                                                                <div class="pay-flex-table-data-inner">
+                                                                    남아
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="pay-flex-table-cell">
+                                                        <div class="pay-flex-table-item">
+                                                            <div class="pay-flex-table-title">
+                                                                <div class="pay-txt">
+                                                                    중성화
+                                                                </div>
+                                                            </div>
+                                                            <div class="pay-flex-table-data">
+                                                                <div class="pay-flex-table-data-inner">
+                                                                    O
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="pay-flex-table-cell">
+                                                        <div class="pay-flex-table-item">
+                                                            <div class="pay-flex-table-title">
+                                                                <div class="pay-txt">
+                                                                    무게
+                                                                </div>
+                                                            </div>
+                                                            <div class="pay-flex-table-data">
+                                                                <div class="pay-flex-table-data-inner">
+                                                                    0.2kg
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="pay-flex-table-cell">
+                                                        <div class="pay-flex-table-item">
+                                                            <div class="pay-flex-table-title">
+                                                                <div class="pay-txt">
+                                                                    나이
+                                                                </div>
+                                                            </div>
+                                                            <div class="pay-flex-table-data">
+                                                                <div class="pay-flex-table-data-inner">
+                                                                    2년 8개월
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="pay-flex-table-cell">
+                                                        <div class="pay-flex-table-item">
+                                                            <div class="pay-flex-table-title">
+                                                                <div class="pay-txt">
+                                                                    입질
+                                                                </div>
+                                                            </div>
+                                                            <div class="pay-flex-table-data">
+                                                                <div class="pay-flex-table-data-inner">
+                                                                    안해요
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="pay-flex-table-cell">
+                                                        <div class="pay-flex-table-item">
+                                                            <div class="pay-flex-table-title">
+                                                                <div class="pay-txt">
+                                                                    슬개골 탈구
+                                                                </div>
+                                                            </div>
+                                                            <div class="pay-flex-table-data">
+                                                                <div class="pay-flex-table-data-inner">
+                                                                    없음
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="pay-customer-view-pet-detail">
+                                                    <button type="button" class="pay-btn-detail-toggle">
+                                                        펫 정보 자세히 보기
+                                                    </button>
+                                                    <div class="pay-service-selected-wrap">
+                                                        <div class="pay-service-selected-group">
+                                                            <div class="pay-list-title">미용 경험</div>
+                                                            <div class="pay-list-data">3회</div>
+
+                                                        </div>
+                                                        <div class="pay-service-selected-group">
+                                                            <div class="pay-list-title">예방 접종</div>
+                                                            <div class="pay-list-data">2차 이하</div>
+
+                                                        </div>
+                                                        <div class="pay-service-selected-group">
+                                                            <div class="pay-list-title">특이사항</div>
+                                                            <div class="pay-list-data">피부병</div>
+
+                                                        </div>
+                                                        <div class="pay-service-selected-group">
+                                                            <div class="pay-list-title">기타</div>
+                                                            <div class="pay-list-data">기타</div>
+
+                                                       </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="pay-special-memo">
+                                                    <div class="pay-special-memo-title">
+                                                        <div class="pay-txt">특이사항<span class="pay-sub-txt"> (고객에게는 노출되지 않습니다.)</span></div>
+                                                    </div>
+                                                    <textarea name="pay-special-memo-text" cols="30" rows="10"></textarea>
+                                                    <button type="button" class="pay-special-memo-save btn btn-outline-purple btn-middle-size btn-round">저장</button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="pay-card-content-3">
+                                            <div class="pay-card-body-title">
+                                                <h4 class="con-title">이전 미용</h4>
+                                            </div>
+                                            <div class="pay-before-beauty-list">
+                                                <div class="pay-before-beauty-item">
+                                                    <span class="pay-before-beauty-memo">
+                                                        2022.09.04 / / Kg / 0원
+                                                    </span>
+                                                    <a href="#" class="pay-before-beauty-detail">
+                                                        <span class="pay-before-beauty-detail-memo">상세보기</span>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="5.207" height="9.414" viewBox="0 0 5.207 9.414">
+                                                            <path data-name="Path" d="m-4 8 4-4-4-4" transform="translate(4.707 .707)" style="fill:none;stroke:#202020;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;"></path>
+                                                        </svg>
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="pay-card-content-4">
+                                            <div class="pay-card-body-title">
+                                                <h4 class="con-title">예약 내용</h4>
+                                                <button type="button" class="btn-side btn btn-small-size btn-inline btn-border-radius-16 btn-bg-yellow">알림톡 발송 이력</button>
+                                            </div>
+                                            <div class="pay-text-list-wrap">
+                                                <div class="pay-text-list-cell">
+                                                    <div class="pay-text-list-title unit">
+                                                        날짜
+                                                    </div>
+                                                    <div class="pay-item-data">
+                                                        2022.09.11
+                                                    </div>
+                                                </div>
+                                                <div class="pay-text-list-cell">
+                                                    <div class="pay-text-list-title unit">
+                                                        선생님
+                                                    </div>
+                                                    <div class="pay-item-data">실장</div>
+                                                </div>
+                                                <div class="pay-text-list-cell">
+                                                    <div class="pay-text-list-title unit">
+                                                        시간
+                                                    </div>
+                                                    <div class="pay-item-data">
+                                                        <div class="pay-datepicker-group">
+                                                            <div class="pay-form-datepicker">
+                                                                <select name="pay_from_time" id="pay_from_time">
+                                                                    <option>casd</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="pay-form-unit">
+                                                                ~
+                                                            </div>
+                                                            <div class="pay-form-datepicker">
+
+                                                                <select name="pay_to_time" id="pay_to_time">
+                                                                    <option>casd</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="pay-basic-data-group">
+                                                    <button type="button" class="only-change-time btn btn-outline-gray btn-middle-size btn-round">시간만 변경</button>
+                                                </div>
+                                                <div class="pay-form-bottom-info">
+                                                    *시간 변경만 하는 경우 시간선택 후 눌러주세요.
+                                                </div>
+
+                                            </div>
+
+                                            <div class="pay-basic-data-group-2">
+                                                <div class="grid-layout btn-grid-group">
+                                                    <div class="grid-layout-inner">
+                                                        <div class="grid-layout-cell grid-2">
+                                                            <button type="button" class="btn btn-outline-purple btn-middle-size btn-round">날짜/미용사 변경</button>
+                                                        </div>
+                                                        <div class="grid-layout-cell grid-2">
+                                                            <button type="button" class="btn btn-outline-purple btn-middle-size btn-round">예약 취소</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="pay-card-content-5">
+                                            <div class="pay-card-body-title">
+                                                <h4 class="con-title">미용 종료 알림 발송</h4>
+                                            </div>
+                                            <div class="pay-beauty-notice">
+                                                <div class="grid-layout basic">
+                                                    <div class="grid-layout-inner">
+                                                        <div class="grid-layout-cell grid-4">
+                                                            <label class="form-toggle-box block">
+                                                                <input type="radio" name="time1" class="timer" id="timer_0" value="y">
+                                                                <em>지금종료</em>
+                                                            </label>
+                                                        </div>
+                                                        <div class="grid-layout-cell grid-4">
+                                                            <label class="form-toggle-box block">
+                                                                <input type="radio" name="time1" class="timer" id="timer_0" value="y">
+                                                                <em>10분전</em>
+                                                            </label>
+                                                        </div>
+                                                        <div class="grid-layout-cell grid-4">
+                                                            <label class="form-toggle-box block">
+                                                                <input type="radio" name="time1" class="timer" id="timer_0" value="y">
+                                                                <em>15분전</em>
+                                                            </label>
+                                                        </div>
+                                                        <div class="grid-layout-cell grid-4">
+                                                            <label class="form-toggle-box block">
+                                                                <input type="radio" name="time1" class="timer" id="timer_0" value="y">
+                                                                <em>20분전</em>
+                                                            </label>
+                                                        </div>
+                                                        <div class="grid-layout-cell grid-4">
+                                                            <label class="form-toggle-box block">
+                                                                <input type="radio" name="time1" class="timer" id="timer_0" value="y">
+                                                                <em>30분전</em>
+                                                            </label>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="pay-form-bottom-info-2">*시간 선택 후 발송을 누르면 견주에게 즉시알림이 발송됩니다.</div>
+                                            <div class="pay-basic-data-group-2">
+                                                <div class="grid-layout btn-grid-group">
+                                                    <div class="grid-layout-inner">
+                                                        <div class="grid-layout-cell grid-2">
+                                                            <button type="button" class="btn btn-outline-gray btn-middle-size btn-round">예시보기</button>
+                                                        </div>
+                                                        <div class="grid-layout-cell grid-2">
+                                                            <button type="button" class="btn btn-outline-purple btn-middle-size btn-round">발송</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="sticky-tab-group">
+                                            <div class="pay-card-content-6">
+                                                <div class="pay-card-body-title">
+                                                    <h4 class="con-title">결제 정보</h4>
+                                                </div>
+                                            </div>
+                                            <div class="wide-tab pay-wide-tab">
+                                                <div class="wide-tab-inner" id="wide-tab-inner3">
+                                                    <div class="tab-cell">
+                                                        <button type="button" class="btn-tab-item" id="tab1">
+                                                            <span>
+                                                                기본 서비스
+                                                            </span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="tab-cell">
+                                                        <button type="button" class="btn-tab-item" id="tab2">
+                                                            <span>
+                                                                추가
+                                                            </span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="tab-cell">
+                                                        <button type="button" class="btn-tab-item" id="tab3">
+                                                            <span>
+                                                                쿠폰상품
+                                                            </span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="tab-cell">
+                                                        <button type="button" class="btn-tab-item" id="tab4">
+                                                            <span>
+                                                                제품
+                                                            </span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="basic-data-group vmiddle tab-data-group">
+                                            <input type="hidden" value="" id="customer_id">
+                                            <input type="hidden" value="" id="pet_seq">
+                                            <input type="hidden" value="" id="is_vat">
+                                            <!-- tab-data-cell 클래스에 actived클래스 추가시 활성화-->
+                                            <!-- 기본 서비스 -->
+                                            <div class="tab-data-cell actived" id="basic_service">
+                                                <div class="grid-layout basic">
+                                                    <div class="grid-layout-inner" id="basic_service_inner">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- //기본 서비스 -->
+                                            <!-- 추가 -->
+                                            <div class="tab-data-cell" id="other_service">
+                                                <div class="grid-layout basic">
+                                                    <div class="grid-layout-inner" id="other_service_inner">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- //추가 -->
+                                            <!-- 쿠폰상품 -->
+                                            <div class="tab-data-cell" id="other2_service">
+                                                <div class="grid-layout basic">
+                                                    <div class="grid-layout-inner" id="other2_service_inner">
+
+                                                        <div class="grid-layout-cell grid-2">
+                                                            <div class="form-group-item" id="c_coupon">
+                                                                <div class="form-item-label">쿠폰상품</div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid-layout-cell grid-2" >
+                                                            <div class="form-group-item" id="f_coupon">
+                                                                <div class="form-item-label">정액상품</div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- //쿠폰상품 -->
+                                            <!-- 제품 -->
+                                            <div class="tab-data-cell" id="other3_service">
+                                                <div class="grid-layout basic">
+                                                    <div class="grid-layout-inner" id="other3_service_inner">
+                                                        <div class="grid-layout-cell grid-4">
+                                                            <div class="form-group-item">
+                                                                <div class="form-item-label">용품</div>
+                                                                <div class="form-item-data type-2">
+                                                                    <div class="toggle-button-group vertical" id="etc_product_list_1">
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid-layout-cell grid-4">
+                                                            <div class="form-group-item">
+                                                                <div class="form-item-label">간식</div>
+                                                                <div class="form-item-data type-2">
+                                                                    <div class="toggle-button-group vertical" id="etc_product_list_2">
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid-layout-cell grid-4">
+                                                            <div class="form-group-item">
+                                                                <div class="form-item-label">사료</div>
+                                                                <div class="form-item-data type-2">
+                                                                    <div class="toggle-button-group vertical" id="etc_product_list_3">
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid-layout-cell grid-4">
+                                                            <div class="form-group-item">
+                                                                <div class="form-item-label">기타</div>
+                                                                <div class="form-item-data type-2">
+                                                                    <div class="toggle-button-group vertical" id="etc_product_list_4">
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- //제품 -->
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </article>
 					</div>
 				</div>
 			</div>
@@ -848,7 +1365,6 @@ if ($artist_flag == 1) {
 <script src="../static/js/Sortable.min.js"></script>
 
 <script src="../static/js/booking.js"></script>
-<script src="../static/js/jquery.easing.min.js"></script>
 <script src="../static/js/customer.js"></script>
 <script>
 
@@ -865,6 +1381,7 @@ if ($artist_flag == 1) {
         gnb_init();
         wide_tab();
         wide_tab_2();
+        wide_tab_3();
         calendar_change_month(artist_id);
         btn_month(artist_id);
         btn_month_simple()
@@ -926,15 +1443,35 @@ $(function(){
 
 	//https://github.com/SortableJS/Sortable
 
-	$(document).on('mouseenter mouseleave mousemove' , '.calendar-week-time-item' , function(e){
+
+    document.querySelector('.pay-btn-detail-toggle').addEventListener('click',function(){
+
+        if(document.querySelector('.pay-service-selected-wrap').style.display === 'none'){
+            document.querySelector('.pay-btn-detail-toggle').classList.add('actived');
+            document.querySelector('.pay-service-selected-wrap').style.display = 'block';
+        }else{
+            document.querySelector('.pay-btn-detail-toggle').classList.remove('actived')
+            document.querySelector('.pay-service-selected-wrap').style.display = 'none';
+        }
+
+
+    })
+
+    $(document).on('mouseenter mouseleave mousemove' , '.calendar-week-time-item' , function(e){
         //console.log($(this).data('payment_idx'));
 		var x = e.pageX;
 		var y = e.pageY;
         var tooltip = $('.reserve-calendar-tooltip');
         var idx = $(this).data('tooltip_idx');
+        let height;
+
 		/* 확장용 */
 		if(e.type == 'mouseenter'){
 			$(this).addClass('actived');
+            if(parseInt($(this).attr('data-height')) <4){
+                $(this).attr('style',`height:${$(this).children()[0].offsetHeight}px`)
+            }
+
             if(memo_array[idx] == ''){
                 return;
             }
@@ -944,6 +1481,7 @@ $(function(){
 		}else if(e.type == 'mouseleave'){
 			$(this).removeClass('actived');
             tooltip.removeClass('actived');
+            $(this).attr('style',`height: calc(100% * ${$(this).attr('data-height')})`)
 		}else if(e.type == 'mousemove'){
             tooltip.css({'top' : y , 'left' : x});
         }
