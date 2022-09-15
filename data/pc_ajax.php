@@ -912,6 +912,33 @@ if($r_mode) {
 
         $return_data = array("code"=>"000000","data"=>$result);
 
+    }else if($r_mode === "put_work_time"){
+
+        $partner_id = $_POST['partner_id'];
+        $work_time1 = (isset($_POST['work_time1']))? $_POST['work_time1'] : 0;
+        $work_time2 = (isset($_POST['work_time2']))? $_POST['work_time2'] : 0;
+        $work_time3 = (isset($_POST['work_time3']))? $_POST['work_time3'] : 0;
+        $work_time4 = (isset($_POST['work_time4']))? $_POST['work_time4'] : 0;
+        $work_time5 = (isset($_POST['work_time5']))? $_POST['work_time5'] : 0;
+        $work_time6 = (isset($_POST['work_time6']))? $_POST['work_time6'] : 0;
+        $work_time7 = (isset($_POST['work_time7']))? $_POST['work_time7'] : 0;
+        $work_time8 = (isset($_POST['work_time8']))? $_POST['work_time8'] : 0;
+        $work_time9 = (isset($_POST['work_time9']))? $_POST['work_time9'] : 0;
+        $work_time10 = (isset($_POST['work_time10']))? $_POST['work_time10'] : 0;
+        $work_time11 = (isset($_POST['work_time11']))? $_POST['work_time11'] : 0;
+        $work_time12 = (isset($_POST['work_time12']))? $_POST['work_time12'] : 0;
+        $work_time13 = (isset($_POST['work_time13']))? $_POST['work_time13'] : 0;
+        $work_time14 = (isset($_POST['work_time14']))? $_POST['work_time14'] : 0;
+
+        $data = array('partner_id'=>$partner_id,'work_time1'=>$work_time1,'work_time2'=>$work_time2,'work_time3'=>$work_time3,'work_time4'=>$work_time4
+        ,'work_time5'=>$work_time5,'work_time6'=>$work_time6,'work_time7'=>$work_time7,'work_time8'=>$work_time8,'work_time9'=>$work_time9
+        ,'work_time10'=>$work_time10,'work_time11'=>$work_time11,'work_time12'=>$work_time12,'work_time13'=>$work_time13,'work_time14'=>$work_time14);
+        $data_json = json_encode($data);
+
+        $result = $api ->put('/partner/setting/b/product/part-time/dog' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
     }else if($r_mode === "put_schedule"){
 
         $partner_id = $_POST['partner_id'];

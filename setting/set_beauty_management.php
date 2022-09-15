@@ -117,7 +117,7 @@ if ($artist_flag == 1) {
 															<div class="btn-basic-action">
 																<div class="grid-layout btn-grid-group">
 																	<div class="grid-layout-inner justify-content-end">
-																		<div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-purple btn-small-size btn-basic-small">수정</button></div>
+																		<div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-purple btn-small-size btn-basic-small" onclick="location.href='set_beauty_management_time.php'">수정</button></div>
 																	</div>
 																</div>																
 															</div>
@@ -820,6 +820,7 @@ if ($artist_flag == 1) {
         get_navi(artist_id);
         gnb_init();
         gnb_actived('gnb_detail_wrap','gnb_merchandise');
+
         get_beauty_product(artist_id);
         get_option_product(artist_id);
         get_beauty_coupon(artist_id);

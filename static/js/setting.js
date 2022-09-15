@@ -591,22 +591,24 @@ function view_beauty_product(){
     var tbody_html = '<tbody><tr>';
     var add_service = ['무게'];
     $.each(setting_array[0].worktime, function(i,v){
-        var txt = '';
-        switch (i){
-            case 'bath' : txt = '목욕'; break;
-            case 'part' : txt = '부분미용'; break;
-            case 'bath_part' : txt = '부분+목욕'; break;
-            case 'sanitation' : txt = '위생'; break;
-            case 'sanitation_bath' : txt = '위생+목욕'; break;
-            case 'all' : txt = '전체미용'; break;
-            case 'spoting' : txt = '스포팅'; break;
-            case 'scissors' : txt = '가위컷'; break;
-            case 'summercut' : txt = '썸머컷'; break;
-            default : txt = i; add_service.push(txt);
+        if(v.is_use == 'y'){
+            var txt = '';
+            switch (i){
+                case 'bath' : txt = '목욕'; break;
+                case 'part' : txt = '부분미용'; break;
+                case 'bath_part' : txt = '부분+목욕'; break;
+                case 'sanitation' : txt = '위생'; break;
+                case 'sanitation_bath' : txt = '위생+목욕'; break;
+                case 'all' : txt = '전체미용'; break;
+                case 'spoting' : txt = '스포팅'; break;
+                case 'scissors' : txt = '가위컷'; break;
+                case 'summercut' : txt = '썸머컷'; break;
+                default : txt = i; add_service.push(txt);
+            }
+            col_html += '<col style="width:auto;">';
+            thead_html += `<th>${txt}</th>`;
+            tbody_html += `<td>${v.time}</td>`;
         }
-        col_html += '<col style="width:auto;">';
-        thead_html += `<th>${txt}</th>`;
-        tbody_html += `<td>${v.time}</td>`;
     })
     col_html += '</colgroup>';
     thead_html += '</tr></thead>';
@@ -1281,6 +1283,29 @@ function del_coupon(idx){
 
 // 강아지 추가상품 등록/수정
 function put_option_product(data){
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: data,
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            //console.log(res);
+            let response = JSON.parse(res);
+            //console.log(response);
+            let head = response.data.head;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                pop.close();
+                pop.open('historyBackUrl', '완료되었습니다.');
+
+            }
+        }
+    })
+}
+
+// 강아지 추가상품 등록/수정
+function put_work_time(data){
     $.ajax({
         url: '../data/pc_ajax.php',
         data: data,
