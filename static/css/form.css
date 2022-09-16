@@ -593,9 +593,9 @@ h6.con-title + .form-group-item {margin-top:20px;}
 
 /* 상세설정 */
 .dark .form-week-select .form-toggle-box.circle > input:disabled + em {
-    background: #2c2d30;
+    background: #393a3e;
     border-color: #666;
-    color: #666;
+    color: #8f8f8f;
 }
 
 .dark .form-week-select .form-toggle-box.circle > input:checked + em {
@@ -610,4 +610,8 @@ h6.con-title + .form-group-item {margin-top:20px;}
 
 .dark .form-bottom-info {
     color: #8f8f8f;
+}
+
+.dark .form-week-select .form-toggle-box.circle > em {
+    background: #393a3e;
 }

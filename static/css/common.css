@@ -3524,7 +3524,7 @@ a.btn-calendar-add:hover,
 .user-hack-wrap .hack-detail .detail-txt > em {display:block; font-weight:500;}
 .user-hack-wrap .hack-check {margin-top:18px;}
 .user-hack-wrap .detail-txt span { margin-left: 10px; }
-.user-hack-wrap .detail-txt::before { content: '•'; color: #6840B1; }
+.user-hack-wrap .detail-txt::before { content: '•'; color: #6840B1; margin-right: 5px;}
 .user-hack-wrap .detail-txt:last-child::before { display: none; }
 /*  */
 
@@ -4281,6 +4281,21 @@ button.btn-surtax-set{height:26px;  padding:0 10px 0 4px; border-radius:13px;}
 }
 
 
+/* 22.09.15 추가 */
+.customer-table .table_wrap .customer-table-txt1 {
+	font-size:14px;
+	line-height:18px;
+	color:#666;
+	padding:18px 0;
+	background: #ededed;
+}
+
+.customer-table .table_wrap .customer-table-txt2 {
+	background: #f9faf9;
+}
+
+
+
 /*========================================
 @ 다크모드
 ========================================*/
@@ -4299,7 +4314,7 @@ button.btn-surtax-set{height:26px;  padding:0 10px 0 4px; border-radius:13px;}
 .dark .btn-outline-black , .dark a.btn-outline-black , .dark input[type=submit].btn-outline-black , .dark button.btn-outline-black {color:#fff; border-color:#202020; background-color:#2c2d30;}
 .dark .btn-outline-yellow , .dark a.btn-outline-yellow , .dark input[type=submit].btn-outline-yellow , .dark button.btn-outline-yellow {color:#fdd94e; border-color:#fdd94e; background-color:#2c2d30;}
 .dark .btn-outline-red , .dark a.btn-outline-red , .dark input[type=submit].btn-outline-red , .dark button.btn-outline-red {color:#FF4848; border-color:#FF4848; background-color:#2c2d30;}
-.dark .btn-outline-gray , .dark a.btn-outline-gray , .dark input[type=submit].btn-outline-gray , .dark button.btn-outline-gray {color:#fff; border-color:#ebebeb; background-color:#2c2d30;}
+.dark .btn-outline-gray , .dark a.btn-outline-gray , .dark input[type=submit].btn-outline-gray , .dark button.btn-outline-gray {color:#fff; border-color:#ebebeb; background-color:transparent;}
 .dark .btn-outline-gray.actived , .dark a.btn-outline-gray.actived , .dark input[type=submit].btn-outline-gray.actived , .dark button.btn-outline-gray.actived {color:#6840b1; border-color:#6840b1; background-color:#2c2d30;}
 .dark .btn-outline-darkgray , .dark a.btn-outline-darkgray , .dark input[type=submit].btn-outline-darkgray , .dark button.btn-outline-darkgray {color:#202020; border-color:#b4b4b4; background-color:#2c2d30;}
 
@@ -4504,7 +4519,7 @@ button.btn-surtax-set{height:26px;  padding:0 10px 0 4px; border-radius:13px;}
 
 .dark .total-text-group .total-text-cell .item-value {color:#8552e3;}
 
-.dark table.customer-table > thead > tr > th {color:#d8d8d8; border-color:#47484b; background-color:#1e1f21; }
+.dark table.customer-table > thead > tr > th {color:#d8d8d8; border-color:#47484b; background-color:#393a3e; }
 .dark table.customer-table > tbody > tr > td {color:#d8d8d8; border-color:#47484b; background-color:#2c2d30;}
 
 
@@ -4646,6 +4661,69 @@ button.btn-surtax-set{height:26px;  padding:0 10px 0 4px; border-radius:13px;}
 	color: #fdd94e !important;
 }
 
+.dark .ui-datepicker-trigger {
+	content: url("../images/icon/icon-datepicker.png");
+}
+
+.dark .ui-datepicker {
+	background: #393a3e;
+	border-color: #47484b;
+}
+
+.dark .ui-datepicker .ui-datepicker-header {
+	border-color: #47484b;
+}
+
+.dark .ui-datepicker .ui-datepicker-prev {
+	background: url("../images/datepicker/btn-calendar-before-arrow_dark.png") center center no-repeat;
+	background-size: 16px auto;
+}
+
+.dark .ui-datepicker .ui-datepicker-next {
+	background: url("../images/datepicker/btn-calendar-after-arrow_dark.png") center center no-repeat;
+	background-size: 16px auto;
+}
+
+.dark .ui-datepicker .ui-datepicker-title, .dark .ui-datepicker .ui-datepicker-title .ui-datepicker-year, .dark .ui-datepicker .ui-datepicker-title .ui-datepicker-month {
+	color: #fff;
+}
+
+.dark .ui-datepicker th {
+	color: #fff;
+}
+
+.dark .ui-datepicker .ui-state-default {
+	background: #393a3e !important;
+	color: #fff;
+}
+
+.dark .ui-datepicker .ui-datepicker-current-day .ui-state-default {
+	background: #fdd94e !important;
+}
+
+.dark .btn-data-refresh {
+	background: url("../images/icon/icon-refresh-dark.png") center center no-repeat;
+	background-size: 24px auto;
+	border-color: #d8d8d8 ;
+}
+
+.dark .pay-card-cell.all {
+	border-color: #47484b;
+}
+
+.dark .customer-view-agree .pay-card-check .btn-pay-card-toggle {
+	color: #fff;
+}
+
+.dark .customer-view-agree .pay-card-check .btn-pay-card-toggle:after {
+	background: url("../images/icon/btn-info-spread@2x_dark.png") center center no-repeat;
+	background-size: 10px auto;
+}
+
+.dark .form-datepicker-group .form-unit {
+	color: #d8d8d8;
+}
+
 .dark .customer-user-phone-wrap .item-main-phone {
 	color: #d8d8d8;
 }
@@ -4671,7 +4749,7 @@ button.btn-surtax-set{height:26px;  padding:0 10px 0 4px; border-radius:13px;}
 }
 
 .dark .special-note {
-	background: #47484b;
+	background: #393a3e;
 	color: #d8d8d8;
 }
 
@@ -4684,17 +4762,17 @@ button.btn-surtax-set{height:26px;  padding:0 10px 0 4px; border-radius:13px;}
 }
 
 .dark .btn-detail-toggle:after {
-	background: url("../images/icon/icon_select_arrow_dark.png")center center no-repeat;
+	background: url("../images/icon/icon_select_arrow_dark.png") center center no-repeat;
 	background-size: 10px auto;
 }
 
 .dark .btn-note-toggle:after {
-	background: url("../images/icon/icon_select_arrow_dark.png")center center no-repeat;
+	background: url("../images/icon/icon_select_arrow_dark.png") center center no-repeat;
 	background-size: 10px auto;
 }
 
 .dark .customer-table-toggle.type-2 .toggle-title:after {
-	background: url("../images/icon/icon-table-toggle-arrow_dark.png")left center no-repeat;
+	background: url("../images/icon/icon-table-toggle-arrow_dark.png") left center no-repeat;
 	background-size: 16px auto;
 }
 
@@ -4727,7 +4805,7 @@ button.btn-surtax-set{height:26px;  padding:0 10px 0 4px; border-radius:13px;}
 }
 
 .dark .btn-more-toggle-nav:before {
-	background: url("../images/icon/icon_select_arrow_dark.png")center center no-repeat;
+	background: url("../images/icon/icon_select_arrow_dark.png") center center no-repeat;
 	background-size: 10px auto;
 }
 
@@ -4744,11 +4822,11 @@ button.btn-surtax-set{height:26px;  padding:0 10px 0 4px; border-radius:13px;}
 }
 
 .dark .customer-grade-card {
-	border-color: #666;
+	border-color: #47484b;
 }
 
 .dark .customer-grade-card .card-header {
-	background: #47484b;
+	background: #393a3e;
 }
 
 .dark .user-grade-item > .icon-grade-label {
@@ -4798,7 +4876,7 @@ button.btn-surtax-set{height:26px;  padding:0 10px 0 4px; border-radius:13px;}
 }
 
 .dark .icon-camera-gray {
-	background: url("../images/icon/camera_dark.png")center center no-repeat;
+	background: url("../images/icon/camera_dark.png") center center no-repeat;
 	background-size: 24px auto;
 }
 
@@ -4819,7 +4897,7 @@ button.btn-surtax-set{height:26px;  padding:0 10px 0 4px; border-radius:13px;}
 }
 
 .dark .master-portfolio-item .item-info {
-	background: #47484b;
+	background: #393a3e;
 	border-color: #47484b;
 }
 
@@ -4832,7 +4910,7 @@ button.btn-surtax-set{height:26px;  padding:0 10px 0 4px; border-radius:13px;}
 }
 
 .dark .recomment-item .recomment-data {
-	background: #47484b;
+	background: #393a3e;
 	color: #d8d8d8;
 }
 
@@ -4863,6 +4941,19 @@ a.btn-reserve.disabled, a.btn-page-bottom.disabled, a.btn-reserve:disabled, a.bt
 
 
 /* 상세설정 */
+.dark .memo-item {
+	background: #393a3e;
+	color: #fff;
+}
+
+.dark .icon-share-middle-black {
+	background-image: url("../images/icon/icon-share-middle-dark.png");
+}
+
+.dark .icon-close-small-black {
+	background-image: url("../images/icon/10-ic-16-close-dark.png");
+}
+
 .dark .msg-item {
 	border-color: #47484b;
 }
@@ -4877,6 +4968,260 @@ a.btn-reserve.disabled, a.btn-page-bottom.disabled, a.btn-reserve:disabled, a.bt
 
 .dark .customer-card-item .item-right-name {
 	color: #fff;
+}
+
+.dark .con-title-info.type-2 {
+	color: #d8d8d8;
+}
+
+.dark .card-teacher-item {
+	background: #393a3e;
+	border-color: #666;
+}
+
+.dark .card-teacher-body {
+	border-color: #666;
+}
+
+.dark .card-teacher-header .item-name {
+	color: #fff;
+}
+
+.dark .card-teacher-header .item-info {
+	color: #d8d8d8;
+}
+
+.dark .label-outline-purple {
+	color: #fdd94e;
+	border-color: #fdd94e;
+	background: transparent;
+}
+
+.dark .card-teacher-header button.btn-accordion-menu:after {
+	background: url("../images/icon/icon_accordion_arrow_gray.png") center center no-repeat;
+	background-size: 12px auto;
+}
+
+.dark .hide .card-teacher-item {
+	background: #2C2D30;
+	border-color: #666;
+}
+
+.dark .hide .card-teacher-item .item-name{
+	color: #8f8f8f;
+}
+
+.dark .schedule-day-item .item-value {
+	color: #8f8f8f;
+}
+
+.dark .hide .card-teacher-body .schedule-day-state {
+	background: #666;
+	border-color: #666;
+}
+
+.dark .page-tab-inner .tab-cell.actived .btn-tab-item {
+	color: #fff;
+}
+
+.dark .page-tab-inner .tab-cell .btn-tab-item > span:before {
+	background: #fff;
+}
+
+.dark .read-table-unit.large {
+	color: #d8d8d8;
+}
+
+.dark .read-table table > thead > tr > th {
+	background: #393a3e;
+	border-color: #47484b;
+	color: #d8d8d8;
+}
+
+.dark .read-table table > tbody > tr > td {
+	background: #393a3e;
+	border-color: #47484b;
+	color: #d8d8d8;
+}
+
+.dark .dark .btn-outline-purple, .dark a.btn-outline-purple, .dark input[type=submit].btn-outline-purple, .dark button.btn-outline-purple {
+	border-color: #8552e3;
+	background: #8552e3;
+	color: #fff;
+}
+
+.dark .btn-outline-purple:hover ,.dark  a.btn-outline-purple:hover ,.dark  input[type=submit].btn-outline-purple:hover ,.dark  button.btn-outline-purple:hover {
+	background-color:#6840b1;
+}
+/*판매상품관리 여기서 부터 이여서 작성*/
+
+
+.dark .form-mulity-input {
+	color: #d8d8d8;
+}
+
+.dark .set-pay-type-item .item-title {
+	color: #fff;
+}
+
+.dark .set-pay-type-item .item-title + .item-info {
+	color: #d8d8d8;
+}
+
+.dark .set-pay-type-item {
+	border-color: #47484b;
+}
+
+
+
+/* 판매실적 */
+.dark .stacked-horizontal-label .label-title {
+	color: #d8d8d8;
+}
+
+.dark .stacked-horizontal-label .label-value {
+	color: #fff;
+}
+
+.dark .stats-result-graph {
+	border-color: #47484b;
+}
+
+.dark .stats-result-total .grid-layout-cell {
+	border-color: #d8d8d8;
+	background: #3f4145;
+}
+
+.dark .stats-result-total-item > p {
+	color: #fff;
+}
+
+.dark .stats-result-total-item > em {
+	color: #d8d8d8;
+}
+
+.dark .stats-result-total-item.total > p {
+	color: #fdd94e;
+}
+
+.dark .customer-table .table_wrap .customer-table-txt1 {
+	background: #35363a;
+	color: #fff;
+}
+
+.dark .customer-table .table_wrap .customer-table-txt2 {
+	background: #3f4145;
+}
+
+
+
+/* 기타 */
+.dark .btn-board-item .item-subject {
+	color: #fff;
+}
+
+.dark .basic-board-list > ul > li {
+	border-color: #47484b;
+}
+
+.dark .btn-board-item .item-cate {
+	color: #fdd94e;
+}
+
+.dark .btn-board-item:hover {
+	background: #393a3e;
+}
+
+.dark .board-view-top {
+	border-color: #47484b;
+}
+
+.dark .btn-page-action {
+	color: #fff;
+}
+
+.dark .chat-item .chat-txt {
+	color: #fff;
+}
+
+.dark .chat-item .chat-cate {
+	color: #fff;
+}
+
+.dark .chat-date .date {
+	color: #d8d8d8;
+	background: #393a3e;
+}
+
+.dark .chat-item.me .chat-data {
+	border-color: #6840b1;
+	background:  #6840b1;
+}
+
+.dark .btn-set-main-menu {
+	color: #fff;
+}
+
+.dark .btn-set-main-menu:hover {
+	background:#393a3e;
+}
+
+.dark .icon-set-menu-7 {
+	background: url("../images/icon/icon-set-menu-7-dark.png");
+	background-size: 36px auto;
+}
+
+.dark .icon-set-menu-8 {
+	background: url("../images/icon/icon-set-menu-8-dark.png");
+	background-size: 36px auto;
+}
+
+.dark .icon-set-menu-9 {
+	background: url("../images/icon/icon-set-menu-9-dark.png");
+	background-size: 36px auto;
+}
+
+.dark .icon-set-menu-10 {
+	background: url("../images/icon/icon-set-menu-10-dark.png");
+	background-size: 36px auto;
+}
+
+.dark .icon-set-menu-11 {
+	background: url("../images/icon/icon-set-menu-11-dark.png");
+	background-size: 36px auto;
+}
+
+.dark .terms-group .terms-sentence {
+	color: #fff;
+}
+
+.dark table.terms-table > thead > tr > th {
+	background: #3f4145;
+	border-color: #47484b;
+	color: #fff;
+}
+
+.dark table.terms-table > tbody > tr > td {
+	background: #393a3e;
+	border-color: #47484b;
+	color: #d8d8d8;
+}
+
+.dark .terms-group h3 {
+	color: #fff;
+}
+
+.dark .user-hack-wrap .hack-info {
+	color: #fff;
+}
+
+.dark .user-hack-wrap .detail-txt::before {
+	color: #fdd94e;
+	margin-right: 5px;
+}
+
+.dark .user-hack-wrap .hack-detail {
+	color: #d8d8d8;
 }
 /*여기서 부터 작업하시요*/
 
