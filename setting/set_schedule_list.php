@@ -71,12 +71,6 @@ if ($artist_flag == 1) {
 															<h6 class="con-title">휴게시간</h6>
 														</div>
 														<div class="msg-select-group break_time_wrap">
-															<div class="msg-item read">
-																<div class="item-value">오전 09:00 ~ 오후 06:00</div>
-															</div>
-															<div class="msg-item read">
-																<div class="item-value">오전 09:00 ~ 오후 06:00</div>
-															</div>
 														</div>
 													</div>
 												</div>
@@ -205,16 +199,19 @@ if ($artist_flag == 1) {
         // 휴게시간
         var break_array = setting_array[1].res_time_off;
         var html = '';
-        $.each(break_array, function(i,v){
-            var st_time = (v.time).split('~')[0];
-            var fi_time = (v.time).split('~')[1];
-            html += `
+        console.log(break_array);
+        if(break_array[0].time != 'False'){
+            $.each(break_array, function(i,v){
+                var st_time = (v.time).split('~')[0];
+                var fi_time = (v.time).split('~')[1];
+                html += `
                 <div class="msg-item read">
                     <div class="item-value">${am_pm_check_time(st_time)} ~ ${am_pm_check_time(fi_time)}</div>
                 </div>
             `;
-        });
-        $(".break_time_wrap").html(html);
+            });
+            $(".break_time_wrap").html(html);
+        }
 
         // 자유시간제, 타임제
         var t_type = setting_array[2].is_time_Type; // 1:자유시간제, 2:타임제
