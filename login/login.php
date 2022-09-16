@@ -86,7 +86,7 @@ function RandomToken($length = 32){
                             <a href="javascript:;" class="btn-login-item login">로그인</a>
                             <a href="<?=$apiURL?>" class="btn-login-item naver">네이버 아이디로 로그인</a>
                             <a href="<?=$authorize_url?>" class="btn-login-item apple">Sign in with Apple</a>
-                            <a href="./join.php" class="btn-simple-join">10초 초간편 회원가입하기</a>
+                            <!--<a href="./join.php" class="btn-simple-join">10초 초간편 회원가입하기</a>-->
                         </div>
                     </div>
                 </div>

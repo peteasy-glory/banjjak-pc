@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/banjjak_sol-shop-pc.iml" filepath="$PROJECT_DIR$/.idea/banjjak_sol-shop-pc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../banjjak_sol-customer/.idea/customer.iml" filepath="$PROJECT_DIR$/../banjjak_sol-customer/.idea/customer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../banjjak_sol-shop/.idea/shop.iml" filepath="$PROJECT_DIR$/../banjjak_sol-shop/.idea/shop.iml" />
     </modules>
   </component>
 </project>

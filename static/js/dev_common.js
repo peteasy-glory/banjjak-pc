@@ -353,6 +353,10 @@ function gnb_init() {
         document.querySelector('html').classList.add('dark');
     }
 
+    if(localStorage.getItem('dark') === '1'){
+
+        document.querySelector('html').classList.add('dark');
+    }
     //shop_name
     document.querySelector('.shop_name').prepend(data.shop_name);
 

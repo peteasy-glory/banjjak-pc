@@ -72,6 +72,7 @@ $img = (isset($_GET['img']))? img_link_change($_GET['img']) : "";
     $(document).ready(function() {
         get_navi(artist_id);
         gnb_init();
+        gnb_actived('gnb_etc_wrap','gnb_notice');
     })
 </script>
 </body>

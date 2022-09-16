@@ -72,9 +72,9 @@ $endDate = DATE('Y-m-d');
 														<div class="form-item-label">검색일자 선택</div>
 														<div class="form-item-data type-2">
 															<div class="form-datepicker-group">
-																<div class="form-datepicker auto"><input type="text" name="st_date" class="datepicker-start" value="<?=$startDate?>"></div>
+																<div class="form-datepicker auto"><input type="text" name="st_date" class="datepicker_date datepicker-start" value="<?=$startDate?>"></div>
 																<div class="form-unit">~</div>
-																<div class="form-datepicker auto"><input type="text" name="fi_date" class="datepicker-end" value="<?=$endDate?>"></div>
+																<div class="form-datepicker auto"><input type="text" name="fi_date" class="datepicker_date datepicker-end" value="<?=$endDate?>"></div>
 															</div>
 														</div>
 													</div>
@@ -116,9 +116,6 @@ $endDate = DATE('Y-m-d');
 										</div>
 									</div>
 									<div class="basic-data-group">
-                                        <div class="loading-container" id="loading_icon" style="display: none;">
-                                            <div class="mexican-wave"></div>
-                                        </div>
 										<div>
 											<div class="stats-result-graph">
 												<div class="stats-result-graph-inner">
@@ -281,6 +278,7 @@ $endDate = DATE('Y-m-d');
     $(document).ready(function() {
         get_navi(artist_id);
         gnb_init();
+        gnb_actived('gnb_stats_wrap','gnb_stats');
         get_beauty_list(artist_id);
         get_artist_list(artist_id);
 
@@ -437,10 +435,10 @@ $endDate = DATE('Y-m-d');
                             little_idx += 1;
                             html += `
                                 <tr>
-                                    <td class="none" colspan="2">${v.payment_type} 소계</td>
-                                    <td class="customer-table-txt"><span class="little_cnt_${little_idx}"></span>건</td>
-                                    <td class="customer-table-txt"><span class="little_card_${little_idx}"></span>원</td>
-                                    <td class="customer-table-txt"><span class="little_cash_${little_idx}"></span>원</td>
+                                    <td class="customer-table-txt1" colspan="2">${v.payment_type} 소계</td>
+                                    <td class="customer-table-txt2"><span class="little_cnt_${little_idx}"></span>건</td>
+                                    <td class="customer-table-txt2"><span class="little_card_${little_idx}"></span>원</td>
+                                    <td class="customer-table-txt2"><span class="little_cash_${little_idx}"></span>원</td>
                                 </tr>
                             `;
                             html += html_form;
@@ -453,10 +451,10 @@ $endDate = DATE('Y-m-d');
                             little_idx += 1;
                             html += `
                                 <tr>
-                                    <td class="none" colspan="2">${v.pay_type} 소계</td>
-                                    <td class="customer-table-txt"><span class="little_cnt_${little_idx}"></span>건</td>
-                                    <td class="customer-table-txt"><span class="little_card_${little_idx}"></span>원</td>
-                                    <td class="customer-table-txt"><span class="little_cash_${little_idx}"></span>원</td>
+                                    <td class="customer-table-txt1" colspan="2">${v.pay_type} 소계</td>
+                                    <td class="customer-table-txt2"><span class="little_cnt_${little_idx}"></span>건</td>
+                                    <td class="customer-table-txt2"><span class="little_card_${little_idx}"></span>원</td>
+                                    <td class="customer-table-txt2"><span class="little_cash_${little_idx}"></span>원</td>
                                 </tr>
                             `;
                             html += html_form;
@@ -469,10 +467,10 @@ $endDate = DATE('Y-m-d');
                             little_idx += 1;
                             html += `
                                 <tr>
-                                    <td class="none" colspan="2">${v.service} 소계</td>
-                                    <td class="customer-table-txt"><span class="little_cnt_${little_idx}"></span>건</td>
-                                    <td class="customer-table-txt"><span class="little_card_${little_idx}"></span>원</td>
-                                    <td class="customer-table-txt"><span class="little_cash_${little_idx}"></span>원</td>
+                                    <td class="customer-table-txt1" colspan="2">${v.service} 소계</td>
+                                    <td class="customer-table-txt2"><span class="little_cnt_${little_idx}"></span>건</td>
+                                    <td class="customer-table-txt2"><span class="little_card_${little_idx}"></span>원</td>
+                                    <td class="customer-table-txt2"><span class="little_cash_${little_idx}"></span>원</td>
                                 </tr>
                             `;
                             html += html_form;
@@ -486,10 +484,10 @@ $endDate = DATE('Y-m-d');
                             little_idx += 1;
                             html += `
                                 <tr>
-                                    <td class="none" colspan="2">${worker} 소계</td>
-                                    <td class="customer-table-txt"><span class="little_cnt_${little_idx}"></span>건</td>
-                                    <td class="customer-table-txt"><span class="little_card_${little_idx}"></span>원</td>
-                                    <td class="customer-table-txt"><span class="little_cash_${little_idx}"></span>원</td>
+                                    <td class="customer-table-txt1" colspan="2">${worker} 소계</td>
+                                    <td class="customer-table-txt2"><span class="little_cnt_${little_idx}"></span>건</td>
+                                    <td class="customer-table-txt2"><span class="little_card_${little_idx}"></span>원</td>
+                                    <td class="customer-table-txt2"><span class="little_cash_${little_idx}"></span>원</td>
                                 </tr>
                             `;
                             html += html_form;
@@ -704,10 +702,10 @@ $endDate = DATE('Y-m-d');
                         little_idx += 1;
                         html += `
                             <tr>
-                                <td class="none" colspan="2">${v.payment_type} 소계</td>
-                                <td class="customer-table-txt"><span class="little_cnt_${little_idx}"></span>건</td>
-                                <td class="customer-table-txt"><span class="little_card_${little_idx}"></span>원</td>
-                                <td class="customer-table-txt"><span class="little_cash_${little_idx}"></span>원</td>
+                                <td class="none" colspan="2" style="background-color: #ededed;">${v.payment_type} 소계</td>
+                                <td class="customer-table-txt" style="background-color: #f9faf9;"><span class="little_cnt_${little_idx}"></span>건</td>
+                                <td class="customer-table-txt" style="background-color: #f9faf9;"><span class="little_card_${little_idx}"></span>원</td>
+                                <td class="customer-table-txt" style="background-color: #f9faf9;"><span class="little_cash_${little_idx}"></span>원</td>
                             </tr>
                         `;
                         html += html_form;
@@ -720,10 +718,10 @@ $endDate = DATE('Y-m-d');
                         little_idx += 1;
                         html += `
                             <tr>
-                                <td class="none" colspan="2">${v.pay_type} 소계</td>
-                                <td class="customer-table-txt"><span class="little_cnt_${little_idx}"></span>건</td>
-                                <td class="customer-table-txt"><span class="little_card_${little_idx}"></span>원</td>
-                                <td class="customer-table-txt"><span class="little_cash_${little_idx}"></span>원</td>
+                                <td class="none" colspan="2" style="background-color: #ededed;">${v.pay_type} 소계</td>
+                                <td class="customer-table-txt" style="background-color: #f9faf9;"><span class="little_cnt_${little_idx}"></span>건</td>
+                                <td class="customer-table-txt" style="background-color: #f9faf9;"><span class="little_card_${little_idx}"></span>원</td>
+                                <td class="customer-table-txt" style="background-color: #f9faf9;"><span class="little_cash_${little_idx}"></span>원</td>
                             </tr>
                         `;
                         html += html_form;
@@ -736,10 +734,10 @@ $endDate = DATE('Y-m-d');
                         little_idx += 1;
                         html += `
                             <tr>
-                                <td class="none" colspan="2">${v.service} 소계</td>
-                                <td class="customer-table-txt"><span class="little_cnt_${little_idx}"></span>건</td>
-                                <td class="customer-table-txt"><span class="little_card_${little_idx}"></span>원</td>
-                                <td class="customer-table-txt"><span class="little_cash_${little_idx}"></span>원</td>
+                                <td class="none" colspan="2" style="background-color: #ededed;">${v.service} 소계</td>
+                                <td class="customer-table-txt" style="background-color: #f9faf9;"><span class="little_cnt_${little_idx}"></span>건</td>
+                                <td class="customer-table-txt" style="background-color: #f9faf9;"><span class="little_card_${little_idx}"></span>원</td>
+                                <td class="customer-table-txt" style="background-color: #f9faf9;"><span class="little_cash_${little_idx}"></span>원</td>
                             </tr>
                         `;
                         html += html_form;
@@ -753,10 +751,10 @@ $endDate = DATE('Y-m-d');
                         little_idx += 1;
                         html += `
                             <tr>
-                                <td class="none" colspan="2">${worker} 소계</td>
-                                <td class="customer-table-txt"><span class="little_cnt_${little_idx}"></span>건</td>
-                                <td class="customer-table-txt"><span class="little_card_${little_idx}"></span>원</td>
-                                <td class="customer-table-txt"><span class="little_cash_${little_idx}"></span>원</td>
+                                <td class="none" colspan="2" style="background-color: #ededed;">${worker} 소계</td>
+                                <td class="customer-table-txt" style="background-color: #f9faf9;"><span class="little_cnt_${little_idx}"></span>건</td>
+                                <td class="customer-table-txt" style="background-color: #f9faf9;"><span class="little_card_${little_idx}"></span>원</td>
+                                <td class="customer-table-txt" style="background-color: #f9faf9;"><span class="little_cash_${little_idx}"></span>원</td>
                             </tr>
                         `;
                         html += html_form;
@@ -884,6 +882,65 @@ $endDate = DATE('Y-m-d');
             }
         }else{
             console.log('없');
+
+            $(".table_wrap").html(`
+                <tr>
+                    <td class="none" colspan="5">결제 내역이 없습니다.</td>
+                </tr>
+            `);
+            $(".total_cnt").text(0);
+            $(".total_card").text(0);
+            $(".total_cash").text(0);
+            $(".total_card_cash").text(0);
+            $(".card_percent").css('width','50%');
+            $(".cash_percent").css('width','50%');
+            $(".card_percent_txt").text('0%');
+            $(".cash_percent_txt").text('0%');
+            $(".customer_cnt").text(0);
+            $(".pet_cnt").text(0);
+            var chart = bb.generate({
+                size: {
+                    height: 285,
+                    width: 285
+                },
+                data: {
+                    columns: [
+                        ["미용", 100],
+                    ],
+                    colors: {
+                        미용: "#FDD94E",
+
+                    },
+                    type: "pie",
+                    labels: {
+                        show: false
+                    }
+                },
+                /* order: "asc", */ // 그래프 순서 변경하기
+                legend: {
+                    show: false
+                },
+                // tooltip: {
+                //     show: false
+                // },
+                pie: {
+                    startingAngle: 0.75,
+                    innerRadius: {  // 차트 두께
+                        미용: 90,
+                    },
+                    label: {   // text 위치
+                        ratio: 1,
+                        format: function(value, id) {		return value +"%";       }
+                    }
+                },
+                tooltip: {
+                    format: {
+                        value:
+                            function(value, id) {		return value +"%";    }
+                    }
+                },
+                bindto: "#labelRatio"
+            });
         }
     })
 
@@ -968,6 +1025,10 @@ $endDate = DATE('Y-m-d');
 		changeYear: false, //년 선택 불가
 		showOtherMonths:true, //이전 , 다음 달 일수 활성화
 	});
+
+    $(document).on("change",".datepicker_date",function(){
+        $(".quick").prop("checked",false);
+    })
 
 </script>
 

@@ -1255,7 +1255,7 @@ function consulting_hold_list(id){
                                                                                                     <div class="item-name">
                                                                                                         <strong>${el.pet_name}</strong>
                                                                                                         <br>
-                                                                                                        <div class="">${phone_edit(el.phone)}</div>
+                                                                                                        <div class="item-phone">${phone_edit(el.phone)}</div>
                                                                                                     </div>
                                                                                                     <div class="item-date2">${am_pm_check2(el.date.replace('T',' '))}</div>
                                                                                                 </div>
