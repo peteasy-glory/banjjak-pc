@@ -749,7 +749,6 @@ if($r_mode) {
         $data_json = json_encode($data);
         $result = $api ->delete('/partner/setting/beauty-coupon' ,$data_json);
 
-
         $return_data = array("code"=>"000000","data"=>$result);
 
     }else if($r_mode === "put_option_product"){
@@ -936,6 +935,45 @@ if($r_mode) {
         $data_json = json_encode($data);
 
         $result = $api ->put('/partner/setting/b/product/part-time/dog' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
+    }else if($r_mode === "put_worktime_type"){
+
+        $partner_id = $_POST['partner_id'];
+        $work_time1 = (isset($_POST['worktime_bath']))? $_POST['worktime_bath'] : 'n';
+        $work_time2 = (isset($_POST['worktime_part']))? $_POST['worktime_part'] : 'n';
+        $work_time3 = (isset($_POST['worktime_bath_part']))? $_POST['worktime_bath_part'] : 'n';
+        $work_time4 = (isset($_POST['worktime_sanitation']))? $_POST['worktime_sanitation'] : 'n';
+        $work_time5 = (isset($_POST['worktime_sanitation_bath']))? $_POST['worktime_sanitation_bath'] : 'n';
+        $work_time6 = (isset($_POST['worktime_all']))? $_POST['worktime_all'] : 'n';
+        $work_time7 = (isset($_POST['worktime_spoting']))? $_POST['worktime_spoting'] : 'n';
+        $work_time8 = (isset($_POST['worktime_scissors']))? $_POST['worktime_scissors'] : 'n';
+        $work_time9 = (isset($_POST['worktime_summercut']))? $_POST['worktime_summercut'] : 'n';
+        $work_time10 = (isset($_POST['add_worktime_1']))? $_POST['add_worktime_1'] : 'n';
+        $work_time11 = (isset($_POST['add_worktime_2']))? $_POST['add_worktime_2'] : 'n';
+        $work_time12 = (isset($_POST['add_worktime_3']))? $_POST['add_worktime_3'] : 'n';
+        $work_time13 = (isset($_POST['add_worktime_4']))? $_POST['add_worktime_4'] : 'n';
+        $work_time14 = (isset($_POST['add_worktime_5']))? $_POST['add_worktime_5'] : 'n';
+        $display = $work_time1.'|'.$work_time2.'|'.$work_time3.'|'.$work_time4.'|'.$work_time5.'|'.$work_time6.'|'.$work_time7.'|'.$work_time8.'|'.$work_time9.'|'.$work_time10.'|'.$work_time11.'|'.$work_time12.'|'.$work_time13.'|'.$work_time14;
+
+        $time1 = (isset($_POST['add_worktime_time_1']))? $_POST['add_worktime_time_1'] : '';
+        $time2 = (isset($_POST['add_worktime_time_2']))? $_POST['add_worktime_time_2'] : '';
+        $time3 = (isset($_POST['add_worktime_time_3']))? $_POST['add_worktime_time_3'] : '';
+        $time4 = (isset($_POST['add_worktime_time_4']))? $_POST['add_worktime_time_4'] : '';
+        $time5 = (isset($_POST['add_worktime_time_5']))? $_POST['add_worktime_time_5'] : '';
+        $time = $time1.'|'.$time2.'|'.$time3.'|'.$time4.'|'.$time5;
+
+        $add_title1 = (isset($_POST['add_worktime_title_1']))? $_POST['add_worktime_title_1'] : '';
+        $add_title2 = (isset($_POST['add_worktime_title_2']))? $_POST['add_worktime_title_2'] : '';
+        $add_title3 = (isset($_POST['add_worktime_title_3']))? $_POST['add_worktime_title_3'] : '';
+        $add_title4 = (isset($_POST['add_worktime_title_4']))? $_POST['add_worktime_title_4'] : '';
+        $add_title5 = (isset($_POST['add_worktime_title_5']))? $_POST['add_worktime_title_5'] : '';
+        $add_title = $add_title1.'|'.$add_title2.'|'.$add_title3.'|'.$add_title4.'|'.$add_title5;
+
+        $data = array('partner_id'=>$partner_id,'display'=>$display,'time'=>$time,'add_title'=>$add_title);
+        $data_json = json_encode($data);
+        $result = $api ->put('/partner/setting/b/product/part/dog' ,$data_json);
 
         $return_data = array("code"=>"000000","data"=>$result);
 

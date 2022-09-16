@@ -1326,3 +1326,26 @@ function put_work_time(data){
         }
     })
 }
+
+// 미용구분 추가/수정
+function put_worktime_type(data){
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: data,
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            console.log(res);
+            let response = JSON.parse(res);
+            console.log(response);
+            let head = response.data.head;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                pop.close();
+                pop.open('reloadPop', '완료되었습니다.');
+
+            }
+        }
+    })
+}
