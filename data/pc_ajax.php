@@ -1712,6 +1712,37 @@ if($r_mode) {
 
         $return_data = array("code"=>"000000","data"=>$result);
 
+    }else if($r_mode === "allim_before"){
+
+        $cellphone = $_POST['cellphone'];
+        $message = $_POST['message'];
+        $tem_code = "1000004530_20004";
+        $btn_link = "";
+
+        $data = array('cellphone'=>$cellphone,'message'=>$message,'tem_code'=>$tem_code,'btn_link'=>$btn_link);
+
+        $data_json = json_encode($data);
+
+        $result = $api -> post('/partner/allim/send',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
+
+
+    }else if($r_mode === 'get_user_coupon'){
+
+        $login_id = $_POST['login_id'];
+        $customer_id = $_POST['customer_id'];
+        $tmp_user_idx = $_POST['tmp_user_idx'];
+
+        $data = array('customer_id'=>$customer_id,'tmp_user_idx'=>intval($tmp_user_idx));
+
+        $data_json = json_encode($data);
+
+        $result = $api -> get('/partner/booking/coupon/'.$login_id,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
     }
 }
 

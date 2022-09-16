@@ -103,7 +103,7 @@ if ($artist_flag == 1) {
 															</div>
 														</div>
                                                         <div class="loading-container" id="week_mini_calendar_loading">
-                                                            <div class="mexican-wave"></div>
+                                                            <img src="/static/images/loading.gif" alt="">
                                                         </div>
 														<div class="mini-calendar-month-body" id="mini-calendar-month-body">
 
@@ -167,7 +167,7 @@ if ($artist_flag == 1) {
 								<!-- //캘린더 상단 -->
 							</div>
                             <div class="loading-container" id="week_schedule_loading">
-                                <div class="mexican-wave"></div>
+                                <img src="/static/images/loading.gif" alt="">
                             </div>
 							<div class="card-body" id="week_schedule_card_body">
 								<!-- 캘린더 라벨 -->
@@ -222,7 +222,7 @@ if ($artist_flag == 1) {
 													</div>
 												</div>
                                                 <div class="loading-container" id="week_mini_calendar_loading">
-                                                    <div class="mexican-wave"></div>
+                                                    <img src="/static/images/loading.gif" alt="">
                                                 </div>
 												<div class="calendar-week-body" id="day_body">
 
@@ -982,6 +982,13 @@ if ($artist_flag == 1) {
             sessionStorage.removeItem('direct_cellphone');
             sessionStorage.removeItem('direct_new');
         })
+
+        document.getElementById('gnb_reserve_wrap').setAttribute('onclick','location.href ="/booking/reserve_beauty_day.php"')
+        document.getElementById('gnb_customer_wrap').setAttribute('onclick','location.href ="/customer/customer_inquiry.php"')
+        document.getElementById('gnb_shop_wrap').setAttribute('onclick','location.href ="/shop/shop_gate_picture.php"')
+        document.getElementById('gnb_detail_wrap').setAttribute('onclick','location.href ="/setting/set_schedule_list.php"')
+        document.getElementById('gnb_stats_wrap').setAttribute('onclick','location.href ="/report/stats_sale_1.php"')
+        document.getElementById('gnb_etc_wrap').setAttribute('onclick','location.href ="/etc/other_notice_list.php"')
 
 
 

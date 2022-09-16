@@ -777,3 +777,264 @@
 
     height:800px;
 }
+
+.use-coupon{
+    width:100% !important;
+}
+
+.dark .pay_management{
+
+    background: #1E1F21;
+    color:#fff;
+    box-shadow: -8px 11px 9px -3px #333;
+}
+
+.dark .pay-card-header-title{
+
+    color:#fff;
+}
+
+.dark .pay-card-body-title{
+    background: #3F4145;
+    color:#fff;
+}
+
+.dark #wide-tab-inner3{
+
+    background: #666;
+}
+
+.dark .pay-wide-tab{
+    background: #666;
+}
+.dark .tab-cell{
+    background:#666;
+    color:#fff;
+}
+
+.dark .pay-before-beauty-item{
+    background: #666;
+
+}
+
+.dark .before-path{
+    stroke:white !important;
+}
+
+.dark .pay-text-list-title{
+
+    color:#fff;
+}
+
+.dark .pay-btn-detail-toggle{
+
+    color:#fff;
+}
+
+.dark #pay_special_memo_text{
+    color:#fff;
+}
+
+.dark #coupon_name{
+    color:#fff;
+}
+
+.dark #coupon_name option{
+
+    color:#fff;
+}
+
+.dark #coupon_balance{
+    color:#fff;
+}
+.dark #coupon_balance option{
+
+    color:#fff;
+}
+
+.dark #use_coupon{
+    color:#fff;
+}
+
+.dark #use_coupon option{
+    color:#fff;
+}
+
+.dark #discount_1{
+    color:#fff;
+}
+
+.dark #discount_1 option{
+    color:#fff;
+}
+
+.dark #discount_2{
+    color:#fff;
+}
+
+.dark #discount_2 option{
+    color:#fff;
+}
+
+.dark #use_reserves{
+    color:#fff;
+}
+.dark #last_card{
+    color:#fff;
+}
+
+.dark #last_cash{
+    color:#fff;
+}
+
+.dark #start_time{
+    color:#fff;
+}
+
+.dark #start_time option{
+    color:#fff;
+}
+
+
+.dark #end_time{
+    color:#fff;
+}
+
+.dark #end_time option{
+    color:#fff;
+}
+
+.dark .pay-close-btn{
+
+    background: #1E1F21;
+    color:#fff;
+    box-shadow: -8px -5px 9px -3px #333
+}
+
+.dark #pay_customer_memo_text{
+    color:#fff;
+}
+
+.dark #agree_view_name{
+
+    color:#fff;
+}
+
+.dark #agree_view_cellphone{
+    color:#fff;
+}
+.dark #agree_view_breed_select{
+    color:#fff;
+}
+.dark #agree_view_breed_select option{
+    color:#fff;
+}
+
+.dark .agree_view_birthday{
+    color:#fff;
+}
+.dark .agree_view_birthday option{
+    color:#fff;
+}
+.dark #agree_view_birthday_date {
+    color:#fff
+}
+.dark #agree_view_birthday_date option{
+    color:#fff;
+}
+.dark #agree_view_vaccination{
+    color:#fff;
+}
+.dark #agree_view_vaccination option{
+    color:#fff;
+}
+.dark #agree_view_luxation{
+    color:#fff;
+}
+
+.dark #agree_view_luxation option{
+    color:#fff;
+}
+
+.dark #modify_customer_name{
+    color:#fff;
+}
+
+.dark #modify_breed_select {
+    color:#fff;
+}
+
+.dark #modify_breed_select option{
+    color:#fff;
+}
+.dark .modify_birthday{
+    color:#fff;
+}
+.dark .modify_birthday option{
+    color:#fff;
+}
+.dark #modify_birthday_date{
+    color:#fff;
+}
+.dark #modify_birthday_date option{
+    color:#fff;
+}
+
+.dark #modify_weight1{
+    color:#fff;
+}
+
+.dark #modify_weight1 option{
+    color:#fff;
+}
+
+.dark #modify_weight2{
+    color:#fff;
+}
+
+.dark #modify_weight2 option{
+    color:#fff;
+}
+
+.dark #modify_beauty_exp {
+    color:#fff;
+}
+
+.dark #modify_beauty_exp option{
+    color:#fff;
+}
+
+.dark #modify_vaccination {
+    color:#fff;
+}
+
+.dark #modify_vaccination option{
+    color:#fff;
+}
+
+
+.dark #modify_bite {
+    color:#fff;
+}
+
+.dark #modify_bite option{
+    color:#fff;
+}
+
+
+.dark #modify_luxation {
+    color:#fff;
+}
+
+.dark #modify_luxation option{
+    color:#fff;
+}
+
+
+
+.dark .hasDatepicker{
+    color:#fff !important;
+}
+
+
+

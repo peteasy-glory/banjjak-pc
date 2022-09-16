@@ -9555,7 +9555,7 @@ function management_service_4(base_svc){
 
 }
 
-function get_coupon(id){
+function get_coupon(id,data){
 
     $.ajax({
 
@@ -9579,6 +9579,7 @@ function get_coupon(id){
                 }
                 console.log(body)
 
+
                 body.forEach(function(el){
 
                     if(el.type === 'C'){
@@ -9601,6 +9602,76 @@ function get_coupon(id){
                                                                             </div>`
                     }
                 })
+
+
+
+
+                let customer_id = data.customer_Id;
+                let tmp_user_idx = data.tmp_id;
+
+                if(tmp_user_idx === ""){
+                    tmp_user_idx = 0;
+                }
+
+                $.ajax({
+                    url:'/data/pc_ajax.php',
+                    type:'post',
+                    data:{
+
+                        mode:'get_user_coupon',
+                        login_id:id,
+                        customer_id:customer_id,
+                        tmp_user_idx:tmp_user_idx
+                    },
+                    success:function(res){
+                        let response = JSON.parse(res);
+                        let head = response.data.head;
+                        let body_ = response.data.body;
+                        if (head.code === 401) {
+                            pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                        } else if (head.code === 200) {
+
+                            if(body_.length === undefined){
+
+                                body_ = [body_];
+                            }
+
+                            if(body_.length > 0){
+
+                                document.getElementById('pet_shop_coupon').style.display = 'block';
+
+                            }else{
+
+                                document.getElementById('pet_shop_coupon').style.display = 'none';
+
+                            }
+
+
+                            console.log(body_);
+
+                            document.getElementById('coupon_name').innerHTML = '';
+                            body_.forEach(function(el){
+
+                                body.forEach(function(el_){
+
+                                    if(el.coupon_seq === el_.idx){
+                                        if(el.del_yn === "N"){
+
+                                            document.getElementById('coupon_name').innerHTML += `<option data-given="${el.given}" data-type="${el.type}" data-use="${el.use}" data-coupon_seq="${el.coupon_seq}" data-user_coupon_seq="${el.user_coupon_seq}" data-price="${el.price}">${el_.name}</option>`
+
+
+                                        }
+
+                                    }
+                                })
+
+
+                            })
+                        }
+                    }
+                })
+
+
             }
         }
 
@@ -10684,7 +10755,7 @@ function pay_management_init(id,target){
                                                                                         <a href="#" class="pay-before-beauty-detail" data-payment_idx="${el.payment_idx}" onclick="localStorage.setItem('payment_idx','${el.payment_idx}');pay_management_init('${id}',this)">
                                                                                             <span class="pay-before-beauty-detail-memo">상세보기</span>
                                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="5.207" height="9.414" viewBox="0 0 5.207 9.414">
-                                                                                                <path data-name="Path" d="m-4 8 4-4-4-4" transform="translate(4.707 .707)" style="fill:none;stroke:#202020;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;"></path>
+                                                                                                <path data-name="Path" class="before-path" d="m-4 8 4-4-4-4" transform="translate(4.707 .707)" style="fill:none;stroke:#202020;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;"></path>
                                                                                             </svg>
                                                                                         </a>
                                                                                     </div>`
@@ -10920,7 +10991,9 @@ function pay_management_init(id,target){
                 document.getElementById('pay_allim_btn').setAttribute('onclick',`open_customer_allim(${body.cell_phone})`)
 
                 document.getElementById('allim_send_btn').setAttribute('data-cellphone',`${body.cell_phone}`);
+                document.getElementById('allim_send_btn').setAttribute('data-pet_name',`${body.name}`);
 
+                document.getElementById('service_list').innerHTML = '';
 
 
                 management_service_1(id,body).then(function(body_){
@@ -10939,7 +11012,7 @@ function pay_management_init(id,target){
                     })
                 });
 
-                get_coupon(id);
+                get_coupon(id,body);
                 get_etc_product(id);
 
 
@@ -10957,26 +11030,135 @@ function pay_management_init(id,target){
 
 }
 
+function user_coupon_change(){
+
+
+    let coupon = document.getElementById('coupon_name');
+
+    let selected = coupon.options[coupon.selectedIndex];
+    console.log(selected)
+
+    document.getElementById('coupon_balance').innerHTML = '<option value="">선택</option>'
+    document.getElementById('use_coupon').innerHTML = '<option value="">선택</option>'
+
+    let given = selected.getAttribute('data-given');
+    let use = selected.getAttribute('data-use');
+    let type = selected.getAttribute('data-type');
+
+    if(type === 'C'){
+        let rest = parseInt(given)-parseInt(use);
+
+
+        for(let i=1; i<=rest; i++){
+
+            document.getElementById('coupon_balance').innerHTML +=`<option value="${i}">${i}</option>`
+            document.getElementById('use_coupon').innerHTML += `<option value="${i}">${i}</option>`
+
+        }
+    }else{
+
+        let rest = parseInt(given)-parseInt(use);
+
+        for(let i=0; i<=rest; i+=1000){
+
+            document.getElementById('coupon_balance').innerHTML +=`<option value="${i}">${i}</option>`
+            document.getElementById('use_coupon').innerHTML += `<option value="${i}">${i}</option>`
+
+        }
+    }
+
+
+
+
+}
+
 function allim_talk_send(target){
 
 
     let cellphone = target.getAttribute('data-cellphone');
 
+    let name = target.getAttribute('data-pet_name');
+
     let when = document.querySelector('input[name="time1"]:checked').getAttribute('id');
 
     let mode;
+
+    let message;
+
+
 
 
 
     if(when === 'timer_0'){
 
         mode = 'allim_now';
+        message = `반려생활의 단짝, 반짝에서 ${cellphone.slice(-4)}님의 ${name} 미용 종료를 알려드립니다.\n` +
+            '\n' +
+            `${data.shop_name}에서 미용이 종료되었습니다.\n` +
+            '\n' +
+            `깔끔하고 더 귀여워진 ${name}\n` +
+            '이제 만나러 가세요^^\n' +
+            '\n' +
+            '반짝반짝 반려생활의 단짝,\n' +
+            '반짝에서 알려드렸습니다.'
 
     }else{
+
+
         mode = 'allim_before'
 
+        switch (when){
+
+            case 'timer_1': message = `반려생활의 단짝, 반짝에서 ${cellphone.slice(-4)}님의 ${name} 미용 종료시간을 알려드립니다.\n` +
+                '\n' +
+                `${data.shop_name}에서 미용을 마무리하고 있네요. 미용종료 10분전 입니다.\n` +
+                '\n' +
+                `깔끔하고 더 귀여워진 ${name}\n` +
+                '이제 만나러 가세요^^\n' +
+                '\n' +
+                '반짝반짝 반려생활의 단짝,\n' +
+                '반짝에서 알려드렸습니다.';
+            break;
+
+            case 'timer_2':message = `반려생활의 단짝, 반짝에서 ${cellphone.slice(-4)}님의 ${name} 미용 종료시간을 알려드립니다.\n` +
+                '\n' +
+                `${data.shop_name}에서 미용을 마무리하고 있네요. 미용종료 15분전 입니다.\n` +
+                '\n' +
+                `깔끔하고 더 귀여워진 ${name}\n` +
+                '이제 만나러 가세요^^\n' +
+                '\n' +
+                '반짝반짝 반려생활의 단짝,\n' +
+                '반짝에서 알려드렸습니다.';
+            break;
+
+            case 'timer_3':message = `반려생활의 단짝, 반짝에서 ${cellphone.slice(-4)}님의 ${name} 미용 종료시간을 알려드립니다.\n` +
+                '\n' +
+                `${data.shop_name}에서 미용을 마무리하고 있네요. 미용종료 20분전 입니다.\n` +
+                '\n' +
+                `깔끔하고 더 귀여워진 ${name}\n` +
+                '이제 만나러 가세요^^\n' +
+                '\n' +
+                '반짝반짝 반려생활의 단짝,\n' +
+                '반짝에서 알려드렸습니다.';
+            break;
+
+            case 'timer_4':message = `반려생활의 단짝, 반짝에서 ${cellphone.slice(-4)}님의 ${name} 미용 종료시간을 알려드립니다.\n` +
+                '\n' +
+                `${data.shop_name}에서 미용을 마무리하고 있네요. 미용종료 30분전 입니다.\n` +
+                '\n' +
+                `깔끔하고 더 귀여워진 ${name}\n` +
+                '이제 만나러 가세요^^\n' +
+                '\n' +
+                '반짝반짝 반려생활의 단짝,\n' +
+                '반짝에서 알려드렸습니다.';
+            break;
+
+
+        }
+
     }
-    console.log(mode);
+    console.log(mode)
+    console.log(message);
 
 
     $.ajax({
@@ -10987,7 +11169,7 @@ function allim_talk_send(target){
 
             mode:mode,
             cellphone:cellphone,
-            message:'테스트 알림톡입니다.'
+            message:message
 
         },
         success:function(res) {
@@ -10999,12 +11181,31 @@ function allim_talk_send(target){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
-                console.log(body);
+               document.getElementById('msg1_txt').innerText = '발송되었습니다.';
+               pop.open('reserveAcceptMsg1');
 
             }
         }
 
     })
+
+
+
+}
+
+function coupon_use(){
+
+
+    let given = document.getElementById('coupon_balance').value;
+    let use = document.getElementById('use_coupon').value;
+
+    if(parseInt(given)-parseInt(use) <0){
+
+        document.getElementById('msg1_txt').innerText = '잘못입력되었습니다.';
+        pop.open('reserveAcceptMsg1');
+        return;
+    }
+
 
 
 

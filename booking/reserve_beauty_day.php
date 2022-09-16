@@ -596,7 +596,7 @@ if ($artist_flag == 1) {
                                             </div>
                                             <div class="wide-tab pay-wide-tab">
                                                 <div class="wide-tab-inner" id="wide-tab-inner3">
-                                                    <div class="tab-cell">
+                                                    <div class="tab-cell actived">
                                                         <button type="button" class="btn-tab-item btn-tab-item-add"  id="basic_service_btn">
                                                             <span>
                                                                 기본 서비스
@@ -775,8 +775,7 @@ if ($artist_flag == 1) {
                                                             <div class="form-item-label">쿠폰 명</div>
                                                             <div class="form-item-data type-2">
                                                                 <div class="form-control-btns">
-                                                                    <select name="coupon_name" id="coupon_name">
-                                                                        <option value="">선택안함</option>
+                                                                    <select name="coupon_name" id="coupon_name" onchange="user_coupon_change()">
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -812,7 +811,7 @@ if ($artist_flag == 1) {
                                                         </div>
                                                     </div>
                                                     <div class="form-group-cell small">
-                                                        <button type="button" class="btn btn-outline-purple btn-middle-size btn-round use-coupon">적용</button>
+                                                        <button type="button" class="btn btn-outline-purple btn-middle-size btn-round use-coupon" onclikc="coupon_use();">적용</button>
                                                         <div class="form-bottom-info font-color-purple font-weight-500 text-align-right">적용 후 남은 쿠폰 : <span id="remind_coupon">0</span></div>
                                                     </div>
                                                 </div>
@@ -2798,6 +2797,13 @@ if ($artist_flag == 1) {
 
         agree_view_birthday().then(function(){ agree_view_birthday_date()})
         agree_view_pet_type(artist_id);
+
+        document.getElementById('gnb_reserve_wrap').setAttribute('onclick','location.href ="/booking/reserve_beauty_day.php"')
+        document.getElementById('gnb_customer_wrap').setAttribute('onclick','location.href ="/customer/customer_inquiry.php"')
+        document.getElementById('gnb_shop_wrap').setAttribute('onclick','location.href ="/shop/shop_gate_picture.php"')
+        document.getElementById('gnb_detail_wrap').setAttribute('onclick','location.href ="/setting/set_schedule_list.php"')
+        document.getElementById('gnb_stats_wrap').setAttribute('onclick','location.href ="/report/stats_sale_1.php"')
+        document.getElementById('gnb_etc_wrap').setAttribute('onclick','location.href ="/etc/other_notice_list.php"')
 
 
 
