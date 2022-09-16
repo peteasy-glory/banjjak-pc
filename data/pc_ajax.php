@@ -938,6 +938,306 @@ if($r_mode) {
 
         $return_data = array("code"=>"000000","data"=>$result);
 
+    }else if($r_mode === "post_product_dog"){
+
+        $partner_id = $_POST['partner_id'];
+        $second_type = $_POST['second_type'];
+        $direct_title = ($second_type == '직접입력')? $_POST['direct_title'] : '';
+
+        $offer = $_POST['offer'];
+        if($offer == 0){
+            $in_shop = '1';
+            $out_shop = '0';
+        }else if($offer == 1){
+            $in_shop = '0';
+            $out_shop = '1';
+        }else if($offer == 2){
+            $in_shop = '1';
+            $out_shop = '1';
+        }
+
+        // kgs
+        $kgs_array = $_POST['kgs'];
+        $kgs = '';
+        if($kgs_array != ''){
+            for($i=0;$i<count($kgs_array);$i++){
+                $kgs.= $kgs_array[$i].',';
+            }
+            $kgs = substr($kgs, 0, -1);
+        }
+
+        // 목욕
+        $bath_price_array = $_POST['bath_price'];
+        $bath_price = '';
+        if($bath_price_array != ''){
+            for($i=0;$i<count($bath_price_array);$i++){
+                $bath_price.= $bath_price_array[$i].',';
+            }
+            $bath_price = substr($bath_price, 0, -1);
+        }
+        // 부분
+        $part_price_array = $_POST['part_price'];
+        $part_price = '';
+        if($part_price_array != ''){
+            for($i=0;$i<count($part_price_array);$i++){
+                $part_price.= $part_price_array[$i].',';
+            }
+            $part_price = substr($part_price, 0, -1);
+        }
+        //부분+목욕
+        $bath_part_price_array = $_POST['bath_part_price'];
+        $bath_part_price = '';
+        if($bath_part_price_array != ''){
+            for($i=0;$i<count($bath_part_price_array);$i++){
+                $bath_part_price.= $bath_part_price_array[$i].',';
+            }
+            $bath_part_price = substr($bath_part_price, 0, -1);
+        }
+        //위생
+        $sanitation_price_array = $_POST['sanitation_price'];
+        $sanitation_price = '';
+        if($sanitation_price_array != ''){
+            for($i=0;$i<count($sanitation_price_array);$i++){
+                $sanitation_price.= $sanitation_price_array[$i].',';
+            }
+            $sanitation_price = substr($sanitation_price, 0, -1);
+        }
+        //위생+목욕
+        $sanitation_bath_price_array = $_POST['sanitation_bath_price'];
+        $sanitation_bath_price = '';
+        if($sanitation_bath_price_array != ''){
+            for($i=0;$i<count($sanitation_bath_price_array);$i++){
+                $sanitation_bath_price.= $sanitation_bath_price_array[$i].',';
+            }
+            $sanitation_bath_price = substr($sanitation_bath_price, 0, -1);
+        }
+        //전체미용
+        $all_price_array = $_POST['all_price'];
+        $all_price = '';
+        if($all_price_array != ''){
+            for($i=0;$i<count($all_price_array);$i++){
+                $all_price.= $all_price_array[$i].',';
+            }
+            $all_price = substr($all_price, 0, -1);
+        }
+        //스포팅
+        $spoting_price_array = $_POST['spoting_price'];
+        $spoting_price = '';
+        if($spoting_price_array != ''){
+            for($i=0;$i<count($spoting_price_array);$i++){
+                $spoting_price.= $spoting_price_array[$i].',';
+            }
+            $spoting_price = substr($spoting_price, 0, -1);
+        }
+        //가위컷
+        $scissors_price_array = $_POST['scissors_price'];
+        $scissors_price = '';
+        if($scissors_price_array != ''){
+            for($i=0;$i<count($scissors_price_array);$i++){
+                $scissors_price.= $scissors_price_array[$i].',';
+            }
+            $scissors_price = substr($scissors_price, 0, -1);
+        }
+        //써머컷
+        $summercut_price_array = $_POST['summercut_price'];
+        $summercut_price = '';
+        if($summercut_price_array != ''){
+            for($i=0;$i<count($summercut_price_array);$i++){
+                $summercut_price.= $summercut_price_array[$i].',';
+            }
+            $summercut_price = substr($summercut_price, 0, -1);
+        }
+        //추가1
+        $beauty1_price_array = $_POST['beauty1_price'];
+        $beauty1_price = '';
+        if($beauty1_price_array != ''){
+            for($i=0;$i<count($beauty1_price_array);$i++){
+                $beauty1_price.= $beauty1_price_array[$i].',';
+            }
+            $beauty1_price = substr($beauty1_price, 0, -1);
+        }
+        //추가2
+        $beauty2_price_array = $_POST['beauty2_price'];
+        $beauty2_price = '';
+        if($beauty2_price_array != ''){
+            for($i=0;$i<count($beauty2_price_array);$i++){
+                $beauty2_price.= $beauty2_price_array[$i].',';
+            }
+            $beauty2_price = substr($beauty2_price, 0, -1);
+        }
+        //추가3
+        $beauty3_price_array = $_POST['beauty3_price'];
+        $beauty3_price = '';
+        if($beauty3_price_array != ''){
+            for($i=0;$i<count($beauty3_price_array);$i++){
+                $beauty3_price.= $beauty3_price_array[$i].',';
+            }
+            $beauty3_price = substr($beauty3_price, 0, -1);
+        }
+        //추가4
+        $beauty4_price_array = $_POST['beauty4_price'];
+        $beauty4_price = '';
+        if($beauty4_price_array != ''){
+            for($i=0;$i<count($beauty4_price_array);$i++){
+                $beauty4_price.= $beauty4_price_array[$i].',';
+            }
+            $beauty4_price = substr($beauty4_price, 0, -1);
+        }
+        //추가5
+        $beauty5_price_array = $_POST['beauty5_price'];
+        $beauty5_price = '';
+        if($beauty5_price_array != ''){
+            for($i=0;$i<count($beauty5_price_array);$i++){
+                $beauty5_price.= $beauty5_price_array[$i].',';
+            }
+            $beauty5_price = substr($beauty5_price, 0, -1);
+        }
+
+        // 목욕
+        $is_consult_bath_array = $_POST['is_consult_bath'];
+        $is_consult_bath = '';
+        if($is_consult_bath_array != ''){
+            for($i=0;$i<count($is_consult_bath_array);$i++){
+                $is_consult_bath.= $is_consult_bath_array[$i].',';
+            }
+            $is_consult_bath = substr($is_consult_bath, 0, -1);
+        }
+        // 부분
+        $is_consult_part_array = $_POST['is_consult_part'];
+        $is_consult_part = '';
+        if($is_consult_part_array != ''){
+            for($i=0;$i<count($is_consult_part_array);$i++){
+                $is_consult_part.= $is_consult_part_array[$i].',';
+            }
+            $is_consult_part = substr($is_consult_part, 0, -1);
+        }
+        //부분+목욕
+        $is_consult_bath_part_array = $_POST['is_consult_bath_part'];
+        $is_consult_bath_part = '';
+        if($is_consult_bath_part_array != ''){
+            for($i=0;$i<count($is_consult_bath_part_array);$i++){
+                $is_consult_bath_part.= $is_consult_bath_part_array[$i].',';
+            }
+            $is_consult_bath_part = substr($is_consult_bath_part, 0, -1);
+        }
+        //위생
+        $is_consult_sanitation_array = $_POST['is_consult_sanitation'];
+        $is_consult_sanitation = '';
+        if($is_consult_sanitation_array != ''){
+            for($i=0;$i<count($is_consult_sanitation_array);$i++){
+                $is_consult_sanitation.= $is_consult_sanitation_array[$i].',';
+            }
+            $is_consult_sanitation = substr($is_consult_sanitation, 0, -1);
+        }
+        //위생+목욕
+        $is_consult_sanitation_bath_array = $_POST['is_consult_sanitation_bath'];
+        $is_consult_sanitation_bath = '';
+        if($is_consult_sanitation_bath_array != ''){
+            for($i=0;$i<count($is_consult_sanitation_bath_array);$i++){
+                $is_consult_sanitation_bath.= $is_consult_sanitation_bath_array[$i].',';
+            }
+            $is_consult_sanitation_bath = substr($is_consult_sanitation_bath, 0, -1);
+        }
+        //전체미용
+        $is_consult_all_array = $_POST['is_consult_all'];
+        $is_consult_all = '';
+        if($is_consult_all_array != ''){
+            for($i=0;$i<count($is_consult_all_array);$i++){
+                $is_consult_all.= $is_consult_all_array[$i].',';
+            }
+            $is_consult_all = substr($is_consult_all, 0, -1);
+        }
+        //스포팅
+        $is_consult_spoting_array = $_POST['is_consult_spoting'];
+        $is_consult_spoting = '';
+        if($is_consult_spoting_array != ''){
+            for($i=0;$i<count($is_consult_spoting_array);$i++){
+                $is_consult_spoting.= $is_consult_spoting_array[$i].',';
+            }
+            $is_consult_spoting = substr($is_consult_spoting, 0, -1);
+        }
+        //가위컷
+        $is_consult_scissors_array = $_POST['is_consult_scissors'];
+        $is_consult_scissors = '';
+        if($is_consult_scissors_array != ''){
+            for($i=0;$i<count($is_consult_scissors_array);$i++){
+                $is_consult_scissors.= $is_consult_scissors_array[$i].',';
+            }
+            $is_consult_scissors = substr($is_consult_scissors, 0, -1);
+        }
+        //써머컷
+        $is_consult_summercut_array = $_POST['is_consult_summercut'];
+        $is_consult_summercut = '';
+        if($is_consult_summercut_array != ''){
+            for($i=0;$i<count($is_consult_summercut_array);$i++){
+                $is_consult_summercut.= $is_consult_summercut_array[$i].',';
+            }
+            $is_consult_summercut = substr($is_consult_summercut, 0, -1);
+        }
+        //추가1
+        $is_consult_beauty1_array = $_POST['is_consult_beauty1'];
+        $is_consult_beauty1 = '';
+        if($is_consult_beauty1_array != ''){
+            for($i=0;$i<count($is_consult_beauty1_array);$i++){
+                $is_consult_beauty1.= $is_consult_beauty1_array[$i].',';
+            }
+            $is_consult_beauty1 = substr($is_consult_beauty1, 0, -1);
+        }
+        //추가2
+        $is_consult_beauty2_array = $_POST['is_consult_beauty2'];
+        $is_consult_beauty2 = '';
+        if($is_consult_beauty2_array != ''){
+            for($i=0;$i<count($is_consult_beauty2_array);$i++){
+                $is_consult_beauty2.= $is_consult_beauty2_array[$i].',';
+            }
+            $is_consult_beauty2 = substr($is_consult_beauty2, 0, -1);
+        }
+        //추가3
+        $is_consult_beauty3_array = $_POST['is_consult_beauty3'];
+        $is_consult_beauty3 = '';
+        if($is_consult_beauty3_array != ''){
+            for($i=0;$i<count($is_consult_beauty3_array);$i++){
+                $is_consult_beauty3.= $is_consult_beauty3_array[$i].',';
+            }
+            $is_consult_beauty3 = substr($is_consult_beauty3, 0, -1);
+        }
+        //추가4
+        $is_consult_beauty4_array = $_POST['is_consult_beauty4'];
+        $is_consult_beauty4 = '';
+        if($is_consult_beauty4_array != ''){
+            for($i=0;$i<count($is_consult_beauty4_array);$i++){
+                $is_consult_beauty4.= $is_consult_beauty4_array[$i].',';
+            }
+            $is_consult_beauty4 = substr($is_consult_beauty4, 0, -1);
+        }
+        //추가5
+        $is_consult_beauty5_array = $_POST['is_consult_beauty5'];
+        $is_consult_beauty5 = '';
+        if($is_consult_beauty5_array != ''){
+            for($i=0;$i<count($is_consult_beauty5_array);$i++){
+                $is_consult_beauty5.= $is_consult_beauty5_array[$i].',';
+            }
+            $is_consult_beauty5 = substr($is_consult_beauty5, 0, -1);
+        }
+
+        $is_over_kgs = $_POST['is_over_kgs'];
+        $what_over_kgs = (isset($_POST['what_over_kgs']))? $_POST['what_over_kgs'] : '';
+        $over_kgs_price = (isset($_POST['over_kgs_price']))? $_POST['over_kgs_price'] : '';
+        $add_comment = $_POST['add_comment'];
+
+
+        $data = array('partner_id'=>$partner_id,'first_type'=>'개','second_type'=>$second_type,'direct_title'=>$direct_title,'in_shop_product'=>$in_shop,'out_shop_product'=>$out_shop
+        ,'kgs'=>$kgs,'bath_price'=>$bath_price,'part_pric'=>$part_price,'bath_part_price'=>$bath_part_price,'sanitation_price'=>$sanitation_price,'sanitation_bath_price'=>$sanitation_bath_price
+        ,'all_price'=>$all_price,'spoting_price'=>$spoting_price,'scissors_price'=>$scissors_price,'summercut_price'=>$summercut_price,'beauty1_price'=>$beauty1_price,'beauty2_price'=>$beauty2_price
+        ,'beauty3_price'=>$beauty3_price,'beauty4_price'=>$beauty4_price,'beauty5_price'=>$beauty5_price,'is_consult_bath'=>$is_consult_bath,'is_consult_part'=>$is_consult_part,'is_consult_bath_part'=>$is_consult_bath_part
+        ,'is_consult_sanitation'=>$is_consult_sanitation,'is_consult_sanitation_bath'=>$is_consult_sanitation_bath,'is_consult_all'=>$is_consult_all,'is_consult_spoting'=>$is_consult_spoting,'is_consult_scissors'=>$is_consult_scissors
+        ,'is_consult_summercut'=>$is_consult_summercut,'is_consult_beauty1'=>$is_consult_beauty1,'is_consult_beauty2'=>$is_consult_beauty2,'is_consult_beauty3'=>$is_consult_beauty3,'is_consult_beauty4'=>$is_consult_beauty4
+        ,'is_consult_beauty5'=>$is_consult_beauty5,'is_over_kgs'=>$is_over_kgs,'what_over_kgs'=>$what_over_kgs,'over_kgs_price'=>$over_kgs_price,'add_comment'=>$add_comment);
+        $data_json = json_encode($data);
+        $result = $api ->put('/partner/setting/b/product/add-opt/dog' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
     }else if($r_mode === "put_worktime_type"){
 
         $partner_id = $_POST['partner_id'];
@@ -973,7 +1273,7 @@ if($r_mode) {
 
         $data = array('partner_id'=>$partner_id,'display'=>$display,'time'=>$time,'add_title'=>$add_title);
         $data_json = json_encode($data);
-        $result = $api ->put('/partner/setting/b/product/part/dog' ,$data_json);
+        $result = $api ->post('/partner/setting/b/product/part/dog' ,$data_json);
 
         $return_data = array("code"=>"000000","data"=>$result);
 

@@ -1050,7 +1050,7 @@ if ($artist_flag == 1) {
                     <td class="no-padding">
                         <div class="form-table-select">
                             <select name="kgs[]">
-                                <option>선택안함</option>
+                                <option value="">선택안함</option>
         `;
         for(var j=0;j<60;j=j+0.1){
             tbody_html += `<option value="${j.toFixed(1)}">~${j.toFixed(1)}kg</option>`
@@ -1070,14 +1070,14 @@ if ($artist_flag == 1) {
                         <td class="no-padding">
                             <div class="form-table-select">
                                 <select name="bath_price[]">
-                                    <option>선택안함</option>
+                                    <option value="">선택안함</option>
                     `;
                             for(var t=1000;t<400000;t=t+500){
                                 tbody_html += `<option value="${t}">~${t.format()}kg</option>`
                             }
                             tbody_html +=`
                                 </select>
-                                <label class="form-checkbox"><input type="checkbox" name="is_consult_bath[]"><span class="form-check-icon"><em>상담</em></span></label>
+                                <label class="form-checkbox"><input type="checkbox" name="is_consult_bath[]" value="0"><span class="form-check-icon"><em>상담</em></span></label>
                             </div>
                         </td>
                     `;
@@ -1091,14 +1091,14 @@ if ($artist_flag == 1) {
                         <td class="no-padding">
                             <div class="form-table-select">
                                 <select name="part_price[]">
-                                    <option>선택안함</option>
+                                    <option value="">선택안함</option>
                     `;
                     for(var t=1000;t<400000;t=t+500){
                         tbody_html += `<option value="${t}">~${t.format()}kg</option>`
                     }
                     tbody_html +=`
                                 </select>
-                                <label class="form-checkbox"><input type="checkbox" name="is_consult_part[]"><span class="form-check-icon"><em>상담</em></span></label>
+                                <label class="form-checkbox"><input type="checkbox" name="is_consult_part[]" value="0"><span class="form-check-icon"><em>상담</em></span></label>
                             </div>
                         </td>
                     `;
@@ -1112,14 +1112,14 @@ if ($artist_flag == 1) {
                         <td class="no-padding">
                             <div class="form-table-select">
                                 <select name="bath_part_price[]">
-                                    <option>선택안함</option>
+                                    <option value="">선택안함</option>
                     `;
                     for(var t=1000;t<400000;t=t+500){
                         tbody_html += `<option value="${t}">~${t.format()}kg</option>`
                     }
                     tbody_html +=`
                                 </select>
-                                <label class="form-checkbox"><input type="checkbox" name="is_consult_bath_part[]"><span class="form-check-icon"><em>상담</em></span></label>
+                                <label class="form-checkbox"><input type="checkbox" name="is_consult_bath_part[]" value="0"><span class="form-check-icon"><em>상담</em></span></label>
                             </div>
                         </td>
                     `;
@@ -1133,14 +1133,14 @@ if ($artist_flag == 1) {
                         <td class="no-padding">
                             <div class="form-table-select">
                                 <select name="sanitation_price[]">
-                                    <option>선택안함</option>
+                                    <option value="">선택안함</option>
                     `;
                     for(var t=1000;t<400000;t=t+500){
                         tbody_html += `<option value="${t}">~${t.format()}kg</option>`
                     }
                     tbody_html +=`
                                 </select>
-                                <label class="form-checkbox"><input type="checkbox" name="is_consult_sanitation[]"><span class="form-check-icon"><em>상담</em></span></label>
+                                <label class="form-checkbox"><input type="checkbox" name="is_consult_sanitation[]" value="0"><span class="form-check-icon"><em>상담</em></span></label>
                             </div>
                         </td>
                     `;
@@ -1154,14 +1154,14 @@ if ($artist_flag == 1) {
                         <td class="no-padding">
                             <div class="form-table-select">
                                 <select name="sanitation_bath_price[]">
-                                    <option>선택안함</option>
+                                    <option value="">선택안함</option>
                     `;
                     for(var t=1000;t<400000;t=t+500){
                         tbody_html += `<option value="${t}">~${t.format()}kg</option>`
                     }
                     tbody_html +=`
                                 </select>
-                                <label class="form-checkbox"><input type="checkbox" name="is_consult_sanitation_bath[]"><span class="form-check-icon"><em>상담</em></span></label>
+                                <label class="form-checkbox"><input type="checkbox" name="is_consult_sanitation_bath[]" value="0"><span class="form-check-icon"><em>상담</em></span></label>
                             </div>
                         </td>
                     `;
@@ -1175,14 +1175,14 @@ if ($artist_flag == 1) {
                         <td class="no-padding">
                             <div class="form-table-select">
                                 <select name="all_price[]">
-                                    <option>선택안함</option>
+                                    <option value="">선택안함</option>
                     `;
                     for(var t=1000;t<400000;t=t+500){
                         tbody_html += `<option value="${t}">~${t.format()}kg</option>`
                     }
                     tbody_html +=`
                                 </select>
-                                <label class="form-checkbox"><input type="checkbox" name="is_consult_all[]"><span class="form-check-icon"><em>상담</em></span></label>
+                                <label class="form-checkbox"><input type="checkbox" name="is_consult_all[]" value="0"><span class="form-check-icon"><em>상담</em></span></label>
                             </div>
                         </td>
                     `;
@@ -1196,14 +1196,14 @@ if ($artist_flag == 1) {
                         <td class="no-padding">
                             <div class="form-table-select">
                                 <select name="spoting_price[]">
-                                    <option>선택안함</option>
+                                    <option value="">선택안함</option>
                     `;
                     for(var t=1000;t<400000;t=t+500){
                         tbody_html += `<option value="${t}">~${t.format()}kg</option>`
                     }
                     tbody_html +=`
                                 </select>
-                                <label class="form-checkbox"><input type="checkbox" name="is_consult_spoting[]"><span class="form-check-icon"><em>상담</em></span></label>
+                                <label class="form-checkbox"><input type="checkbox" name="is_consult_spoting[]" value="0"><span class="form-check-icon"><em>상담</em></span></label>
                             </div>
                         </td>
                     `;
@@ -1217,14 +1217,14 @@ if ($artist_flag == 1) {
                         <td class="no-padding">
                             <div class="form-table-select">
                                 <select name="scissors_price[]">
-                                    <option>선택안함</option>
+                                    <option value="">선택안함</option>
                     `;
                     for(var t=1000;t<400000;t=t+500){
                         tbody_html += `<option value="${t}">~${t.format()}kg</option>`
                     }
                     tbody_html +=`
                                 </select>
-                                <label class="form-checkbox"><input type="checkbox" name="is_consult_scissors[]"><span class="form-check-icon"><em>상담</em></span></label>
+                                <label class="form-checkbox"><input type="checkbox" name="is_consult_scissors[]" value="0"><span class="form-check-icon"><em>상담</em></span></label>
                             </div>
                         </td>
                     `;
@@ -1238,14 +1238,14 @@ if ($artist_flag == 1) {
                         <td class="no-padding">
                             <div class="form-table-select">
                                 <select name="summercut_price[]">
-                                    <option>선택안함</option>
+                                    <option value="">선택안함</option>
                     `;
                     for(var t=1000;t<400000;t=t+500){
                         tbody_html += `<option value="${t}">~${t.format()}kg</option>`
                     }
                     tbody_html +=`
                                 </select>
-                                <label class="form-checkbox"><input type="checkbox" name="is_consult_summercut[]"><span class="form-check-icon"><em>상담</em></span></label>
+                                <label class="form-checkbox"><input type="checkbox" name="is_consult_summercut[]" value="0"><span class="form-check-icon"><em>상담</em></span></label>
                             </div>
                         </td>
                     `;
@@ -1261,14 +1261,14 @@ if ($artist_flag == 1) {
                         <td class="no-padding">
                             <div class="form-table-select">
                                 <select name="beauty${add_worktime}_price[]">
-                                    <option>선택안함</option>
+                                    <option value="">선택안함</option>
                     `;
                     for(var t=1000;t<400000;t=t+500){
                         tbody_html += `<option value="${t}">~${t.format()}kg</option>`
                     }
                     tbody_html +=`
                                 </select>
-                                <label class="form-checkbox"><input type="checkbox" name="is_consult_beauty${add_worktime}[]"><span class="form-check-icon"><em>상담</em></span></label>
+                                <label class="form-checkbox"><input type="checkbox" name="is_consult_beauty${add_worktime}[] value="0""><span class="form-check-icon"><em>상담</em></span></label>
                             </div>
                         </td>
                     `;
@@ -1430,8 +1430,9 @@ if ($artist_flag == 1) {
 
         }else{
             var dataPost = decodeURIComponent($("#dogForm").serialize());
-            dataPost += '&mode=put_product_dog';
+            dataPost += '&mode=post_product_dog';
             console.log(dataPost);
+            post_product_dog(dataPost);
         }
     }
 
