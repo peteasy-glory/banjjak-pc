@@ -5043,12 +5043,12 @@ function reserve_merchandise_load_reset(i){
 
     switch (i){
 
-        case 1 : document.getElementById('basic_service_select').innerHTML = '<div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(2)"><label class="form-toggle-box large "><input type="radio" value="" name="s1"><em>선택 안함</em></label></div>';
-            document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" checked ><em><span>선택 안함</span></em></label></div>';
+        case 1 : document.getElementById('basic_service_select').innerHTML = '<div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(2)"><label class="form-toggle-box large "><input type="radio" value="" name="s1"><em class="font-size-12">선택 안함</em></label></div>';
+            document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" checked ><em><span class="font-size-12">선택 안함</span></em></label></div>';
 
             break;
         case 2 :
-            document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" checked><em><span>선택 안함</span></em></label></div>';
+            document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" checked><em><span class="font-size-12">선택 안함</span></em></label></div>';
 
             break;
 
@@ -5203,7 +5203,7 @@ function reserve_merchandise_load_init(id){
                                                                         <div class="form-item-label">크기 선택</div>
                                                                         <div class="form-item-data type-2">
                                                                             <div class="toggle-button-group vertical" id="basic_size">
-                                                                          <div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(1)"><label class="form-toggle-box large"><input type="radio" value="" name="size" onclick="reserve_service_list('service2_basic_size','','0')" checked><em>선택 안함</em></label></div>
+                                                                          <div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(1)"><label class="form-toggle-box large"><input type="radio" value="" name="size" onclick="reserve_service_list('service2_basic_size','','0')" checked><em class="font-size-12">선택 안함</em></label></div>
                                                                      
                                                                             </div>
                                                                         </div>
@@ -5214,7 +5214,7 @@ function reserve_merchandise_load_init(id){
                                                                         <div class="form-item-label">서비스</div>
                                                                         <div class="form-item-data type-2">
                                                                             <div class="toggle-button-group vertical" id="basic_service_select">
-                                                                              <div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(2)"><label class="form-toggle-box large"><input type="radio" value="" name="s1" onclick="reserve_service_list('service2_basic_service','','0')" checked ><em>선택 안함</em></label></div>
+                                                                              <div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(2)"><label class="form-toggle-box large"><input type="radio" value="" name="s1" onclick="reserve_service_list('service2_basic_service','','0')" checked ><em class="font-size-12">선택 안함</em></label></div>
 
                                                                             </div>
                                                                         </div>
@@ -5225,7 +5225,7 @@ function reserve_merchandise_load_init(id){
                                                                     <div class="form-item-label">무게</div>
                                                                     <div class="form-item-data type-2">
                                                                         <div class="toggle-button-group vertical" id="basic_weight">
-                                                                            <div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" onclick="reserve_service_list('service2_basic_weight','','0')" checked><em><span>선택 안함</span></em></label></div>
+                                                                            <div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" onclick="reserve_service_list('service2_basic_weight','','0')" checked><em><span class="font-size-12">선택 안함</span></em></label></div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -5256,7 +5256,7 @@ function reserve_merchandise_load_init(id){
                                                                         <div class="form-item-label">미용털길이</div>
                                                                         <div class="form-item-data type-2">
                                                                             <div class="toggle-button-group vertical" id="basic_hair_length">
-                                                                            <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="hairBeauty" onclick="reserve_service_list('service2_basic_hair_length','','0')" checked ><em>선택 안함</em></label></div>
+                                                                            <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="hairBeauty" onclick="reserve_service_list('service2_basic_hair_length','','0')" checked ><em class="font-size-12">선택 안함</em></label></div>
                                                                                 </div>
                                                                         </div>
                                                                     </div>
@@ -5343,8 +5343,8 @@ function reserve_merchandise_load_init(id){
                                                                                 <div class="form-item-label">미용</div>
                                                                                 <div class="form-item-data type-2">
                                                                                     <div class="toggle-button-group vertical" id="basic_beauty">
-                                                                                        <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="beauty" onclick="reserve_service_list('service2_basic_beauty','','0')" checked><em>선택 안함</em></label></div>
-                                                                                    </div>
+                                                                                        <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="beauty" onclick="reserve_service_list('service2_basic_beauty','','0')" checked><em></em></label></div>
+                                                                                    </div>선택 안함
                                                                                 </div>
                                                                             </div>
                                                                         </div>`
@@ -5358,7 +5358,7 @@ function reserve_merchandise_load_init(id){
                                                                                 <div class="form-item-label">목욕</div>
                                                                                 <div class="form-item-data type-2">
                                                                                     <div class="toggle-button-group vertical" id="basic_bath">
-                                                                                        <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="bath" onclick="reserve_service_list('service2_basic_bath','','0')" checked><em>선택 안함</em></label></div>
+                                                                                        <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="bath" onclick="reserve_service_list('service2_basic_bath','','0')" checked><em class="font-size-12">선택 안함</em></label></div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -5669,8 +5669,8 @@ function reserve_merchandise_load_2(base_svc){
             el.addEventListener('click',function(){
 
 
-                document.getElementById('basic_service_select').innerHTML= '<div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(2)"><label class="form-toggle-box large"><input type="radio" value="" name="s1" onclick="reserve_service_list(\'service2_basic_service\',\'\')" checked><em>선택 안함</em></label></div>';
-                document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" onclick="reserve_service_list(\'service2_basic_weight\',\'\',\'0\')" checked><em><span>선택 안함</span></em></label></div>';
+                document.getElementById('basic_service_select').innerHTML= '<div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(2)"><label class="form-toggle-box large"><input type="radio" value="" name="s1" onclick="reserve_service_list(\'service2_basic_service\',\'\')" checked><em class="font-size-12">선택 안함</em></label></div>';
+                document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" onclick="reserve_service_list(\'service2_basic_weight\',\'\',\'0\')" checked><em><span class="font-size-12">선택 안함</span></em></label></div>';
                 let value = el.children[0].children[0].value;
 
                 base_svc.forEach(function(el_){
@@ -5717,7 +5717,7 @@ function reserve_merchandise_load_3(base_svc){
 
         el.addEventListener('click',function (){
 
-            document.getElementById('basic_weight').innerHTML= '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" data-price="" name="s2" onclick="reserve_service_list(\'service2_basic_weight\',\'\',\'0\')"><em><span>선택 안함</span></em></label></div>'
+            document.getElementById('basic_weight').innerHTML= '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" data-price="" name="s2" onclick="reserve_service_list(\'service2_basic_weight\',\'\',\'0\')"><em><span class="font-size-12">선택 안함</span></em></label></div>'
 
 
             let size = el.children[0].children[0].getAttribute('data-size');
@@ -5794,7 +5794,7 @@ function reserve_merchandise_load_3(base_svc){
 
                                 })
                             }else{
-                                document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" onclick="reserve_service_list(\'service2_basic_weight\',\'\',0)"><em><span>선택 안함</span></em></label></div>';
+                                document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" onclick="reserve_service_list(\'service2_basic_weight\',\'\',0)"><em><span class="font-size-12">선택 안함</span></em></label></div>';
                             }
 
                         }
@@ -8949,10 +8949,10 @@ function management_service_1(id,body){
 
                             basic_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
                                                                     <div class="form-group-item">
-                                                                        <div class="form-item-label">크기 선택</div>
+                                                                        <div class="form-item-label font-size-12 display_flex_ju_center" >크기 선택</div>
                                                                         <div class="form-item-data type-2">
                                                                             <div class="toggle-button-group vertical" id="basic_size">
-                                                                          <div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(1); "><label class="form-toggle-box large"><input type="radio" value="" name="size" onclick="set_product2(this,'','','list_title_3',true)" checked><em>선택 안함</em></label></div>
+                                                                          <div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(1); "><label class="form-toggle-box large"><input type="radio" value="" name="size" onclick="set_product2(this,'','','list_title_3',true)" checked><em class="font-size-12">선택 안함</em></label></div>
                                                                      
                                                                             </div>
                                                                         </div>
@@ -8960,10 +8960,10 @@ function management_service_1(id,body){
                                                                 </div>
                                                                 <div class="grid-layout-cell grid-5">
                                                                     <div class="form-group-item">
-                                                                        <div class="form-item-label">서비스</div>
+                                                                        <div class="form-item-label font-size-12 display_flex_ju_center">서비스</div>
                                                                         <div class="form-item-data type-2">
                                                                             <div class="toggle-button-group vertical" id="basic_service_select">
-                                                                              <div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(2)"><label class="form-toggle-box large"><input type="radio" value="" name="s1" checked  onclick="set_product2(this,'','','list_title_3',true)"><em>선택 안함</em></label></div>
+                                                                              <div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(2)"><label class="form-toggle-box large"><input type="radio" value="" name="s1" checked  onclick="set_product2(this,'','','list_title_3',true)"><em class="font-size-12">선택 안함</em></label></div>
 
                                                                             </div>
                                                                         </div>
@@ -8971,10 +8971,10 @@ function management_service_1(id,body){
                                                             </div>
                                                             <div class="grid-layout-cell grid-5">
                                                                 <div class="form-group-item">
-                                                                    <div class="form-item-label">무게</div>
+                                                                    <div class="form-item-label font-size-12 display_flex_ju_center">무게</div>
                                                                     <div class="form-item-data type-2">
                                                                         <div class="toggle-button-group vertical" id="basic_weight">
-                                                                            <div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" checked onclick="set_product2(this,'','','list_title_3',true)"><em><span>선택 안함</span></em></label></div>
+                                                                            <div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" checked onclick="set_product2(this,'','','list_title_3',true)"><em><span class="font-size-12">선택 안함</span></em></label></div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -8987,7 +8987,7 @@ function management_service_1(id,body){
 
                             basic_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
                                                                         <div class="form-group-item">
-                                                                            <div class="form-item-label">털특징</div>
+                                                                            <div class="form-item-label font-size-12 display_flex_ju_center">털특징</div>
                                                                             <div class="form-item-data type-2">
                                                                                 <div class="toggle-button-group vertical" id="basic_hair_feature">
                                                                              </div>
@@ -9002,10 +9002,10 @@ function management_service_1(id,body){
 
                             basic_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
                                                                     <div class="form-group-item">
-                                                                        <div class="form-item-label">미용털길이</div>
+                                                                        <div class="form-item-label font-size-12 display_flex_ju_center">미용털길이</div>
                                                                         <div class="form-item-data type-2">
                                                                             <div class="toggle-button-group vertical" id="basic_hair_length">
-                                                                            <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="hairBeauty" onclick="set_product2(this,'','','list_title_2',true)" checked ><em>선택 안함</em></label></div>
+                                                                            <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="hairBeauty" onclick="set_product2(this,'','','list_title_2',true)" checked ><em class="font-size-12">선택 안함</em></label></div>
                                                                                 </div>
                                                                         </div>
                                                                     </div>
@@ -9017,7 +9017,7 @@ function management_service_1(id,body){
 
                             other_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
                                                                     <div class="form-group-item">
-                                                                        <div class="form-item-label">얼굴컷</div>
+                                                                        <div class="form-item-label font-size-12 display_flex_ju_center">얼굴컷</div>
                                                                         <div class="form-item-data type-2">
                                                                             <div class="toggle-button-group vertical" id="other_face">
                                                                                 
@@ -9031,7 +9031,7 @@ function management_service_1(id,body){
 
                             other_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
                                                                         <div class="form-group-item">
-                                                                            <div class="form-item-label">다리</div>
+                                                                            <div class="form-item-label font-size-12 display_flex_ju_center" >다리</div>
                                                                             <div class="form-item-data type-2">
                                                                                 <div class="toggle-button-group vertical" id="other_leg">
                 
@@ -9045,7 +9045,7 @@ function management_service_1(id,body){
 
                             other_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
                                                                     <div class="form-group-item">
-                                                                        <div class="form-item-label">스파</div>
+                                                                        <div class="form-item-label font-size-12 display_flex_ju_center">스파</div>
                                                                         <div class="form-item-data type-2">
                                                                             <div class="toggle-button-group vertical" id="other_spa">
                                                                                 
@@ -9060,7 +9060,7 @@ function management_service_1(id,body){
 
                             other_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
                                                                     <div class="form-group-item">
-                                                                        <div class="form-item-label">염색</div>
+                                                                        <div class="form-item-label font-size-12 display_flex_ju_center">염색</div>
                                                                         <div class="form-item-data type-2">
                                                                             <div class="toggle-button-group vertical" id="other_dyeing">
                                                                                 
@@ -9074,7 +9074,7 @@ function management_service_1(id,body){
 
                             other_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
                                                                         <div class="form-group-item">
-                                                                            <div class="form-item-label">기타</div>
+                                                                            <div class="form-item-label font-size-12 display_flex_ju_center">기타</div>
                                                                             <div class="form-item-data type-2">
                                                                                 <div class="toggle-button-group vertical" id="other_etc">
                                                                                    
@@ -9089,10 +9089,10 @@ function management_service_1(id,body){
 
                             basic_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
                                                                             <div class="form-group-item">
-                                                                                <div class="form-item-label">미용</div>
+                                                                                <div class="form-item-label font-size-12 display_flex_ju_center">미용</div>
                                                                                 <div class="form-item-data type-2">
                                                                                     <div class="toggle-button-group vertical" id="basic_beauty">
-                                                                                        <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="beauty" checked><em>선택 안함</em></label></div>
+                                                                                        <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="beauty" checked><em class="font-size-12">선택 안함</em></label></div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -9104,10 +9104,10 @@ function management_service_1(id,body){
 
                             basic_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
                                                                             <div class="form-group-item">
-                                                                                <div class="form-item-label">목욕</div>
+                                                                                <div class="form-item-label font-size-12 display_flex_ju_center">목욕</div>
                                                                                 <div class="form-item-data type-2">
                                                                                     <div class="toggle-button-group vertical" id="basic_bath">
-                                                                                        <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="bath" checked><em>선택 안함</em></label></div>
+                                                                                        <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="bath" checked><em class="font-size-12">선택 안함</em></label></div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -9119,7 +9119,7 @@ function management_service_1(id,body){
 
                             other_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
                                                                     <div class="form-group-item">
-                                                                        <div class="form-item-label">추가서비스</div>
+                                                                        <div class="form-item-label font-size-12 display_flex_ju_center">추가서비스</div>
                                                                         <div class="form-item-data type-2">
                                                                             <div class="toggle-button-group vertical" id="other_add_svc">
                                                                                 
@@ -9148,6 +9148,7 @@ function management_service_1(id,body){
 function management_service_2(body){
 
     return new Promise(function(resolve){
+        console.log(body)
 
         document.getElementById('is_vat').value = body.is_vat;
 
@@ -9160,7 +9161,7 @@ function management_service_2(body){
                     document.getElementById('basic_size').innerHTML += `<div class="toggle-button-cell toggle-button-cell-size">
                                                                                         <label class="form-toggle-box large">
                                                                                             <input type="radio" value="${el.size}" name="size">
-                                                                                            <em>${el.size}</em>
+                                                                                            <em class="font-size-12">${el.size}</em>
                                                                                         </label>
                                                                                     </div>`
 
@@ -9177,8 +9178,8 @@ function management_service_2(body){
                                                                                                     <label class="form-toggle-box form-toggle-price large" for="hair${i}">
                                                                                                         <input type="checkbox" name="hair" value="${el.type}" data-price="${el.price}" id="hair${i}" onclick="set_product(this,'${el.type}','${el.price.toLocaleString()}')">
                                                                                                         <em>
-                                                                                                            <span>${el.type}</span>
-                                                                                                            <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                                            <span class="font-size-12">${el.type}</span>
+                                                                                                            <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
                                                                                                         </em>
                                                                                                     </label>
                                                                                                 </div>`
@@ -9198,8 +9199,8 @@ function management_service_2(body){
                                                                                             <label class="form-toggle-box form-toggle-price large" for="hairBeauty${i}">
                                                                                                 <input type="radio" name="hairBeauty" value="${el.type}"  data-price="${el.price}" id="hairBeauty${i}" onclick="set_product2(this,'${el.type}','${el.price.toLocaleString()}','list_title_2',true)">
                                                                                                 <em>
-                                                                                                    <span>${el.type}</span>
-                                                                                                    <strong>${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                                    <span class="font-size-12">${el.type}</span>
+                                                                                                    <strong class="font-size-12">${parseInt(el.price).toLocaleString()}원</strong>
                                                                                                 </em>
                                                                                             </label>
                                                                                         </div>`
@@ -9215,8 +9216,8 @@ function management_service_2(body){
                                                                                         <label class="form-toggle-box form-toggle-price middle">
                                                                                             <input type="checkbox" name="f1" data-price="${el.price}" value="${el.type}" onclick="set_product(this,'${el.type}','${el.price}')" >
                                                                                             <em>
-                                                                                                <span>${el.type}</span>
-                                                                                                <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                                <span class="font-size-12">${el.type}</span>
+                                                                                                <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
                                                                                             </em>
                                                                                         </label>
                                                                                     </div>`
@@ -9233,8 +9234,8 @@ function management_service_2(body){
                                                                                     <label class="form-toggle-box form-toggle-price middle">
                                                                                         <input type="checkbox" name="f2" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')" >
                                                                                         <em>
-                                                                                            <span>${el.type}</span>
-                                                                                            <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                            <span class="font-size-12">${el.type}</span>
+                                                                                            <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
                                                                                         </em>
                                                                                     </label>
                                                                                 </div>`
@@ -9253,8 +9254,8 @@ function management_service_2(body){
                                                                                     <label class="form-toggle-box form-toggle-price middle">
                                                                                         <input type="checkbox" name="f3"  value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')"> 
                                                                                         <em>
-                                                                                            <span>${el.type}</span>
-                                                                                            <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                            <span class="font-size-12">${el.type}</span>
+                                                                                            <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
                                                                                         </em>
                                                                                     </label>
                                                                                 </div>`
@@ -9270,8 +9271,8 @@ function management_service_2(body){
                                                                                         <label class="form-toggle-box form-toggle-price middle">
                                                                                             <input type="checkbox" name="f4" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
                                                                                             <em>
-                                                                                                <span>${el.type}</span>
-                                                                                                <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                                <span class="font-size-12">${el.type}</span>
+                                                                                                <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
                                                                                             </em>
                                                                                         </label>
                                                                                     </div>`
@@ -9288,8 +9289,8 @@ function management_service_2(body){
                                                                             <label class="form-toggle-box form-toggle-price middle">
                                                                                 <input type="checkbox" name="f5" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
                                                                                 <em>
-                                                                                    <span>${el.type}</span>
-                                                                                    <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                    <span class="font-size-12">${el.type}</span>
+                                                                                    <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
                                                                                </em>
                                                                             </label>
                                                                         </div>`
@@ -9317,8 +9318,8 @@ function management_service_2(body){
                                                                                         <label class="form-toggle-box large form-toggle-price">
                                                                                             <input type="radio" value="${el.type}" name="beauty" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
                                                                                             <em> 
-                                                                                                <span>${el.type}</span>
-                                                                                                <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                                <span class="font-size-12">${el.type}</span>
+                                                                                                <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
                                                                                             </em>
                                                                                         </label>
                                                                                     </div>`
@@ -9334,8 +9335,8 @@ function management_service_2(body){
                                                                                         <label class="form-toggle-box large form-toggle-price">
                                                                                             <input type="radio" value="${el.type}" name="bath" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
                                                                                             <em> 
-                                                                                                <span>${el.type}</span>
-                                                                                                <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                                <span class="font-size-12">${el.type}</span>
+                                                                                                <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
                                                                                             </em>
                                                                                         </label>
                                                                                     </div>`
@@ -9351,8 +9352,8 @@ function management_service_2(body){
                                                                             <label class="form-toggle-box form-toggle-price middle">
                                                                                 <input type="checkbox" name="add_svc" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
                                                                                 <em>
-                                                                                    <span>${el.type}</span>
-                                                                                    <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                    <span class="font-size-12">${el.type}</span>
+                                                                                    <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
                                                                                </em>
                                                                             </label>
                                                                         </div>`
@@ -9383,8 +9384,8 @@ function management_service_3(base_svc){
 
                 console.log(1)
 
-                document.getElementById('basic_service_select').innerHTML= '<div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(2)"><label class="form-toggle-box large"><input type="radio" value="" name="s1" checked><em>선택 안함</em></label></div>';
-                document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" checked><em><span>선택 안함</span></em></label></div>';
+                document.getElementById('basic_service_select').innerHTML= '<div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(2)"><label class="form-toggle-box large"><input type="radio" value="" name="s1" checked><em class="font-size-12">선택 안함</em></label></div>';
+                document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" checked><em><span class="font-size-12">선택 안함</span></em></label></div>';
                 let value = el.children[0].children[0].value;
 
                 base_svc.forEach(function(el_){
@@ -9399,7 +9400,7 @@ function management_service_3(base_svc){
                                 document.getElementById('basic_service_select').innerHTML += `<div class="toggle-button-cell toggle-button-cell-service">
                                                                                                         <label class="form-toggle-box large">
                                                                                                             <input type="radio" value="${_el.type}" data-size="${el_.size}" data-time="${_el.time}" name="s1">
-                                                                                                            <em>${_el.type} ${_el.time}분</em>
+                                                                                                            <em class="font-size-12">${_el.type} ${_el.time}분</em>
                                                                                                         </label>
                                                                                                     </div>`
                             }
@@ -9432,7 +9433,7 @@ function management_service_4(base_svc){
 
         el.addEventListener('click',function (){
 
-            document.getElementById('basic_weight').innerHTML= '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" data-price="" name="s2"><em><span>선택 안함</span></em></label></div>'
+            document.getElementById('basic_weight').innerHTML= '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" data-price="" name="s2"><em><span class="font-size-12">선택 안함</span></em></label></div>'
 
 
             let size = el.children[0].children[0].getAttribute('data-size');
@@ -9461,8 +9462,8 @@ function management_service_4(base_svc){
                                                                                                     <label class="form-toggle-box form-toggle-price large">
                                                                                                         <input type="radio" value="${ele.kg}" name="s2" data-price="${ele.price}" ${i ===  _el.unit.length-1 ? 'id="weight_target"':''}onclick="set_product2(this,'${document.querySelector('input[name="size"]:checked').value}/${document.querySelector('input[name="s1"]:checked').value}/${ele.kg}kg','${ele.price}','list_title_3',true)">
                                                                                                             <em>
-                                                                                                                <span>~${ele.kg}Kg</span>
-                                                                                                            <strong>${ele.is_consulting === "0" ? `${parseInt(ele.price).toLocaleString()}원` : '상담'}</strong>
+                                                                                                                <span class="font-size-12">~${ele.kg}Kg</span>
+                                                                                                            <strong class="font-size-12">${ele.is_consulting === "0" ? `${parseInt(ele.price).toLocaleString()}원` : '상담'}</strong>
                                                                                                             
                                                                                                         </em>
                                                                                                     </label>
@@ -9485,7 +9486,7 @@ function management_service_4(base_svc){
                                                                                                     <input type="radio" name="s2" name="options1"  id="surcharge"  onclick="set_product2(this,'${document.querySelector('input[name="size"]:checked').value}/${document.querySelector('input[name="s1"]:checked').value}/${el_.surcharge.kg}kg','${el_.surcharge.price}','list_title_3',true)">
                                                                                                         <div class="form-toggle-options-data">
                                                                                                             <div class="options-labels">
-                                                                                                                <span>${el_.surcharge.kg}kg~</span><strong style="font-size:10px">kg당 <br> +${parseInt(el_.surcharge.price).toLocaleString()}원</strong></div>
+                                                                                                                <span class="font-size-12">${el_.surcharge.kg}kg~</span><strong style="font-size:10px">kg당 <br> +${parseInt(el_.surcharge.price).toLocaleString()}원</strong></div>
                                                                                                             <div class="form-amount-input">
                                                                                                                 <button type="button" 
                                                                                                                         class="btn-form-amount-minus" id="surcharge" onclick="set_etc_product_count(this,'${document.querySelector('input[name="size"]:checked').value}/${document.querySelector('input[name="s1"]:checked').value}/${el_.surcharge.kg}kg','${el_.surcharge.price}',false)">감소
@@ -9509,7 +9510,7 @@ function management_service_4(base_svc){
 
                                 })
                             }else{
-                                document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2"><em><span>선택 안함</span></em></label></div>';
+                                document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2"><em><span class="font-size-12">선택 안함</span></em></label></div>';
                             }
 
                         }
@@ -9616,9 +9617,10 @@ function get_etc_product(id){
         data:{
 
             mode:'get_etc_product',
-            partner_id:id,
+            login_id:id,
         },
         success:function(res) {
+            console.log(res);
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -9707,6 +9709,14 @@ function get_etc_product(id){
                     }
                 })
             }
+        },complete:function(){
+
+
+            if(document.getElementById('pay_card_body_inner')){
+
+                document.getElementById('pay_management_loading').style.display = 'none';
+                document.getElementById('pay_card_body_inner').style.display = 'block';
+            }
         }
     })
 }
@@ -9737,11 +9747,12 @@ function set_product(target,name,price){
 
 function set_product2(target,name,price,className,bool){
 
+    console.log(1)
     name = name.trim()
-    if(!location.href.match('management')){
-
-        return;
-    }
+    // if(!location.href.match('management')){
+    //
+    //     return;
+    // }
 
     if(bool){
 
@@ -9823,10 +9834,11 @@ function management_total_price(){
 
     if(localStorage.getItem('is_vat') === '1'){
 
-        document.getElementById('price_list').innerHTML += `<div class="list-cell">
-                                                                <div class="list-title"><strong>부가세 10%</strong></div>
-                                                                <div class="list-value"><strong id="vat"></strong></div>
-                                                            </div>`
+        document.getElementById('is_vat_list').style.display = 'flex';
+        localStorage.removeItem('is_vat');
+    }else{
+
+        document.getElementById('is_vat_list').style.display = 'none';
     }
 
     let target = document.getElementById('service_list');
@@ -9903,7 +9915,7 @@ function discount_init(){
 
     document.getElementById('discount_1').addEventListener('change',function(){
 
-        if(document.getElementById('real_total_price').getAttribute('value') === null){
+        if(document.getElementById('real_total_price').getAttribute('value') == 0){
 
             document.getElementById('msg1_txt').innerText = '상품을 먼저 적용해주세요..'
             pop.open('reserveAcceptMsg1');
@@ -9924,7 +9936,7 @@ function discount_init(){
 
     document.getElementById('discount_2').addEventListener('change',function(){
 
-        if(document.getElementById('real_total_price').getAttribute('value') === null){
+        if(document.getElementById('real_total_price').getAttribute('value') == 0){
 
             document.getElementById('msg1_txt').innerText = '상품을 먼저 적용해주세요..'
             pop.open('reserveAcceptMsg1');
@@ -9949,44 +9961,79 @@ function discount_init(){
 
 function reserves(id,body){
 
-    let data =body[3];
+
+    let data = body;
+
+
 
     $.ajax({
 
         url:'/data/pc_ajax.php',
         type:'post',
         data:{
-            mode:'reserves',
-            partner_id:id,
-            payment_idx:localStorage.getItem('payment_idx'),
-            customer_id:data.customer_Id,
-            tmp_user_idx : data.tmp_id,
-            service : 'B',
-            reserve_type : 'U',
+
+            mode:'get_pay_reserve',
+            login_id:id,
+
         },
-        success:function(res) {
+        success:function(res){
             let response = JSON.parse(res);
-            let head = response.data.head;
-            let body = response.data.body;
-            if (head.code === 401) {
-                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-            } else if (head.code === 200) {
 
 
+            let data = response.data;
 
-                setInputFilter(document.getElementById("use_reserves"), function(value) {
-                    return /^\d*\.?\d*$/.test(value);
-                })
+            console.log(data);
+            if(data.is_use === '1'){
 
-                Array.from(document.getElementsByClassName('now_reserves')).forEach(function(el){
+                document.getElementById('pet_shop_reserves').style.display = 'block';
 
-                    el.innerText = `${(body.accum_reserve - body.use_reserve).toLocaleString()}원`
-                    el.setAttribute('value',`${body.accum_reserve - body.use_reserve}`)
-                })
+            }else{
+                document.getElementById('pet_shop_reserves').style.display = 'none';
             }
-        }
 
+
+                $.ajax({
+
+                    url:'/data/pc_ajax.php',
+                    type:'post',
+                    data:{
+                        mode:'reserves',
+                        partner_id:id,
+                        payment_idx:localStorage.getItem('payment_idx'),
+                        customer_id:data.customer_Id,
+                        tmp_user_idx : data.tmp_id,
+                        service : 'B',
+                        reserve_type : 'U',
+                    },
+                    success:function(res) {
+                        let response = JSON.parse(res);
+                        let head = response.data.head;
+                        let body = response.data.body;
+                        if (head.code === 401) {
+                            pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                        } else if (head.code === 200) {
+
+
+
+                            setInputFilter(document.getElementById("use_reserves"), function(value) {
+                                return /^\d*\.?\d*$/.test(value);
+                            })
+
+                            Array.from(document.getElementsByClassName('now_reserves')).forEach(function(el){
+
+                                el.innerText = `${(body.accum_reserve - body.use_reserve).toLocaleString()}원`
+                                el.setAttribute('value',`${body.accum_reserve - body.use_reserve}`)
+                            })
+                        }
+                    }
+
+                })
+
+
+
+            }
     })
+
 
 
 }
@@ -10026,14 +10073,14 @@ function reserves_set(){
 function last_price(){
 
     let sum =  parseInt(document.getElementById('real_total_price').getAttribute('value')) ;
-    let discount =  parseInt(document.querySelector('.discount_price').getAttribute('value'));
-    let reserves =  parseInt(document.querySelector('.reserves_use').getAttribute('value'))
+    let discount =  parseInt(document.getElementById('total_discount_price').getAttribute('value'));
+    let reserves =  parseInt(document.getElementById('total_reserves_use').getAttribute('value'))
 
 
     document.getElementById('last_price').innerText = `${(sum-discount-reserves)}원`
 
     document.getElementById('last_card').value = `${(sum-discount-reserves)}`
-    document.getElementById('last_cash').value =0;
+    document.getElementById('last_cash').value ='0';
 
 
 }
@@ -10041,17 +10088,17 @@ function last_price(){
 function data_change(){
 
     let sum =  parseInt(document.getElementById('real_total_price').getAttribute('value')) ;
-    let discount =  parseInt(document.querySelector('.discount_price').getAttribute('value'));
-    let reserves =  parseInt(document.querySelector('.reserves_use').getAttribute('value'))
+    let discount =  parseInt(document.getElementById('total_discount_price').getAttribute('value'));
+    let reserves =  parseInt(document.getElementById('total_reserves_use').getAttribute('value'))
 
     if(document.getElementById('last_card').value == 0){
 
-        document.getElementById('last_cash').value =0;
+        document.getElementById('last_cash').value = '0';
         document.getElementById('last_card').value =  `${(sum-discount-reserves)}`;
 
     }else if(document.getElementById('last_cash').value == 0){
         document.getElementById('last_cash').value = `${(sum-discount-reserves)}`;
-        document.getElementById('last_card').value = 0;
+        document.getElementById('last_card').value = '0';
     }
 
 }
@@ -10319,6 +10366,16 @@ function pay_management_init(id,target){
         data:{
             mode:'pay_management',
             payment_idx:payment_idx,
+        },
+        beforeSend:function(){
+
+            if(document.getElementById('pay_card_body_inner')){
+
+                document.getElementById('pay_card_body_inner').style.display = 'none';
+                document.getElementById('pay_management_loading').style.display = 'flex';
+            }
+
+
         },
         success:function (res){
 
@@ -10867,6 +10924,7 @@ function pay_management_init(id,target){
 
 
                 management_service_1(id,body).then(function(body_){
+                    management_wide_tab2();
                     management_total_price();
                     discount_init();
                     reserves(id,body);
@@ -10880,6 +10938,11 @@ function pay_management_init(id,target){
                         })
                     })
                 });
+
+                get_coupon(id);
+                get_etc_product(id);
+
+
 
 
 

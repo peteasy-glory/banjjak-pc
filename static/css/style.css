@@ -446,6 +446,9 @@
 .pay-card-content-6{
     margin-top:50px;
 }
+.pay-card-content-6-1{
+    margin-top:50px;
+}
 .pay-card-content-7{
     margin-top:50px;
 }
@@ -747,4 +750,30 @@
     padding: 0 11px;
     line-height: 24px;
     border-radius: 5px;
+}
+
+.use-coupon{
+
+    width:100%;
+}
+
+.basic_service {
+
+    padding-left:20px;
+    padding-right:20px;
+    font-size:12px !important;
+}
+
+.display_flex_ju_center{
+    display: flex;
+    justify-content: center;
+}
+
+.save-final-price {
+    width:100% !important;
+}
+
+#pay_management_loading{
+
+    height:800px;
 }
