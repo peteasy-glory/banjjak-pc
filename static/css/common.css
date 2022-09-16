@@ -5039,9 +5039,24 @@ a.btn-reserve.disabled, a.btn-page-bottom.disabled, a.btn-reserve:disabled, a.bt
 }
 
 .dark .read-table table > tbody > tr > td {
-	background: #393a3e;
+	background: #3f4145;
 	border-color: #47484b;
 	color: #d8d8d8;
+}
+
+.dark .btn-data-handler:hover {
+	background:#393a3e url("../images/icon/icon_handler2_dark.png") center center no-repeat;
+	background-size: 30px auto;
+}
+
+.dark .btn-data-handler {
+	background: transparent url("../images/icon/icon_handler2_dark.png") center center no-repeat;
+	background-size: 30px auto;
+	border-color: #47484b;
+}
+
+.dark .font-color-black {
+	color: #8f8f8f!important;
 }
 
 .dark .dark .btn-outline-purple, .dark a.btn-outline-purple, .dark input[type=submit].btn-outline-purple, .dark button.btn-outline-purple {
@@ -5053,8 +5068,18 @@ a.btn-reserve.disabled, a.btn-page-bottom.disabled, a.btn-reserve:disabled, a.bt
 .dark .btn-outline-purple:hover ,.dark  a.btn-outline-purple:hover ,.dark  input[type=submit].btn-outline-purple:hover ,.dark  button.btn-outline-purple:hover {
 	background-color:#6840b1;
 }
-/*판매상품관리 여기서 부터 이여서 작성*/
 
+.dark .wide-tab.card .wide-tab-inner .tab-cell .btn-tab-item {
+	background: #393a3e;
+	border-color: #47484b;
+	color: #fff;
+}
+
+.dark .wide-tab.card .wide-tab-inner .tab-cell.actived .btn-tab-item {
+	color:#fff;
+	background:#6840b1;
+	border-color:#6840b1;
+}
 
 .dark .form-mulity-input {
 	color: #d8d8d8;
