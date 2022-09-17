@@ -268,13 +268,13 @@ if ($artist_flag == 1) {
 															<div class="basic-data-group large">
 																<div class="memo-item large">
 																	<div class="memo-item-title">상품별 안내사항</div>
-																	<div class="memo-item-txt cat_comment">프론트 샵페이지 상품하단에 위치하는 안내입니다.</div>
+																	<div class="memo-item-txt cat_comment"></div>
 																</div>
 															</div>
 															<div class="btn-basic-action">
 																<div class="grid-layout btn-grid-group">
 																	<div class="grid-layout-inner justify-content-end">
-																		<div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-purple btn-small-size btn-basic-small">수정</button></div>
+																		<div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-purple btn-small-size btn-basic-small" onclick="location.href='set_beauty_management_add_1.php?is_cat=cat'">수정</button></div>
 																		<div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-gray btn-small-size btn-basic-small">삭제</button></div>
 																	</div>
 																</div>																

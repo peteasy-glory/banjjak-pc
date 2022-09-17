@@ -1238,6 +1238,84 @@ if($r_mode) {
 
         $return_data = array("code"=>"000000","data"=>$result);
 
+    }else if($r_mode === "post_product_cat"){
+
+        $customer_id = $_POST['customer_id'];
+
+        $offer = $_POST['offer'];
+        if($offer == 0){
+            $in_shop = 1;
+            $out_shop = 0;
+        }else if($offer == 1){
+            $in_shop = 0;
+            $out_shop = 1;
+        }else if($offer == 2){
+            $in_shop = 1;
+            $out_shop = 1;
+        }
+
+        $short_price = $_POST['short_price'];
+        $long_price = $_POST['long_price'];
+
+        $increase_price = ($_POST['increase_price'] == 0)? '' : $_POST['increase_price'];
+        $section_array = $_POST['section'];
+        $section = '';
+        if($section_array != ''){
+            for($i=0;$i<count($section_array);$i++){
+                $section.= $section_array[$i].',';
+            }
+            $section = substr($section, 0, -1);
+        }
+
+        $shower_price = $_POST['shower_price'];
+        $shower_price_long = $_POST['shower_price_long'];
+        $toenail_price = ($_POST['toenail_price'] == 0)? '' : $_POST['toenail_price'];
+
+        $addition_option_product_text = $_POST['addition_option_product_text'];
+        $addition_option_product_price = $_POST['addition_option_product_price'];
+        $addition_option_product = '';
+        if($addition_option_product_text != ''){
+            for($i=0;$i<count($addition_option_product_text);$i++){
+                if($addition_option_product_price[$i] != '0'){
+                    $addition_option_product.= $addition_option_product_text[$i].':'.$addition_option_product_price[$i].',';
+                }
+            }
+            if(strlen($addition_option_product) > 0){
+                $addition_option_product = substr($addition_option_product, 0, -1);
+            }
+        }
+
+
+        $hair_clot_price = ($_POST['hair_clot_price'] == 0)? '' : $_POST['hair_clot_price'];
+        $ferocity_price = ($_POST['ferocity_price'] == 0)? '' : $_POST['ferocity_price'];
+        $tick_price = ($_POST['tick_price'] == 0)? '' : $_POST['tick_price'];
+
+        $addition_work_product_text = $_POST['addition_work_product_text'];
+        $addition_work_product_price = $_POST['addition_work_product_price'];
+        $addition_work_product = '';
+        if($addition_work_product_text != ''){
+            for($i=0;$i<count($addition_work_product_text);$i++){
+                if($addition_work_product_price[$i] != '0'){
+                    $addition_work_product.= $addition_work_product_text[$i].':'.$addition_work_product_price[$i].',';
+                }
+            }
+            if(strlen($addition_work_product) > 0){
+                $addition_work_product = substr($addition_work_product, 0, -1);
+            }
+        }
+
+        $is_use_weight = $_POST['is_use_weight'];
+        $add_comment = $_POST['add_comment'];
+
+        $data = array('customer_id'=>$customer_id,'in_shop_product'=>$in_shop,'out_shop_product'=>$out_shop,'short_price'=>$short_price,'long_price'=>$long_price
+        ,'increase_price'=>$increase_price,'section'=>$section,'shower_price'=>$shower_price,'shower_price_long'=>$shower_price_long,'toenail_price'=>$toenail_price
+        ,'addition_option_product'=>$addition_option_product,'hair_clot_price'=>$hair_clot_price,'ferocity_price'=>$ferocity_price,'tick_price'=>$tick_price
+        ,'addition_work_product'=>$addition_work_product,'is_use_weight'=>$is_use_weight,'add_comment'=>$add_comment);
+        $data_json = json_encode($data);
+        $result = $api ->put('/partner/setting/cat' ,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
     }else if($r_mode === "put_worktime_type"){
 
         $partner_id = $_POST['partner_id'];
@@ -1374,6 +1452,19 @@ if($r_mode) {
         }
 
         $return_data = array("code"=>"000000","data"=>$time_type_result);
+
+    }else if($r_mode === "get_dog_type_product"){
+
+        $artist_id = $_POST['artist_id'];
+        $second_type = $_POST['second_type'];
+        $direct_title = $_POST['direct_title'];
+
+        $data = array('first_type'=>'개','second_type'=>$second_type,'direct_title'=>$direct_title);
+        $json = json_encode($data);
+
+        $type = $api -> get('/partner/setting/b/product/add-opt/dog/'.$artist_id, $json);
+
+        $return_data = array("code"=>"000000",'data'=>$type);
 
     }else if($r_mode === "get_beauty_product"){
 

@@ -11,6 +11,10 @@ if ($artist_flag == 1) {
     $artist_id = (isset($_SESSION['gobeauty_user_id'])) ? $_SESSION['gobeauty_user_id'] : "";
 }
 
+$second_type = (isset($_GET['second_type']))? $_GET['second_type'] : "소형견미용";
+$direct_title = (isset($_GET['direct_title']))? $_GET['direct_title'] : "";
+
+$pet_type = (isset($_GET['is_cat']))? $_GET['is_cat'] : "dog";
 
 ?>
 <body>        
@@ -73,20 +77,20 @@ if ($artist_flag == 1) {
 																	<div class="form-item-label">상품명</div>
 																	<div class="form-item-data type-2">
 																		<select name="second_type" class="second_type">
-																			<option value="소형견미용">소형견미용</option>
-																			<option value="중형견미용">중형견미용</option>
-																			<option value="대형견미용">대형견미용</option>
-																			<option value="특수견미용">특수견미용</option>
-																			<option value="직접입력">직접입력</option>
+																			<option value="소형견미용" <?php echo ($second_type == '소형견미용')? 'selected' : ''; ?>>소형견미용</option>
+																			<option value="중형견미용" <?php echo ($second_type == '중형견미용')? 'selected' : ''; ?>>중형견미용</option>
+																			<option value="대형견미용" <?php echo ($second_type == '대형견미용')? 'selected' : ''; ?>>대형견미용</option>
+																			<option value="특수견미용" <?php echo ($second_type == '특수견미용')? 'selected' : ''; ?>>특수견미용</option>
+																			<option value="직접입력" <?php echo ($second_type == '직접입력' || ($second_type != '소형견미용' && $second_type != '중형견미용' && $second_type != '대형견미용' && $second_type != '특수견미용'))? 'selected' : ''; ?>>직접입력</option>
 																		</select>
 																	</div>
 																</div>
 															</div>
 															<!-- 직접 입력시 -->
-															<div class="grid-layout-cell grid-3 direct_title_wrap" style="display:none;">
+															<div class="grid-layout-cell grid-3 direct_title_wrap" style="display:<?php echo ($second_type == '직접입력' || ($second_type != '소형견미용' && $second_type != '중형견미용' && $second_type != '대형견미용' && $second_type != '특수견미용'))? 'block' : 'none'; ?>;">
 																<div class="form-group-item">
 																	<div class="form-item-data type-2">
-																		<input type="text" name="direct_title" placeholder="입력"/>
+																		<input type="text" name="direct_title" value="<?php echo ($second_type == '직접입력')? $direct_title : (($second_type != '소형견미용' && $second_type != '중형견미용' && $second_type != '대형견미용' && $second_type != '특수견미용')? $second_type : ''); ?>" placeholder="입력"/>
 																	</div>
 																</div>
 															</div>
@@ -421,7 +425,8 @@ if ($artist_flag == 1) {
 													</div>
 												</div>
 											</form>
-                                            <div class="basic-data-group vmiddle produt_section product_cat_section" style="display: none;">
+                                            <form id="catForm" class="basic-data-group vmiddle produt_section product_cat_section" style="display: none;">
+                                                <input type="hidden" name="customer_id" value="<?=$artist_id?>">
                                                 <div class="basic-data-group">
                                                     <div class="grid-layout margin-14-17">
                                                         <div class="grid-layout-inner">
@@ -431,9 +436,9 @@ if ($artist_flag == 1) {
                                                                     <div class="form-item-data type-2">
                                                                         <div class="grid-layout toggle-button-group">
                                                                             <div class="grid-layout-inner">
-                                                                                <div class="grid-layout-cell grid-3"><label class="form-toggle-box middle auto"><input type="radio" name="offer"><em>매장상품</em></label></div>
-                                                                                <div class="grid-layout-cell grid-3"><label class="form-toggle-box middle auto"><input type="radio" name="offer"><em>출장상품</em></label></div>
-                                                                                <div class="grid-layout-cell grid-3"><label class="form-toggle-box middle auto"><input type="radio" name="offer"><em>출장/매장</em></label></div>
+                                                                                <div class="grid-layout-cell grid-3"><label class="form-toggle-box middle auto"><input type="radio" class="cat_offer0" name="offer" value="0" checked><em>매장상품</em></label></div>
+                                                                                <div class="grid-layout-cell grid-3"><label class="form-toggle-box middle auto"><input type="radio" class="cat_offer1" name="offer" value="1"><em>출장상품</em></label></div>
+                                                                                <div class="grid-layout-cell grid-3"><label class="form-toggle-box middle auto"><input type="radio" class="cat_offer2" name="offer" value="2"><em>출장/매장</em></label></div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -452,8 +457,8 @@ if ($artist_flag == 1) {
                                                             <div class="form-item-data">
                                                                 <div class="form-check-group">
                                                                     <div class="form-check-inner">
-                                                                        <div class="check-cell"><label class="form-radiobox"><input type="radio" name="time2"><span class="form-check-icon"><em>사용</em></span></label></div>
-                                                                        <div class="check-cell"><label class="form-radiobox"><input type="radio" name="time2" checked=""><span class="form-check-icon"><em>미사용</em></span></label></div>
+                                                                        <div class="check-cell"><label class="form-radiobox"><input type="radio" class="cat_is_use_weight cat_is_use_weight1" name="is_use_weight" value="1"><span class="form-check-icon"><em>사용</em></span></label></div>
+                                                                        <div class="check-cell"><label class="form-radiobox"><input type="radio" class="cat_is_use_weight cat_is_use_weight2" name="is_use_weight" value="2" checked><span class="form-check-icon"><em>미사용</em></span></label></div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -480,28 +485,34 @@ if ($artist_flag == 1) {
                                                                     <tr>
                                                                         <td class="no-padding">
                                                                             <div class="form-table-select">
-                                                                                <select>
-                                                                                    <option value="">선택</option>
-                                                                                    <option value="">선택</option>
-                                                                                    <option value="">선택</option>
+                                                                                <select class="increase_price" name="increase_price">
+                                                                                    <?php
+                                                                                    for ($pi = 0; $pi <= 200000; $pi = $pi + 500) {
+                                                                                        echo "<option value='" . $pi . "'>".number_format($pi)."</option>";
+                                                                                    }
+                                                                                    ?>
                                                                                 </select>
                                                                             </div>
                                                                         </td>
                                                                         <td class="no-padding">
                                                                             <div class="form-table-select">
-                                                                                <select>
-                                                                                    <option value="">선택</option>
-                                                                                    <option value="">선택</option>
-                                                                                    <option value="">선택</option>
+                                                                                <select class="short_price" name="short_price">
+                                                                                    <?php
+                                                                                    for ($pi = 0; $pi <= 500000; $pi = $pi + 500) {
+                                                                                        echo "<option value='" . $pi . "'>".number_format($pi)."</option>";
+                                                                                    }
+                                                                                    ?>
                                                                                 </select>
                                                                             </div>
                                                                         </td>
                                                                         <td class="no-padding">
                                                                             <div class="form-table-select">
-                                                                                <select>
-                                                                                    <option value="">선택</option>
-                                                                                    <option value="">선택</option>
-                                                                                    <option value="">선택</option>
+                                                                                <select class="long_price" name="long_price">
+                                                                                    <?php
+                                                                                    for ($pi = 0; $pi <= 500000; $pi = $pi + 500) {
+                                                                                        echo "<option value='" . $pi . "'>".number_format($pi)."</option>";
+                                                                                    }
+                                                                                    ?>
                                                                                 </select>
                                                                             </div>
                                                                         </td>
@@ -510,16 +521,16 @@ if ($artist_flag == 1) {
                                                                 </table>
                                                             </div>
                                                         </div>
-                                                        <div class="basic-data-group middle">
+                                                        <div class="basic-data-group middle cat_use_weight_wrap" style="display: none;">
                                                             <div class="grid-layout btn-grid-group">
                                                                 <div class="grid-layout-inner justify-content-end">
-                                                                    <div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-gray btn-small-size btn-basic-small">구간추가</button></div>
-                                                                    <div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-gray btn-small-size btn-basic-small">구간삭제</button></div>
+                                                                    <div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-gray btn-small-size btn-basic-small cat_add_table">구간추가</button></div>
+                                                                    <div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-gray btn-small-size btn-basic-small cat_del_table">구간삭제</button></div>
                                                                 </div>
                                                             </div>
                                                             <div class="basic-data-group vvsmall4">
                                                                 <div class="read-table">
-                                                                    <table>
+                                                                    <table class="cat_table_wrap">
                                                                         <colgroup>
                                                                             <col style="width:auto;">
                                                                             <col style="width:auto;">
@@ -533,90 +544,26 @@ if ($artist_flag == 1) {
                                                                         </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                        <tr>
+                                                                        <tr class="cat_table_tr">
                                                                             <td class="no-padding">
                                                                                 <div class="form-table-select">
-                                                                                    <select>
-                                                                                        <option value="">선택</option>
-                                                                                        <option value="">선택</option>
-                                                                                        <option value="">선택</option>
+                                                                                    <select name="section[]">
+                                                                                        <?php
+                                                                                        for ($pi = 0; $pi <= 50; $pi = $pi + 0.1) {
+                                                                                            echo "<option value='" . $pi . "'>~".$pi."kg</option>";
+                                                                                        }
+                                                                                        ?>
                                                                                     </select>
                                                                                 </div>
                                                                             </td>
                                                                             <td class="no-padding">
                                                                                 <div class="form-table-select">
-                                                                                    <select>
-                                                                                        <option value="">선택</option>
-                                                                                        <option value="">선택</option>
-                                                                                        <option value="">선택</option>
-                                                                                    </select>
+                                                                                    <input type="text" class="short_weight_price" disabled value="0">
                                                                                 </div>
                                                                             </td>
                                                                             <td class="no-padding">
                                                                                 <div class="form-table-select">
-                                                                                    <select>
-                                                                                        <option value="">선택</option>
-                                                                                        <option value="">선택</option>
-                                                                                        <option value="">선택</option>
-                                                                                    </select>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td class="no-padding">
-                                                                                <div class="form-table-select">
-                                                                                    <select>
-                                                                                        <option value="">선택</option>
-                                                                                        <option value="">선택</option>
-                                                                                        <option value="">선택</option>
-                                                                                    </select>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td class="no-padding">
-                                                                                <div class="form-table-select">
-                                                                                    <select>
-                                                                                        <option value="">선택</option>
-                                                                                        <option value="">선택</option>
-                                                                                        <option value="">선택</option>
-                                                                                    </select>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td class="no-padding">
-                                                                                <div class="form-table-select">
-                                                                                    <select>
-                                                                                        <option value="">선택</option>
-                                                                                        <option value="">선택</option>
-                                                                                        <option value="">선택</option>
-                                                                                    </select>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td class="no-padding">
-                                                                                <div class="form-table-select">
-                                                                                    <select>
-                                                                                        <option value="">선택</option>
-                                                                                        <option value="">선택</option>
-                                                                                        <option value="">선택</option>
-                                                                                    </select>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td class="no-padding">
-                                                                                <div class="form-table-select">
-                                                                                    <select>
-                                                                                        <option value="">선택</option>
-                                                                                        <option value="">선택</option>
-                                                                                        <option value="">선택</option>
-                                                                                    </select>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td class="no-padding">
-                                                                                <div class="form-table-select">
-                                                                                    <select>
-                                                                                        <option value="">선택</option>
-                                                                                        <option value="">선택</option>
-                                                                                        <option value="">선택</option>
-                                                                                    </select>
+                                                                                    <input type="text" class="long_weight_price" disabled value="0">
                                                                                 </div>
                                                                             </td>
                                                                         </tr>
@@ -648,19 +595,23 @@ if ($artist_flag == 1) {
                                                             <tr>
                                                                 <td class="no-padding">
                                                                     <div class="form-table-select">
-                                                                        <select>
-                                                                            <option value="">선택</option>
-                                                                            <option value="">선택</option>
-                                                                            <option value="">선택</option>
+                                                                        <select class="shower_price" name="shower_price">
+                                                                            <?php
+                                                                            for ($pi = 0; $pi <= 500000; $pi = $pi + 500) {
+                                                                                echo "<option value='" . $pi . "'>".number_format($pi)."</option>";
+                                                                            }
+                                                                            ?>
                                                                         </select>
                                                                     </div>
                                                                 </td>
                                                                 <td class="no-padding">
                                                                     <div class="form-table-select">
-                                                                        <select>
-                                                                            <option value="">선택</option>
-                                                                            <option value="">선택</option>
-                                                                            <option value="">선택</option>
+                                                                        <select class="shower_price_long" name="shower_price_long">
+                                                                            <?php
+                                                                            for ($pi = 0; $pi <= 500000; $pi = $pi + 500) {
+                                                                                echo "<option value='" . $pi . "'>".number_format($pi)."</option>";
+                                                                            }
+                                                                            ?>
                                                                         </select>
                                                                     </div>
                                                                 </td>
@@ -674,7 +625,7 @@ if ($artist_flag == 1) {
                                                         <h4 class="con-title">털 특징 별 추가요금</h4>
                                                         <div class="grid-layout btn-grid-group">
                                                             <div class="grid-layout-inner justify-content-end">
-                                                                <div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-gray btn-small-size btn-basic-small">구간추가</button></div>
+                                                                <div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-gray btn-small-size btn-basic-small cat_plus_add_table">구간추가</button></div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -682,90 +633,36 @@ if ($artist_flag == 1) {
                                                         <div class="read-table">
                                                             <table>
                                                                 <colgroup>
-                                                                    <col style="width:53px;">
                                                                     <col style="width:auto;">
                                                                     <col style="width:30%;">
                                                                     <col style="width:10%;">
                                                                 </colgroup>
                                                                 <thead>
                                                                 <tr>
-                                                                    <th></th>
                                                                     <th>상품명</th>
                                                                     <th>가격 (단위:원)</th>
                                                                     <th>삭제</th>
                                                                 </tr>
                                                                 </thead>
-                                                                <tbody class="drag-sort-wrap">
+                                                                <tbody class="drag-sort-wrap cat_plus_table_wrap">
                                                                 <tr class="drag-sort-cell">
                                                                     <td class="no-padding">
                                                                         <div class="form-table-select">
-                                                                            <button type="button" class="btn-data-handler">드래그바</button>
+                                                                            <input type="text" name="" value="발톱" disabled placeholder="입력">
                                                                         </div>
                                                                     </td>
                                                                     <td class="no-padding">
                                                                         <div class="form-table-select">
-                                                                            <input type="text" value="상품명 1" placeholder="입력">
-                                                                        </div>
-                                                                    </td>
-                                                                    <td class="no-padding">
-                                                                        <div class="form-table-select">
-                                                                            <select>
-                                                                                <option value="">선택</option>
-                                                                                <option value="">선택</option>
-                                                                                <option value="">선택</option>
+                                                                            <select class="toenail_price" name="toenail_price">
+                                                                                <?php
+                                                                                for ($pi = 0; $pi <= 500000; $pi = $pi + 500) {
+                                                                                    echo "<option value='" . $pi . "'>".number_format($pi)."</option>";
+                                                                                }
+                                                                                ?>
                                                                             </select>
                                                                         </div>
                                                                     </td>
                                                                     <td class="no-padding text-align-center vertical-center">
-                                                                        <button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr class="drag-sort-cell">
-                                                                    <td class="no-padding">
-                                                                        <div class="form-table-select">
-                                                                            <button type="button" class="btn-data-handler">드래그바</button>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td class="no-padding">
-                                                                        <div class="form-table-select">
-                                                                            <input type="text" value="상품명 2" placeholder="입력">
-                                                                        </div>
-                                                                    </td>
-                                                                    <td class="no-padding">
-                                                                        <div class="form-table-select">
-                                                                            <select>
-                                                                                <option value="">선택</option>
-                                                                                <option value="">선택</option>
-                                                                                <option value="">선택</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td class="no-padding text-align-center vertical-center">
-                                                                        <button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr class="drag-sort-cell">
-                                                                    <td class="no-padding">
-                                                                        <div class="form-table-select">
-                                                                            <button type="button" class="btn-data-handler">드래그바</button>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td class="no-padding">
-                                                                        <div class="form-table-select">
-                                                                            <input type="text" placeholder="입력">
-                                                                        </div>
-                                                                    </td>
-                                                                    <td class="no-padding">
-                                                                        <div class="form-table-select">
-                                                                            <select>
-                                                                                <option value="">선택</option>
-                                                                                <option value="">선택</option>
-                                                                                <option value="">선택</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td class="no-padding text-align-center vertical-center">
-                                                                        <button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
                                                                     </td>
                                                                 </tr>
                                                                 </tbody>
@@ -778,7 +675,7 @@ if ($artist_flag == 1) {
                                                         <h4 class="con-title">현장판단 후 현장 결제추가 가능옵션</h4>
                                                         <div class="grid-layout btn-grid-group">
                                                             <div class="grid-layout-inner justify-content-end">
-                                                                <div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-gray btn-small-size btn-basic-small">구간추가</button></div>
+                                                                <div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-gray btn-small-size btn-basic-small cat_place_plus_add_table">구간추가</button></div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -786,90 +683,77 @@ if ($artist_flag == 1) {
                                                         <div class="read-table">
                                                             <table>
                                                                 <colgroup>
-                                                                    <col style="width:53px;">
                                                                     <col style="width:auto;">
                                                                     <col style="width:30%;">
                                                                     <col style="width:10%;">
                                                                 </colgroup>
                                                                 <thead>
                                                                 <tr>
-                                                                    <th></th>
                                                                     <th>상품명</th>
                                                                     <th>가격 (단위:원)</th>
                                                                     <th>삭제</th>
                                                                 </tr>
                                                                 </thead>
-                                                                <tbody class="drag-sort-wrap">
+                                                                <tbody class="drag-sort-wrap cat_place_plus_table_wrap">
                                                                 <tr class="drag-sort-cell">
                                                                     <td class="no-padding">
                                                                         <div class="form-table-select">
-                                                                            <button type="button" class="btn-data-handler">드래그바</button>
+                                                                            <input type="text" name="" value="털엉킴" disabled placeholder="입력">
                                                                         </div>
                                                                     </td>
                                                                     <td class="no-padding">
                                                                         <div class="form-table-select">
-                                                                            <input type="text" value="상품명 1" placeholder="입력">
-                                                                        </div>
-                                                                    </td>
-                                                                    <td class="no-padding">
-                                                                        <div class="form-table-select">
-                                                                            <select>
-                                                                                <option value="">선택</option>
-                                                                                <option value="">선택</option>
-                                                                                <option value="">선택</option>
+                                                                            <select class="hair_clot_price" name="hair_clot_price">
+                                                                                <?php
+                                                                                for ($pi = 0; $pi <= 500000; $pi = $pi + 500) {
+                                                                                    echo "<option value='" . $pi . "'>".number_format($pi)."</option>";
+                                                                                }
+                                                                                ?>
                                                                             </select>
                                                                         </div>
                                                                     </td>
                                                                     <td class="no-padding text-align-center vertical-center">
-                                                                        <button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
                                                                     </td>
                                                                 </tr>
                                                                 <tr class="drag-sort-cell">
                                                                     <td class="no-padding">
                                                                         <div class="form-table-select">
-                                                                            <button type="button" class="btn-data-handler">드래그바</button>
+                                                                            <input type="text" name="" value="사나움" disabled placeholder="입력">
                                                                         </div>
                                                                     </td>
                                                                     <td class="no-padding">
                                                                         <div class="form-table-select">
-                                                                            <input type="text" value="상품명 2" placeholder="입력">
-                                                                        </div>
-                                                                    </td>
-                                                                    <td class="no-padding">
-                                                                        <div class="form-table-select">
-                                                                            <select>
-                                                                                <option value="">선택</option>
-                                                                                <option value="">선택</option>
-                                                                                <option value="">선택</option>
+                                                                            <select name="ferocity_price">
+                                                                                <?php
+                                                                                for ($pi = 0; $pi <= 500000; $pi = $pi + 500) {
+                                                                                    echo "<option value='" . $pi . "'>".number_format($pi)."</option>";
+                                                                                }
+                                                                                ?>
                                                                             </select>
                                                                         </div>
                                                                     </td>
                                                                     <td class="no-padding text-align-center vertical-center">
-                                                                        <button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
                                                                     </td>
                                                                 </tr>
-                                                                <tr class="drag-sort-cell">
+                                                                <tr class="drag-sort-cell cat_place_plus_table_tr">
                                                                     <td class="no-padding">
                                                                         <div class="form-table-select">
-                                                                            <button type="button" class="btn-data-handler">드래그바</button>
+                                                                            <input type="text" name="addition_work_product_text[]" value="" placeholder="입력">
                                                                         </div>
                                                                     </td>
                                                                     <td class="no-padding">
                                                                         <div class="form-table-select">
-                                                                            <input type="text" placeholder="입력">
-                                                                        </div>
-                                                                    </td>
-                                                                    <td class="no-padding">
-                                                                        <div class="form-table-select">
-                                                                            <select>
-                                                                                <option value="">선택</option>
-                                                                                <option value="">선택</option>
-                                                                                <option value="">선택</option>
+                                                                            <select name="addition_work_product_price[]">
+                                                                                <?php
+                                                                                for ($pi = 0; $pi <= 500000; $pi = $pi + 500) {
+                                                                                    echo "<option value='" . $pi . "'>".number_format($pi)."</option>";
+                                                                                }
+                                                                                ?>
                                                                             </select>
                                                                         </div>
                                                                     </td>
                                                                     <td class="no-padding text-align-center vertical-center">
-                                                                        <button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
+                                                                        <button type="button" class="btn-item-del addition_work_product_del"><span class="icon icon-size-36 icon-trash"></span></button>
                                                                     </td>
                                                                 </tr>
                                                                 </tbody>
@@ -881,12 +765,12 @@ if ($artist_flag == 1) {
                                                     <div class="form-group-item">
                                                         <div class="form-item-label">추가설명</div>
                                                         <div class="form-item-data type-2">
-                                                            <textarea style="height:100px;" placeholder="입력"></textarea>
+                                                            <textarea style="height:100px;" class="cat_comment" name="add_comment" placeholder="입력"></textarea>
                                                             <div class="form-input-info">0/1000</div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </form>
 										</div>
 									</div>
 								</div>
@@ -1025,299 +909,23 @@ if ($artist_flag == 1) {
 <script>
     let artist_id = "<?=$artist_id?>";
     var add_worktime = 0;
-    var pet_type = 'dog';
+    var second_type = '<?=$second_type ?>';
+    var direct_title = '<?=$direct_title ?>';
+    var pet_type = '<?=$pet_type ?>';
     $(document).ready(function() {
         get_navi(artist_id);
         gnb_init();
         gnb_actived('gnb_detail_wrap', 'gnb_merchandise');
         get_beauty_product(artist_id);
+
+        // 기본 틀 뿌려주기(고양이 상품은 있으면 보여준다)
+        view_add_product();
+
+        // 강아지 상품 수정으로 들어왔을때
+        if(second_type != '' && direct_title != ''){
+            get_dog_type_product(artist_id, second_type, direct_title);
+        }
         console.log(setting_array);
-
-        var add_html = ''; // 미용구분팝업
-
-        var col_html = `
-            <colgroup class="col_table">
-	            <col style="width:auto;">
-        `;
-        var thead_html = `
-            <thead>
-                <tr class="thead_table">
-                    <th>무게</th>
-        `;
-        var tbody_html = `
-            <tbody>
-                <tr class="dog_table_tr">
-                    <td class="no-padding">
-                        <div class="form-table-select">
-                            <select name="kgs[]">
-                                <option value="">선택안함</option>
-        `;
-        for(var j=0;j<60;j=j+0.1){
-            tbody_html += `<option value="${j.toFixed(1)}">~${j.toFixed(1)}kg</option>`
-        }
-        tbody_html += `
-                            </select>
-                        </div>
-                    </td>
-        `;
-        $.each(setting_array[0].worktime, function(i,v){
-            if(i == 'bath'){
-                if(v.is_use == 'y'){
-                    $(".bath").prop("checked",true);
-                    col_html += `<col style="width:auto;">`;
-                    thead_html += `<th>목욕</th>`;
-                    tbody_html += `
-                        <td class="no-padding">
-                            <div class="form-table-select">
-                                <select name="bath_price[]">
-                                    <option value="">선택안함</option>
-                    `;
-                            for(var t=1000;t<400000;t=t+500){
-                                tbody_html += `<option value="${t}">~${t.format()}kg</option>`
-                            }
-                            tbody_html +=`
-                                </select>
-                                <label class="form-checkbox"><input type="checkbox" name="is_consult_bath[]" value="0"><span class="form-check-icon"><em>상담</em></span></label>
-                            </div>
-                        </td>
-                    `;
-                }
-            }else if(i == 'part'){
-                if(v.is_use == 'y'){
-                    $(".part").prop("checked",true);
-                    col_html += `<col style="width:auto;">`;
-                    thead_html += `<th>부분미용</th>`;
-                    tbody_html += `
-                        <td class="no-padding">
-                            <div class="form-table-select">
-                                <select name="part_price[]">
-                                    <option value="">선택안함</option>
-                    `;
-                    for(var t=1000;t<400000;t=t+500){
-                        tbody_html += `<option value="${t}">~${t.format()}kg</option>`
-                    }
-                    tbody_html +=`
-                                </select>
-                                <label class="form-checkbox"><input type="checkbox" name="is_consult_part[]" value="0"><span class="form-check-icon"><em>상담</em></span></label>
-                            </div>
-                        </td>
-                    `;
-                }
-            }else if(i == 'bath_part'){
-                if(v.is_use == 'y'){
-                    $(".bath_part").prop("checked",true);
-                    col_html += `<col style="width:auto;">`;
-                    thead_html += `<th>부분+목욕</th>`;
-                    tbody_html += `
-                        <td class="no-padding">
-                            <div class="form-table-select">
-                                <select name="bath_part_price[]">
-                                    <option value="">선택안함</option>
-                    `;
-                    for(var t=1000;t<400000;t=t+500){
-                        tbody_html += `<option value="${t}">~${t.format()}kg</option>`
-                    }
-                    tbody_html +=`
-                                </select>
-                                <label class="form-checkbox"><input type="checkbox" name="is_consult_bath_part[]" value="0"><span class="form-check-icon"><em>상담</em></span></label>
-                            </div>
-                        </td>
-                    `;
-                }
-            }else if(i == 'sanitation'){
-                if(v.is_use == 'y'){
-                    $(".sanitation").prop("checked",true);
-                    col_html += `<col style="width:auto;">`;
-                    thead_html += `<th>위생</th>`;
-                    tbody_html += `
-                        <td class="no-padding">
-                            <div class="form-table-select">
-                                <select name="sanitation_price[]">
-                                    <option value="">선택안함</option>
-                    `;
-                    for(var t=1000;t<400000;t=t+500){
-                        tbody_html += `<option value="${t}">~${t.format()}kg</option>`
-                    }
-                    tbody_html +=`
-                                </select>
-                                <label class="form-checkbox"><input type="checkbox" name="is_consult_sanitation[]" value="0"><span class="form-check-icon"><em>상담</em></span></label>
-                            </div>
-                        </td>
-                    `;
-                }
-            }else if(i == 'sanitation_bath'){
-                if(v.is_use == 'y'){
-                    $(".sanitation_bath").prop("checked",true);
-                    col_html += `<col style="width:auto;">`;
-                    thead_html += `<th>위생+목욕</th>`;
-                    tbody_html += `
-                        <td class="no-padding">
-                            <div class="form-table-select">
-                                <select name="sanitation_bath_price[]">
-                                    <option value="">선택안함</option>
-                    `;
-                    for(var t=1000;t<400000;t=t+500){
-                        tbody_html += `<option value="${t}">~${t.format()}kg</option>`
-                    }
-                    tbody_html +=`
-                                </select>
-                                <label class="form-checkbox"><input type="checkbox" name="is_consult_sanitation_bath[]" value="0"><span class="form-check-icon"><em>상담</em></span></label>
-                            </div>
-                        </td>
-                    `;
-                }
-            }else if(i == 'all'){
-                if(v.is_use == 'y'){
-                    $(".all").prop("checked",true);
-                    col_html += `<col style="width:auto;">`;
-                    thead_html += `<th>전체미용</th>`;
-                    tbody_html += `
-                        <td class="no-padding">
-                            <div class="form-table-select">
-                                <select name="all_price[]">
-                                    <option value="">선택안함</option>
-                    `;
-                    for(var t=1000;t<400000;t=t+500){
-                        tbody_html += `<option value="${t}">~${t.format()}kg</option>`
-                    }
-                    tbody_html +=`
-                                </select>
-                                <label class="form-checkbox"><input type="checkbox" name="is_consult_all[]" value="0"><span class="form-check-icon"><em>상담</em></span></label>
-                            </div>
-                        </td>
-                    `;
-                }
-            }else if(i == 'spoting'){
-                if(v.is_use == 'y'){
-                    $(".spoting").prop("checked",true);
-                    col_html += `<col style="width:auto;">`;
-                    thead_html += `<th>스포팅</th>`;
-                    tbody_html += `
-                        <td class="no-padding">
-                            <div class="form-table-select">
-                                <select name="spoting_price[]">
-                                    <option value="">선택안함</option>
-                    `;
-                    for(var t=1000;t<400000;t=t+500){
-                        tbody_html += `<option value="${t}">~${t.format()}kg</option>`
-                    }
-                    tbody_html +=`
-                                </select>
-                                <label class="form-checkbox"><input type="checkbox" name="is_consult_spoting[]" value="0"><span class="form-check-icon"><em>상담</em></span></label>
-                            </div>
-                        </td>
-                    `;
-                }
-            }else if(i == 'scissors'){
-                if(v.is_use == 'y'){
-                    $(".scissors").prop("checked",true);
-                    col_html += `<col style="width:auto;">`;
-                    thead_html += `<th>가위컷</th>`;
-                    tbody_html += `
-                        <td class="no-padding">
-                            <div class="form-table-select">
-                                <select name="scissors_price[]">
-                                    <option value="">선택안함</option>
-                    `;
-                    for(var t=1000;t<400000;t=t+500){
-                        tbody_html += `<option value="${t}">~${t.format()}kg</option>`
-                    }
-                    tbody_html +=`
-                                </select>
-                                <label class="form-checkbox"><input type="checkbox" name="is_consult_scissors[]" value="0"><span class="form-check-icon"><em>상담</em></span></label>
-                            </div>
-                        </td>
-                    `;
-                }
-            }else if(i == 'summercut'){
-                if(v.is_use == 'y'){
-                    $(".summercut").prop("checked",true);
-                    col_html += `<col style="width:auto;">`;
-                    thead_html += `<th>썸머컷</th>`;
-                    tbody_html += `
-                        <td class="no-padding">
-                            <div class="form-table-select">
-                                <select name="summercut_price[]">
-                                    <option value="">선택안함</option>
-                    `;
-                    for(var t=1000;t<400000;t=t+500){
-                        tbody_html += `<option value="${t}">~${t.format()}kg</option>`
-                    }
-                    tbody_html +=`
-                                </select>
-                                <label class="form-checkbox"><input type="checkbox" name="is_consult_summercut[]" value="0"><span class="form-check-icon"><em>상담</em></span></label>
-                            </div>
-                        </td>
-                    `;
-                }
-            }else{
-                add_worktime ++;
-                var checked = '';
-                if(v.is_use == 'y'){
-                    checked = 'checked';
-                    col_html += `<col style="width:auto;">`;
-                    thead_html += `<th>${i}</th>`;
-                    tbody_html += `
-                        <td class="no-padding">
-                            <div class="form-table-select">
-                                <select name="beauty${add_worktime}_price[]">
-                                    <option value="">선택안함</option>
-                    `;
-                    for(var t=1000;t<400000;t=t+500){
-                        tbody_html += `<option value="${t}">~${t.format()}kg</option>`
-                    }
-                    tbody_html +=`
-                                </select>
-                                <label class="form-checkbox"><input type="checkbox" name="is_consult_beauty${add_worktime}[] value="0""><span class="form-check-icon"><em>상담</em></span></label>
-                            </div>
-                        </td>
-                    `;
-                }
-                add_html += `
-                    <div class="form-vertical-cell">
-                        <div class="grid-layout basic">
-                            <div class="grid-layout-inner flex-nowrap">
-                                <div class="grid-layout-cell flex-2">
-                                    <div class="card-check-box white">
-                                        <label class="form-checkbox"><input type="checkbox" name="add_worktime_${add_worktime}" value="y" ${checked}><span class="form-check-icon"><em></em></span></label>
-                                        <input type="text" class="form-transparent" name="add_worktime_title_${add_worktime}" placeholder="입력" value="${i}">
-                                    </div>
-                                </div>
-                                <div class="grid-layout-cell flex-1">
-                                    <select name="add_worktime_time_${add_worktime}">
-                `;
-                for(var j=30;j<=240;j=j+30){
-                    var selected = (v.time == j)? 'selected':'';
-                    add_html += `<option value="${j}" ${selected}>${j}분</option>`;
-                }
-                add_html += `
-                                    </select>
-                                </div>
-                                <div class="grid-layout-cell flex-auto w-px-55"><button type="button" class="btn-data-trash worktime_del">휴지통</button></div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }
-        })
-        if(add_html != ''){
-            $(".beauty_add_table_wrap").html(add_html);
-        }
-
-        col_html += `</colgroup>`;
-        thead_html += `
-                </tr>
-            </thead>
-        `;
-        tbody_html += `
-                </tr>
-            </tbody>
-        `;
-        $(".dog_table_wrap").html(col_html+thead_html+tbody_html);
-
-        // kg추가요금설정
-        $(".is_over_kgs0").prop("checked",true);
-        $(".dog_over_kgs_wrap").css("display","none");
 
     })
 
@@ -1371,6 +979,7 @@ if ($artist_flag == 1) {
         }
     })
 
+    //////////////////////////////////////////////////// 강아지상품
     // 미용구분 구간삭제
     $(document).on("click",".worktime_del",function(){
         add_worktime--;
@@ -1420,14 +1029,117 @@ if ($artist_flag == 1) {
         }
     })
 
-    // 저장팝업
+    //////////////////////////////////////////////////// 고양이상품
+    // 무게별 사용 여부
+    $(document).on("click",".cat_is_use_weight",function(){
+        if($(this).val()==1){
+            $(".cat_use_weight_wrap").css("display","block");
+        }else{
+            $(".cat_use_weight_wrap").css("display","none");
+        }
+    })
+
+    // 무게별 사용 첫 칸 무게 넣기
+    $(document).on("change",".short_price",function(){
+        $(".short_weight_price").val($(this).val());
+    })
+    $(document).on("change",".long_price",function(){
+        $(".long_weight_price").val($(this).val());
+    })
+
+    // 무게별 사용구간 추가
+    $(document).on("click",".cat_add_table",function(){
+        var bt_div = $('.cat_table_tr:last-child').clone();
+        var short_price = $('.cat_table_tr:last-child .short_weight_price').val();
+        var long_price = $('.cat_table_tr:last-child .long_weight_price').val();
+        $('.cat_table_wrap').append(bt_div);
+        $('.cat_table_tr:last-child .short_weight_price').val(parseInt(short_price) + parseInt($(".increase_price").val()));
+        $('.cat_table_tr:last-child .long_weight_price').val(parseInt(long_price) + parseInt($(".increase_price").val()));
+    })
+
+    // 무게별 사용구간 삭제
+    $(document).on('click','.cat_del_table',function(){
+        var total_cnt = $('.cat_table_tr').length;
+        if(total_cnt > 1) {
+            $('.cat_table_tr:last-child').remove();
+        }
+    });
+
+    // 털특징별 사용구간 추가
+    $(document).on("click",".cat_plus_add_table",function(){
+        var html = `
+            <tr class="drag-sort-cell cat_plus_table_tr">
+                <td class="no-padding">
+                    <div class="form-table-select">
+                        <input type="text" name="addition_option_product_text[]" value="" placeholder="입력">
+                    </div>
+                </td>
+                <td class="no-padding">
+                    <div class="form-table-select">
+                        <select name="addition_option_product_price[]">`;
+                        for (var i = 0; i <= 500000; i = i + 500) {
+                            html += `<option value="${i}">${i.format()}</option>`;
+                        }
+        html +=`
+                        </select>
+                    </div>
+                </td>
+                <td class="no-padding text-align-center vertical-center">
+                    <button type="button" class="btn-item-del addition_option_product_del"><span class="icon icon-size-36 icon-trash"></span></button>
+                </td>
+            </tr>
+        `;
+        $('.cat_plus_table_wrap').append(html);
+    })
+
+    // 털특징별 사용구간 삭제
+    $(document).on("click",".addition_option_product_del",function(){
+        $(this).parents('.cat_plus_table_tr').remove();
+    })
+
+    // 현장판단 사용구간 추가
+    $(document).on("click",".cat_place_plus_add_table",function(){
+        var html = `
+            <tr class="drag-sort-cell cat_plus_table_tr">
+                <td class="no-padding">
+                    <div class="form-table-select">
+                        <input type="text" name="addition_work_product_text[]" value="" placeholder="입력">
+                    </div>
+                </td>
+                <td class="no-padding">
+                    <div class="form-table-select">
+                        <select name="addition_work_product_price[]">`;
+        for (var i = 0; i <= 500000; i = i + 500) {
+            html += `<option value="${i}">${i.format()}</option>`;
+        }
+        html +=`
+                        </select>
+                    </div>
+                </td>
+                <td class="no-padding text-align-center vertical-center">
+                    <button type="button" class="btn-item-del addition_work_product_del"><span class="icon icon-size-36 icon-trash"></span></button>
+                </td>
+            </tr>
+        `;
+        $('.cat_place_plus_table_wrap').append(html);
+    })
+
+    // 현장판단 사용구간 삭제
+    $(document).on("click",".addition_work_product_del",function(){
+        $(this).parents('.cat_place_plus_table_tr').remove();
+    })
+
+   // 저장팝업
     function open_submit_pop(){
         pop.open('savePop');
     }
 
     function save_product(){
         if(pet_type == 'cat'){
-
+            var dataPost = decodeURIComponent($("#catForm").serialize());
+            dataPost += '&mode=post_product_cat';
+            console.log(dataPost);
+            post_product_dog(dataPost);
         }else{
             var dataPost = decodeURIComponent($("#dogForm").serialize());
             dataPost += '&mode=post_product_dog';
@@ -1435,6 +1147,16 @@ if ($artist_flag == 1) {
             post_product_dog(dataPost);
         }
     }
+
+    $(document).on("click",".is_consult",function(){
+        if($(this).prop("checked") == true){
+            $(this).parents(".form-table-select").children(".not_consult").prop("disabled",true);
+        }else{
+            $(this).parents(".form-table-select").children(".not_consult").prop("disabled",false);
+        }
+
+        //console.log(test);
+    })
 
 </script>
 </body>
