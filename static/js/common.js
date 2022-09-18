@@ -27,7 +27,7 @@ var include = {
                                     <a href="/customer/customer_all_inquiry1.php">전체고객조회</a>
                                 </div>
                                 <div class="header-menu-cell">
-                                    <a href="#">예약 접수하기</a>
+                                    <a href="/booking/reserve_registration.php">예약 접수하기</a>
                                 </div>
                                 <div class="header-menu-cell">
                                     <a href="/booking/reserve_advice_view.php">상담대기
@@ -213,7 +213,7 @@ var include = {
                                                 </a>
                                             </div>
                                             <div class="snb-menu-cell" id="gnb_reserve">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="/booking/reserve_registration.php" class="btn-snb-nav">
                                                     <div class="txt">예약 접수하기</div>
                                                 </a>
                                             </div>

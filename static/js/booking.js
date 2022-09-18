@@ -4689,6 +4689,14 @@ function reserve_search(id){
                 search:search_value,
 
             },
+            beforeSend:function(res){
+
+                if(document.getElementById('search_phone_data')){
+
+                    document.getElementById('search_phone_data').style.display = 'none';
+                    document.getElementById('customer_inquiry_loading').style.display = 'flex';
+                }
+            },
             success:function (res){
                 let response = JSON.parse(res);
                 let head = response.data.head;
@@ -4780,6 +4788,15 @@ function reserve_search_fam(id){
             }
 
         })
+
+
+        if(document.getElementById('search_phone_data')){
+
+            document.getElementById('search_phone_data').style.display = 'block';
+            document.getElementById('customer_inquiry_loading').style.display ='none';
+        }
+
+
 
 
     })
@@ -5057,6 +5074,25 @@ function reserve_merchandise_load_reset(i){
 
 }
 
+
+function reserve_merchandise_load_reset_(i){
+
+    switch (i){
+
+        case 1 : document.getElementById('payment_basic_service_select').innerHTML = '<div class="toggle-button-cell" onclick="reserve_merchandise_load_reset_(2)"><label class="form-toggle-box large "><input type="radio" value="" name="s1"><em class="font-size-12">선택 안함</em></label></div>';
+            document.getElementById('payment_basic_weight').innerHTML = '<div class="toggle-button-cell" id="payment_weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" checked ><em><span class="font-size-12">선택 안함</span></em></label></div>';
+
+            break;
+        case 2 :
+            document.getElementById('payment_basic_weight').innerHTML = '<div class="toggle-button-cell" id="payment_weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" checked><em><span class="font-size-12">선택 안함</span></em></label></div>';
+
+            break;
+
+
+    }
+
+}
+
 function reserve_service_list(element,text,price){
 
 
@@ -5097,11 +5133,13 @@ function reserve_service_list_2_delete(element,string){
 }
 
 
-function reserve_merchandise_load_event(id){
+function reserve_merchandise_load_event(artist_id){
 
     Array.from(document.getElementsByClassName('load-pet-type')).forEach(function (el){
 
         el.addEventListener('click',function (evt){
+            console.log('event')
+            let id=artist_id;
 
             reserve_merchandise_load_init(id).then(function(body){
                 reserve_merchandise_load(body).then(function(base_svc){
@@ -5119,7 +5157,10 @@ function reserve_merchandise_load_event(id){
 function reserve_merchandise_load_init(id){
 
 
+
     return new Promise(function(resolve){
+
+        console.log('event2');
 
 
 
@@ -5135,6 +5176,8 @@ function reserve_merchandise_load_init(id){
 
                 breed_input = document.querySelector('input[name="breed"]:checked');
                 breed = breed_input.value
+                console.log(breed);
+                console.log(id)
 
                 $.ajax({
 
@@ -5148,6 +5191,7 @@ function reserve_merchandise_load_init(id){
 
                     },
                     success:function (res){
+                        console.log(res)
                         let response = JSON.parse(res);
                         let head = response.data.head;
                         let body = response.data.body;
@@ -5343,8 +5387,8 @@ function reserve_merchandise_load_init(id){
                                                                                 <div class="form-item-label">미용</div>
                                                                                 <div class="form-item-data type-2">
                                                                                     <div class="toggle-button-group vertical" id="basic_beauty">
-                                                                                        <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="beauty" onclick="reserve_service_list('service2_basic_beauty','','0')" checked><em></em></label></div>
-                                                                                    </div>선택 안함
+                                                                                        <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="beauty" onclick="reserve_service_list('service2_basic_beauty','','0')" checked><em class="font-size-12">선택 안함</em></label></div>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>`
@@ -5667,6 +5711,7 @@ function reserve_merchandise_load_2(base_svc){
 
 
             el.addEventListener('click',function(){
+
 
 
                 document.getElementById('basic_service_select').innerHTML= '<div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(2)"><label class="form-toggle-box large"><input type="radio" value="" name="s1" onclick="reserve_service_list(\'service2_basic_service\',\'\')" checked><em class="font-size-12">선택 안함</em></label></div>';
@@ -6652,6 +6697,17 @@ function reserve_pop_init(id){
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-data-group middle" id="select_pet" style="display: none;">
+                                <div class="form-group-item">
+                                    <div class="form-item-label">펫 선택</div>
+                                    <div class="form-item-data type-2">
+                                        <div class="grid-layout basic">
+                                            <div class="grid-layout-inner" id="select_pet_list">
                                             </div>
                                         </div>
                                     </div>
@@ -8934,8 +8990,8 @@ function management_service_1(id,body){
 
                     let service = document.getElementById('service');
                     let service2 = document.getElementById('service2');
-                    let basic_service_inner = document.getElementById('basic_service_inner');
-                    let other_service_inner = document.getElementById('other_service_inner');
+                    let basic_service_inner = document.getElementById('payment_basic_service_inner');
+                    let other_service_inner = document.getElementById('payment_other_service_inner');
                     let other2_service_inner = document.getElementById('other2_service_inner');
                     let other3_service_inner = document.getElementById('other3_service_inner');
 
@@ -8951,8 +9007,8 @@ function management_service_1(id,body){
                                                                     <div class="form-group-item">
                                                                         <div class="form-item-label font-size-12 display_flex_ju_center" >크기 선택</div>
                                                                         <div class="form-item-data type-2">
-                                                                            <div class="toggle-button-group vertical" id="basic_size">
-                                                                          <div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(1); "><label class="form-toggle-box large"><input type="radio" value="" name="size" onclick="set_product2(this,'','','list_title_3',true)" checked><em class="font-size-12">선택 안함</em></label></div>
+                                                                            <div class="toggle-button-group vertical" id="payment_basic_size">
+                                                                          <div class="toggle-button-cell" onclick="reserve_merchandise_load_reset_(1); "><label class="form-toggle-box large"><input type="radio" value="" name="payment_size" onclick="set_product2(this,'','','list_title_3',true)" checked><em class="font-size-12">선택 안함</em></label></div>
                                                                      
                                                                             </div>
                                                                         </div>
@@ -8962,8 +9018,8 @@ function management_service_1(id,body){
                                                                     <div class="form-group-item">
                                                                         <div class="form-item-label font-size-12 display_flex_ju_center">서비스</div>
                                                                         <div class="form-item-data type-2">
-                                                                            <div class="toggle-button-group vertical" id="basic_service_select">
-                                                                              <div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(2)"><label class="form-toggle-box large"><input type="radio" value="" name="s1" checked  onclick="set_product2(this,'','','list_title_3',true)"><em class="font-size-12">선택 안함</em></label></div>
+                                                                            <div class="toggle-button-group vertical" id="payment_basic_service_select">
+                                                                              <div class="toggle-button-cell" onclick="reserve_merchandise_load_reset_(2)"><label class="form-toggle-box large"><input type="radio" value="" name="payment_s1" checked  onclick="set_product2(this,'','','list_title_3',true)"><em class="font-size-12">선택 안함</em></label></div>
 
                                                                             </div>
                                                                         </div>
@@ -8973,8 +9029,8 @@ function management_service_1(id,body){
                                                                 <div class="form-group-item">
                                                                     <div class="form-item-label font-size-12 display_flex_ju_center">무게</div>
                                                                     <div class="form-item-data type-2">
-                                                                        <div class="toggle-button-group vertical" id="basic_weight">
-                                                                            <div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" checked onclick="set_product2(this,'','','list_title_3',true)"><em><span class="font-size-12">선택 안함</span></em></label></div>
+                                                                        <div class="toggle-button-group vertical" id="payment_basic_weight">
+                                                                            <div class="toggle-button-cell" id="payment_weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="payment_s2" checked onclick="set_product2(this,'','','list_title_3',true)"><em><span class="font-size-12">선택 안함</span></em></label></div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -8989,7 +9045,7 @@ function management_service_1(id,body){
                                                                         <div class="form-group-item">
                                                                             <div class="form-item-label font-size-12 display_flex_ju_center">털특징</div>
                                                                             <div class="form-item-data type-2">
-                                                                                <div class="toggle-button-group vertical" id="basic_hair_feature">
+                                                                                <div class="toggle-button-group vertical" id="payment_basic_hair_feature">
                                                                              </div>
                                                                             </div>
                                                                         </div>
@@ -9004,8 +9060,8 @@ function management_service_1(id,body){
                                                                     <div class="form-group-item">
                                                                         <div class="form-item-label font-size-12 display_flex_ju_center">미용털길이</div>
                                                                         <div class="form-item-data type-2">
-                                                                            <div class="toggle-button-group vertical" id="basic_hair_length">
-                                                                            <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="hairBeauty" onclick="set_product2(this,'','','list_title_2',true)" checked ><em class="font-size-12">선택 안함</em></label></div>
+                                                                            <div class="toggle-button-group vertical" id="payment_basic_hair_length">
+                                                                            <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="payment_hairBeauty" onclick="set_product2(this,'','','list_title_2',true)" checked ><em class="font-size-12">선택 안함</em></label></div>
                                                                                 </div>
                                                                         </div>
                                                                     </div>
@@ -9019,7 +9075,7 @@ function management_service_1(id,body){
                                                                     <div class="form-group-item">
                                                                         <div class="form-item-label font-size-12 display_flex_ju_center">얼굴컷</div>
                                                                         <div class="form-item-data type-2">
-                                                                            <div class="toggle-button-group vertical" id="other_face">
+                                                                            <div class="toggle-button-group vertical" id="payment_other_face">
                                                                                 
                                                                             </div>
                                                                         </div>
@@ -9033,7 +9089,7 @@ function management_service_1(id,body){
                                                                         <div class="form-group-item">
                                                                             <div class="form-item-label font-size-12 display_flex_ju_center" >다리</div>
                                                                             <div class="form-item-data type-2">
-                                                                                <div class="toggle-button-group vertical" id="other_leg">
+                                                                                <div class="toggle-button-group vertical" id="payment_other_leg">
                 
                                                                                 </div>
                                                                             </div>
@@ -9047,7 +9103,7 @@ function management_service_1(id,body){
                                                                     <div class="form-group-item">
                                                                         <div class="form-item-label font-size-12 display_flex_ju_center">스파</div>
                                                                         <div class="form-item-data type-2">
-                                                                            <div class="toggle-button-group vertical" id="other_spa">
+                                                                            <div class="toggle-button-group vertical" id="payment_other_spa">
                                                                                 
                                                                             </div>
                                                                         </div>
@@ -9062,7 +9118,7 @@ function management_service_1(id,body){
                                                                     <div class="form-group-item">
                                                                         <div class="form-item-label font-size-12 display_flex_ju_center">염색</div>
                                                                         <div class="form-item-data type-2">
-                                                                            <div class="toggle-button-group vertical" id="other_dyeing">
+                                                                            <div class="toggle-button-group vertical" id="payment_other_dyeing">
                                                                                 
                                                                             </div>
                                                                         </div>
@@ -9076,7 +9132,7 @@ function management_service_1(id,body){
                                                                         <div class="form-group-item">
                                                                             <div class="form-item-label font-size-12 display_flex_ju_center">기타</div>
                                                                             <div class="form-item-data type-2">
-                                                                                <div class="toggle-button-group vertical" id="other_etc">
+                                                                                <div class="toggle-button-group vertical" id="payment_other_etc">
                                                                                    
                                                                                 </div>
                                                                             </div>
@@ -9091,8 +9147,8 @@ function management_service_1(id,body){
                                                                             <div class="form-group-item">
                                                                                 <div class="form-item-label font-size-12 display_flex_ju_center">미용</div>
                                                                                 <div class="form-item-data type-2">
-                                                                                    <div class="toggle-button-group vertical" id="basic_beauty">
-                                                                                        <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="beauty" checked><em class="font-size-12">선택 안함</em></label></div>
+                                                                                    <div class="toggle-button-group vertical" id="payment_basic_beauty">
+                                                                                        <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="payment_beauty" checked><em class="font-size-12">선택 안함</em></label></div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -9106,8 +9162,8 @@ function management_service_1(id,body){
                                                                             <div class="form-group-item">
                                                                                 <div class="form-item-label font-size-12 display_flex_ju_center">목욕</div>
                                                                                 <div class="form-item-data type-2">
-                                                                                    <div class="toggle-button-group vertical" id="basic_bath">
-                                                                                        <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="bath" checked><em class="font-size-12">선택 안함</em></label></div>
+                                                                                    <div class="toggle-button-group vertical" id="payment_basic_bath">
+                                                                                        <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="payment_bath" checked><em class="font-size-12">선택 안함</em></label></div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -9121,7 +9177,7 @@ function management_service_1(id,body){
                                                                     <div class="form-group-item">
                                                                         <div class="form-item-label font-size-12 display_flex_ju_center">추가서비스</div>
                                                                         <div class="form-item-data type-2">
-                                                                            <div class="toggle-button-group vertical" id="other_add_svc">
+                                                                            <div class="toggle-button-group vertical" id="payment_other_add_svc">
                                                                                 
                                                                             </div>
                                                                         </div>
@@ -9158,9 +9214,9 @@ function management_service_2(body){
 
                 body.base_svc.forEach(function(el){
 
-                    document.getElementById('basic_size').innerHTML += `<div class="toggle-button-cell toggle-button-cell-size">
+                    document.getElementById('payment_basic_size').innerHTML += `<div class="toggle-button-cell toggle-button-cell-size">
                                                                                         <label class="form-toggle-box large">
-                                                                                            <input type="radio" value="${el.size}" name="size">
+                                                                                            <input type="radio" value="${el.size}" name="payment_size">
                                                                                             <em class="font-size-12">${el.size}</em>
                                                                                         </label>
                                                                                     </div>`
@@ -9174,9 +9230,9 @@ function management_service_2(body){
 
                     if(el.price !== ''){
 
-                        document.getElementById('basic_hair_feature').innerHTML += `<div class="toggle-button-cell">
-                                                                                                    <label class="form-toggle-box form-toggle-price large" for="hair${i}">
-                                                                                                        <input type="checkbox" name="hair" value="${el.type}" data-price="${el.price}" id="hair${i}" onclick="set_product(this,'${el.type}','${el.price.toLocaleString()}')">
+                        document.getElementById('payment_basic_hair_feature').innerHTML += `<div class="toggle-button-cell">
+                                                                                                    <label class="form-toggle-box form-toggle-price large" for="payment_hair${i}">
+                                                                                                        <input type="checkbox" name="payment_hair" value="${el.type}" data-price="${el.price}" id="payment_hair${i}" onclick="set_product(this,'${el.type}','${el.price.toLocaleString()}')">
                                                                                                         <em>
                                                                                                             <span class="font-size-12">${el.type}</span>
                                                                                                             <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
@@ -9195,9 +9251,9 @@ function management_service_2(body){
 
                 body.hair_length.forEach(function(el,i){
 
-                    document.getElementById('basic_hair_length').innerHTML += `<div class="toggle-button-cell">
-                                                                                            <label class="form-toggle-box form-toggle-price large" for="hairBeauty${i}">
-                                                                                                <input type="radio" name="hairBeauty" value="${el.type}"  data-price="${el.price}" id="hairBeauty${i}" onclick="set_product2(this,'${el.type}','${el.price.toLocaleString()}','list_title_2',true)">
+                    document.getElementById('payment_basic_hair_length').innerHTML += `<div class="toggle-button-cell">
+                                                                                            <label class="form-toggle-box form-toggle-price large" for="payment_hairBeauty${i}">
+                                                                                                <input type="radio" name="payment_hairBeauty" value="${el.type}"  data-price="${el.price}" id="payment_hairBeauty${i}" onclick="set_product2(this,'${el.type}','${el.price.toLocaleString()}','list_title_2',true)">
                                                                                                 <em>
                                                                                                     <span class="font-size-12">${el.type}</span>
                                                                                                     <strong class="font-size-12">${parseInt(el.price).toLocaleString()}원</strong>
@@ -9212,9 +9268,9 @@ function management_service_2(body){
 
                 body.face.forEach(function(el,i){
 
-                    document.getElementById('other_face').innerHTML += `<div class="toggle-button-cell">
+                    document.getElementById('payment_other_face').innerHTML += `<div class="toggle-button-cell">
                                                                                         <label class="form-toggle-box form-toggle-price middle">
-                                                                                            <input type="checkbox" name="f1" data-price="${el.price}" value="${el.type}" onclick="set_product(this,'${el.type}','${el.price}')" >
+                                                                                            <input type="checkbox" name="payment_f1" data-price="${el.price}" value="${el.type}" onclick="set_product(this,'${el.type}','${el.price}')" >
                                                                                             <em>
                                                                                                 <span class="font-size-12">${el.type}</span>
                                                                                                 <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
@@ -9230,9 +9286,9 @@ function management_service_2(body){
 
                 body.leg.forEach(function(el,i){
 
-                    document.getElementById('other_leg').innerHTML += `<div class="toggle-button-cell">
+                    document.getElementById('payment_other_leg').innerHTML += `<div class="toggle-button-cell">
                                                                                     <label class="form-toggle-box form-toggle-price middle">
-                                                                                        <input type="checkbox" name="f2" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')" >
+                                                                                        <input type="checkbox" name="payment_f2" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')" >
                                                                                         <em>
                                                                                             <span class="font-size-12">${el.type}</span>
                                                                                             <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
@@ -9250,9 +9306,9 @@ function management_service_2(body){
 
                 body.spa.forEach(function(el,i){
 
-                    document.getElementById('other_spa').innerHTML += `<div class="toggle-button-cell">
+                    document.getElementById('payment_other_spa').innerHTML += `<div class="toggle-button-cell">
                                                                                     <label class="form-toggle-box form-toggle-price middle">
-                                                                                        <input type="checkbox" name="f3"  value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')"> 
+                                                                                        <input type="checkbox" name="payment_f3"  value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')"> 
                                                                                         <em>
                                                                                             <span class="font-size-12">${el.type}</span>
                                                                                             <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
@@ -9267,9 +9323,9 @@ function management_service_2(body){
 
                 body.dyeing.forEach(function(el,i){
 
-                    document.getElementById('other_dyeing').innerHTML += `<div class="toggle-button-cell">
+                    document.getElementById('payment_other_dyeing').innerHTML += `<div class="toggle-button-cell">
                                                                                         <label class="form-toggle-box form-toggle-price middle">
-                                                                                            <input type="checkbox" name="f4" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
+                                                                                            <input type="checkbox" name="payment_f4" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
                                                                                             <em>
                                                                                                 <span class="font-size-12">${el.type}</span>
                                                                                                 <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
@@ -9285,9 +9341,9 @@ function management_service_2(body){
 
                 body.etc.forEach(function(el,i){
 
-                    document.getElementById('other_etc').innerHTML += `<div class="toggle-button-cell">
+                    document.getElementById('payment_other_etc').innerHTML += `<div class="toggle-button-cell">
                                                                             <label class="form-toggle-box form-toggle-price middle">
-                                                                                <input type="checkbox" name="f5" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
+                                                                                <input type="checkbox" name="payment_f5" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
                                                                                 <em>
                                                                                     <span class="font-size-12">${el.type}</span>
                                                                                     <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
@@ -9314,9 +9370,9 @@ function management_service_2(body){
 
                 body.beauty.forEach(function(el){
 
-                    document.getElementById('basic_beauty').innerHTML += `<div class="toggle-button-cell">
+                    document.getElementById('payment_basic_beauty').innerHTML += `<div class="toggle-button-cell">
                                                                                         <label class="form-toggle-box large form-toggle-price">
-                                                                                            <input type="radio" value="${el.type}" name="beauty" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
+                                                                                            <input type="radio" value="${el.type}" name="payment_beauty" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
                                                                                             <em> 
                                                                                                 <span class="font-size-12">${el.type}</span>
                                                                                                 <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
@@ -9331,9 +9387,9 @@ function management_service_2(body){
 
                 body.bath.forEach(function(el){
 
-                    document.getElementById('basic_bath').innerHTML += `<div class="toggle-button-cell">
+                    document.getElementById('payment_basic_bath').innerHTML += `<div class="toggle-button-cell">
                                                                                         <label class="form-toggle-box large form-toggle-price">
-                                                                                            <input type="radio" value="${el.type}" name="bath" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
+                                                                                            <input type="radio" value="${el.type}" name="payment_bath" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
                                                                                             <em> 
                                                                                                 <span class="font-size-12">${el.type}</span>
                                                                                                 <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
@@ -9348,9 +9404,9 @@ function management_service_2(body){
 
                 body.add_svc.forEach(function(el,i){
 
-                    document.getElementById('other_add_svc').innerHTML += `<div class="toggle-button-cell">
+                    document.getElementById('payment_other_add_svc').innerHTML += `<div class="toggle-button-cell">
                                                                             <label class="form-toggle-box form-toggle-price middle">
-                                                                                <input type="checkbox" name="add_svc" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
+                                                                                <input type="checkbox" name="payment_add_svc" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
                                                                                 <em>
                                                                                     <span class="font-size-12">${el.type}</span>
                                                                                     <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
@@ -9382,10 +9438,8 @@ function management_service_3(base_svc){
 
             el.addEventListener('click',function(){
 
-                console.log(1)
-
-                document.getElementById('basic_service_select').innerHTML= '<div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(2)"><label class="form-toggle-box large"><input type="radio" value="" name="s1" checked><em class="font-size-12">선택 안함</em></label></div>';
-                document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" checked><em><span class="font-size-12">선택 안함</span></em></label></div>';
+                document.getElementById('payment_basic_service_select').innerHTML= '<div class="toggle-button-cell" onclick="reserve_merchandise_load_reset_(2)"><label class="form-toggle-box large"><input type="radio" value="" name="payment_s1" checked><em class="font-size-12">선택 안함</em></label></div>';
+                document.getElementById('payment_basic_weight').innerHTML = '<div class="toggle-button-cell" id="payment_weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="payment_s2" checked><em><span class="font-size-12">선택 안함</span></em></label></div>';
                 let value = el.children[0].children[0].value;
 
                 base_svc.forEach(function(el_){
@@ -9397,9 +9451,9 @@ function management_service_3(base_svc){
 
 
                             if(_el.is_show === "y" && _el.unit.length >0){
-                                document.getElementById('basic_service_select').innerHTML += `<div class="toggle-button-cell toggle-button-cell-service">
+                                document.getElementById('payment_basic_service_select').innerHTML += `<div class="toggle-button-cell toggle-button-cell-service">
                                                                                                         <label class="form-toggle-box large">
-                                                                                                            <input type="radio" value="${_el.type}" data-size="${el_.size}" data-time="${_el.time}" name="s1">
+                                                                                                            <input type="radio" value="${_el.type}" data-size="${el_.size}" data-time="${_el.time}" name="payment_s1">
                                                                                                             <em class="font-size-12">${_el.type} ${_el.time}분</em>
                                                                                                         </label>
                                                                                                     </div>`
@@ -9433,7 +9487,7 @@ function management_service_4(base_svc){
 
         el.addEventListener('click',function (){
 
-            document.getElementById('basic_weight').innerHTML= '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" data-price="" name="s2"><em><span class="font-size-12">선택 안함</span></em></label></div>'
+            document.getElementById('payment_basic_weight').innerHTML= '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" data-price="" name="payment_s2"><em><span class="font-size-12">선택 안함</span></em></label></div>'
 
 
             let size = el.children[0].children[0].getAttribute('data-size');
@@ -9458,9 +9512,9 @@ function management_service_4(base_svc){
                                 _el.unit.forEach(function (ele,i){
 
 
-                                    document.getElementById('basic_weight').innerHTML += `<div class="toggle-button-cell">
+                                    document.getElementById('payment_basic_weight').innerHTML += `<div class="toggle-button-cell">
                                                                                                     <label class="form-toggle-box form-toggle-price large">
-                                                                                                        <input type="radio" value="${ele.kg}" name="s2" data-price="${ele.price}" ${i ===  _el.unit.length-1 ? 'id="weight_target"':''}onclick="set_product2(this,'${document.querySelector('input[name="size"]:checked').value}/${document.querySelector('input[name="s1"]:checked').value}/${ele.kg}kg','${ele.price}','list_title_3',true)">
+                                                                                                        <input type="radio" value="${ele.kg}" name="payment_s2" data-price="${ele.price}" ${i ===  _el.unit.length-1 ? 'id="weight_target"':''}onclick="set_product2(this,'${document.querySelector('input[name="size"]:checked').value}/${document.querySelector('input[name="s1"]:checked').value}/${ele.kg}kg','${ele.price}','list_title_3',true)">
                                                                                                             <em>
                                                                                                                 <span class="font-size-12">~${ele.kg}Kg</span>
                                                                                                             <strong class="font-size-12">${ele.is_consulting === "0" ? `${parseInt(ele.price).toLocaleString()}원` : '상담'}</strong>
@@ -9481,22 +9535,22 @@ function management_service_4(base_svc){
 
 
 
-                                        document.getElementById('basic_weight').innerHTML += `<div class="toggle-button-cell">
+                                        document.getElementById('payment_basic_weight').innerHTML += `<div class="toggle-button-cell">
                                                                                                 <div class="form-toggle-options">
-                                                                                                    <input type="radio" name="s2" name="options1"  id="surcharge"  onclick="set_product2(this,'${document.querySelector('input[name="size"]:checked').value}/${document.querySelector('input[name="s1"]:checked').value}/${el_.surcharge.kg}kg','${el_.surcharge.price}','list_title_3',true)">
+                                                                                                    <input type="radio" name="payment_s2" name="payment_options1"  id="payment_surcharge"  onclick="set_product2(this,'${document.querySelector('input[name="size"]:checked').value}/${document.querySelector('input[name="s1"]:checked').value}/${el_.surcharge.kg}kg','${el_.surcharge.price}','list_title_3',true)">
                                                                                                         <div class="form-toggle-options-data">
                                                                                                             <div class="options-labels">
                                                                                                                 <span class="font-size-12">${el_.surcharge.kg}kg~</span><strong style="font-size:10px">kg당 <br> +${parseInt(el_.surcharge.price).toLocaleString()}원</strong></div>
                                                                                                             <div class="form-amount-input">
                                                                                                                 <button type="button" 
-                                                                                                                        class="btn-form-amount-minus" id="surcharge" onclick="set_etc_product_count(this,'${document.querySelector('input[name="size"]:checked').value}/${document.querySelector('input[name="s1"]:checked').value}/${el_.surcharge.kg}kg','${el_.surcharge.price}',false)">감소
+                                                                                                                        class="btn-form-amount-minus" id="payment_surcharge" onclick="set_etc_product_count_(this,'${document.querySelector('input[name="size"]:checked').value}/${document.querySelector('input[name="s1"]:checked').value}/${el_.surcharge.kg}kg','${el_.surcharge.price}',false)">감소
                                                                                                                 </button>
                                                                                                                 <div class="form-amount-info">
-                                                                                                                    <input type="number" readOnly=""  value="10" data-weight="10kg+" id="weight_target"
+                                                                                                                    <input type="number" readOnly=""  value="10" data-weight="10kg+" id="payment_weight_target"
                                                                                                                            class="form-amount-val">
                                                                                                                 </div>
                                                                                                                 <button type="button" 
-                                                                                                                        class="btn-form-amount-plus" id="surcharge" onclick="set_etc_product_count(this,'${document.querySelector('input[name="size"]:checked').value}/${document.querySelector('input[name="s1"]:checked').value}/${el_.surcharge.kg}kg','${el_.surcharge.price}',true)">증가
+                                                                                                                        class="btn-form-amount-plus" id="payment_surcharge" onclick="set_etc_product_count_(this,'${document.querySelector('input[name="size"]:checked').value}/${document.querySelector('input[name="s1"]:checked').value}/${el_.surcharge.kg}kg','${el_.surcharge.price}',true)">증가
                                                                                                                 </button>
                                                                                                             </div>
                                                                                                         </div>
@@ -9510,43 +9564,13 @@ function management_service_4(base_svc){
 
                                 })
                             }else{
-                                document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2"><em><span class="font-size-12">선택 안함</span></em></label></div>';
+                                document.getElementById('payment_basic_weight').innerHTML = '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="payment_s2"><em><span class="font-size-12">선택 안함</span></em></label></div>';
                             }
 
                         }
                     })
                 }
             })
-
-
-
-            //
-            // let st_time_input = document.getElementById('reserve_st_time');
-            // let st_time = st_time_input.options[st_time_input.selectedIndex].value;
-            // let fi_time_input = document.getElementById('reserve_fi_time');
-            //
-            // let selected = document.querySelector('input[name="s1"]:checked').getAttribute('data-time');
-            //
-            // let st_time_value = new Date(date.getFullYear(),date.getMonth(),date.getDate(),st_time.split(':')[0],st_time.split(':')[1]);
-            //
-            // st_time_value.setMinutes(st_time_value.getMinutes()+parseInt(selected));
-            //
-            // let fi_hour = st_time_value.getHours();
-            // let fi_minutes = st_time_value.getMinutes();
-            // let fi_time = `${fi_hour}:${fill_zero(fi_minutes)}`;
-            //
-            //
-            //
-            //
-            //
-            // for(let i=0; i<fi_time_input.options.length; i++){
-            //
-            //     if(fi_time_input.options[i].value === fi_time){
-            //
-            //         fi_time_input.options[i].selected = true;
-            //
-            //     }
-            // }
 
 
 
@@ -9900,6 +9924,60 @@ function set_etc_product_count(target,name,price,bool){
 
 
 }
+
+
+function set_etc_product_count_(target,name,price,bool){
+
+
+
+    name =name.trim();
+
+    Array.from(document.getElementsByClassName('list-title-add')).forEach(function(el){
+
+
+
+
+        if(el.innerText === name){
+
+            if(bool){
+
+                siblings(target,1).children[0].value = parseInt(siblings(target,1).children[0].value)+1;
+
+                let value = siblings(target,1).children[0].value;
+
+                if(target.getAttribute('id') === 'payment_surcharge'){
+
+
+                    siblings(el,1).innerText = `${((price*value)-(price*parseInt(document.getElementById('payment_weight_target').value))+parseInt(document.getElementById('payment_weight_target').getAttribute('data-price')))}원`
+                }else{
+                    siblings(el,1).innerText = `${(price*value)}원`;
+                }
+
+
+
+            }else{
+
+                if(parseInt(siblings(target,1).children[0].value ) === 1){
+                    return;
+                }
+
+                siblings(target,1).children[0].value = parseInt(siblings(target,1).children[0].value)-1;
+
+                let value = siblings(target,1).children[0].value;
+
+                if(target.getAttribute('id') === 'payment_surcharge'){
+
+                    siblings(el,1).innerText = `${((price*value)-(price*parseInt(document.getElementById('payment_weight_target').value))+parseInt(document.getElementById('payment_weight_target').getAttribute('data-price')))}원`
+                }else{
+                    siblings(el,1).innerText = `${(price*value)}원`;
+                }
+            }
+        }
+    })
+
+
+}
+
 
 function management_total_price(){
 
@@ -11206,6 +11284,58 @@ function coupon_use(){
         return;
     }
 
+
+
+
+}
+
+
+function get_worker(id){
+
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:'working',
+            login_id:id
+        },
+        success:function(res){
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+
+
+                document.getElementById('worker_inner').innerHTML = '';
+                body.forEach(function(el){
+
+
+                    if(!el.is_leave && el.is_show){
+
+                        document.getElementById('worker_inner').innerHTML +=`<div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle"><input type="radio" name="worker" data-name="${el.name}" data-nick="${el.nick}" onclick="registration_worker(this)"><em>${el.nick}</em></label></div>`
+
+                    }
+                })
+
+
+            }
+
+        }
+    })
+}
+
+function registration_worker(target){
+
+    let name = target.getAttribute('data-name');
+    let nick = target.getAttribute('data-nick');
+
+
+    document.getElementById('reserveCalendarPop2').setAttribute('data-name',name);
 
 
 

@@ -2850,9 +2850,18 @@ function direct_get_pet_info(id,target,pet_seq,session_id){
                 })
 
 
+                let user_id = '';
+
+                if(body.customer_id === ''){
+
+                    user_id = body.tmp_seq;
+                }else{
+                    user_id = body.customer_id;
+                }
+
                 document.getElementById('d_partner_id').value = id;
                 document.getElementById('d_worker').value = thisWorker;
-                document.getElementById('d_customer_id').value = body.customer_id;
+                document.getElementById('d_customer_id').value =user_id;
                 document.getElementById('d_cellphone').value= sessionStorage.getItem('direct_cellphone');
                 document.getElementById('d_pet_seq').value= body.pet_seq;
                 document.getElementById('d_pet_name').value= body.name;
@@ -2866,8 +2875,8 @@ function direct_get_pet_info(id,target,pet_seq,session_id){
                 document.getElementById('d_weight').value=body.weight;
                 document.getElementById('d_beauty_exp').value=body.beauty_exp;
                 document.getElementById('d_vaccination').value=body.vaccination;
-                document.getElementById('d_luxation').value=body.luxation;
-                document.getElementById('d_bite').value=body.bite;
+                document.getElementById('d_luxation').value=body.luxation === "" ? '0' : body.luxation;
+                document.getElementById('d_bite').value=body.bite === "" ? '안해요' : body.bite;
                 document.getElementById('d_dermatosis').value=body.dermatosis;
                 document.getElementById('d_heart_trouble').value=body.heart_trouble;
                 document.getElementById('d_marking').value=body.marking;

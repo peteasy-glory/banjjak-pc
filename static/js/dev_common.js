@@ -1167,7 +1167,7 @@ function notice(){
 
     for (let i = 0; i < data.notice.length; i++) {
         main_notice_list.innerHTML += `<div class="main-notice-cell">
-                                        <a href="#" class="btn-main-notice-item">
+                                        <a href="/etc/other_notice_list.php" class="btn-main-notice-item">
                                             <div class="txt">${data.notice[i].title}</div>
                                             <div class="date">${data.notice[i].reg_date.split(" ")[0]}</div>
                                         </a>

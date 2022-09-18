@@ -597,28 +597,28 @@ if ($artist_flag == 1) {
                                             <div class="wide-tab pay-wide-tab">
                                                 <div class="wide-tab-inner" id="wide-tab-inner3">
                                                     <div class="tab-cell actived">
-                                                        <button type="button" class="btn-tab-item btn-tab-item-add"  id="basic_service_btn">
+                                                        <button type="button" class="btn-tab-item btn-tab-item-add"  id="payment_basic_service_btn">
                                                             <span>
                                                                 기본 서비스
                                                             </span>
                                                         </button>
                                                     </div>
                                                     <div class="tab-cell">
-                                                        <button type="button" class="btn-tab-item btn-tab-item-add" id="other_service_btn">
+                                                        <button type="button" class="btn-tab-item btn-tab-item-add" id="payment_other_service_btn">
                                                             <span>
                                                                 추가
                                                             </span>
                                                         </button>
                                                     </div>
                                                     <div class="tab-cell">
-                                                        <button type="button" class="btn-tab-item btn-tab-item-add" id="other2_service_btn">
+                                                        <button type="button" class="btn-tab-item btn-tab-item-add" id="payment_other2_service_btn">
                                                             <span>
                                                                 쿠폰상품
                                                             </span>
                                                         </button>
                                                     </div>
                                                     <div class="tab-cell">
-                                                        <button type="button" class="btn-tab-item btn-tab-item-add" id="other3_service_btn">
+                                                        <button type="button" class="btn-tab-item btn-tab-item-add" id="payment_other3_service_btn">
                                                             <span>
                                                                 제품
                                                             </span>
@@ -634,18 +634,18 @@ if ($artist_flag == 1) {
                                             <input type="hidden" value="" id="is_vat">
                                             <!-- tab-data-cell 클래스에 actived클래스 추가시 활성화-->
                                             <!-- 기본 서비스 -->
-                                            <div class="tab-data-cell basic_service actived" id="basic_service">
+                                            <div class="tab-data-cell basic_service actived" id="payment_basic_service">
                                                 <div class="grid-layout basic">
-                                                    <div class="grid-layout-inner" id="basic_service_inner">
+                                                    <div class="grid-layout-inner" id="payment_basic_service_inner">
 
                                                     </div>
                                                 </div>
                                             </div>
                                             <!-- //기본 서비스 -->
                                             <!-- 추가 -->
-                                            <div class="tab-data-cell basic_service" id="other_service">
+                                            <div class="tab-data-cell basic_service" id="payment_other_service">
                                                 <div class="grid-layout basic">
-                                                    <div class="grid-layout-inner" id="other_service_inner">
+                                                    <div class="grid-layout-inner" id="payment_other_service_inner">
 
                                                     </div>
                                                 </div>
