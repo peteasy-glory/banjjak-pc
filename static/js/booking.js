@@ -95,7 +95,7 @@ function schedule_render(id){
                                                                                 <div class="item-stats">
                                                                                 ${el.product.is_confirm ? `<div class="right">
                                                                                         <div class="item-cash">
-                                                                                            ${el.product.pay_type === "pos-card" ? `<div class="icon icon-reservation-card-off"></div>` : `<div class="icon icon-reservation-cash-off"></div>` }
+                                                                                            ${el.product.pay_type.match('card') ? `<div class="icon icon-reservation-card-off"></div>` : `<div class="icon icon-reservation-cash-off"></div>` }
                                                                                             
                                                                                         </div>
                                                                                     </div>` : `<div class="left">
@@ -8921,30 +8921,30 @@ function management_wide_tab2(){
 
 
 
-            if(el.getAttribute('id') === 'basic_service_btn'){
+            if(el.getAttribute('id') === 'payment_basic_service_btn'){
 
-                document.getElementById('basic_service').style.display = 'block';
-                document.getElementById('other_service').style.display = 'none';
+                document.getElementById('payment_basic_service').style.display = 'block';
+                document.getElementById('payment_other_service').style.display = 'none';
                 document.getElementById('other2_service').style.display = 'none';
                 document.getElementById('other3_service').style.display = 'none';
 
 
-            }else if(el.getAttribute('id') === 'other_service_btn'){
-                document.getElementById('basic_service').style.display = 'none';
-                document.getElementById('other_service').style.display = 'block';
+            }else if(el.getAttribute('id') === 'payment_other_service_btn'){
+                document.getElementById('payment_basic_service').style.display = 'none';
+                document.getElementById('payment_other_service').style.display = 'block';
                 document.getElementById('other2_service').style.display = 'none';
                 document.getElementById('other3_service').style.display = 'none';
 
-            }else if(el.getAttribute('id')==='other2_service_btn'){
+            }else if(el.getAttribute('id')==='payment_other2_service_btn'){
 
-                document.getElementById('basic_service').style.display = 'none';
-                document.getElementById('other_service').style.display = 'none';
+                document.getElementById('payment_basic_service').style.display = 'none';
+                document.getElementById('payment_other_service').style.display = 'none';
                 document.getElementById('other2_service').style.display = 'block';
                 document.getElementById('other3_service').style.display = 'none';
-            }else if(el.getAttribute('id') === 'other3_service_btn'){
+            }else if(el.getAttribute('id') === 'payment_other3_service_btn'){
 
-                document.getElementById('basic_service').style.display = 'none';
-                document.getElementById('other_service').style.display = 'none';
+                document.getElementById('payment_basic_service').style.display = 'none';
+                document.getElementById('payment_other_service').style.display = 'none';
                 document.getElementById('other2_service').style.display = 'none';
                 document.getElementById('other3_service').style.display = 'block';
             }
@@ -9482,99 +9482,106 @@ function management_service_3(base_svc){
 function management_service_4(base_svc){
 
 
-
-    Array.from(document.getElementsByClassName('toggle-button-cell-service')).forEach(function(el){
-
-        el.addEventListener('click',function (){
-
-            document.getElementById('payment_basic_weight').innerHTML= '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" data-price="" name="payment_s2"><em><span class="font-size-12">선택 안함</span></em></label></div>'
-
-
-            let size = el.children[0].children[0].getAttribute('data-size');
-            let value = el.children[0].children[0].value;
+    return new Promise(function(resolve){
 
 
 
-            let surcharge ;
-            base_svc.forEach(function(el_){
+        Array.from(document.getElementsByClassName('toggle-button-cell-service')).forEach(function(el){
+
+            el.addEventListener('click',function (){
+
+                document.getElementById('payment_basic_weight').innerHTML= '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" data-price="" name="payment_s2"><em><span class="font-size-12">선택 안함</span></em></label></div>'
 
 
-                if(el_.size === size){
+                let size = el.children[0].children[0].getAttribute('data-size');
+                let value = el.children[0].children[0].value;
 
 
-                    el_.svc.forEach(function(_el){
 
-                        if(_el.type === value){
-
-
-                            if(_el.unit.length > 0){
-
-                                _el.unit.forEach(function (ele,i){
+                let surcharge ;
+                base_svc.forEach(function(el_){
 
 
-                                    document.getElementById('payment_basic_weight').innerHTML += `<div class="toggle-button-cell">
-                                                                                                    <label class="form-toggle-box form-toggle-price large">
-                                                                                                        <input type="radio" value="${ele.kg}" name="payment_s2" data-price="${ele.price}" ${i ===  _el.unit.length-1 ? 'id="weight_target"':''}onclick="set_product2(this,'${document.querySelector('input[name="size"]:checked').value}/${document.querySelector('input[name="s1"]:checked').value}/${ele.kg}kg','${ele.price}','list_title_3',true)">
-                                                                                                            <em>
-                                                                                                                <span class="font-size-12">~${ele.kg}Kg</span>
-                                                                                                            <strong class="font-size-12">${ele.is_consulting === "0" ? `${parseInt(ele.price).toLocaleString()}원` : '상담'}</strong>
-                                                                                                            
-                                                                                                        </em>
-                                                                                                    </label>
-                                                                                                </div>`
+                    if(el_.size === size){
 
 
-                                    if(el_.surcharge.is_have ===1 && i === _el.unit.length-1){
+                        el_.svc.forEach(function(_el){
+
+                            if(_el.type === value){
 
 
-                                        let surcharge_kg = el_.surcharge.kg ;
-                                        let surcharge_std_price = ele.kg === surcharge_kg ? ele.price : '';
-                                        localStorage.setItem('surcharge_std_price',surcharge_std_price);
-                                        localStorage.setItem('surcharge_kg',surcharge_kg);
-                                        localStorage.setItem('surcharge_price',el_.surcharge.price);
+                                if(_el.unit.length > 0){
 
+                                    _el.unit.forEach(function (ele,i){
 
 
                                         document.getElementById('payment_basic_weight').innerHTML += `<div class="toggle-button-cell">
-                                                                                                <div class="form-toggle-options">
-                                                                                                    <input type="radio" name="payment_s2" name="payment_options1"  id="payment_surcharge"  onclick="set_product2(this,'${document.querySelector('input[name="size"]:checked').value}/${document.querySelector('input[name="s1"]:checked').value}/${el_.surcharge.kg}kg','${el_.surcharge.price}','list_title_3',true)">
-                                                                                                        <div class="form-toggle-options-data">
-                                                                                                            <div class="options-labels">
-                                                                                                                <span class="font-size-12">${el_.surcharge.kg}kg~</span><strong style="font-size:10px">kg당 <br> +${parseInt(el_.surcharge.price).toLocaleString()}원</strong></div>
-                                                                                                            <div class="form-amount-input">
-                                                                                                                <button type="button" 
-                                                                                                                        class="btn-form-amount-minus" id="payment_surcharge" onclick="set_etc_product_count_(this,'${document.querySelector('input[name="size"]:checked').value}/${document.querySelector('input[name="s1"]:checked').value}/${el_.surcharge.kg}kg','${el_.surcharge.price}',false)">감소
-                                                                                                                </button>
-                                                                                                                <div class="form-amount-info">
-                                                                                                                    <input type="number" readOnly=""  value="10" data-weight="10kg+" id="payment_weight_target"
-                                                                                                                           class="form-amount-val">
+                                                                                                        <label class="form-toggle-box form-toggle-price large">
+                                                                                                            <input type="radio" value="${ele.kg}" name="payment_s2" data-price="${ele.price}" ${i ===  _el.unit.length-1 ? 'id="weight_target"':''}onclick="set_product2(this,'${document.querySelector('input[name="payment_size"]:checked').value}/${document.querySelector('input[name="payment_s1"]:checked').value}/${ele.kg}kg','${ele.price}','list_title_3',true)">
+                                                                                                                <em>
+                                                                                                                    <span class="font-size-12">~${ele.kg}Kg</span>
+                                                                                                                <strong class="font-size-12">${ele.is_consulting === "0" ? `${parseInt(ele.price).toLocaleString()}원` : '상담'}</strong>
+                                                                                                                
+                                                                                                            </em>
+                                                                                                        </label>
+                                                                                                    </div>`
+
+
+                                        if(el_.surcharge.is_have ===1 && i === _el.unit.length-1){
+
+
+                                            let surcharge_kg = el_.surcharge.kg ;
+                                            let surcharge_std_price = ele.kg === surcharge_kg ? ele.price : '';
+                                            localStorage.setItem('surcharge_std_price',surcharge_std_price);
+                                            localStorage.setItem('surcharge_kg',surcharge_kg);
+                                            localStorage.setItem('surcharge_price',el_.surcharge.price);
+
+
+
+                                            document.getElementById('payment_basic_weight').innerHTML += `<div class="toggle-button-cell">
+                                                                                                    <div class="form-toggle-options">
+                                                                                                        <input type="radio" name="payment_s2" name="payment_options1"  id="payment_surcharge"  onclick="set_product2(this,'${document.querySelector('input[name="payment_size"]:checked').value}/${document.querySelector('input[name="payment_s1"]:checked').value}/${el_.surcharge.kg}kg','${el_.surcharge.price}','list_title_3',true)">
+                                                                                                            <div class="form-toggle-options-data">
+                                                                                                                <div class="options-labels">
+                                                                                                                    <span class="font-size-12">${el_.surcharge.kg}kg~</span><strong style="font-size:10px">kg당 <br> +${parseInt(el_.surcharge.price).toLocaleString()}원</strong></div>
+                                                                                                                <div class="form-amount-input">
+                                                                                                                    <button type="button" 
+                                                                                                                            class="btn-form-amount-minus" id="payment_surcharge" onclick="set_etc_product_count_(this,'${document.querySelector('input[name="payment_size"]:checked').value}/${document.querySelector('input[name="payment_s1"]:checked').value}/${el_.surcharge.kg}kg','${el_.surcharge.price}',false)">감소
+                                                                                                                    </button>
+                                                                                                                    <div class="form-amount-info">
+                                                                                                                        <input type="number" readOnly=""  value="10" data-weight="10kg+" id="payment_weight_target"
+                                                                                                                               class="form-amount-val">
+                                                                                                                    </div>
+                                                                                                                    <button type="button" 
+                                                                                                                            class="btn-form-amount-plus" id="payment_surcharge" onclick="set_etc_product_count_(this,'${document.querySelector('input[name="payment_size"]:checked').value}/${document.querySelector('input[name="payment_s1"]:checked').value}/${el_.surcharge.kg}kg','${el_.surcharge.price}',true)">증가
+                                                                                                                    </button>
                                                                                                                 </div>
-                                                                                                                <button type="button" 
-                                                                                                                        class="btn-form-amount-plus" id="payment_surcharge" onclick="set_etc_product_count_(this,'${document.querySelector('input[name="size"]:checked').value}/${document.querySelector('input[name="s1"]:checked').value}/${el_.surcharge.kg}kg','${el_.surcharge.price}',true)">증가
-                                                                                                                </button>
                                                                                                             </div>
-                                                                                                        </div>
-                                                                                                </div>
-                                                                                            </div>`
+                                                                                                    </div>
+                                                                                                </div>`
 
 
-                                    }
+                                        }
 
 
 
-                                })
-                            }else{
-                                document.getElementById('payment_basic_weight').innerHTML = '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="payment_s2"><em><span class="font-size-12">선택 안함</span></em></label></div>';
+                                    })
+                                }else{
+                                    document.getElementById('payment_basic_weight').innerHTML = '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="payment_s2"><em><span class="font-size-12">선택 안함</span></em></label></div>';
+                                }
+
                             }
+                        })
+                    }
+                })
 
-                        }
-                    })
-                }
+
+
             })
 
-
-
         })
+
+        resolve();
     })
 
 }
@@ -9648,6 +9655,7 @@ function get_coupon(id,data){
                         tmp_user_idx:tmp_user_idx
                     },
                     success:function(res){
+                        console.log(res)
                         let response = JSON.parse(res);
                         let head = response.data.head;
                         let body_ = response.data.body;
@@ -10645,6 +10653,16 @@ function pay_management_init(id,target){
                 document.getElementById('pay_customer_memo_text').removeAttribute('data-scm_seq');
 
 
+                document.getElementById('pay_confirm').setAttribute('data-seq',payment_idx)
+                if(parseInt(body.is_confirm) === 1){
+
+                    document.getElementById('pay_confirm').checked = true;
+
+
+                }else{
+                    document.getElementById('pay_confirm').checked = false;
+                }
+
 
                 // $.ajax({
                 //
@@ -11073,6 +11091,9 @@ function pay_management_init(id,target){
 
                 document.getElementById('service_list').innerHTML = '';
 
+                let parsing = body.product_parsing
+
+
 
                 management_service_1(id,body).then(function(body_){
                     management_wide_tab2();
@@ -11080,11 +11101,129 @@ function pay_management_init(id,target){
                     discount_init();
                     reserves(id,body);
 
+
+
                     management_service_2(body_).then(function(base_svc){
+                        if(parsing.animal === '개'){
+
+
+
+                            Array.from(document.querySelectorAll('input[name="payment_size"]')).forEach(function(el){
+
+                                if(el.value === parsing.base.size){
+
+                                    setTimeout(function(){el.click()},300);
+                                }
+                            })
+
+
+                        }
+
+
 
                         management_service_3(base_svc).then(function(base_svc){
+                            if(parsing.animal === '개'){
+                                Array.from(document.querySelectorAll('input[name="payment_s1"]')).forEach(function(el){
 
-                            management_service_4(base_svc);
+
+                                    if(el.value === parsing.base.beauty_kind){
+
+                                        setTimeout(function(){el.click()},300);
+                                    }
+                                })
+
+                            }
+
+
+                            management_service_4(base_svc).then(function(){
+
+                                if(parsing.animal === '개'){
+
+                                    setTimeout(function(){
+
+                                        Array.from(document.querySelectorAll('input[name="payment_s2"]')).forEach(function(el){
+
+                                            if(el.value === parsing.base.weight.unit){
+
+                                                setTimeout(function(){el.click()},100);
+                                            }
+                                        })
+                                    },300)
+
+
+
+
+                                    Array.from(document.querySelectorAll('input[name="payment_hair"]')).forEach(function(el){
+
+
+                                        parsing.base.hair_features.forEach(function(el_){
+
+                                            if(el.value === el_.unit){
+
+                                                el.click();
+                                            }
+
+                                        })
+                                    })
+
+                                    Array.from(document.querySelectorAll('input[name="payment_hairBeauty"]')).forEach(function(el){
+
+                                        if(el.value.replace('mm','') === parsing.base.hair_lenth.unit && el.getAttribute('data-price') === parsing.base.hair_lenth.price){
+
+                                            el.click();
+                                        }
+                                    })
+
+
+                                    Array.from(document.querySelectorAll('input[name="payment_f1"]')).forEach(function(el){
+
+                                        if(el.value === parsing.add.face.unit){
+                                            el.click();
+                                        }
+                                    })
+
+                                    let array = Object.keys(parsing.add.leg).map((key)=> [key,parsing.add.leg[key]])
+                                    Array.from(document.querySelectorAll('input[name="payment_f2"]')).forEach(function(el){
+
+
+                                        array.forEach(function (el_){
+
+                                            if(el_[1].unit === el.value && el_[1].price === el.getAttribute('data-price')){
+                                                el.click();
+                                            }
+                                        })
+
+
+                                    })
+
+
+
+                                    // Array.from(document.querySelector('input[name="payment_f3"]')).forEach(function(el){
+                                    //
+                                    //
+                                    //
+                                    // })
+                                    //
+                                    //
+                                    // Array.from(document.querySelector('input[name=""]')).forEach(function(el){
+                                    //
+                                    //
+                                    //
+                                    // })
+
+
+
+
+                                }
+
+
+
+
+
+
+
+
+                            });
 
                         })
                     })
@@ -11092,6 +11231,10 @@ function pay_management_init(id,target){
 
                 get_coupon(id,body);
                 get_etc_product(id);
+
+                document.getElementById('cardcash-btn').setAttribute('data-payment_idx',payment_idx);
+
+
 
 
 
@@ -11107,7 +11250,81 @@ function pay_management_init(id,target){
 
 
 }
+function cardcash(target){
 
+    let payment_idx = target.getAttribute('data-payment_idx');
+
+    let card = document.getElementById('last_card').value;
+
+    let cash = document.getElementById('last_cash').value;
+
+
+    let type;
+    let discount;
+
+    if(document.getElementById('discount_1_btn').checked === true){
+        type=1;
+        discount = document.getElementById('discount_1').value;
+    }else if(document.getElementById('discount_2_btn').checked === true){
+        type=2;
+        discount = document.getElementById('discount_2').value;
+    }else if(document.getElementById('discount_1').value === "0" && document.getElementById('discount_2').value === "0"){
+        type=0;
+        discount=0;
+
+    }
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+            mode:'discount',
+            payment_idx:payment_idx,
+            type:type,
+            discount:discount,
+        },
+        success:function(res) {
+            console.log(res)
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+
+
+            }
+        }
+    })
+
+
+    $.ajax({
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+            mode:'cardcash',
+            payment_idx:payment_idx,
+            card:card,
+            cash:cash,
+        },
+        success:function(res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+
+                document.getElementById('msg1_txt').innerText = '최종 결제액이 적용되었습니다.';
+                pop.open('reserveAcceptMsg1');
+
+            }
+        }
+
+    })
+
+}
 function user_coupon_change(){
 
 
@@ -11336,6 +11553,49 @@ function registration_worker(target){
 
 
     document.getElementById('reserveCalendarPop2').setAttribute('data-name',name);
+
+
+
+}
+
+function reserve_confirm(target){
+
+    let payment_idx = target.getAttribute('data-seq');
+
+    let is_confirm;
+
+    if(target.checked === true){
+
+        is_confirm = 1;
+    }else{
+
+        is_confirm = 0;
+    }
+
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:'confirm',
+            payment_idx:payment_idx,
+            is_confirm:is_confirm,
+        },
+        success:function(res) {
+            console.log(res)
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                console.log(body);
+            }
+        }
+
+    })
 
 
 

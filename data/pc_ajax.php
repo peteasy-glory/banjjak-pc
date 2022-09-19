@@ -2496,6 +2496,44 @@ if($r_mode) {
 
         $return_data = array("code"=>"000000","data"=>$result);
 
+    }else if($r_mode ==='confirm'){
+
+        $payment_idx =$_POST['payment_idx'];
+
+        $is_confirm = $_POST['is_confirm'];
+
+        $data = array('payment_idx'=>intval($payment_idx),'is_confirm'=>intval($is_confirm));
+
+        $data_json = json_encode($data);
+
+        $result = $api -> put('/partner/booking/payment-confirm',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
+    }else if($r_mode ==='cardcash'){
+
+        $payment_idx = $_POST['payment_idx'];
+        $card = $_POST['card'];
+        $cash = $_POST['cash'];
+
+        $data = array('payment_idx'=>intval($payment_idx),'card'=>intval($card),'cash'=>intval($cash));
+        $data_json = json_encode($data);
+
+        $result = $api ->put('/partner/booking/payment-cardcash',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
+    }else if($r_mode === 'discount'){
+
+        $payment_idx = $_POST['payment_idx'];
+        $type = $_POST['type'];
+        $discount= $_POST['discount'];
+
+        $data = array('payment_idx'=>intval($payment_idx),'type'=>intval($type),'discount'=>intval($discount));
+        $data_json = json_encode($data);
+        $result = $api->put('/partner/booking/payment-discount',$data_json);
+        $return_data = array("code"=>"000000","data"=>$result);
+
     }
 }
 

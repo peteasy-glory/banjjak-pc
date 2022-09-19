@@ -380,82 +380,86 @@ function customer_graph(customers){
     });
 }
 
-function customer_list(customers){
+function customer_list(id,customers){
+
+
+    return new Promise(function(resolve){
 
 
 
-    let beauty = customers.body;
+        let beauty = customers.body;
 
-    if(beauty.length === undefined){
-        beauty = [beauty];
-    }
-    let tbody = document.getElementById('tbody');
-    
-
-    beauty.forEach(function (el,i){
-
-        // if(i<300) {
+        if(beauty.length === undefined){
+            beauty = [beauty];
+        }
+        let tbody = document.getElementById('tbody');
 
 
-            let y = el.ymdhm.substr(0, 4);
-            let M = el.ymdhm.substr(4, 2);
-            let d = el.ymdhm.substr(6, 2);
-            let h = el.ymdhm.substr(8, 2);
-            let m = el.ymdhm.substr(10, 2);
-            let product = el.product.split('|');
-            let size = product[3];
-            let b_product = product[4];
-            let grade = parseInt(el.grade.split('|')[1]);
+        beauty.forEach(function (el,i){
 
-            console.log(el)
-            tbody.innerHTML += `<tr class="customer-table-cell">
-                                <td>
-                                    <div class="customer-table-txt" style="cursor:pointer" onclick="localStorage.setItem('customer_select','${el.cellphone}'); location.href = '/customer/customer_view.php';">
-                                        <strong>${el.name}</strong>
-                                    </div>
-                                    <div class="customer-table-txt">
-                                        <span class="icon icon-grade-${grade ===  1 ? 'vip' : grade === 2 ? 'normal' : 'normalb'}"></span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="customer-table-txt">
-                                        <strong>${el.type === "dog" ? '개' : '고양이'}</strong>
-                                    </div>
-                                    <div class="customer-table-txt">${el.pet_type}</div>
-                                </td>
-                                <td>
-                                    <div class="customer-table-txt">${el.cellphone.replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`)}</div>
-                                    <div class="customer-table-txt">${el.reserve}P</div>
-                                </td>
-                                <td>
-                                
-                                    <div class="customer-table-txt">${y !== '' ? `${y}.${M}.${d}`:''}</div>
-                                    <div class="customer-table-txt">${h !== '' ? `${am_pm_check(h)}:${m}` : ''}</div>
-                                </td>
-                                <td>
-                                    <div class="customer-table-txt">${el.type === "dog" ? `${size === null || size === "" || size === undefined ? '미기입' : size}` : `${size === null || size === "" || size === undefined ? '미기입' : `${size.split(':')[0]}`} `}</div>
-                                </td>
-                                <td>
-                                    <div class="customer-table-txt">${el.type === "dog" ? `${b_product === null || b_product === "" || b_product === undefined ? '미기입' : b_product}` : `${b_product === null || b_product === "" || b_product === undefined ? '미기입' : `${b_product.split(':')[0]}`} `}</div>
-                                </td>
-                                <td>
-                                    <div class="customer-table-txt">미용</div>
-                                    <div class="customer-table-txt">${el.use_count}</div>
-                                </td>
-                                <td>
-                                    <div class="customer-table-txt">${el.sum_card}원</div>
-                                    <div class="customer-table-txt">${el.sum_cash}원</div>
-                                </td>
-                                <td>
-                                    <div class="customer-table-txt">
-                                        <button type="button" class="btn btn-outline-gray btn-small-size">보기</button>
-                                    </div>
-                                </td>
-                            </tr>`
 
-        // }
+
+                let y = el.ymdhm.substr(0, 4);
+                let M = el.ymdhm.substr(4, 2);
+                let d = el.ymdhm.substr(6, 2);
+                let h = el.ymdhm.substr(8, 2);
+                let m = el.ymdhm.substr(10, 2);
+                let product = el.product.split('|');
+                let size = product[3];
+                let b_product = product[4];
+                let grade = parseInt(el.grade.split('|')[1]);
+
+                console.log(el)
+                tbody.innerHTML += `<tr class="customer-table-cell">
+                                    <td>
+                                        <div class="customer-table-txt" style="cursor:pointer" onclick="localStorage.setItem('customer_select','${el.cellphone}'); location.href = '/customer/customer_view.php';">
+                                            <strong>${el.name}</strong>
+                                        </div>
+                                        <div class="customer-table-txt">
+                                            <span class="icon icon-grade-${grade ===  1 ? 'vip' : grade === 2 ? 'normal' : 'normalb'}"></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="customer-table-txt">
+                                            <strong>${el.type === "dog" ? '개' : '고양이'}</strong>
+                                        </div>
+                                        <div class="customer-table-txt">${el.pet_type}</div>
+                                    </td>
+                                    <td>
+                                        <div class="customer-table-txt">${el.cellphone.replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`)}</div>
+                                        <div class="customer-table-txt">${el.reserve}P</div>
+                                    </td>
+                                    <td>
+                                    
+                                        <div class="customer-table-txt">${y !== '' ? `${y}.${M}.${d}`:''}</div>
+                                        <div class="customer-table-txt">${h !== '' ? `${am_pm_check(h)}:${m}` : ''}</div>
+                                    </td>
+                                    <td>
+                                        <div class="customer-table-txt">${el.type === "dog" ? `${size === null || size === "" || size === undefined ? '미기입' : size}` : `${size === null || size === "" || size === undefined ? '미기입' : `${size.split(':')[0]}`} `}</div>
+                                    </td>
+                                    <td>
+                                        <div class="customer-table-txt">${el.type === "dog" ? `${b_product === null || b_product === "" || b_product === undefined ? '미기입' : b_product}` : `${b_product === null || b_product === "" || b_product === undefined ? '미기입' : `${b_product.split(':')[0]}`} `}</div>
+                                    </td>
+                                    <td>
+                                        <div class="customer-table-txt">미용</div>
+                                        <div class="customer-table-txt">${el.use_count}</div>
+                                    </td>
+                                    <td>
+                                        <div class="customer-table-txt">${el.sum_card}원</div>
+                                        <div class="customer-table-txt">${el.sum_cash}원</div>
+                                    </td>
+                                    <td>
+                                        <div class="customer-table-txt" id="customer_all_agree">
+                                           
+                                        </div>
+                                    </td>
+                                </tr>`
+        })
+
+        resolve();
+
+
     })
-
 
 }
 
@@ -3278,3 +3282,63 @@ $(document).on("click",".pop_inquiry",function(){
     customer_allim_inquiry(st_time, fi_time, cellphone);
 })
 
+
+function customer_all_agree(id,target){
+
+    // let pet_seq = target.getAttribute('data-pet_seq') === '' ? 0 : target.getAttribute('data-pet_seq');
+    //
+    // if(pet_seq === 0){
+    //
+    //     document.getElementById('msg1_txt').innerText = '작성된 동의서가 없습니다.'
+    //     pop.open('reserveAcceptMsg1');
+    // }else{
+    //     $.ajax({
+    //
+    //         url:'/data/pc_ajax.php',
+    //         type:'post',
+    //         data:{
+    //
+    //             mode:'get_beauty_agree',
+    //             partner_id:id,
+    //             pet_idx:pet_seq,
+    //
+    //         },
+    //         success:function(res) {
+    //             let response = JSON.parse(res);
+    //             let head = response.data.head;
+    //             let body = response.data.body;
+    //             if (head.code === 401) {
+    //                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+    //             } else if (head.code === 200) {
+    //
+    //                 if(body.length === undefined){
+    //                     body = [body]
+    //                 }
+    //
+    //                 console.log(body)
+    //                 if(body.length === 0 ){
+    //
+    //                     document.getElementById('msg1_txt').innerText = '작성된 동의서가 없습니다.'
+    //                     pop.open('reserveAcceptMsg1');
+    //                 }else{
+    //
+    //                     let data = body.at(-1);
+    //                     console.log(data)
+    //
+    //
+    //
+    //                 }
+    //
+    //
+    //
+    //             }
+    //         }
+    //     })
+    // }
+
+
+
+
+
+
+}

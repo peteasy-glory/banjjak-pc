@@ -158,7 +158,7 @@ var include = {
                             <!-- 메뉴 유저 정보 -->
                             <div class="gnb-user-data">
                                 <div class="thumb-data">
-                                    <div class="content-thumb">
+                                    <div class="content-thumb" style="cursor:pointer" onclick="location.href='/home/index.php'">
                                         <img src="" alt="" class="front_image">
                                     </div>
                                 </div>

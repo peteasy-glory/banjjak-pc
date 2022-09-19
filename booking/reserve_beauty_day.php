@@ -924,7 +924,7 @@ if ($artist_flag == 1) {
                                                         </div>
                                                         <div class="list-cell">
                                                             <div class="list-title"><strong>적립금사용</strong></div>
-                                                            <div class="list-value"><strong>(-)<span id="total_reserves_use" class="reserves_use" value="0">0</span>원</strong></div>
+                                                            <div class="list-value"><strong>(-)<span id="total_reserves_use" class="reserves_use" value="0">0</span></strong></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -953,7 +953,7 @@ if ($artist_flag == 1) {
                                                 </div>
 
                                                 <div class="basic-data-group vsmall">
-                                                    <button type="button" class="btn btn-outline-purple btn-middle-size btn-round save-final-price" data-seq="601033">적용</button>
+                                                    <button type="button" class="btn btn-outline-purple btn-middle-size btn-round save-final-price" data-payment_idx="" id="cardcash-btn" onclick="cardcash(this)">적용</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -961,7 +961,7 @@ if ($artist_flag == 1) {
                                         <div class="pay-complete-wrap">
                                             <div class="con-title-group" style="background:none !important;">
                                                 <h4 class="con-title">결제완료 처리</h4>
-                                                <label for="switch-toggle" class="form-switch-toggle"><input type="checkbox" id="pay_confirm" value="1" data-seq="601033"><span class="bar"></span></label>
+                                                <label for="switch-toggle" class="form-switch-toggle"><input type="checkbox" id="pay_confirm" data-seq="" onclick="reserve_confirm(this)"><span class="bar"></span></label>
                                             </div>
                                             <div>
                                                 <span id="confirm_dt"></span>

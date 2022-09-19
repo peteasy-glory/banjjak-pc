@@ -5292,3 +5292,25 @@ a.btn-reserve.disabled, a.btn-page-bottom.disabled, a.btn-reserve:disabled, a.bt
 .dark .main-notice-list .btn-main-notice-item .txt{
 	color:#d8d8d8
 }
+.dark .main-reserve-list-cell{
+	border-bottom-color :#47484b;
+}
+
+.dark .icon-dashboard-1{
+	background-image: url(../images/icon/icon-main-dashboard-1_darrk.png);
+
+}
+
+.dark .icon-dashboard-2{
+	background-image: url(../images/icon/icon-main-dashboard-2_dark.png);
+
+}
+
+.dark .icon-dashboard-3{
+	background-image: url(../images/icon/icon-main-dashboard-3_dark.png);
+
+}
+.dark .icon-dashboard-4{
+	background-image: url(../images/icon/icon-main-dashboard-4_dark.png);
+
+}
