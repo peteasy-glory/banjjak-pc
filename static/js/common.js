@@ -840,3 +840,10 @@ $(document).ready(function(){
 
     stopProp();
 })
+
+function view_artist(){
+    $("#gnb_home").css("display","none");
+    $("#gnb_shop_wrap").css("display","none");
+    $("#gnb_detail_wrap").css("display","none");
+    $("#gnb_stats_wrap").css("display","none");
+}
