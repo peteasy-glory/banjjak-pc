@@ -2032,6 +2032,7 @@ body {background:#fafafa;}
 .main-reserve-group {display:flex; width:100%; height:100%;}
 .main-reserve-col {width:50%; box-sizing:border-box;}
 .main-reserve-col + .main-reserve-col {border-left:1px solid #eaeaea;}
+.dark .main-reserve-col + .main-reserve-col {border-left-color:#47484b}
 .main-reserve-group .customer-card-item .item-info-wrap .item-thumb {margin-right:30px;}
 
 .main-calendar-stats-group {display:flex; width:100%; height:100%; flex-direction:column;}
@@ -2052,6 +2053,10 @@ body {background:#fafafa;}
 .main-reserve-graph-none {display:flex; align-items:center; justify-content:center; text-align:center; height:160px; font-size:16px; color:#666;}
 
 .main-reserve-calendar-top {display:flex; align-items:center; justify-content:center; height:54px; border-bottom:1px solid #eaeaea;}
+.dark .main-reserve-calendar-top{
+
+	border-bottom-color : #47484b
+}
 .main-reserve-calendar-tab {margin-bottom:20px;}
 .main-reserve-calendar-title {flex:0 0 auto;  position:relative; }
 .main-reserve-calendar-title select {position:absolute;top:0;left:0;width:100%;height:100%;opacity:0; z-index:5;}
@@ -2800,7 +2805,7 @@ table.terms-table > tbody > tr > td {padding:10px 10px; font-size:14px; line-hei
 .reserve-calendar-title {flex:0 0 auto;  position:relative;  display:inline-flex; align-items:center;}
 .reserve-calendar-title select {position:absolute;top:0;left:0;width:100%;height:100%;opacity:0; z-index:5;}
 .reserve-calendar-title .txt {position:relative;font-size:24px; line-height:1; font-weight:500;}
-.reserve-calendar-title button.txt {padding-right:23px; background:url(../images/icon/icon_select_arrow_middle.png) center right no-repeat; background-size:18px auto;}
+/*.reserve-calendar-title button.txt {padding-right:23px; background:url(../images/icon/icon_select_arrow_middle.png) center right no-repeat; background-size:18px auto;}*/
 .btn-reserve-calendar-ui {flex:0 0 auto; display:inline-flex; align-items:center; justify-content:center; width:42px; height:42px;}
 .btn-reserve-calendar-ui.btn-month-prev {margin-right:32px;}
 .btn-reserve-calendar-ui.btn-month-next {margin-left:32px;}
@@ -4353,7 +4358,7 @@ button.btn-surtax-set{height:26px;  padding:0 10px 0 4px; border-radius:13px;}
 .dark .icon-page-alarm {background-image:url(../images/icon/btn-top-noti@2x-white.png);}
 
 .dark .wide-tab {border-color:#47484b;}
-.dark .wide-tab-inner .tab-cell .btn-tab-item {color:#666;}
+.dark .wide-tab-inner .tab-cell .btn-tab-item {color:#fff;}
 .dark .wide-tab-inner .tab-cell .btn-tab-item:after {background:#fff;}
 .dark .wide-tab-inner .tab-cell.actived .btn-tab-item {color:#fff;}
 
@@ -5311,4 +5316,33 @@ a.btn-reserve.disabled, a.btn-page-bottom.disabled, a.btn-reserve:disabled, a.bt
 
 .dark .main-notice-list .btn-main-notice-item .txt{
 	color:#d8d8d8
+}
+.dark .main-reserve-list-cell{
+	border-bottom-color :#47484b;
+}
+
+.dark .icon-dashboard-1{
+	background-image: url(../images/icon/icon-main-dashboard-1_darrk.png);
+
+}
+
+.dark .icon-dashboard-2{
+	background-image: url(../images/icon/icon-main-dashboard-2_dark.png);
+
+}
+
+.dark .icon-dashboard-3{
+	background-image: url(../images/icon/icon-main-dashboard-3_dark.png);
+
+}
+.dark .icon-dashboard-4{
+	background-image: url(../images/icon/icon-main-dashboard-4_dark.png);
+
+}
+
+.dark #customer_select{
+	color:#fff;
+}
+.dark #customer_select option{
+	color:#fff;
 }

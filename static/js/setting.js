@@ -500,6 +500,7 @@ function get_beauty_product(id){
         async:false,
         success: function (res) {
             let response = JSON.parse(res);
+            console.log(response);
             let head = response.data.head;
             let body = response.data.body;
             if (head.code === 401) {
@@ -590,6 +591,7 @@ function view_beauty_product(){
     var thead_html = '<thead><tr>';
     var tbody_html = '<tbody><tr>';
     var add_service = ['무게'];
+    var is_view_service = ['무게'];
     $.each(setting_array[0].worktime, function(i,v){
         if(v.is_use == 'y'){
             var txt = '';
@@ -608,8 +610,10 @@ function view_beauty_product(){
             col_html += '<col style="width:auto;">';
             thead_html += `<th>${txt}</th>`;
             tbody_html += `<td>${v.time}</td>`;
+            is_view_service.push(txt);
         }
     })
+    console.log(is_view_service);
     col_html += '</colgroup>';
     thead_html += '</tr></thead>';
     tbody_html += '</tr></tbody>';
@@ -667,36 +671,38 @@ function view_beauty_product(){
                     default : txt = add_service[add_number]; add_number ++;
                 }
 
-                if(is_service.indexOf(_i) < 0){
-                    dog_col_html += `<col style="width:auto;">`;
-                    dog_thead_html += `<th>${txt}</th>`;
-                    is_service.push(_i);
-                }
-
-
-                if(_i == 'kg'){
-                    dog_tbody_html += `<td>~ ${_v}kg</td>`;
-                }else{
-                    //console.log(_v.consult);
-                    var price = '';
-                    if(_v.consult == 0){
-                        price = (_v.price).format();
-                    }else{
-                        price = '상담';
+                if(is_view_service.indexOf(txt)>=0){
+                    if(is_service.indexOf(_i) < 0){
+                        dog_col_html += `<col style="width:auto;">`;
+                        dog_thead_html += `<th>${txt}</th>`;
+                        is_service.push(_i);
                     }
-                    if(is_service.indexOf(_i) == empty_td){
-                        dog_tbody_html += `<td>${price}</td>`;
+
+
+                    if(_i == 'kg'){
+                        dog_tbody_html += `<td>~ ${_v}kg</td>`;
                     }else{
-                        var cnt = is_service.indexOf(_i) - empty_td;
-                        for(var i=0;i<cnt;i++){
-                            dog_tbody_html += `<td></td>`;
-                            empty_td ++;
+                        //console.log(_v.consult);
+                        var price = '';
+                        if(_v.consult == 0){
+                            price = (_v.price != '')? (_v.price).format() : '';
+                        }else{
+                            price = '상담';
                         }
-                        dog_tbody_html += `<td>${price}</td>`;
-                    }
+                        if(is_service.indexOf(_i) == empty_td){
+                            dog_tbody_html += `<td>${price}</td>`;
+                        }else{
+                            var cnt = is_service.indexOf(_i) - empty_td;
+                            for(var i=0;i<cnt;i++){
+                                dog_tbody_html += `<td></td>`;
+                                empty_td ++;
+                            }
+                            dog_tbody_html += `<td>${price}</td>`;
+                        }
 
+                    }
+                    empty_td ++;
                 }
-                empty_td ++;
             })
             dog_tbody_html += `</tr></tbody>`;
         })
@@ -726,8 +732,8 @@ function view_beauty_product(){
             <div class="btn-basic-action">
                 <div class="grid-layout btn-grid-group">
                     <div class="grid-layout-inner justify-content-end">
-                        <div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-purple btn-small-size btn-basic-small">수정</button></div>
-                        <div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-gray btn-small-size btn-basic-small">삭제</button></div>
+                        <div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-purple btn-small-size btn-basic-small" onclick="location.href='../../setting/set_beauty_management_add_1.php?second_type=${value.second_type}&direct_title=${value.direct_title}'">수정</button></div>
+                        <div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-gray btn-small-size btn-basic-small" onclick="del_dog_product('${artist_id}','${value.second_type}','${value.direct_title}');">삭제</button></div>
                     </div>
                 </div>
             </div>
@@ -854,6 +860,98 @@ function view_beauty_product(){
         $(".total_cat_wrap").css("display","block");
         $(".cat_none_wrap").css("display","none");
     }
+}
+
+// 강아지 미용 삭제하기
+function del_dog_product(artist_id, second_type, direct_title){
+    $("#delDogProduct .second_type").val(second_type);
+    $("#delDogProduct .direct_title").val(direct_title);
+    $("#delDogProduct .mode").val('del_dog_product');
+    pop.open('delDogProduct');
+}
+// 고양이 미용 삭제하기
+function del_cat_product(){
+    $("#delDogProduct .mode").val('del_cat_product');
+    pop.open('delDogProduct');
+}
+$(document).on("click",".del_dog_product",function(){
+    var postData = decodeURIComponent($("#delDogProduct").serialize());
+    //console.log(postData);
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: postData,
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            //console.log(res.data);
+            let response = JSON.parse(res);
+            if(response.data === true){
+                pop.close();
+                pop.open('reloadPop', '완료되었습니다.');
+            }else{
+                pop.close();
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            }
+        }
+    })
+})
+
+// 공통 설명 수정 및 등록
+function put_common_etc_comment(artist_id){
+    var comment = $(".common_etc_comment").val();
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode:'put_common_etc_comment',
+            artist_id:artist_id,
+            comment:comment
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            //console.log(res.data);
+            let response = JSON.parse(res);
+            if(response.data === true){
+                pop.open('firstRequestMsg1', '수정되었습니다.');
+            }else{
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            }
+        }
+    })
+}
+
+// 부가세 수정하기
+function put_vat(artist_id){
+    var set_vat = $(".set_vat").prop("checked");
+    if(set_vat == false){
+        set_vat = 0;
+    }else{
+        set_vat = 1;
+    }
+    console.log(set_vat);
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode:'put_vat',
+            artist_id:artist_id,
+            set_vat:set_vat
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            console.log(res);
+            let response = JSON.parse(res);
+            console.log(response);
+            let head = response.data.head;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                pop.close();
+                pop.open('firstRequestMsg1', '수정되었습니다.');
+
+            }
+        }
+    })
 }
 
 // 강아지 추가옵션 뿌려주기
@@ -1344,6 +1442,712 @@ function put_worktime_type(data){
             } else if (head.code === 200) {
                 pop.close();
                 pop.open('reloadPop', '완료되었습니다.');
+
+            }
+        }
+    })
+}
+
+// 강아지 상품 등록
+function post_product_dog(data){
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: data,
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            console.log(res);
+            let response = JSON.parse(res);
+            console.log(response);
+            let head = response.data.head;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                pop.close();
+                pop.open('historyBackUrl', '완료되었습니다.');
+
+            }
+        }
+    })
+}
+
+// 고양이 상품 등록/수정
+function post_product_cat(data){
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: data,
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            console.log(res);
+            let response = JSON.parse(res);
+            console.log(response);
+            let head = response.data.head;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                pop.close();
+                pop.open('historyBackUrl', '완료되었습니다.');
+
+            }
+        }
+    })
+}
+
+// 미용상품 등록/수정 페이지 값 넣기
+function view_add_product(){
+
+    if(pet_type == 'cat'){
+        $(".product_tab_dog").removeClass("actived");
+        $(".product_tab_cat").addClass("actived");
+        $(".product_dog_section").css("display","none");
+        $(".product_cat_section").css("display","block");
+    }else{
+        $(".product_tab_dog").addClass("actived");
+        $(".product_tab_cat").removeClass("actived");
+        $(".product_dog_section").css("display","block");
+        $(".product_cat_section").css("display","none");
+    }
+
+    //////////////////////////////////////////////////////// 강아지상품
+    var add_html = ''; // 미용구분팝업
+
+    var col_html = `
+            <colgroup class="col_table">
+	            <col style="width:auto;">
+        `;
+    var thead_html = `
+            <thead>
+                <tr class="thead_table">
+                    <th>무게</th>
+        `;
+    var tbody_html = `
+            <tbody>
+                <tr class="dog_table_tr">
+                    <td class="no-padding">
+                        <div class="form-table-select">
+                            <select class="kgs_arr" name="kgs[]">
+                                <option value="">선택안함</option>
+        `;
+    for(var j=0;j<60;j=j+0.1){
+        tbody_html += `<option value="${j.toFixed(1)}">~${j.toFixed(1)}kg</option>`
+    }
+    tbody_html += `
+                            </select>
+                        </div>
+                    </td>
+        `;
+    $.each(setting_array[0].worktime, function(i,v){
+        if(i == 'bath'){
+            if(v.is_use == 'y'){
+                $(".bath").prop("checked",true);
+                col_html += `<col style="width:auto;">`;
+                thead_html += `<th>목욕</th>`;
+                tbody_html += `
+                        <td class="no-padding">
+                            <div class="form-table-select">
+                                <select class="bath_price" name="bath_price[]">
+                                    <option value="">선택안함</option>
+                                    <option value="0">0</option>
+                    `;
+                for(var t=1000;t<400000;t=t+500){
+                    tbody_html += `<option value="${t}">${t.format()}원</option>`
+                }
+                tbody_html +=`
+                                </select>
+                                <label class="form-checkbox"><input type="checkbox" class="is_consult is_consult_bath" name="is_consult_bath[]" value="1"><span class="form-check-icon"><em>상담</em></span></label>
+                                <input type="hidden" name="is_consult_bath[]" class="not_consult not_consult_bath" value="0">
+                            </div>
+                        </td>
+                    `;
+            }
+        }else if(i == 'part'){
+            if(v.is_use == 'y'){
+                $(".part").prop("checked",true);
+                col_html += `<col style="width:auto;">`;
+                thead_html += `<th>부분미용</th>`;
+                tbody_html += `
+                        <td class="no-padding">
+                            <div class="form-table-select">
+                                <select class="part_price" name="part_price[]">
+                                    <option value="">선택안함</option>
+                    `;
+                for(var t=1000;t<400000;t=t+500){
+                    tbody_html += `<option value="${t}">${t.format()}원</option>`
+                }
+                tbody_html +=`
+                                </select>
+                                <label class="form-checkbox"><input type="checkbox" class="is_consult is_consult_part" name="is_consult_part[]" value="1"><span class="form-check-icon"><em>상담</em></span></label>
+                                <input type="hidden" name="is_consult_part[]" class="not_consult not_consult_part" value="0">
+                            </div>
+                        </td>
+                    `;
+            }
+        }else if(i == 'bath_part'){
+            if(v.is_use == 'y'){
+                $(".bath_part").prop("checked",true);
+                col_html += `<col style="width:auto;">`;
+                thead_html += `<th>부분+목욕</th>`;
+                tbody_html += `
+                        <td class="no-padding">
+                            <div class="form-table-select">
+                                <select class="bath_part_price" name="bath_part_price[]">
+                                    <option value="">선택안함</option>
+                    `;
+                for(var t=1000;t<400000;t=t+500){
+                    tbody_html += `<option value="${t}">${t.format()}원</option>`
+                }
+                tbody_html +=`
+                                </select>
+                                <label class="form-checkbox"><input type="checkbox" class="is_consult is_consult_bath_part" name="is_consult_bath_part[]" value="1"><span class="form-check-icon"><em>상담</em></span></label>
+                                <input type="hidden" name="is_consult_bath_part[]" class="not_consult not_consult_bath_part" value="0">
+                            </div>
+                        </td>
+                    `;
+            }
+        }else if(i == 'sanitation'){
+            if(v.is_use == 'y'){
+                $(".sanitation").prop("checked",true);
+                col_html += `<col style="width:auto;">`;
+                thead_html += `<th>위생</th>`;
+                tbody_html += `
+                        <td class="no-padding">
+                            <div class="form-table-select">
+                                <select class="sanitation_price" name="sanitation_price[]">
+                                    <option value="">선택안함</option>
+                    `;
+                for(var t=1000;t<400000;t=t+500){
+                    tbody_html += `<option value="${t}">${t.format()}원</option>`
+                }
+                tbody_html +=`
+                                </select>
+                                <label class="form-checkbox"><input type="checkbox" class="is_consult is_consult_sanitation" name="is_consult_sanitation[]" value="1"><span class="form-check-icon"><em>상담</em></span></label>
+                                <input type="hidden" name="is_consult_sanitation[]" class="not_consult not_consult_sanitation" value="0">
+                            </div>
+                        </td>
+                    `;
+            }
+        }else if(i == 'sanitation_bath'){
+            if(v.is_use == 'y'){
+                $(".sanitation_bath").prop("checked",true);
+                col_html += `<col style="width:auto;">`;
+                thead_html += `<th>위생+목욕</th>`;
+                tbody_html += `
+                        <td class="no-padding">
+                            <div class="form-table-select">
+                                <select class="sanitation_bath_price" name="sanitation_bath_price[]">
+                                    <option value="">선택안함</option>
+                    `;
+                for(var t=1000;t<400000;t=t+500){
+                    tbody_html += `<option value="${t}">${t.format()}원</option>`
+                }
+                tbody_html +=`
+                                </select>
+                                <label class="form-checkbox"><input type="checkbox" class="is_consult is_consult_sanitation_bath" name="is_consult_sanitation_bath[]" value="1"><span class="form-check-icon"><em>상담</em></span></label>
+                                <input type="hidden" name="is_consult_sanitation_bath[]" class="not_consult not_consult_sanitation_bath" value="0">
+                            </div>
+                        </td>
+                    `;
+            }
+        }else if(i == 'all'){
+            if(v.is_use == 'y'){
+                $(".all").prop("checked",true);
+                col_html += `<col style="width:auto;">`;
+                thead_html += `<th>전체미용</th>`;
+                tbody_html += `
+                        <td class="no-padding">
+                            <div class="form-table-select">
+                                <select class="all_price" name="all_price[]">
+                                    <option value="">선택안함</option>
+                    `;
+                for(var t=1000;t<400000;t=t+500){
+                    tbody_html += `<option value="${t}">${t.format()}원</option>`
+                }
+                tbody_html +=`
+                                </select>
+                                <label class="form-checkbox"><input type="checkbox" class="is_consult is_consult_all" name="is_consult_all[]" value="1"><span class="form-check-icon"><em>상담</em></span></label>
+                                <input type="hidden" name="is_consult_all[]" class="not_consult not_consult_all" value="0">
+                            </div>
+                        </td>
+                    `;
+            }
+        }else if(i == 'spoting'){
+            if(v.is_use == 'y'){
+                $(".spoting").prop("checked",true);
+                col_html += `<col style="width:auto;">`;
+                thead_html += `<th>스포팅</th>`;
+                tbody_html += `
+                        <td class="no-padding">
+                            <div class="form-table-select">
+                                <select class="spoting_price" name="spoting_price[]">
+                                    <option value="">선택안함</option>
+                    `;
+                for(var t=1000;t<400000;t=t+500){
+                    tbody_html += `<option value="${t}">${t.format()}원</option>`
+                }
+                tbody_html +=`
+                                </select>
+                                <label class="form-checkbox"><input type="checkbox" class="is_consult is_consult_spoting" name="is_consult_spoting[]" value="1"><span class="form-check-icon"><em>상담</em></span></label>
+                                <input type="hidden" name="is_consult_spoting[]" class="not_consult not_consult_spoting" value="0">
+                            </div>
+                        </td>
+                    `;
+            }
+        }else if(i == 'scissors'){
+            if(v.is_use == 'y'){
+                $(".scissors").prop("checked",true);
+                col_html += `<col style="width:auto;">`;
+                thead_html += `<th>가위컷</th>`;
+                tbody_html += `
+                        <td class="no-padding">
+                            <div class="form-table-select">
+                                <select class="scissors_price" name="scissors_price[]">
+                                    <option value="">선택안함</option>
+                    `;
+                for(var t=1000;t<400000;t=t+500){
+                    tbody_html += `<option value="${t}">${t.format()}원</option>`
+                }
+                tbody_html +=`
+                                </select>
+                                <label class="form-checkbox"><input type="checkbox" class="is_consult is_consult_scissors" name="is_consult_scissors[]" value="1"><span class="form-check-icon"><em>상담</em></span></label>
+                                <input type="hidden" name="is_consult_scissors[]" class="not_consult not_consult_scissors" value="0">
+                            </div>
+                        </td>
+                    `;
+            }
+        }else if(i == 'summercut'){
+            if(v.is_use == 'y'){
+                $(".summercut").prop("checked",true);
+                col_html += `<col style="width:auto;">`;
+                thead_html += `<th>썸머컷</th>`;
+                tbody_html += `
+                        <td class="no-padding">
+                            <div class="form-table-select">
+                                <select class="summercut_price" name="summercut_price[]">
+                                    <option value="">선택안함</option>
+                    `;
+                for(var t=1000;t<400000;t=t+500){
+                    tbody_html += `<option value="${t}">${t.format()}원</option>`
+                }
+                tbody_html +=`
+                                </select>
+                                <label class="form-checkbox"><input type="checkbox" class="is_consult is_consult_summercut" name="is_consult_summercut[]" value="1"><span class="form-check-icon"><em>상담</em></span></label>
+                                <input type="hidden" name="is_consult_summercut[]" class="not_consult not_consult_summercut" value="0">
+                            </div>
+                        </td>
+                    `;
+            }
+        }else{
+            add_worktime ++;
+            var checked = '';
+            if(v.is_use == 'y'){
+                checked = 'checked';
+                col_html += `<col style="width:auto;">`;
+                thead_html += `<th>${i}</th>`;
+                tbody_html += `
+                        <td class="no-padding">
+                            <div class="form-table-select">
+                                <select class="beauty${add_worktime}_price" name="beauty${add_worktime}_price[]">
+                                    <option value="">선택안함</option>
+                    `;
+                for(var t=1000;t<400000;t=t+500){
+                    tbody_html += `<option value="${t}">${t.format()}원</option>`
+                }
+                tbody_html +=`
+                                </select>
+                                <label class="form-checkbox"><input type="checkbox" class="is_consult is_consult_beauty${add_worktime}" name="is_consult_beauty${add_worktime}[]" value="1"><span class="form-check-icon"><em>상담</em></span></label>
+                                <input type="hidden" name="is_consult_beauty${add_worktime}[]" class="not_consult not_consult_beauty${add_worktime}" value="0">
+                            </div>
+                        </td>
+                    `;
+            }
+            add_html += `
+                    <div class="form-vertical-cell">
+                        <div class="grid-layout basic">
+                            <div class="grid-layout-inner flex-nowrap">
+                                <div class="grid-layout-cell flex-2">
+                                    <div class="card-check-box white">
+                                        <label class="form-checkbox"><input type="checkbox" name="add_worktime_${add_worktime}" value="y" ${checked}><span class="form-check-icon"><em></em></span></label>
+                                        <input type="text" class="form-transparent" name="add_worktime_title_${add_worktime}" placeholder="입력" value="${i}">
+                                    </div>
+                                </div>
+                                <div class="grid-layout-cell flex-1">
+                                    <select name="add_worktime_time_${add_worktime}">
+                `;
+            for(var j=30;j<=240;j=j+30){
+                var selected = (v.time == j)? 'selected':'';
+                add_html += `<option value="${j}" ${selected}>${j}분</option>`;
+            }
+            add_html += `
+                                    </select>
+                                </div>
+                                <div class="grid-layout-cell flex-auto w-px-55"><button type="button" class="btn-data-trash worktime_del">휴지통</button></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+        }
+    })
+    if(add_html != ''){
+        $(".beauty_add_table_wrap").html(add_html);
+    }
+
+    col_html += `</colgroup>`;
+    thead_html += `
+                </tr>
+            </thead>
+        `;
+    tbody_html += `
+                </tr>
+            </tbody>
+        `;
+    $(".dog_table_wrap").html(col_html+thead_html+tbody_html);
+
+    // kg추가요금설정
+    $(".is_over_kgs0").prop("checked",true);
+    $(".dog_over_kgs_wrap").css("display","none");
+
+    //////////////////////////////////////////////////////// 고양이상품 뿌려주기
+    if(setting_array[0].cat != ''){
+        if(setting_array[0].cat.in_shop == 1 && setting_array[0].cat.out_shop == 1){
+            $(".cat_offer2").prop("checked",true);
+        }else if(setting_array[0].cat.in_shop == 1){
+            $(".cat_offer0").prop("checked",true);
+        }else if(setting_array[0].cat.out_shop == 1){
+            $(".cat_offer1").prop("checked",true);
+        }
+
+        if(setting_array[0].cat.is_use_weight == '1'){
+            $(".cat_is_use_weight1").prop("checked",true);
+        }else{
+            $(".cat_is_use_weight2").prop("checked",true);
+        }
+
+        if(setting_array[0].cat.increase_price > 0){
+            $(".increase_price").val(setting_array[0].cat.increase_price);
+        }
+
+        if(setting_array[0].cat.is_use_weight == 1){
+            var cat_col_html = `<colgroup>`;
+            var cat_thead_html = `<thead><tr>`;
+            var cat_tbody_html = `<tbody>`;
+
+            cat_col_html += `
+                        <col style="width:auto;">
+                        <col style="width:auto;">
+                        <col style="width:auto;">
+                    </colgroup>
+                `;
+            cat_thead_html += `
+                            <th>무게</th>
+                            <th>단모</th>
+                            <th>장모</th>
+                        </tr>
+                    </thead>
+                `;
+            var section = (setting_array[0].cat.section).split(',');
+            for(var i=0;i<section.length;i++){
+                console.log(section[i]);
+                cat_tbody_html += `
+                        <tr class="cat_table_tr">
+                            <td class="no-padding">
+                                <div class="form-table-select">
+                                    <select name="section[]">`;
+                for (var j=0;j<=50;j=j+0.1) {
+                    var selected = (parseInt(section[i]).toFixed(1) == j.toFixed(1))? 'selected' : '';
+                    cat_tbody_html += `<option value="${j.toFixed(1)}" ${selected}>~${j.toFixed(1)}kg</option>`;
+                }
+                cat_tbody_html += `
+                                    </select>
+                                </div>
+                            </td>
+                            <td class="no-padding">
+                                <div class="form-table-select">
+                                    <input type="text" class="short_weight_price" disabled value="${(setting_array[0].cat.service[i].short_price)}">
+                                </div>
+                            </td>
+                            <td class="no-padding">
+                                <div class="form-table-select">
+                                    <input type="text" class="long_weight_price" disabled value="${(setting_array[0].cat.service[i].long_price)}">
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+            }
+            cat_tbody_html += `</tbody>`;
+            $(".cat_table_wrap").html(cat_col_html+cat_thead_html+cat_tbody_html);
+            $(".short_price").val(setting_array[0].cat.service[0].short_price);
+            $(".long_price").val(setting_array[0].cat.service[0].long_price);
+            $(".cat_use_weight_wrap").css("display","block");
+        }else{
+            $(".short_price").val(setting_array[0].cat.short_price);
+            $(".long_price").val(setting_array[0].cat.long_price);
+        }
+
+        $(".shower_price").val((setting_array[0].cat.shower_price));
+        $(".shower_price_long").val((setting_array[0].cat.shower_price_long));
+
+        $(".hair_clot_price").val((setting_array[0].cat.hair_clot_price));
+        // if(setting_array[0].cat.hair_clot_price == ''){
+        //     $(".hair_clot_wrap").css("display","none");
+        // }
+        $(".ferocity_price").val((setting_array[0].cat.ferocity_price));
+        // if(setting_array[0].cat.ferocity_price == ''){
+        //     $(".ferocity_wrap").css("display","none");
+        // }
+        var cat_shop_option_html = ``;
+        $.each(setting_array[0].cat.shop_option, function(i,v){
+            cat_shop_option_html += `
+                <tr class="drag-sort-cell cat_place_plus_table_tr">
+                    <td class="no-padding">
+                        <div class="form-table-select">
+                            <input type="text" name="addition_work_product_text[]" value="${i}" placeholder="입력">
+                        </div>
+                    </td>
+                    <td class="no-padding">
+                        <div class="form-table-select">
+                            <select name="addition_work_product_price[]">`;
+            for (var j=0;j<=500000;j=j+500) {
+                var selected = (v == j)? 'selected' : '';
+                cat_shop_option_html += `<option value="${j}" ${selected}>${j}</option>`;
+            }
+            cat_shop_option_html += `
+                            </select>
+                        </div>
+                    </td>
+                    <td class="no-padding text-align-center vertical-center">
+                        <button type="button" class="btn-item-del addition_work_product_del"><span class="icon icon-size-36 icon-trash"></span></button>
+                    </td>
+                </tr>
+            `;
+        })
+        $(".cat_place_plus_table_wrap").append(cat_shop_option_html);
+
+        $(".toenail_price").val((setting_array[0].cat.toenail_price));
+        // if(setting_array[0].cat.toenail_price == ''){
+        //     $(".toenail_wrap").css("display","none");
+        // }
+        var cat_option_html = ``;
+        $.each(setting_array[0].cat.option, function(i,v){
+            cat_option_html += `
+                <tr class="drag-sort-cell cat_plus_table_tr">
+                    <td class="no-padding">
+                        <div class="form-table-select">
+                            <input type="text" name="addition_option_product_text[]" value="${i}" placeholder="입력">
+                        </div>
+                    </td>
+                    <td class="no-padding">
+                        <div class="form-table-select">
+                            <select name="addition_option_product_price[]">`;
+            for (var j=0;j<=500000;j=j+500) {
+                var selected = (v == j)? 'selected' : '';
+                cat_option_html += `<option value="${j}" ${selected}>${j}</option>`;
+            }
+            cat_option_html += `
+                            </select>
+                        </div>
+                    </td>
+                    <td class="no-padding text-align-center vertical-center">
+                        <button type="button" class="btn-item-del addition_option_product_del"><span class="icon icon-size-36 icon-trash"></span></button>
+                    </td>
+                </tr>
+            `;
+        })
+        $(".cat_plus_table_wrap").append(cat_option_html);
+        $(".cat_comment").text(setting_array[0].cat.comment);
+
+        // $(".total_cat_wrap").css("display","block");
+        // $(".cat_none_wrap").css("display","none");
+    }
+}
+
+// 강아지 종류별 미용 가져오기
+function get_dog_type_product(artist_id,second_type,direct_title){
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode:"get_dog_type_product",
+            artist_id:artist_id,
+            second_type:second_type,
+            direct_title:direct_title
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            //console.log(res);
+            let response = JSON.parse(res);
+            //console.log(response);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                //setting_array.push(body);
+                console.log(body);
+                var kg_array = (body.kgs).split(',');
+                console.log(kg_array);
+                $.each(kg_array,function(i,v){
+                    // 아무것도 없는 row 복사
+                    var bt_div = $('.dog_table_tr:last-child').clone();
+
+                    // row에 값 넣기
+                    $('.dog_table_tr:last-child .kgs_arr').val(parseInt(kg_array[i]).toFixed(1));
+
+                    // 목욕
+                    if(body.bath.price != ''){
+                        var price_array = (body.bath.price).split(',');
+                        $('.dog_table_tr:last-child .bath_price').val(price_array[i]);
+                        var bath_consult_array = (body.bath.is_consult).split(',');
+                        if(bath_consult_array[i] == '1'){
+                            $('.dog_table_tr:last-child .is_consult_bath').prop("checked", true);
+                            $('.dog_table_tr:last-child .not_consult_bath').prop("disabled", true);
+                        }
+                    }
+                    // 부분미용
+                    if(body.part.price != ''){
+                        var part_array = (body.part.price).split(',');
+                        $('.dog_table_tr:last-child .part_price').val(part_array[i]);
+                        var part_consult_array = (body.part.is_consult).split(',');
+                        if(part_consult_array[i] == '1'){
+                            $('.dog_table_tr:last-child .is_consult_part').prop("checked", true);
+                            $('.dog_table_tr:last-child .not_consult_part').prop("disabled", true);
+                        }
+                    }
+                    // 부분+목욕
+                    if(body.bath_part.price != ''){
+                        var bath_part_array = (body.bath_part.price).split(',');
+                        $('.dog_table_tr:last-child .bath_part_price').val(bath_part_array[i]);
+                        var bath_part_consult_array = (body.bath_part.is_consult).split(',');
+                        if(bath_part_consult_array[i] == '1'){
+                            $('.dog_table_tr:last-child .is_consult_bath_part').prop("checked", true);
+                            $('.dog_table_tr:last-child .not_consult_bath_part').prop("disabled", true);
+                        }
+                    }
+                    // 위생
+                    if(body.sanitation.price != ''){
+                        var sanitation_array = (body.sanitation.price).split(',');
+                        $('.dog_table_tr:last-child .sanitation_price').val(sanitation_array[i]);
+                        var sanitation_consult_array = (body.sanitation.is_consult).split(',');
+                        if(sanitation_consult_array[i] == '1'){
+                            $('.dog_table_tr:last-child .is_consult_sanitation').prop("checked", true);
+                            $('.dog_table_tr:last-child .not_consult_sanitation').prop("disabled", true);
+                        }
+                    }
+                    // 위생+목욕
+                    if(body.sanitation_bath.price != ''){
+                        var sanitation_bath_array = (body.sanitation_bath.price).split(',');
+                        $('.dog_table_tr:last-child .sanitation_bath_price').val(sanitation_bath_array[i]);
+                        var sanitation_bath_consult_array = (body.sanitation_bath.is_consult).split(',');
+                        if(sanitation_bath_consult_array[i] == '1'){
+                            $('.dog_table_tr:last-child .is_consult_sanitation_bath').prop("checked", true);
+                            $('.dog_table_tr:last-child .not_consult_sanitation_bath').prop("disabled", true);
+                        }
+                    }
+                    // 전체미용
+                    if(body.all.price != ''){
+                        var all_array = (body.all.price).split(',');
+                        $('.dog_table_tr:last-child .all_price').val(all_array[i]);
+                        var all_consult_array = (body.all.is_consult).split(',');
+                        if(all_consult_array[i] == '1'){
+                            $('.dog_table_tr:last-child .is_consult_all').prop("checked", true);
+                            $('.dog_table_tr:last-child .not_consult_all').prop("disabled", true);
+                        }
+                    }
+                    // 스포팅
+                    if(body.spoting.price != ''){
+                        var spoting_array = (body.spoting.price).split(',');
+                        $('.dog_table_tr:last-child .spoting_price').val(spoting_array[i]);
+                        var spoting_consult_array = (body.spoting.is_consult).split(',');
+                        if(spoting_consult_array[i] == '1'){
+                            $('.dog_table_tr:last-child .is_consult_spoting').prop("checked", true);
+                            $('.dog_table_tr:last-child .not_consult_spoting').prop("disabled", true);
+                        }
+                    }
+                    // 가위컷
+                    if(body.scissors.price != ''){
+                        var scissors_array = (body.scissors.price).split(',');
+                        $('.dog_table_tr:last-child .scissors_price').val(scissors_array[i]);
+                        var scissors_consult_array = (body.scissors.is_consult).split(',');
+                        if(scissors_consult_array[i] == '1'){
+                            $('.dog_table_tr:last-child .is_consult_scissors').prop("checked", true);
+                            $('.dog_table_tr:last-child .not_consult_scissors').prop("disabled", true);
+                        }
+                    }
+                    // 써머컷
+                    if(body.summercut.price != ''){
+                        var summercut_array = (body.summercut.price).split(',');
+                        $('.dog_table_tr:last-child .summercut_price').val(summercut_array[i]);
+                        var summercut_consult_array = (body.summercut.is_consult).split(',');
+                        if(summercut_consult_array[i] == '1'){
+                            $('.dog_table_tr:last-child .is_consult_summercut').prop("checked", true);
+                            $('.dog_table_tr:last-child .not_consult_summercut').prop("disabled", true);
+                        }
+                    }
+                    // 추가1
+                    if(body.beauty1.price != ''){
+                        var beauty1_array = (body.beauty1.price).split(',');
+                        $('.dog_table_tr:last-child .beauty1_price').val(beauty1_array[i]);
+                        var beauty1_consult_array = (body.beauty1.is_consult).split(',');
+                        if(beauty1_consult_array[i] == '1'){
+                            $('.dog_table_tr:last-child .is_consult_beauty1').prop("checked", true);
+                            $('.dog_table_tr:last-child .not_consult_beauty1').prop("disabled", true);
+                        }
+                    }
+                    // 추가2
+                    if(body.beauty2.price != ''){
+                        var beauty2_array = (body.beauty2.price).split(',');
+                        $('.dog_table_tr:last-child .beauty2_price').val(beauty2_array[i]);
+                        var beauty2_consult_array = (body.beauty2.is_consult).split(',');
+                        if(beauty2_consult_array[i] == '1'){
+                            $('.dog_table_tr:last-child .is_consult_beauty2').prop("checked", true);
+                            $('.dog_table_tr:last-child .not_consult_beauty2').prop("disabled", true);
+                        }
+                    }
+                    // 추가1
+                    if(body.beauty3.price != ''){
+                        var beauty3_array = (body.beauty3.price).split(',');
+                        $('.dog_table_tr:last-child .beauty3_price').val(beauty3_array[i]);
+                        var beauty3_consult_array = (body.beauty3.is_consult).split(',');
+                        if(beauty3_consult_array[i] == '1'){
+                            $('.dog_table_tr:last-child .is_consult_beauty3').prop("checked", true);
+                            $('.dog_table_tr:last-child .not_consult_beauty3').prop("disabled", true);
+                        }
+                    }
+                    // 추가1
+                    if(body.beauty4.price != ''){
+                        var beauty4_array = (body.beauty4.price).split(',');
+                        $('.dog_table_tr:last-child .beauty4_price').val(beauty4_array[i]);
+                        var beauty4_consult_array = (body.beauty4.is_consult).split(',');
+                        if(beauty4_consult_array[i] == '1'){
+                            $('.dog_table_tr:last-child .is_consult_beauty4').prop("checked", true);
+                            $('.dog_table_tr:last-child .not_consult_beauty4').prop("disabled", true);
+                        }
+                    }
+                    // 추가1
+                    if(body.beauty5.price != ''){
+                        var beauty5_array = (body.beauty5.price).split(',');
+                        $('.dog_table_tr:last-child .beauty5_price').val(beauty5_array[i]);
+                        var beauty5_consult_array = (body.beauty5.is_consult).split(',');
+                        if(beauty5_consult_array[i] == '1'){
+                            $('.dog_table_tr:last-child .is_consult_beauty5').prop("checked", true);
+                            $('.dog_table_tr:last-child .not_consult_beauty5').prop("disabled", true);
+                        }
+                    }
+
+                    // 복사한 row 붙여넣기
+                    $('.dog_table_wrap').append(bt_div);
+                })
+                // 마지막 row 삭제
+                $('.dog_table_tr:last-child').remove();
+
+                // 무게 추가요금 설정일시
+                if(body.is_over_kgs == 1){
+                    $(".is_over_kgs1").prop("checked",true);
+                    $(".dog_over_kgs_wrap").css("display","block");
+                    $(".what_over_kgs").val(body.what_over_kgs);
+                    $(".over_kgs_price").val(body.over_kgs_price);
+                }
+                $(".dog_add_comment").val(body.add_comment);
 
             }
         }

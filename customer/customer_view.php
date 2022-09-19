@@ -1159,7 +1159,7 @@ if ($artist_flag == 1) {
                     </div>
                 </div>
                 <div class="pop-footer">
-                    <button type="button" class="btn btn-purple" onclick="add_sub_phone(artist_id)"><strong>등록하기</strong></button>
+                    <button type="button" class="btn btn-purple" onclick="add_sub_phone(artist_id,false)"><strong>등록하기</strong></button>
                 </div>
                 <button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
             </div>
@@ -1286,6 +1286,10 @@ if ($artist_flag == 1) {
 
 
     $(document).ready(function(){
+        var artist_flag = "<?=$artist_flag?>";
+        if(artist_flag == 1){
+            view_artist();
+        }
 
         get_navi(artist_id)
         gnb_init();
@@ -1318,8 +1322,8 @@ if ($artist_flag == 1) {
         backgroundColor:'rgb(255,255,255)'
     })
 
-    canvas.width = canvas.parentElement.offsetWidth;
-    canvas.height=canvas.parentElement.offsetHeight;
+    canvas.width = canvas.parentElement.offsetWidth-2;
+    canvas.height=canvas.parentElement.offsetHeight-2;
 
 
     clear_btn.addEventListener("click", function (event) {

@@ -3,8 +3,15 @@ include($_SERVER['DOCUMENT_ROOT']."/include/global.php");
 include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 include($_SERVER['DOCUMENT_ROOT']."/include/check_login_shop.php");
 
-$artist_id = (isset($_SESSION['gobeauty_user_id'])) ? $_SESSION['gobeauty_user_id'] : "";
+$customer_id = (isset($_SESSION['gobeauty_user_id'])) ? $_SESSION['gobeauty_user_id'] : "";
 
+$artist_flag = (isset($_SESSION['artist_flag'])) ? $_SESSION['artist_flag'] : "";
+
+if ($artist_flag == 1) {
+    $artist_id = (isset($_SESSION['shop_user_id'])) ? $_SESSION['shop_user_id'] : "";
+} else {
+    $artist_id = (isset($_SESSION['gobeauty_user_id'])) ? $_SESSION['gobeauty_user_id'] : "";
+}
 
 ?>
 <body>        
@@ -106,7 +113,12 @@ $artist_id = (isset($_SESSION['gobeauty_user_id'])) ? $_SESSION['gobeauty_user_i
 <script src="../static/js/etc.js"></script>
 <script>
     let artist_id = "<?=$artist_id?>";
+    let customer_id = '<?=$customer_id?>';
     $(document).ready(function() {
+        var artist_flag = "<?=$artist_flag?>";
+        if(artist_flag == 1){
+            view_artist();
+        }
         get_navi(artist_id);
         gnb_init();
         gnb_actived('gnb_etc_wrap','gnb_profile');
@@ -137,7 +149,7 @@ $artist_id = (isset($_SESSION['gobeauty_user_id'])) ? $_SESSION['gobeauty_user_i
             url: '../data/pc_ajax.php',
             data: {
                 mode: 'put_resign',
-                login_id: artist_id,
+                login_id: customer_id,
             },
             type: 'POST',
             async:false,

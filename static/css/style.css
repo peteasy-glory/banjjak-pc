@@ -214,15 +214,15 @@
 
 .pay_management{
 
-    width:373px;
-    height:100%;
+    width: 373px;
+    height: 100%;
     max-height: calc( 100vh - 129px );
     position: absolute;
     right: 0;
     margin-right: -373px;
-    z-index:5000;
+    z-index: 5000;
     background: #fff;
-    box-shadow: 0 2px 10px 0 #c2c2c2;
+    box-shadow: -8px 11px 9px -3px #f4f4f4f4;
     border: solid 1px #eaeaea;
     border-radius: 5px;
     box-sizing: border-box;
@@ -249,6 +249,28 @@
     display:flex;
     justify-content: center;
     align-items: center;
+
+    overflow:visible;
+}
+
+.pay-close-btn{
+    width: 40px;
+    height: 53px;
+    background: #fff;
+    box-shadow: -8px -5px 9px -3px #f4f4f4f4;
+    position: fixed;
+    right: calc(25px + 373px);
+    margin-right: -373px;
+    opacity: 0;
+    border: solid 1px #eaeaea;
+    /* border-radius: 5px; */
+    box-sizing: border-box;
+    /* border-right: none; */
+    border-top: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 
 }
 
@@ -341,6 +363,10 @@
 
 .pay-user-sub-cellphone{
     display: flex;
+    flex-direction: column;
+}
+.pay-user-sub-cellphone-wrap{
+    display: flex;
 }
 
 .call-edit{
@@ -398,6 +424,12 @@
     width:100% !important;
     margin-top:16px;
 }
+.pay-product-save{
+    width:calc(100% - 40px) !important;
+    margin-top:16px;
+    padding-left:20px;
+    padding-right:20px;
+}
 
 .pay-card-content-2{
     margin-top:50px;
@@ -414,6 +446,17 @@
 .pay-card-content-6{
     margin-top:50px;
 }
+.pay-card-content-6-1{
+    margin-top:50px;
+}
+.pay-card-content-7{
+    margin-top:50px;
+}
+
+.pay-card-content-8{
+    margin-top:50px;
+}
+
 
 .pay-customer-pet-group{
     margin-top:12px;
@@ -536,6 +579,7 @@
 }
 
 .pay-before-beauty-item{
+    margin-top:8px;
     display:flex;
     justify-content: space-between;
     background: #fff;
@@ -666,3 +710,336 @@
     padding-right:20px;
 
 }
+
+.pay-product-save-btn-wrap{
+    display: flex;
+    width:100%;
+    padding-left:20px;
+    padding-right:20px;
+}
+
+.pay-user-receipt{
+    width:calc(100% - 40px);
+    padding-left:20px;
+    padding-right:20px;
+}
+
+.user-receipt-wrap{
+    display: flex;
+    justify-content: center;
+    margin-top:20px;
+}
+
+.set_update_discount_btn{
+
+    width:100% !important;
+}
+
+.pay-complete-wrap{
+    margin-top:30px;
+    width:calc(100% - 40px);
+    padding-left:20px;
+    padding-right:20px;
+    margin-bottom:30px;
+}
+
+.pay-noshow-count {
+    height: 26px;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0 11px;
+    line-height: 24px;
+    border-radius: 5px;
+}
+
+.use-coupon{
+
+    width:100%;
+}
+
+.basic_service {
+
+    padding-left:20px;
+    padding-right:20px;
+    font-size:12px !important;
+}
+
+.display_flex_ju_center{
+    display: flex;
+    justify-content: center;
+}
+
+.save-final-price {
+    width:100% !important;
+}
+
+#pay_management_loading{
+
+    height:800px;
+}
+
+.use-coupon{
+    width:100% !important;
+}
+
+.dark .pay_management{
+
+    background: #1E1F21;
+    color:#fff;
+    box-shadow: -8px 11px 9px -3px #333;
+}
+
+.dark .pay-card-header-title{
+
+    color:#fff;
+}
+
+.dark .pay-card-body-title{
+    background: #3F4145;
+    color:#fff;
+}
+
+.dark #wide-tab-inner3{
+
+    background: #666;
+}
+
+.dark .pay-wide-tab{
+    background: #666;
+}
+.dark .tab-cell{
+    color:#fff;
+}
+
+.dark .pay-before-beauty-item{
+    background: #666;
+
+}
+
+.dark .before-path{
+    stroke:white !important;
+}
+
+.dark .pay-text-list-title{
+
+    color:#fff;
+}
+
+.dark .pay-btn-detail-toggle{
+
+    color:#fff;
+}
+
+.dark #pay_special_memo_text{
+    color:#fff;
+}
+
+.dark #coupon_name{
+    color:#fff;
+}
+
+.dark #coupon_name option{
+
+    color:#fff;
+}
+
+.dark #coupon_balance{
+    color:#fff;
+}
+.dark #coupon_balance option{
+
+    color:#fff;
+}
+
+.dark #use_coupon{
+    color:#fff;
+}
+
+.dark #use_coupon option{
+    color:#fff;
+}
+
+.dark #discount_1{
+    color:#fff;
+}
+
+.dark #discount_1 option{
+    color:#fff;
+}
+
+.dark #discount_2{
+    color:#fff;
+}
+
+.dark #discount_2 option{
+    color:#fff;
+}
+
+.dark #use_reserves{
+    color:#fff;
+}
+.dark #last_card{
+    color:#fff;
+}
+
+.dark #last_cash{
+    color:#fff;
+}
+
+.dark #start_time{
+    color:#fff;
+}
+
+.dark #start_time option{
+    color:#fff;
+}
+
+
+.dark #end_time{
+    color:#fff;
+}
+
+.dark #end_time option{
+    color:#fff;
+}
+
+.dark .pay-close-btn{
+
+    background: #1E1F21;
+    color:#fff;
+    box-shadow: -8px -5px 9px -3px #333
+}
+
+.dark #pay_customer_memo_text{
+    color:#fff;
+}
+
+.dark #agree_view_name{
+
+    color:#fff;
+}
+
+.dark #agree_view_cellphone{
+    color:#fff;
+}
+.dark #agree_view_breed_select{
+    color:#fff;
+}
+.dark #agree_view_breed_select option{
+    color:#fff;
+}
+
+.dark .agree_view_birthday{
+    color:#fff;
+}
+.dark .agree_view_birthday option{
+    color:#fff;
+}
+.dark #agree_view_birthday_date {
+    color:#fff
+}
+.dark #agree_view_birthday_date option{
+    color:#fff;
+}
+.dark #agree_view_vaccination{
+    color:#fff;
+}
+.dark #agree_view_vaccination option{
+    color:#fff;
+}
+.dark #agree_view_luxation{
+    color:#fff;
+}
+
+.dark #agree_view_luxation option{
+    color:#fff;
+}
+
+.dark #modify_customer_name{
+    color:#fff;
+}
+
+.dark #modify_breed_select {
+    color:#fff;
+}
+
+.dark #modify_breed_select option{
+    color:#fff;
+}
+.dark .modify_birthday{
+    color:#fff;
+}
+.dark .modify_birthday option{
+    color:#fff;
+}
+.dark #modify_birthday_date{
+    color:#fff;
+}
+.dark #modify_birthday_date option{
+    color:#fff;
+}
+
+.dark #modify_weight1{
+    color:#fff;
+}
+
+.dark #modify_weight1 option{
+    color:#fff;
+}
+
+.dark #modify_weight2{
+    color:#fff;
+}
+
+.dark #modify_weight2 option{
+    color:#fff;
+}
+
+.dark #modify_beauty_exp {
+    color:#fff;
+}
+
+.dark #modify_beauty_exp option{
+    color:#fff;
+}
+
+.dark #modify_vaccination {
+    color:#fff;
+}
+
+.dark #modify_vaccination option{
+    color:#fff;
+}
+
+
+.dark #modify_bite {
+    color:#fff;
+}
+
+.dark #modify_bite option{
+    color:#fff;
+}
+
+
+.dark #modify_luxation {
+    color:#fff;
+}
+
+.dark #modify_luxation option{
+    color:#fff;
+}
+
+
+
+.dark .hasDatepicker{
+    color:#fff !important;
+}
+
+.reserve_registration_footer{
+
+    padding-left:20px;
+    padding-right:20px;
+    width:calc(100% - 40px);
+    margin-bottom:40px;
+}
+

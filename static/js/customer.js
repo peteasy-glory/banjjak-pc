@@ -181,7 +181,7 @@ function customer_all_scroll_paging(id){
 
                     time = null;
                     customer_all(id).then(function(customers){
-                        customer_list(customers);
+                        customer_list(id,customers)
                     });
                 },100)
             }
@@ -380,81 +380,110 @@ function customer_graph(customers){
     });
 }
 
-function customer_list(customers){
+function customer_list(id,customers){
 
 
 
-    let beauty = customers.body;
-
-    if(beauty.length === undefined){
-        beauty = [beauty];
-    }
-    let tbody = document.getElementById('tbody');
-    
-
-    beauty.forEach(function (el,i){
-
-        // if(i<300) {
 
 
-            let y = el.ymdhm.substr(0, 4);
-            let M = el.ymdhm.substr(4, 2);
-            let d = el.ymdhm.substr(6, 2);
-            let h = el.ymdhm.substr(8, 2);
-            let m = el.ymdhm.substr(10, 2);
-            let product = el.product.split('|');
-            let size = product[3];
-            let b_product = product[4];
-            let grade = parseInt(el.grade.split('|')[1]);
+        let beauty = customers.body;
 
-            console.log(el)
-            tbody.innerHTML += `<tr class="customer-table-cell">
-                                <td>
-                                    <div class="customer-table-txt" style="cursor:pointer" onclick="localStorage.setItem('customer_select','${el.cellphone}'); location.href = '/customer/customer_view.php';">
-                                        <strong>${el.name}</strong>
-                                    </div>
-                                    <div class="customer-table-txt">
-                                        <span class="icon icon-grade-${grade ===  1 ? 'vip' : grade === 2 ? 'normal' : 'normalb'}"></span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="customer-table-txt">
-                                        <strong>${el.type === "dog" ? '개' : '고양이'}</strong>
-                                    </div>
-                                    <div class="customer-table-txt">${el.pet_type}</div>
-                                </td>
-                                <td>
-                                    <div class="customer-table-txt">${el.cellphone.replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`)}</div>
-                                    <div class="customer-table-txt">${el.reserve}P</div>
-                                </td>
-                                <td>
-                                
-                                    <div class="customer-table-txt">${y !== '' ? `${y}.${M}.${d}`:''}</div>
-                                    <div class="customer-table-txt">${h !== '' ? `${am_pm_check(h)}:${m}` : ''}</div>
-                                </td>
-                                <td>
-                                    <div class="customer-table-txt">${el.type === "dog" ? `${size === null || size === "" || size === undefined ? '미기입' : size}` : `${size === null || size === "" || size === undefined ? '미기입' : `${size.split(':')[0]}`} `}</div>
-                                </td>
-                                <td>
-                                    <div class="customer-table-txt">${el.type === "dog" ? `${b_product === null || b_product === "" || b_product === undefined ? '미기입' : b_product}` : `${b_product === null || b_product === "" || b_product === undefined ? '미기입' : `${b_product.split(':')[0]}`} `}</div>
-                                </td>
-                                <td>
-                                    <div class="customer-table-txt">미용</div>
-                                    <div class="customer-table-txt">${el.use_count}</div>
-                                </td>
-                                <td>
-                                    <div class="customer-table-txt">${el.sum_card}원</div>
-                                    <div class="customer-table-txt">${el.sum_cash}원</div>
-                                </td>
-                                <td>
-                                    <div class="customer-table-txt">
-                                        <button type="button" class="btn btn-outline-gray btn-small-size">보기</button>
-                                    </div>
-                                </td>
-                            </tr>`
+        if(beauty.length === undefined){
+            beauty = [beauty];
+        }
+        let tbody = document.getElementById('tbody');
 
-        // }
-    })
+
+        beauty.forEach(function (el,i){
+
+
+
+                let y = el.ymdhm.substr(0, 4);
+                let M = el.ymdhm.substr(4, 2);
+                let d = el.ymdhm.substr(6, 2);
+                let h = el.ymdhm.substr(8, 2);
+                let m = el.ymdhm.substr(10, 2);
+                let product = el.product.split('|');
+                let size = product[3];
+                let b_product = product[4];
+                let grade = parseInt(el.grade.split('|')[1]);
+
+
+                console.log(el)
+
+
+            $.ajax({
+                url:'/data/pc_ajax.php',
+                type:'post',
+                data:{
+                    mode:'get_beauty_agree',
+                    partner_id:id,
+                    pet_idx:el.pet_seq,
+                },
+                success:function(res) {
+                    let response = JSON.parse(res);
+                    let head = response.data.head;
+                    let body = response.data.body;
+                    if (head.code === 401) {
+                        pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                    } else if (head.code === 200) {
+
+                        if(body.length === undefined){
+                            body = [body];
+                        }
+
+                        tbody.innerHTML += `<tr class="customer-table-cell">
+                                    <td>
+                                        <div class="customer-table-txt" style="cursor:pointer" onclick="localStorage.setItem('customer_select','${el.cellphone}'); location.href = '/customer/customer_view.php';">
+                                            <strong>${el.name}</strong>
+                                        </div>
+                                        <div class="customer-table-txt">
+                                            <span class="icon icon-grade-${grade ===  1 ? 'vip' : grade === 2 ? 'normal' : 'normalb'}"></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="customer-table-txt">
+                                            <strong>${el.type === "dog" ? '개' : '고양이'}</strong>
+                                        </div>
+                                        <div class="customer-table-txt">${el.pet_type}</div>
+                                    </td>
+                                    <td>
+                                        <div class="customer-table-txt">${el.cellphone.replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`)}</div>
+                                        <div class="customer-table-txt">${el.reserve}P</div>
+                                    </td>
+                                    <td>
+                                    
+                                        <div class="customer-table-txt">${y !== '' ? `${y}.${M}.${d}`:''}</div>
+                                        <div class="customer-table-txt">${h !== '' ? `${am_pm_check(h)}:${m}` : ''}</div>
+                                    </td>
+                                    <td>
+                                        <div class="customer-table-txt">${el.type === "dog" ? `${size === null || size === "" || size === undefined ? '미기입' : size}` : `${size === null || size === "" || size === undefined ? '미기입' : `${size.split(':')[0]}`} `}</div>
+                                    </td>
+                                    <td>
+                                        <div class="customer-table-txt">${el.type === "dog" ? `${b_product === null || b_product === "" || b_product === undefined ? '미기입' : b_product}` : `${b_product === null || b_product === "" || b_product === undefined ? '미기입' : `${b_product.split(':')[0]}`} `}</div>
+                                    </td>
+                                    <td>
+                                        <div class="customer-table-txt">미용</div>
+                                        <div class="customer-table-txt">${el.use_count}</div>
+                                    </td>
+                                    <td>
+                                        <div class="customer-table-txt">${el.sum_card}원</div>
+                                        <div class="customer-table-txt">${el.sum_cash}원</div>
+                                    </td>
+                                    <td>
+                                        <div class="customer-table-txt">
+                                           ${body.length > 0 && el.pet_seq !== '' ? `<button type="button" class="btn btn-outline-gray btn-small-size" data-pet_seq="${el.pet_seq}" onclick="customer_all_agree(artist_id,this)">보기</button> ` : ''}
+                                        </div>
+                                    </td>
+                                </tr>`
+
+                    }
+                }
+
+
+            })
+        })
+
 
 
 }
@@ -512,6 +541,78 @@ function customer_pet_type(){
                         })
 
                         document.getElementById('breed_select').innerHTML += '<option value="기타">기타</option>';
+
+
+
+
+                    }
+
+
+                }
+            })
+
+
+
+
+
+        })
+    })
+}
+
+
+function modify_pet_type(){
+
+
+    let breed_input;
+
+    let breed;
+
+    let breed_select = document.getElementById('modify_breed_select')
+
+    breed_select.addEventListener('change',function(){
+        if(breed_select.options[breed_select.selectedIndex].value === "기타"){
+
+            document.getElementById('modify_breed_other_box').setAttribute('style','display:block');
+        }else{
+            document.getElementById('modify_breed_other_box').setAttribute('style','display:none');
+        }
+
+    })
+    Array.from(document.getElementsByClassName('modify_load-pet-type')).forEach(function(el){
+
+
+        el.addEventListener('click',function(){
+            document.getElementById('modify_breed_other_box').setAttribute('style','display:none');
+            breed_input = document.querySelector('input[name="modify_breed"]:checked');
+            breed = breed_input.value
+
+            $.ajax({
+
+                url:'/data/pc_ajax.php',
+                type:'post',
+                data:{
+                    mode:'pet_type',
+                    breed:breed
+                },
+                success:function(res){
+                    let response = JSON.parse(res);
+                    let head = response.data.head;
+                    let body = response.data.body;
+                    if (head.code === 401) {
+                        pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                    } else if (head.code === 200) {
+                        document.getElementById('modify_breed_select').innerHTML = '<option value="선택">선택</option>';
+                        body.forEach(function(el){
+
+
+                            if(el.name !== "기타"){
+                                document.getElementById('modify_breed_select').innerHTML += `<option value="${el.name}">${el.name}</option>`
+                            }
+
+
+                        })
+
+                        document.getElementById('modify_breed_select').innerHTML += '<option value="기타">기타</option>';
 
 
 
@@ -620,6 +721,26 @@ function customer_new_birthday(){
 
 }
 
+function modify_new_birthday(){
+
+    return new Promise(function (resolve){
+
+        for(let i = 2000; i<=new Date().getFullYear(); i++){
+
+            document.getElementById('modify_birthday_year').innerHTML += `<option value="${fill_zero(i)}" ${i===2022 ? 'selected':''}>${i}</option>`
+        }
+
+
+        for(let i = 1; i<=12; i++){
+            document.getElementById('modify_birthday_month').innerHTML += `<option value="${fill_zero(i)}">${i}</option>`
+        }
+
+        resolve();
+    })
+
+}
+
+
 
 
 function customer_new_birthday_date(){
@@ -653,6 +774,39 @@ function customer_new_birthday_date(){
 
 }
 
+
+
+function modify_new_birthday_date(){
+
+
+    let year = document.getElementById('modify_birthday_year').value;
+    let month = document.getElementById('modify_birthday_month').value;
+
+    let date_length = new Date(year,month,0).getDate();
+    document.getElementById('modify_birthday_date').innerHTML = '';
+    for(let i = 1; i<=date_length; i++){
+        document.getElementById('modify_birthday_date').innerHTML += `<option value="${fill_zero(i)}">${i}</option>`
+
+    }
+
+    Array.from(document.getElementsByClassName('modify_birthday')).forEach(function(el){
+
+        el.addEventListener('change',function(){
+
+            year = document.getElementById('modify_birthday_year').value;
+            month = document.getElementById('modify_birthday_month').value;
+
+            date_length = new Date(year,month,0).getDate();
+            document.getElementById('modify_birthday_date').innerHTML = '';
+            for(let i = 1; i<=date_length; i++){
+                document.getElementById('modify_birthday_date').innerHTML += `<option value="${i}">${i}</option>`
+
+            }
+        })
+    })
+
+}
+
 function customer_new_weight(){
 
     document.getElementById('weight1').innerHTML = '';
@@ -662,6 +816,16 @@ function customer_new_weight(){
         document.getElementById('weight1').innerHTML += `<option value=${i}>${i}</option>`
     }
 }
+function modify_new_weight(){
+
+    document.getElementById('modify_weight1').innerHTML = '';
+
+    for(let i=0; i<=50; i++){
+
+        document.getElementById('modify_weight1').innerHTML += `<option value=${i}>${i}</option>`
+    }
+}
+
 
 function modify_customer_new_birthday(){
 
@@ -1280,7 +1444,7 @@ function customer_view_(id){
         })
 
 
-        sub_phone_pop_init(id);
+        sub_phone_pop_init(id,false,'');
 
 
 
@@ -1593,6 +1757,7 @@ function insert_customer_memo(id,data){
 function insert_customer_grade(id,data){
 
 
+    console.log(data);
     let customer_id = data[0][0].customer_id !== "" ? data[0][0].customer_id : '';
     $.ajax({
 
@@ -1677,8 +1842,13 @@ function insert_customer_grade(id,data){
 
 function set_grade(data,customer_id){
 
+    let customer_idx;
+    if(typeof data === 'object'){
+        customer_idx = data.customer_idx;
+    }else{
+        customer_idx = data;
+    }
 
-    let customer_idx = data.customer_idx;
 
     let grade_idx = document.getElementById('memberGradeSelect').value;
 
@@ -1852,8 +2022,8 @@ function customer_beauty_agree(id,el){
                             backgroundColor:'rgb(255,255,255)'
                         })
 
-                        canvas.width = canvas.parentElement.offsetWidth;
-                        canvas.height=canvas.parentElement.offsetHeight;
+                        canvas.width = canvas.parentElement.offsetWidth-2;
+                        canvas.height=canvas.parentElement.offsetHeight-2;
 
 
                         clear_btn.addEventListener("click", function (event) {
@@ -2035,8 +2205,16 @@ function customer_beauty_agree_(_data){
 }
 
 
-function sub_phone_pop_init(id){
+function sub_phone_pop_init(id,bool,cellphone){
 
+    let cell_phone;
+
+
+    if(bool){
+        cell_phone = cellphone;
+    }else{
+        cell_phone = localStorage.getItem('customer_select')
+    }
     $.ajax({
 
         url:'/data/pc_ajax.php',
@@ -2045,7 +2223,7 @@ function sub_phone_pop_init(id){
 
             mode:'get_sub_phone',
             partner_id:id,
-            cellphone:localStorage.getItem('customer_select')
+            cellphone:cell_phone
         },
         success:function(res) {
 
@@ -2067,7 +2245,10 @@ function sub_phone_pop_init(id){
                 }
 
                 if(body.length === 0){
-                    document.getElementById('representative_cellphone').innerText = localStorage.getItem('customer_select');
+                    if(!bool){
+                        document.getElementById('representative_cellphone').innerText = localStorage.getItem('customer_select');
+
+                    }
 
 
 
@@ -2097,20 +2278,27 @@ function sub_phone_pop_init(id){
 
                 }
 
-                document.getElementById('representative_cellphone').innerText = body[0].to_cellphone;
+                if(!bool){
+
+                    document.getElementById('representative_cellphone').innerText = body[0].to_cellphone;
+
+                }
 
                 body.forEach(function(el,i){
 
                     console.log(el)
 
-                    if(i <3){
+                    if(!bool){
+                        if(i <3){
 
 
-                        document.getElementById('sub_cellphone').innerHTML += `<div class="value">${el.from_cellphone}</div>`
+                            document.getElementById('sub_cellphone').innerHTML += `<div class="value">${el.from_cellphone}</div>`
+                        }
+                        if(i === 3){
+                            document.getElementById('sub_cellphone').innerHTML += `<div class="value">외 ${body.length-3}개 연락처</div>`
+                        }
                     }
-                    if(i === 3){
-                        document.getElementById('sub_cellphone').innerHTML += `<div class="value">외 ${body.length-3}개 연락처</div>`
-                    }
+
 
 
                     document.getElementById('phone_add_list').innerHTML += `<div class="phone-add-item">
@@ -2206,10 +2394,18 @@ function delete_sub_phone(){
     })
 }
 
-function add_sub_phone(id){
+function add_sub_phone(id,bool){
+    let main_phone;
+    if(bool){
+
+        main_phone = document.getElementById('pay_main_phone').innerText;
+
+    }else{
+        main_phone = localStorage.getItem('customer_select');
+    }
 
 
-    let main_phone = localStorage.getItem('customer_select');
+
     let sub_name = document.getElementById('add_sub_cellphone_1').value;
     let sub_phone = document.getElementById('add_sub_cellphone_2').value;
 
@@ -2683,9 +2879,18 @@ function direct_get_pet_info(id,target,pet_seq,session_id){
                 })
 
 
+                let user_id = '';
+
+                if(body.customer_id === ''){
+
+                    user_id = body.tmp_seq;
+                }else{
+                    user_id = body.customer_id;
+                }
+
                 document.getElementById('d_partner_id').value = id;
                 document.getElementById('d_worker').value = thisWorker;
-                document.getElementById('d_customer_id').value = body.customer_id;
+                document.getElementById('d_customer_id').value =user_id;
                 document.getElementById('d_cellphone').value= sessionStorage.getItem('direct_cellphone');
                 document.getElementById('d_pet_seq').value= body.pet_seq;
                 document.getElementById('d_pet_name').value= body.name;
@@ -2699,8 +2904,8 @@ function direct_get_pet_info(id,target,pet_seq,session_id){
                 document.getElementById('d_weight').value=body.weight;
                 document.getElementById('d_beauty_exp').value=body.beauty_exp;
                 document.getElementById('d_vaccination').value=body.vaccination;
-                document.getElementById('d_luxation').value=body.luxation;
-                document.getElementById('d_bite').value=body.bite;
+                document.getElementById('d_luxation').value=body.luxation === "" ? '0' : body.luxation;
+                document.getElementById('d_bite').value=body.bite === "" ? '안해요' : body.bite;
                 document.getElementById('d_dermatosis').value=body.dermatosis;
                 document.getElementById('d_heart_trouble').value=body.heart_trouble;
                 document.getElementById('d_marking').value=body.marking;
@@ -3102,3 +3307,73 @@ $(document).on("click",".pop_inquiry",function(){
     customer_allim_inquiry(st_time, fi_time, cellphone);
 })
 
+
+function customer_all_agree(id,target){
+
+    let pet_seq = target.getAttribute('data-pet_seq') === '' ? 0 : target.getAttribute('data-pet_seq');
+
+    if(pet_seq === 0){
+
+        document.getElementById('msg1_txt').innerText = '작성된 동의서가 없습니다.'
+        pop.open('reserveAcceptMsg1');
+    }else{
+        $.ajax({
+
+            url:'/data/pc_ajax.php',
+            type:'post',
+            data:{
+
+                mode:'get_beauty_agree',
+                partner_id:id,
+                pet_idx:pet_seq,
+
+            },
+            success:function(res) {
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+
+                    if(body.length === undefined){
+                        body = [body]
+                    }
+
+                    console.log(body)
+                    if(body.length === 0 ){
+
+                        document.getElementById('msg1_txt').innerText = '작성된 동의서가 없습니다.'
+                        pop.open('reserveAcceptMsg1');
+                    }else{
+
+                        let data = body.at(-1);
+                        console.log(data)
+
+                        let reg_date = `${data.reg_date.substr(0,4)}.${data.reg_date.substr(4,2)}.${data.reg_date.substr(6,2)}`;
+
+                        document.getElementById('agree_view_name').value = data.customer_name;
+                        document.getElementById('agree_view_date').innerText = reg_date
+                        document.getElementById('agree_view_name2').innerText = data.customer_name;
+                        document.getElementById('agree_view_cellphone').value = data.cellphone;
+                        document.getElementById('user_sign_img').setAttribute('src',`https://image.banjjakpet.com${data.image}`)
+
+                        pop.open('beautyAgreeViewPop');
+
+
+
+                    }
+
+
+
+                }
+            }
+        })
+    }
+
+
+
+
+
+
+}

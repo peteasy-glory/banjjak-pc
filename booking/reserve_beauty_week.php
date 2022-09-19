@@ -103,7 +103,7 @@ if ($artist_flag == 1) {
 															</div>
 														</div>
                                                         <div class="loading-container" id="week_mini_calendar_loading">
-                                                            <div class="mexican-wave"></div>
+                                                            <img src="/static/images/loading.gif" alt="">
                                                         </div>
 														<div class="mini-calendar-month-body" id="mini-calendar-month-body">
 
@@ -167,7 +167,7 @@ if ($artist_flag == 1) {
 								<!-- //캘린더 상단 -->
 							</div>
                             <div class="loading-container" id="week_schedule_loading">
-                                <div class="mexican-wave"></div>
+                                <img src="/static/images/loading.gif" alt="">
                             </div>
 							<div class="card-body" id="week_schedule_card_body">
 								<!-- 캘린더 라벨 -->
@@ -222,7 +222,7 @@ if ($artist_flag == 1) {
 													</div>
 												</div>
                                                 <div class="loading-container" id="week_mini_calendar_loading">
-                                                    <div class="mexican-wave"></div>
+                                                    <img src="/static/images/loading.gif" alt="">
                                                 </div>
 												<div class="calendar-week-body" id="day_body">
 
@@ -941,7 +941,13 @@ if ($artist_flag == 1) {
     // data_set(artist_id)
 
     $(document).ready(function(){
-
+        var artist_flag = "<?=$artist_flag?>";
+        if(artist_flag == 1){
+            $("#gnb_home").css("display","none");
+            $("#gnb_shop_wrap").css("display","none");
+            $("#gnb_detail_wrap").css("display","none");
+            $("#gnb_stats_wrap").css("display","none");
+        }
         get_navi(artist_id)
         gnb_init();
         calendar_change_month(artist_id);
@@ -983,6 +989,15 @@ if ($artist_flag == 1) {
             sessionStorage.removeItem('direct_new');
         })
 
+        document.getElementById('gnb_reserve_wrap').setAttribute('onclick','location.href ="/booking/reserve_beauty_day.php"')
+        document.getElementById('gnb_customer_wrap').setAttribute('onclick','location.href ="/customer/customer_inquiry.php"')
+        document.getElementById('gnb_shop_wrap').setAttribute('onclick','location.href ="/shop/shop_gate_picture.php"')
+        document.getElementById('gnb_detail_wrap').setAttribute('onclick','location.href ="/setting/set_schedule_list.php"')
+        document.getElementById('gnb_stats_wrap').setAttribute('onclick','location.href ="/report/stats_sale_1.php"')
+        document.getElementById('gnb_etc_wrap').setAttribute('onclick','location.href ="/etc/other_notice_list.php"')
+
+
+
 
 
 
@@ -1015,7 +1030,7 @@ $(function(){
         if(e.type == 'mouseenter'){
             $(this).addClass('actived');
             if(parseInt($(this).attr('data-height')) <4){
-                $(this).attr('style',`height:${$(this).children()[0].offsetHeight}px`)
+                $(this).attr('style',`height:${$(this).children()[0].offsetHeight}px; ${localStorage.getItem('change_check') === "1" ? 'border:red dotted' : ''}`)
             }
             if(memo_array[idx] == ''){
                 return;
@@ -1027,7 +1042,7 @@ $(function(){
             $(this).removeClass('actived');
 
             tooltip.removeClass('actived');
-            $(this).attr('style',`height: calc(100% * ${$(this).attr('data-height')})`)
+            $(this).attr('style',`height: calc(100% * ${$(this).attr('data-height')}); ${localStorage.getItem('change_check') === "1" ? 'border:red dotted' : ''}`)
         }else if(e.type == 'mousemove'){
             tooltip.css({'top' : y , 'left' : x});
 		}

@@ -75,14 +75,14 @@ if ($artist_flag == 1) {
 														<div class="read-table">
 															<table>
 																<colgroup>
-																	<col style="width:53px;">
+<!--																	<col style="width:53px;">-->
 																	<col style="width:auto;">
 																	<col style="width:30%;">
 																	<col style="width:10%;">
 																</colgroup>
 																<thead>
 																	<tr>
-																		<th></th>
+<!--																		<th></th>-->
 																		<th>상품명</th>
 																		<th>가격 (단위:원)</th>
 																		<th>삭제</th>
@@ -90,11 +90,11 @@ if ($artist_flag == 1) {
 																</thead>
 																<tbody class="drag-sort-wrap face_table">
 																	<tr class="drag-sort-cell">
-																		<td class="no-padding">
-																			<div class="form-table-select">
-																				<button type="button" class="btn-data-handler">드래그바</button>
-																			</div>
-																		</td>
+<!--																		<td class="no-padding">-->
+<!--																			<div class="form-table-select">-->
+<!--																				<button type="button" class="btn-data-handler">드래그바</button>-->
+<!--																			</div>-->
+<!--																		</td>-->
 																		<td class="no-padding">
 																			<div class="form-table-select">
 																				<input type="text" placeholder="입력" value="기본얼굴컷" disabled>
@@ -110,11 +110,11 @@ if ($artist_flag == 1) {
 																		</td>
 																	</tr>
                                                                     <tr class="drag-sort-cell">
-                                                                        <td class="no-padding">
-                                                                            <div class="form-table-select">
-                                                                                <button type="button" class="btn-data-handler">드래그바</button>
-                                                                            </div>
-                                                                        </td>
+<!--                                                                        <td class="no-padding">-->
+<!--                                                                            <div class="form-table-select">-->
+<!--                                                                                <button type="button" class="btn-data-handler">드래그바</button>-->
+<!--                                                                            </div>-->
+<!--                                                                        </td>-->
                                                                         <td class="no-padding">
                                                                             <div class="form-table-select">
                                                                                 <input type="text" placeholder="입력" value="곰돌이컷" disabled>
@@ -130,11 +130,11 @@ if ($artist_flag == 1) {
                                                                         </td>
                                                                     </tr>
                                                                     <tr class="drag-sort-cell">
-                                                                        <td class="no-padding">
-                                                                            <div class="form-table-select">
-                                                                                <button type="button" class="btn-data-handler">드래그바</button>
-                                                                            </div>
-                                                                        </td>
+<!--                                                                        <td class="no-padding">-->
+<!--                                                                            <div class="form-table-select">-->
+<!--                                                                                <button type="button" class="btn-data-handler">드래그바</button>-->
+<!--                                                                            </div>-->
+<!--                                                                        </td>-->
                                                                         <td class="no-padding">
                                                                             <div class="form-table-select">
                                                                                 <input type="text" placeholder="입력" value="브로컬리컷" disabled>
@@ -150,11 +150,11 @@ if ($artist_flag == 1) {
                                                                         </td>
                                                                     </tr>
                                                                     <tr class="drag-sort-cell">
-                                                                        <td class="no-padding">
-                                                                            <div class="form-table-select">
-                                                                                <button type="button" class="btn-data-handler">드래그바</button>
-                                                                            </div>
-                                                                        </td>
+<!--                                                                        <td class="no-padding">-->
+<!--                                                                            <div class="form-table-select">-->
+<!--                                                                                <button type="button" class="btn-data-handler">드래그바</button>-->
+<!--                                                                            </div>-->
+<!--                                                                        </td>-->
                                                                         <td class="no-padding">
                                                                             <div class="form-table-select">
                                                                                 <input type="text" placeholder="입력" value="하이바컷" disabled>
@@ -187,14 +187,14 @@ if ($artist_flag == 1) {
 														<div class="read-table">
 															<table>
 																<colgroup>
-																	<col style="width:53px;">
+<!--																	<col style="width:53px;">-->
 																	<col style="width:auto;">
 																	<col style="width:30%;">
 																	<col style="width:10%;">
 																</colgroup>
 																<thead>
 																	<tr>
-																		<th></th>
+<!--																		<th></th>-->
 																		<th>상품명</th>
 																		<th>가격 (단위:원)</th>
 																		<th>삭제</th>
@@ -202,11 +202,11 @@ if ($artist_flag == 1) {
 																</thead>
 																<tbody class="drag-sort-wrap hair_len_table">
 																	<tr class="drag-sort-cell">
-																		<td class="no-padding">
-																			<div class="form-table-select">
-																				<button type="button" class="btn-data-handler">드래그바</button>
-																			</div>
-																		</td>
+<!--																		<td class="no-padding">-->
+<!--																			<div class="form-table-select">-->
+<!--																				<button type="button" class="btn-data-handler">드래그바</button>-->
+<!--																			</div>-->
+<!--																		</td>-->
 																		<td class="no-padding">
 																			<div class="form-table-select">
 																				<input type="text" placeholder="입력">
@@ -239,14 +239,14 @@ if ($artist_flag == 1) {
 														<div class="read-table">
 															<table>
 																<colgroup>
-																	<col style="width:53px;">
+<!--																	<col style="width:53px;">-->
 																	<col style="width:auto;">
 																	<col style="width:30%;">
 																	<col style="width:10%;">
 																</colgroup>
 																<thead>
 																	<tr>
-																		<th></th>
+<!--																		<th></th>-->
 																		<th>상품명</th>
 																		<th>가격 (단위:원)</th>
 																		<th>삭제</th>
@@ -254,11 +254,11 @@ if ($artist_flag == 1) {
 																</thead>
 																<tbody class="drag-sort-wrap plus_table">
 																	<tr class="drag-sort-cell">
-																		<td class="no-padding">
-																			<div class="form-table-select">
-																				<button type="button" class="btn-data-handler">드래그바</button>
-																			</div>
-																		</td>
+<!--																		<td class="no-padding">-->
+<!--																			<div class="form-table-select">-->
+<!--																				<button type="button" class="btn-data-handler">드래그바</button>-->
+<!--																			</div>-->
+<!--																		</td>-->
 																		<td class="no-padding">
 																			<div class="form-table-select">
 																				<input type="text" placeholder="입력" value="단모목욕" disabled>
@@ -274,11 +274,11 @@ if ($artist_flag == 1) {
 																		</td>
 																	</tr>
                                                                     <tr class="drag-sort-cell">
-                                                                        <td class="no-padding">
-                                                                            <div class="form-table-select">
-                                                                                <button type="button" class="btn-data-handler">드래그바</button>
-                                                                            </div>
-                                                                        </td>
+<!--                                                                        <td class="no-padding">-->
+<!--                                                                            <div class="form-table-select">-->
+<!--                                                                                <button type="button" class="btn-data-handler">드래그바</button>-->
+<!--                                                                            </div>-->
+<!--                                                                        </td>-->
                                                                         <td class="no-padding">
                                                                             <div class="form-table-select">
                                                                                 <input type="text" placeholder="입력" value="장모목욕" disabled>
@@ -294,11 +294,11 @@ if ($artist_flag == 1) {
                                                                         </td>
                                                                     </tr>
                                                                     <tr class="drag-sort-cell">
-                                                                        <td class="no-padding">
-                                                                            <div class="form-table-select">
-                                                                                <button type="button" class="btn-data-handler">드래그바</button>
-                                                                            </div>
-                                                                        </td>
+<!--                                                                        <td class="no-padding">-->
+<!--                                                                            <div class="form-table-select">-->
+<!--                                                                                <button type="button" class="btn-data-handler">드래그바</button>-->
+<!--                                                                            </div>-->
+<!--                                                                        </td>-->
                                                                         <td class="no-padding">
                                                                             <div class="form-table-select">
                                                                                 <input type="text" placeholder="입력" value="이중모목욕" disabled>
@@ -331,14 +331,14 @@ if ($artist_flag == 1) {
 														<div class="read-table">
 															<table>
 																<colgroup>
-																	<col style="width:53px;">
+<!--																	<col style="width:53px;">-->
 																	<col style="width:auto;">
 																	<col style="width:30%;">
 																	<col style="width:10%;">
 																</colgroup>
 																<thead>
 																	<tr>
-																		<th></th>
+<!--																		<th></th>-->
 																		<th>상품명</th>
 																		<th>가격 (단위:원)</th>
 																		<th>삭제</th>
@@ -346,11 +346,11 @@ if ($artist_flag == 1) {
 																</thead>
 																<tbody class="drag-sort-wrap place_plus_table">
 																	<tr class="drag-sort-cell">
-																		<td class="no-padding">
-																			<div class="form-table-select">
-																				<button type="button" class="btn-data-handler">드래그바</button>
-																			</div>
-																		</td>
+<!--																		<td class="no-padding">-->
+<!--																			<div class="form-table-select">-->
+<!--																				<button type="button" class="btn-data-handler">드래그바</button>-->
+<!--																			</div>-->
+<!--																		</td>-->
 																		<td class="no-padding">
 																			<div class="form-table-select">
 																				<input type="text" placeholder="입력" value="털엉킴" disabled>
@@ -366,11 +366,11 @@ if ($artist_flag == 1) {
 																		</td>
 																	</tr>
                                                                     <tr class="drag-sort-cell">
-                                                                        <td class="no-padding">
-                                                                            <div class="form-table-select">
-                                                                                <button type="button" class="btn-data-handler">드래그바</button>
-                                                                            </div>
-                                                                        </td>
+<!--                                                                        <td class="no-padding">-->
+<!--                                                                            <div class="form-table-select">-->
+<!--                                                                                <button type="button" class="btn-data-handler">드래그바</button>-->
+<!--                                                                            </div>-->
+<!--                                                                        </td>-->
                                                                         <td class="no-padding">
                                                                             <div class="form-table-select">
                                                                                 <input type="text" placeholder="입력" value="사나움" disabled>
@@ -386,11 +386,11 @@ if ($artist_flag == 1) {
                                                                         </td>
                                                                     </tr>
                                                                     <tr class="drag-sort-cell">
-                                                                        <td class="no-padding">
-                                                                            <div class="form-table-select">
-                                                                                <button type="button" class="btn-data-handler">드래그바</button>
-                                                                            </div>
-                                                                        </td>
+<!--                                                                        <td class="no-padding">-->
+<!--                                                                            <div class="form-table-select">-->
+<!--                                                                                <button type="button" class="btn-data-handler">드래그바</button>-->
+<!--                                                                            </div>-->
+<!--                                                                        </td>-->
                                                                         <td class="no-padding">
                                                                             <div class="form-table-select">
                                                                                 <input type="text" placeholder="입력" value="진드기" disabled>
@@ -433,14 +433,14 @@ if ($artist_flag == 1) {
 															<div class="read-table">
 																<table>
 																	<colgroup>
-																		<col style="width:53px;">
+<!--																		<col style="width:53px;">-->
 																		<col style="width:auto;">
 																		<col style="width:30%;">
 																		<col style="width:10%;">
 																	</colgroup>
 																	<thead>
 																		<tr>
-																			<th></th>
+<!--																			<th></th>-->
 																			<th>상품명</th>
 																			<th>가격 (단위:원)</th>
 																			<th>삭제</th>
@@ -448,11 +448,11 @@ if ($artist_flag == 1) {
 																	</thead>
 																	<tbody class="drag-sort-wrap leg_table">
 																		<tr class="drag-sort-cell">
-																			<td class="no-padding">
-																				<div class="form-table-select">
-																					<button type="button" class="btn-data-handler">드래그바</button>
-																				</div>
-																			</td>
+<!--																			<td class="no-padding">-->
+<!--																				<div class="form-table-select">-->
+<!--																					<button type="button" class="btn-data-handler">드래그바</button>-->
+<!--																				</div>-->
+<!--																			</td>-->
 																			<td class="no-padding">
 																				<div class="form-table-select">
 																					<input type="text" placeholder="입력" value="발톱" disabled>
@@ -468,11 +468,11 @@ if ($artist_flag == 1) {
 																			</td>
 																		</tr>
                                                                         <tr class="drag-sort-cell">
-                                                                            <td class="no-padding">
-                                                                                <div class="form-table-select">
-                                                                                    <button type="button" class="btn-data-handler">드래그바</button>
-                                                                                </div>
-                                                                            </td>
+<!--                                                                            <td class="no-padding">-->
+<!--                                                                                <div class="form-table-select">-->
+<!--                                                                                    <button type="button" class="btn-data-handler">드래그바</button>-->
+<!--                                                                                </div>-->
+<!--                                                                            </td>-->
                                                                             <td class="no-padding">
                                                                                 <div class="form-table-select">
                                                                                     <input type="text" placeholder="입력" value="장화" disabled>
@@ -488,11 +488,11 @@ if ($artist_flag == 1) {
                                                                             </td>
                                                                         </tr>
                                                                         <tr class="drag-sort-cell">
-                                                                            <td class="no-padding">
-                                                                                <div class="form-table-select">
-                                                                                    <button type="button" class="btn-data-handler">드래그바</button>
-                                                                                </div>
-                                                                            </td>
+<!--                                                                            <td class="no-padding">-->
+<!--                                                                                <div class="form-table-select">-->
+<!--                                                                                    <button type="button" class="btn-data-handler">드래그바</button>-->
+<!--                                                                                </div>-->
+<!--                                                                            </td>-->
                                                                             <td class="no-padding">
                                                                                 <div class="form-table-select">
                                                                                     <input type="text" placeholder="입력" value="방울" disabled>
@@ -522,14 +522,14 @@ if ($artist_flag == 1) {
                                                             <div class="read-table">
                                                                 <table>
                                                                     <colgroup>
-                                                                        <col style="width:53px;">
+<!--                                                                        <col style="width:53px;">-->
                                                                         <col style="width:auto;">
                                                                         <col style="width:30%;">
                                                                         <col style="width:10%;">
                                                                     </colgroup>
                                                                     <thead>
                                                                     <tr>
-                                                                        <th></th>
+<!--                                                                        <th></th>-->
                                                                         <th>상품명</th>
                                                                         <th>가격 (단위:원)</th>
                                                                         <th>삭제</th>
@@ -537,11 +537,11 @@ if ($artist_flag == 1) {
                                                                     </thead>
                                                                     <tbody class="drag-sort-wrap spa_table">
                                                                     <tr class="drag-sort-cell">
-                                                                        <td class="no-padding">
-                                                                            <div class="form-table-select">
-                                                                                <button type="button" class="btn-data-handler">드래그바</button>
-                                                                            </div>
-                                                                        </td>
+<!--                                                                        <td class="no-padding">-->
+<!--                                                                            <div class="form-table-select">-->
+<!--                                                                                <button type="button" class="btn-data-handler">드래그바</button>-->
+<!--                                                                            </div>-->
+<!--                                                                        </td>-->
                                                                         <td class="no-padding">
                                                                             <div class="form-table-select">
                                                                                 <input type="text" placeholder="입력">
@@ -571,14 +571,14 @@ if ($artist_flag == 1) {
                                                             <div class="read-table">
                                                                 <table>
                                                                     <colgroup>
-                                                                        <col style="width:53px;">
+<!--                                                                        <col style="width:53px;">-->
                                                                         <col style="width:auto;">
                                                                         <col style="width:30%;">
                                                                         <col style="width:10%;">
                                                                     </colgroup>
                                                                     <thead>
                                                                     <tr>
-                                                                        <th></th>
+<!--                                                                        <th></th>-->
                                                                         <th>상품명</th>
                                                                         <th>가격 (단위:원)</th>
                                                                         <th>삭제</th>
@@ -586,11 +586,11 @@ if ($artist_flag == 1) {
                                                                     </thead>
                                                                     <tbody class="drag-sort-wrap dyeing_table">
                                                                     <tr class="drag-sort-cell">
-                                                                        <td class="no-padding">
-                                                                            <div class="form-table-select">
-                                                                                <button type="button" class="btn-data-handler">드래그바</button>
-                                                                            </div>
-                                                                        </td>
+<!--                                                                        <td class="no-padding">-->
+<!--                                                                            <div class="form-table-select">-->
+<!--                                                                                <button type="button" class="btn-data-handler">드래그바</button>-->
+<!--                                                                            </div>-->
+<!--                                                                        </td>-->
                                                                         <td class="no-padding">
                                                                             <div class="form-table-select">
                                                                                 <input type="text" placeholder="입력">
@@ -620,14 +620,14 @@ if ($artist_flag == 1) {
                                                             <div class="read-table">
                                                                 <table>
                                                                     <colgroup>
-                                                                        <col style="width:53px;">
+<!--                                                                        <col style="width:53px;">-->
                                                                         <col style="width:auto;">
                                                                         <col style="width:30%;">
                                                                         <col style="width:10%;">
                                                                     </colgroup>
                                                                     <thead>
                                                                     <tr>
-                                                                        <th></th>
+<!--                                                                        <th></th>-->
                                                                         <th>상품명</th>
                                                                         <th>가격 (단위:원)</th>
                                                                         <th>삭제</th>
@@ -635,11 +635,11 @@ if ($artist_flag == 1) {
                                                                     </thead>
                                                                     <tbody class="drag-sort-wrap etc_table">
                                                                     <tr class="drag-sort-cell">
-                                                                        <td class="no-padding">
-                                                                            <div class="form-table-select">
-                                                                                <button type="button" class="btn-data-handler">드래그바</button>
-                                                                            </div>
-                                                                        </td>
+<!--                                                                        <td class="no-padding">-->
+<!--                                                                            <div class="form-table-select">-->
+<!--                                                                                <button type="button" class="btn-data-handler">드래그바</button>-->
+<!--                                                                            </div>-->
+<!--                                                                        </td>-->
                                                                         <td class="no-padding">
                                                                             <div class="form-table-select">
                                                                                 <input type="text" placeholder="입력">
@@ -665,7 +665,7 @@ if ($artist_flag == 1) {
 														<div class="form-item-label">추가설명</div>
 														<div class="form-item-data type-2">
 															<textarea style="height:100px;" name="comment" class="comment" placeholder="입력"></textarea>
-															<div class="form-input-info">0/1000</div>
+<!--															<div class="form-input-info">0/1000</div>-->
 														</div>
 													</div>
 												</div>
@@ -744,11 +744,11 @@ if ($artist_flag == 1) {
                 }else{
                     add_html += `
                         <tr class="drag-sort-cell">
-                            <td class="no-padding">
-                                <div class="form-table-select">
-                                    <button type="button" class="btn-data-handler">드래그바</button>
-                                </div>
-                            </td>
+<!--                            <td class="no-padding">-->
+<!--                                <div class="form-table-select">-->
+<!--                                    <button type="button" class="btn-data-handler">드래그바</button>-->
+<!--                                </div>-->
+<!--                            </td>-->
                             <td class="no-padding">
                                 <div class="form-table-select">
                                     <input type="text" placeholder="입력" name="face_name[]" value="${i}">
@@ -775,11 +775,11 @@ if ($artist_flag == 1) {
             $.each(option_array.hair_len, function(i,v){
                 add_html += `
                     <tr class="drag-sort-cell">
-                        <td class="no-padding">
-                            <div class="form-table-select">
-                                <button type="button" class="btn-data-handler">드래그바</button>
-                            </div>
-                        </td>
+<!--                        <td class="no-padding">-->
+<!--                            <div class="form-table-select">-->
+<!--                                <button type="button" class="btn-data-handler">드래그바</button>-->
+<!--                            </div>-->
+<!--                        </td>-->
                         <td class="no-padding">
                             <div class="form-table-select">
                                 <input type="text" placeholder="입력" name="hair_len_name[]" value="${i}">
@@ -812,11 +812,11 @@ if ($artist_flag == 1) {
                 }else{
                     add_html += `
                         <tr class="drag-sort-cell">
-                            <td class="no-padding">
-                                <div class="form-table-select">
-                                    <button type="button" class="btn-data-handler">드래그바</button>
-                                </div>
-                            </td>
+<!--                            <td class="no-padding">-->
+<!--                                <div class="form-table-select">-->
+<!--                                    <button type="button" class="btn-data-handler">드래그바</button>-->
+<!--                                </div>-->
+<!--                            </td>-->
                             <td class="no-padding">
                                 <div class="form-table-select">
                                     <input type="text" placeholder="입력" name="plus_name[]" value="${i}">
@@ -850,11 +850,11 @@ if ($artist_flag == 1) {
                 }else{
                     add_html += `
                         <tr class="drag-sort-cell">
-                            <td class="no-padding">
-                                <div class="form-table-select">
-                                    <button type="button" class="btn-data-handler">드래그바</button>
-                                </div>
-                            </td>
+<!--                            <td class="no-padding">-->
+<!--                                <div class="form-table-select">-->
+<!--                                    <button type="button" class="btn-data-handler">드래그바</button>-->
+<!--                                </div>-->
+<!--                            </td>-->
                             <td class="no-padding">
                                 <div class="form-table-select">
                                     <input type="text" placeholder="입력" name="place_plus_name[]" value="${i}">
@@ -890,11 +890,11 @@ if ($artist_flag == 1) {
                 }else{
                     add_html += `
                         <tr class="drag-sort-cell">
-                            <td class="no-padding">
-                                <div class="form-table-select">
-                                    <button type="button" class="btn-data-handler">드래그바</button>
-                                </div>
-                            </td>
+<!--                            <td class="no-padding">-->
+<!--                                <div class="form-table-select">-->
+<!--                                    <button type="button" class="btn-data-handler">드래그바</button>-->
+<!--                                </div>-->
+<!--                            </td>-->
                             <td class="no-padding">
                                 <div class="form-table-select">
                                     <input type="text" placeholder="입력" name="leg_name[]" value="${i}">
@@ -921,11 +921,11 @@ if ($artist_flag == 1) {
             $.each(option_array.etc.spa, function(i,v){
                 add_html += `
                     <tr class="drag-sort-cell">
-                        <td class="no-padding">
-                            <div class="form-table-select">
-                                <button type="button" class="btn-data-handler">드래그바</button>
-                            </div>
-                        </td>
+<!--                        <td class="no-padding">-->
+<!--                            <div class="form-table-select">-->
+<!--                                <button type="button" class="btn-data-handler">드래그바</button>-->
+<!--                            </div>-->
+<!--                        </td>-->
                         <td class="no-padding">
                             <div class="form-table-select">
                                 <input type="text" placeholder="입력" name="spa_name[]" value="${i}">
@@ -951,11 +951,11 @@ if ($artist_flag == 1) {
             $.each(option_array.etc.dyeing, function(i,v){
                 add_html += `
                     <tr class="drag-sort-cell">
-                        <td class="no-padding">
-                            <div class="form-table-select">
-                                <button type="button" class="btn-data-handler">드래그바</button>
-                            </div>
-                        </td>
+<!--                        <td class="no-padding">-->
+<!--                            <div class="form-table-select">-->
+<!--                                <button type="button" class="btn-data-handler">드래그바</button>-->
+<!--                            </div>-->
+<!--                        </td>-->
                         <td class="no-padding">
                             <div class="form-table-select">
                                 <input type="text" placeholder="입력" name="dyeing_name[]" value="${i}">
@@ -981,11 +981,11 @@ if ($artist_flag == 1) {
             $.each(option_array.etc.etc_etc, function(i,v){
                 add_html += `
                     <tr class="drag-sort-cell">
-                        <td class="no-padding">
-                            <div class="form-table-select">
-                                <button type="button" class="btn-data-handler">드래그바</button>
-                            </div>
-                        </td>
+<!--                        <td class="no-padding">-->
+<!--                            <div class="form-table-select">-->
+<!--                                <button type="button" class="btn-data-handler">드래그바</button>-->
+<!--                            </div>-->
+<!--                        </td>-->
                         <td class="no-padding">
                             <div class="form-table-select">
                                 <input type="text" placeholder="입력" name="etc_name[]" value="${i}">
@@ -1033,11 +1033,11 @@ if ($artist_flag == 1) {
     function add_table(idx){
         var html = `
             <tr class="drag-sort-cell">
-                <td class="no-padding">
-                    <div class="form-table-select">
-                        <button type="button" class="btn-data-handler">드래그바</button>
-                    </div>
-                </td>
+<!--                <td class="no-padding">-->
+<!--                    <div class="form-table-select">-->
+<!--                        <button type="button" class="btn-data-handler">드래그바</button>-->
+<!--                    </div>-->
+<!--                </td>-->
                 <td class="no-padding">
                     <div class="form-table-select">
                         <input type="text" placeholder="입력" name="${idx}_name[]" value="">
