@@ -10043,6 +10043,7 @@ function management_total_price(){
 function discount_init(){
 
 
+return new Promise(function(resolve){
 
     for(let i=0; i<=100;i++){
 
@@ -10088,7 +10089,7 @@ function discount_init(){
             last_price()
         })
 
-        pop.open('reservePayManagementMsg4')
+        // pop.open('reservePayManagementMsg4')
     })
 
     document.getElementById('discount_2').addEventListener('change',function(){
@@ -10107,10 +10108,13 @@ function discount_init(){
             el.setAttribute('value',`${Math.floor(result)}`)
             last_price()
         })
-        pop.open('reservePayManagementMsg4')
+        // pop.open('reservePayManagementMsg4')
     })
 
     document.getElementById('discount_1_btn').click();
+
+    resolve();
+})
 
 
 }
@@ -11098,7 +11102,7 @@ function pay_management_init(id,target){
                 management_service_1(id,body).then(function(body_){
                     management_wide_tab2();
                     management_total_price();
-                    discount_init();
+
                     reserves(id,body);
 
 
@@ -11214,7 +11218,33 @@ function pay_management_init(id,target){
 
 
 
+
                                 }
+
+                                discount_init().then(function(){
+
+                                    if(body.discount_type === "1"){
+                                        document.getElementById('discount_1_btn').click()
+                                        for(let i=0; i<document.getElementById('discount_1').options.length; i++){
+                                            if(document.getElementById('discount_1').options[i].value === body.discount_num){
+                                                document.getElementById('discount_1').options[i].selected =true;
+                                                document.getElementById('discount_1').dispatchEvent(new Event('change'));
+                                            }
+
+                                        }
+
+                                    }else if(body.discount_type === "2"){
+                                        document.getElementById('discount_2_btn').click()
+                                        for(let i=0; i<document.getElementById('discount_2').options.length; i++){
+                                            if(document.getElementById('discount_2').options[i].value === body.discount_num){
+                                                document.getElementById('discount_2').options[i].selected =true;
+                                                document.getElementById('discount_2').dispatchEvent(new Event('change'));
+                                            }
+
+                                        }
+
+                                    }
+                                });
 
 
 
@@ -11233,6 +11263,9 @@ function pay_management_init(id,target){
                 get_etc_product(id);
 
                 document.getElementById('cardcash-btn').setAttribute('data-payment_idx',payment_idx);
+
+                if(body.)
+                document.getElementById('reserves_use').value = body.reserv
 
 
 

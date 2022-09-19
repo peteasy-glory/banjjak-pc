@@ -559,7 +559,7 @@ h6.con-title + .form-group-item {margin-top:20px;}
 .dark input[type=tel],
 .dark input[type=password] ,
 .dark select,
-.dark textarea {color:black; border-color:#47484b; background-color:transparent;}
+.dark textarea { color:#fff; border-color:#47484b; background-color:transparent;}
 
 .dark .custom-basic-input {color:#d8d8d8; border-color:#47484b; background-color:transparent;}
 .dark .form-btns .btn-comment-search {color:#d8d8d8;}
