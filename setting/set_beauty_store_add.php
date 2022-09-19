@@ -62,14 +62,14 @@ if ($artist_flag == 1) {
 													<div class="read-table">
 														<table>
 															<colgroup>
-																<col style="width:53px;">
+<!--																<col style="width:53px;">-->
 																<col style="width:auto;">
 																<col style="width:30%;">
 																<col style="width:10%;">
 															</colgroup>
 															<thead>
 																<tr>
-																	<th></th>
+<!--																	<th></th>-->
 																	<th>상품명</th>
 																	<th>가격 (단위:원)</th>
 																	<th>삭제</th>
@@ -96,14 +96,14 @@ if ($artist_flag == 1) {
                                                     <div class="read-table">
                                                         <table>
                                                             <colgroup>
-                                                                <col style="width:53px;">
+<!--                                                                <col style="width:53px;">-->
                                                                 <col style="width:auto;">
                                                                 <col style="width:30%;">
                                                                 <col style="width:10%;">
                                                             </colgroup>
                                                             <thead>
                                                                 <tr>
-                                                                    <th></th>
+<!--                                                                    <th></th>-->
                                                                     <th>상품명</th>
                                                                     <th>가격 (단위:원)</th>
                                                                     <th>삭제</th>
@@ -130,14 +130,14 @@ if ($artist_flag == 1) {
                                                     <div class="read-table">
                                                         <table>
                                                             <colgroup>
-                                                                <col style="width:53px;">
+<!--                                                                <col style="width:53px;">-->
                                                                 <col style="width:auto;">
                                                                 <col style="width:30%;">
                                                                 <col style="width:10%;">
                                                             </colgroup>
                                                             <thead>
                                                                 <tr>
-                                                                    <th></th>
+<!--                                                                    <th></th>-->
                                                                     <th>상품명</th>
                                                                     <th>가격 (단위:원)</th>
                                                                     <th>삭제</th>
@@ -165,14 +165,14 @@ if ($artist_flag == 1) {
                                                     <div class="read-table">
                                                         <table>
                                                             <colgroup>
-                                                                <col style="width:53px;">
+<!--                                                                <col style="width:53px;">-->
                                                                 <col style="width:auto;">
                                                                 <col style="width:30%;">
                                                                 <col style="width:10%;">
                                                             </colgroup>
                                                             <thead>
                                                                 <tr>
-                                                                    <th></th>
+<!--                                                                    <th></th>-->
                                                                     <th>상품명</th>
                                                                     <th>가격 (단위:원)</th>
                                                                     <th>삭제</th>
@@ -241,11 +241,11 @@ if ($artist_flag == 1) {
                 if(v.type == 1){
                     shop_etc_merchandise_body_html += `
                         <tr class="drag-sort-cell">
-                            <td class="no-padding">
-                                <div class="form-table-select">
-                                    <button type="button" class="btn-data-handler">드래그바</button>
-                                </div>
-                            </td>
+<!--                            <td class="no-padding">-->
+<!--                                <div class="form-table-select">-->
+<!--                                    <button type="button" class="btn-data-handler">드래그바</button>-->
+<!--                                </div>-->
+<!--                            </td>-->
                             <td class="no-padding">
                                 <div class="form-table-select">
                                     <input type="text" name="name1[]" value="${v.name}" placeholder="상품명 입력">
@@ -264,11 +264,11 @@ if ($artist_flag == 1) {
                 }else if(v.type == 2){
                     shop_etc_snack_body_html += `
                         <tr class="drag-sort-cell">
-                            <td class="no-padding">
-                                <div class="form-table-select">
-                                    <button type="button" class="btn-data-handler">드래그바</button>
-                                </div>
-                            </td>
+<!--                            <td class="no-padding">-->
+<!--                                <div class="form-table-select">-->
+<!--                                    <button type="button" class="btn-data-handler">드래그바</button>-->
+<!--                                </div>-->
+<!--                            </td>-->
                             <td class="no-padding">
                                 <div class="form-table-select">
                                     <input type="text" name="name2[]" value="${v.name}" placeholder="상품명 입력">
@@ -287,11 +287,11 @@ if ($artist_flag == 1) {
                 }else if(v.type == 3){
                     shop_etc_feed_body_html += `
                         <tr class="drag-sort-cell">
-                            <td class="no-padding">
-                                <div class="form-table-select">
-                                    <button type="button" class="btn-data-handler">드래그바</button>
-                                </div>
-                            </td>
+<!--                            <td class="no-padding">-->
+<!--                                <div class="form-table-select">-->
+<!--                                    <button type="button" class="btn-data-handler">드래그바</button>-->
+<!--                                </div>-->
+<!--                            </td>-->
                             <td class="no-padding">
                                 <div class="form-table-select">
                                     <input type="text" name="name3[]" value="${v.name}" placeholder="상품명 입력">
@@ -310,11 +310,11 @@ if ($artist_flag == 1) {
                 }else if(v.type == 4){
                     shop_etc_etc_body_html += `
                         <tr class="drag-sort-cell">
-                            <td class="no-padding">
-                                <div class="form-table-select">
-                                    <button type="button" class="btn-data-handler">드래그바</button>
-                                </div>
-                            </td>
+<!--                            <td class="no-padding">-->
+<!--                                <div class="form-table-select">-->
+<!--                                    <button type="button" class="btn-data-handler">드래그바</button>-->
+<!--                                </div>-->
+<!--                            </td>-->
                             <td class="no-padding">
                                 <div class="form-table-select">
                                     <input type="text" name="name4[]" value="${v.name}" placeholder="상품명 입력">
@@ -361,11 +361,11 @@ if ($artist_flag == 1) {
     function add_table(idx){
         var html = `
             <tr class="drag-sort-cell">
-                <td class="no-padding">
-                    <div class="form-table-select">
-                        <button type="button" class="btn-data-handler">드래그바</button>
-                    </div>
-                </td>
+<!--                <td class="no-padding">-->
+<!--                    <div class="form-table-select">-->
+<!--                        <button type="button" class="btn-data-handler">드래그바</button>-->
+<!--                    </div>-->
+<!--                </td>-->
                 <td class="no-padding">
                     <div class="form-table-select">
                         <input type="text" name="name${idx}[]" value="" placeholder="상품명 입력">

@@ -275,7 +275,7 @@ if ($artist_flag == 1) {
 																<div class="grid-layout btn-grid-group">
 																	<div class="grid-layout-inner justify-content-end">
 																		<div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-purple btn-small-size btn-basic-small" onclick="location.href='set_beauty_management_add_1.php?is_cat=cat'">수정</button></div>
-																		<div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-gray btn-small-size btn-basic-small">삭제</button></div>
+																		<div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-gray btn-small-size btn-basic-small" onclick="del_cat_product();">삭제</button></div>
 																	</div>
 																</div>																
 															</div>
@@ -284,7 +284,7 @@ if ($artist_flag == 1) {
 												</div>
                                                 <div class="btn-group vertical text-align-center cat_none_wrap">
                                                     <br>
-                                                    <div class="btn-group-cell"><button type="button" class="btn btn-purple btn-basic-wide"><strong>고양이 미용상품 추가하기</strong></button></div>
+                                                    <div class="btn-group-cell"><button type="button" class="btn btn-purple btn-basic-wide" onclick="location.href='set_beauty_management_add_1.php?is_cat=cat'"><strong>고양이 미용상품 추가하기</strong></button></div>
                                                 </div>
                                                 <!-- 내용이 없을 경우 -->
                                                 <div class="common-none-data cat_none_wrap">
@@ -298,14 +298,14 @@ if ($artist_flag == 1) {
 													<div class="form-group-item">
 														<div class="form-item-label">추가설명</div>
 														<div class="form-item-data type-2">
-															<textarea style="height:100px;" class="etc_comment" placeholder="입력"></textarea>
-															<div class="form-input-info">0/1000</div>
+															<textarea style="height:100px;" class="etc_comment common_etc_comment" placeholder="입력"></textarea>
+<!--															<div class="form-input-info">0/1000</div>-->
 														</div>
 													</div>
 													<div class="btn-basic-action">
 														<div class="grid-layout btn-grid-group">
 															<div class="grid-layout-inner justify-content-end">
-																<div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-purple btn-small-size btn-basic-small">수정</button></div>
+																<div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-purple btn-small-size btn-basic-small" onclick="put_common_etc_comment('<?=$artist_id?>');">수정</button></div>
 															</div>
 														</div>																
 													</div>
@@ -794,19 +794,39 @@ if ($artist_flag == 1) {
                                 <div class="memo-item type-2">
                                     <div class="flex align-items-center justify-content-space-between">
                                         <div>부가세 10% 추가</div>
-                                        <div><label for="switch-toggle" class="form-switch-toggle"><input type="checkbox" id="switch-toggle" checked><span class="bar"></span></label></div>
+                                        <div><label for="switch-toggle" class="form-switch-toggle"><input type="checkbox" id="switch-toggle" class="set_vat" name="set_vat" value="1"><span class="bar"></span></label></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="pop-footer">
-                            <button type="button" class="btn btn-confirm" onclick="pop.close();">확인</button>
+                            <button type="button" class="btn btn-confirm" onclick="put_vat('<?=$artist_id?>');">확인</button>
                         </div>
                     </div>
                 </div>
             </div>
         </article>
         <!-- //부가세설정 -->
+    <form id="delDogProduct" class="layer-pop-wrap">
+        <input type="hidden" name="artist_id" value="<?=$artist_id?>">
+        <input type="hidden" class="second_type" name="second_type" value="">
+        <input type="hidden" class="direct_title" name="direct_title" value="">
+        <input type="hidden" class="mode" name="mode" value="">
+        <div class="layer-pop-parent">
+            <div class="layer-pop-children">
+                <div class="pop-data alert-pop-data">
+                    <div class="pop-body">
+                        <div class="msg-txt">해당 상품을 삭제하시겠습니까?</div>
+                    </div>
+                    <div class="pop-footer">
+                        <button type="button" class="btn btn-confirm del_dog_product">삭제</button>
+                        <button type="button" class="btn btn-cancel" onclick="pop.close();">취소</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
     </section>
     <!-- //container -->
 </div>

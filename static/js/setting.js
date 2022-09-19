@@ -591,6 +591,7 @@ function view_beauty_product(){
     var thead_html = '<thead><tr>';
     var tbody_html = '<tbody><tr>';
     var add_service = ['무게'];
+    var is_view_service = ['무게'];
     $.each(setting_array[0].worktime, function(i,v){
         if(v.is_use == 'y'){
             var txt = '';
@@ -609,8 +610,10 @@ function view_beauty_product(){
             col_html += '<col style="width:auto;">';
             thead_html += `<th>${txt}</th>`;
             tbody_html += `<td>${v.time}</td>`;
+            is_view_service.push(txt);
         }
     })
+    console.log(is_view_service);
     col_html += '</colgroup>';
     thead_html += '</tr></thead>';
     tbody_html += '</tr></tbody>';
@@ -668,36 +671,38 @@ function view_beauty_product(){
                     default : txt = add_service[add_number]; add_number ++;
                 }
 
-                if(is_service.indexOf(_i) < 0){
-                    dog_col_html += `<col style="width:auto;">`;
-                    dog_thead_html += `<th>${txt}</th>`;
-                    is_service.push(_i);
-                }
-
-
-                if(_i == 'kg'){
-                    dog_tbody_html += `<td>~ ${_v}kg</td>`;
-                }else{
-                    //console.log(_v.consult);
-                    var price = '';
-                    if(_v.consult == 0){
-                        price = (_v.price).format();
-                    }else{
-                        price = '상담';
+                if(is_view_service.indexOf(txt)>=0){
+                    if(is_service.indexOf(_i) < 0){
+                        dog_col_html += `<col style="width:auto;">`;
+                        dog_thead_html += `<th>${txt}</th>`;
+                        is_service.push(_i);
                     }
-                    if(is_service.indexOf(_i) == empty_td){
-                        dog_tbody_html += `<td>${price}</td>`;
+
+
+                    if(_i == 'kg'){
+                        dog_tbody_html += `<td>~ ${_v}kg</td>`;
                     }else{
-                        var cnt = is_service.indexOf(_i) - empty_td;
-                        for(var i=0;i<cnt;i++){
-                            dog_tbody_html += `<td></td>`;
-                            empty_td ++;
+                        //console.log(_v.consult);
+                        var price = '';
+                        if(_v.consult == 0){
+                            price = (_v.price != '')? (_v.price).format() : '';
+                        }else{
+                            price = '상담';
                         }
-                        dog_tbody_html += `<td>${price}</td>`;
-                    }
+                        if(is_service.indexOf(_i) == empty_td){
+                            dog_tbody_html += `<td>${price}</td>`;
+                        }else{
+                            var cnt = is_service.indexOf(_i) - empty_td;
+                            for(var i=0;i<cnt;i++){
+                                dog_tbody_html += `<td></td>`;
+                                empty_td ++;
+                            }
+                            dog_tbody_html += `<td>${price}</td>`;
+                        }
 
+                    }
+                    empty_td ++;
                 }
-                empty_td ++;
             })
             dog_tbody_html += `</tr></tbody>`;
         })
@@ -728,7 +733,7 @@ function view_beauty_product(){
                 <div class="grid-layout btn-grid-group">
                     <div class="grid-layout-inner justify-content-end">
                         <div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-purple btn-small-size btn-basic-small" onclick="location.href='../../setting/set_beauty_management_add_1.php?second_type=${value.second_type}&direct_title=${value.direct_title}'">수정</button></div>
-                        <div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-gray btn-small-size btn-basic-small">삭제</button></div>
+                        <div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-gray btn-small-size btn-basic-small" onclick="del_dog_product('${artist_id}','${value.second_type}','${value.direct_title}');">삭제</button></div>
                     </div>
                 </div>
             </div>
@@ -855,6 +860,98 @@ function view_beauty_product(){
         $(".total_cat_wrap").css("display","block");
         $(".cat_none_wrap").css("display","none");
     }
+}
+
+// 강아지 미용 삭제하기
+function del_dog_product(artist_id, second_type, direct_title){
+    $("#delDogProduct .second_type").val(second_type);
+    $("#delDogProduct .direct_title").val(direct_title);
+    $("#delDogProduct .mode").val('del_dog_product');
+    pop.open('delDogProduct');
+}
+// 고양이 미용 삭제하기
+function del_cat_product(){
+    $("#delDogProduct .mode").val('del_cat_product');
+    pop.open('delDogProduct');
+}
+$(document).on("click",".del_dog_product",function(){
+    var postData = decodeURIComponent($("#delDogProduct").serialize());
+    //console.log(postData);
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: postData,
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            //console.log(res.data);
+            let response = JSON.parse(res);
+            if(response.data === true){
+                pop.close();
+                pop.open('reloadPop', '완료되었습니다.');
+            }else{
+                pop.close();
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            }
+        }
+    })
+})
+
+// 공통 설명 수정 및 등록
+function put_common_etc_comment(artist_id){
+    var comment = $(".common_etc_comment").val();
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode:'put_common_etc_comment',
+            artist_id:artist_id,
+            comment:comment
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            //console.log(res.data);
+            let response = JSON.parse(res);
+            if(response.data === true){
+                pop.open('firstRequestMsg1', '수정되었습니다.');
+            }else{
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            }
+        }
+    })
+}
+
+// 부가세 수정하기
+function put_vat(artist_id){
+    var set_vat = $(".set_vat").prop("checked");
+    if(set_vat == false){
+        set_vat = 0;
+    }else{
+        set_vat = 1;
+    }
+    console.log(set_vat);
+    $.ajax({
+        url: '../data/pc_ajax.php',
+        data: {
+            mode:'put_vat',
+            artist_id:artist_id,
+            set_vat:set_vat
+        },
+        type: 'POST',
+        async:false,
+        success: function (res) {
+            console.log(res);
+            let response = JSON.parse(res);
+            console.log(response);
+            let head = response.data.head;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                pop.close();
+                pop.open('firstRequestMsg1', '수정되었습니다.');
+
+            }
+        }
+    })
 }
 
 // 강아지 추가옵션 뿌려주기
@@ -1429,7 +1526,7 @@ function view_add_product(){
                 <tr class="dog_table_tr">
                     <td class="no-padding">
                         <div class="form-table-select">
-                            <select name="kgs[]">
+                            <select class="kgs_arr" name="kgs[]">
                                 <option value="">선택안함</option>
         `;
     for(var j=0;j<60;j=j+0.1){
@@ -1449,16 +1546,17 @@ function view_add_product(){
                 tbody_html += `
                         <td class="no-padding">
                             <div class="form-table-select">
-                                <select name="bath_price[]">
+                                <select class="bath_price" name="bath_price[]">
                                     <option value="">선택안함</option>
+                                    <option value="0">0</option>
                     `;
                 for(var t=1000;t<400000;t=t+500){
-                    tbody_html += `<option value="${t}">~${t.format()}kg</option>`
+                    tbody_html += `<option value="${t}">${t.format()}원</option>`
                 }
                 tbody_html +=`
                                 </select>
-                                <label class="form-checkbox"><input type="checkbox" class="is_consult" name="is_consult_bath[]" value="1"><span class="form-check-icon"><em>상담</em></span></label>
-                                <input type="hidden" name="is_consult_bath[]" class="not_consult" value="0">
+                                <label class="form-checkbox"><input type="checkbox" class="is_consult is_consult_bath" name="is_consult_bath[]" value="1"><span class="form-check-icon"><em>상담</em></span></label>
+                                <input type="hidden" name="is_consult_bath[]" class="not_consult not_consult_bath" value="0">
                             </div>
                         </td>
                     `;
@@ -1471,16 +1569,16 @@ function view_add_product(){
                 tbody_html += `
                         <td class="no-padding">
                             <div class="form-table-select">
-                                <select name="part_price[]">
+                                <select class="part_price" name="part_price[]">
                                     <option value="">선택안함</option>
                     `;
                 for(var t=1000;t<400000;t=t+500){
-                    tbody_html += `<option value="${t}">~${t.format()}kg</option>`
+                    tbody_html += `<option value="${t}">${t.format()}원</option>`
                 }
                 tbody_html +=`
                                 </select>
-                                <label class="form-checkbox"><input type="checkbox" class="is_consult" name="is_consult_part[]" value="1"><span class="form-check-icon"><em>상담</em></span></label>
-                                <input type="hidden" name="is_consult_part[]" class="not_consult" value="0">
+                                <label class="form-checkbox"><input type="checkbox" class="is_consult is_consult_part" name="is_consult_part[]" value="1"><span class="form-check-icon"><em>상담</em></span></label>
+                                <input type="hidden" name="is_consult_part[]" class="not_consult not_consult_part" value="0">
                             </div>
                         </td>
                     `;
@@ -1493,16 +1591,16 @@ function view_add_product(){
                 tbody_html += `
                         <td class="no-padding">
                             <div class="form-table-select">
-                                <select name="bath_part_price[]">
+                                <select class="bath_part_price" name="bath_part_price[]">
                                     <option value="">선택안함</option>
                     `;
                 for(var t=1000;t<400000;t=t+500){
-                    tbody_html += `<option value="${t}">~${t.format()}kg</option>`
+                    tbody_html += `<option value="${t}">${t.format()}원</option>`
                 }
                 tbody_html +=`
                                 </select>
-                                <label class="form-checkbox"><input type="checkbox" class="is_consult" name="is_consult_bath_part[]" value="1"><span class="form-check-icon"><em>상담</em></span></label>
-                                <input type="hidden" name="is_consult_bath_part[]" class="not_consult" value="0">
+                                <label class="form-checkbox"><input type="checkbox" class="is_consult is_consult_bath_part" name="is_consult_bath_part[]" value="1"><span class="form-check-icon"><em>상담</em></span></label>
+                                <input type="hidden" name="is_consult_bath_part[]" class="not_consult not_consult_bath_part" value="0">
                             </div>
                         </td>
                     `;
@@ -1515,16 +1613,16 @@ function view_add_product(){
                 tbody_html += `
                         <td class="no-padding">
                             <div class="form-table-select">
-                                <select name="sanitation_price[]">
+                                <select class="sanitation_price" name="sanitation_price[]">
                                     <option value="">선택안함</option>
                     `;
                 for(var t=1000;t<400000;t=t+500){
-                    tbody_html += `<option value="${t}">~${t.format()}kg</option>`
+                    tbody_html += `<option value="${t}">${t.format()}원</option>`
                 }
                 tbody_html +=`
                                 </select>
-                                <label class="form-checkbox"><input type="checkbox" class="is_consult" name="is_consult_sanitation[]" value="1"><span class="form-check-icon"><em>상담</em></span></label>
-                                <input type="hidden" name="is_consult_sanitation[]" class="not_consult" value="0">
+                                <label class="form-checkbox"><input type="checkbox" class="is_consult is_consult_sanitation" name="is_consult_sanitation[]" value="1"><span class="form-check-icon"><em>상담</em></span></label>
+                                <input type="hidden" name="is_consult_sanitation[]" class="not_consult not_consult_sanitation" value="0">
                             </div>
                         </td>
                     `;
@@ -1537,16 +1635,16 @@ function view_add_product(){
                 tbody_html += `
                         <td class="no-padding">
                             <div class="form-table-select">
-                                <select name="sanitation_bath_price[]">
+                                <select class="sanitation_bath_price" name="sanitation_bath_price[]">
                                     <option value="">선택안함</option>
                     `;
                 for(var t=1000;t<400000;t=t+500){
-                    tbody_html += `<option value="${t}">~${t.format()}kg</option>`
+                    tbody_html += `<option value="${t}">${t.format()}원</option>`
                 }
                 tbody_html +=`
                                 </select>
-                                <label class="form-checkbox"><input type="checkbox" class="is_consult" name="is_consult_sanitation_bath[]" value="1"><span class="form-check-icon"><em>상담</em></span></label>
-                                <input type="hidden" name="is_consult_sanitation_bath[]" class="not_consult" value="0">
+                                <label class="form-checkbox"><input type="checkbox" class="is_consult is_consult_sanitation_bath" name="is_consult_sanitation_bath[]" value="1"><span class="form-check-icon"><em>상담</em></span></label>
+                                <input type="hidden" name="is_consult_sanitation_bath[]" class="not_consult not_consult_sanitation_bath" value="0">
                             </div>
                         </td>
                     `;
@@ -1559,16 +1657,16 @@ function view_add_product(){
                 tbody_html += `
                         <td class="no-padding">
                             <div class="form-table-select">
-                                <select name="all_price[]">
+                                <select class="all_price" name="all_price[]">
                                     <option value="">선택안함</option>
                     `;
                 for(var t=1000;t<400000;t=t+500){
-                    tbody_html += `<option value="${t}">~${t.format()}kg</option>`
+                    tbody_html += `<option value="${t}">${t.format()}원</option>`
                 }
                 tbody_html +=`
                                 </select>
-                                <label class="form-checkbox"><input type="checkbox" class="is_consult" name="is_consult_all[]" value="1"><span class="form-check-icon"><em>상담</em></span></label>
-                                <input type="hidden" name="is_consult_all[]" class="not_consult" value="0">
+                                <label class="form-checkbox"><input type="checkbox" class="is_consult is_consult_all" name="is_consult_all[]" value="1"><span class="form-check-icon"><em>상담</em></span></label>
+                                <input type="hidden" name="is_consult_all[]" class="not_consult not_consult_all" value="0">
                             </div>
                         </td>
                     `;
@@ -1581,16 +1679,16 @@ function view_add_product(){
                 tbody_html += `
                         <td class="no-padding">
                             <div class="form-table-select">
-                                <select name="spoting_price[]">
+                                <select class="spoting_price" name="spoting_price[]">
                                     <option value="">선택안함</option>
                     `;
                 for(var t=1000;t<400000;t=t+500){
-                    tbody_html += `<option value="${t}">~${t.format()}kg</option>`
+                    tbody_html += `<option value="${t}">${t.format()}원</option>`
                 }
                 tbody_html +=`
                                 </select>
-                                <label class="form-checkbox"><input type="checkbox" class="is_consult" name="is_consult_spoting[]" value="1"><span class="form-check-icon"><em>상담</em></span></label>
-                                <input type="hidden" name="is_consult_spoting[]" class="not_consult" value="0">
+                                <label class="form-checkbox"><input type="checkbox" class="is_consult is_consult_spoting" name="is_consult_spoting[]" value="1"><span class="form-check-icon"><em>상담</em></span></label>
+                                <input type="hidden" name="is_consult_spoting[]" class="not_consult not_consult_spoting" value="0">
                             </div>
                         </td>
                     `;
@@ -1603,16 +1701,16 @@ function view_add_product(){
                 tbody_html += `
                         <td class="no-padding">
                             <div class="form-table-select">
-                                <select name="scissors_price[]">
+                                <select class="scissors_price" name="scissors_price[]">
                                     <option value="">선택안함</option>
                     `;
                 for(var t=1000;t<400000;t=t+500){
-                    tbody_html += `<option value="${t}">~${t.format()}kg</option>`
+                    tbody_html += `<option value="${t}">${t.format()}원</option>`
                 }
                 tbody_html +=`
                                 </select>
-                                <label class="form-checkbox"><input type="checkbox" class="is_consult" name="is_consult_scissors[]" value="1"><span class="form-check-icon"><em>상담</em></span></label>
-                                <input type="hidden" name="is_consult_scissors[]" class="not_consult" value="0">
+                                <label class="form-checkbox"><input type="checkbox" class="is_consult is_consult_scissors" name="is_consult_scissors[]" value="1"><span class="form-check-icon"><em>상담</em></span></label>
+                                <input type="hidden" name="is_consult_scissors[]" class="not_consult not_consult_scissors" value="0">
                             </div>
                         </td>
                     `;
@@ -1625,16 +1723,16 @@ function view_add_product(){
                 tbody_html += `
                         <td class="no-padding">
                             <div class="form-table-select">
-                                <select name="summercut_price[]">
+                                <select class="summercut_price" name="summercut_price[]">
                                     <option value="">선택안함</option>
                     `;
                 for(var t=1000;t<400000;t=t+500){
-                    tbody_html += `<option value="${t}">~${t.format()}kg</option>`
+                    tbody_html += `<option value="${t}">${t.format()}원</option>`
                 }
                 tbody_html +=`
                                 </select>
-                                <label class="form-checkbox"><input type="checkbox" class="is_consult" name="is_consult_summercut[]" value="1"><span class="form-check-icon"><em>상담</em></span></label>
-                                <input type="hidden" name="is_consult_summercut[]" class="not_consult" value="0">
+                                <label class="form-checkbox"><input type="checkbox" class="is_consult is_consult_summercut" name="is_consult_summercut[]" value="1"><span class="form-check-icon"><em>상담</em></span></label>
+                                <input type="hidden" name="is_consult_summercut[]" class="not_consult not_consult_summercut" value="0">
                             </div>
                         </td>
                     `;
@@ -1649,16 +1747,16 @@ function view_add_product(){
                 tbody_html += `
                         <td class="no-padding">
                             <div class="form-table-select">
-                                <select name="beauty${add_worktime}_price[]">
+                                <select class="beauty${add_worktime}_price" name="beauty${add_worktime}_price[]">
                                     <option value="">선택안함</option>
                     `;
                 for(var t=1000;t<400000;t=t+500){
-                    tbody_html += `<option value="${t}">~${t.format()}kg</option>`
+                    tbody_html += `<option value="${t}">${t.format()}원</option>`
                 }
                 tbody_html +=`
                                 </select>
-                                <label class="form-checkbox"><input type="checkbox" class="is_consult" name="is_consult_beauty${add_worktime}[]" value="1"><span class="form-check-icon"><em>상담</em></span></label>
-                                <input type="hidden" name="is_consult_beauty${add_worktime}[]" class="not_consult" value="0">
+                                <label class="form-checkbox"><input type="checkbox" class="is_consult is_consult_beauty${add_worktime}" name="is_consult_beauty${add_worktime}[]" value="1"><span class="form-check-icon"><em>상담</em></span></label>
+                                <input type="hidden" name="is_consult_beauty${add_worktime}[]" class="not_consult not_consult_beauty${add_worktime}" value="0">
                             </div>
                         </td>
                     `;
@@ -1888,11 +1986,169 @@ function get_dog_type_product(artist_id,second_type,direct_title){
                 console.log(body);
                 var kg_array = (body.kgs).split(',');
                 console.log(kg_array);
-                $.each(kg_array,function(){
+                $.each(kg_array,function(i,v){
+                    // 아무것도 없는 row 복사
                     var bt_div = $('.dog_table_tr:last-child').clone();
+
+                    // row에 값 넣기
+                    $('.dog_table_tr:last-child .kgs_arr').val(parseInt(kg_array[i]).toFixed(1));
+
+                    // 목욕
+                    if(body.bath.price != ''){
+                        var price_array = (body.bath.price).split(',');
+                        $('.dog_table_tr:last-child .bath_price').val(price_array[i]);
+                        var bath_consult_array = (body.bath.is_consult).split(',');
+                        if(bath_consult_array[i] == '1'){
+                            $('.dog_table_tr:last-child .is_consult_bath').prop("checked", true);
+                            $('.dog_table_tr:last-child .not_consult_bath').prop("disabled", true);
+                        }
+                    }
+                    // 부분미용
+                    if(body.part.price != ''){
+                        var part_array = (body.part.price).split(',');
+                        $('.dog_table_tr:last-child .part_price').val(part_array[i]);
+                        var part_consult_array = (body.part.is_consult).split(',');
+                        if(part_consult_array[i] == '1'){
+                            $('.dog_table_tr:last-child .is_consult_part').prop("checked", true);
+                            $('.dog_table_tr:last-child .not_consult_part').prop("disabled", true);
+                        }
+                    }
+                    // 부분+목욕
+                    if(body.bath_part.price != ''){
+                        var bath_part_array = (body.bath_part.price).split(',');
+                        $('.dog_table_tr:last-child .bath_part_price').val(bath_part_array[i]);
+                        var bath_part_consult_array = (body.bath_part.is_consult).split(',');
+                        if(bath_part_consult_array[i] == '1'){
+                            $('.dog_table_tr:last-child .is_consult_bath_part').prop("checked", true);
+                            $('.dog_table_tr:last-child .not_consult_bath_part').prop("disabled", true);
+                        }
+                    }
+                    // 위생
+                    if(body.sanitation.price != ''){
+                        var sanitation_array = (body.sanitation.price).split(',');
+                        $('.dog_table_tr:last-child .sanitation_price').val(sanitation_array[i]);
+                        var sanitation_consult_array = (body.sanitation.is_consult).split(',');
+                        if(sanitation_consult_array[i] == '1'){
+                            $('.dog_table_tr:last-child .is_consult_sanitation').prop("checked", true);
+                            $('.dog_table_tr:last-child .not_consult_sanitation').prop("disabled", true);
+                        }
+                    }
+                    // 위생+목욕
+                    if(body.sanitation_bath.price != ''){
+                        var sanitation_bath_array = (body.sanitation_bath.price).split(',');
+                        $('.dog_table_tr:last-child .sanitation_bath_price').val(sanitation_bath_array[i]);
+                        var sanitation_bath_consult_array = (body.sanitation_bath.is_consult).split(',');
+                        if(sanitation_bath_consult_array[i] == '1'){
+                            $('.dog_table_tr:last-child .is_consult_sanitation_bath').prop("checked", true);
+                            $('.dog_table_tr:last-child .not_consult_sanitation_bath').prop("disabled", true);
+                        }
+                    }
+                    // 전체미용
+                    if(body.all.price != ''){
+                        var all_array = (body.all.price).split(',');
+                        $('.dog_table_tr:last-child .all_price').val(all_array[i]);
+                        var all_consult_array = (body.all.is_consult).split(',');
+                        if(all_consult_array[i] == '1'){
+                            $('.dog_table_tr:last-child .is_consult_all').prop("checked", true);
+                            $('.dog_table_tr:last-child .not_consult_all').prop("disabled", true);
+                        }
+                    }
+                    // 스포팅
+                    if(body.spoting.price != ''){
+                        var spoting_array = (body.spoting.price).split(',');
+                        $('.dog_table_tr:last-child .spoting_price').val(spoting_array[i]);
+                        var spoting_consult_array = (body.spoting.is_consult).split(',');
+                        if(spoting_consult_array[i] == '1'){
+                            $('.dog_table_tr:last-child .is_consult_spoting').prop("checked", true);
+                            $('.dog_table_tr:last-child .not_consult_spoting').prop("disabled", true);
+                        }
+                    }
+                    // 가위컷
+                    if(body.scissors.price != ''){
+                        var scissors_array = (body.scissors.price).split(',');
+                        $('.dog_table_tr:last-child .scissors_price').val(scissors_array[i]);
+                        var scissors_consult_array = (body.scissors.is_consult).split(',');
+                        if(scissors_consult_array[i] == '1'){
+                            $('.dog_table_tr:last-child .is_consult_scissors').prop("checked", true);
+                            $('.dog_table_tr:last-child .not_consult_scissors').prop("disabled", true);
+                        }
+                    }
+                    // 써머컷
+                    if(body.summercut.price != ''){
+                        var summercut_array = (body.summercut.price).split(',');
+                        $('.dog_table_tr:last-child .summercut_price').val(summercut_array[i]);
+                        var summercut_consult_array = (body.summercut.is_consult).split(',');
+                        if(summercut_consult_array[i] == '1'){
+                            $('.dog_table_tr:last-child .is_consult_summercut').prop("checked", true);
+                            $('.dog_table_tr:last-child .not_consult_summercut').prop("disabled", true);
+                        }
+                    }
+                    // 추가1
+                    if(body.beauty1.price != ''){
+                        var beauty1_array = (body.beauty1.price).split(',');
+                        $('.dog_table_tr:last-child .beauty1_price').val(beauty1_array[i]);
+                        var beauty1_consult_array = (body.beauty1.is_consult).split(',');
+                        if(beauty1_consult_array[i] == '1'){
+                            $('.dog_table_tr:last-child .is_consult_beauty1').prop("checked", true);
+                            $('.dog_table_tr:last-child .not_consult_beauty1').prop("disabled", true);
+                        }
+                    }
+                    // 추가2
+                    if(body.beauty2.price != ''){
+                        var beauty2_array = (body.beauty2.price).split(',');
+                        $('.dog_table_tr:last-child .beauty2_price').val(beauty2_array[i]);
+                        var beauty2_consult_array = (body.beauty2.is_consult).split(',');
+                        if(beauty2_consult_array[i] == '1'){
+                            $('.dog_table_tr:last-child .is_consult_beauty2').prop("checked", true);
+                            $('.dog_table_tr:last-child .not_consult_beauty2').prop("disabled", true);
+                        }
+                    }
+                    // 추가1
+                    if(body.beauty3.price != ''){
+                        var beauty3_array = (body.beauty3.price).split(',');
+                        $('.dog_table_tr:last-child .beauty3_price').val(beauty3_array[i]);
+                        var beauty3_consult_array = (body.beauty3.is_consult).split(',');
+                        if(beauty3_consult_array[i] == '1'){
+                            $('.dog_table_tr:last-child .is_consult_beauty3').prop("checked", true);
+                            $('.dog_table_tr:last-child .not_consult_beauty3').prop("disabled", true);
+                        }
+                    }
+                    // 추가1
+                    if(body.beauty4.price != ''){
+                        var beauty4_array = (body.beauty4.price).split(',');
+                        $('.dog_table_tr:last-child .beauty4_price').val(beauty4_array[i]);
+                        var beauty4_consult_array = (body.beauty4.is_consult).split(',');
+                        if(beauty4_consult_array[i] == '1'){
+                            $('.dog_table_tr:last-child .is_consult_beauty4').prop("checked", true);
+                            $('.dog_table_tr:last-child .not_consult_beauty4').prop("disabled", true);
+                        }
+                    }
+                    // 추가1
+                    if(body.beauty5.price != ''){
+                        var beauty5_array = (body.beauty5.price).split(',');
+                        $('.dog_table_tr:last-child .beauty5_price').val(beauty5_array[i]);
+                        var beauty5_consult_array = (body.beauty5.is_consult).split(',');
+                        if(beauty5_consult_array[i] == '1'){
+                            $('.dog_table_tr:last-child .is_consult_beauty5').prop("checked", true);
+                            $('.dog_table_tr:last-child .not_consult_beauty5').prop("disabled", true);
+                        }
+                    }
+
+                    // 복사한 row 붙여넣기
                     $('.dog_table_wrap').append(bt_div);
                 })
+                // 마지막 row 삭제
                 $('.dog_table_tr:last-child').remove();
+
+                // 무게 추가요금 설정일시
+                if(body.is_over_kgs == 1){
+                    $(".is_over_kgs1").prop("checked",true);
+                    $(".dog_over_kgs_wrap").css("display","block");
+                    $(".what_over_kgs").val(body.what_over_kgs);
+                    $(".over_kgs_price").val(body.over_kgs_price);
+                }
+                $(".dog_add_comment").val(body.add_comment);
+
             }
         }
     })

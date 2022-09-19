@@ -387,7 +387,7 @@ $pet_type = (isset($_GET['is_cat']))? $_GET['is_cat'] : "dog";
 																			<div class="form-item-label">무게입력</div>
 																			<div class="form-item-data">									
 																				<div class="form-char">
-																					<input type="number" class="form-control" name="what_over_kgs" placeholder="숫자 및 '.'만 입력가능">
+																					<input type="number" class="form-control what_over_kgs" name="what_over_kgs" placeholder="숫자 및 '.'만 입력가능">
 																					<div class="char">Kg 당</div>
 																				</div>
 																				<div class="form-input-info">최대 8자까지 입력가능합니다.</div>
@@ -400,7 +400,7 @@ $pet_type = (isset($_GET['is_cat']))? $_GET['is_cat'] : "dog";
 																			<div class="form-item-data">									
 																				<div class="form-char">
 																					<div class="char-input">										
-																						<input type="number" class="form-control" name="over_kgs_price" placeholder="숫자 및 '.'만 입력가능">
+																						<input type="number" class="form-control over_kgs_price" name="over_kgs_price" placeholder="숫자 및 '.'만 입력가능">
 																						<div class="form-input-info">최대 8자까지 입력가능합니다.</div>
 																					</div>
 																					<div class="char">원 추가</div>
@@ -419,7 +419,7 @@ $pet_type = (isset($_GET['is_cat']))? $_GET['is_cat'] : "dog";
 													<div class="form-group-item">
 														<div class="form-item-label">추가설명</div>
 														<div class="form-item-data type-2">
-															<textarea style="height:100px;" name="add_comment" placeholder="입력"></textarea>
+															<textarea style="height:100px;" class="dog_add_comment" name="add_comment" placeholder="입력"></textarea>
 <!--															<div class="form-input-info">0/1000</div>-->
 														</div>
 													</div>
@@ -922,10 +922,10 @@ $pet_type = (isset($_GET['is_cat']))? $_GET['is_cat'] : "dog";
         view_add_product();
 
         // 강아지 상품 수정으로 들어왔을때
-        if(second_type != '' && direct_title != ''){
+        if(second_type != ''){
             get_dog_type_product(artist_id, second_type, direct_title);
         }
-        console.log(setting_array);
+        //console.log(setting_array);
 
     })
 
@@ -1134,12 +1134,13 @@ $pet_type = (isset($_GET['is_cat']))? $_GET['is_cat'] : "dog";
         pop.open('savePop');
     }
 
+    // 저장하기
     function save_product(){
         if(pet_type == 'cat'){
             var dataPost = decodeURIComponent($("#catForm").serialize());
             dataPost += '&mode=post_product_cat';
             console.log(dataPost);
-            post_product_dog(dataPost);
+            post_product_cat(dataPost);
         }else{
             var dataPost = decodeURIComponent($("#dogForm").serialize());
             dataPost += '&mode=post_product_dog';
@@ -1148,6 +1149,7 @@ $pet_type = (isset($_GET['is_cat']))? $_GET['is_cat'] : "dog";
         }
     }
 
+    // 상담 클릭
     $(document).on("click",".is_consult",function(){
         if($(this).prop("checked") == true){
             $(this).parents(".form-table-select").children(".not_consult").prop("disabled",true);
