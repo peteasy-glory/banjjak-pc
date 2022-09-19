@@ -3113,7 +3113,7 @@ function pay_management(id){
                                                                     </div>
                                                                     <div class="text-list-cell">
                                                                         <div class="item-title unit">선생님</div>
-                                                                            <div class="item-data" id="day_book_target_worker" data-worker="${body.worker}">${body.worker === id ? "실장" : body.worker}</div>
+                                                                            <div class="item-data" id="day_book_target_worker" data-worker="${body.worker}">${body.worker_nick}</div>
                                                                         </div>
                                                                         <div class="text-list-cell">
                                                                             <div class="item-title unit align-self-center">시간</div>
@@ -9699,6 +9699,7 @@ function get_coupon(id,data){
 
 
                             })
+                            document.getElementById('coupon_name').dispatchEvent(new Event('change'))
                         }
                     }
                 })
@@ -10123,6 +10124,7 @@ return new Promise(function(resolve){
 function reserves(id,body){
 
 
+
     let data = body;
 
 
@@ -10138,12 +10140,12 @@ function reserves(id,body){
 
         },
         success:function(res){
+
             let response = JSON.parse(res);
 
 
             let data = response.data;
 
-            console.log(data);
             if(data.is_use === '1'){
 
                 document.getElementById('pet_shop_reserves').style.display = 'block';
@@ -10173,6 +10175,7 @@ function reserves(id,body){
                         if (head.code === 401) {
                             pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                         } else if (head.code === 200) {
+                            console.log(body);
 
 
 
@@ -10238,10 +10241,10 @@ function last_price(){
     let reserves =  parseInt(document.getElementById('total_reserves_use').getAttribute('value'))
 
 
-    document.getElementById('last_price').innerText = `${(sum-discount-reserves)}원`
+    document.getElementById('last_price').innerText = `${(sum-discount-reserves).toLocaleString()}원`
 
-    document.getElementById('last_card').value = `${(sum-discount-reserves)}`
-    document.getElementById('last_cash').value ='0';
+    // document.getElementById('last_card').value = `${(sum-discount-reserves)}`
+    // document.getElementById('last_cash').value ='0';
 
 
 }
@@ -11243,6 +11246,13 @@ function pay_management_init(id,target){
 
                                         }
 
+                                    }else if(body.discount_type === "0"){
+
+                                        document.getElementById('discount_1_btn').click()
+                                        document.getElementById('discount_1').options[0].selected = true;
+                                        document.getElementById('discount_2').options[0].selected = true;
+                                        document.getElementById('discount_1').dispatchEvent(new Event('change'));
+                                        document.getElementById('discount_2').dispatchEvent(new Event('change'));
                                     }
                                 });
 
@@ -11267,10 +11277,24 @@ function pay_management_init(id,target){
                 if(body.reserve_point === ''){
                     body.reserve_point = 0;
                 }
-                document.getElementById('reserves_use').value = body.reserve_point;
-                document.getElementById('reserves_use').innerText = body.reserve_point;
+                document.getElementById('total_reserves_use').value = body.reserve_point;
+                document.getElementById('total_reserves_use').innerText = body.reserve_point;
                 last_price()
 
+
+                list.beauty.forEach(function(el){
+
+                    if(el.product.payment_idx == payment_idx){
+                        console.log('------------------------')
+                        console.log(el)
+                        let card = el.product.store_payment.card;
+                        let cash = el.product.store_payment.cash;
+
+                        document.getElementById('last_card').value = card;
+                        document.getElementById('last_cash').value = cash
+
+                    }
+                })
 
 
 
