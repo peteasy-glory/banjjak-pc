@@ -808,7 +808,6 @@
     background: #666;
 }
 .dark .tab-cell{
-    background:#666;
     color:#fff;
 }
 
@@ -1044,3 +1043,8 @@
     margin-bottom:40px;
 }
 
+.dark .text-add{
+
+    color:#d8d8d8 !important;
+    background: #1e1f21 !important;
+}

@@ -235,7 +235,13 @@ if ($artist_flag == 1) {
     // data_set(artist_id)
 
     $(document).ready(function(){
-
+        var artist_flag = "<?=$artist_flag?>";
+        if(artist_flag == 1){
+            $("#gnb_home").css("display","none");
+            $("#gnb_shop_wrap").css("display","none");
+            $("#gnb_detail_wrap").css("display","none");
+            $("#gnb_stats_wrap").css("display","none");
+        }
         get_navi(artist_id)
         gnb_init();
         calendar_change_month(artist_id);
