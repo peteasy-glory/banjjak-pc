@@ -11264,6 +11264,13 @@ function pay_management_init(id,target){
 
                 document.getElementById('cardcash-btn').setAttribute('data-payment_idx',payment_idx);
 
+                if(body.reserve_point === ''){
+                    body.reserve_point = 0;
+                }
+                document.getElementById('reserves_use').value = body.reserve_point;
+                document.getElementById('reserves_use').innerText = body.reserve_point;
+                last_price()
+
 
 
 
