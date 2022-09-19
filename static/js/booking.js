@@ -11264,7 +11264,7 @@ function pay_management_init(id,target){
 
                 document.getElementById('cardcash-btn').setAttribute('data-payment_idx',payment_idx);
 
-               
+
 
 
 
