@@ -38,7 +38,7 @@ if ($artist_flag == 1) {
 								</div>
 							</div>
                             <div class="loading-container" id="pay_management_loading">
-                                <div class="mexican-wave"></div>
+                                <img src="/static/images/loading.gif" alt="">
                             </div>
 							<div class="card-body" id="pay_management_body">
 								<div class="card-body-inner" id="work_body_inner">
@@ -987,8 +987,8 @@ if ($artist_flag == 1) {
         backgroundColor:'rgb(255,255,255)'
     })
 
-    canvas.width = canvas.parentElement.offsetWidth;
-    canvas.height=canvas.parentElement.offsetHeight;
+    canvas.width = canvas.parentElement.offsetWidth-2;
+    canvas.height=canvas.parentElement.offsetHeight-2;
 
 
     clear_btn.addEventListener("click", function (event) {

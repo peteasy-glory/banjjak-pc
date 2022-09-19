@@ -353,6 +353,10 @@ function gnb_init() {
         document.querySelector('html').classList.add('dark');
     }
 
+    if(localStorage.getItem('dark') === '1'){
+
+        document.querySelector('html').classList.add('dark');
+    }
     //shop_name
     document.querySelector('.shop_name').prepend(data.shop_name);
 
@@ -506,7 +510,7 @@ function today_reserve(){
                         el.pet.photo = el.pet.photo.replace('/pet','');
                     }
                     reserve_list.innerHTML += `<div class="main-reserve-list-cell">
-                                                <a href="/booking/reserve_pay_management_beauty_1.php" onclick="localStorage.setItem('payment_idx',${el.product.payment_idx})" class="customer-card-item transparent">
+                                                <a href="/booking/reserve_beauty_day.php" onclick="localStorage.setItem('payment_idx',${el.product.payment_idx})" class="customer-card-item transparent">
                                                     <div class="item-info-wrap">
                                                         <div class="item-thumb">
                                                             <div class="user-thumb middle"><img src="${el.pet.photo !== null ? `https://image.banjjakpet.com${el.pet.photo}`  : `${el.pet.animal === 'dog' ? `../static/images/icon/icon-pup-select-off.png`: `../static/images/icon/icon-cat-select-off.png`}` }" alt=""></div>
@@ -1012,7 +1016,7 @@ function _renderCalendar_mini(id,session_id){
 
                                         })
                                     }
-                                    setTimeout(function(){week_drag()},200)
+
 
 
                                     if(localStorage.getItem('change_check') === '1'){
@@ -1043,6 +1047,8 @@ function _renderCalendar_mini(id,session_id){
                             })
 
                         });
+
+
 
                     }else if(location.href.match('reserve_beauty_list')){
 
@@ -1161,7 +1167,7 @@ function notice(){
 
     for (let i = 0; i < data.notice.length; i++) {
         main_notice_list.innerHTML += `<div class="main-notice-cell">
-                                        <a href="#" class="btn-main-notice-item">
+                                        <a href="/etc/other_notice_list.php" class="btn-main-notice-item">
                                             <div class="txt">${data.notice[i].title}</div>
                                             <div class="date">${data.notice[i].reg_date.split(" ")[0]}</div>
                                         </a>

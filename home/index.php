@@ -55,8 +55,8 @@ if($artist_flag == 1){
 								<div class="basic-data-card main-dashboard-group">
 									<div class="info-list-wrap">
 										<div class="list-cell"><a href="/booking/reserve_advice_view.php"><div class="title"><div class="icon icon-dashboard-1"></div><div class="txt">상담대기</div></div><div class="value consulting_count"></div></a></div>
-										<div class="list-cell"><a href="#"><div class="title"><div class="icon icon-dashboard-2"></div><div class="txt">오늘일정</div></div><div class="value schedule_count"></div></a></div>
-										<div class="list-cell"><a href="#"><div class="title"><div class="icon icon-dashboard-3"></div><div class="txt">신규후기</div></div><div class="value new_review_count"></div></a></div>
+										<div class="list-cell"><a href="/booking/reserve_beauty_day.php" onclick="localStorage.setItem('day_select',`${new Date().getFullYear()}.${fill_zero(new Date().getMonth()+1)}.${fill_zero(new Date().getDate())}`)"><div class="title"><div class="icon icon-dashboard-2"></div><div class="txt">오늘일정</div></div><div class="value schedule_count"></div></a></div>
+										<div class="list-cell"><a href="/shop/shop_review_list.php"><div class="title"><div class="icon icon-dashboard-3"></div><div class="txt">신규후기</div></div><div class="value new_review_count"></div></a></div>
 										<div class="list-cell"><a href="/customer/customer_all_inquiry1.php"><div class="title"><div class="icon icon-dashboard-4"></div><div class="txt">전체고객</div></div><div class="value total_count"></div></a></div>
 									</div>
 								</div>
@@ -200,26 +200,26 @@ if($artist_flag == 1){
                                 </form>
 								<!-- //전화번호 검색 -->								
 							</div>
-							<div class="main-col-group main-banner">
+<!--							<div class="main-col-group main-banner">-->
 								<!-- 메인 배너 -->
-								<div class="basic-swiper-banner">
-									<div class="swiper-data">
-										<div class="swiper-container">
-											<div class="swiper-wrapper">
-												<div class="swiper-slide"><a href="#" class="btn-basic-swiper-banner-nav"><img src="../../static/images/main_banner.png" alt=""/></a></div>
-
-											</div>
-										</div>
-									</div>
-									<div class="swiper-pagination"></div>
-								</div>
+<!--								<div class="basic-swiper-banner">-->
+<!--									<div class="swiper-data">-->
+<!--										<div class="swiper-container">-->
+<!--											<div class="swiper-wrapper">-->
+<!--												<div class="swiper-slide"><a href="#" class="btn-basic-swiper-banner-nav"><img src="../../static/images/main_banner.png" alt=""/></a></div>-->
+<!---->
+<!--											</div>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--									<div class="swiper-pagination"></div>-->
+<!--								</div>-->
 								<!-- //메인 배너 -->
-							</div>
+<!--							</div>-->
 							<div class="main-col-group main-customer">
 								<!-- 메인 상담 -->
 								<div class="basic-data-card">
 									<div class="basic-data-card-inner">
-										<div class="card-header">
+										<div class="card-header" style="height: 55px !important;">
 											<div class="card-header-title">이용 상담 관리<div class="card-header-label consulting_count"></div></div>
 											<div class="card-header-ui"><a href="/booking/reserve_advice_view.php" class="btn-card-header-more">더보기</a></div>
 										</div>
@@ -287,7 +287,6 @@ if($artist_flag == 1){
 
         data_set(artist_id).then(function(){
 
-            banner()
 
 
         })

@@ -435,10 +435,10 @@ $endDate = DATE('Y-m-d');
                             little_idx += 1;
                             html += `
                                 <tr>
-                                    <td class="none" colspan="2" style="background-color: #ededed;">${v.payment_type} 소계</td>
-                                    <td class="customer-table-txt" style="background-color: #f9faf9;"><span class="little_cnt_${little_idx}"></span>건</td>
-                                    <td class="customer-table-txt" style="background-color: #f9faf9;"><span class="little_card_${little_idx}"></span>원</td>
-                                    <td class="customer-table-txt" style="background-color: #f9faf9;"><span class="little_cash_${little_idx}"></span>원</td>
+                                    <td class="customer-table-txt1" colspan="2">${v.payment_type} 소계</td>
+                                    <td class="customer-table-txt2"><span class="little_cnt_${little_idx}"></span>건</td>
+                                    <td class="customer-table-txt2"><span class="little_card_${little_idx}"></span>원</td>
+                                    <td class="customer-table-txt2"><span class="little_cash_${little_idx}"></span>원</td>
                                 </tr>
                             `;
                             html += html_form;
@@ -451,10 +451,10 @@ $endDate = DATE('Y-m-d');
                             little_idx += 1;
                             html += `
                                 <tr>
-                                    <td class="none" colspan="2" style="background-color: #ededed;">${v.pay_type} 소계</td>
-                                    <td class="customer-table-txt" style="background-color: #f9faf9;"><span class="little_cnt_${little_idx}"></span>건</td>
-                                    <td class="customer-table-txt" style="background-color: #f9faf9;"><span class="little_card_${little_idx}"></span>원</td>
-                                    <td class="customer-table-txt" style="background-color: #f9faf9;"><span class="little_cash_${little_idx}"></span>원</td>
+                                    <td class="customer-table-txt1" colspan="2">${v.pay_type} 소계</td>
+                                    <td class="customer-table-txt2"><span class="little_cnt_${little_idx}"></span>건</td>
+                                    <td class="customer-table-txt2"><span class="little_card_${little_idx}"></span>원</td>
+                                    <td class="customer-table-txt2"><span class="little_cash_${little_idx}"></span>원</td>
                                 </tr>
                             `;
                             html += html_form;
@@ -467,10 +467,10 @@ $endDate = DATE('Y-m-d');
                             little_idx += 1;
                             html += `
                                 <tr>
-                                    <td class="none" colspan="2" style="background-color: #ededed;">${v.service} 소계</td>
-                                    <td class="customer-table-txt" style="background-color: #f9faf9;"><span class="little_cnt_${little_idx}"></span>건</td>
-                                    <td class="customer-table-txt" style="background-color: #f9faf9;"><span class="little_card_${little_idx}"></span>원</td>
-                                    <td class="customer-table-txt" style="background-color: #f9faf9;"><span class="little_cash_${little_idx}"></span>원</td>
+                                    <td class="customer-table-txt1" colspan="2">${v.service} 소계</td>
+                                    <td class="customer-table-txt2"><span class="little_cnt_${little_idx}"></span>건</td>
+                                    <td class="customer-table-txt2"><span class="little_card_${little_idx}"></span>원</td>
+                                    <td class="customer-table-txt2"><span class="little_cash_${little_idx}"></span>원</td>
                                 </tr>
                             `;
                             html += html_form;
@@ -484,10 +484,10 @@ $endDate = DATE('Y-m-d');
                             little_idx += 1;
                             html += `
                                 <tr>
-                                    <td class="none" colspan="2" style="background-color: #ededed;">${worker} 소계</td>
-                                    <td class="customer-table-txt" style="background-color: #f9faf9;"><span class="little_cnt_${little_idx}"></span>건</td>
-                                    <td class="customer-table-txt" style="background-color: #f9faf9;"><span class="little_card_${little_idx}"></span>원</td>
-                                    <td class="customer-table-txt" style="background-color: #f9faf9;"><span class="little_cash_${little_idx}"></span>원</td>
+                                    <td class="customer-table-txt1" colspan="2">${worker} 소계</td>
+                                    <td class="customer-table-txt2"><span class="little_cnt_${little_idx}"></span>건</td>
+                                    <td class="customer-table-txt2"><span class="little_card_${little_idx}"></span>원</td>
+                                    <td class="customer-table-txt2"><span class="little_cash_${little_idx}"></span>원</td>
                                 </tr>
                             `;
                             html += html_form;

@@ -103,7 +103,7 @@ if ($artist_flag == 1) {
 															</div>
 														</div>
                                                         <div class="loading-container" id="day_mini_calendar_loading" >
-                                                            <div class="mexican-wave"></div>
+                                                            <img src="/static/images/loading.gif" alt="">
                                                         </div>
 														<div class="mini-calendar-month-body"  id="mini-calendar-month-body">
 
@@ -171,7 +171,7 @@ if ($artist_flag == 1) {
 								<div>
 									<div class="reserve-calendar-list">
                                         <div class="loading-container" id="list_schedule_loading" style="min-height: 300px;">
-                                            <div class="mexican-wave"></div>
+                                            <img src="/static/images/loading.gif" alt="">
                                         </div>
 										<div class="reserve-calendar-list-inner" id="list_inner">
 
@@ -254,6 +254,13 @@ if ($artist_flag == 1) {
 
 
         gnb_actived('gnb_reserve_wrap','gnb_beauty');
+
+        document.getElementById('gnb_reserve_wrap').setAttribute('onclick','location.href ="/booking/reserve_beauty_day.php"')
+        document.getElementById('gnb_customer_wrap').setAttribute('onclick','location.href ="/customer/customer_inquiry.php"')
+        document.getElementById('gnb_shop_wrap').setAttribute('onclick','location.href ="/shop/shop_gate_picture.php"')
+        document.getElementById('gnb_detail_wrap').setAttribute('onclick','location.href ="/setting/set_schedule_list.php"')
+        document.getElementById('gnb_stats_wrap').setAttribute('onclick','location.href ="/report/stats_sale_1.php"')
+        document.getElementById('gnb_etc_wrap').setAttribute('onclick','location.href ="/etc/other_notice_list.php"')
 
 
     })

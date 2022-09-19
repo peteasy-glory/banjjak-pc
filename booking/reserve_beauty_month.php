@@ -94,34 +94,34 @@ if ($artist_flag == 1) {
 										</div>
 										<button type="button" class="btn-reserve-calendar-ui btn-month-next" id="btn-month-next"><span class="icon icon-calendar-next-small"></span></button>
 										<!-- calendar-title-sort 클래스에 actived클래스 추가시 활성화 -->
-										<div class="calendar-title-sort">
-											<div class="simple-calendar-wrap">
-												<div class="simple-calendar-top">
-													<button type="button" class="btn-simple-calendar-ui btn-simple-calendar-prev">이전</button>
-													<div class="top-title">2022</div>
-													<button type="button" class="btn-simple-calendar-ui btn-simple-calendar-next">다음</button>
-												</div>
-												<div class="simple-calendar-body">
-													<div class="simple-calendar-month-group">
-														<div class="simple-calendar-month-row">
-															<!-- btn-simple-calendar-month-nav 클래스에 actived클래스 추가시 활성화 -->
-															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">1</button></div>
-															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">2</button></div>
-															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">3</button></div>
-															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav actived">4</button></div>
-															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">5</button></div>
-															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">6</button></div>
-															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">7</button></div>
-															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">8</button></div>
-															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">9</button></div>
-															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">10</button></div>
-															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">11</button></div>
-															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">12</button></div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
+<!--										<div class="calendar-title-sort">-->
+<!--											<div class="simple-calendar-wrap">-->
+<!--												<div class="simple-calendar-top">-->
+<!--													<button type="button" class="btn-simple-calendar-ui btn-simple-calendar-prev">이전</button>-->
+<!--													<div class="top-title">2022</div>-->
+<!--													<button type="button" class="btn-simple-calendar-ui btn-simple-calendar-next">다음</button>-->
+<!--												</div>-->
+<!--												<div class="simple-calendar-body">-->
+<!--													<div class="simple-calendar-month-group">-->
+<!--														<div class="simple-calendar-month-row">-->
+<!--															<!-- btn-simple-calendar-month-nav 클래스에 actived클래스 추가시 활성화 -->
+<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">1</button></div>-->
+<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">2</button></div>-->
+<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">3</button></div>-->
+<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav actived">4</button></div>-->
+<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">5</button></div>-->
+<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">6</button></div>-->
+<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">7</button></div>-->
+<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">8</button></div>-->
+<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">9</button></div>-->
+<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">10</button></div>-->
+<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">11</button></div>-->
+<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">12</button></div>-->
+<!--														</div>-->
+<!--													</div>-->
+<!--												</div>-->
+<!--											</div>-->
+<!--										</div>-->
 									</div>
 									<div class="sort-right">
 										<!-- actived클래스 추가시 활성화 -->
@@ -138,7 +138,7 @@ if ($artist_flag == 1) {
 								<div>
 									<div class="reserve-calendar-data">
                                         <div class="loading-container" id="month_schedule_loading" style="min-height: 490px;">
-                                            <div class="mexican-wave"></div>
+                                            <img src="/static/images/loading.gif" alt="">
                                         </div>
 										<div class="reserve-calendar-inner" id="month_calendar_inner">
 											<!--
@@ -263,6 +263,13 @@ if ($artist_flag == 1) {
         gnb_actived('gnb_reserve_wrap','gnb_beauty');
         btn_month_calendar(artist_id)
         // waiting(artist_id)
+
+        document.getElementById('gnb_reserve_wrap').setAttribute('onclick','location.href ="/booking/reserve_beauty_day.php"')
+        document.getElementById('gnb_customer_wrap').setAttribute('onclick','location.href ="/customer/customer_inquiry.php"')
+        document.getElementById('gnb_shop_wrap').setAttribute('onclick','location.href ="/shop/shop_gate_picture.php"')
+        document.getElementById('gnb_detail_wrap').setAttribute('onclick','location.href ="/setting/set_schedule_list.php"')
+        document.getElementById('gnb_stats_wrap').setAttribute('onclick','location.href ="/report/stats_sale_1.php"')
+        document.getElementById('gnb_etc_wrap').setAttribute('onclick','location.href ="/etc/other_notice_list.php"')
 
     })
 

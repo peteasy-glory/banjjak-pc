@@ -41,7 +41,7 @@ if ($artist_flag == 1) {
 										<div class="basic-data-group">
 											<div class="con-title-group">
 												<h5 class="con-title"><strong>정렬방식</strong></h5>
-												<select class="arrow" id="customer_select" onchange="customer_all(artist_id).then(function(customers){customer_list(customers);})">
+												<select class="arrow" id="customer_select" onchange="customer_all(artist_id).then(function(customers){customer_list(artist_id,customers);})">
 													<option value="a">최신순</option>
 													<option value="b">가나다순</option>
 													<option value="c">이용횟수별</option>
@@ -152,6 +152,22 @@ if ($artist_flag == 1) {
     </section>
     <!-- //container -->
 </div>
+<article id="reserveAcceptMsg1" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data alert-pop-data">
+                <div class="pop-body">
+                    <div class="msg-txt" id="msg1_txt"></div>
+                </div>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm" onclick="pop.close(); pop.close('reserveCalendarPop11')">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+
+
 <!-- //wrap -->
 <script src="../static/js/billboard.js"></script>
 <script src="../static/js/billboard.pkgd.js"></script>
@@ -180,12 +196,16 @@ if ($artist_flag == 1) {
         customer_all(artist_id).then(function (customers){
 
             // customer_graph(customers);
-            customer_list(customers);
+            customer_list(artist_id,customers).then(function(){
+
+                customer_all_agree()
+            });
 
             customer_all_scroll_paging(artist_id)
         })
         customer_count(artist_id)
         customer_select_(artist_id)
+        //customer_graph();
 
     })
 
