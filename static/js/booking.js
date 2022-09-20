@@ -82,10 +82,10 @@ function schedule_render(id){
 
                                     let multiple = (new Date(el.product.date.booking_fi).getTime() - new Date(el.product.date.booking_st).getTime())/1800000;
                                     el_.innerHTML = `<div class="calendar-drag-item-group">
-                                                                        <a href="#" onclick="pay_management_init(artist_id,this); pay_management_toggle(false); localStorage.setItem('payment_idx','${el_.getAttribute('data-pay')}')" data-tooltip_idx="${index}" data-payment_idx="${el_.getAttribute('data-pay')}" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-pay')})" class="calendar-week-time-item toggle green ${color} ${el.product.is_no_show === 1 ? "red" : ''} ${el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
+                                                                        <a href="#" onclick="pay_management_init(artist_id,this,false,${multiple}); pay_management_toggle(false); localStorage.setItem('payment_idx','${el_.getAttribute('data-pay')}')" data-tooltip_idx="${index}" data-payment_idx="${el_.getAttribute('data-pay')}" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-pay')})" class="calendar-week-time-item toggle green ${color} ${el.product.is_no_show === 1 ? "red" : ''} ${el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
                                                                             <div class="item-inner" >
                                                                                 <div class="item-name">
-                                                                                    <div class="txt">${el.pet.name}</div>
+                                                                                    <div class="txt" style="font-size:17px; margin-bottom:2px;">${el.pet.name}</div>
                                                                                     ${multiple <4 ? `<button type="button" class="btn-calendar-item-more"></button>`:``}
                                                                                     
                                                                                 </div> 
@@ -2064,6 +2064,7 @@ function cols(id){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
+                    console.log(body)
 
                     document.getElementById('day_header_row').innerHTML = `<div class="calendar-day-header-col time"></div>`
 
@@ -2082,7 +2083,7 @@ function cols(id){
                         if(el.is_show && !el.is_leave){
                             el.work.forEach(function (el_){
                                 if(parseInt(el_.week) === date.getDay() ){
-                                    document.getElementById('day_header_row').innerHTML +=`<div class="calendar-day-header-col">${el.nick}</div>`
+                                    document.getElementById('day_header_row').innerHTML +=`<div class="calendar-day-header-col" data-start="${el_.time_st}" data-end="${el_.time_fi}" data-worker="${el.name}">${el.nick}</div>`
                                     Array.from(document.getElementsByClassName('calendar-day-body-row')).forEach(function(_el,i){
                                         _el.innerHTML += `<div class="calendar-day-body-col time-compare-cols ${break_times.match(_el.getAttribute('data-time-to')) ? 'break1':'' } ${_el.getAttribute('data-time-to') === break_times.split(' ')[0] ? 'break1-1':''}" data-name="${el.name}" data-nick="${el.nick}" data-time-to="${_el.getAttribute('data-time-to')}" data-time-from="${_el.getAttribute('data-time-from')}" data-year="${date.getFullYear()}" data-month="${date.getMonth()}" data-date="${date.getDate()}" data-hour="${_el.getAttribute('data-hour')}" data-minutes="${_el.getAttribute('data-minutes')}">
                                                             <div class="calendar-drag-item-group">
@@ -9813,8 +9814,8 @@ function get_etc_product(id){
                     }
                 })
             }
-        },complete:function(){
-
+        },
+        complete:function(){
 
             if(document.getElementById('pay_card_body_inner')){
 
@@ -9822,6 +9823,7 @@ function get_etc_product(id){
                 document.getElementById('pay_card_body_inner').style.display = 'block';
             }
         }
+
     })
 }
 
@@ -10159,6 +10161,7 @@ function reserves(id,body){
 
                     url:'/data/pc_ajax.php',
                     type:'post',
+                    async:false,
                     data:{
                         mode:'reserves',
                         partner_id:id,
@@ -10517,8 +10520,15 @@ function pay_management_toggle(bool){
     }
 
 }
+function pay_management_init_approve(id,target){
 
-function pay_management_init(id,target){
+    let payment_idx = target.getAttribute('data-payment_idx');
+
+
+
+
+}
+function pay_management_init(id,target,bool,multiple_time){
     console.log(id);
 
 
@@ -10538,6 +10548,12 @@ function pay_management_init(id,target){
                 document.getElementById('pay_card_body_inner').style.display = 'none';
                 document.getElementById('pay_management_loading').style.display = 'flex';
             }
+
+
+                document.getElementById('pay_management').scrollTop = 0
+
+
+
 
 
         },
@@ -10826,6 +10842,7 @@ function pay_management_init(id,target){
                 }
                 if(body.mounting === 1){
                     special += '마운팅 '
+
                 }
 
                 document.getElementById('pay_gender').innerText = body.gender;
@@ -10855,7 +10872,7 @@ function pay_management_init(id,target){
                                                                                         <span class="pay-before-beauty-memo">
                                                                                            ${el.booking_date.split(' ')[0].replaceAll('-','.')}
                                                                                         </span>
-                                                                                        <a href="#" class="pay-before-beauty-detail" data-payment_idx="${el.payment_idx}" onclick="localStorage.setItem('payment_idx','${el.payment_idx}');pay_management_init('${id}',this)">
+                                                                                        <a href="#" class="pay-before-beauty-detail" data-payment_idx="${el.payment_idx}" onclick="localStorage.setItem('payment_idx','${el.payment_idx}');pay_management_init('${id}',this,true)">
                                                                                             <span class="pay-before-beauty-detail-memo">상세보기</span>
                                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="5.207" height="9.414" viewBox="0 0 5.207 9.414">
                                                                                                 <path data-name="Path" class="before-path" d="m-4 8 4-4-4-4" transform="translate(4.707 .707)" style="fill:none;stroke:#202020;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;"></path>
@@ -10870,221 +10887,85 @@ function pay_management_init(id,target){
 
                 document.getElementById('day_book_target').innerText = `${am_pm_check2(body.beauty_date)}`
 
-                document.getElementById('day_book_target_worker').innerText = `${body.worker}`
+                document.getElementById('day_book_target_worker').innerText = `${body.worker_nick}`
 
 
+                let year = body.beauty_date.split(' ')[0].split('-')[0];
+                let month = body.beauty_date.split(' ')[0].split('-')[1];
+                let day = body.beauty_date.split(' ')[0].split('-')[2];
+                let hour = body.beauty_date.split(' ')[1].split(':')[0];
+                let minute = body.beauty_date.split(' ')[1].split(':')[1];
 
-                let st_date = body.beauty_date.split(' ')[0];
+                let start_time ;
 
-
-                $.ajax({
-
-                    url:'/data/pc_ajax.php',
-                    type:'post',
-                    data:{
-                        mode:"day_book",
-                        login_id:id,
-                        st_date:st_date,
-                        fi_date:`${st_date.split('-')[0]}-${st_date.split('-')[1]}-${fill_zero(parseInt(st_date.split('-')[2])+1)}`
-
-
-                    },
-                    success:function(res) {
-                        let response = JSON.parse(res);
-                        let head = response.data.head;
-                        let body_ = response.data.body;
-                        if (head.code === 401) {
-                            pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-                        } else if (head.code === 200) {
-
-
-
-                            let reserve_st = [];
-                            let reserve_fi = [];
-
-                            body_.forEach(function (el){
-
-
-                                if(body.worker === el.product.worker && el.product.is_cancel === 0){
-                                    reserve_st.push(new Date(el.product.date.booking_st).getTime());
-                                    reserve_fi.push(new Date(el.product.date.booking_fi).getTime());
-                                }
-
-                            })
-
-                            reserve_st.sort();
-                            reserve_fi.sort();
-
-                            for(let i=0; i<reserve_st.length; i++){
-
-                                reserve_st[i] = `${fill_zero(new Date(reserve_st[i]).getHours())}:${fill_zero(new Date(reserve_st[i]).getMinutes())}`;
-                            }
-
-                            for(let i=0; i<reserve_fi.length; i++){
-
-                                reserve_fi[i] = `${fill_zero(new Date(reserve_fi[i]).getHours())}:${fill_zero(new Date(reserve_fi[i]).getMinutes())}`;
-                            }
-
-
-
-
-
-                            document.getElementById('start_time').innerHTML = ''
-                            document.getElementById('end_time').innerHTML = ''
-
-                            let open_close = localStorage.getItem('open_close');
-
-                            let open = parseInt(open_close.split('/')[0]);
-                            let close = parseInt(open_close.split('/')[1]);
-
-                            let time = [];
-
-                            for(open; open<=close; open++){
-
-                                time.push(open);
-
-                            }
-
-
-                            let next = '';
-                            for(let i=0; i< reserve_st.length; i++){
-
-                                if(body.beauty_date.split(' ')[1] === reserve_st[i]){
-
-                                    next = reserve_st[i+1]
-                                    break;
-                                }
-                            }
-
-
-
-                            let prev = '';
-                            for(let i=0; i<reserve_fi.length; i++){
-
-                                if(body.beauty_date.split(' ')[1] === reserve_st[i]){
-
-
-                                    prev = reserve_fi[i-1];
-                                    break;
-                                }
-                            }
-
-
-
-                            if(prev === undefined){
-
-                                loop:
-                                    for(let i=0; i<time.length-1; i++){
-
-                                        for(let t= 0; t<60; t +=30){
-
-
-                                            if(`${fill_zero(time[i])}:${fill_zero(t)}` === next){
-
-                                                break loop;
-                                            }else{
-                                                document.getElementById('start_time').innerHTML += `<option value ="${fill_zero(time[i])}${fill_zero(t)}">${fill_zero(am_pm_check(time[i]))}:${fill_zero(t)}</option>`
-                                            }
-
-
-
-
-
-                                        }
-                                    }
-
-                                loop2:
-                                    for(let i=0; i<time.length; i++){
-
-                                        for(let t=0; t<60; t+=30){
-
-                                            if(i===0){
-                                                t=30;
-                                            }
-                                            if(i===time.length-1 && t ===30){
-
-                                                break;
-                                            }
-                                            if(`${fill_zero(time[i])}:${fill_zero(t)}` === next){
-                                                document.getElementById('end_time').innerHTML += `<option value ="${fill_zero(time[i])}${fill_zero(t)}">${fill_zero(am_pm_check(time[i]))}:${fill_zero(t)}</option>`
-                                                break loop2;
-                                            }else{
-
-
-                                                document.getElementById('end_time').innerHTML += `<option value ="${fill_zero(time[i])}${fill_zero(t)}">${fill_zero(am_pm_check(time[i]))}:${fill_zero(t)}</option>`
-                                            }
-                                        }
-                                    }
-                            }else{
-
-                                loop3:
-                                    for(let i=0; i<time.length-1; i++){
-
-                                        for(let t= 0; t<60; t +=30){
-
-
-                                            if(`${fill_zero(time[i])}:${fill_zero(t)}` === prev){
-
-
-                                                loop4:
-                                                    for(let j=i; j<time.length-1; j++){
-
-                                                        for(let t2=0; t2<60; t2+=30){
-
-                                                            if(`${fill_zero(time[j])}:${fill_zero(t2)}` === next){
-
-                                                                break loop4;
-
-                                                            }else if(`${fill_zero(time[j])}:${fill_zero(t2)}` === `${prev.split(':')[0]}:00`){
-                                                                continue;
-
-                                                            }else{
-                                                                document.getElementById('start_time').innerHTML += `<option value ="${fill_zero(time[j])}${fill_zero(t2)}">${fill_zero(am_pm_check(time[j]))}:${fill_zero(t2)}</option>`
-                                                            }
-
-                                                        }
-                                                    }
-                                                break loop3;
-                                            }
-                                        }
-                                    }
-
-
-                                let fi_times = [];
-
-                                for(let i =0; i<document.getElementById('start_time').options.length; i++){
-
-                                    fi_times.push(document.getElementById('start_time').options[i].value);
-                                }
-
-
-                                for(let i=0; i<fi_times.length; i++){
-
-                                    fi_times[i] = new Date(date.getFullYear(),date.getMonth(),date.getDate(),fi_times[i].substr(0,2),fi_times[i].substr(2,2));
-
-                                    fi_times[i].setMinutes(fi_times[i].getMinutes()+30);
-
-                                    document.getElementById('end_time').innerHTML += `<option value ="${fill_zero(fi_times[i].getHours())}${fill_zero(fi_times[i].getMinutes())}">${am_pm_check(fill_zero(fi_times[i].getHours()))}:${fill_zero(fi_times[i].getMinutes())}</option>`
-                                }
-
-
-
-
-
-
-
-                            }
-
-
-
-                        }
+                let end_time;
+                Array.from(document.getElementsByClassName('calendar-day-header-col')).forEach(function(el){
+                    if(el.getAttribute('data-worker') === body.worker){
+                        start_time = el.getAttribute('data-start');
+                        end_time = el.getAttribute('data-end');
                     }
-
-
-
-
-
                 })
+
+               $.ajax({
+                   url:'/data/pc_ajax.php',
+                   type:'post',
+                   data:{
+                       mode:'reserve_get_time',
+                       worker:body.worker,
+                       artist_id:id,
+                       year:year,
+                       month:month,
+                       day:day,
+                       hour:hour,
+                       minute:minute,
+                       start_time:start_time,
+                       end_time:end_time
+
+                   },success:function(res){
+                       let response = JSON.parse(res);
+                       let start = response.start_date.split(' ')[1];
+                       let end = response.end_date.split(' ')[1];
+
+                       console.log(start)
+                       console.log(end)
+                       document.getElementById('start_time').innerHTML = '';
+                       document.getElementById('end_time').innerHTML = '';
+
+
+                       let times = [];
+                       let new_times = [];
+                       for(let i=start.split(':')[0]; i<end.split(':')[0]; i++){
+
+                           for(let t= 0; t<60; t+=30){
+                               if(i== start.split(':')[0] && start.split(':')[1] == 30 && t===0){
+                                   continue;
+                               }
+                               document.getElementById('start_time').innerHTML += `<option value="${i}${fill_zero(t)}">${am_pm_check_time(`${i}:${fill_zero(t)}`)}</option>`
+
+                               times.push(`2022-01-01 ${i}:${fill_zero(t)}`)
+                           }
+
+
+
+
+                       }
+
+                       times.forEach(function(el){
+
+                           let new_time = new Date(el);
+                           new_time.setMinutes(new_time.getMinutes() + 30);
+                           new_times.push(`${fill_zero(new_time.getHours())}:${fill_zero(new_time.getMinutes())}`)
+
+                       })
+
+                       new_times.forEach(function(el){
+
+                           document.getElementById('end_time').innerHTML += `<option value="${el.replace(':','')}">${am_pm_check_time(el)}</option>`
+                       })
+
+
+                   }
+               })
 
 
 
@@ -11247,6 +11128,8 @@ function pay_management_init(id,target){
                                         }
 
                                     }else if(body.discount_type === "0"){
+                                        console.log('-------------------')
+
 
                                         document.getElementById('discount_1_btn').click()
                                         document.getElementById('discount_1').options[0].selected = true;
@@ -11254,6 +11137,15 @@ function pay_management_init(id,target){
                                         document.getElementById('discount_1').dispatchEvent(new Event('change'));
                                         document.getElementById('discount_2').dispatchEvent(new Event('change'));
                                     }
+
+
+
+
+
+
+                                        if(bool){
+                                            document.getElementById('pay_management').scrollTop = document.getElementById('scroll_target').offsetTop;
+                                        }
                                 });
 
 
@@ -11588,6 +11480,7 @@ function get_worker(id){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
+                console.log(body)
 
 
                 document.getElementById('worker_inner').innerHTML = '';

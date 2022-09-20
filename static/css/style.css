@@ -431,7 +431,12 @@
     padding-right:20px;
 }
 
-.pay-card-content-2{
+.sticky-remove{
+    display:block !important;
+    position:relative !important;
+}
+
+.pay-card-content-1{
     margin-top:50px;
 }
 .pay-card-content-3{
@@ -714,8 +719,7 @@
 .pay-product-save-btn-wrap{
     display: flex;
     width:100%;
-    padding-left:20px;
-    padding-right:20px;
+    justify-content: center;
 }
 
 .pay-user-receipt{

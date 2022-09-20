@@ -41,7 +41,7 @@ if ($artist_flag == 1) {
 										<div class="basic-data-group">
 											<div class="con-title-group">
 												<h5 class="con-title"><strong>정렬방식</strong></h5>
-												<select class="arrow" id="customer_select" onchange="customer_all(artist_id).then(function(customers){customer_list(artist_id,customers);})">
+												<select class="arrow" id="customer_select">
 													<option value="a">최신순</option>
 													<option value="b">가나다순</option>
 													<option value="c">이용횟수별</option>

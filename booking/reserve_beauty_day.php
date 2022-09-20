@@ -221,6 +221,7 @@ if ($artist_flag == 1) {
 							</div>
 						</div>
                         <article id="pay_management" class="pay_management">
+
                             <div class="pay-data-card">
                                 <div class="pay-card-header">
                                     <div class="pay-card-header-title">작업/결제 관리</div>
@@ -232,80 +233,7 @@ if ($artist_flag == 1) {
                                     </div>
                                     <div class="pay-card-body-inner" id="pay_card_body_inner">
 
-                                        <div class="pay-card-content-1">
-                                            <div class="pay-card-body-title" id="pay_noshow">
-                                                <h4 class="con-title">예약자 정보</h4>
 
-                                                <div style="width:120px;" id="noshow_count">
-
-                                                </div>
-                                            </div>
-                                            <div class="pay-flex-table">
-                                                <div class="pay-flex-table-cell">
-                                                    <div class="pay-flex-table-item">
-                                                        <div class="pay-flex-table-title">
-                                                            <dlv class="pay-txt">등급</dlv>
-                                                        </div>
-                                                        <div class="pay-flex-table-data">
-                                                            <div class="pay-flex-table-data-inner">
-                                                                <div class="pay-user-grade-item">
-                                                                    <div class="icon" id="pay_customer_grade">
-
-                                                                    </div>
-
-                                                                    <div class="icon-grade-label" id="pay_customer_grade_name">
-
-                                                                    </div>
-                                                                </div>
-                                                                <div class="pay-flex-table-data-side">
-                                                                    <button type="button" class="pay-grade-modify" onclick="pop.open('memberGradeAddPop')"></button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="pay-flex-table-cell">
-                                                    <div class="pay-flex-table-item">
-                                                        <div class="pay-flex-table-title">
-                                                            <div class="pay-txt">연락처</div>
-                                                        </div>
-                                                        <div class="pay-flex-table-data">
-                                                            <dlv class="pay-flex-table-data-inner">
-                                                                <div class="pay-user-cellphone" id="pay_main_phone">
-
-                                                                </div>
-                                                            </dlv>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="pay-flex-table-cell">
-                                                    <div class="pay-flex-table-item">
-                                                        <div class="pay-flex-table-title">
-                                                            <div class="pay-txt">보조 연락처</div>
-                                                            <div class="call-edit"  onclick="pop.open('numberAddPop')">
-                                                                <span>편집</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="pay-flex-table-data">
-                                                            <div class="pay-flex-table-data-inner">
-                                                                <div class="pay-user-sub-cellphone" id="pay_sub_phone">
-
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="pay-customer-memo">
-                                                <div class="pay-customer-memo-title">
-                                                    <div class="pay-txt">견주관련 메모<span class="pay-sub-txt"> (고객에게는 노출되지 않습니다.)</span></div>
-                                                </div>
-                                                <textarea name="pay-customer-memo-text" id="pay_customer_memo_text" cols="30" rows="10"></textarea>
-                                                <button type="button" class="pay-customer-memo-save btn btn-outline-purple btn-middle-size btn-round" onclick="customer_memo()">저장</button>
-                                            </div>
-                                        </div>
 
                                         <div class="pay-card-content-2">
                                             <div class="pay-card-body-title">
@@ -461,6 +389,80 @@ if ($artist_flag == 1) {
 
                                             </div>
                                         </div>
+                                        <div class="pay-card-content-1">
+                                            <div class="pay-card-body-title" id="pay_noshow">
+                                                <h4 class="con-title">예약자 정보</h4>
+
+                                                <div style="width:120px;" id="noshow_count">
+
+                                                </div>
+                                            </div>
+                                            <div class="pay-flex-table">
+                                                <div class="pay-flex-table-cell">
+                                                    <div class="pay-flex-table-item">
+                                                        <div class="pay-flex-table-title">
+                                                            <dlv class="pay-txt">등급</dlv>
+                                                        </div>
+                                                        <div class="pay-flex-table-data">
+                                                            <div class="pay-flex-table-data-inner">
+                                                                <div class="pay-user-grade-item">
+                                                                    <div class="icon" id="pay_customer_grade">
+
+                                                                    </div>
+
+                                                                    <div class="icon-grade-label" id="pay_customer_grade_name">
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="pay-flex-table-data-side">
+                                                                    <button type="button" class="pay-grade-modify" onclick="pop.open('memberGradeAddPop')"></button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="pay-flex-table-cell">
+                                                    <div class="pay-flex-table-item">
+                                                        <div class="pay-flex-table-title">
+                                                            <div class="pay-txt">연락처</div>
+                                                        </div>
+                                                        <div class="pay-flex-table-data">
+                                                            <dlv class="pay-flex-table-data-inner">
+                                                                <div class="pay-user-cellphone" id="pay_main_phone">
+
+                                                                </div>
+                                                            </dlv>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="pay-flex-table-cell">
+                                                    <div class="pay-flex-table-item">
+                                                        <div class="pay-flex-table-title">
+                                                            <div class="pay-txt">보조 연락처</div>
+                                                            <div class="call-edit"  onclick="pop.open('numberAddPop')">git add
+                                                                <span>편집</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="pay-flex-table-data">
+                                                            <div class="pay-flex-table-data-inner">
+                                                                <div class="pay-user-sub-cellphone" id="pay_sub_phone">
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="pay-customer-memo">
+                                                <div class="pay-customer-memo-title">
+                                                    <div class="pay-txt">견주관련 메모<span class="pay-sub-txt"> (고객에게는 노출되지 않습니다.)</span></div>
+                                                </div>
+                                                <textarea name="pay-customer-memo-text" id="pay_customer_memo_text" cols="30" rows="10"></textarea>
+                                                <button type="button" class="pay-customer-memo-save btn btn-outline-purple btn-middle-size btn-round" onclick="customer_memo()">저장</button>
+                                            </div>
+                                        </div>
                                         <div class="pay-card-content-3">
                                             <div class="pay-card-body-title">
                                                 <h4 class="con-title">이전 미용</h4>
@@ -470,7 +472,7 @@ if ($artist_flag == 1) {
                                             </div>
 
                                         </div>
-                                        <div class="pay-card-content-4">
+                                        <div class="pay-card-content-4" id="scroll_target">
                                             <div class="pay-card-body-title">
                                                 <h4 class="con-title">예약 내용</h4>
                                                 <button type="button" class="btn-side btn btn-small-size btn-inline btn-border-radius-16 btn-bg-yellow" id="pay_allim_btn">알림톡 발송 이력</button>
@@ -588,7 +590,7 @@ if ($artist_flag == 1) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="sticky-tab-group">
+                                        <div class="sticky-tab-group" id="sticky-tab-group-target">
                                             <div class="pay-card-content-6">
                                                 <div class="pay-card-body-title">
                                                     <h4 class="con-title">결제 정보</h4>
@@ -721,10 +723,10 @@ if ($artist_flag == 1) {
                                                 </div>
                                             </div>
 
-                                            <div class="pay-product-save-btn-wrap">
+                                            <div class="pay-product-save-btn-wrap sticky-bottom" style="position:sticky; bottom:40px; margin-bottom:50px;">
 
 
-                                                <button type="button" class="pay-product-save btn btn-outline-purple btn-middle-size btn-round">변경</button>
+                                                <button type="button" class="sticky-bottom-inner pay-product-save btn btn-outline-purple btn-middle-size btn-round" id="sticky-bottom">변경</button>
                                             </div>
 
                                             <div class="pay-basic-data-group-2  basic-data-group vvsmall2" id="receipt">
@@ -2812,6 +2814,7 @@ if ($artist_flag == 1) {
         document.getElementById('gnb_etc_wrap').setAttribute('onclick','location.href ="/etc/other_notice_list.php"')
 
 
+        document.getElementById('pay_management').addEventListener("scroll",onScroll);
 
     })
 

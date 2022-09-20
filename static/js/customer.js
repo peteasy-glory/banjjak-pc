@@ -206,7 +206,7 @@ function customer_select_(id){
             list_loging = false;
             list_end = false;
             customer_all(id).then(function(customers) {
-                customer_list(customers);
+                customer_list(id,customers);
             })
         })
 
@@ -256,6 +256,11 @@ function customer_all(id){
             case 'e' : ord = 4; break;
         }
 
+        console.log(id)
+        console.log(type)
+        console.log(ord)
+        console.log(offset)
+        console.log(number);
 
         $.ajax({
 
@@ -272,11 +277,16 @@ function customer_all(id){
 
             },
             success:function (res){
+                console.log(res)
                 let response = JSON.parse(res);
                 let customers =response.data
                 let head = response.data.head;
                 let body = response.data.body;
+                console.log(body);
 
+                if(body.length === undefined){
+                    body = [body];
+                }
                 if(body.length <=0){
 
                     list_end = true;

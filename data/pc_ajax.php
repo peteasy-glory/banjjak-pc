@@ -1730,7 +1730,7 @@ if($r_mode) {
         $customer_all = $api->get('/partner/customer/search/' . $login_id . '?type=' . $type . '&ord_type=' . $ord . '&offset=' . $offset . '&number=' . $number);
 
 
-        $return_data = array("code" => "000000", "data" => $customer_all);
+        $return_data = array("code" => "000000", "data" => $customer_all,"type"=>$type, "ord"=>$ord,"offset"=>$offset,"number"=>$number);
     } else if ($r_mode === "customer_count") {
 
         $login_id = $_POST['login_id'];
@@ -2639,6 +2639,68 @@ if($r_mode) {
         $result = $api->put('/partner/booking/payment-discount',$data_json);
         $return_data = array("code"=>"000000","data"=>$result);
 
+    }else if($r_mode === 'reserve_get_time'){
+
+        $pay['worker'] = $_POST['worker'];
+        $artist_id = $_POST['artist_id'];
+        $pay['year']=$_POST['year'];
+        $pay['month']=$_POST['month'];
+        $pay['day']=$_POST['day'];
+        $pay['hour']=$_POST['hour'];
+        $pay['minute'] = $_POST['minute'];
+
+        $start_time = $_POST['start_time'];
+        $end_time = $_POST['start_time'];
+
+
+        $from_time_sql = "
+	SELECT * FROM (
+		SELECT to_hour end_hour, to_minute end_minute FROM tb_payment_log WHERE artist_id = '".$artist_id."'
+		AND worker = '".$pay['worker']."' AND is_cancel = '0'
+		AND YEAR = ".$pay['year']." AND MONTH = ".$pay['month']." AND DAY = ".$pay['day']."
+		UNION
+		SELECT end_hour, end_minute FROM tb_private_holiday WHERE customer_id = '".$artist_id."'
+		AND worker = '".$pay['worker']."'
+		AND start_YEAR = ".$pay['year']." AND start_MONTH = ".$pay['month']." AND start_DAY = ".$pay['day']."
+		AND end_MONTH = ".$pay['month']." AND end_DAY = ".$pay['day']."
+	) a
+		WHERE time_format(CONCAT(a.end_hour,':',a.end_minute),'%H:%i') <= TIME_FORMAT('".$pay['hour'].':'.$pay['minute']."','%H:%i')
+		ORDER BY time_format(CONCAT(a.end_hour,':',a.end_minute),'%H:%i') DESC
+		LIMIT 1
+";
+        $from_time_result = sql_query($from_time_sql);
+        $from_time_row = sql_fetch($from_time_result);
+        $from_hour = (count($from_time_row)>0&&$from_time_row['end_hour']<10)?'0'.$from_time_row['end_hour']:$from_time_row['end_hour'];
+        $from_minute = (count($from_time_row)>0&&$from_time_row['end_minute']<10)?'0'.$from_time_row['end_minute']:$from_time_row['end_minute'];
+// 뒤 타임 미용 및 휴무 있는지 확인
+        $to_time_sql = "
+	SELECT * FROM (
+		SELECT hour start_hour, minute start_minute FROM tb_payment_log WHERE artist_id = '".$artist_id."'
+		AND worker = '".$pay['worker']."' AND is_cancel = '0'
+		AND YEAR = ".$pay['year']." AND MONTH = ".$pay['month']." AND DAY = ".$pay['day']."
+		UNION
+		SELECT start_hour, start_minute FROM tb_private_holiday WHERE customer_id = '".$artist_id."'
+		AND worker = '".$pay['worker']."'
+		AND start_YEAR = ".$pay['year']." AND start_MONTH = ".$pay['month']." AND start_DAY = ".$pay['day']."
+		AND end_MONTH = ".$pay['month']." AND end_DAY = ".$pay['day']."
+	) a
+		WHERE time_format(CONCAT(a.start_hour,':',a.start_minute),'%H:%i') > TIME_FORMAT('".$pay['hour'].':'.$pay['minute']."','%H:%i')
+		ORDER BY time_format(CONCAT(a.start_hour,':',a.start_minute),'%H:%i')
+		LIMIT 1
+";
+        $to_time_result = sql_query($to_time_sql);
+        $to_time_row = sql_fetch($to_time_result);
+        $to_hour = (count($to_time_row)>0&&$to_time_row['start_hour']<10)?'0'.$to_time_row['start_hour']:$to_time_row['start_hour'];
+        $to_minute = (count($to_time_row)>0&&$to_time_row['start_minute']<10)?'0'.$to_time_row['start_minute']:$to_time_row['start_minute'];
+        $workDate = date('Y-m-d',strtotime($pay['year'].'-'.$pay['month'].'-'.$pay['day']));
+
+
+        $start_date = ($from_hour)? $workDate.' '.$from_hour.':'.$from_minute : $workDate.' '.$start_time;
+        $end_date = ($to_minute)? $workDate.' '.$to_hour.':'.$to_minute : $workDate.' '.$end_time;
+        $rev_from_date = strtotime($pay['year'].'-'.$pay['month'].'-'.$pay['day'].' '.$pay['hour'].':'.$pay['minute']);
+        $rev_to_date = strtotime($pay['year'].'-'.$pay['month'].'-'.$pay['day'].' '.$pay['to_hour'].':'.$pay['to_minute']);
+
+        $return_data = array("code"=>"000000","start_date"=>$start_date,"end_date"=>$end_date);
     }
 }
 
