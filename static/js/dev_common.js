@@ -471,7 +471,20 @@ function stats(){
         document.getElementById('main_reserve_graph_none').style.display = 'block';
     }
 }
+function onScroll(e){
+    const sticky_target = document.querySelector("#sticky-tab-group-target");
+    const classes = sticky_target.classList;
+    const st_bt_target = pageYOffset + document.querySelector("#sticky-bottom").getBoundingClientRect().top;
 
+    if(window.scrollY >= st_bt_target -100){
+        if(!classes.contains("sticky-remove")) {
+            sticky_target.classList.add("sticky-remove")
+
+        }
+    }else{
+        sticky_target.classList.remove("sticky-remove")
+    }
+}
 
 //오늘 예약 내역
 function today_reserve(){
@@ -503,14 +516,16 @@ function today_reserve(){
                 if(date_today_reserve.getFullYear() === date.getFullYear()
                     && date_today_reserve.getMonth() === date.getMonth()
                     && date_today_reserve.getDate() === date.getDate()
+                    &&el.product.is_cancel !== 1
                 ){
 
+                    console.log(el)
                     document.getElementById('reserve_after_none').style.display = 'none';
                     if(el.pet.photo !== null && el.pet.photo.substr(0,4) === '/pet'){
                         el.pet.photo = el.pet.photo.replace('/pet','');
                     }
                     reserve_list.innerHTML += `<div class="main-reserve-list-cell">
-                                                <a href="/booking/reserve_beauty_day.php" onclick="localStorage.setItem('payment_idx',${el.product.payment_idx})" class="customer-card-item transparent">
+                                                <a href="/booking/reserve_beauty_day.php" onclick="localStorage.setItem('payment_idx',${el.product.payment_idx}); localStorage.setItem('day_select',\`${new Date().getFullYear()}.${fill_zero(new Date().getMonth() + 1)}.${fill_zero(new Date().getDate())}\`)" class="customer-card-item transparent">
                                                     <div class="item-info-wrap">
                                                         <div class="item-thumb">
                                                             <div class="user-thumb middle"><img src="${el.pet.photo !== null ? `https://image.banjjakpet.com${el.pet.photo}`  : `${el.pet.animal === 'dog' ? `../static/images/icon/icon-pup-select-off.png`: `../static/images/icon/icon-cat-select-off.png`}` }" alt=""></div>

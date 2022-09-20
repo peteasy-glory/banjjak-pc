@@ -181,7 +181,7 @@ function customer_all_scroll_paging(id){
 
                     time = null;
                     customer_all(id).then(function(customers){
-                        customer_list(customers);
+                        customer_list(id,customers)
                     });
                 },100)
             }
@@ -206,7 +206,7 @@ function customer_select_(id){
             list_loging = false;
             list_end = false;
             customer_all(id).then(function(customers) {
-                customer_list(customers);
+                customer_list(id,customers);
             })
         })
 
@@ -256,6 +256,11 @@ function customer_all(id){
             case 'e' : ord = 4; break;
         }
 
+        console.log(id)
+        console.log(type)
+        console.log(ord)
+        console.log(offset)
+        console.log(number);
 
         $.ajax({
 
@@ -272,11 +277,16 @@ function customer_all(id){
 
             },
             success:function (res){
+                console.log(res)
                 let response = JSON.parse(res);
                 let customers =response.data
                 let head = response.data.head;
                 let body = response.data.body;
+                console.log(body);
 
+                if(body.length === undefined){
+                    body = [body];
+                }
                 if(body.length <=0){
 
                     list_end = true;
@@ -383,7 +393,6 @@ function customer_graph(customers){
 function customer_list(id,customers){
 
 
-    return new Promise(function(resolve){
 
 
 
@@ -409,8 +418,31 @@ function customer_list(id,customers){
                 let b_product = product[4];
                 let grade = parseInt(el.grade.split('|')[1]);
 
+
                 console.log(el)
-                tbody.innerHTML += `<tr class="customer-table-cell">
+
+
+            $.ajax({
+                url:'/data/pc_ajax.php',
+                type:'post',
+                data:{
+                    mode:'get_beauty_agree',
+                    partner_id:id,
+                    pet_idx:el.pet_seq,
+                },
+                success:function(res) {
+                    let response = JSON.parse(res);
+                    let head = response.data.head;
+                    let body = response.data.body;
+                    if (head.code === 401) {
+                        pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                    } else if (head.code === 200) {
+
+                        if(body.length === undefined){
+                            body = [body];
+                        }
+
+                        tbody.innerHTML += `<tr class="customer-table-cell">
                                     <td>
                                         <div class="customer-table-txt" style="cursor:pointer" onclick="localStorage.setItem('customer_select','${el.cellphone}'); location.href = '/customer/customer_view.php';">
                                             <strong>${el.name}</strong>
@@ -449,17 +481,20 @@ function customer_list(id,customers){
                                         <div class="customer-table-txt">${el.sum_cash}원</div>
                                     </td>
                                     <td>
-                                        <div class="customer-table-txt" id="customer_all_agree">
-                                           
+                                        <div class="customer-table-txt">
+                                           ${body.length > 0 && el.pet_seq !== '' ? `<button type="button" class="btn btn-outline-gray btn-small-size" data-pet_seq="${el.pet_seq}" onclick="customer_all_agree(artist_id,this)">보기</button> ` : ''}
                                         </div>
                                     </td>
                                 </tr>`
+
+                    }
+                }
+
+
+            })
         })
 
-        resolve();
 
-
-    })
 
 }
 
@@ -3285,56 +3320,66 @@ $(document).on("click",".pop_inquiry",function(){
 
 function customer_all_agree(id,target){
 
-    // let pet_seq = target.getAttribute('data-pet_seq') === '' ? 0 : target.getAttribute('data-pet_seq');
-    //
-    // if(pet_seq === 0){
-    //
-    //     document.getElementById('msg1_txt').innerText = '작성된 동의서가 없습니다.'
-    //     pop.open('reserveAcceptMsg1');
-    // }else{
-    //     $.ajax({
-    //
-    //         url:'/data/pc_ajax.php',
-    //         type:'post',
-    //         data:{
-    //
-    //             mode:'get_beauty_agree',
-    //             partner_id:id,
-    //             pet_idx:pet_seq,
-    //
-    //         },
-    //         success:function(res) {
-    //             let response = JSON.parse(res);
-    //             let head = response.data.head;
-    //             let body = response.data.body;
-    //             if (head.code === 401) {
-    //                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-    //             } else if (head.code === 200) {
-    //
-    //                 if(body.length === undefined){
-    //                     body = [body]
-    //                 }
-    //
-    //                 console.log(body)
-    //                 if(body.length === 0 ){
-    //
-    //                     document.getElementById('msg1_txt').innerText = '작성된 동의서가 없습니다.'
-    //                     pop.open('reserveAcceptMsg1');
-    //                 }else{
-    //
-    //                     let data = body.at(-1);
-    //                     console.log(data)
-    //
-    //
-    //
-    //                 }
-    //
-    //
-    //
-    //             }
-    //         }
-    //     })
-    // }
+    let pet_seq = target.getAttribute('data-pet_seq') === '' ? 0 : target.getAttribute('data-pet_seq');
+
+    if(pet_seq === 0){
+
+        document.getElementById('msg1_txt').innerText = '작성된 동의서가 없습니다.'
+        pop.open('reserveAcceptMsg1');
+    }else{
+        $.ajax({
+
+            url:'/data/pc_ajax.php',
+            type:'post',
+            data:{
+
+                mode:'get_beauty_agree',
+                partner_id:id,
+                pet_idx:pet_seq,
+
+            },
+            success:function(res) {
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+
+                    if(body.length === undefined){
+                        body = [body]
+                    }
+
+                    console.log(body)
+                    if(body.length === 0 ){
+
+                        document.getElementById('msg1_txt').innerText = '작성된 동의서가 없습니다.'
+                        pop.open('reserveAcceptMsg1');
+                    }else{
+
+                        let data = body.at(-1);
+                        console.log(data)
+
+                        let reg_date = `${data.reg_date.substr(0,4)}.${data.reg_date.substr(4,2)}.${data.reg_date.substr(6,2)}`;
+
+                        document.getElementById('agree_view_name').value = data.customer_name;
+                        document.getElementById('agree_view_date').innerText = reg_date
+                        document.getElementById('agree_view_name2').innerText = data.customer_name;
+                        document.getElementById('agree_view_cellphone').value = data.cellphone;
+                        document.getElementById('user_sign_img').setAttribute('src',`https://image.banjjakpet.com${data.image}`)
+
+                        pop.open('beautyAgreeViewPop');
+
+
+
+                    }
+
+
+
+                }
+            }
+        })
+    }
 
 
 

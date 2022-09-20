@@ -5339,3 +5339,10 @@ a.btn-reserve.disabled, a.btn-page-bottom.disabled, a.btn-reserve:disabled, a.bt
 	background-image: url(../images/icon/icon-main-dashboard-4_dark.png);
 
 }
+
+.dark #customer_select{
+	color:#fff;
+}
+.dark #customer_select option{
+	color:#fff;
+}

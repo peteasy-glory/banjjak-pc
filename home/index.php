@@ -187,11 +187,11 @@ if($artist_flag == 1){
 						<div class="main-col-2">
 							<div class="main-col-group main-side-1">
 								<!-- 전화번호 검색 -->
-                                <form action="../customer/customer_inquiry.php" id="search_form" method="post">
+                                <form action="/customer/customer_inquiry.php" id="search_form" method="get">
 								<div class="basic-data-card transparent main-phone-group">
 									<div class="main-phone">
 
-										<div class="item-input"><input type="text" name="search" id="search" placeholder="전화번호 또는 펫이름 입력"/></div>
+										<div class="item-input"><input type="text" class="text-add" name="search"  id="search" placeholder="전화번호 또는 펫이름 입력"/></div>
 
 										<button type="button" class="btn-main-phone" onclick="document.getElementById('search').value === '' ? pop.open('firstRequestMsg1','전화번호 또는 펫이름을 입력해주세요.'):document.getElementById('search_form').submit()">검색</button>
 
