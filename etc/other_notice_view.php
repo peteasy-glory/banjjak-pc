@@ -78,7 +78,10 @@ $img = (isset($_GET['img']))? img_link_change($_GET['img']) : "";
     $(document).ready(function() {
         var artist_flag = "<?=$artist_flag?>";
         if(artist_flag == 1){
-            view_artist();
+            $("#gnb_home").css("display","none");
+            $("#gnb_shop_wrap").css("display","none");
+            $("#gnb_detail_wrap").css("display","none");
+            $("#gnb_stats_wrap").css("display","none");
         }
         get_navi(artist_id);
         gnb_init();
