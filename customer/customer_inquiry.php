@@ -12,7 +12,7 @@ if ($artist_flag == 1) {
 }
 
 
-$search = ($_POST['search'] && $_POST['search'] !== "") ? $_POST['search']:"";
+$search = ($_GET['search'] && $_GET['search'] !== "") ? $_GET['search']:"";
 
 
 

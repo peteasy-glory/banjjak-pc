@@ -5192,7 +5192,6 @@ function reserve_merchandise_load_init(id){
 
                     },
                     success:function (res){
-                        console.log(res)
                         let response = JSON.parse(res);
                         let head = response.data.head;
                         let body = response.data.body;
@@ -5200,7 +5199,11 @@ function reserve_merchandise_load_init(id){
                             pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                         } else if (head.code === 200) {
 
+                            console.log(body)
 
+                            if(body.is_vat === 1){
+                                localStorage.setItem('is_vat','1');
+                            }
                             let service = document.getElementById('service');
                             let service2 = document.getElementById('service2');
                             let basic_service = document.getElementById('basic_service');
@@ -5316,7 +5319,8 @@ function reserve_merchandise_load_init(id){
                                                                         <div class="form-item-label">얼굴컷</div>
                                                                         <div class="form-item-data type-2">
                                                                             <div class="toggle-button-group vertical" id="other_face">
-                                                                                
+                                                                                <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="f1" onclick="reserve_service_list('service2_other_list_face','','0')" checked ><em class="font-size-12">선택 안함</em></label></div>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -5514,7 +5518,7 @@ function reserve_merchandise_load(body){
 
                     document.getElementById('other_face').innerHTML += `<div class="toggle-button-cell">
                                                                                         <label class="form-toggle-box form-toggle-price middle">
-                                                                                            <input type="checkbox" name="f1" data-price="${el.price}" value="${el.type}" onclick="if(this.checked === true){reserve_service_list_2('service2_other_list_face','+${el.type}','${el.price}')}else{reserve_service_list_2_delete('service2_other_list_face','+${el.type}')}">
+                                                                                            <input type="radio" name="f1" data-price="${el.price}" value="${el.type}" onclick="reserve_service_list('service2_other_list_face','+${el.type}',${el.price})">
                                                                                             <em>
                                                                                                 <span>${el.type}</span>
                                                                                                 <strong>+${parseInt(el.price).toLocaleString()}원</strong>
@@ -5525,7 +5529,7 @@ function reserve_merchandise_load(body){
                     if(i===body.face.length-1){
 
                         document.getElementById('service2_other_list').innerHTML += `<div class="service-selected-list-cell">
-                                                                                                    <div class="list-title" id="service2_other_list_face">얼굴컷</div>
+                                                                                                    <div class="list-title list-data" id="service2_other_list_face">얼굴컷</div>
                                                                                                 </div>`
                     }
                 })
@@ -6287,8 +6291,13 @@ let beauty,bath,add_svc;
             total_price += parseInt(el.getAttribute('data-price'));
 
         }
+
     })
 
+    if(localStorage.getItem('is_vat') === '1'){
+
+        total_price += (total_price/10);
+    }
 
 
     let target = document.getElementById('reserveCalendarPop2');
@@ -6564,6 +6573,9 @@ let beauty,bath,add_svc;
 
         url:'/data/pc_ajax.php',
         type:'post',
+        beforeSend:function(){
+            alert(total_price)
+        },
         data:{
 
             mode:'reserve_regist',
@@ -9077,7 +9089,8 @@ function management_service_1(id,body){
                                                                         <div class="form-item-label font-size-12 display_flex_ju_center">얼굴컷</div>
                                                                         <div class="form-item-data type-2">
                                                                             <div class="toggle-button-group vertical" id="payment_other_face">
-                                                                                
+                                                                                <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="payment_f1" onclick="set_product2(this,'','','list_title_4',true)" checked ><em class="font-size-12">선택 안함</em></label></div>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -9271,7 +9284,7 @@ function management_service_2(body){
 
                     document.getElementById('payment_other_face').innerHTML += `<div class="toggle-button-cell">
                                                                                         <label class="form-toggle-box form-toggle-price middle">
-                                                                                            <input type="checkbox" name="payment_f1" data-price="${el.price}" value="${el.type}" onclick="set_product(this,'${el.type}','${el.price}')" >
+                                                                                            <input type="radio" name="payment_f1" data-price="${el.price}" value="${el.type}" onclick="set_product2(this,'${el.type}','${el.price}','list_title_4',true)" >
                                                                                             <em>
                                                                                                 <span class="font-size-12">${el.type}</span>
                                                                                                 <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
@@ -9589,126 +9602,136 @@ function management_service_4(base_svc){
 
 function get_coupon(id,data){
 
-    $.ajax({
-
-        url:'/data/pc_ajax.php',
-        type:'post',
-        data:{
-            mode:'get_coupon',
-            partner_id:id
-        },
-        success:function(res) {
-            let response = JSON.parse(res);
-            let head = response.data.head;
-            let body = response.data.body;
-            if (head.code === 401) {
-                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-            } else if (head.code === 200) {
-
-                if(body.length === undefined){
-
-                    body = [body];
-                }
-                console.log(body)
+    return new Promise(function(resolve){
 
 
-                body.forEach(function(el){
 
-                    if(el.type === 'C'){
+        $.ajax({
 
-                        document.getElementById('c_coupon').innerHTML +=  `<div class="form-item-data type-2">
-                                                                            <div class="toggle-button-group vertical">
-                                                                                <div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" htmlFor="cp1-1">
-                                                                                    <input type="checkbox" name="cp1" id="cp1-1" onclick="set_product(this,'${el.name}','${el.price}')"><em><span>${el.name}</span><strong>+${el.price.toLocaleString()}원</strong></em></label>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>`
-                    }else{
+            url:'/data/pc_ajax.php',
+            type:'post',
+            data:{
+                mode:'get_coupon',
+                partner_id:id
+            },
+            success:function(res) {
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
 
-                        document.getElementById('f_coupon').innerHTML +=  `<div class="form-item-data type-2">
+                    if(body.length === undefined){
+
+                        body = [body];
+                    }
+                    console.log(body)
+
+                    document.getElementById('c_coupon').innerHTML = '<div class="form-item-label display_flex_ju_center font-size-12">쿠폰상품</div>';
+                    document.getElementById('f_coupon').innerHTML = '<div class="form-item-label display_flex_ju_center font-size-12">정액상품</div>';
+
+
+                    body.forEach(function(el){
+
+                        if(el.type === 'C'){
+
+                            document.getElementById('c_coupon').innerHTML +=  `<div class="form-item-data type-2">
                                                                                 <div class="toggle-button-group vertical">
                                                                                     <div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" htmlFor="cp1-1">
-                                                                                        <input type="checkbox" name="cp2" id="cp2-1" onclick="set_product(this,'${el.name}','${el.price}')"><em><span>${el.name}</span><strong>+${el.price.toLocaleString()}원</strong></em></label>
+                                                                                        <input class="pay_coupon" type="checkbox" name="cp1" id="cp1-1" value="${el.name}" onclick="set_product(this,'${el.name}','${el.price}')"><em><span>${el.name}</span><strong>+${el.price.toLocaleString()}원</strong></em></label>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>`
+                        }else{
+
+                            document.getElementById('f_coupon').innerHTML +=  `<div class="form-item-data type-2">
+                                                                                    <div class="toggle-button-group vertical">
+                                                                                        <div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" htmlFor="cp1-1">
+                                                                                            <input class="pay_coupon" type="checkbox" name="cp2" id="cp2-1" value="${el.name}" onclick="set_product(this,'${el.name}','${el.price}')"><em><span>${el.name}</span><strong>+${el.price.toLocaleString()}원</strong></em></label>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>`
+                        }
+                    })
+
+
+
+
+                    let customer_id = data.customer_Id;
+                    let tmp_user_idx = data.tmp_id;
+
+                    if(tmp_user_idx === ""){
+                        tmp_user_idx = 0;
                     }
-                })
+
+                    $.ajax({
+                        url:'/data/pc_ajax.php',
+                        type:'post',
+                        data:{
+
+                            mode:'get_user_coupon',
+                            login_id:id,
+                            customer_id:customer_id,
+                            tmp_user_idx:tmp_user_idx
+                        },
+                        success:function(res){
+                            console.log(res)
+                            let response = JSON.parse(res);
+                            let head = response.data.head;
+                            let body_ = response.data.body;
+                            if (head.code === 401) {
+                                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                            } else if (head.code === 200) {
+
+                                if(body_.length === undefined){
+
+                                    body_ = [body_];
+                                }
+
+                                if(body_.length > 0){
+
+                                    document.getElementById('pet_shop_coupon').style.display = 'block';
+
+                                }else{
+
+                                    document.getElementById('pet_shop_coupon').style.display = 'none';
+
+                                }
 
 
+                                console.log(body_);
+
+                                document.getElementById('coupon_name').innerHTML = '';
+                                body_.forEach(function(el){
+
+                                    body.forEach(function(el_){
+
+                                        if(el.coupon_seq === el_.idx){
+                                            if(el.del_yn === "N"){
+
+                                                document.getElementById('coupon_name').innerHTML += `<option data-given="${el.given}" data-type="${el.type}" data-use="${el.use}" data-coupon_seq="${el.coupon_seq}" data-user_coupon_seq="${el.user_coupon_seq}" data-price="${el.price}">${el_.name}</option>`
 
 
-                let customer_id = data.customer_Id;
-                let tmp_user_idx = data.tmp_id;
-
-                if(tmp_user_idx === ""){
-                    tmp_user_idx = 0;
-                }
-
-                $.ajax({
-                    url:'/data/pc_ajax.php',
-                    type:'post',
-                    data:{
-
-                        mode:'get_user_coupon',
-                        login_id:id,
-                        customer_id:customer_id,
-                        tmp_user_idx:tmp_user_idx
-                    },
-                    success:function(res){
-                        console.log(res)
-                        let response = JSON.parse(res);
-                        let head = response.data.head;
-                        let body_ = response.data.body;
-                        if (head.code === 401) {
-                            pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-                        } else if (head.code === 200) {
-
-                            if(body_.length === undefined){
-
-                                body_ = [body_];
-                            }
-
-                            if(body_.length > 0){
-
-                                document.getElementById('pet_shop_coupon').style.display = 'block';
-
-                            }else{
-
-                                document.getElementById('pet_shop_coupon').style.display = 'none';
-
-                            }
-
-
-                            console.log(body_);
-
-                            document.getElementById('coupon_name').innerHTML = '';
-                            body_.forEach(function(el){
-
-                                body.forEach(function(el_){
-
-                                    if(el.coupon_seq === el_.idx){
-                                        if(el.del_yn === "N"){
-
-                                            document.getElementById('coupon_name').innerHTML += `<option data-given="${el.given}" data-type="${el.type}" data-use="${el.use}" data-coupon_seq="${el.coupon_seq}" data-user_coupon_seq="${el.user_coupon_seq}" data-price="${el.price}">${el_.name}</option>`
-
+                                            }
 
                                         }
+                                    })
 
-                                    }
+
                                 })
+                                document.getElementById('coupon_name').dispatchEvent(new Event('change'))
+                            }
 
-
-                            })
-                            document.getElementById('coupon_name').dispatchEvent(new Event('change'))
+                            resolve()
                         }
-                    }
-                })
+                    })
 
 
+                }
             }
-        }
 
+        })
     })
 
 }
@@ -9740,14 +9763,20 @@ function get_etc_product(id){
 
 
                 console.log(body);
+                document.getElementById('etc_product_list_1').innerHTML = ''
+                document.getElementById('etc_product_list_2').innerHTML = ''
+                document.getElementById('etc_product_list_3').innerHTML = ''
+                document.getElementById('etc_product_list_4').innerHTML = ''
 
                 body.forEach(function(el){
+
+
 
                     switch (parseInt(el.type)){
                         
                         case 1: document.getElementById('etc_product_list_1').innerHTML += `<div class="toggle-button-cell">
                                                                                                 <div class="form-toggle-options">
-                                                                                                    <input type="checkbox" name="options1-1" onclick="set_product(this,'${el.name}','${el.price}')">
+                                                                                                    <input type="checkbox" class="pay_etc_product" name="options1-1" value="${el.name}" data-price="${el.price}" data-idx="${el.idx}" onclick="set_product(this,'${el.name}','${el.price}')">
                                                                                                         <div class="form-toggle-options-data">
                                                                                                             <div class="options-labels"><span>${el.name}</span><strong>+${el.price === null ? '': el.price.toLocaleString()}원</strong></div>
                                                                                                             <div class="form-amount-input">
@@ -9763,7 +9792,7 @@ function get_etc_product(id){
                             break;
                         case 2:  document.getElementById('etc_product_list_2').innerHTML += `<div class="toggle-button-cell">
                                                                                                 <div class="form-toggle-options">
-                                                                                                    <input type="checkbox" name="options2-1"  onclick="set_product(this,'${el.name}','${el.price}')">
+                                                                                                    <input type="checkbox" class="pay_etc_product"  name="options2-1" value="${el.name}" data-price="${el.price}" data-idx="${el.idx}"  onclick="set_product(this,'${el.name}','${el.price}')">
                                                                                                         <div class="form-toggle-options-data">
                                                                                                             <div class="options-labels"><span>${el.name}</span><strong>+${el.price === null ? '': el.price.toLocaleString()}원</strong></div>
                                                                                                             <div class="form-amount-input">
@@ -9779,7 +9808,7 @@ function get_etc_product(id){
                             break;
                         case 3:  document.getElementById('etc_product_list_3').innerHTML += `<div class="toggle-button-cell">
                                                                                                 <div class="form-toggle-options">
-                                                                                                    <input type="checkbox" name="options3-1"  onclick="set_product(this,'${el.name}','${el.price}')">
+                                                                                                    <input type="checkbox" class="pay_etc_product"  name="options3-1" value="${el.name}" data-price="${el.price}" data-idx="${el.idx}"  onclick="set_product(this,'${el.name}','${el.price}')">
                                                                                                         <div class="form-toggle-options-data">
                                                                                                             <div class="options-labels"><span>${el.name}</span><strong>+${el.price === null ? '': el.price.toLocaleString()}원</strong></div>
                                                                                                             <div class="form-amount-input">
@@ -9795,7 +9824,7 @@ function get_etc_product(id){
                             break;
                         case 4:  document.getElementById('etc_product_list_4').innerHTML += `<div class="toggle-button-cell">
                                                                                                 <div class="form-toggle-options">
-                                                                                                    <input type="checkbox" name="options4-1" onclick="set_product(this,'${el.name}','${el.price}')">
+                                                                                                    <input type="checkbox" class="pay_etc_product"  name="options4-1" value="${el.name}" data-price="${el.price}" data-idx="${el.idx}"  onclick="set_product(this,'${el.name}','${el.price}')">
                                                                                                         <div class="form-toggle-options-data">
                                                                                                             <div class="options-labels"><span>${el.name}</span><strong>+${el.price === null ? '': el.price.toLocaleString()}원</strong></div>
                                                                                                             <div class="form-amount-input">
@@ -9904,8 +9933,6 @@ function set_etc_product_count(target,name,price,bool){
                 let value = siblings(target,1).children[0].value;
 
                 if(target.getAttribute('id') === 'surcharge'){
-
-
                     siblings(el,1).innerText = `${((price*value)-(price*parseInt(document.getElementById('weight_target').value))+parseInt(document.getElementById('weight_target').getAttribute('data-price')))}원`
                 }else{
                     siblings(el,1).innerText = `${(price*value)}원`;
@@ -10005,12 +10032,10 @@ function management_total_price(){
     let observer = new MutationObserver(function(mutations){
 
         mutations.forEach(function(mutation){
-            console.log(mutation);
 
             let sum = 0;
             Array.from(document.getElementsByClassName('list-value-add')).forEach(function(el){
 
-                console.log(parseInt(el.innerText.replace('원','')));
                 sum += parseInt(el.innerText.replace('원',''));
 
 
@@ -10522,40 +10547,7 @@ function pay_management_toggle(bool){
     }
 
 }
-function pay_management_init_approve(id,target){
 
-    let payment_idx = target.getAttribute('data-payment_idx');
-
-    $.ajax({
-        url:'/data/pc_ajax.php',
-        type:'post',
-        data:{
-            mode:'pay_management',
-            payment_idx:payment_idx
-        },
-        beforeSend:function(){
-
-            if(document.getElementById('pay_card_body_inner')){
-
-                document.getElementById('pay_card_body_inner').style.display = 'none';
-                document.getElementById('pay_management_loading').style.display = 'flex';
-            }
-
-
-            document.getElementById('pay_management').scrollTop = 0
-
-
-
-
-
-        },
-
-
-    })
-
-
-
-}
 function pay_management_init(id,target,bool,bool2){
     console.log(id);
 
@@ -11086,6 +11078,7 @@ function pay_management_init(id,target,bool,bool2){
 
                                     if(parsing.animal === '개'){
 
+
                                         setTimeout(function(){
 
                                             Array.from(document.querySelectorAll('input[name="payment_s2"]')).forEach(function(el){
@@ -11095,6 +11088,29 @@ function pay_management_init(id,target,bool,bool2){
                                                     setTimeout(function(){el.click()},100);
                                                 }
                                             })
+
+                                            Array.from(document.querySelectorAll('input[name="payment_hairBeauty"]')).forEach(function(el){
+
+                                                if(el.value === parsing.base.hair_lenth.unit.match('mm') ? parsing.base.hair_lenth.unit : `${parsing.base.hair_lenth.unit}mm` && el.getAttribute('data-price') === parsing.base.hair_lenth.price){
+
+                                                    setTimeout(function(){
+                                                        el.click()
+                                                    },500)
+                                                }
+                                            })
+
+
+                                            Array.from(document.querySelectorAll('input[name="payment_f1"]')).forEach(function(el){
+
+
+                                                if(el.value === parsing.add.face.unit){
+                                                    setTimeout(function(){
+                                                        el.click()
+                                                    },300)
+                                                }
+                                            })
+
+
                                         },300)
 
 
@@ -11113,28 +11129,15 @@ function pay_management_init(id,target,bool,bool2){
                                             })
                                         })
 
-                                        Array.from(document.querySelectorAll('input[name="payment_hairBeauty"]')).forEach(function(el){
-
-                                            if(el.value.replace('mm','') === parsing.base.hair_lenth.unit && el.getAttribute('data-price') === parsing.base.hair_lenth.price){
-
-                                                el.click();
-                                            }
-                                        })
-
-
-                                        Array.from(document.querySelectorAll('input[name="payment_f1"]')).forEach(function(el){
-
-                                            if(el.value === parsing.add.face.unit){
-                                                el.click();
-                                            }
-                                        })
 
                                         let array = Object.keys(parsing.add.leg).map((key)=> [key,parsing.add.leg[key]])
                                         Array.from(document.querySelectorAll('input[name="payment_f2"]')).forEach(function(el){
 
 
                                             array.forEach(function (el_){
-
+                                                if(el_[1].unit === '네일'){
+                                                    el_[1].unit = '발톱'
+                                                }
                                                 if(el_[1].unit === el.value && el_[1].price === el.getAttribute('data-price')){
                                                     el.click();
                                                 }
@@ -11144,19 +11147,70 @@ function pay_management_init(id,target,bool,bool2){
                                         })
 
 
+                                        Array.from(document.querySelectorAll('input[name="payment_f3"]')).forEach(function(el){
 
-                                        // Array.from(document.querySelector('input[name="payment_f3"]')).forEach(function(el){
-                                        //
-                                        //
-                                        //
-                                        // })
-                                        //
-                                        //
-                                        // Array.from(document.querySelector('input[name=""]')).forEach(function(el){
-                                        //
-                                        //
-                                        //
-                                        // })
+                                            parsing.add.spa.forEach(function(el_){
+
+                                                if(el_.unit === el.value){
+                                                    el.click();
+                                                }
+                                            })
+                                        })
+
+
+
+
+
+
+
+                                        Array.from(document.querySelectorAll('input[name="payment_f4"]')).forEach(function(el){
+
+                                            parsing.add.hair_color.forEach(function(el_){
+
+                                                if(el_.unit === el.value){
+                                                    el.click();
+                                                }
+                                            })
+
+
+                                        })
+
+                                        Array.from(document.querySelectorAll('input[name="payment_f5"]')).forEach(function(el){
+
+                                            parsing.add.etc.forEach(function(el_){
+
+                                                if(el_.unit === el.value){
+                                                    el.click();
+                                                }
+                                            })
+
+
+                                        })
+
+                                        if(parsing?.goods){
+                                            Array.from(document.getElementsByClassName('pay_etc_product')).forEach(function(el){
+
+                                                parsing.goods.forEach(function(el_){
+
+                                                    if(el_.name === el.value && el_.price === el.getAttribute('data-price')){
+                                                        el.click();
+                                                        siblings(el,1).children[1].children[1].children[0].value = el_.ea;
+
+                                                        setTimeout(function(){
+
+                                                            Array.from(document.getElementsByClassName('list-title-add')).forEach(function(_el){
+
+                                                                if(_el.innerText === el_.name){
+
+                                                                    siblings(_el,1).innerText = `${el_.price*el_.ea}원`
+                                                                }
+                                                            })
+                                                        },300)
+                                                    }
+                                                })
+                                            })
+                                        }
+
 
 
 
@@ -11187,7 +11241,6 @@ function pay_management_init(id,target,bool,bool2){
                                             }
 
                                         }else if(body.discount_type === "0"){
-                                            console.log('-------------------')
 
 
                                             document.getElementById('discount_1_btn').click()
@@ -11220,7 +11273,21 @@ function pay_management_init(id,target,bool,bool2){
                         })
                     });
 
-                    get_coupon(id,body);
+                    get_coupon(id,body).then(function(){
+
+                        Array.from(document.getElementsByClassName('pay_coupon')).forEach(function(el){
+
+                            parsing.coupon.forEach(function(el_){
+
+                                if(el_.name === el.value){
+                                    el.click();
+                                }
+                            })
+
+
+                        })
+
+                    });
                     get_etc_product(id);
 
                     document.getElementById('cardcash-btn').setAttribute('data-payment_idx',payment_idx);
@@ -11815,6 +11882,16 @@ function reserve_confirm(target){
 
     })
 
+
+
+}
+
+function pay_management_product_change(){
+
+
+    let size = document.querySelector('input[name="payment_size"]:check').value;
+
+    console.log(size);
 
 
 }
