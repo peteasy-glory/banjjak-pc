@@ -106,7 +106,7 @@ if ($artist_flag == 1) {
 																			</div>
 																		</td>
 																		<td class="no-padding text-align-center vertical-center">
-																			<button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
+																			<button type="button" class="btn-item-del"></button>
 																		</td>
 																	</tr>
                                                                     <tr class="drag-sort-cell">
@@ -126,7 +126,7 @@ if ($artist_flag == 1) {
                                                                             </div>
                                                                         </td>
                                                                         <td class="no-padding text-align-center vertical-center">
-                                                                            <button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
+                                                                            <button type="button" class="btn-item-del"></button>
                                                                         </td>
                                                                     </tr>
                                                                     <tr class="drag-sort-cell">
@@ -146,7 +146,7 @@ if ($artist_flag == 1) {
                                                                             </div>
                                                                         </td>
                                                                         <td class="no-padding text-align-center vertical-center">
-                                                                            <button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
+                                                                            <button type="button" class="btn-item-del"></button>
                                                                         </td>
                                                                     </tr>
                                                                     <tr class="drag-sort-cell">
@@ -166,7 +166,7 @@ if ($artist_flag == 1) {
                                                                             </div>
                                                                         </td>
                                                                         <td class="no-padding text-align-center vertical-center">
-                                                                            <button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
+                                                                            <button type="button" class="btn-item-del"></button>
                                                                         </td>
                                                                     </tr>
 																</tbody>
@@ -270,7 +270,7 @@ if ($artist_flag == 1) {
 																			</div>
 																		</td>
 																		<td class="no-padding text-align-center vertical-center">
-																			<button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
+																			<button type="button" class="btn-item-del"></button>
 																		</td>
 																	</tr>
                                                                     <tr class="drag-sort-cell">
@@ -290,7 +290,7 @@ if ($artist_flag == 1) {
                                                                             </div>
                                                                         </td>
                                                                         <td class="no-padding text-align-center vertical-center">
-                                                                            <button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
+                                                                            <button type="button" class="btn-item-del"></button>
                                                                         </td>
                                                                     </tr>
                                                                     <tr class="drag-sort-cell">
@@ -310,7 +310,7 @@ if ($artist_flag == 1) {
                                                                             </div>
                                                                         </td>
                                                                         <td class="no-padding text-align-center vertical-center">
-                                                                            <button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
+                                                                            <button type="button" class="btn-item-del"></button>
                                                                         </td>
                                                                     </tr>
 																</tbody>
@@ -362,7 +362,7 @@ if ($artist_flag == 1) {
 																			</div>
 																		</td>
 																		<td class="no-padding text-align-center vertical-center">
-																			<button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
+																			<button type="button" class="btn-item-del"></button>
 																		</td>
 																	</tr>
                                                                     <tr class="drag-sort-cell">
@@ -382,7 +382,7 @@ if ($artist_flag == 1) {
                                                                             </div>
                                                                         </td>
                                                                         <td class="no-padding text-align-center vertical-center">
-                                                                            <button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
+                                                                            <button type="button" class="btn-item-del"></button>
                                                                         </td>
                                                                     </tr>
                                                                     <tr class="drag-sort-cell">
@@ -402,7 +402,7 @@ if ($artist_flag == 1) {
                                                                             </div>
                                                                         </td>
                                                                         <td class="no-padding text-align-center vertical-center">
-                                                                            <button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
+                                                                            <button type="button" class="btn-item-del"></button>
                                                                         </td>
                                                                     </tr>
 																</tbody>
@@ -464,7 +464,7 @@ if ($artist_flag == 1) {
 																				</div>
 																			</td>
 																			<td class="no-padding text-align-center vertical-center">
-																				<button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
+																				<button type="button" class="btn-item-del"></button>
 																			</td>
 																		</tr>
                                                                         <tr class="drag-sort-cell">
@@ -484,7 +484,7 @@ if ($artist_flag == 1) {
                                                                                 </div>
                                                                             </td>
                                                                             <td class="no-padding text-align-center vertical-center">
-                                                                                <button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
+                                                                                <button type="button" class="btn-item-del"></button>
                                                                             </td>
                                                                         </tr>
                                                                         <tr class="drag-sort-cell">
@@ -504,7 +504,7 @@ if ($artist_flag == 1) {
                                                                                 </div>
                                                                             </td>
                                                                             <td class="no-padding text-align-center vertical-center">
-                                                                                <button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
+                                                                                <button type="button" class="btn-item-del"></button>
                                                                             </td>
                                                                         </tr>
 																	</tbody>
@@ -664,7 +664,7 @@ if ($artist_flag == 1) {
 													<div class="form-group-item">
 														<div class="form-item-label">추가설명</div>
 														<div class="form-item-data type-2">
-															<textarea style="height:100px;" name="comment" class="comment" placeholder="입력"></textarea>
+															<textarea style="height:100px;" class="comment" placeholder="입력"></textarea>
 <!--															<div class="form-input-info">0/1000</div>-->
 														</div>
 													</div>
@@ -1006,7 +1006,7 @@ if ($artist_flag == 1) {
         }
 
         // 코멘트
-        $(".comment").val(option_array.comment);
+        $(".comment").val(db_to_str(option_array.comment));
         // idx
         $(".option_product_idx").val(option_array.idx);
 
@@ -1072,12 +1072,18 @@ if ($artist_flag == 1) {
         }
     }
 
+    // 구간삭제
+    $(document).on("click",".icon-trash",function(){
+        $(this).parents('.drag-sort-cell').remove();
+    })
+
     function open_pop(){
         pop.open('saveOptionProduct');
     }
 
     function save_option_product(){
         var postData = decodeURIComponent($("#optionProductForm").serialize());
+        postData += '&comment='+str_to_db($(".comment").val());
         postData += '&mode=put_option_product';
         //console.log(postData);
         put_option_product(postData);

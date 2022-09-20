@@ -388,7 +388,7 @@ $pet_type = (isset($_GET['is_cat']))? $_GET['is_cat'] : "dog";
 																			<div class="form-item-data">									
 																				<div class="form-char">
 																					<input type="number" class="form-control what_over_kgs" name="what_over_kgs" placeholder="숫자 및 '.'만 입력가능">
-																					<div class="char">Kg 당</div>
+																					<div class="char">Kg 이상</div>
 																				</div>
 																				<div class="form-input-info">최대 8자까지 입력가능합니다.</div>
 																			</div>
@@ -399,7 +399,8 @@ $pet_type = (isset($_GET['is_cat']))? $_GET['is_cat'] : "dog";
 																			<div class="form-item-label">금액입력</div>
 																			<div class="form-item-data">									
 																				<div class="form-char">
-																					<div class="char-input">										
+                                                                                    <div class="char">Kg 당</div>
+																					<div class="char-input">
 																						<input type="number" class="form-control over_kgs_price" name="over_kgs_price" placeholder="숫자 및 '.'만 입력가능">
 																						<div class="form-input-info">최대 8자까지 입력가능합니다.</div>
 																					</div>
@@ -419,7 +420,7 @@ $pet_type = (isset($_GET['is_cat']))? $_GET['is_cat'] : "dog";
 													<div class="form-group-item">
 														<div class="form-item-label">추가설명</div>
 														<div class="form-item-data type-2">
-															<textarea style="height:100px;" class="dog_add_comment" name="add_comment" placeholder="입력"></textarea>
+															<textarea style="height:100px;" class="dog_add_comment" placeholder="입력"></textarea>
 <!--															<div class="form-input-info">0/1000</div>-->
 														</div>
 													</div>
@@ -622,7 +623,7 @@ $pet_type = (isset($_GET['is_cat']))? $_GET['is_cat'] : "dog";
                                                 </div>
                                                 <div class="basic-data-group">
                                                     <div class="con-title-group">
-                                                        <h4 class="con-title">털 특징 별 추가요금</h4>
+                                                        <h4 class="con-title">추가요금</h4>
                                                         <div class="grid-layout btn-grid-group">
                                                             <div class="grid-layout-inner justify-content-end">
                                                                 <div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-gray btn-small-size btn-basic-small cat_plus_add_table">구간추가</button></div>
@@ -765,7 +766,7 @@ $pet_type = (isset($_GET['is_cat']))? $_GET['is_cat'] : "dog";
                                                     <div class="form-group-item">
                                                         <div class="form-item-label">추가설명</div>
                                                         <div class="form-item-data type-2">
-                                                            <textarea style="height:100px;" class="cat_comment" name="add_comment" placeholder="입력"></textarea>
+                                                            <textarea style="height:100px;" class="cat_comment" placeholder="입력"></textarea>
                                                             <div class="form-input-info">0/1000</div>
                                                         </div>
                                                     </div>
@@ -909,7 +910,7 @@ $pet_type = (isset($_GET['is_cat']))? $_GET['is_cat'] : "dog";
 <script>
     let artist_id = "<?=$artist_id?>";
     var add_worktime = 0;
-    var second_type = '<?=$second_type ?>';
+    var second_type = '<?=$_GET['second_type'] ?>';
     var direct_title = '<?=$direct_title ?>';
     var pet_type = '<?=$pet_type ?>';
     $(document).ready(function() {
@@ -1138,11 +1139,13 @@ $pet_type = (isset($_GET['is_cat']))? $_GET['is_cat'] : "dog";
     function save_product(){
         if(pet_type == 'cat'){
             var dataPost = decodeURIComponent($("#catForm").serialize());
+            dataPost += '&add_comment='+str_to_db($(".cat_comment").val());
             dataPost += '&mode=post_product_cat';
             console.log(dataPost);
             post_product_cat(dataPost);
         }else{
             var dataPost = decodeURIComponent($("#dogForm").serialize());
+            dataPost += '&add_comment='+str_to_db($(".dog_add_comment").val());
             dataPost += '&mode=post_product_dog';
             console.log(dataPost);
             post_product_dog(dataPost);

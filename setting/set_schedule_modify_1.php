@@ -828,13 +828,15 @@ if ($artist_flag == 1) {
             var name = (v.name == artist_id)? v.nick : v.name;
             var checked = (i == 0)? "checked" : "";
             var is_block = (i == 0)? "flex" : "none";
-            html += `
-                    <div class="grid-layout-cell flex-auto"><label class="form-toggle-box"><input type="radio" class="worker" value="${i}" name="worker" ${checked}><em>${name}</em></label></div>
-                `;
+            if(v.is_leave == false && v.is_show == true){
+                html += `
+                        <div class="grid-layout-cell flex-auto"><label class="form-toggle-box"><input type="radio" class="worker" value="${i}" name="worker" ${checked}><em>${name}</em></label></div>
+                    `;
 
-            html_modify += `
+                html_modify += `
                     <div class="grid-layout-cell flex-auto"><label class="form-toggle-box"><input type="checkbox" name="break_worker[]" value="${v.name}" ${checked}><em>${name}</em></label></div>
                 `;
+            }
 
             start_hour = setting_array[0].open_time;
             close_hour = setting_array[0].close_time;

@@ -896,6 +896,8 @@ $endDate = DATE('Y-m-d');
             $(".cash_percent").css('width','50%');
             $(".card_percent_txt").text('0%');
             $(".cash_percent_txt").text('0%');
+            $(".card_percent_txt").css("display","block");
+            $(".cash_percent_txt").css("display","block");
             $(".customer_cnt").text(0);
             $(".pet_cnt").text(0);
             var chart = bb.generate({
