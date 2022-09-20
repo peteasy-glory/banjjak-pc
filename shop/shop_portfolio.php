@@ -273,6 +273,7 @@ if ($artist_flag == 1) {
     });
 
     function delete_ok(){
+        pop.close();
         var idx = $("#delete_pop .idx").val();
         del_gallery(idx);
     }

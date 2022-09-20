@@ -471,7 +471,20 @@ function stats(){
         document.getElementById('main_reserve_graph_none').style.display = 'block';
     }
 }
+function onScroll(e){
+    const sticky_target = document.querySelector("#sticky-tab-group-target");
+    const classes = sticky_target.classList;
+    const st_bt_target = pageYOffset + document.querySelector("#sticky-bottom").getBoundingClientRect().top;
 
+    if(window.scrollY >= st_bt_target -100){
+        if(!classes.contains("sticky-remove")) {
+            sticky_target.classList.add("sticky-remove")
+
+        }
+    }else{
+        sticky_target.classList.remove("sticky-remove")
+    }
+}
 
 //오늘 예약 내역
 function today_reserve(){
@@ -503,8 +516,10 @@ function today_reserve(){
                 if(date_today_reserve.getFullYear() === date.getFullYear()
                     && date_today_reserve.getMonth() === date.getMonth()
                     && date_today_reserve.getDate() === date.getDate()
+                    &&el.product.is_cancel !== 1
                 ){
 
+                    console.log(el)
                     document.getElementById('reserve_after_none').style.display = 'none';
                     if(el.pet.photo !== null && el.pet.photo.substr(0,4) === '/pet'){
                         el.pet.photo = el.pet.photo.replace('/pet','');

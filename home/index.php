@@ -187,7 +187,7 @@ if($artist_flag == 1){
 						<div class="main-col-2">
 							<div class="main-col-group main-side-1">
 								<!-- 전화번호 검색 -->
-                                <form action="../customer/customer_inquiry.php" id="search_form" method="post">
+                                <form action="/customer/customer_inquiry.php" id="search_form" method="get">
 								<div class="basic-data-card transparent main-phone-group">
 									<div class="main-phone">
 
