@@ -218,8 +218,6 @@ let offset = 1;
 
 function customer_all(id){
 
-    offset =1;
-
     return new Promise(function (resolve){
         if(list_loging || list_end){
             return false;
@@ -296,7 +294,9 @@ function customer_all(id){
                 resolve(customers)
             }
             ,complete:function(){
+
                 offset +=20
+                console.log(offset)
                 list_loging=false;
             }
         })
