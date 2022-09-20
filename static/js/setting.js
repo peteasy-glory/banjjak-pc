@@ -1999,7 +1999,7 @@ function get_dog_type_product(artist_id,second_type,direct_title){
                     var bt_div = $('.dog_table_tr:last-child').clone();
 
                     // row에 값 넣기
-                    $('.dog_table_tr:last-child .kgs_arr').val(parseInt(kg_array[i]).toFixed(1));
+                    $('.dog_table_tr:last-child .kgs_arr').val((kg_array[i]));
 
                     // 목욕
                     if(body.bath.price != ''){
@@ -2160,4 +2160,72 @@ function get_dog_type_product(artist_id,second_type,direct_title){
             }
         }
     })
+}
+
+//달력
+function renderCalendar(date) {
+
+        let viewYear = date.getFullYear();
+        let viewMonth = date.getMonth();
+
+        // year-month 채우기
+        document.querySelector('.year_month').innerText = `${viewYear}.${fill_zero(viewMonth+1)}`;
+
+        // 지난 달 마지막 Date, 이번 달 마지막 Date
+        let prevLast = new Date(viewYear, viewMonth, 0);
+        let thisLast = new Date(viewYear, viewMonth + 1, 0);
+        let PLDate = prevLast.getDate();
+        let PLDay = prevLast.getDay();
+        let TLDate = thisLast.getDate();
+        let TLDay = thisLast.getDay();
+
+        // Dates 기본 배열들
+        let prevDates = [];
+        let thisDates = [...Array(TLDate + 1).keys()].slice(1);
+        let nextDates = [];
+
+        // prevDates 계산
+        if (PLDay !== 6) {
+            for (let i = 0; i < PLDay + 1; i++) {
+                prevDates.unshift(PLDate - i);
+            }
+        }
+
+        // nextDates 계산
+        for (let i = 1; i < 7 - TLDay; i++) {
+            nextDates.push(i)
+        }
+
+        // Dates 합치기
+        let dates = prevDates.concat(thisDates, nextDates);
+
+        // Dates 정리
+        dates.forEach(function(_date, i){
+            dates[i] = `
+            
+            <div class="calendar-month-body-col ${prevDates.indexOf(_date) >= 0 && i <= 7 ? "before" : ""} ${nextDates.indexOf(_date) >= 0 && i >= dates.length - 7 ? "after" : ""} ${new Date(date.getFullYear(),date.getMonth(),_date).getDay() === 0 ? 'sunday' : ''} ${new Date(date.getFullYear(),date.getMonth(),_date).getDay() === 6 ? 'saturday' : '' } ">
+                <div class="calendar-col-inner">
+                    <div class="calendar-day-value"><div class="number ${new Date(date.getFullYear(),date.getMonth(),_date).getDay() === 0 ? 'sunday' : ''} ${new Date(date.getFullYear(),date.getMonth(),_date).getDay() === 6 ? 'saturday' : '' }">${_date}</div><div class="state"></div></div>
+                    <div class="calendar-total-value"></div>
+                </div>
+            </div>
+            
+            `;
+        })
+        //7일단위로 나눔
+        const div_dates = dates.division(7);
+
+        //row 생성
+        document.getElementById(`calendar-month-body`).innerHTML = '';
+        for (let i = 0; i < div_dates.length; i++) {
+            document.getElementById(`calendar-month-body`).innerHTML += ` <div class="calendar-month-body-row ${i > 0 && i < 5 ? "op-1" : ""} ${i === 0 || i === 2 ? '1or3' : i === 1 || i === 3 ? '2or4':""} " id="calendar-month-body-row-${i}" ></div>`
+        }
+        //console.log(div_dates);
+        for (let i = 0; i < div_dates.length; i++) {
+            document.getElementById(`calendar-month-body-row-${i}`).innerHTML = '';
+            for (let j = 0; j < div_dates[i].length; j++) {
+                document.getElementById(`calendar-month-body-row-${i}`).innerHTML += div_dates[i][j]
+            }
+        }
+
 }
