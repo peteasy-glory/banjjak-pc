@@ -432,7 +432,7 @@
 }
 
 .sticky-remove{
-    display:block !important;
+    display:block;
     position:relative !important;
 }
 
@@ -1051,4 +1051,13 @@
 
     color:#d8d8d8 !important;
     background: #1e1f21 !important;
+}
+.is_approve2{
+    padding-left:20px;
+    padding-right:20px;
+    width:calc(100% - 40px);
+}
+
+.bg-fffbed{
+    background:#fffbed;
 }

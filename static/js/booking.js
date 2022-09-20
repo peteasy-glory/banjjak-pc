@@ -82,7 +82,7 @@ function schedule_render(id){
 
                                     let multiple = (new Date(el.product.date.booking_fi).getTime() - new Date(el.product.date.booking_st).getTime())/1800000;
                                     el_.innerHTML = `<div class="calendar-drag-item-group">
-                                                                        <a href="#" onclick="pay_management_init(artist_id,this,false,${multiple}); pay_management_toggle(false); localStorage.setItem('payment_idx','${el_.getAttribute('data-pay')}')" data-tooltip_idx="${index}" data-payment_idx="${el_.getAttribute('data-pay')}" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-pay')})" class="calendar-week-time-item toggle green ${color} ${el.product.is_no_show === 1 ? "red" : ''} ${el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
+                                                                        <a href="#" onclick="pay_management_init(artist_id,this,false,${el.product.is_approve === 0 ? false : true}); pay_management_toggle(false); localStorage.setItem('payment_idx','${el_.getAttribute('data-pay')}')" data-tooltip_idx="${index}" data-payment_idx="${el_.getAttribute('data-pay')}" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-pay')})" class="calendar-week-time-item toggle green ${color} ${el.product.is_no_show === 1 ? "red" : ''} ${el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
                                                                             <div class="item-inner" >
                                                                                 <div class="item-name">
                                                                                     <div class="txt" style="font-size:17px; margin-bottom:2px;">${el.pet.name}</div>
@@ -9995,7 +9995,6 @@ function management_total_price(){
     if(localStorage.getItem('is_vat') === '1'){
 
         document.getElementById('is_vat_list').style.display = 'flex';
-        localStorage.removeItem('is_vat');
     }else{
 
         document.getElementById('is_vat_list').style.display = 'none';
@@ -10123,7 +10122,7 @@ return new Promise(function(resolve){
 }
 
 
-function reserves(id,body){
+function reserves(id,body,bool2){
 
 
 
@@ -10148,13 +10147,16 @@ function reserves(id,body){
 
             let data = response.data;
 
-            if(data.is_use === '1'){
+            if(bool2){
+                if(data.is_use === '1'){
 
-                document.getElementById('pet_shop_reserves').style.display = 'block';
+                    document.getElementById('pet_shop_reserves').style.display = 'block';
 
-            }else{
-                document.getElementById('pet_shop_reserves').style.display = 'none';
+                }else{
+                    document.getElementById('pet_shop_reserves').style.display = 'none';
+                }
             }
+
 
 
                 $.ajax({
@@ -10524,11 +10526,37 @@ function pay_management_init_approve(id,target){
 
     let payment_idx = target.getAttribute('data-payment_idx');
 
+    $.ajax({
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+            mode:'pay_management',
+            payment_idx:payment_idx
+        },
+        beforeSend:function(){
+
+            if(document.getElementById('pay_card_body_inner')){
+
+                document.getElementById('pay_card_body_inner').style.display = 'none';
+                document.getElementById('pay_management_loading').style.display = 'flex';
+            }
+
+
+            document.getElementById('pay_management').scrollTop = 0
+
+
+
+
+
+        },
+
+
+    })
 
 
 
 }
-function pay_management_init(id,target,bool,multiple_time){
+function pay_management_init(id,target,bool,bool2){
     console.log(id);
 
 
@@ -10554,6 +10582,37 @@ function pay_management_init(id,target,bool,multiple_time){
 
 
 
+            if(!bool2){
+
+                Array.from(document.getElementsByClassName('is_approve')).forEach(function(el){
+
+                    el.style.display = 'none';
+                })
+
+                Array.from(document.getElementsByClassName('is_approve2')).forEach(function(el){
+
+                    el.style.display = 'block';
+                })
+
+
+
+            }else{
+                Array.from(document.getElementsByClassName('is_approve')).forEach(function(el){
+
+                    if(el.classList.contains('user-receipt-wrap')){
+                        el.style.display = 'flex';
+                    }else{
+                        el.style.display = 'block';
+
+                    }
+                })
+
+                Array.from(document.getElementsByClassName('is_approve2')).forEach(function(el){
+
+                    el.style.display = 'none';
+                })
+
+            }
 
 
         },
@@ -10982,161 +11041,161 @@ function pay_management_init(id,target,bool,multiple_time){
                 let parsing = body.product_parsing
 
 
+                if(bool2){
+                    management_service_1(id,body).then(function(body_){
+                        management_wide_tab2();
+                        management_total_price();
 
-                management_service_1(id,body).then(function(body_){
-                    management_wide_tab2();
-                    management_total_price();
-
-                    reserves(id,body);
-
-
-
-                    management_service_2(body_).then(function(base_svc){
-                        if(parsing.animal === '개'){
+                        reserves(id,body,bool2);
 
 
 
-                            Array.from(document.querySelectorAll('input[name="payment_size"]')).forEach(function(el){
-
-                                if(el.value === parsing.base.size){
-
-                                    setTimeout(function(){el.click()},300);
-                                }
-                            })
-
-
-                        }
-
-
-
-                        management_service_3(base_svc).then(function(base_svc){
+                        management_service_2(body_).then(function(base_svc){
                             if(parsing.animal === '개'){
-                                Array.from(document.querySelectorAll('input[name="payment_s1"]')).forEach(function(el){
 
 
-                                    if(el.value === parsing.base.beauty_kind){
+
+                                Array.from(document.querySelectorAll('input[name="payment_size"]')).forEach(function(el){
+
+                                    if(el.value === parsing.base.size){
 
                                         setTimeout(function(){el.click()},300);
                                     }
                                 })
 
+
                             }
 
 
-                            management_service_4(base_svc).then(function(){
 
+                            management_service_3(base_svc).then(function(base_svc){
                                 if(parsing.animal === '개'){
-
-                                    setTimeout(function(){
-
-                                        Array.from(document.querySelectorAll('input[name="payment_s2"]')).forEach(function(el){
-
-                                            if(el.value === parsing.base.weight.unit){
-
-                                                setTimeout(function(){el.click()},100);
-                                            }
-                                        })
-                                    },300)
+                                    Array.from(document.querySelectorAll('input[name="payment_s1"]')).forEach(function(el){
 
 
+                                        if(el.value === parsing.base.beauty_kind){
 
-
-                                    Array.from(document.querySelectorAll('input[name="payment_hair"]')).forEach(function(el){
-
-
-                                        parsing.base.hair_features.forEach(function(el_){
-
-                                            if(el.value === el_.unit){
-
-                                                el.click();
-                                            }
-
-                                        })
-                                    })
-
-                                    Array.from(document.querySelectorAll('input[name="payment_hairBeauty"]')).forEach(function(el){
-
-                                        if(el.value.replace('mm','') === parsing.base.hair_lenth.unit && el.getAttribute('data-price') === parsing.base.hair_lenth.price){
-
-                                            el.click();
+                                            setTimeout(function(){el.click()},300);
                                         }
                                     })
-
-
-                                    Array.from(document.querySelectorAll('input[name="payment_f1"]')).forEach(function(el){
-
-                                        if(el.value === parsing.add.face.unit){
-                                            el.click();
-                                        }
-                                    })
-
-                                    let array = Object.keys(parsing.add.leg).map((key)=> [key,parsing.add.leg[key]])
-                                    Array.from(document.querySelectorAll('input[name="payment_f2"]')).forEach(function(el){
-
-
-                                        array.forEach(function (el_){
-
-                                            if(el_[1].unit === el.value && el_[1].price === el.getAttribute('data-price')){
-                                                el.click();
-                                            }
-                                        })
-
-
-                                    })
-
-
-
-                                    // Array.from(document.querySelector('input[name="payment_f3"]')).forEach(function(el){
-                                    //
-                                    //
-                                    //
-                                    // })
-                                    //
-                                    //
-                                    // Array.from(document.querySelector('input[name=""]')).forEach(function(el){
-                                    //
-                                    //
-                                    //
-                                    // })
-
-
-
-
 
                                 }
 
-                                discount_init().then(function(){
 
-                                    if(body.discount_type === "1"){
-                                        document.getElementById('discount_1_btn').click()
-                                        for(let i=0; i<document.getElementById('discount_1').options.length; i++){
-                                            if(document.getElementById('discount_1').options[i].value === body.discount_num){
-                                                document.getElementById('discount_1').options[i].selected =true;
-                                                document.getElementById('discount_1').dispatchEvent(new Event('change'));
+                                management_service_4(base_svc).then(function(){
+
+                                    if(parsing.animal === '개'){
+
+                                        setTimeout(function(){
+
+                                            Array.from(document.querySelectorAll('input[name="payment_s2"]')).forEach(function(el){
+
+                                                if(el.value === parsing.base.weight.unit){
+
+                                                    setTimeout(function(){el.click()},100);
+                                                }
+                                            })
+                                        },300)
+
+
+
+
+                                        Array.from(document.querySelectorAll('input[name="payment_hair"]')).forEach(function(el){
+
+
+                                            parsing.base.hair_features.forEach(function(el_){
+
+                                                if(el.value === el_.unit){
+
+                                                    el.click();
+                                                }
+
+                                            })
+                                        })
+
+                                        Array.from(document.querySelectorAll('input[name="payment_hairBeauty"]')).forEach(function(el){
+
+                                            if(el.value.replace('mm','') === parsing.base.hair_lenth.unit && el.getAttribute('data-price') === parsing.base.hair_lenth.price){
+
+                                                el.click();
                                             }
+                                        })
 
-                                        }
 
-                                    }else if(body.discount_type === "2"){
-                                        document.getElementById('discount_2_btn').click()
-                                        for(let i=0; i<document.getElementById('discount_2').options.length; i++){
-                                            if(document.getElementById('discount_2').options[i].value === body.discount_num){
-                                                document.getElementById('discount_2').options[i].selected =true;
-                                                document.getElementById('discount_2').dispatchEvent(new Event('change'));
+                                        Array.from(document.querySelectorAll('input[name="payment_f1"]')).forEach(function(el){
+
+                                            if(el.value === parsing.add.face.unit){
+                                                el.click();
                                             }
+                                        })
 
-                                        }
-
-                                    }else if(body.discount_type === "0"){
-                                        console.log('-------------------')
+                                        let array = Object.keys(parsing.add.leg).map((key)=> [key,parsing.add.leg[key]])
+                                        Array.from(document.querySelectorAll('input[name="payment_f2"]')).forEach(function(el){
 
 
-                                        document.getElementById('discount_1_btn').click()
-                                        document.getElementById('discount_1').options[0].selected = true;
-                                        document.getElementById('discount_2').options[0].selected = true;
-                                        document.getElementById('discount_1').dispatchEvent(new Event('change'));
-                                        document.getElementById('discount_2').dispatchEvent(new Event('change'));
+                                            array.forEach(function (el_){
+
+                                                if(el_[1].unit === el.value && el_[1].price === el.getAttribute('data-price')){
+                                                    el.click();
+                                                }
+                                            })
+
+
+                                        })
+
+
+
+                                        // Array.from(document.querySelector('input[name="payment_f3"]')).forEach(function(el){
+                                        //
+                                        //
+                                        //
+                                        // })
+                                        //
+                                        //
+                                        // Array.from(document.querySelector('input[name=""]')).forEach(function(el){
+                                        //
+                                        //
+                                        //
+                                        // })
+
+
+
+
+
                                     }
+
+                                    discount_init().then(function(){
+
+                                        if(body.discount_type === "1"){
+                                            document.getElementById('discount_1_btn').click()
+                                            for(let i=0; i<document.getElementById('discount_1').options.length; i++){
+                                                if(document.getElementById('discount_1').options[i].value === body.discount_num){
+                                                    document.getElementById('discount_1').options[i].selected =true;
+                                                    document.getElementById('discount_1').dispatchEvent(new Event('change'));
+                                                }
+
+                                            }
+
+                                        }else if(body.discount_type === "2"){
+                                            document.getElementById('discount_2_btn').click()
+                                            for(let i=0; i<document.getElementById('discount_2').options.length; i++){
+                                                if(document.getElementById('discount_2').options[i].value === body.discount_num){
+                                                    document.getElementById('discount_2').options[i].selected =true;
+                                                    document.getElementById('discount_2').dispatchEvent(new Event('change'));
+                                                }
+
+                                            }
+
+                                        }else if(body.discount_type === "0"){
+                                            console.log('-------------------')
+
+
+                                            document.getElementById('discount_1_btn').click()
+                                            document.getElementById('discount_1').options[0].selected = true;
+                                            document.getElementById('discount_2').options[0].selected = true;
+                                            document.getElementById('discount_1').dispatchEvent(new Event('change'));
+                                            document.getElementById('discount_2').dispatchEvent(new Event('change'));
+                                        }
 
 
 
@@ -11146,47 +11205,251 @@ function pay_management_init(id,target,bool,multiple_time){
                                         if(bool){
                                             document.getElementById('pay_management').scrollTop = document.getElementById('scroll_target').offsetTop;
                                         }
+                                    });
+
+
+
+
+
+
+
+
                                 });
 
-
-
-
-
-
-
-
-                            });
-
+                            })
                         })
+                    });
+
+                    get_coupon(id,body);
+                    get_etc_product(id);
+
+                    document.getElementById('cardcash-btn').setAttribute('data-payment_idx',payment_idx);
+
+                    if(body.reserve_point === ''){
+                        body.reserve_point = 0;
+                    }
+                    document.getElementById('total_reserves_use').value = body.reserve_point;
+                    document.getElementById('total_reserves_use').innerText = body.reserve_point;
+                    last_price()
+
+
+                    list.beauty.forEach(function(el){
+
+                        if(el.product.payment_idx == payment_idx){
+                            console.log('------------------------')
+                            console.log(el)
+                            let card = el.product.store_payment.card;
+                            let cash = el.product.store_payment.cash;
+
+                            document.getElementById('last_card').value = card;
+                            document.getElementById('last_cash').value = cash
+
+                        }
                     })
-                });
+                }else{
 
-                get_coupon(id,body);
-                get_etc_product(id);
+                    management_service_1(id,body);
 
-                document.getElementById('cardcash-btn').setAttribute('data-payment_idx',payment_idx);
-
-                if(body.reserve_point === ''){
-                    body.reserve_point = 0;
-                }
-                document.getElementById('total_reserves_use').value = body.reserve_point;
-                document.getElementById('total_reserves_use').innerText = body.reserve_point;
-                last_price()
+                    let parsing = body.product_parsing;
 
 
-                list.beauty.forEach(function(el){
+                    document.getElementById('appr_service_list').innerHTML = '';
 
-                    if(el.product.payment_idx == payment_idx){
-                        console.log('------------------------')
-                        console.log(el)
-                        let card = el.product.store_payment.card;
-                        let cash = el.product.store_payment.cash;
+                    document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${parsing.base.size} / ${parsing.base.beauty_kind} / ~${parsing.base.weight.unit}Kg</div>
+                                                                                    <div class="list-value appr_sum_target">${(parsing.base.weight.price)}</div>원
+                                                                                </div>
+                                                                                <div class="list-cell">
+                                                                                    <div class="list-title">${parsing.base.hair_lenth.unit}mm</div>
+                                                                                    <div class="list-value appr_sum_target">${(parsing.base.hair_lenth.price)}</div>원
+                                                                                </div>`
 
-                        document.getElementById('last_card').value = card;
-                        document.getElementById('last_cash').value = cash
+                    if(parsing.base.hair_features.length > 0){
+
+                        parsing.base.hair_features.forEach(function(el){
+
+                            document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${el.unit}</div>
+                                                                                    <div class="list-value appr_sum_target">${(el.price)}</div>원
+                                                                                </div>`
+                        })
 
                     }
-                })
+
+                    if(parsing.add.face.unit !== '0'){
+                        document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${parsing.add.face.unit}</div>
+                                                                                    <div class="list-value appr_sum_target">${(parsing.add.face.price)}</div>원
+                                                                                </div>`
+
+                    }
+
+
+
+                    if(parsing.add.hair_color.length > 0 && parsing.add.hair_color?.unit){
+
+                        parsing.add.hair_color.forEach(function(el){
+
+                            document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${el.unit}</div>
+                                                                                    <div class="list-value appr_sum_target">${(el.price)}</div>원
+                                                                                </div>`
+                        })
+
+                    }
+
+                    if(parsing.add.spa.length > 0 && parsing.add.spa?.unit){
+
+                        parsing.add.spa.forEach(function(el){
+
+                            document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${el.unit}</div>
+                                                                                    <div class="list-value appr_sum_target">${(el.price)}</div>원
+                                                                                </div>`
+                        })
+
+                    }
+
+                    if(parsing.add.leg.bell.price !== ''){
+
+                        document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${parsing.add.leg.bell.unit}</div>
+                                                                                    <div class="list-value appr_sum_target">${(parsing.add.leg.bell.price)}</div>원
+                                                                                </div>`
+                    }
+
+                    if(parsing.add.leg.nail.price !== ''){
+
+                        document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${parsing.add.leg.nail.unit}</div>
+                                                                                    <div class="list-value appr_sum_target">${(parsing.add.leg.nail.price)}</div>원
+                                                                                </div>`
+                    }
+
+                    if(parsing.add.leg.rain_boots.price !== ''){
+
+                        document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${parsing.add.leg.rain_boots.unit}</div>
+                                                                                    <div class="list-value appr_sum_target">${(parsing.add.leg.rain_boots.price)}</div>원
+                                                                                </div>`
+                    }
+
+
+                    if(parsing.add.leg.type1?.unit){
+
+                        document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${parsing.add.leg.type1?.unit}</div>
+                                                                                    <div class="list-value appr_sum_target">${(parsing.add.leg.type1?.price)}</div>원
+                                                                                </div>`
+                    }
+
+                    if(parsing.add.leg.type2?.unit){
+
+                        document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${parsing.add.leg.type2?.unit}</div>
+                                                                                    <div class="list-value appr_sum_target">${(parsing.add.leg.type2?.price)}</div>원
+                                                                                </div>`
+                    }
+
+                    if(parsing.add.leg.type3?.unit){
+
+                        document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${parsing.add.leg.type3?.unit}</div>
+                                                                                    <div class="list-value appr_sum_target">${(parsing.add.leg.type3?.price)}</div>원
+                                                                                </div>`
+                    }
+
+
+                    document.getElementById('appr_sum').innerText = '';
+                    document.getElementById('appr_vat').innerText = '';
+                    document.getElementById('appr_last_price').innerText = '';
+                    setTimeout(function(){
+                        let sum=0;
+                        Array.from(document.getElementsByClassName('appr_sum_target')).forEach(function(el){
+
+                            sum += parseInt(el.innerText);
+                        })
+
+                        document.getElementById('appr_sum').innerText = `${sum}원`;
+
+                        if(localStorage.getItem('is_vat') === '1'){
+
+                            document.getElementById('appr_vat_list').style.display  ='flex';
+
+                            document.getElementById('appr_vat').innerText = `${sum/10}원`
+
+                            document.getElementById('appr_last_price').innerText = `${sum + (sum/10)}원`
+
+                        }else{
+                            document.getElementById('appr_vat_list').style.display  ='none';
+                            document.getElementById('appr_last_price').innerText = `${sum}원`
+                        }
+
+
+
+
+
+
+                    },300)
+
+                    document.getElementById('appr_date').innerText = ''
+                    document.getElementById('appr_worker').innerText = ''
+                    document.getElementById('appr_time').innerText = ''
+
+
+                    document.getElementById('appr_date').innerText = body.beauty_date.split(' ')[0].replaceAll('-','.');
+                    document.getElementById('appr_worker').innerText = body.worker_nick;
+                    document.getElementById('appr_time').innerText = body.beauty_date.split(' ')[1];
+
+                    $.ajax({
+                        url: '/data/pc_ajax.php',
+                        type: 'post',
+                        data: {
+                            mode: 'waiting',
+                            partner_id: id,
+                        },
+                        success: function (res) {
+
+                            let response = JSON.parse(res);
+                            let head = response.data.head;
+                            let body1 = response.data.body;
+                            if (head.code === 401) {
+                                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                            } else if (head.code === 200) {
+
+                                body1.forEach(function(el){
+
+                                    if(el.product.payment_idx == localStorage.getItem('payment_idx')){
+                                        Array.from(document.getElementsByClassName('apporval-reserve')).forEach((function(el_){
+
+                                            el_.setAttribute('data-approve',`${el.product.approve_idx}`)
+                                        }))
+
+                                    }
+                                })
+
+                            }
+                        }
+                    })
+
+
+
+
+
+
+
+
+                    if(document.getElementById('pay_card_body_inner')){
+
+                        document.getElementById('pay_management_loading').style.display = 'none';
+                        document.getElementById('pay_card_body_inner').style.display = 'block';
+                    }
+
+
+
+                }
+
+
 
 
 

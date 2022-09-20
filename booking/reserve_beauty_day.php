@@ -439,7 +439,7 @@ if ($artist_flag == 1) {
                                                     <div class="pay-flex-table-item">
                                                         <div class="pay-flex-table-title">
                                                             <div class="pay-txt">보조 연락처</div>
-                                                            <div class="call-edit"  onclick="pop.open('numberAddPop')">git add
+                                                            <div class="call-edit"  onclick="pop.open('numberAddPop')">
                                                                 <span>편집</span>
                                                             </div>
                                                         </div>
@@ -463,7 +463,7 @@ if ($artist_flag == 1) {
                                                 <button type="button" class="pay-customer-memo-save btn btn-outline-purple btn-middle-size btn-round" onclick="customer_memo()">저장</button>
                                             </div>
                                         </div>
-                                        <div class="pay-card-content-3">
+                                        <div class="pay-card-content-3 is_approve">
                                             <div class="pay-card-body-title">
                                                 <h4 class="con-title">이전 미용</h4>
                                             </div>
@@ -472,7 +472,7 @@ if ($artist_flag == 1) {
                                             </div>
 
                                         </div>
-                                        <div class="pay-card-content-4" id="scroll_target">
+                                        <div class="pay-card-content-4 is_approve" id="scroll_target">
                                             <div class="pay-card-body-title">
                                                 <h4 class="con-title">예약 내용</h4>
                                                 <button type="button" class="btn-side btn btn-small-size btn-inline btn-border-radius-16 btn-bg-yellow" id="pay_allim_btn">알림톡 발송 이력</button>
@@ -535,7 +535,7 @@ if ($artist_flag == 1) {
                                             </div>
 
                                         </div>
-                                        <div class="pay-card-content-5">
+                                        <div class="pay-card-content-5 is_approve">
                                             <div class="pay-card-body-title">
                                                 <h4 class="con-title">미용 종료 알림 발송</h4>
                                             </div>
@@ -590,7 +590,7 @@ if ($artist_flag == 1) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="sticky-tab-group" id="sticky-tab-group-target">
+                                        <div class="sticky-tab-group is_approve" id="sticky-tab-group-target">
                                             <div class="pay-card-content-6">
                                                 <div class="pay-card-body-title">
                                                     <h4 class="con-title">결제 정보</h4>
@@ -630,7 +630,7 @@ if ($artist_flag == 1) {
                                             </div>
                                         </div>
 
-                                        <div class="basic-data-group vmiddle tab-data-group">
+                                        <div class="basic-data-group vmiddle tab-data-group is_approve">
                                             <input type="hidden" value="" id="customer_id">
                                             <input type="hidden" value="" id="pet_seq">
                                             <input type="hidden" value="" id="is_vat">
@@ -763,7 +763,7 @@ if ($artist_flag == 1) {
                                             </div>
                                         </div>
 
-                                        <div class="pay-card-content-6-1" id="pet_shop_coupon" style="display: none;">
+                                        <div class="pay-card-content-6-1 is_approve" id="pet_shop_coupon" style="display: none;">
                                             <div class="pay-card-body-title">
                                                 <h4 class="con-title">보유 쿠폰</h4>
                                             </div>
@@ -823,7 +823,7 @@ if ($artist_flag == 1) {
 
 
 
-                                        <div class="pay-card-content-7">
+                                        <div class="pay-card-content-7 is_approve">
                                             <div class="pay-card-body-title">
                                                 <h4 class="con-title">단골 고객 할인</h4>
                                             </div>
@@ -864,7 +864,7 @@ if ($artist_flag == 1) {
 
                                         </div>
 
-                                        <div class="pay-card-content-8" id="pet_shop_reserves" style="display: none">
+                                        <div class="pay-card-content-8 is_approve" id="pet_shop_reserves" style="display: none">
                                             <div class="pay-card-body-title">
                                                 <h4 class="con-title">펫샵 적립금
                                                     <button type="button" class="btn-data-helper" onclick="pop.open('reservePayManagementMsg8')">도움말</button>                                                </h4>
@@ -914,7 +914,7 @@ if ($artist_flag == 1) {
                                         </div>
 
 
-                                        <div class="user-receipt-wrap">
+                                        <div class="user-receipt-wrap is_approve">
 
 
                                             <div class="user-receipt-item pay-user-receipt" style="border: 1px solid #6840B1 !important;">
@@ -960,13 +960,69 @@ if ($artist_flag == 1) {
                                             </div>
                                         </div>
 
-                                        <div class="pay-complete-wrap">
+                                        <div class="pay-complete-wrap is_approve">
                                             <div class="con-title-group" style="background:none !important;">
                                                 <h4 class="con-title">결제완료 처리</h4>
                                                 <label for="switch-toggle" class="form-switch-toggle"><input type="checkbox" id="pay_confirm" data-seq="" onclick="reserve_confirm(this)"><span class="bar"></span></label>
                                             </div>
                                             <div>
                                                 <span id="confirm_dt"></span>
+                                            </div>
+                                        </div>
+                                        <div class="basic-data-group vmiddle is_approve2">
+                                            <div class="user-receipt-item bg-fffbed">
+                                                <div class="con-title-group bg-fffbed">
+                                                    <h5 class="con-title">예약 서비스 내역</h5>
+                                                </div>
+                                                <div class="receipt-buy-detail">
+                                                    <div class="item-data-list" id="appr_service_list">
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="receipt-buy-detail total-price ">
+                                                    <div class="item-data-list" id="appr_service_sum">
+                                                        <div class="list-cell">
+                                                            <div class="list-title"><strong>합산 금액</strong></div>
+                                                            <div class="list-value"><strong id="appr_sum"></strong></div>
+                                                        </div>
+                                                        <div class="list-cell" id="appr_vat_list" style="display:none;">
+                                                            <div class="list-title"><strong>부가세 10%</strong></div>
+                                                            <div class="list-value"><strong id="appr_vat"></strong></div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="receipt-buy-detail result-price">
+                                                    <div class="item-data-list">
+                                                        <div class="list-cell">
+                                                            <div class="list-title font-color-purple"><strong>총 결제 합산 금액</strong></div>
+                                                            <div class="list-value font-color-purple"><strong id="appr_last_price"></strong></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="basic-data-group vvsmall2 is_approve2">
+                                            <div class="user-receipt-item bg-fffbed">
+                                                <div class="con-title-group bg-fffbed">
+                                                    <h5 class="con-title">예약 내용</h5>
+                                                    <!--<button type="button" class="btn-side btn btn-outline-purple btn-msmall-size btn-inline btn-border-radius-16">알림톡 발송 이력</button>-->
+                                                </div>
+                                                <div class="text-list-wrap type-2">
+                                                    <div class="text-list-cell"><div class="item-title unit">날짜</div><div class="item-data" id="appr_date"></div></div>
+                                                    <div class="text-list-cell"><div class="item-title unit">선생님</div><div class="item-data" id="appr_worker"></div></div>
+                                                    <div class="text-list-cell"><div class="item-title unit">시간</div><div class="item-data" id="appr_time"></div></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="page-bottom is_approve2" style="margin-top:30px; margin-bottom:30px;">
+                                            <div class="grid-layout btn-grid-group">
+                                                <div class="grid-layout-inner">
+                                                    <div class="grid-layout-cell grid-2"><button type="button" class="btn btn-outline-purple btn-middle-size btn-round apporval-reserve" onclick="set_approve(this,true)">예약 확정</button></div>
+                                                    <div class="grid-layout-cell grid-2"><button type="button" class="btn btn-outline-purple btn-middle-size btn-round apporval-reserve" onclick="set_approve(this,false)">예약신청 취소</button></div>
+                                                </div>
                                             </div>
                                         </div>
 

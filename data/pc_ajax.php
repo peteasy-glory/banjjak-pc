@@ -2650,7 +2650,7 @@ if($r_mode) {
         $pay['minute'] = $_POST['minute'];
 
         $start_time = $_POST['start_time'];
-        $end_time = $_POST['start_time'];
+        $end_time = $_POST['end_time'];
 
 
         $from_time_sql = "
