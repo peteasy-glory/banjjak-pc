@@ -43,7 +43,8 @@ if ($artist_flag == 1) {
 												<div class="page-tab-inner">
 													<!-- 활성화시 actived클래스 추가 -->
 													<div class="tab-cell actived"><a href="#" class="btn-tab-item"><span>미용</span></a></div>
-													<div class="tab-cell"><a href="javascript:pop.open('firstRequestMsg1','준비중입니다.');" class="btn-tab-item"><span>호텔</span></a></div>
+<!--													<div class="tab-cell"><a href="javascript:pop.open('firstRequestMsg1','준비중입니다.');" class="btn-tab-item"><span>호텔</span></a></div>-->
+                                                    <div class="tab-cell"><a href="set_hotel_shop.php" class="btn-tab-item"><span>호텔</span></a></div>
 													<div class="tab-cell"><a href="javascript:pop.open('firstRequestMsg1','준비중입니다.');" class="btn-tab-item"><span>유치원</span></a></div>
 												</div>
 											</div>

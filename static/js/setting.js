@@ -350,6 +350,10 @@ function get_artist_list(id){
 
 // 미용사 숨김 수정
 function show_modify_artist(id, name, is_view){
+    if(id == name && is_view == '1'){
+        pop.open('firstRequestMsg1', '대표 미용사는 숨김 처리가 불가능합니다. 닉네임을 수정하여 사용해주세요.');
+        return false;
+    }
     $.ajax({
         url: '../data/pc_ajax.php',
         data: {
@@ -375,6 +379,10 @@ function show_modify_artist(id, name, is_view){
 
 // 미용사 퇴사 수정
 function leave_modify_artist(id, name, is_out){
+    if(id == name && is_out == '1'){
+        pop.open('firstRequestMsg1', '대표 미용사는 퇴사 처리가 불가능합니다. 닉네임을 수정하여 사용해주세요.');
+        return false;
+    }
     $.ajax({
         url: '../data/pc_ajax.php',
         data: {
@@ -744,7 +752,7 @@ function view_beauty_product(){
     $(".append_dog_service_wrap").append(dog_total_html);
 
     // 공통 안내사항
-    $(".etc_comment").text(setting_array[0].etc_comment);
+    $(".etc_comment").text(db_to_str(setting_array[0].etc_comment));
 
     // 부가세
     if(setting_array[0].is_vat == 0){
@@ -855,7 +863,7 @@ function view_beauty_product(){
             `;
         })
         $(".option_append_wrap").append(cat_option_html);
-        $(".cat_comment").text(setting_array[0].cat.comment);
+        $(".cat_comment").text(db_to_str(setting_array[0].cat.comment));
 
         $(".total_cat_wrap").css("display","block");
         $(".cat_none_wrap").css("display","none");
@@ -898,7 +906,7 @@ $(document).on("click",".del_dog_product",function(){
 
 // 공통 설명 수정 및 등록
 function put_common_etc_comment(artist_id){
-    var comment = $(".common_etc_comment").val();
+    var comment = str_to_db($(".common_etc_comment").val());
     $.ajax({
         url: '../data/pc_ajax.php',
         data: {
@@ -1175,7 +1183,7 @@ function view_option_product(){
         $(".no_option_product").css("display","none");
         $(".do_option_product").css("display","block");
 
-        $(".option_product_comment").text(setting_array[1].option.comment);
+        $(".option_product_comment").text(db_to_str(setting_array[1].option.comment));
     }
 }
 
@@ -1220,7 +1228,7 @@ function view_beauty_coupon(){
                         <td>${(v.price).format()}</td>
                     </tr>
                 `;
-                $(".coupon_c_memo").text(v.memo);
+                $(".coupon_c_memo").text(db_to_str(v.memo));
             }else{
                 coupon_f_tbody_html += `
                     <tr>
@@ -1229,7 +1237,7 @@ function view_beauty_coupon(){
                         <td>${(v.price).format()}</td>
                     </tr>
                 `;
-                $(".coupon_f_memo").text(v.memo);
+                $(".coupon_f_memo").text(db_to_str(v.memo));
             }
         })
         coupon_c_tbody_html += `</tbody>`;
@@ -2147,7 +2155,7 @@ function get_dog_type_product(artist_id,second_type,direct_title){
                     $(".what_over_kgs").val(body.what_over_kgs);
                     $(".over_kgs_price").val(body.over_kgs_price);
                 }
-                $(".dog_add_comment").val(body.add_comment);
+                $(".dog_add_comment").val(db_to_str(body.add_comment));
 
             }
         }

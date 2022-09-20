@@ -164,7 +164,7 @@ if ($artist_flag == 1) {
                         <div class="item-thumb" onclick="showReviewGallery(${i},'${img_list}')"><img src="${img_path}" alt=""></div>
                         <div class="item-info">
                             <!--<div class="item-number">${v.sort_number}</div>-->
-                            <button type="button" class="btn-item-hand"></button>
+<!--                            <button type="button" class="btn-item-hand"></button>-->
                         </div>
                         <button type="button" class="btn-data-del" data-idx=${v.idx}>데이타삭제</button>
                     </div>

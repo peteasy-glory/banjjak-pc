@@ -1446,6 +1446,7 @@ if($r_mode) {
         for($i=0;$i<count($week);$i++){
             $week_day += intval($week[$i]);
         }
+        $week_day = ($week_day == 0)? "0000000" : $week_day;
         if(count($is_tb_regular_holiday['body']) > 0){
             $regular_data = array('partner_id'=>$partner_id,'week'=>$week_day);
             $regular_data_json = json_encode($regular_data);

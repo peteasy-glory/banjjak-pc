@@ -75,7 +75,7 @@ if ($artist_flag == 1) {
 													<div class="form-item-label">추가설명</div>
 													<div class="form-item-data type-2">
                                                         <input type="hidden" name="coupon_memo_idx" class="coupon_memo_idx" value="">
-														<textarea style="height:100px;" name="coupon_c_memo" class="coupon_c_memo" placeholder="입력"></textarea>
+														<textarea style="height:100px;" class="coupon_c_memo" placeholder="입력"></textarea>
 <!--														<div class="form-input-info">0/1000</div>-->
 													</div>
 												</div>
@@ -116,7 +116,7 @@ if ($artist_flag == 1) {
 												<div class="form-group-item">
 													<div class="form-item-label">추가설명</div>
 													<div class="form-item-data type-2">
-														<textarea style="height:100px;" name="coupon_f_memo" class="coupon_f_memo" placeholder="입력"></textarea>
+														<textarea style="height:100px;" class="coupon_f_memo" placeholder="입력"></textarea>
 														<div class="form-input-info">0/1000</div>
 													</div>
 												</div>
@@ -213,7 +213,7 @@ if ($artist_flag == 1) {
                             </td>
                         </tr>
                     `;
-                    $(".coupon_c_memo").text(v.memo);
+                    $(".coupon_c_memo").text(db_to_str(v.memo));
                     $(".coupon_memo_idx").val(v.memo_seq);
                 }else{
                     coupon_f_html += `
@@ -239,7 +239,7 @@ if ($artist_flag == 1) {
                             </td>
                         </tr>
                     `;
-                    $(".coupon_f_memo").text(v.memo);
+                    $(".coupon_f_memo").text(db_to_str(v.memo));
                     $(".coupon_memo_idx").val(v.memo_seq);
                 }
             })
@@ -306,6 +306,8 @@ if ($artist_flag == 1) {
     // 저장하기
     function save_coupon(){
         var postData = decodeURIComponent($("#couponForm").serialize());
+        postData += '&coupon_c_memo='+str_to_db($(".coupon_c_memo").val());
+        postData += '&coupon_f_memo='+str_to_db($(".coupon_f_memo").val());
         postData += '&mode=put_coupon'
         console.log(postData);
         put_coupon(postData);
