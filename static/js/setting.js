@@ -1107,7 +1107,7 @@ function view_option_product(){
             $.each(setting_array[1].option.etc.leg, function(i,v){
                 var txt = '';
                 switch (i){
-                    case 'tonail' : txt = '발톱'; break;
+                    case 'toenail' : txt = '발톱'; break;
                     case 'boots' : txt = '장화'; break;
                     case 'bell' : txt = '방울'; break;
                     default : txt = i;

@@ -850,7 +850,7 @@ if($r_mode) {
         }
 
         // 기타 - 다리
-        $tonail_price = $_POST['tonail_price'];
+        $tonail_price = $_POST['toenail_price'];
         $boots_price = $_POST['boots_price'];
         $bell_price = $_POST['bell_price'];
         $leg_name = $_POST['leg_name'];

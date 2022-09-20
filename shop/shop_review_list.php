@@ -235,9 +235,19 @@ if ($artist_flag == 1) {
                     })
 
                     $.each(v.review_images, function(index,value){
+                        if(value.path != '') {
 
-
-                        review_photo += `<div class="list-cell"><div class="btn-portfolio-item" onclick="showReviewGallery(${0},'${img_list}')"><img src="${img_link_change(value.path)}" alt=""></div></div>`;
+                            review_photo += `
+                            <div class="item-gallery">
+                                <div class="portfolio-list-wrap">
+                                    <div class="list-inner">
+                                        <div class="list-cell">
+                                            <div class="btn-portfolio-item" onclick="showReviewGallery(${0},'${img_list}')"><img src="${img_link_change(value.path)}" alt=""></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                        }
                     })
                     var artist_reply = '';
                     if(v.artist_reply != ''){
@@ -286,13 +296,7 @@ if ($artist_flag == 1) {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="item-gallery">
-                                    <div class="portfolio-list-wrap">
-                                        <div class="list-inner">
-                                            ${review_photo}
-                                        </div>
-                                    </div>
-                                </div>
+                                ${review_photo}
                                 <div class="item-detail">${db_to_str(v.review)}</div>
                             </div>
                             ${artist_reply}
@@ -310,9 +314,23 @@ if ($artist_flag == 1) {
                     rating += '<div class="icon icon-size-16 icon-star-gray"></div>';
                 }
                 var review_photo = '';
+
                 $.each(v.review_images, function(index,value){
-                    review_photo += `<div class="list-cell"><div class="btn-portfolio-item"><img src="${img_link_change(value.path)}" alt=""></div></div>`;
+                    if(value.path != '') {
+
+                        review_photo += `
+                            <div class="item-gallery">
+                                <div class="portfolio-list-wrap">
+                                    <div class="list-inner">
+                                        <div class="list-cell">
+                                            <div class="btn-portfolio-item" onclick="showReviewGallery(${0},'${img_list}')"><img src="${img_link_change(value.path)}" alt=""></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                    }
                 })
+
                 var artist_reply = '';
                 if(v.artist_reply != ''){
                     artist_reply = `
@@ -360,13 +378,7 @@ if ($artist_flag == 1) {
                                     </div>
                                 </div>
                             </div>
-                            <div class="item-gallery">
-                                <div class="portfolio-list-wrap">
-                                    <div class="list-inner">
-                                        ${review_photo}
-                                    </div>
-                                </div>
-                            </div>
+                            ${review_photo}
                             <div class="item-detail">${db_to_str(v.review)}</div>
                         </div>
                         ${artist_reply}
