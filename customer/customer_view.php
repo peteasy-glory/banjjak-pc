@@ -77,6 +77,7 @@ if ($artist_flag == 1) {
 											<div class="item-thumb">
 												<div class="user-thumb large"><img src="" id="target_pet_img" alt=""></div>
 												<div class="item-thumb-ui"><a href="#" class="btn btn-outline-gray btn-vsmall-size btn-inline" id="modify_pet">펫 정보 수정</a></div>
+                                                <div class="item-thumb-ui"><a href="#" class="btn btn-outline-gray btn-vsmall-size btn-inline" id="modify_pet">펫 정보 삭제</a></div>
 											</div>
 											<div class="item-user-data">
 												<div class="grid-layout flex-table">
@@ -1375,13 +1376,26 @@ if ($artist_flag == 1) {
         showOtherMonths:true, //이전 , 다음 달 일수 활성화
     });
 
-    // var customer_id = '';
-    // var tmp_seq = '';
-    //$(document).on("keyup","#customer_memo",function(){
+
+    $(document).on("keyup","#customer_memo",function(){
         // console.log($(this).val());
         // console.log(localStorage.getItem('customer_select'));
         // console.log(customer_id, tmp_seq);
-    //})
+        $.ajax({
+            url:'/data/pc_ajax.php',
+            type:'post',
+            data:{
+                mode:'customer_memo_sql',
+                artist_id:artist_id,
+                customer_id:customer_id,
+                tmp_seq:tmp_seq,
+                cellphone:localStorage.getItem('customer_select'),
+                comment:str_to_db($(this).val())
+            },
+            success:function (res){
+            }
+        })
+    })
 </script>
 </body>
 </html>

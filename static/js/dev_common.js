@@ -138,6 +138,37 @@ function data_set(id){
 
 
 }
+// 홈 캘린더
+function home_cal(id){
+    return new Promise(function(resolve){
+        console.log(year+'-'+month+'-01')
+        $.ajax({
+            url: '/data/pc_ajax.php',
+            data: {
+                mode: 'cal_count',
+                login_id: id,
+                st_date:year+'-'+fill_zero(month)+'-01',
+                fi_date:year+'-'+fill_zero(month)+'-30'
+            },
+            type: 'POST',
+            async:false,
+            success: function (res) {
+                let response = JSON.parse(res);
+                console.log(response);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+                    //data = body;
+
+                    resolve();
+                }
+            }
+        })
+    })
+}
+
 // 데이터 갱신
 function data_interval(){
 

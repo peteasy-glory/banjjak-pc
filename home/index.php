@@ -286,7 +286,7 @@ if($artist_flag == 1){
     $(document).ready(function(){
 
         data_set(artist_id).then(function(){
-
+            home_cal(artist_id);
 
 
         })
