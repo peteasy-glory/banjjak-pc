@@ -275,13 +275,13 @@ if ($artist_flag == 1) {
                                                         <div class="grid-layout btn-grid-group">
                                                             <div class="grid-layout-inner">
                                                                 <div class="grid-layout-cell grid-2">
-                                                                    <a href="#" class="btn btn-outline-gray btn-middle-size btn-round" onclick="pop.open('reserveBeautyGalleryPop')">미용 갤러리</a>
+                                                                    <a href="#" class="btn btn-outline-gray btn-middle-size btn-round" id="pay_beauty_gal_btn" onclick="beauty_gallery_get(this,artist_id).then(function(pet_seq){ beauty_gallery_add(artist_id,pet_seq)})">미용 갤러리</a>
                                                                 </div>
                                                                 <div class="grid-layout-cell grid-2" id="beauty_agree_view">
                                                                     <a href="#" class="btn btn-outline-gray btn-middle-size btn-round">미용동의서</a>
                                                                 </div>
                                                                 <div class="grid-layout-cell grid-1">
-                                                                    <a href="#" class="btn btn-outline-purple btn-middle-size btn-round"  onclick="pop.open('petModifyPop');" id="modify_pet">펫 정보 수정</a>
+                                                                    <a href="#" class="btn btn-outline-purple btn-middle-size btn-round"  id="modify_pet" onclick="pay_management_modify_pet(this).then(function(body){ pay_management_modify_pet_(body)});">펫 정보 수정</a>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -434,7 +434,7 @@ if ($artist_flag == 1) {
                                                                     </div>
                                                                 </div>
                                                                 <div class="pay-flex-table-data-side">
-                                                                    <button type="button" class="pay-grade-modify" onclick="pop.open('memberGradeAddPop')"></button>
+                                                                    <button type="button" class="pay-grade-modify" id="pay_grade_btn"  onclick="pay_get_grade(this,artist_id)"></button>
                                                                 </div>
                                                             </div>
                                                         </div>

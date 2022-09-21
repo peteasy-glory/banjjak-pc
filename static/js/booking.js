@@ -234,7 +234,7 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
             body_.forEach(function(_el, index){
                 tooltip(_el.product.payment_idx);
 
-                //console.log(_el);
+                ////console.log(_el);
                 if(_el.product.worker === el.getAttribute('data-worker')){
 
 
@@ -362,7 +362,7 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
 
 
 
-            console.log(work_day_search(work_day))
+            //console.log(work_day_search(work_day))
 
             week_holiday(parent,id).then(function(){
 
@@ -616,7 +616,7 @@ function week_working(id){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
-                    console.log(body)
+                    //console.log(body)
 
                     document.getElementById('grid_layout_inner').innerHTML = '';
 
@@ -656,9 +656,7 @@ function week_timebar(){
     let division = day_height / work_time;
     let div_height = (((now_hour - open) * 60) + now_minutes) * division;
 
-    console.log(day_height);
-    console.log(division);
-    console.log(div_height);
+
     if (open <= now_hour && now_hour < close) {
         day_body.innerHTML += `<div class="calendar-day-current-time" style="top:${div_height}px"><div class="bar"></div><div class="value">${fill_zero(date.getHours())}:${fill_zero(date.getMinutes())}</div></div>`
     }
@@ -842,7 +840,6 @@ return new Promise(function (resolve){
             let st_date = `${date.getFullYear()}-${fill_zero(date.getMonth() + 1)}-${fill_zero(st_target)}`
             let fi_date = `${date.getFullYear()}-${fill_zero(date.getMonth() + 1)}-${fill_zero(parseInt(fi_target)+1)}`
 
-            console.log(fi_date.substring(5))
             $.ajax({
 
 
@@ -876,7 +873,6 @@ return new Promise(function (resolve){
                     if (head.code === 401) {
                         pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                     } else if (head.code === 200) {
-                        console.log(body_)
 
                         let cancel = 0;
                         let noshow = 0;
@@ -911,7 +907,6 @@ return new Promise(function (resolve){
 
 
                         })
-                        console.log(days)
 
                         Array.from(document.getElementsByClassName('week-date')).forEach(function (el, i) {
 
@@ -1022,7 +1017,6 @@ function book_list(id) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
                     list = body;
-                    console.log(list)
 
                     if(location.href.match('reserve_beauty_month')){
                         let cancel = 0;
@@ -1175,7 +1169,6 @@ function consulting_hold_list(id){
         },
         success: function (res) {
 
-            console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -1183,8 +1176,6 @@ function consulting_hold_list(id){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
-
-                console.log(body);
 
                 $.ajax({
 
@@ -1210,7 +1201,6 @@ function consulting_hold_list(id){
                                 body_ = [body_];
                             }
 
-                            console.log(body_)
                             let status = '';
 
                             if(body_.length === 0){
@@ -1219,7 +1209,6 @@ function consulting_hold_list(id){
                             }
                             body_.forEach(function(el, i){
 
-                                console.log(el)
                                 switch (el.approval){
 
                                     case 0: status = '대기'; break;
@@ -1334,7 +1323,6 @@ function consulting_hold_list(id){
                                                 //     }
                                                 // })
 
-                                                console.log(el_)
 
 
                                                 document.getElementById('consulting_data').innerHTML = '';
@@ -1588,7 +1576,7 @@ function consulting_hold_list(id){
 //                 document.getElementById('consulting_data').style.opacity = 1;
 //                 document.getElementById('consulting_data').innerHTML = '';
 //                 data.consulting.forEach(function(el_){
-//                     // console.log(el_)
+//                     // //console.log(el_)
 //
 //
 //                     if(el_.pet_name === el.getAttribute('data-pet_name') && el_.phone === el.getAttribute('data-phone')){
@@ -2057,7 +2045,6 @@ function cols(id){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
-                    console.log(body)
 
                     document.getElementById('day_header_row').innerHTML = `<div class="calendar-day-header-col time"></div>`
 
@@ -2352,7 +2339,6 @@ function btn_schedule(id){
 
         document.getElementById('btn-schedule-next').addEventListener('click',function(){
             select_low = parseInt(localStorage.getItem('select_row'));
-            console.log(select_low)
             this.setAttribute('disabled',true);
 
             if(select_low !== lows.length-1){
@@ -2441,11 +2427,11 @@ function day_drag(){
                 draggable : '.calendar-week-time-item',
                 onStart : function(evt){
                     //드래그 시작
-                    // console.log('drag start');
+                    // //console.log('drag start');
                 },
                 onEnd : function(evt){
                     //드래그 끝
-                    // console.log('drag end');
+                    // //console.log('drag end');
                     //evt.to;    // 현재 아이템
                     //evt.from;  // 이전 아이템
                     //evt.oldIndex;  // 이전 인덱스값
@@ -2501,13 +2487,13 @@ function day_drag(){
                     }
                 },
                 onUpdate : function(evt){
-                    // console.log('update');
+                    // //console.log('update');
                 },
                 onUpdate : function(evt){
-                    // console.log('onChange');
+                    // //console.log('onChange');
                 },
                 onRemove: function (/**Event*/evt) {
-                    // console.log('remove');
+                    // //console.log('remove');
                 }
 
             });
@@ -2529,11 +2515,11 @@ function week_drag(){
                 draggable : '.calendar-week-time-item',
                 onStart : function(evt){
                     //드래그 시작
-                    // console.log('drag start');
+                    // //console.log('drag start');
                 },
                 onEnd : function(evt){
                     //드래그 끝
-                    // console.log('drag end');
+                    // //console.log('drag end');
                     //evt.to;    // 현재 아이템
                     //evt.from;  // 이전 아이템
                     //evt.oldIndex;  // 이전 인덱스값
@@ -2604,13 +2590,13 @@ function week_drag(){
                     }
                 },
                 onUpdate : function(evt){
-                    // console.log('update');
+                    // //console.log('update');
                 },
                 onUpdate : function(evt){
-                    // console.log('onChange');
+                    // //console.log('onChange');
                 },
                 onRemove: function (/**Event*/evt) {
-                    // console.log('remove');
+                    // //console.log('remove');
                 }
 
             });
@@ -2664,7 +2650,6 @@ function pay_management(id){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
-                console.log(body)
                 let work_body_inner = document.getElementById('work_body_inner');
                 let data_col_right = document.getElementById('data_col_right_1');
 
@@ -2688,8 +2673,6 @@ function pay_management(id){
                             if (head.code === 401) {
                                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                             } else if (head.code === 200) {
-
-                                console.log(body1);
 
                                 body1.forEach(function(el){
 
@@ -3435,7 +3418,6 @@ function pay_management_(id){
 
     pay_management(id).then(function (body_){
 
-        console.log(body_)
         management_wide_tab()
         management_wide_tab2()
         wide_tab();
@@ -3476,7 +3458,7 @@ function pay_management_(id){
 
         // body_[1].forEach(function (el,i){
         //
-        //     console.log(el)
+        //     //console.log(el)
         //     if(i===0){
         //
         //     let split_el = el.product.split('|');
@@ -4759,10 +4741,8 @@ function reserve_search(id){
 function reserve_search_fam(id){
 
     reserve_search(id).then(function(body){
-        console.log(body)
 
         body.forEach(function (el,i){
-            console.log(el)
             document.getElementById(`grid_layout_inner_${i}`).innerHTML = ''
             // el.family.split(',').forEach(function(el_,i_){
             //
@@ -5132,7 +5112,6 @@ function reserve_merchandise_load_event(artist_id){
     Array.from(document.getElementsByClassName('load-pet-type')).forEach(function (el){
 
         el.addEventListener('click',function (evt){
-            console.log('event')
             let id=artist_id;
 
             reserve_merchandise_load_init(id).then(function(body){
@@ -5154,7 +5133,6 @@ function reserve_merchandise_load_init(id){
 
     return new Promise(function(resolve){
 
-        console.log('event2');
 
 
 
@@ -5170,8 +5148,7 @@ function reserve_merchandise_load_init(id){
 
                 breed_input = document.querySelector('input[name="breed"]:checked');
                 breed = breed_input.value
-                console.log(breed);
-                console.log(id)
+           
 
                 $.ajax({
 
@@ -5192,7 +5169,6 @@ function reserve_merchandise_load_init(id){
                             pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                         } else if (head.code === 200) {
 
-                            console.log(body)
 
                             if(body.is_vat === 1){
                                 localStorage.setItem('is_vat','1');
@@ -6534,47 +6510,47 @@ let beauty,bath,add_svc;
     //
     //
     //
-    // console.log('---------------------')
-    // console.log(`partner_id : ${login}`);
-    // console.log(`wokrer : ${document.getElementById('reserveCalendarPop2').getAttribute('data-name')}`)
-    // console.log(`customer_id : ${document.getElementById('customer_id').value}`)
-    // console.log(`cellphone : ${cellphone}`)
-    // console.log(`pet_seq : ${document.getElementById('pet_seq').value}`)
-    // console.log(`animal : ${breed}`)
-    // console.log(`pet_type:${breed_select}`)
-    // console.log(`pet_name :${name}`)
-    // console.log(`pet_year : ${pet_year}`);
-    // console.log(`pet_month : ${pet_month}`)
-    // console.log(`pet_day : ${pet_date}`)
-    // console.log(`gender:${gender}`)
-    // console.log(`neutral:${neutral}`)
-    // console.log(`weight:${weight}`)
-    // console.log(`beauty_exp:${beauty_exp}`)
-    // console.log(`vaccination:${vaccination}`)
-    // console.log(`luxation:${luxation}`)
-    // console.log(`bite:${bite}`)
-    // console.log(`dermatosis:${dermatosis}`)
-    // console.log(`heart_trouble:${heart_trouble}`)
-    // console.log(`marking:${marking}`)
-    // console.log(`mounting:${mounting}`)
-    // console.log(`year:${date.getFullYear()}`)
-    // console.log(`month:${date.getMonth()+1}`)
-    // console.log(`day:${date.getDate()}`)
-    // console.log(`hour:${document.getElementById('reserve_st_time').value.split(':')[0]}`)
-    // console.log(`min:${document.getElementById('reserve_st_time').value.split(':')[1]}`)
-    // console.log(`session_id:${session}`)
-    // console.log(`order_id:''`)
-    // console.log(`local_price:${total_price}`)
-    // console.log(`pay_type:'pos-card'`)
-    // console.log(`pay_status:'pos'`)
-    // console.log(`pay_data : ${JSON.stringify(pay_data)}`)
-    // console.log(`to_hour :${document.getElementById('reserve_fi_time').value.split(':')[0]}`)
-    // console.log(`to_min:${document.getElementById('reserve_fi_time').value.split(':')[1]}`)
-    // console.log(`use_coupon_yn:'N'`)
-    // console.log(`is_vat : ${is_vat}`)
-    // console.log(`product : ${product}`)
-    // console.log(`reserve_yn : ${document.getElementById('notice_check').getAttribute('data-notice')}`)
-    // console.log(`aday_ago_yn :${yesterday ? 'Y':'N'}`)
+    // //console.log('---------------------')
+    // //console.log(`partner_id : ${login}`);
+    // //console.log(`wokrer : ${document.getElementById('reserveCalendarPop2').getAttribute('data-name')}`)
+    // //console.log(`customer_id : ${document.getElementById('customer_id').value}`)
+    // //console.log(`cellphone : ${cellphone}`)
+    // //console.log(`pet_seq : ${document.getElementById('pet_seq').value}`)
+    // //console.log(`animal : ${breed}`)
+    // //console.log(`pet_type:${breed_select}`)
+    // //console.log(`pet_name :${name}`)
+    // //console.log(`pet_year : ${pet_year}`);
+    // //console.log(`pet_month : ${pet_month}`)
+    // //console.log(`pet_day : ${pet_date}`)
+    // //console.log(`gender:${gender}`)
+    // //console.log(`neutral:${neutral}`)
+    // //console.log(`weight:${weight}`)
+    // //console.log(`beauty_exp:${beauty_exp}`)
+    // //console.log(`vaccination:${vaccination}`)
+    // //console.log(`luxation:${luxation}`)
+    // //console.log(`bite:${bite}`)
+    // //console.log(`dermatosis:${dermatosis}`)
+    // //console.log(`heart_trouble:${heart_trouble}`)
+    // //console.log(`marking:${marking}`)
+    // //console.log(`mounting:${mounting}`)
+    // //console.log(`year:${date.getFullYear()}`)
+    // //console.log(`month:${date.getMonth()+1}`)
+    // //console.log(`day:${date.getDate()}`)
+    // //console.log(`hour:${document.getElementById('reserve_st_time').value.split(':')[0]}`)
+    // //console.log(`min:${document.getElementById('reserve_st_time').value.split(':')[1]}`)
+    // //console.log(`session_id:${session}`)
+    // //console.log(`order_id:''`)
+    // //console.log(`local_price:${total_price}`)
+    // //console.log(`pay_type:'pos-card'`)
+    // //console.log(`pay_status:'pos'`)
+    // //console.log(`pay_data : ${JSON.stringify(pay_data)}`)
+    // //console.log(`to_hour :${document.getElementById('reserve_fi_time').value.split(':')[0]}`)
+    // //console.log(`to_min:${document.getElementById('reserve_fi_time').value.split(':')[1]}`)
+    // //console.log(`use_coupon_yn:'N'`)
+    // //console.log(`is_vat : ${is_vat}`)
+    // //console.log(`product : ${product}`)
+    // //console.log(`reserve_yn : ${document.getElementById('notice_check').getAttribute('data-notice')}`)
+    // //console.log(`aday_ago_yn :${yesterday ? 'Y':'N'}`)
 
 
 
@@ -6630,7 +6606,6 @@ let beauty,bath,add_svc;
 
         },
         success:function(res){
-            console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -7112,8 +7087,6 @@ function exist_user_reserve(id,cellphone){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
-                    console.log(body);
-
                     document.getElementById('reserve_cellphone').value = cellphone;
                     if(body.length === undefined){
                         body = [body];
@@ -7348,7 +7321,6 @@ function set_noshow(id){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body)
             }
         }
 
@@ -7380,7 +7352,6 @@ function cancel_noshow(){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body)
             }
         }
 
@@ -7388,9 +7359,10 @@ function cancel_noshow(){
 
 }
 
-function pay_management_modify_pet(pet_seq){
+function pay_management_modify_pet(target){
 
 
+    let pet_seq = target.getAttribute('data-pet_seq');
     return new Promise(function (resolve){
 
 
@@ -7418,7 +7390,6 @@ function pay_management_modify_pet(pet_seq){
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
 
-                    console.log(body)
                     document.getElementById('modify_customer_name').value = body.name;
 
                     if(body.type === 'dog'){
@@ -7429,6 +7400,8 @@ function pay_management_modify_pet(pet_seq){
                         document.getElementById('modify_breed2').click();
 
                     }
+
+                    pop.open('petModifyPop');
 
                     setTimeout(function(){
 
@@ -7450,7 +7423,6 @@ function pay_management_modify_pet(pet_seq){
 function pay_management_modify_pet_(body){
 
 
-    console.log(body);
 
 
     for(let i=0; i<document.getElementById('modify_breed_select').options.length; i++){
@@ -7697,7 +7669,6 @@ function customer_memo(){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
-                console.log(body)
 
                 document.getElementById('msg2_txt').innerText = '견주 메모가 변경되었습니다.'
                 pop.open('reserveAcceptMsg2');
@@ -7731,7 +7702,6 @@ function payment_memo(){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
-                console.log(body)
 
                 document.getElementById('msg2_txt').innerText = '특이사항이 변경되었습니다.'
                 pop.open('reserveAcceptMsg2');
@@ -7884,18 +7854,17 @@ function beauty_gallery_add(id,pet_seq){
 
 }
 
-function beauty_gallery_get(body_data,payment_idx){
+function beauty_gallery_get(target,id){
 
 
-
-    let _data = body_data;
 
 
 
     return new Promise(function(resolve){
 
-        let idx = payment_idx
 
+        let idx = target.getAttribute('data-payment_idx');
+        let pet_seq = target.getAttribute('data-pet_idx');
 
 
         document.getElementById('beauty_gal_wrap').innerHTML =`<div class="list-cell"><a href="#" class="btn-gate-picture-register"
@@ -7909,46 +7878,49 @@ function beauty_gallery_get(body_data,payment_idx){
             data:{
 
                 mode:'beauty_gal_get',
-                idx:idx,
+                idx:pet_seq,
+                artist_id:id,
             },
             success:function(res) {
+                console.log(res)
                 let response = JSON.parse(res);
                 let head = response.data.head;
                 let body = response.data.body;
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
-                    console.log(body)
+                    console.log(body);
                     if(body.length === undefined){
 
                         body = [body];
                     }
 
-                    console.log(_data);
 
-                    let file_path = '';
-                    if(body.length >0){
-                        file_path = `https://image.banjjakpet.com${body[0].file_path}`
-                         document.getElementById('beauty_img_target').setAttribute('src', file_path)
-                    }else{
-
-                        if(_data.photo !== ''){
-                            document.getElementById('beauty_img_target').setAttribute('src', `https://image.banjjakpet.com${_data.photo}`)
-
-                        }else{
-
-
-
-                            if(_data.type === 'dog'){
-                                file_path = `/static/images/icon/icon-pup-select-off.png`
-                                document.getElementById('beauty_img_target').setAttribute('src', file_path)
-                            }else{
-                                file_path = `/static/images/icon/icon-cat-select-off.png`
-                                document.getElementById('beauty_img_target').setAttribute('src', file_path)
-                            }
-                        }
-
-                    }
+                    // let file_path = '';
+                    //
+                    // if(body.length >0){
+                    //     file_path = `https://image.banjjakpet.com${body[0].file_path}`
+                    //
+                    // }
+                    // else{
+                    //
+                    //     if(_data.photo !== ''){
+                    //         document.getElementById('beauty_img_target').setAttribute('src', `https://image.banjjakpet.com${_data.photo}`)
+                    //
+                    //     }else{
+                    //
+                    //
+                    //
+                    //         if(_data.type === 'dog'){
+                    //             file_path = `/static/images/icon/icon-pup-select-off.png`
+                    //             document.getElementById('beauty_img_target').setAttribute('src', file_path)
+                    //         }else{
+                    //             file_path = `/static/images/icon/icon-cat-select-off.png`
+                    //             document.getElementById('beauty_img_target').setAttribute('src', file_path)
+                    //         }
+                    //     }
+                    //
+                    // }
 
 
                     body.forEach(function(el){
@@ -7970,7 +7942,9 @@ function beauty_gallery_get(body_data,payment_idx){
                                                                             </div>`
                     })
 
-                    resolve();
+                    pop.open('reserveBeautyGalleryPop');
+
+                    resolve(pet_seq);
                 }
             }
 
@@ -8314,7 +8288,6 @@ function beauty_agree_view_init(data){
 }
 function beauty_agree_init_(_data){
 
-    console.log(_data)
     document.getElementById('agree_date').innerText = `${new Date().getFullYear()}.${fill_zero(new Date().getMonth()+1)}.${fill_zero(new Date().getDate())}`
 
     document.getElementById('agree_name').addEventListener('change',function(){
@@ -8767,7 +8740,6 @@ function reserve_change_time(){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
-                console.log(body);
 
                 $.ajax({
 
@@ -8822,7 +8794,7 @@ function tooltip(idx){
         success: function (res) {
             //
             let response = JSON.parse(res);
-            //console.log(response);
+            ////console.log(response);
             let head = response.data.head;
             let body = response.data.body;
             if (head.code === 401) {
@@ -8930,7 +8902,6 @@ function management_wide_tab2(){
         el.addEventListener('click',function (){
 
 
-            console.log(1)
             Array.from(document.getElementsByClassName('btn-tab-item-add')).forEach(function(el_){
 
                 el_.parentElement.classList.remove('actived');
@@ -9224,7 +9195,6 @@ function management_service_1(id,body){
 function management_service_2(body){
 
     return new Promise(function(resolve){
-        console.log(body)
 
         document.getElementById('is_vat').value = body.is_vat;
 
@@ -9234,9 +9204,9 @@ function management_service_2(body){
 
                 body.base_svc.forEach(function(el){
 
-                    document.getElementById('payment_basic_size').innerHTML += `<div class="toggle-button-cell toggle-button-cell-size">
+                    document.getElementById('payment_basic_size').innerHTML += `<div class="toggle-button-cell pay-toggle-button-cell-size" data-value="${el.size}">
                                                                                         <label class="form-toggle-box large">
-                                                                                            <input type="radio" value="${el.size}" name="payment_size">
+                                                                                            <input type="radio" id="${el.size}" value="${el.size}" name="payment_size">
                                                                                             <em class="font-size-12">${el.size}</em>
                                                                                         </label>
                                                                                     </div>`
@@ -9252,7 +9222,7 @@ function management_service_2(body){
 
                         document.getElementById('payment_basic_hair_feature').innerHTML += `<div class="toggle-button-cell">
                                                                                                     <label class="form-toggle-box form-toggle-price large" for="payment_hair${i}">
-                                                                                                        <input type="checkbox" name="payment_hair" value="${el.type}" data-price="${el.price}" id="payment_hair${i}" onclick="set_product(this,'${el.type}','${el.price.toLocaleString()}')">
+                                                                                                        <input type="checkbox" id="${el.type}" name="payment_hair" value="${el.type}" data-price="${el.price}" id="payment_hair${i}" onclick="set_product(this,'${el.type}','${el.price.toLocaleString()}')">
                                                                                                         <em>
                                                                                                             <span class="font-size-12">${el.type}</span>
                                                                                                             <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
@@ -9273,7 +9243,7 @@ function management_service_2(body){
 
                     document.getElementById('payment_basic_hair_length').innerHTML += `<div class="toggle-button-cell">
                                                                                             <label class="form-toggle-box form-toggle-price large" for="payment_hairBeauty${i}">
-                                                                                                <input type="radio" name="payment_hairBeauty" value="${el.type}"  data-price="${el.price}" id="payment_hairBeauty${i}" onclick="set_product2(this,'${el.type}','${el.price.toLocaleString()}','list_title_2',true)">
+                                                                                                <input type="radio" id="${el.type}" name="payment_hairBeauty" value="${el.type}"  data-price="${el.price}" id="payment_hairBeauty${i}" onclick="set_product2(this,'${el.type}','${el.price.toLocaleString()}','list_title_2',true)">
                                                                                                 <em>
                                                                                                     <span class="font-size-12">${el.type}</span>
                                                                                                     <strong class="font-size-12">${parseInt(el.price).toLocaleString()}원</strong>
@@ -9290,7 +9260,7 @@ function management_service_2(body){
 
                     document.getElementById('payment_other_face').innerHTML += `<div class="toggle-button-cell">
                                                                                         <label class="form-toggle-box form-toggle-price middle">
-                                                                                            <input type="radio" name="payment_f1" data-price="${el.price}" value="${el.type}" onclick="set_product2(this,'${el.type}','${el.price}','list_title_4',true)" >
+                                                                                            <input type="radio" id="${el.type}" name="payment_f1" data-price="${el.price}" value="${el.type}" onclick="set_product2(this,'${el.type}','${el.price}','list_title_4',true)" >
                                                                                             <em>
                                                                                                 <span class="font-size-12">${el.type}</span>
                                                                                                 <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
@@ -9308,7 +9278,7 @@ function management_service_2(body){
 
                     document.getElementById('payment_other_leg').innerHTML += `<div class="toggle-button-cell">
                                                                                     <label class="form-toggle-box form-toggle-price middle">
-                                                                                        <input type="checkbox" name="payment_f2" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')" >
+                                                                                        <input type="checkbox" id="${el.type}" name="payment_f2" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')" >
                                                                                         <em>
                                                                                             <span class="font-size-12">${el.type}</span>
                                                                                             <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
@@ -9328,7 +9298,7 @@ function management_service_2(body){
 
                     document.getElementById('payment_other_spa').innerHTML += `<div class="toggle-button-cell">
                                                                                     <label class="form-toggle-box form-toggle-price middle">
-                                                                                        <input type="checkbox" name="payment_f3"  value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')"> 
+                                                                                        <input type="checkbox" id="${el.type}" name="payment_f3"  value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')"> 
                                                                                         <em>
                                                                                             <span class="font-size-12">${el.type}</span>
                                                                                             <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
@@ -9345,7 +9315,7 @@ function management_service_2(body){
 
                     document.getElementById('payment_other_dyeing').innerHTML += `<div class="toggle-button-cell">
                                                                                         <label class="form-toggle-box form-toggle-price middle">
-                                                                                            <input type="checkbox" name="payment_f4" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
+                                                                                            <input type="checkbox" id="${el.type}" name="payment_f4" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
                                                                                             <em>
                                                                                                 <span class="font-size-12">${el.type}</span>
                                                                                                 <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
@@ -9363,7 +9333,7 @@ function management_service_2(body){
 
                     document.getElementById('payment_other_etc').innerHTML += `<div class="toggle-button-cell">
                                                                             <label class="form-toggle-box form-toggle-price middle">
-                                                                                <input type="checkbox" name="payment_f5" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
+                                                                                <input type="checkbox" id="${el.type}" name="payment_f5" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
                                                                                 <em>
                                                                                     <span class="font-size-12">${el.type}</span>
                                                                                     <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
@@ -9392,7 +9362,7 @@ function management_service_2(body){
 
                     document.getElementById('payment_basic_beauty').innerHTML += `<div class="toggle-button-cell">
                                                                                         <label class="form-toggle-box large form-toggle-price">
-                                                                                            <input type="radio" value="${el.type}" name="payment_beauty" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
+                                                                                            <input type="radio" id="${el.type}" value="${el.type}" name="payment_beauty" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
                                                                                             <em> 
                                                                                                 <span class="font-size-12">${el.type}</span>
                                                                                                 <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
@@ -9409,7 +9379,7 @@ function management_service_2(body){
 
                     document.getElementById('payment_basic_bath').innerHTML += `<div class="toggle-button-cell">
                                                                                         <label class="form-toggle-box large form-toggle-price">
-                                                                                            <input type="radio" value="${el.type}" name="payment_bath" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
+                                                                                            <input type="radio" id="${el.type}" value="${el.type}" name="payment_bath" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
                                                                                             <em> 
                                                                                                 <span class="font-size-12">${el.type}</span>
                                                                                                 <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
@@ -9426,7 +9396,7 @@ function management_service_2(body){
 
                     document.getElementById('payment_other_add_svc').innerHTML += `<div class="toggle-button-cell">
                                                                             <label class="form-toggle-box form-toggle-price middle">
-                                                                                <input type="checkbox" name="payment_add_svc" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
+                                                                                <input type="checkbox" id="${el.type}" name="payment_add_svc" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
                                                                                 <em>
                                                                                     <span class="font-size-12">${el.type}</span>
                                                                                     <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
@@ -9448,11 +9418,13 @@ function management_service_2(body){
 }
 
 function management_service_3(base_svc){
-    console.log(base_svc);
+
+
 
     return new Promise(function (resolve){
 
-        Array.from(document.getElementsByClassName('toggle-button-cell-size')).forEach(function(el){
+        Array.from(document.getElementsByClassName('pay-toggle-button-cell-size')).forEach(function(el){
+
 
 
 
@@ -9460,20 +9432,21 @@ function management_service_3(base_svc){
 
                 document.getElementById('payment_basic_service_select').innerHTML= '<div class="toggle-button-cell" onclick="reserve_merchandise_load_reset_(2)"><label class="form-toggle-box large"><input type="radio" value="" name="payment_s1" checked><em class="font-size-12">선택 안함</em></label></div>';
                 document.getElementById('payment_basic_weight').innerHTML = '<div class="toggle-button-cell" id="payment_weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="payment_s2" checked><em><span class="font-size-12">선택 안함</span></em></label></div>';
-                let value = el.children[0].children[0].value;
+                let value = el.getAttribute('data-value');
 
                 base_svc.forEach(function(el_){
-
+                    console.log(base_svc)
+                    console.log('1')
 
                     if(value === el_.size){
 
                         el_.svc.forEach(function (_el){
-
+                            console.log('2')
 
                             if(_el.is_show === "y" && _el.unit.length >0){
                                 document.getElementById('payment_basic_service_select').innerHTML += `<div class="toggle-button-cell toggle-button-cell-service">
                                                                                                         <label class="form-toggle-box large">
-                                                                                                            <input type="radio" value="${_el.type}" data-size="${el_.size}" data-time="${_el.time}" name="payment_s1">
+                                                                                                            <input type="radio" id="${_el.type}" value="${_el.type}" data-size="${el_.size}" data-time="${_el.time}" name="payment_s1">
                                                                                                             <em class="font-size-12">${_el.type} <br> ${_el.time}분</em>
                                                                                                         </label>
                                                                                                     </div>`
@@ -9503,12 +9476,15 @@ function management_service_4(base_svc){
 
 
     return new Promise(function(resolve){
+        console.log(3)
 
 
 
         Array.from(document.getElementsByClassName('toggle-button-cell-service')).forEach(function(el){
+            console.log('4')
 
             el.addEventListener('click',function (){
+                console.log('5')
 
                 document.getElementById('payment_basic_weight').innerHTML= '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" data-price="" name="payment_s2"><em><span class="font-size-12">선택 안함</span></em></label></div>'
 
@@ -9521,12 +9497,14 @@ function management_service_4(base_svc){
                 let surcharge ;
                 base_svc.forEach(function(el_){
 
+                    console.log('6')
 
                     if(el_.size === size){
 
 
                         el_.svc.forEach(function(_el){
 
+                            console.log('7')
                             if(_el.type === value){
 
 
@@ -9537,7 +9515,7 @@ function management_service_4(base_svc){
 
                                         document.getElementById('payment_basic_weight').innerHTML += `<div class="toggle-button-cell">
                                                                                                         <label class="form-toggle-box form-toggle-price large">
-                                                                                                            <input type="radio" value="${ele.kg}" name="payment_s2" data-price="${ele.price}" ${i ===  _el.unit.length-1 ? 'id="weight_target"':''}onclick="set_product2(this,'${document.querySelector('input[name="payment_size"]:checked').value}/${document.querySelector('input[name="payment_s1"]:checked').value}/${ele.kg}kg','${ele.price}','list_title_3',true)">
+                                                                                                            <input type="radio" id="${ele.kg}" value="${ele.kg}" name="payment_s2" data-price="${ele.price}" ${i ===  _el.unit.length-1 ? 'id="weight_target"':''}onclick="set_product2(this,'${document.querySelector('input[name="payment_size"]:checked').value}/${document.querySelector('input[name="payment_s1"]:checked').value}/${ele.kg}kg','${ele.price}','list_title_3',true)">
                                                                                                                 <em>
                                                                                                                     <span class="font-size-12">~${ele.kg}Kg</span>
                                                                                                                 <strong class="font-size-12">${ele.is_consulting === "0" ? `${parseInt(ele.price).toLocaleString()}원` : '상담'}</strong>
@@ -9632,7 +9610,6 @@ function get_coupon(id,data){
 
                         body = [body];
                     }
-                    console.log(body)
 
                     document.getElementById('c_coupon').innerHTML = '<div class="form-item-label display_flex_ju_center font-size-12">쿠폰상품</div>';
                     document.getElementById('f_coupon').innerHTML = '<div class="form-item-label display_flex_ju_center font-size-12">정액상품</div>';
@@ -9682,7 +9659,6 @@ function get_coupon(id,data){
                             tmp_user_idx:tmp_user_idx
                         },
                         success:function(res){
-                            console.log(res)
                             let response = JSON.parse(res);
                             let head = response.data.head;
                             let body_ = response.data.body;
@@ -9706,7 +9682,6 @@ function get_coupon(id,data){
                                 }
 
 
-                                console.log(body_);
 
                                 document.getElementById('coupon_name').innerHTML = '';
                                 body_.forEach(function(el){
@@ -9754,7 +9729,6 @@ function get_etc_product(id){
             login_id:id,
         },
         success:function(res) {
-            console.log(res);
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -9768,7 +9742,6 @@ function get_etc_product(id){
                 }
 
 
-                console.log(body);
                 document.getElementById('etc_product_list_1').innerHTML = ''
                 document.getElementById('etc_product_list_2').innerHTML = ''
                 document.getElementById('etc_product_list_3').innerHTML = ''
@@ -9888,7 +9861,6 @@ function set_product(target,name,price){
 
 function set_product2(target,name,price,className,bool){
 
-    console.log(1)
     name = name.trim()
     // if(!location.href.match('management')){
     //
@@ -10203,7 +10175,6 @@ function reserves(id,body,bool2){
 
                     url:'/data/pc_ajax.php',
                     type:'post',
-                    async:false,
                     data:{
                         mode:'reserves',
                         partner_id:id,
@@ -10220,8 +10191,6 @@ function reserves(id,body,bool2){
                         if (head.code === 401) {
                             pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                         } else if (head.code === 200) {
-                            console.log(body);
-
 
 
                             setInputFilter(document.getElementById("use_reserves"), function(value) {
@@ -10328,7 +10297,6 @@ function waiting(id){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
-                    console.log(body)
 
                     if(body.length === undefined){
                         body = [body]
@@ -10470,7 +10438,6 @@ function approve_consult(bool) {
                 payment_idx: document.getElementById('consult_btn').getAttribute('data-payment_idx')
             },
             success: function (res) {
-                console.log(res)
                 let response = JSON.parse(res);
                 let head = response.data.head;
                 let body = response.data.body;
@@ -10499,7 +10466,6 @@ function approve_consult(bool) {
                 payment_idx: document.getElementById('consult_btn').getAttribute('data-payment_idx')
             },
             success: function (res) {
-                console.log(res)
                 let response = JSON.parse(res);
                 let head = response.data.head;
                 let body = response.data.body;
@@ -10525,7 +10491,6 @@ function pay_management_toggle(bool){
 
 
     if(bool){
-        console.log('bool');
         document.getElementById('pay_management').classList.remove('animate-check');
         $('#pay_management').stop().animate({
             marginRight:`-${$('#pay_management').width()}px`,
@@ -10542,7 +10507,6 @@ function pay_management_toggle(bool){
     }else{
 
         if(toggle_validate){
-            console.log('val_true')
             document.getElementById('pay_management').classList.add('animate-check');
             $('#pay_management').stop().animate({
                 marginRight:`25px`,
@@ -10564,8 +10528,6 @@ function pay_management_toggle(bool){
 }
 
 function pay_management_init(id,target,bool,bool2){
-    console.log(id);
-
 
     let payment_idx = target.getAttribute('data-payment_idx');
     $.ajax({
@@ -10633,7 +10595,7 @@ function pay_management_init(id,target,bool,bool2){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body_3)
+                console.log(body)
 
 
                 document.getElementById('sticky-bottom').setAttribute('data-customer_id',body.customer_Id);
@@ -10643,7 +10605,6 @@ function pay_management_init(id,target,bool,bool2){
                 document.getElementById('sticky-bottom').setAttribute('data-type',body.type === 'dog' ? '개':'고양이');
                 document.getElementById('sticky-bottom').setAttribute('data-name',body.name);
 
-                console.log(body)
                 document.getElementById('pay_noshow').innerHTML = `<h4 class="con-title">예약자 정보</h4>
                                                                 <div style="width:95px;" id="noshow_count"></div>`
                 if(body.is_noshow === 0){
@@ -10676,7 +10637,6 @@ function pay_management_init(id,target,bool,bool2){
                     let sub_phone = body.sub_phone.split(',');
 
                     sub_phone.forEach(function(el){
-                        console.log(el)
                         document.getElementById('pay_sub_phone').innerHTML += `<div class="pay-user-sub-cellphone-wrap">
                                                                             <div class="pay-user-sub-cellphone-name">${el.split('|')[3]}</div>
                                                                             <div class="pay-user-sub-cellphone-number">${phone_edit(el.split('|')[1])}</div>
@@ -10689,52 +10649,11 @@ function pay_management_init(id,target,bool,bool2){
 
 
                 document.getElementById('memberGrageMsg').innerText = `현재 ${body.name} (${phone_edit(body.cell_phone)}) 고객님의 등급은 ${body.grade_name} 입니다.`
-
-                $.ajax({
-
-                    url:'/data/pc_ajax.php',
-                    type:'post',
-                    data:{
-                        mode:'get_grade',
-                        login_id:id,
-
-                    },
-                    success:function(res){
-                        let response = JSON.parse(res);
-                        let head = response.data.head;
-                        let body_ = response.data.body;
-                        if (head.code === 401) {
-                            pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-                        } else if (head.code === 200) {
-                            console.log(body);
-
-                            body_.forEach(function(el){
-
-                                if(el.is_delete !== 1){
+                document.getElementById('pay_grade_btn').setAttribute('data-customer_id',body.customer_Id);
+                document.getElementById('pay_grade_btn').setAttribute('data-tmp_id',body.tmp_id);
+                document.getElementById('pay_grade_btn').setAttribute('data-customer_grade_idx',body.customer_grade_idx);
 
 
-                                    document.getElementById('memberGradeSelect').innerHTML += `<option data-ord="${el.grade_ord}" value="${el.idx}">${el.grade_name}</option>`
-
-
-
-                                }
-                            })
-
-                            let customer_id='';
-                            if(body.customer_Id === ''){
-                                customer_id = body.tmp_id;
-                            }else{
-                                customer_id = body.customer_Id;
-                            }
-                            document.getElementById('set_grade_btn').addEventListener('click',function(){
-
-
-                                set_grade(body.customer_grade_idx,customer_id);
-                            })
-                        }
-                    }
-
-                })
 
 
 
@@ -10773,7 +10692,7 @@ function pay_management_init(id,target,bool,bool2){
                 //         cellphone: body.cell_phone
                 //     },
                 //     success:function(res) {
-                //         console.log(res)
+                //         //console.log(res)
                 //
                 //         let response = JSON.parse(res);
                 //         let head = response.data.head;
@@ -10793,19 +10712,23 @@ function pay_management_init(id,target,bool,bool2){
                 // })
 
                 document.getElementById('pay_customer_memo_text').value = body.owner_memo;
-                document.getElementById('beauty_img_target').setAttribute('src','');
+
+                if(body.photo !== ''){
+                    document.getElementById('beauty_img_target').setAttribute('src',`${img_link_change(body.photo)}`);
+
+                }
 
                 document.getElementById('pay_pet_name').innerText = ''
                 document.getElementById('pay_pet_cate').innerText = ''
                 document.getElementById('pay_pet_name').innerText = body.name;
                 document.getElementById('pay_pet_cate').innerText = body.pet_type;
 
+                document.getElementById('pay_beauty_gal_btn').setAttribute('data-type',body.pet_type);
+                document.getElementById('pay_beauty_gal_btn').setAttribute('data-payment_idx',payment_idx);
+                document.getElementById('pay_beauty_gal_btn').setAttribute('data-pet_idx',body.pet_seq);
 
 
-                beauty_gallery_get(body,payment_idx).then(function(){
 
-                    beauty_gallery_add(id,body.pet_seq);
-                })
 
                 document.getElementById('agree_name').value = '';
 
@@ -10826,11 +10749,11 @@ function pay_management_init(id,target,bool,bool2){
                             pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                         } else if (head.code === 200) {
 
-                            console.log(body_)
+                            //console.log(body_)
 
                             if(body_.length === 0){
 
-                                console.log(body)
+                                //console.log(body)
                                 document.getElementById('beauty_agree_view').innerHTML =  `<button type="button" class="btn btn-outline-gray btn-middle-size btn-round" id="beauty_agree_btn">미용 동의서 작성</button>`
                                 document.getElementById('beauty_agree_all_btn').checked = false;
                                 document.getElementById('beauty_agree_1_btn').checked = false;
@@ -10850,7 +10773,7 @@ function pay_management_init(id,target,bool,bool2){
 
                             }else{
 
-                                console.log(body_)
+                                //console.log(body_)
                                 document.getElementById('agree_view_disease1').checked = false;
                                 document.getElementById('agree_view_disease2').checked = false;
                                 document.getElementById('agree_view_disease3').checked = false;
@@ -10889,12 +10812,9 @@ function pay_management_init(id,target,bool,bool2){
                     }
                 })
 
+                document.getElementById('modify_pet').setAttribute('data-pet_seq',body.pet_seq);
 
-                pay_management_modify_pet(body.pet_seq).then(function(body){
 
-                    pay_management_modify_pet_(body)
-
-                });
 
 
 
@@ -11000,8 +10920,8 @@ function pay_management_init(id,target,bool,bool2){
                        let start = response.start_date.split(' ')[1];
                        let end = response.end_date.split(' ')[1];
 
-                       console.log(start)
-                       console.log(end)
+                       //console.log(start)
+                       //console.log(end)
                        document.getElementById('start_time').innerHTML = '';
                        document.getElementById('end_time').innerHTML = '';
 
@@ -11055,9 +10975,12 @@ function pay_management_init(id,target,bool,bool2){
 
                 let parsing = body.product_parsing
 
+                let click = new Event('click');
+
 
                 if(bool2){
                     management_service_1(id,body).then(function(body_){
+                        console.log('1235')
                         management_wide_tab2();
                         management_total_price();
 
@@ -11066,191 +10989,28 @@ function pay_management_init(id,target,bool,bool2){
 
 
                         management_service_2(body_).then(function(base_svc){
-                            if(parsing.animal === '개'){
+                            document.getElementById(`${parsing.base.size}`).checked = true;
+                            document.getElementById(`${parsing.base.size}`).dispatchEvent(click);
 
 
 
-                                Array.from(document.querySelectorAll('input[name="payment_size"]')).forEach(function(el){
 
-                                    if(el.value === parsing.base.size){
 
-                                        setTimeout(function(){el.click()},300);
-                                    }
-                                })
+                            management_service_3(base_svc).then(function(){
 
 
-                            }
 
+                                // management_service_4(base_svc).then(function(){
 
 
-                            management_service_3(base_svc).then(function(base_svc){
-                                if(parsing.animal === '개'){
-                                    Array.from(document.querySelectorAll('input[name="payment_s1"]')).forEach(function(el){
 
 
-                                        if(el.value === parsing.base.beauty_kind){
 
-                                            setTimeout(function(){el.click()},300);
-                                        }
-                                    })
 
-                                }
 
-
-                                management_service_4(base_svc).then(function(){
-
-                                    if(parsing.animal === '개'){
-
-
-                                        setTimeout(function(){
-
-                                            Array.from(document.querySelectorAll('input[name="payment_s2"]')).forEach(function(el){
-
-                                                if(el.value === parsing.base.weight.unit){
-
-                                                    setTimeout(function(){el.click()},100);
-                                                }
-                                            })
-
-                                            Array.from(document.querySelectorAll('input[name="payment_hairBeauty"]')).forEach(function(el){
-
-                                                if(el.value.replace('mm','') === parsing.base.hair_lenth.unit.replace('mm','') && el.getAttribute('data-price') === parsing.base.hair_lenth.price){
-
-                                                    setTimeout(function(){
-                                                        el.click()
-                                                    },500)
-                                                }
-                                            })
-
-
-                                            Array.from(document.querySelectorAll('input[name="payment_f1"]')).forEach(function(el){
-
-
-                                                if(el.value === parsing.add.face.unit){
-                                                    setTimeout(function(){
-                                                        el.click()
-                                                    },300)
-                                                }
-                                            })
-
-
-                                        },300)
-
-
-
-
-                                        Array.from(document.querySelectorAll('input[name="payment_hair"]')).forEach(function(el){
-
-
-                                            parsing.base.hair_features.forEach(function(el_){
-
-                                                if(el.value === el_.unit){
-
-                                                    el.click();
-                                                }
-
-                                            })
-                                        })
-
-
-                                        let array = Object.keys(parsing.add.leg).map((key)=> [key,parsing.add.leg[key]])
-                                        Array.from(document.querySelectorAll('input[name="payment_f2"]')).forEach(function(el){
-
-
-                                            array.forEach(function (el_){
-                                                if(el_[1].unit === '네일'){
-                                                    el_[1].unit = '발톱'
-                                                }
-                                                if(el_[1].unit === el.value && el_[1].price === el.getAttribute('data-price')){
-                                                    el.click();
-                                                }
-                                            })
-
-
-                                        })
-
-
-                                        Array.from(document.querySelectorAll('input[name="payment_f3"]')).forEach(function(el){
-
-                                            parsing.add.spa.forEach(function(el_){
-
-                                                if(el_.unit === el.value){
-                                                    el.click();
-                                                }
-                                            })
-                                        })
-
-
-
-
-
-
-
-                                        Array.from(document.querySelectorAll('input[name="payment_f4"]')).forEach(function(el){
-
-                                            parsing.add.hair_color.forEach(function(el_){
-
-                                                if(el_.unit === el.value){
-                                                    el.click();
-                                                }
-                                            })
-
-
-                                        })
-
-                                        Array.from(document.querySelectorAll('input[name="payment_f5"]')).forEach(function(el){
-
-                                            parsing.add.etc.forEach(function(el_){
-
-                                                if(el_.unit === el.value){
-                                                    el.click();
-                                                }
-                                            })
-
-
-                                        })
-
-                                        if(parsing?.goods){
-                                            Array.from(document.getElementsByClassName('pay_etc_product')).forEach(function(el){
-
-                                                parsing.goods.forEach(function(el_){
-
-                                                    if(el_.name === el.value && el_.price === el.getAttribute('data-price')){
-                                                        el.click();
-                                                        siblings(el,1).children[1].children[1].children[0].value = el_.ea;
-
-                                                        setTimeout(function(){
-
-                                                            Array.from(document.getElementsByClassName('list-title-add')).forEach(function(_el){
-
-                                                                if(_el.innerText === el_.name){
-
-                                                                    siblings(_el,1).innerText = `${el_.price*el_.ea}원`
-                                                                }
-                                                            })
-                                                        },300)
-                                                    }
-                                                })
-                                            })
-                                        }
-
-                                    }else{
-
-                                        Array.from(document.querySelectorAll('input[name="payment_beauty"]')).forEach(function(el){
-
-                                            parsing.add.etc.forEach(function(el_){
-
-                                                if(el_.unit === el.value){
-                                                    el.click();
-                                                }
-                                            })
-
-
-                                        })
-                                    }
 
                                     discount_init().then(function(){
-                                        console.log("discount_init")
+
 
                                         if(body.discount_type === "1"){
                                             document.getElementById('discount_1_btn').click()
@@ -11308,7 +11068,7 @@ function pay_management_init(id,target,bool,bool2){
 
 
 
-                                });
+                                // });
 
                             })
                         })
@@ -11316,19 +11076,19 @@ function pay_management_init(id,target,bool,bool2){
 
                     get_coupon(id,body).then(function(){
 
-                        if(parsing?.coupon){
-                            Array.from(document.getElementsByClassName('pay_coupon')).forEach(function(el){
-
-                                parsing.coupon.forEach(function(el_){
-
-                                    if(el_.name === el.value){
-                                        el.click();
-                                    }
-                                })
-
-
-                            })
-                        }
+                        // if(parsing?.coupon){
+                        //     Array.from(document.getElementsByClassName('pay_coupon')).forEach(function(el){
+                        //
+                        //         parsing.coupon.forEach(function(el_){
+                        //
+                        //             if(el_.name === el.value){
+                        //                 el.click();
+                        //             }
+                        //         })
+                        //
+                        //
+                        //     })
+                        // }
 
 
                     });
@@ -11347,8 +11107,8 @@ function pay_management_init(id,target,bool,bool2){
                     list.beauty.forEach(function(el){
 
                         if(el.product.payment_idx == payment_idx){
-                            console.log('------------------------')
-                            console.log(el)
+                            //console.log('------------------------')
+                            //console.log(el)
                             let card = el.product.store_payment.card;
                             let cash = el.product.store_payment.cash;
 
@@ -11616,7 +11376,7 @@ function cardcash(target){
             discount:discount,
         },
         success:function(res) {
-            console.log(res)
+            //console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -11666,7 +11426,7 @@ function user_coupon_change(){
 
 
         let selected = coupon.options[coupon.selectedIndex];
-        console.log(selected)
+        //console.log(selected)
 
         document.getElementById('coupon_balance').innerHTML = '<option value="">선택</option>'
         document.getElementById('use_coupon').innerHTML = '<option value="">선택</option>'
@@ -11788,8 +11548,8 @@ function allim_talk_send(target){
         }
 
     }
-    console.log(mode)
-    console.log(message);
+    //console.log(mode)
+    //console.log(message);
 
 
     $.ajax({
@@ -11804,7 +11564,7 @@ function allim_talk_send(target){
 
         },
         success:function(res) {
-            console.log(res)
+            //console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -11862,7 +11622,7 @@ function get_worker(id){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body)
+                //console.log(body)
 
 
                 document.getElementById('worker_inner').innerHTML = '';
@@ -11921,14 +11681,14 @@ function reserve_confirm(target){
             is_confirm:is_confirm,
         },
         success:function(res) {
-            console.log(res)
+            //console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body);
+                //console.log(body);
             }
         }
 
@@ -12091,31 +11851,31 @@ function pay_management_product_change(target){
     let product = `${name}|${type}|${data.shop_name}|${size}|${service}|${weight}:${weight_price}|${face}:${face_price}|${length}:${length_price}|${hair}|${nail}|${boots}|${bell}|||${leg_count}${leg_count >0 ? '|':''}${leg_add.toString().replaceAll(',','|')}|${spa_count}${spa_count >0 ? '|':''}${spa.toString().replaceAll(',','|')}|${dyeing_count}${dyeing_count > 0 ? '|':''}${dyeing.toString().replaceAll(',','|')}|${etc_count}${etc_count>0?'|':''}${etc.toString().replaceAll(',','|')}|${coupon_count}${coupon_count>0?'|':''}${coupon.toString().replaceAll(',','|')}|${options_count}${options_count > 0? '|':''}${options.toString().replaceAll(',','|')}|`
 
 
-    console.log(`size = ${size}`);
-    console.log(`service = ${service}`);
-    console.log(`weight = ${weight}`);
-    console.log(`weight_price = ${weight_price}`);
-    console.log(`face = ${face}`);
-    console.log(`face_price = ${face_price}`);
-    console.log(`length = ${length}`);
-    console.log(`length_price = ${length_price}`);
-    console.log(`hair = ${hair}`);
-    console.log(`nail = ${nail}`);
-    console.log(`boots = ${boots}`);
-    console.log(`bell = ${bell}`);
-    console.log(`leg_count = ${leg_count}`);
-    console.log(leg_add.toString().replaceAll(',','|'));
-    console.log(`spa_count = ${spa_count}`);
-    console.log(spa);
-    console.log(`dyeing_count = ${dyeing_count}`);
-    console.log(dyeing);
-    console.log(`etc_count = ${etc_count}`);
-    console.log(etc);
-    console.log(`coupon_count = ${coupon_count}`);
-    console.log(coupon);
-    console.log(`options_count = ${options_count}`);
-    console.log(options);
-    console.log(product);
+    //console.log(`size = ${size}`);
+    //console.log(`service = ${service}`);
+    //console.log(`weight = ${weight}`);
+    //console.log(`weight_price = ${weight_price}`);
+    //console.log(`face = ${face}`);
+    //console.log(`face_price = ${face_price}`);
+    //console.log(`length = ${length}`);
+    //console.log(`length_price = ${length_price}`);
+    //console.log(`hair = ${hair}`);
+    //console.log(`nail = ${nail}`);
+    //console.log(`boots = ${boots}`);
+    //console.log(`bell = ${bell}`);
+    //console.log(`leg_count = ${leg_count}`);
+    //console.log(leg_add.toString().replaceAll(',','|'));
+    //console.log(`spa_count = ${spa_count}`);
+    //console.log(spa);
+    //console.log(`dyeing_count = ${dyeing_count}`);
+    //console.log(dyeing);
+    //console.log(`etc_count = ${etc_count}`);
+    //console.log(etc);
+    //console.log(`coupon_count = ${coupon_count}`);
+    //console.log(coupon);
+    //console.log(`options_count = ${options_count}`);
+    //console.log(options);
+    //console.log(product);
 
 
     $.ajax({
@@ -12134,14 +11894,14 @@ function pay_management_product_change(target){
         },
         success:function(res) {
 
-            console.log(res)
+            //console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body);
+                //console.log(body);
 
                 // document.getElementById('msg2_txt').innerText = '서비스 정보가 변경되었습니다.'
                 // pop.open('reserveAcceptMsg2');
@@ -12152,4 +11912,94 @@ function pay_management_product_change(target){
     })
 
 
+}
+
+function pay_get_grade(target,id){
+
+    let customer_id = target.getAttribute('data-customer_id');
+    let tmp_id = target.getAttribute('data-tmp_id');
+    let customer_grade_idx = target.getAttribute('data-customer_grade_idx');
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+            mode:'get_grade',
+            login_id:id,
+
+        },
+        success:function(res){
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body_ = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                document.getElementById('memberGradeSelect').innerHTML = '';
+
+                body_.forEach(function(el){
+
+                    if(el.is_delete !== 1){
+
+
+                        document.getElementById('memberGradeSelect').innerHTML += `<option data-ord="${el.grade_ord}" value="${el.idx}">${el.grade_name}</option>`
+
+
+
+                    }
+                })
+
+                // let customer = '';
+                // if(customer_id === ''){
+                //     customer =tmp_id;
+                // }else{
+                //     customer = customer_id;
+                // }
+
+
+                document.getElementById('set_grade_btn').addEventListener('click',function(){
+
+
+                    pay_set_grade(customer_grade_idx)
+                })
+
+                pop.open('memberGradeAddPop')
+            }
+        }
+
+    })
+}
+
+
+function pay_set_grade(customer_grade_idx){
+
+    let grade_idx = document.getElementById('memberGradeSelect').value;
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+            mode:"put_customer_grade_1",
+            customer_idx:customer_grade_idx,
+            grade_idx:grade_idx,
+        },
+        success:function(res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+
+                document.getElementById('msg2_txt').innerText = '변경되었습니다.'
+                pop.open('reserveAcceptMsg2');
+
+            }
+
+
+        }
+
+    })
 }

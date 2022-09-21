@@ -1,8 +1,7 @@
 
 let data;
 let list;
-console.log(data);
-console.log(list)
+
 
 // 세자리 숫자 콤마
 Number.prototype.format = function() {
@@ -1215,150 +1214,155 @@ function holiday(id){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
+
                 let body_rows;
-                switch (parseInt(body.week_type)){
-                    case 1 : if(document.getElementsByClassName('mini-calendar-month-header-row').length >0){
-                        body_rows = document.getElementsByClassName('mini-calendar-month-body-row');
-                    }else{
-                        body_rows = document.getElementsByClassName('main-calendar-month-body-row');
-                    }
-                        break;
-                    case 2 : body_rows = document.getElementsByClassName('1or3');
-                        break;
-                    case 3 : body_rows = document.getElementsByClassName('2or4');
-                        break;
-                    default :break;
-                }
-                if(body.is_work_sun) {
-                    Array.from(body_rows).forEach(function(el){
-                        if(el.childNodes.length !== 0){
-                            el.childNodes[0].classList.add('break');
+                if(body !== undefined){
+
+
+                    switch (parseInt(body.week_type)){
+                        case 1 : if(document.getElementsByClassName('mini-calendar-month-header-row').length >0){
+                            body_rows = document.getElementsByClassName('mini-calendar-month-body-row');
+                        }else{
+                            body_rows = document.getElementsByClassName('main-calendar-month-body-row');
                         }
-                    })
-
-                    if(week){
-
-                        Array.from(body_col).forEach(function(el_){
-
-                            if(el_.getAttribute('data-day') === 0){
-
-                                el_.classList.add('break')
+                            break;
+                        case 2 : body_rows = document.getElementsByClassName('1or3');
+                            break;
+                        case 3 : body_rows = document.getElementsByClassName('2or4');
+                            break;
+                        default :break;
+                    }
+                    if(body.is_work_sun) {
+                        Array.from(body_rows).forEach(function(el){
+                            if(el.childNodes.length !== 0){
+                                el.childNodes[0].classList.add('break');
                             }
                         })
 
-                    }
-                }
-                if(body.is_work_mon){
-                    Array.from(body_rows).forEach(function(el){
-                        if(el.childNodes.length !== 0){
-                            el.childNodes[1].classList.add('break');
+                        if(week){
+
+                            Array.from(body_col).forEach(function(el_){
+
+                                if(el_.getAttribute('data-day') === 0){
+
+                                    el_.classList.add('break')
+                                }
+                            })
+
                         }
-                    })
-
-                    if(week){
-
-                        Array.from(body_col).forEach(function(el_){
-
-                            if(el_.getAttribute('data-day') === 1){
-
-                                el_.classList.add('break')
+                    }
+                    if(body.is_work_mon){
+                        Array.from(body_rows).forEach(function(el){
+                            if(el.childNodes.length !== 0){
+                                el.childNodes[1].classList.add('break');
                             }
                         })
 
-                    }
-                }
-                if(body.is_work_tue){
-                    Array.from(body_rows).forEach(function(el){
-                        if(el.childNodes.length !== 0){
-                            el.childNodes[2].classList.add('break');
+                        if(week){
+
+                            Array.from(body_col).forEach(function(el_){
+
+                                if(el_.getAttribute('data-day') === 1){
+
+                                    el_.classList.add('break')
+                                }
+                            })
+
                         }
-                    })
-
-                    if(week){
-
-                        Array.from(body_col).forEach(function(el_){
-
-                            if(el_.getAttribute('data-day') === 2){
-
-                                el_.classList.add('break')
+                    }
+                    if(body.is_work_tue){
+                        Array.from(body_rows).forEach(function(el){
+                            if(el.childNodes.length !== 0){
+                                el.childNodes[2].classList.add('break');
                             }
                         })
 
-                    }
-                }
-                if(body.is_work_wed){
-                    Array.from(body_rows).forEach(function(el){
-                        if(el.childNodes.length !== 0){
-                            el.childNodes[3].classList.add('break');
+                        if(week){
+
+                            Array.from(body_col).forEach(function(el_){
+
+                                if(el_.getAttribute('data-day') === 2){
+
+                                    el_.classList.add('break')
+                                }
+                            })
+
                         }
-                    })
-
-                    if(week){
-
-                        Array.from(body_col).forEach(function(el_){
-
-                            if(el_.getAttribute('data-day') === 3){
-
-                                el_.classList.add('break')
+                    }
+                    if(body.is_work_wed){
+                        Array.from(body_rows).forEach(function(el){
+                            if(el.childNodes.length !== 0){
+                                el.childNodes[3].classList.add('break');
                             }
                         })
 
-                    }
+                        if(week){
 
-                }
-                if(body.is_work_thu){
-                    Array.from(body_rows).forEach(function(el){
-                        if(el.childNodes.length !== 0){
-                            el.childNodes[4].classList.add('break');
+                            Array.from(body_col).forEach(function(el_){
+
+                                if(el_.getAttribute('data-day') === 3){
+
+                                    el_.classList.add('break')
+                                }
+                            })
+
                         }
-                    })
 
-                    if(week){
-
-                        Array.from(body_col).forEach(function(el_){
-
-                            if(el_.getAttribute('data-day') === 4){
-
-                                el_.classList.add('break')
+                    }
+                    if(body.is_work_thu){
+                        Array.from(body_rows).forEach(function(el){
+                            if(el.childNodes.length !== 0){
+                                el.childNodes[4].classList.add('break');
                             }
                         })
 
-                    }
-                }
-                if(body.is_work_fri){
-                    Array.from(body_rows).forEach(function(el){
-                        if(el.childNodes.length !== 0){
-                            el.childNodes[5].classList.add('break');
+                        if(week){
+
+                            Array.from(body_col).forEach(function(el_){
+
+                                if(el_.getAttribute('data-day') === 4){
+
+                                    el_.classList.add('break')
+                                }
+                            })
+
                         }
-                    })
-                    if(week){
-
-                        Array.from(body_col).forEach(function(el_){
-
-                            if(el_.getAttribute('data-day') === 5){
-
-                                el_.classList.add('break')
+                    }
+                    if(body.is_work_fri){
+                        Array.from(body_rows).forEach(function(el){
+                            if(el.childNodes.length !== 0){
+                                el.childNodes[5].classList.add('break');
                             }
                         })
+                        if(week){
 
-                    }
-                }
-                if(body.is_work_sat){
-                    Array.from(body_rows).forEach(function(el){
-                        if(el.childNodes.length !== 0){
-                            el.childNodes[6].classList.add('break');
+                            Array.from(body_col).forEach(function(el_){
+
+                                if(el_.getAttribute('data-day') === 5){
+
+                                    el_.classList.add('break')
+                                }
+                            })
+
                         }
-                    })
-                    if(week){
-
-                        Array.from(body_col).forEach(function(el_){
-
-                            if(el_.getAttribute('data-day') === 6){
-
-                                el_.classList.add('break')
+                    }
+                    if(body.is_work_sat){
+                        Array.from(body_rows).forEach(function(el){
+                            if(el.childNodes.length !== 0){
+                                el.childNodes[6].classList.add('break');
                             }
                         })
+                        if(week){
 
+                            Array.from(body_col).forEach(function(el_){
+
+                                if(el_.getAttribute('data-day') === 6){
+
+                                    el_.classList.add('break')
+                                }
+                            })
+
+                        }
                     }
                 }
             }
