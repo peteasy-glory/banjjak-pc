@@ -10115,12 +10115,12 @@ return new Promise(function(resolve){
 
     document.getElementById('discount_1').addEventListener('change',function(){
 
-        if(document.getElementById('real_total_price').getAttribute('value') == 0){
-
-            document.getElementById('msg1_txt').innerText = '상품을 먼저 적용해주세요..'
-            pop.open('reserveAcceptMsg1');
-            return;
-        }
+        // if(document.getElementById('real_total_price').getAttribute('value') == 0){
+        //
+        //     document.getElementById('msg1_txt').innerText = '상품을 먼저 적용해주세요..'
+        //     pop.open('reserveAcceptMsg1');
+        //     return;
+        // }
 
         let result = (parseInt(document.getElementById('real_total_price').getAttribute('value'))*(parseInt(document.getElementById('discount_1').value)/100));
 
@@ -10136,12 +10136,12 @@ return new Promise(function(resolve){
 
     document.getElementById('discount_2').addEventListener('change',function(){
 
-        if(document.getElementById('real_total_price').getAttribute('value') == 0){
-
-            document.getElementById('msg1_txt').innerText = '상품을 먼저 적용해주세요..'
-            pop.open('reserveAcceptMsg1');
-            return;
-        }
+        // if(document.getElementById('real_total_price').getAttribute('value') == 0){
+        //
+        //     document.getElementById('msg1_txt').innerText = '상품을 먼저 적용해주세요..'
+        //     pop.open('reserveAcceptMsg1');
+        //     return;
+        // }
 
         let result = (parseInt(document.getElementById('discount_2').value));
         Array.from(document.getElementsByClassName('discount_price')).forEach(function(el){
