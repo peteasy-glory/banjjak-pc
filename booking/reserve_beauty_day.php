@@ -2881,6 +2881,8 @@ if ($artist_flag == 1) {
         agree_view_birthday().then(function(){ agree_view_birthday_date()})
         agree_view_pet_type(artist_id);
 
+        management_service_1(artist_id,)
+
         document.getElementById('gnb_reserve_wrap').setAttribute('onclick','location.href ="/booking/reserve_beauty_day.php"')
         document.getElementById('gnb_customer_wrap').setAttribute('onclick','location.href ="/customer/customer_inquiry.php"')
         document.getElementById('gnb_shop_wrap').setAttribute('onclick','location.href ="/shop/shop_gate_picture.php"')

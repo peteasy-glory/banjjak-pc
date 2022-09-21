@@ -6612,7 +6612,7 @@ let beauty,bath,add_svc;
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                // location.reload()
+                location.reload()
             }
 
         }
@@ -9243,7 +9243,7 @@ function management_service_2(body){
 
                     document.getElementById('payment_basic_hair_length').innerHTML += `<div class="toggle-button-cell">
                                                                                             <label class="form-toggle-box form-toggle-price large" for="payment_hairBeauty${i}">
-                                                                                                <input type="radio" id="${el.type}" name="payment_hairBeauty" value="${el.type}"  data-price="${el.price}" id="payment_hairBeauty${i}" onclick="set_product2(this,'${el.type}','${el.price.toLocaleString()}','list_title_2',true)">
+                                                                                                <input type="radio" id="${el.type}${el.price}" name="payment_hairBeauty" value="${el.type}"  data-price="${el.price}" id="payment_hairBeauty${i}" onclick="set_product2(this,'${el.type}','${el.price.toLocaleString()}','list_title_2',true)">
                                                                                                 <em>
                                                                                                     <span class="font-size-12">${el.type}</span>
                                                                                                     <strong class="font-size-12">${parseInt(el.price).toLocaleString()}원</strong>
@@ -9435,13 +9435,11 @@ function management_service_3(base_svc){
                 let value = el.getAttribute('data-value');
 
                 base_svc.forEach(function(el_){
-                    console.log(base_svc)
-                    console.log('1')
+
 
                     if(value === el_.size){
 
                         el_.svc.forEach(function (_el){
-                            console.log('2')
 
                             if(_el.is_show === "y" && _el.unit.length >0){
                                 document.getElementById('payment_basic_service_select').innerHTML += `<div class="toggle-button-cell toggle-button-cell-service">
@@ -9459,8 +9457,9 @@ function management_service_3(base_svc){
                 })
                 management_service_4(base_svc);
 
-                resolve(base_svc)
+
             })
+            resolve(base_svc)
         })
 
 
@@ -9476,15 +9475,14 @@ function management_service_4(base_svc){
 
 
     return new Promise(function(resolve){
-        console.log(3)
+
 
 
 
         Array.from(document.getElementsByClassName('toggle-button-cell-service')).forEach(function(el){
-            console.log('4')
+
 
             el.addEventListener('click',function (){
-                console.log('5')
 
                 document.getElementById('payment_basic_weight').innerHTML= '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" data-price="" name="payment_s2"><em><span class="font-size-12">선택 안함</span></em></label></div>'
 
@@ -9497,14 +9495,12 @@ function management_service_4(base_svc){
                 let surcharge ;
                 base_svc.forEach(function(el_){
 
-                    console.log('6')
 
                     if(el_.size === size){
 
 
                         el_.svc.forEach(function(_el){
 
-                            console.log('7')
                             if(_el.type === value){
 
 
@@ -9515,7 +9511,7 @@ function management_service_4(base_svc){
 
                                         document.getElementById('payment_basic_weight').innerHTML += `<div class="toggle-button-cell">
                                                                                                         <label class="form-toggle-box form-toggle-price large">
-                                                                                                            <input type="radio" id="${ele.kg}" value="${ele.kg}" name="payment_s2" data-price="${ele.price}" ${i ===  _el.unit.length-1 ? 'id="weight_target"':''}onclick="set_product2(this,'${document.querySelector('input[name="payment_size"]:checked').value}/${document.querySelector('input[name="payment_s1"]:checked').value}/${ele.kg}kg','${ele.price}','list_title_3',true)">
+                                                                                                            <input type="radio" id="${ele.kg}kg" value="${ele.kg}" name="payment_s2" data-price="${ele.price}" ${i ===  _el.unit.length-1 ? 'id="weight_target"':''}onclick="set_product2(this,'${document.querySelector('input[name="payment_size"]:checked').value}/${document.querySelector('input[name="payment_s1"]:checked').value}/${ele.kg}kg','${ele.price}','list_title_3',true)">
                                                                                                                 <em>
                                                                                                                     <span class="font-size-12">~${ele.kg}Kg</span>
                                                                                                                 <strong class="font-size-12">${ele.is_consulting === "0" ? `${parseInt(ele.price).toLocaleString()}원` : '상담'}</strong>
@@ -9538,7 +9534,7 @@ function management_service_4(base_svc){
 
                                             document.getElementById('payment_basic_weight').innerHTML += `<div class="toggle-button-cell">
                                                                                                     <div class="form-toggle-options">
-                                                                                                        <input type="radio" name="payment_s2" name="payment_options1"  id="payment_surcharge"  onclick="set_product2(this,'${document.querySelector('input[name="payment_size"]:checked').value}/${document.querySelector('input[name="payment_s1"]:checked').value}/${el_.surcharge.kg}kg','${el_.surcharge.price}','list_title_3',true)">
+                                                                                                        <input type="radio" name="payment_s2" id="payment_surcharge" value="no" onclick="set_product2(this,'${document.querySelector('input[name="payment_size"]:checked').value}/${document.querySelector('input[name="payment_s1"]:checked').value}/${el_.surcharge.kg}kg','${el_.surcharge.price}','list_title_3',true)">
                                                                                                             <div class="form-toggle-options-data">
                                                                                                                 <div class="options-labels">
                                                                                                                     <span class="font-size-12">${el_.surcharge.kg}kg~</span><strong style="font-size:10px">kg당 <br> +${parseInt(el_.surcharge.price).toLocaleString()}원</strong></div>
@@ -9547,7 +9543,7 @@ function management_service_4(base_svc){
                                                                                                                             class="btn-form-amount-minus" id="payment_surcharge" onclick="set_etc_product_count_(this,'${document.querySelector('input[name="payment_size"]:checked').value}/${document.querySelector('input[name="payment_s1"]:checked').value}/${el_.surcharge.kg}kg','${el_.surcharge.price}',false)">감소
                                                                                                                     </button>
                                                                                                                     <div class="form-amount-info">
-                                                                                                                        <input type="number" readOnly=""  value="10" data-weight="10kg+" id="payment_weight_target"
+                                                                                                                        <input type="number" readOnly=""  value="${localStorage.getItem('surcharge_kg')}" data-weight="10kg+" id="payment_weight_target" data-price="${el_.surcharge.price}"
                                                                                                                                class="form-amount-val">
                                                                                                                     </div>
                                                                                                                     <button type="button" 
@@ -9622,7 +9618,7 @@ function get_coupon(id,data){
                             document.getElementById('c_coupon').innerHTML +=  `<div class="form-item-data type-2">
                                                                                 <div class="toggle-button-group vertical">
                                                                                     <div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" htmlFor="cp1-1">
-                                                                                        <input class="pay_coupon" type="checkbox" name="cp1" id="cp1-1" value="${el.name}" data-idx="${el.idx}" data-price="${el.price}" onclick="set_product(this,'${el.name}','${el.price}')"><em><span>${el.name}</span><strong>+${el.price.toLocaleString()}원</strong></em></label>
+                                                                                        <input class="pay_coupon" type="checkbox" name="cp1" id="${el.name}" value="${el.name}" data-idx="${el.idx}" data-price="${el.price}" onclick="set_product(this,'${el.name}','${el.price}')"><em><span>${el.name}</span><strong>+${el.price.toLocaleString()}원</strong></em></label>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>`
@@ -9631,7 +9627,7 @@ function get_coupon(id,data){
                             document.getElementById('f_coupon').innerHTML +=  `<div class="form-item-data type-2">
                                                                                     <div class="toggle-button-group vertical">
                                                                                         <div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" htmlFor="cp2-1">
-                                                                                            <input class="pay_coupon" type="checkbox" name="cp2" id="cp2-1" value="${el.name}"  data-idx="${el.idx}" data-price="${el.price}" onclick="set_product(this,'${el.name}','${el.price}')"><em><span>${el.name}</span><strong>+${el.price.toLocaleString()}원</strong></em></label>
+                                                                                            <input class="pay_coupon" type="checkbox" name="cp2" id="${el.name}" value="${el.name}"  data-idx="${el.idx}" data-price="${el.price}" onclick="set_product(this,'${el.name}','${el.price}')"><em><span>${el.name}</span><strong>+${el.price.toLocaleString()}원</strong></em></label>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>`
@@ -9719,118 +9715,118 @@ function get_coupon(id,data){
 
 function get_etc_product(id){
 
-    $.ajax({
 
-        url:'/data/pc_ajax.php',
-        type:'post',
-        data:{
-
-            mode:'get_etc_product',
-            login_id:id,
-        },
-        success:function(res) {
-            let response = JSON.parse(res);
-            let head = response.data.head;
-            let body = response.data.body;
-            if (head.code === 401) {
-                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-            } else if (head.code === 200) {
-
-                if(body.length === undefined){
-
-                    body = [body];
-                }
-
-
-                document.getElementById('etc_product_list_1').innerHTML = ''
-                document.getElementById('etc_product_list_2').innerHTML = ''
-                document.getElementById('etc_product_list_3').innerHTML = ''
-                document.getElementById('etc_product_list_4').innerHTML = ''
-
-                body.forEach(function(el){
+    return new Promise(function(resolve){
 
 
 
-                    switch (parseInt(el.type)){
-                        
-                        case 1: document.getElementById('etc_product_list_1').innerHTML += `<div class="toggle-button-cell">
-                                                                                                <div class="form-toggle-options">
-                                                                                                    <input type="checkbox" class="pay_etc_product" name="options1-1" value="${el.name}" data-price="${el.price}" data-idx="${el.idx}" onclick="set_product(this,'${el.name}','${el.price}')">
-                                                                                                        <div class="form-toggle-options-data">
-                                                                                                            <div class="options-labels"><span>${el.name}</span><strong>+${el.price === null ? '': el.price.toLocaleString()}원</strong></div>
-                                                                                                            <div class="form-amount-input">
-                                                                                                                <button type="button" class="btn-form-amount-minus" onclick="set_etc_product_count(this,'${el.name}','${el.price}',false)">감소</button>
-                                                                                                                <div class="form-amount-info">
-                                                                                                                    <input type="number" value="1" class="form-amount-val">
-                                                                                                                </div>
-                                                                                                                <button type="button" class="btn-form-amount-plus" onclick="set_etc_product_count(this,'${el.name}','${el.price}',true)">증가</button>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                </div>
-                                                                                            </div>`
-                            break;
-                        case 2:  document.getElementById('etc_product_list_2').innerHTML += `<div class="toggle-button-cell">
-                                                                                                <div class="form-toggle-options">
-                                                                                                    <input type="checkbox" class="pay_etc_product"  name="options2-1" value="${el.name}" data-price="${el.price}" data-idx="${el.idx}"  onclick="set_product(this,'${el.name}','${el.price}')">
-                                                                                                        <div class="form-toggle-options-data">
-                                                                                                            <div class="options-labels"><span>${el.name}</span><strong>+${el.price === null ? '': el.price.toLocaleString()}원</strong></div>
-                                                                                                            <div class="form-amount-input">
-                                                                                                                <button type="button" class="btn-form-amount-minus" onclick="set_etc_product_count(this,'${el.name}','${el.price}',false)">감소</button>
-                                                                                                                <div class="form-amount-info">
-                                                                                                                    <input type="number" value="1" class="form-amount-val">
-                                                                                                                </div>
-                                                                                                                <button type="button" class="btn-form-amount-plus" onclick="set_etc_product_count(this,'${el.name}','${el.price}',true)">증가</button>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                </div>
-                                                                                            </div>`
-                            break;
-                        case 3:  document.getElementById('etc_product_list_3').innerHTML += `<div class="toggle-button-cell">
-                                                                                                <div class="form-toggle-options">
-                                                                                                    <input type="checkbox" class="pay_etc_product"  name="options3-1" value="${el.name}" data-price="${el.price}" data-idx="${el.idx}"  onclick="set_product(this,'${el.name}','${el.price}')">
-                                                                                                        <div class="form-toggle-options-data">
-                                                                                                            <div class="options-labels"><span>${el.name}</span><strong>+${el.price === null ? '': el.price.toLocaleString()}원</strong></div>
-                                                                                                            <div class="form-amount-input">
-                                                                                                                <button type="button" class="btn-form-amount-minus" onclick="set_etc_product_count(this,'${el.name}','${el.price}',false)">감소</button>
-                                                                                                                <div class="form-amount-info">
-                                                                                                                    <input type="number" value="1" class="form-amount-val">
-                                                                                                                </div>
-                                                                                                                <button type="button" class="btn-form-amount-plus" onclick="set_etc_product_count(this,'${el.name}','${el.price}',true)">증가</button>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                </div>
-                                                                                            </div>`
-                            break;
-                        case 4:  document.getElementById('etc_product_list_4').innerHTML += `<div class="toggle-button-cell">
-                                                                                                <div class="form-toggle-options">
-                                                                                                    <input type="checkbox" class="pay_etc_product"  name="options4-1" value="${el.name}" data-price="${el.price}" data-idx="${el.idx}"  onclick="set_product(this,'${el.name}','${el.price}')">
-                                                                                                        <div class="form-toggle-options-data">
-                                                                                                            <div class="options-labels"><span>${el.name}</span><strong>+${el.price === null ? '': el.price.toLocaleString()}원</strong></div>
-                                                                                                            <div class="form-amount-input">
-                                                                                                                <button type="button" class="btn-form-amount-minus" onclick="set_etc_product_count(this,'${el.name}','${el.price}',false)">감소</button>
-                                                                                                                <div class="form-amount-info">
-                                                                                                                    <input type="number" value="1" class="form-amount-val">
-                                                                                                                </div>
-                                                                                                                <button type="button" class="btn-form-amount-plus" onclick="set_etc_product_count(this,'${el.name}','${el.price}',true)">증가</button>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                </div>
-                                                                                            </div>`
-                            break;
+        $.ajax({
 
+            url:'/data/pc_ajax.php',
+            type:'post',
+            data:{
 
+                mode:'get_etc_product',
+                login_id:id,
+            },
+            success:function(res) {
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+
+                    if(body.length === undefined){
+
+                        body = [body];
                     }
-                })
-            }
-        },
-        complete:function(){
 
-            if(document.getElementById('pay_card_body_inner')){
 
-                document.getElementById('pay_management_loading').style.display = 'none';
-                document.getElementById('pay_card_body_inner').style.display = 'block';
+                    document.getElementById('etc_product_list_1').innerHTML = ''
+                    document.getElementById('etc_product_list_2').innerHTML = ''
+                    document.getElementById('etc_product_list_3').innerHTML = ''
+                    document.getElementById('etc_product_list_4').innerHTML = ''
+
+                    body.forEach(function(el){
+
+
+
+                        switch (parseInt(el.type)){
+
+                            case 1: document.getElementById('etc_product_list_1').innerHTML += `<div class="toggle-button-cell">
+                                                                                                    <div class="form-toggle-options">
+                                                                                                        <input type="checkbox" class="pay_etc_product" id="${el.name}" name="options1-1" value="${el.name}" data-price="${el.price}" data-idx="${el.idx}" onclick="set_product(this,'${el.name}','${el.price}')">
+                                                                                                            <div class="form-toggle-options-data">
+                                                                                                                <div class="options-labels"><span>${el.name}</span><strong>+${el.price === null ? '': el.price.toLocaleString()}원</strong></div>
+                                                                                                                <div class="form-amount-input">
+                                                                                                                    <button type="button" class="btn-form-amount-minus" onclick="set_etc_product_count(this,'${el.name}','${el.price}',false)">감소</button>
+                                                                                                                    <div class="form-amount-info">
+                                                                                                                        <input type="number" value="1" class="form-amount-val">
+                                                                                                                    </div>
+                                                                                                                    <button type="button" class="btn-form-amount-plus" onclick="set_etc_product_count(this,'${el.name}','${el.price}',true)">증가</button>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                    </div>
+                                                                                                </div>`
+                                break;
+                            case 2:  document.getElementById('etc_product_list_2').innerHTML += `<div class="toggle-button-cell">
+                                                                                                    <div class="form-toggle-options">
+                                                                                                        <input type="checkbox" class="pay_etc_product" id="${el.name}"  name="options2-1" value="${el.name}" data-price="${el.price}" data-idx="${el.idx}"  onclick="set_product(this,'${el.name}','${el.price}')">
+                                                                                                            <div class="form-toggle-options-data">
+                                                                                                                <div class="options-labels"><span>${el.name}</span><strong>+${el.price === null ? '': el.price.toLocaleString()}원</strong></div>
+                                                                                                                <div class="form-amount-input">
+                                                                                                                    <button type="button" class="btn-form-amount-minus" onclick="set_etc_product_count(this,'${el.name}','${el.price}',false)">감소</button>
+                                                                                                                    <div class="form-amount-info">
+                                                                                                                        <input type="number" value="1" class="form-amount-val">
+                                                                                                                    </div>
+                                                                                                                    <button type="button" class="btn-form-amount-plus" onclick="set_etc_product_count(this,'${el.name}','${el.price}',true)">증가</button>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                    </div>
+                                                                                                </div>`
+                                break;
+                            case 3:  document.getElementById('etc_product_list_3').innerHTML += `<div class="toggle-button-cell">
+                                                                                                    <div class="form-toggle-options">
+                                                                                                        <input type="checkbox" class="pay_etc_product"  id="${el.name}" name="options3-1" value="${el.name}" data-price="${el.price}" data-idx="${el.idx}"  onclick="set_product(this,'${el.name}','${el.price}')">
+                                                                                                            <div class="form-toggle-options-data">
+                                                                                                                <div class="options-labels"><span>${el.name}</span><strong>+${el.price === null ? '': el.price.toLocaleString()}원</strong></div>
+                                                                                                                <div class="form-amount-input">
+                                                                                                                    <button type="button" class="btn-form-amount-minus" onclick="set_etc_product_count(this,'${el.name}','${el.price}',false)">감소</button>
+                                                                                                                    <div class="form-amount-info">
+                                                                                                                        <input type="number" value="1" class="form-amount-val">
+                                                                                                                    </div>
+                                                                                                                    <button type="button" class="btn-form-amount-plus" onclick="set_etc_product_count(this,'${el.name}','${el.price}',true)">증가</button>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                    </div>
+                                                                                                </div>`
+                                break;
+                            case 4:  document.getElementById('etc_product_list_4').innerHTML += `<div class="toggle-button-cell">
+                                                                                                    <div class="form-toggle-options">
+                                                                                                        <input type="checkbox" class="pay_etc_product" id="${el.name}"  name="options4-1" value="${el.name}" data-price="${el.price}" data-idx="${el.idx}"  onclick="set_product(this,'${el.name}','${el.price}')">
+                                                                                                            <div class="form-toggle-options-data">
+                                                                                                                <div class="options-labels"><span>${el.name}</span><strong>+${el.price === null ? '': el.price.toLocaleString()}원</strong></div>
+                                                                                                                <div class="form-amount-input">
+                                                                                                                    <button type="button" class="btn-form-amount-minus" onclick="set_etc_product_count(this,'${el.name}','${el.price}',false)">감소</button>
+                                                                                                                    <div class="form-amount-info">
+                                                                                                                        <input type="number" value="1" class="form-amount-val">
+                                                                                                                    </div>
+                                                                                                                    <button type="button" class="btn-form-amount-plus" onclick="set_etc_product_count(this,'${el.name}','${el.price}',true)">증가</button>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                    </div>
+                                                                                                </div>`
+                                break;
+
+
+                        }
+                    })
+                    resolve();
+                }
             }
-        }
+
+        })
 
     })
 }
@@ -9944,6 +9940,7 @@ function set_etc_product_count(target,name,price,bool){
 
 function set_etc_product_count_(target,name,price,bool){
 
+    console.log(price);
 
 
     name =name.trim();
@@ -9961,13 +9958,9 @@ function set_etc_product_count_(target,name,price,bool){
 
                 let value = siblings(target,1).children[0].value;
 
-                if(target.getAttribute('id') === 'payment_surcharge'){
-
-
-                    siblings(el,1).innerText = `${((price*value)-(price*parseInt(document.getElementById('payment_weight_target').value))+parseInt(document.getElementById('payment_weight_target').getAttribute('data-price')))}원`
-                }else{
-                    siblings(el,1).innerText = `${(price*value)}원`;
-                }
+                siblings(el,1).innerText = `${parseInt(localStorage.getItem('surcharge_std_price')) + ( (parseInt(document.getElementById('payment_weight_target').value) - parseInt(localStorage.getItem('surcharge_kg') ))*parseInt(localStorage.getItem('surcharge_price')) )}원`
+                siblings(el,1).setAttribute()
+                localStorage.setItem('surcharge_result',`${parseInt(localStorage.getItem('surcharge_std_price')) + ( (parseInt(document.getElementById('payment_weight_target').value) - parseInt(localStorage.getItem('surcharge_kg') ))*parseInt(localStorage.getItem('surcharge_price')) )}`)
 
 
 
@@ -9979,14 +9972,10 @@ function set_etc_product_count_(target,name,price,bool){
 
                 siblings(target,1).children[0].value = parseInt(siblings(target,1).children[0].value)-1;
 
-                let value = siblings(target,1).children[0].value;
 
-                if(target.getAttribute('id') === 'payment_surcharge'){
+                siblings(el,1).innerText = `${parseInt(localStorage.getItem('surcharge_std_price')) + ( (parseInt(document.getElementById('payment_weight_target').value) - parseInt(localStorage.getItem('surcharge_kg') ))*parseInt(localStorage.getItem('surcharge_price')) )}원`
+                localStorage.setItem('surcharge_result',`${parseInt(localStorage.getItem('surcharge_std_price')) + ( (parseInt(document.getElementById('payment_weight_target').value) - parseInt(localStorage.getItem('surcharge_kg') ))*parseInt(localStorage.getItem('surcharge_price')) )}`)
 
-                    siblings(el,1).innerText = `${((price*value)-(price*parseInt(document.getElementById('payment_weight_target').value))+parseInt(document.getElementById('payment_weight_target').getAttribute('data-price')))}원`
-                }else{
-                    siblings(el,1).innerText = `${(price*value)}원`;
-                }
             }
         }
     })
@@ -10127,6 +10116,9 @@ return new Promise(function(resolve){
 
     document.getElementById('discount_1_btn').click();
 
+
+
+
     resolve();
 })
 
@@ -10146,6 +10138,7 @@ function reserves(id,body,bool2){
 
         url:'/data/pc_ajax.php',
         type:'post',
+
         data:{
 
             mode:'get_pay_reserve',
@@ -10539,12 +10532,12 @@ function pay_management_init(id,target,bool,bool2){
             payment_idx:payment_idx,
         },
         beforeSend:function(){
-
-            if(document.getElementById('pay_card_body_inner')){
-
-                document.getElementById('pay_card_body_inner').style.display = 'none';
-                document.getElementById('pay_management_loading').style.display = 'flex';
-            }
+            //
+            // if(document.getElementById('pay_card_body_inner')){
+            //
+            //     document.getElementById('pay_card_body_inner').style.display = 'none';
+            //     document.getElementById('pay_management_loading').style.display = 'flex';
+            // }
 
 
                 document.getElementById('pay_management').scrollTop = 0
@@ -10712,6 +10705,7 @@ function pay_management_init(id,target,bool,bool2){
                 // })
 
                 document.getElementById('pay_customer_memo_text').value = body.owner_memo;
+                document.getElementById('beauty_img_target').setAttribute('src','');
 
                 if(body.photo !== ''){
                     document.getElementById('beauty_img_target').setAttribute('src',`${img_link_change(body.photo)}`);
@@ -10975,353 +10969,497 @@ function pay_management_init(id,target,bool,bool2){
 
                 let parsing = body.product_parsing
 
-                let click = new Event('click');
 
 
-                if(bool2){
-                    management_service_1(id,body).then(function(body_){
-                        console.log('1235')
-                        management_wide_tab2();
-                        management_total_price();
-
-                        reserves(id,body,bool2);
-
-
-
-                        management_service_2(body_).then(function(base_svc){
-                            document.getElementById(`${parsing.base.size}`).checked = true;
-                            document.getElementById(`${parsing.base.size}`).dispatchEvent(click);
-
-
-
-
-
-                            management_service_3(base_svc).then(function(){
-
-
-
-                                // management_service_4(base_svc).then(function(){
-
-
-
-
-
-
-
-
-                                    discount_init().then(function(){
-
-
-                                        if(body.discount_type === "1"){
-                                            document.getElementById('discount_1_btn').click()
-                                            for(let i=0; i<document.getElementById('discount_1').options.length; i++){
-                                                if(document.getElementById('discount_1').options[i].value === body.discount_num){
-                                                    document.getElementById('discount_1').options[i].selected =true;
-                                                    setTimeout(function(){
-                                                        document.getElementById('discount_1').dispatchEvent(new Event('change'));
-                                                    },500)
-
-                                                }
-
-                                            }
-
-                                        }else if(body.discount_type === "2"){
-                                            document.getElementById('discount_2_btn').click()
-                                            for(let i=0; i<document.getElementById('discount_2').options.length; i++){
-                                                if(document.getElementById('discount_2').options[i].value === body.discount_num){
-                                                    document.getElementById('discount_2').options[i].selected =true;
-                                                    setTimeout(function(){
-                                                        document.getElementById('discount_2').dispatchEvent(new Event('change'));
-                                                    },500)
-
-                                                }
-
-                                            }
-
-                                        }else if(body.discount_type === "0"){
-
-
-                                            document.getElementById('discount_1_btn').click()
-                                            document.getElementById('discount_1').options[0].selected = true;
-                                            document.getElementById('discount_2').options[0].selected = true;
-                                            setTimeout(function(){
-
-                                                document.getElementById('discount_1').dispatchEvent(new Event('change'));
-                                                document.getElementById('discount_2').dispatchEvent(new Event('change'));
-                                            },500)
-                                        }
-
-
-
-
-
-
-                                        if(bool){
-                                            document.getElementById('pay_management').scrollTop = document.getElementById('scroll_target').offsetTop;
-                                        }
-                                    });
-
-
-
-
-
-
-
-
-                                // });
-
-                            })
-                        })
-                    });
-
-                    get_coupon(id,body).then(function(){
-
-                        // if(parsing?.coupon){
-                        //     Array.from(document.getElementsByClassName('pay_coupon')).forEach(function(el){
-                        //
-                        //         parsing.coupon.forEach(function(el_){
-                        //
-                        //             if(el_.name === el.value){
-                        //                 el.click();
-                        //             }
-                        //         })
-                        //
-                        //
-                        //     })
-                        // }
-
-
-                    });
-                    get_etc_product(id);
-
-                    document.getElementById('cardcash-btn').setAttribute('data-payment_idx',payment_idx);
-
-                    if(body.reserve_point === ''){
-                        body.reserve_point = 0;
-                    }
-                    document.getElementById('total_reserves_use').value = body.reserve_point;
-                    document.getElementById('total_reserves_use').innerText = body.reserve_point;
-                    last_price()
-
-
-                    list.beauty.forEach(function(el){
-
-                        if(el.product.payment_idx == payment_idx){
-                            //console.log('------------------------')
-                            //console.log(el)
-                            let card = el.product.store_payment.card;
-                            let cash = el.product.store_payment.cash;
-
-                            document.getElementById('last_card').value = card;
-                            document.getElementById('last_cash').value = cash
-
-                        }
-                    })
-                }else{
-
-                    management_service_1(id,body);
-
-                    let parsing = body.product_parsing;
-
-
-                    document.getElementById('appr_service_list').innerHTML = '';
-
-                    document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
-                                                                                    <div class="list-title">${parsing.base.size} / ${parsing.base.beauty_kind} / ~${parsing.base.weight.unit}Kg</div>
-                                                                                    <div class="list-value appr_sum_target">${(parsing.base.weight.price)}</div>원
-                                                                                </div>
-                                                                                <div class="list-cell">
-                                                                                    <div class="list-title">${parsing.base.hair_lenth.unit}mm</div>
-                                                                                    <div class="list-value appr_sum_target">${(parsing.base.hair_lenth.price)}</div>원
-                                                                                </div>`
-
-                    if(parsing.base.hair_features.length > 0){
-
-                        parsing.base.hair_features.forEach(function(el){
-
-                            document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
-                                                                                    <div class="list-title">${el.unit}</div>
-                                                                                    <div class="list-value appr_sum_target">${(el.price)}</div>원
-                                                                                </div>`
-                        })
-
-                    }
-
-                    if(parsing.add.face.unit !== '0'){
-                        document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
-                                                                                    <div class="list-title">${parsing.add.face.unit}</div>
-                                                                                    <div class="list-value appr_sum_target">${(parsing.add.face.price)}</div>원
-                                                                                </div>`
-
-                    }
-
-
-
-                    if(parsing.add.hair_color.length > 0 && parsing.add.hair_color?.unit){
-
-                        parsing.add.hair_color.forEach(function(el){
-
-                            document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
-                                                                                    <div class="list-title">${el.unit}</div>
-                                                                                    <div class="list-value appr_sum_target">${(el.price)}</div>원
-                                                                                </div>`
-                        })
-
-                    }
-
-                    if(parsing.add.spa.length > 0 && parsing.add.spa?.unit){
-
-                        parsing.add.spa.forEach(function(el){
-
-                            document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
-                                                                                    <div class="list-title">${el.unit}</div>
-                                                                                    <div class="list-value appr_sum_target">${(el.price)}</div>원
-                                                                                </div>`
-                        })
-
-                    }
-
-                    if(parsing.add.leg.bell.price !== ''){
-
-                        document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
-                                                                                    <div class="list-title">${parsing.add.leg.bell.unit}</div>
-                                                                                    <div class="list-value appr_sum_target">${(parsing.add.leg.bell.price)}</div>원
-                                                                                </div>`
-                    }
-
-                    if(parsing.add.leg.nail.price !== ''){
-
-                        document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
-                                                                                    <div class="list-title">${parsing.add.leg.nail.unit}</div>
-                                                                                    <div class="list-value appr_sum_target">${(parsing.add.leg.nail.price)}</div>원
-                                                                                </div>`
-                    }
-
-                    if(parsing.add.leg.rain_boots.price !== ''){
-
-                        document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
-                                                                                    <div class="list-title">${parsing.add.leg.rain_boots.unit}</div>
-                                                                                    <div class="list-value appr_sum_target">${(parsing.add.leg.rain_boots.price)}</div>원
-                                                                                </div>`
-                    }
-
-
-                    if(parsing.add.leg.type1?.unit){
-
-                        document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
-                                                                                    <div class="list-title">${parsing.add.leg.type1?.unit}</div>
-                                                                                    <div class="list-value appr_sum_target">${(parsing.add.leg.type1?.price)}</div>원
-                                                                                </div>`
-                    }
-
-                    if(parsing.add.leg.type2?.unit){
-
-                        document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
-                                                                                    <div class="list-title">${parsing.add.leg.type2?.unit}</div>
-                                                                                    <div class="list-value appr_sum_target">${(parsing.add.leg.type2?.price)}</div>원
-                                                                                </div>`
-                    }
-
-                    if(parsing.add.leg.type3?.unit){
-
-                        document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
-                                                                                    <div class="list-title">${parsing.add.leg.type3?.unit}</div>
-                                                                                    <div class="list-value appr_sum_target">${(parsing.add.leg.type3?.price)}</div>원
-                                                                                </div>`
-                    }
-
-
-                    document.getElementById('appr_sum').innerText = '';
-                    document.getElementById('appr_vat').innerText = '';
-                    document.getElementById('appr_last_price').innerText = '';
-                    setTimeout(function(){
-                        let sum=0;
-                        Array.from(document.getElementsByClassName('appr_sum_target')).forEach(function(el){
-
-                            sum += parseInt(el.innerText);
-                        })
-
-                        document.getElementById('appr_sum').innerText = `${sum}원`;
-
-                        if(localStorage.getItem('is_vat') === '1'){
-
-                            document.getElementById('appr_vat_list').style.display  ='flex';
-
-                            document.getElementById('appr_vat').innerText = `${sum/10}원`
-
-                            document.getElementById('appr_last_price').innerText = `${sum + (sum/10)}원`
-
-                        }else{
-                            document.getElementById('appr_vat_list').style.display  ='none';
-                            document.getElementById('appr_last_price').innerText = `${sum}원`
-                        }
-
-
-
-
-
-
-                    },300)
-
-                    document.getElementById('appr_date').innerText = ''
-                    document.getElementById('appr_worker').innerText = ''
-                    document.getElementById('appr_time').innerText = ''
-
-
-                    document.getElementById('appr_date').innerText = body.beauty_date.split(' ')[0].replaceAll('-','.');
-                    document.getElementById('appr_worker').innerText = body.worker_nick;
-                    document.getElementById('appr_time').innerText = body.beauty_date.split(' ')[1];
-
-                    $.ajax({
-                        url: '/data/pc_ajax.php',
-                        type: 'post',
-                        data: {
-                            mode: 'waiting',
-                            partner_id: id,
-                        },
-                        success: function (res) {
-
-                            let response = JSON.parse(res);
-                            let head = response.data.head;
-                            let body1 = response.data.body;
-                            if (head.code === 401) {
-                                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-                            } else if (head.code === 200) {
-
-                                body1.forEach(function(el){
-
-                                    if(el.product.payment_idx == localStorage.getItem('payment_idx')){
-                                        Array.from(document.getElementsByClassName('apporval-reserve')).forEach((function(el_){
-
-                                            el_.setAttribute('data-approve',`${el.product.approve_idx}`)
-                                        }))
-
-                                    }
-                                })
-
-                            }
-                        }
-                    })
-
-
-
-
-
-
-
-
-                    if(document.getElementById('pay_card_body_inner')){
-
-                        document.getElementById('pay_management_loading').style.display = 'none';
-                        document.getElementById('pay_card_body_inner').style.display = 'block';
-                    }
-
-
-
-
-
-
-                }
+                // if(bool2){
+                //     management_service_1(id,body).then(function(body_){
+                //         management_wide_tab2();
+                //         management_total_price();
+                //
+                //         reserves(id,body,bool2);
+                //
+                //
+                //
+                //         management_service_2(body_).then(function(base_svc){
+                //
+                //             // if(document.getElementById('pay_card_body_inner')){
+                //             //
+                //             //     document.getElementById('pay_management_loading').style.display = 'none';
+                //             //     document.getElementById('pay_card_body_inner').style.display = 'block';
+                //             // }
+                //
+                //
+                //                 management_service_3(base_svc).then(function(){
+                //
+                //
+                //
+                //                     management_service_4(base_svc).then(function(){
+                //
+                //
+                //
+                //
+                //
+                //
+                //
+                //
+                //
+                //
+                //
+                //
+                //                     });
+                //
+                //                 })
+                //
+                //
+                //             document.getElementById(`${parsing.base.size}`).click();
+                //             document.getElementById(`${parsing.base.beauty_kind}`).click();
+                //
+                //             if(document.getElementById(`${parsing.base.weight.unit}kg`)){
+                //                 document.getElementById(`${parsing.base.weight.unit}kg`).click();
+                //             }else if(parsing.base.weight.unit > localStorage.getItem('surcharge_kg')){
+                //
+                //                 document.getElementById('payment_surcharge').click();
+                //                 document.getElementById('payment_weight_target').value = parsing.base.weight.unit;
+                //
+                //
+                //             }
+                //             document.getElementById(`${parsing.base.hair_lenth.unit.replace('mm','')}mm${parsing.base.hair_lenth.price}`).click();
+                //             document.getElementById(`${parsing.add.face.unit}`).click();
+                //
+                //             if(!array_empty(parsing.base.hair_features[0])){
+                //
+                //                 parsing.base.hair_features.forEach(function(el){
+                //
+                //                     document.getElementById(`${el.unit}`).click();
+                //                 })
+                //             }
+                //
+                //             if(parsing.add.leg.nail.price !== ''){
+                //                 document.getElementById('발톱').click()
+                //             }
+                //
+                //             if(parsing.add.leg.bell.price !== ''){
+                //                 document.getElementById('방울').click()
+                //             }
+                //
+                //             if(parsing.add.leg.rain_boots.price !== ''){
+                //                 document.getElementById('장화').click()
+                //             }
+                //
+                //             if(parsing.add.leg?.type1){
+                //                 if(parsing.add.leg.type1.price !==''){
+                //                     document.getElementById(`${parsing.add.leg.type1.unit}`).click();
+                //                 }
+                //             }
+                //
+                //             if(parsing.add.leg?.type2){
+                //                 if(parsing.add.leg.type2.price !==''){
+                //                     document.getElementById(`${parsing.add.leg.type2.unit}`).click();
+                //                 }
+                //             }
+                //             if(parsing.add.leg?.type3){
+                //                 if(parsing.add.leg.type3.price !==''){
+                //                     document.getElementById(`${parsing.add.leg.type3.unit}`).click();
+                //                 }
+                //             }if(parsing.add.leg?.type4){
+                //                 if(parsing.add.leg.type4.price !==''){
+                //                     document.getElementById(`${parsing.add.leg.type4.unit}`).click();
+                //                 }
+                //             }if(parsing.add.leg?.type5){
+                //                 if(parsing.add.leg.type5.price !==''){
+                //                     document.getElementById(`${parsing.add.leg.type5.unit}`).click();
+                //                 }
+                //             }
+                //
+                //             if(!array_empty(parsing.add.spa[0])){
+                //                 parsing.add.spa.forEach(function(el){
+                //
+                //                     document.getElementById(`${el.unit}`).click();
+                //                 })
+                //
+                //
+                //             }
+                //
+                //             if(!array_empty(parsing.add.hair_color[0])){
+                //                 parsing.add.hair_color.forEach(function(el){
+                //
+                //                     document.getElementById(`${el.unit}`).click();
+                //                 })
+                //
+                //             }
+                //
+                //
+                //             if(!array_empty(parsing.add.etc[0])){
+                //
+                //                 parsing.add.etc.forEach(function(el){
+                //
+                //                     document.getElementById(`${el.unit}`).click();
+                //                 })
+                //             }
+                //
+                //
+                //             if(parsing.base.hair_beauty !== ''){
+                //
+                //                     document.getElementById(`${parsing.base.hair_beauty.split(':')[0]}_미용`).click();
+                //                 }
+                //
+                //                 if(parsing.base.bath_long !== ''){
+                //
+                //                         document.getElementById('장모').click();
+                //                 }
+                //
+                //                 if(parsing.base.bath_shot !== ''){
+                //
+                //                     document.getElementById('단모').click();
+                //                 }
+                //
+                //                 if(parsing.add.nail !== ''){
+                //                     document.getElementById('발톱').click();
+                //                 }
+                //
+                //                 if(parsing.add?.etc){
+                //                     if(parsing.add.etc.length >0){
+                //
+                //                         parsing.add.etc.forEach(function(el){
+                //
+                //                             document.getElementById(`${el.unit}`).click();
+                //                         })
+                //                     }
+                //                 }
+                //
+                //
+                //
+                //
+                //
+                //
+                //
+                //
+                //
+                //
+                //
+                //             discount_init().then(function(){
+                //
+                //
+                //                 if(body.discount_type === "1"){
+                //                    document.getElementById('discount_1_btn').click()
+                //                     for(let i=0; i<document.getElementById('discount_1').options.length; i++){
+                //                         if(document.getElementById('discount_1').options[i].value === body.discount_num){
+                //                             document.getElementById('discount_1').options[i].selected =true;
+                //                             setTimeout(function(){
+                //                                 document.getElementById('discount_1').dispatchEvent(new Event('change'));
+                //                             },500)
+                //
+                //                         }
+                //
+                //                     }
+                //
+                //                 }else if(body.discount_type === "2"){
+                //                     document.getElementById('discount_2_btn').click()
+                //                     for(let i=0; i<document.getElementById('discount_2').options.length; i++){
+                //                         if(document.getElementById('discount_2').options[i].value === body.discount_num){
+                //                             document.getElementById('discount_2').options[i].selected =true;
+                //                             setTimeout(function(){
+                //                                 document.getElementById('discount_2').dispatchEvent(new Event('change'));
+                //                             },500)
+                //
+                //                         }
+                //
+                //                     }
+                //
+                //                 }else if(body.discount_type === "0"){
+                //
+                //
+                //                     document.getElementById('discount_1_btn').click()
+                //                     document.getElementById('discount_1').options[0].selected = true;
+                //                     document.getElementById('discount_2').options[0].selected = true;
+                //                     setTimeout(function(){
+                //
+                //                         document.getElementById('discount_1').dispatchEvent(new Event('change'));
+                //                         document.getElementById('discount_2').dispatchEvent(new Event('change'));
+                //                     },500)
+                //                 }
+                //
+                //
+                //
+                //
+                //
+                //
+                //                 if(bool){
+                //                     document.getElementById('pay_management').scrollTop = document.getElementById('scroll_target').offsetTop;
+                //                 }
+                //             });
+                //         })
+                //     });
+                //
+                //     get_coupon(id,body).then(function(){
+                //
+                //         if(parsing?.coupon){
+                //
+                //             parsing.coupon.forEach(function(el){
+                //
+                //                 document.getElementById(`${el.name}`).click();
+                //             })
+                //         }
+                //
+                //
+                //
+                //
+                //     });
+                //     get_etc_product(id).then(function(){
+                //
+                //         if(parsing?.goods){
+                //             parsing.goods.forEach(function(el){
+                //                 document.getElementById(`${el.name}`).click();
+                //
+                //                 document.getElementById(`${el.name}`).parentElement.children[1].children[1].children[1].children[0].value = el.ea;
+                //
+                //
+                //                 setTimeout(function(){
+                //
+                //                     Array.from(document.getElementsByClassName('list-title-add')).forEach(function(_el){
+                //
+                //                         if(_el.innerText === el.name){
+                //
+                //                             siblings(_el,1).innerText = `${el.price*el.ea}원`
+                //                         }
+                //                     })
+                //                 },300)
+                //             })
+                //
+                //         }
+                //
+                //
+                //
+                //
+                //
+                //     });
+                //
+                //     document.getElementById('cardcash-btn').setAttribute('data-payment_idx',payment_idx);
+                //
+                //     if(body.reserve_point === ''){
+                //         body.reserve_point = 0;
+                //     }
+                //     document.getElementById('total_reserves_use').value = body.reserve_point;
+                //     document.getElementById('total_reserves_use').innerText = body.reserve_point;
+                //     last_price()
+                //
+                //
+                //     list.beauty.forEach(function(el){
+                //
+                //         if(el.product.payment_idx == payment_idx){
+                //             let card = el.product.store_payment.card;
+                //             let cash = el.product.store_payment.cash;
+                //
+                //             document.getElementById('last_card').value = card;
+                //             document.getElementById('last_cash').value = cash
+                //
+                //         }
+                //     })
+                // }else{
+                //
+                //     management_service_1(id,body);
+                //
+                //     let parsing = body.product_parsing;
+                //
+                //
+                //     document.getElementById('appr_service_list').innerHTML = '';
+                //
+                //     document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                //                                                                     <div class="list-title">${parsing.base.size} / ${parsing.base.beauty_kind} / ~${parsing.base.weight.unit}Kg</div>
+                //                                                                     <div class="list-value appr_sum_target">${(parsing.base.weight.price)}</div>원
+                //                                                                 </div>
+                //                                                                 <div class="list-cell">
+                //                                                                     <div class="list-title">${parsing.base.hair_lenth.unit}mm</div>
+                //                                                                     <div class="list-value appr_sum_target">${(parsing.base.hair_lenth.price)}</div>원
+                //                                                                 </div>`
+                //
+                //     if(parsing.base.hair_features.length > 0){
+                //
+                //         parsing.base.hair_features.forEach(function(el){
+                //
+                //             document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                //                                                                     <div class="list-title">${el.unit}</div>
+                //                                                                     <div class="list-value appr_sum_target">${(el.price)}</div>원
+                //                                                                 </div>`
+                //         })
+                //
+                //     }
+                //
+                //     if(parsing.add.face.unit !== '0'){
+                //         document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                //                                                                     <div class="list-title">${parsing.add.face.unit}</div>
+                //                                                                     <div class="list-value appr_sum_target">${(parsing.add.face.price)}</div>원
+                //                                                                 </div>`
+                //
+                //     }
+                //
+                //
+                //
+                //     if(parsing.add.hair_color.length > 0 && parsing.add.hair_color?.unit){
+                //
+                //         parsing.add.hair_color.forEach(function(el){
+                //
+                //             document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                //                                                                     <div class="list-title">${el.unit}</div>
+                //                                                                     <div class="list-value appr_sum_target">${(el.price)}</div>원
+                //                                                                 </div>`
+                //         })
+                //
+                //     }
+                //
+                //     if(parsing.add.spa.length > 0 && parsing.add.spa?.unit){
+                //
+                //         parsing.add.spa.forEach(function(el){
+                //
+                //             document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                //                                                                     <div class="list-title">${el.unit}</div>
+                //                                                                     <div class="list-value appr_sum_target">${(el.price)}</div>원
+                //                                                                 </div>`
+                //         })
+                //
+                //     }
+                //
+                //     if(parsing.add.leg.bell.price !== ''){
+                //
+                //         document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                //                                                                     <div class="list-title">${parsing.add.leg.bell.unit}</div>
+                //                                                                     <div class="list-value appr_sum_target">${(parsing.add.leg.bell.price)}</div>원
+                //                                                                 </div>`
+                //     }
+                //
+                //     if(parsing.add.leg.nail.price !== ''){
+                //
+                //         document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                //                                                                     <div class="list-title">${parsing.add.leg.nail.unit}</div>
+                //                                                                     <div class="list-value appr_sum_target">${(parsing.add.leg.nail.price)}</div>원
+                //                                                                 </div>`
+                //     }
+                //
+                //     if(parsing.add.leg.rain_boots.price !== ''){
+                //
+                //         document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                //                                                                     <div class="list-title">${parsing.add.leg.rain_boots.unit}</div>
+                //                                                                     <div class="list-value appr_sum_target">${(parsing.add.leg.rain_boots.price)}</div>원
+                //                                                                 </div>`
+                //     }
+                //
+                //
+                //     if(parsing.add.leg.type1?.unit){
+                //
+                //         document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                //                                                                     <div class="list-title">${parsing.add.leg.type1?.unit}</div>
+                //                                                                     <div class="list-value appr_sum_target">${(parsing.add.leg.type1?.price)}</div>원
+                //                                                                 </div>`
+                //     }
+                //
+                //     if(parsing.add.leg.type2?.unit){
+                //
+                //         document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                //                                                                     <div class="list-title">${parsing.add.leg.type2?.unit}</div>
+                //                                                                     <div class="list-value appr_sum_target">${(parsing.add.leg.type2?.price)}</div>원
+                //                                                                 </div>`
+                //     }
+                //
+                //     if(parsing.add.leg.type3?.unit){
+                //
+                //         document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                //                                                                     <div class="list-title">${parsing.add.leg.type3?.unit}</div>
+                //                                                                     <div class="list-value appr_sum_target">${(parsing.add.leg.type3?.price)}</div>원
+                //                                                                 </div>`
+                //     }
+                //
+                //
+                //     document.getElementById('appr_sum').innerText = '';
+                //     document.getElementById('appr_vat').innerText = '';
+                //     document.getElementById('appr_last_price').innerText = '';
+                //     setTimeout(function(){
+                //         let sum=0;
+                //         Array.from(document.getElementsByClassName('appr_sum_target')).forEach(function(el){
+                //
+                //             sum += parseInt(el.innerText);
+                //         })
+                //
+                //         document.getElementById('appr_sum').innerText = `${sum}원`;
+                //
+                //         if(localStorage.getItem('is_vat') === '1'){
+                //
+                //             document.getElementById('appr_vat_list').style.display  ='flex';
+                //
+                //             document.getElementById('appr_vat').innerText = `${sum/10}원`
+                //
+                //             document.getElementById('appr_last_price').innerText = `${sum + (sum/10)}원`
+                //
+                //         }else{
+                //             document.getElementById('appr_vat_list').style.display  ='none';
+                //             document.getElementById('appr_last_price').innerText = `${sum}원`
+                //         }
+                //
+                //
+                //
+                //
+                //
+                //
+                //     },300)
+                //
+                //     document.getElementById('appr_date').innerText = ''
+                //     document.getElementById('appr_worker').innerText = ''
+                //     document.getElementById('appr_time').innerText = ''
+                //
+                //
+                //     document.getElementById('appr_date').innerText = body.beauty_date.split(' ')[0].replaceAll('-','.');
+                //     document.getElementById('appr_worker').innerText = body.worker_nick;
+                //     document.getElementById('appr_time').innerText = body.beauty_date.split(' ')[1];
+                //
+                //     $.ajax({
+                //         url: '/data/pc_ajax.php',
+                //         type: 'post',
+                //         data: {
+                //             mode: 'waiting',
+                //             partner_id: id,
+                //         },
+                //         success: function (res) {
+                //
+                //             let response = JSON.parse(res);
+                //             let head = response.data.head;
+                //             let body1 = response.data.body;
+                //             if (head.code === 401) {
+                //                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                //             } else if (head.code === 200) {
+                //
+                //                 body1.forEach(function(el){
+                //
+                //                     if(el.product.payment_idx == localStorage.getItem('payment_idx')){
+                //                         Array.from(document.getElementsByClassName('apporval-reserve')).forEach((function(el_){
+                //
+                //                             el_.setAttribute('data-approve',`${el.product.approve_idx}`)
+                //                         }))
+                //
+                //                     }
+                //                 })
+                //
+                //             }
+                //         }
+                //     })
+                //
+                //
+                //
+                //
+                //
+                //
+                //
+                //
+                //     if(document.getElementById('pay_card_body_inner')){
+                //
+                //         document.getElementById('pay_management_loading').style.display = 'none';
+                //         document.getElementById('pay_card_body_inner').style.display = 'block';
+                //     }
+                //
+                //
+                //
+                //
+                //
+                //
+                // }
 
 
 
@@ -11707,176 +11845,261 @@ function pay_management_product_change(target){
     let type = target.getAttribute('data-type')
     let name =target.getAttribute('data-name');
 
-    let size = document.querySelector('input[name="payment_size"]:checked').value;
-    let service = document.querySelector('input[name="payment_s1"]:checked').value;
-    let weight = document.querySelector('input[name="payment_s2"]:checked').value;
-    let weight_price = document.querySelector('input[name="payment_s2"]:checked').getAttribute('data-price');
-    let face = document.querySelector('input[name="payment_f1"]:checked').value;
-    let face_price = document.querySelector('input[name="payment_f1"]:checked').getAttribute('data-price');
-    let length = document.querySelector('input[name="payment_hairBeauty"]:checked').value;
-    let length_price = document.querySelector('input[name="payment_hairBeauty"]:checked').getAttribute('data-price')
-
-    let hair_ = document.querySelectorAll('input[name="payment_hair"]:checked')
-
-    let hair = '';
-
-    for(let i=0; i<hair_.length; i++){
+    let product = '';
+    if(type === '개'){
 
 
-        hair += `${hair_[i].value}:${hair_[i].getAttribute('data-price')}${i === (hair_.length)-1 ? '':','}`
+
+        let size = document.querySelector('input[name="payment_size"]:checked').value;
+        let service = document.querySelector('input[name="payment_s1"]:checked').value;
+        let weight;
+
+        if(document.querySelector('input[name="payment_s2"]:checked').value === 'no'){
+
+            weight = document.getElementById('payment_weight_target').value;
+        }else{
+
+            weight = document.querySelector('input[name="payment_s2"]:checked').value;
+        };
+        let weight_price;
+
+        if(document.querySelector('input[name="payment_s2"]:checked').getAttribute('data-price')===null){
+
+            weight_price = localStorage.getItem('surcharge_result');
+
+        }else{
+            weight_price= document.querySelector('input[name="payment_s2"]:checked').getAttribute('data-price');
+
+        }
+        let face = document.querySelector('input[name="payment_f1"]:checked').value;
+        let face_price = document.querySelector('input[name="payment_f1"]:checked').getAttribute('data-price') === null ? '' : document.querySelector('input[name="payment_f1"]:checked').getAttribute('data-price');
+        let length = document.querySelector('input[name="payment_hairBeauty"]:checked').value;
+        let length_price = document.querySelector('input[name="payment_hairBeauty"]:checked').getAttribute('data-price') === null ? '' : document.querySelector('input[name="payment_hairBeauty"]:checked').getAttribute('data-price');
+
+        let hair_ = document.querySelectorAll('input[name="payment_hair"]:checked')
+
+        let hair = '';
+
+        for(let i=0; i<hair_.length; i++){
+
+
+            hair += `${hair_[i].value}:${hair_[i].getAttribute('data-price')}${i === (hair_.length)-1 ? '':','}`
+        }
+
+
+        let nail ='';
+
+        let boots = '';
+
+        let bell = '';
+
+
+        let leg_ = document.querySelectorAll('input[name="payment_f2"]:checked');
+
+        let leg_add = [];
+        let leg_count = 0;
+        Array.from(leg_).forEach(function(el){
+
+            if(el.value === '발톱'){
+                nail = el.getAttribute('data-price')
+            }else if(el.value === '장화'){
+                boots = el.getAttribute('data-price')
+            }else if(el.value === '방울'){
+                bell = el.getAttribute('data-price')
+            }else{
+
+                leg_count++;
+                leg_add.push(`${el.value}:${el.getAttribute('data-price')}`)
+            }
+        })
+
+
+
+        let spa_ = document.querySelectorAll('input[name="payment_f3"]:checked');
+
+        let spa_count = 0;
+        let spa = [];
+        Array.from(spa_).forEach(function(el){
+
+            spa_count ++;
+
+            spa.push(`${el.value}:${el.getAttribute('data-price')}`);
+        })
+
+        let dyeing_ = document.querySelectorAll('input[name="payment_f4"]:checked');
+
+        let dyeing_count = 0;
+        let dyeing = [];
+
+        Array.from(dyeing_).forEach(function(el){
+
+            dyeing_count ++;
+
+            dyeing.push(`${el.value}:${el.getAttribute('data-price')}`);
+        })
+
+        let etc_ =document.querySelectorAll('input[name="payment_f5"]:checked');
+
+        let etc_count = 0;
+        let etc = [];
+        Array.from(etc_).forEach(function(el){
+
+            etc_count ++;
+
+            etc.push(`${el.value}:${el.getAttribute('data-price')}`);
+        })
+
+        let coupon_1 = document.querySelectorAll('input[name="cp1"]:checked');
+        let coupon_2 = document.querySelectorAll('input[name="cp2"]:checked');
+
+        let coupon_count = 0;
+
+        let coupon = [];
+        Array.from(coupon_1).forEach(function(el){
+
+            coupon_count++;
+
+            coupon.push(`${el.getAttribute('data-idx')}:${el.value}:${el.getAttribute('data-price')}`)
+        });
+
+        Array.from(coupon_2).forEach(function(el){
+
+            coupon_count++;
+
+            coupon.push(`${el.getAttribute('data-idx')}:${el.value}:${el.getAttribute('data-price')}`)
+        });
+
+        let options1 = document.querySelectorAll('input[name="options1-1"]:checked');
+        let options2 = document.querySelectorAll('input[name="options2-1"]:checked');
+        let options3 = document.querySelectorAll('input[name="options3-1"]:checked');
+        let options4 = document.querySelectorAll('input[name="options4-1"]:checked');
+
+        let options_count = 0;
+
+        let options = [];
+
+
+        Array.from(options1).forEach(function(el){
+
+            options_count++;
+
+            options.push(`${el.getAttribute('data-idx')}:${el.value}:${el.getAttribute('data-price')}:${siblings(el,1).children[1].children[1].children[0].value}`)
+        });
+
+        Array.from(options2).forEach(function(el){
+
+            options_count++;
+
+            options.push(`${el.getAttribute('data-idx')}:${el.value}:${el.getAttribute('data-price')}:${siblings(el,1).children[1].children[1].children[0].value}`)
+        });
+        Array.from(options3).forEach(function(el){
+
+            options_count++;
+
+            options.push(`${el.getAttribute('data-idx')}:${el.value}:${el.getAttribute('data-price')}:${siblings(el,1).children[1].children[1].children[0].value}`)
+        });
+
+        Array.from(options4).forEach(function(el){
+
+            options_count++;
+
+            options.push(`${el.getAttribute('data-idx')}:${el.value}:${el.getAttribute('data-price')}:${siblings(el,1).children[1].children[1].children[0].value}`)
+        });
+
+
+
+        product = `${name}|${type}|${data.shop_name}|${size}|${service}|${weight}:${weight_price}|${face}${face_price === '' ? '' : ':'}${face_price}|${length.replace('mm','')}${length_price === '' ? '' : ':'}${length_price}|${hair}|${nail}|${boots}|${bell}|||${leg_count}${leg_count >0 ? '|':''}${leg_add.toString().replaceAll(',','|')}|${spa_count}${spa_count >0 ? '|':''}${spa.toString().replaceAll(',','|')}|${dyeing_count}${dyeing_count > 0 ? '|':''}${dyeing.toString().replaceAll(',','|')}|${etc_count}${etc_count>0?'|':''}${etc.toString().replaceAll(',','|')}|${coupon_count}${coupon_count>0?'|':''}${coupon.toString().replaceAll(',','|')}|${options_count}${options_count > 0? '|':''}${options.toString().replaceAll(',','|')}|`
+    }else{
+
+        let beauty = document.querySelector('input[name="payment_beauty"]:checked').value !== '' ? '미용' : '';
+        let beauty_ = document.querySelector('input[name="payment_beauty"]:checked').value.replace('_미용', '');
+        let beauty_price = document.querySelector('input[name="payment_beauty"]:checked').getAttribute('data-price');
+        let nail = document.querySelectorAll('input[name="payment_add_svc"]')[0].checked === true ? `${document.querySelectorAll('input[name="payment_add_svc"]')[0].getAttribute('data-price')}` : '' ;
+        let short = document.querySelector('input[name="payment_bath"]:checked').value === '단모' ?  `${document.querySelector('input[name="payment_bath"]:checked').getAttribute('data-price')}` : '';
+        let long = document.querySelector('input[name="payment_bath"]:checked').value === '장모' ?  `${document.querySelector('input[name="payment_bath"]:checked').getAttribute('data-price')}` : '';
+
+        let add_count = 0 ;
+        let add = [];
+
+
+        let coupon_1 = document.querySelectorAll('input[name="cp1"]:checked');
+        let coupon_2 = document.querySelectorAll('input[name="cp2"]:checked');
+
+        let coupon_count = 0;
+
+        let coupon = [];
+        Array.from(coupon_1).forEach(function(el){
+
+            coupon_count++;
+
+            coupon.push(`${el.getAttribute('data-idx')}:${el.value}:${el.getAttribute('data-price')}`)
+        });
+
+        Array.from(coupon_2).forEach(function(el){
+
+            coupon_count++;
+
+            coupon.push(`${el.getAttribute('data-idx')}:${el.value}:${el.getAttribute('data-price')}`)
+        });
+
+        let options1 = document.querySelectorAll('input[name="options1-1"]:checked');
+        let options2 = document.querySelectorAll('input[name="options2-1"]:checked');
+        let options3 = document.querySelectorAll('input[name="options3-1"]:checked');
+        let options4 = document.querySelectorAll('input[name="options4-1"]:checked');
+
+        let options_count = 0;
+
+        let options = [];
+
+
+        Array.from(options1).forEach(function(el){
+
+            options_count++;
+
+            options.push(`${el.value}:${el.getAttribute('data-price')}:${siblings(el,1).children[1].children[1].children[0].value}`)
+        });
+
+        Array.from(options2).forEach(function(el){
+
+            options_count++;
+
+            options.push(`${el.value}:${el.getAttribute('data-price')}:${siblings(el,1).children[1].children[1].children[0].value}`)
+        });
+        Array.from(options3).forEach(function(el){
+
+            options_count++;
+
+            options.push(`${el.value}:${el.getAttribute('data-price')}:${siblings(el,1).children[1].children[1].children[0].value}`)
+        });
+
+        Array.from(options4).forEach(function(el){
+
+            options_count++;
+
+            options.push(`${el.value}:${el.getAttribute('data-price')}:${siblings(el,1).children[1].children[1].children[0].value}`)
+        });
+
+        document.querySelectorAll('input[name="payment_add_svc"]:checked').forEach(function(el){
+
+            if(el.value !== '발톱'){
+                 add_count ++;
+                 add.push(`${el.value}:${el.getAttribute('data-price')}`)
+            }
+
+        })
+
+
+
+        product = `${name}|${type}|${data.shop_name}|${beauty}|all:0|${beauty_}:${beauty_price}|${nail}|${short}|${long}|${add_count}|${add.toString().replaceAll(',','|')}|${coupon_count}${coupon_count>0?'|':''}${coupon.toString().replaceAll(',','|')}|${options_count}${options_count > 0? '|':''}${options.toString().replaceAll(',','|')}|`
+
+
     }
 
 
-    let nail ='';
-
-    let boots = '';
-
-    let bell = '';
+    let price = document.getElementById('real_total_price').getAttribute('value');
 
 
-    let leg_ = document.querySelectorAll('input[name="payment_f2"]:checked');
-
-    let leg_add = [];
-    let leg_count = 0;
-    Array.from(leg_).forEach(function(el){
-
-        if(el.value === '발톱'){
-            nail = el.getAttribute('data-price')
-        }else if(el.value === '장화'){
-            boots = el.getAttribute('data-price')
-        }else if(el.value === '방울'){
-            bell = el.getAttribute('data-price')
-        }else{
-
-            leg_count++;
-            leg_add.push(`${el.value}:${el.getAttribute('data-price')}`)
-        }
-    })
-
-
-
-    let spa_ = document.querySelectorAll('input[name="payment_f3"]:checked');
-
-    let spa_count = 0;
-    let spa = [];
-    Array.from(spa_).forEach(function(el){
-
-        spa_count ++;
-
-        spa.push(`${el.value}:${el.getAttribute('data-price')}`);
-    })
-
-    let dyeing_ = document.querySelectorAll('input[name="payment_f4"]:checked');
-
-    let dyeing_count = 0;
-    let dyeing = [];
-
-    Array.from(dyeing_).forEach(function(el){
-
-        dyeing_count ++;
-
-        dyeing.push(`${el.value}:${el.getAttribute('data-price')}`);
-    })
-
-    let etc_ =document.querySelectorAll('input[name="payment_f5"]:checked');
-
-    let etc_count = 0;
-    let etc = [];
-    Array.from(etc_).forEach(function(el){
-
-        etc_count ++;
-
-        etc.push(`${el.value}:${el.getAttribute('data-price')}`);
-    })
-
-    let coupon_1 = document.querySelectorAll('input[name="cp1"]:checked');
-    let coupon_2 = document.querySelectorAll('input[name="cp2"]:checked');
-
-    let coupon_count = 0;
-
-    let coupon = [];
-    Array.from(coupon_1).forEach(function(el){
-
-        coupon_count++;
-
-        coupon.push(`${el.getAttribute('data-idx')}:${el.value}:${el.getAttribute('data-price')}`)
-    });
-
-    Array.from(coupon_2).forEach(function(el){
-
-        coupon_count++;
-
-        coupon.push(`${el.getAttribute('data-idx')}:${el.value}:${el.getAttribute('data-price')}`)
-    });
-
-    let options1 = document.querySelectorAll('input[name="options1-1"]:checked');
-    let options2 = document.querySelectorAll('input[name="options2-1"]:checked');
-    let options3 = document.querySelectorAll('input[name="options3-1"]:checked');
-    let options4 = document.querySelectorAll('input[name="options4-1"]:checked');
-
-    let options_count = 0;
-
-    let options = [];
-
-
-    Array.from(options1).forEach(function(el){
-
-        options_count++;
-
-        options.push(`${el.value}:${el.getAttribute('data-price')}:${siblings(el,1).children[1].children[1].children[0].value}`)
-    });
-
-    Array.from(options2).forEach(function(el){
-
-        options_count++;
-
-        options.push(`${el.value}:${el.getAttribute('data-price')}:${siblings(el,1).children[1].children[1].children[0].value}`)
-    });
-    Array.from(options3).forEach(function(el){
-
-        options_count++;
-
-        options.push(`${el.value}:${el.getAttribute('data-price')}:${siblings(el,1).children[1].children[1].children[0].value}`)
-    });
-
-    Array.from(options4).forEach(function(el){
-
-        options_count++;
-
-        options.push(`${el.value}:${el.getAttribute('data-price')}:${siblings(el,1).children[1].children[1].children[0].value}`)
-    });
-
-    let price = document.getElementById('real_total_price').value
-
-    let product = `${name}|${type}|${data.shop_name}|${size}|${service}|${weight}:${weight_price}|${face}:${face_price}|${length}:${length_price}|${hair}|${nail}|${boots}|${bell}|||${leg_count}${leg_count >0 ? '|':''}${leg_add.toString().replaceAll(',','|')}|${spa_count}${spa_count >0 ? '|':''}${spa.toString().replaceAll(',','|')}|${dyeing_count}${dyeing_count > 0 ? '|':''}${dyeing.toString().replaceAll(',','|')}|${etc_count}${etc_count>0?'|':''}${etc.toString().replaceAll(',','|')}|${coupon_count}${coupon_count>0?'|':''}${coupon.toString().replaceAll(',','|')}|${options_count}${options_count > 0? '|':''}${options.toString().replaceAll(',','|')}|`
-
-
-    //console.log(`size = ${size}`);
-    //console.log(`service = ${service}`);
-    //console.log(`weight = ${weight}`);
-    //console.log(`weight_price = ${weight_price}`);
-    //console.log(`face = ${face}`);
-    //console.log(`face_price = ${face_price}`);
-    //console.log(`length = ${length}`);
-    //console.log(`length_price = ${length_price}`);
-    //console.log(`hair = ${hair}`);
-    //console.log(`nail = ${nail}`);
-    //console.log(`boots = ${boots}`);
-    //console.log(`bell = ${bell}`);
-    //console.log(`leg_count = ${leg_count}`);
-    //console.log(leg_add.toString().replaceAll(',','|'));
-    //console.log(`spa_count = ${spa_count}`);
-    //console.log(spa);
-    //console.log(`dyeing_count = ${dyeing_count}`);
-    //console.log(dyeing);
-    //console.log(`etc_count = ${etc_count}`);
-    //console.log(etc);
-    //console.log(`coupon_count = ${coupon_count}`);
-    //console.log(coupon);
-    //console.log(`options_count = ${options_count}`);
-    //console.log(options);
-    //console.log(product);
-
+    console.log(price);
 
     $.ajax({
 
@@ -11886,25 +12109,22 @@ function pay_management_product_change(target){
             mode:'product_change',
             payment_idx:payment_idx,
             use_coupon:'N',
-            idx:'',
-            customer_id:customer_id,
-            tmp_user_idx:tmp_id,
             price:price,
             product:product,
         },
         success:function(res) {
 
-            //console.log(res)
+            console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                //console.log(body);
+                console.log(body);
 
-                // document.getElementById('msg2_txt').innerText = '서비스 정보가 변경되었습니다.'
-                // pop.open('reserveAcceptMsg2');
+                document.getElementById('msg2_txt').innerText = '서비스 정보가 변경되었습니다.'
+                pop.open('reserveAcceptMsg2');
 
 
             }

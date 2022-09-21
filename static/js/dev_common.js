@@ -1392,7 +1392,14 @@ function holiday(id){
 
 
 }
+function array_empty(arr){
 
+    if (!Array.isArray(arr)) {
+        return false;
+    }
+    return arr.length == 0;
+
+}
 // 발송실패 알림톡 문자조회
 function mms_log(cellphone,date,seq){
     var txt = '';

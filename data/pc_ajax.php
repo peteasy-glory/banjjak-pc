@@ -2709,23 +2709,15 @@ if($r_mode) {
     }else if($r_mode === 'product_change'){
 
         $payment_idx = $_POST['payment_idx'];
-        $partner_id = $_POST['partner_id'];
         $use_coupon = $_POST['use_coupon'];
-        $idx = $_POST['idx'];
-        $customer_id = $_POST['customer_id'];
-        $tmp_user_idx = $_POST['tmp_user_idx'];
         $price = $_POST['price'];
         $product = $_POST['product'];
 
 
         $data = array(
             'payment_idx'=>intval($payment_idx),
-            'partner_id'=>$partner_id,
             'use_coupon'=>$use_coupon,
-            'coupon'=>'',
-            'customer_id'=>$customer_id,
-            'tmp_user_idx'=>intval($tmp_user_idx),
-            'price'=>$price,
+            'price'=>intval($price),
             'product'=>$product
 
         );
@@ -2734,7 +2726,7 @@ if($r_mode) {
 
         $result = $api ->put('/partner/booking/payment-product',$data_json);
 
-        $return_data = array("code"=>"000000","data"=>$result);
+        $return_data = array("code"=>"000000","data"=>$data);
 
 
     }
