@@ -1,3 +1,6 @@
+var customer_id = '';
+var tmp_seq = '';
+
 //펫이름or 전화번호검색
 function search(search_value,id) {
 
@@ -1092,7 +1095,7 @@ function customer_new(id){
                     location.href='/booking/reserve_beauty_week.php'
 
                 }else{
-                    location.reload();
+                    pop.open('reloadPop', '등록되었습니다.');
                 }
             }
         }
@@ -1386,8 +1389,8 @@ function customer_view_(id){
         document.getElementById('customer_cellphone').value = localStorage.getItem('customer_select');
         pet_reserve_info(body_data)
         noshow_initialize(id,body_data);
-        insert_customer_memo(id,body_data);
         insert_customer_grade(id,body_data);
+        insert_customer_memo(id,body_data);
         insert_customer_special(id);
 
 
@@ -1500,6 +1503,29 @@ function customer_delete(id){
 
 }
 
+function pet_delete(id){
+
+    let cellphone = localStorage.getItem('customer_select');
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:'pet_delete',
+            partner_id:id,
+            idx:idx
+        },
+        success:function(res){
+            document.getElementById('msg3_txt').innerText = '삭제되었습니다.'
+            pop.open('reserveAcceptMsg3');
+        }
+
+    })
+
+}
+
 function pet_reserve_info(data){
 
 
@@ -1556,7 +1582,7 @@ function pet_reserve_info(data){
                         document.getElementById('target_pet_gender').innerText = el_.detail.gender;
                         document.getElementById('target_pet_weight').innerText = `${el_.detail.weight}kg`;
 
-                        document.getElementById('target_pet_birthday').innerText = `${el_.detail.year}.${fill_zero(el_.detail.month)}.${fill_zero(el_.detail.day)}(${subtract_year}년 ${subtract_month}개월)`
+                        document.getElementById('target_pet_birthday').innerText = `${el_.detail.year}.${fill_zero(el_.detail.month)}.${fill_zero(el_.detail.day)}(${subtract_year}년 ${subtract_month+2}개월)`
 
                         document.getElementById('target_pet_neutral').innerText = `${el_.detail.neutral === 0 ? 'X' : 'O'}`;
                         document.getElementById('target_pet_beauty_exp').innerText = `${el_.detail.beauty_exp}`;
@@ -1651,10 +1677,10 @@ function noshow_initialize(id,data){
 function insert_customer_memo(id,data){
 
 
-    let customer_id = data[0][0].customer_id;
-    let tmp_seq = data[0][0].tmp_seq;
+    // let customer_id = data[0][0].customer_id;
+    // let tmp_seq = data[0][0].tmp_seq;
     let cellphone = localStorage.getItem('customer_select');
-
+console.log(id,customer_id,tmp_seq,cellphone);
     $.ajax({
 
         url:'/data/pc_ajax.php',
@@ -1663,8 +1689,8 @@ function insert_customer_memo(id,data){
 
             mode:'get_customer_memo',
             login_id:id,
-            customer_id:"",
-            tmp_seq:"",
+            customer_id:customer_id,
+            tmp_seq:tmp_seq,
             cellphone:cellphone
         },
         success:function (res){
@@ -1676,28 +1702,26 @@ function insert_customer_memo(id,data){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
-
+console.log(body);
                 document.getElementById('customer_memo').innerText = body.memo;
 
-                document.getElementById('customer_memo').addEventListener('keyup',function(){
-
-console.log('test');
-
-                    $.ajax({
-
-                        url:'/data/pc_ajax.php',
-                        type:'post',
-                        data:{
-                            mode:'put_customer_memo',
-                            idx:body.scm_seq,
-                            memo:document.getElementById('customer_memo').value,
-                        },
-                        success:function (res){
-
-                        }
-                    })
-
-                })
+                // document.getElementById('customer_memo').addEventListener('keyup',function(){
+                //
+                //     $.ajax({
+                //
+                //         url:'/data/pc_ajax.php',
+                //         type:'post',
+                //         data:{
+                //             mode:'put_customer_memo',
+                //             idx:body.scm_seq,
+                //             memo:document.getElementById('customer_memo').value,
+                //         },
+                //         success:function (res){
+                //
+                //         }
+                //     })
+                //
+                // })
 
             }
 
@@ -1713,7 +1737,8 @@ function insert_customer_grade(id,data){
 
 
     console.log(data);
-    let customer_id = data[0][0].customer_id !== "" ? data[0][0].customer_id : '';
+    customer_id = data[0][0].detail.customer_id !== "" ? data[0][0].detail.customer_id : '';
+    tmp_seq = data[0][0].detail.tmp_seq !== "" ? data[0][0].detail.tmp_seq : '';
     $.ajax({
 
         url:'/data/pc_ajax.php',

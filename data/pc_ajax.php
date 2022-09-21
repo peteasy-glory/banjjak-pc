@@ -102,6 +102,17 @@ if($r_mode) {
 
         $return_data = array("code" => "000000", "data" => $home);
 
+    } else if ($r_mode === "cal_count") {
+
+
+        $login_id = $_POST['login_id'];
+        $st_date = $_POST['st_date'];
+        $fi_date = $_POST['fi_date'];
+
+        $home = $api->get('/partner/booking/count/' . $login_id. '?st_date=' . $st_date . '&fi_date=' . $fi_date);
+
+        $return_data = array("code" => "000000", "data" => $home);
+
     } else if ($r_mode === "month_book") {
 
 
@@ -1548,6 +1559,41 @@ if($r_mode) {
 
         $return_data = array("code"=>"000000",'data'=>$result);
 
+    }else if($r_mode === "customer_memo_sql"){
+
+        $artist_id = $_POST['artist_id'];
+        $customer_id = $_POST['customer_id'];
+        $tmp_seq = $_POST['tmp_seq'];
+        $cellphone = $_POST['cellphone'];
+        $comment = $_POST['comment'];
+
+        $que = "
+            SELECT * FROM tb_shop_customer_memo WHERE artist_id = '{$artist_id}' AND cellphone = '{$cellphone}' AND customer_id = '{$customer_id}' AND tmp_seq = '{$tmp_seq}'
+        ";
+        $res = mysqli_query($connection, $que);
+        $cnt = mysqli_num_rows($res);
+        if($cnt > 0){
+            $query = "
+                UPDATE tb_shop_customer_memo SET
+                memo = '{$comment}',
+                update_dt = NOW()
+                WHERE artist_id = '{$artist_id}'
+                AND customer_id = '{$customer_id}'
+                AND tmp_seq = '{$tmp_seq}'
+                AND cellphone = '{$cellphone}'
+            ";
+        }else{
+            $query = "
+                INSERT INTO tb_shop_customer_memo 
+                (artist_id, customer_id, tmp_seq, cellphone, memo)
+                VALUES
+                ('{$artist_id}', '{$customer_id}', '{$tmp_seq}', '{$cellphone}', '{$comment}')
+            ";
+        }
+        $result = mysqli_query($connection, $query);
+
+        $return_data = array("code"=>"000000",'data'=>$result);
+
     }else if($r_mode === "all_inquiry_graph"){
 
         $artist_id = $_POST['login_id'];
@@ -2113,7 +2159,7 @@ if($r_mode) {
         $login_id = $_POST['login_id'];
         $customer_id = (isset($_POST['customer_id']))? $_POST['customer_id'] : '';
         $tmp_seq = (isset($_POST['tmp_seq']))? $_POST['tmp_seq'] : '';
-        $cellphone = intval($_POST['cellphone']);
+        $cellphone = (isset($_POST['cellphone']))? $_POST['cellphone'] : '';
 
 
         $get_memo_data = array(
@@ -2371,6 +2417,19 @@ if($r_mode) {
         $data_json = json_encode($data);
 
         $result = $api -> delete('/partner/customer/user',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
+    }else if($r_mode === "pet_delete"){
+
+        $partner_id = $_POST['partner_id'];
+        $idx = $_POST['idx'];
+
+        $data = array(partner_id=>$partner_id,pet_idx=>$idx);
+
+        $data_json = json_encode($data);
+
+        $result = $api -> delete('/partner/customer/pet',$data_json);
 
         $return_data = array("code"=>"000000","data"=>$result);
 
