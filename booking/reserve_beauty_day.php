@@ -32,6 +32,23 @@ if ($artist_flag == 1) {
 			<div class="view">
 				<div class="data-row">
 					<div class="data-col-left">
+
+                        <div class="main-col-group main-side-1" style="margin-bottom:20px;">
+                            <!-- 전화번호 검색 -->
+                            <form action="/customer/customer_inquiry.php" id="search_form" method="get">
+                                <div class="basic-data-card transparent main-phone-group">
+                                    <div class="main-phone">
+
+                                        <div class="item-input"><input type="text" class="text-add" name="search" id="search" placeholder="전화번호 또는 펫이름 입력"></div>
+
+                                        <button type="button" class="btn-main-phone" onclick="document.getElementById('search').value === '' ? pop.open('firstRequestMsg1','전화번호 또는 펫이름을 입력해주세요.'):document.getElementById('search_form').submit()">검색</button>
+
+                                    </div>
+                                </div>
+                            </form>
+                            <!-- //전화번호 검색 -->
+                        </div>
+
 						<div class="basic-data-card-group">
 							<!-- 오늘의 미용 예약 -->
 							<div class="basic-data-card reserve-today fluid"><!-- 20220519 수정 : fluid 클래스 추가 -->
@@ -115,7 +132,8 @@ if ($artist_flag == 1) {
 										</div>
 									</div>
 								</div>
-							</div>					
+							</div>
+
 							<!-- //오늘의 미용 예약 -->
 							<!-- 오늘의 예약 총 횟수 -->
 							<div class="basic-data-card _reserve-total">
@@ -129,7 +147,7 @@ if ($artist_flag == 1) {
 										<div class="total-text-cell"><div class="item-title">NO SHOW</div><div class="item-value" id="day_noshow"></div></div>
 									</div>
 								</div>
-							</div>					
+							</div>
 							<!-- //오늘의 예약 총 횟수 -->
 							<!-- 빈시간 판매하기 -->
 <!--							<div class="basic-data-card transparent">-->
@@ -159,6 +177,7 @@ if ($artist_flag == 1) {
 									</div>
 									<div class="sort-right">
 										<!-- actived클래스 추가시 활성화 -->
+										<button type="button" onclick="localStorage.setItem('day_select',`${new Date().getFullYear()}.${fill_zero(new Date().getMonth()+1)}.${fill_zero(new Date().getDate())}`); location.reload() " class="btn-reserve-calendar-sort">오늘</button>
 										<button type="button" onclick="location.href='./reserve_beauty_month.php';" class="btn-reserve-calendar-sort">월</button>
 										<button type="button" onclick="location.href='./reserve_beauty_week.php';" class="btn-reserve-calendar-sort">주</button>
 										<button type="button" class="btn-reserve-calendar-sort actived">일</button>
@@ -726,7 +745,7 @@ if ($artist_flag == 1) {
                                             <div class="pay-product-save-btn-wrap sticky-bottom" style="position:sticky; bottom:40px; margin-bottom:50px;">
 
 
-                                                <button type="button" class="sticky-bottom-inner pay-product-save btn btn-outline-purple btn-middle-size btn-round" id="sticky-bottom" onclick="pay_management_product_change()">변경</button>
+                                                <button type="button" class="sticky-bottom-inner pay-product-save btn btn-outline-purple btn-middle-size btn-round" id="sticky-bottom" onclick="pay_management_product_change(this)">변경</button>
                                             </div>
 
                                             <div class="pay-basic-data-group-2  basic-data-group vvsmall2" id="receipt">

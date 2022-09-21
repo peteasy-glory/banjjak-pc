@@ -15,6 +15,7 @@ function schedule_render(id){
             fi_date:`${date.getFullYear()}-${fill_zero(date.getMonth()+1)}-${fill_zero(date.getDate()+1)}`,
         },
         beforeSend:function(){
+            pay_management_toggle(true);
             let height;
 
 
@@ -1261,7 +1262,7 @@ function consulting_hold_list(id){
                                                                                                 </div>
                                                                                             </a>
                                                                                             <div class="item-state2">
-                                                                                                <strong class="font-color-lightgray">${status}</strong>
+                                                                                                <strong class="font-color-lightgray" ${el.approval == 2 ? 'style="color:#6840B1 !important"' : el.approval == 3 ? 'style=color:red !important':''}>${status}</strong>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>`
@@ -1292,7 +1293,6 @@ function consulting_hold_list(id){
                                         document.getElementById('consulting_data').style.opacity = 1;
                                         document.getElementById('consulting_data').innerHTML = '';
                                         body_.forEach(function(el_){
-                                            console.log(el_)
 
 
                                             if(el_.pet_name === el.getAttribute('data-pet_name') && el_.phone === el.getAttribute('data-phone')){
@@ -1334,16 +1334,8 @@ function consulting_hold_list(id){
                                                 //     }
                                                 // })
 
-                                                let consult_photo = '';
-                                                if(el_.consult_photo.length >0){
+                                                console.log(el_)
 
-                                                    consult_photo = `https://image.banjjakpet.com${el_.consult_photo[0].photo.replace('/pet','')}`
-
-                                                }else{
-
-
-                                                    consult_photo = '/static/images/icon/icon-pup-select-off.png'
-                                                }
 
                                                 document.getElementById('consulting_data').innerHTML = '';
                                                 document.getElementById('consulting_data').innerHTML +=`<div class="basic-data-card">
@@ -1520,13 +1512,14 @@ function consulting_hold_list(id){
                                                                                                             </div>
                                                                                                             <div class="basic-data-group vvsmall2">
                                                                                                                 <div class="portfolio-list-wrap">
-                                                                                                                    <div class="list-inner">
-                                                                                                                        <div class="list-cell">
-                                                                                                                            <a href="#" class="btn-portfolio-item">
-                                                                                                                                <img src="${consult_photo}" alt="">
-                                                                                                                            </a>
-                                                                                                                        </div>
-                                                                                                                    </div>
+                                                                                                                    
+                                                                                                                        ${el_.consult_photo.length > 0 ? `<div class="list-inner">
+                                                                                                                        <div class="list-cell"><a href="#" class="btn-portfolio-item">
+                                                                                                                                                            <img src="https://image.banjjakpet.com${el_.consult_photo[0].photo.replace('/pet','')}" alt="">
+                                                                                                                                                        </a></div>
+                                                                                                                    </div>` : `<span>업로드된 이미지가 없습니다.</span>`}
+                                                                                                                            
+                                                                                                                        
                                                                                                                 </div>
                                                                                                             </div>
                                                                                                         </div>
@@ -5735,7 +5728,7 @@ function reserve_merchandise_load_2(base_svc){
                                 document.getElementById('basic_service_select').innerHTML += `<div class="toggle-button-cell toggle-button-cell-service">
                                                                                                         <label class="form-toggle-box large">
                                                                                                             <input type="radio" value="${_el.type}" data-size="${el_.size}" data-time="${_el.time}" name="s1" onclick="reserve_service_list('service2_basic_service','${_el.type} ${_el.time}분')">
-                                                                                                            <em>${_el.type} ${_el.time}분</em>
+                                                                                                            <em>${_el.type} <br/> ${_el.time}분</em>
                                                                                                         </label>
                                                                                                     </div>`
                             }
@@ -6157,7 +6150,7 @@ function reserve_regist(artist_id,session_id,yesterday){
 
     //cat
     let beauty_input = document.querySelector('input[name="beauty"]:checked');
-    let bath_input = document.querySelector('input[name="beauty"]:checked');
+    let bath_input = document.querySelector('input[name="bath"]:checked');
 
     let add_svc_input = document.querySelectorAll('input[name="add_svc"]:checked');
 
@@ -6484,7 +6477,7 @@ let beauty,bath,add_svc;
 
     }else{
 
-        product += `${name}|${breed === 'cat' ? '고양이': ''}|${shop_name}|${beauty}|${beauty}:${document.getElementById('service2_basic_beauty').getAttribute('data-price')}|`
+        product += `${name}|${breed === 'cat' ? '고양이': ''}|${shop_name}|${beauty === '' ? '' : '미용'}|all:0|${beauty.replace('_미용','')}:${document.getElementById('service2_basic_beauty').getAttribute('data-price')}|`
 
         if(document.querySelectorAll('input[name="add_svc"]')[0].checked === true){
 
@@ -6499,24 +6492,40 @@ let beauty,bath,add_svc;
             product += `0|`;
         }else{
 
-
-            product += `${bath_input.getAttribute('data-price')}|`
-        }
-
-
-        product += `0|`
-
-        if(add_svc_input.length > 0){
-
-            product += `${add_svc_input.length}|`
-
-            for(let i=0; i<add_svc_input.length; i++){
-
-                product += `${add_svc_input[i].value}:${add_svc_input[i].getAttribute('data-price')}|`
+            if(bath_input.value === '단모'){
+                product += `${bath_input.getAttribute('data-price')}|`
+            }else{
+                product += `|`
             }
-        }else{
-            product += `0|`
+
+            if(bath_input.value === '장모'){
+                product +=  `${bath_input.getAttribute('data-price')}|`
+            }else{
+                product += `|`
+            }
+
+
         }
+
+        let add_svc_count = 0;
+        let add_svc_arr = [];
+
+        add_svc_input.forEach(function(el){
+
+            if(el.value !== '발톱'){
+
+                add_svc_count ++;
+                add_svc_arr.push(`${el.value}:${el.getAttribute('data-price')}`)
+
+            }
+        })
+
+        product += `${add_svc_count}|`
+
+        add_svc_arr.forEach(function(el){
+
+            product += `${el}|`
+        })
 
         product += `0|0|`
 
@@ -6573,9 +6582,6 @@ let beauty,bath,add_svc;
 
         url:'/data/pc_ajax.php',
         type:'post',
-        beforeSend:function(){
-            alert(total_price)
-        },
         data:{
 
             mode:'reserve_regist',
@@ -6631,7 +6637,7 @@ let beauty,bath,add_svc;
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                location.reload()
+                // location.reload()
             }
 
         }
@@ -7119,7 +7125,7 @@ function exist_user_reserve(id,cellphone){
 
                             document.getElementById('select_pet_list').innerHTML += `<div class="grid-layout-cell flex-auto">
                                                                                                 <label class="form-toggle-box">
-                                                                                                    <input name="pet_no" class="pet-no" type="radio" data-id="${el.detail.customer_id}" value="${el.pet_seq}" onclick="exist_user_reserve_('${el.pet_seq}').then(function(body){exist_user_reserve_init(body)})">
+                                                                                                    <input name="pet_no" class="pet-no" type="radio" data-id="${el.detail.customer_id === '' ? el.detail.tmp_seq : el.detail.customer_id}" value="${el.pet_seq}" onclick="exist_user_reserve_('${el.pet_seq}').then(function(body){exist_user_reserve_init(body)})">
                                                                                                     <em>${el.name}</em>
                                                                                                 </label>
                                                                                             </div>`
@@ -9468,7 +9474,7 @@ function management_service_3(base_svc){
                                 document.getElementById('payment_basic_service_select').innerHTML += `<div class="toggle-button-cell toggle-button-cell-service">
                                                                                                         <label class="form-toggle-box large">
                                                                                                             <input type="radio" value="${_el.type}" data-size="${el_.size}" data-time="${_el.time}" name="payment_s1">
-                                                                                                            <em class="font-size-12">${_el.type} ${_el.time}분</em>
+                                                                                                            <em class="font-size-12">${_el.type} <br> ${_el.time}분</em>
                                                                                                         </label>
                                                                                                     </div>`
                             }
@@ -9639,7 +9645,7 @@ function get_coupon(id,data){
                             document.getElementById('c_coupon').innerHTML +=  `<div class="form-item-data type-2">
                                                                                 <div class="toggle-button-group vertical">
                                                                                     <div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" htmlFor="cp1-1">
-                                                                                        <input class="pay_coupon" type="checkbox" name="cp1" id="cp1-1" value="${el.name}" onclick="set_product(this,'${el.name}','${el.price}')"><em><span>${el.name}</span><strong>+${el.price.toLocaleString()}원</strong></em></label>
+                                                                                        <input class="pay_coupon" type="checkbox" name="cp1" id="cp1-1" value="${el.name}" data-idx="${el.idx}" data-price="${el.price}" onclick="set_product(this,'${el.name}','${el.price}')"><em><span>${el.name}</span><strong>+${el.price.toLocaleString()}원</strong></em></label>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>`
@@ -9647,8 +9653,8 @@ function get_coupon(id,data){
 
                             document.getElementById('f_coupon').innerHTML +=  `<div class="form-item-data type-2">
                                                                                     <div class="toggle-button-group vertical">
-                                                                                        <div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" htmlFor="cp1-1">
-                                                                                            <input class="pay_coupon" type="checkbox" name="cp2" id="cp2-1" value="${el.name}" onclick="set_product(this,'${el.name}','${el.price}')"><em><span>${el.name}</span><strong>+${el.price.toLocaleString()}원</strong></em></label>
+                                                                                        <div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" htmlFor="cp2-1">
+                                                                                            <input class="pay_coupon" type="checkbox" name="cp2" id="cp2-1" value="${el.name}"  data-idx="${el.idx}" data-price="${el.price}" onclick="set_product(this,'${el.name}','${el.price}')"><em><span>${el.name}</span><strong>+${el.price.toLocaleString()}원</strong></em></label>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>`
@@ -10046,8 +10052,17 @@ function management_total_price(){
             document.getElementById('total_price').setAttribute('value', `${sum}`);
             document.getElementById('vat').innerText = `${(sum/10).toLocaleString()}원`
             document.getElementById('vat').setAttribute('value', `${sum/10}`);
-            document.getElementById('real_total_price').innerText = `${(sum + (sum/10)).toLocaleString()}원`
-            document.getElementById('real_total_price').setAttribute('value', `${sum+(sum/10)}`);
+            if(localStorage.getItem('is_vat') === '1'){
+
+                document.getElementById('real_total_price').innerText = `${(sum + (sum/10)).toLocaleString()}원`
+                document.getElementById('real_total_price').setAttribute('value', `${sum+(sum/10)}`);
+            }else{
+                document.getElementById('real_total_price').innerText = `${(sum).toLocaleString()}원`
+                document.getElementById('real_total_price').setAttribute('value', `${sum}`);
+
+            }
+
+
 
             last_price()
 
@@ -10618,7 +10633,15 @@ function pay_management_init(id,target,bool,bool2){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
+                console.log(body_3)
 
+
+                document.getElementById('sticky-bottom').setAttribute('data-customer_id',body.customer_Id);
+                document.getElementById('sticky-bottom').setAttribute('data-tmp_id',body.tmp_id);
+                document.getElementById('sticky-bottom').setAttribute('data-payment_idx',payment_idx);
+                document.getElementById('sticky-bottom').setAttribute('data-partner_id',id);
+                document.getElementById('sticky-bottom').setAttribute('data-type',body.type === 'dog' ? '개':'고양이');
+                document.getElementById('sticky-bottom').setAttribute('data-name',body.name);
 
                 console.log(body)
                 document.getElementById('pay_noshow').innerHTML = `<h4 class="con-title">예약자 정보</h4>
@@ -10923,7 +10946,7 @@ function pay_management_init(id,target,bool,bool2){
                                                                                         <span class="pay-before-beauty-memo">
                                                                                            ${el.booking_date.split(' ')[0].replaceAll('-','.')}
                                                                                         </span>
-                                                                                        <a href="#" class="pay-before-beauty-detail" data-payment_idx="${el.payment_idx}" onclick="localStorage.setItem('payment_idx','${el.payment_idx}');pay_management_init('${id}',this,true)">
+                                                                                        <a href="#" class="pay-before-beauty-detail" data-payment_idx="${el.payment_idx}" onclick="localStorage.setItem('payment_idx','${el.payment_idx}');pay_management_init('${id}',this,true,true)">
                                                                                             <span class="pay-before-beauty-detail-memo">상세보기</span>
                                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="5.207" height="9.414" viewBox="0 0 5.207 9.414">
                                                                                                 <path data-name="Path" class="before-path" d="m-4 8 4-4-4-4" transform="translate(4.707 .707)" style="fill:none;stroke:#202020;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;"></path>
@@ -11091,7 +11114,7 @@ function pay_management_init(id,target,bool,bool2){
 
                                             Array.from(document.querySelectorAll('input[name="payment_hairBeauty"]')).forEach(function(el){
 
-                                                if(el.value === parsing.base.hair_lenth.unit.match('mm') ? parsing.base.hair_lenth.unit : `${parsing.base.hair_lenth.unit}mm` && el.getAttribute('data-price') === parsing.base.hair_lenth.price){
+                                                if(el.value.replace('mm','') === parsing.base.hair_lenth.unit.replace('mm','') && el.getAttribute('data-price') === parsing.base.hair_lenth.price){
 
                                                     setTimeout(function(){
                                                         el.click()
@@ -11211,21 +11234,33 @@ function pay_management_init(id,target,bool,bool2){
                                             })
                                         }
 
+                                    }else{
+
+                                        Array.from(document.querySelectorAll('input[name="payment_beauty"]')).forEach(function(el){
+
+                                            parsing.add.etc.forEach(function(el_){
+
+                                                if(el_.unit === el.value){
+                                                    el.click();
+                                                }
+                                            })
 
 
-
-
-
+                                        })
                                     }
 
                                     discount_init().then(function(){
+                                        console.log("discount_init")
 
                                         if(body.discount_type === "1"){
                                             document.getElementById('discount_1_btn').click()
                                             for(let i=0; i<document.getElementById('discount_1').options.length; i++){
                                                 if(document.getElementById('discount_1').options[i].value === body.discount_num){
                                                     document.getElementById('discount_1').options[i].selected =true;
-                                                    document.getElementById('discount_1').dispatchEvent(new Event('change'));
+                                                    setTimeout(function(){
+                                                        document.getElementById('discount_1').dispatchEvent(new Event('change'));
+                                                    },500)
+
                                                 }
 
                                             }
@@ -11235,7 +11270,10 @@ function pay_management_init(id,target,bool,bool2){
                                             for(let i=0; i<document.getElementById('discount_2').options.length; i++){
                                                 if(document.getElementById('discount_2').options[i].value === body.discount_num){
                                                     document.getElementById('discount_2').options[i].selected =true;
-                                                    document.getElementById('discount_2').dispatchEvent(new Event('change'));
+                                                    setTimeout(function(){
+                                                        document.getElementById('discount_2').dispatchEvent(new Event('change'));
+                                                    },500)
+
                                                 }
 
                                             }
@@ -11246,8 +11284,11 @@ function pay_management_init(id,target,bool,bool2){
                                             document.getElementById('discount_1_btn').click()
                                             document.getElementById('discount_1').options[0].selected = true;
                                             document.getElementById('discount_2').options[0].selected = true;
-                                            document.getElementById('discount_1').dispatchEvent(new Event('change'));
-                                            document.getElementById('discount_2').dispatchEvent(new Event('change'));
+                                            setTimeout(function(){
+
+                                                document.getElementById('discount_1').dispatchEvent(new Event('change'));
+                                                document.getElementById('discount_2').dispatchEvent(new Event('change'));
+                                            },500)
                                         }
 
 
@@ -11275,17 +11316,20 @@ function pay_management_init(id,target,bool,bool2){
 
                     get_coupon(id,body).then(function(){
 
-                        Array.from(document.getElementsByClassName('pay_coupon')).forEach(function(el){
+                        if(parsing?.coupon){
+                            Array.from(document.getElementsByClassName('pay_coupon')).forEach(function(el){
 
-                            parsing.coupon.forEach(function(el_){
+                                parsing.coupon.forEach(function(el_){
 
-                                if(el_.name === el.value){
-                                    el.click();
-                                }
+                                    if(el_.name === el.value){
+                                        el.click();
+                                    }
+                                })
+
+
                             })
+                        }
 
-
-                        })
 
                     });
                     get_etc_product(id);
@@ -11514,6 +11558,9 @@ function pay_management_init(id,target,bool,bool2){
 
 
 
+
+
+
                 }
 
 
@@ -11614,35 +11661,40 @@ function user_coupon_change(){
 
     let coupon = document.getElementById('coupon_name');
 
-    let selected = coupon.options[coupon.selectedIndex];
-    console.log(selected)
-
-    document.getElementById('coupon_balance').innerHTML = '<option value="">선택</option>'
-    document.getElementById('use_coupon').innerHTML = '<option value="">선택</option>'
-
-    let given = selected.getAttribute('data-given');
-    let use = selected.getAttribute('data-use');
-    let type = selected.getAttribute('data-type');
-
-    if(type === 'C'){
-        let rest = parseInt(given)-parseInt(use);
+    if(coupon.options.length > 0){
 
 
-        for(let i=1; i<=rest; i++){
 
-            document.getElementById('coupon_balance').innerHTML +=`<option value="${i}">${i}</option>`
-            document.getElementById('use_coupon').innerHTML += `<option value="${i}">${i}</option>`
+        let selected = coupon.options[coupon.selectedIndex];
+        console.log(selected)
 
-        }
-    }else{
+        document.getElementById('coupon_balance').innerHTML = '<option value="">선택</option>'
+        document.getElementById('use_coupon').innerHTML = '<option value="">선택</option>'
 
-        let rest = parseInt(given)-parseInt(use);
+        let given = selected.getAttribute('data-given');
+        let use = selected.getAttribute('data-use');
+        let type = selected.getAttribute('data-type');
 
-        for(let i=0; i<=rest; i+=1000){
+        if(type === 'C'){
+            let rest = parseInt(given)-parseInt(use);
 
-            document.getElementById('coupon_balance').innerHTML +=`<option value="${i}">${i}</option>`
-            document.getElementById('use_coupon').innerHTML += `<option value="${i}">${i}</option>`
 
+            for(let i=1; i<=rest; i++){
+
+                document.getElementById('coupon_balance').innerHTML +=`<option value="${i}">${i}</option>`
+                document.getElementById('use_coupon').innerHTML += `<option value="${i}">${i}</option>`
+
+            }
+        }else{
+
+            let rest = parseInt(given)-parseInt(use);
+
+            for(let i=0; i<=rest; i+=1000){
+
+                document.getElementById('coupon_balance').innerHTML +=`<option value="${i}">${i}</option>`
+                document.getElementById('use_coupon').innerHTML += `<option value="${i}">${i}</option>`
+
+            }
         }
     }
 
@@ -11886,12 +11938,218 @@ function reserve_confirm(target){
 
 }
 
-function pay_management_product_change(){
+function pay_management_product_change(target){
+
+    let payment_idx = target.getAttribute('data-payment_idx')
+    let partner_id = target.getAttribute('data-partner_id')
+    let customer_id = target.getAttribute('data-customer_id')
+    let tmp_id = target.getAttribute('data-tmp_id')
+    let type = target.getAttribute('data-type')
+    let name =target.getAttribute('data-name');
+
+    let size = document.querySelector('input[name="payment_size"]:checked').value;
+    let service = document.querySelector('input[name="payment_s1"]:checked').value;
+    let weight = document.querySelector('input[name="payment_s2"]:checked').value;
+    let weight_price = document.querySelector('input[name="payment_s2"]:checked').getAttribute('data-price');
+    let face = document.querySelector('input[name="payment_f1"]:checked').value;
+    let face_price = document.querySelector('input[name="payment_f1"]:checked').getAttribute('data-price');
+    let length = document.querySelector('input[name="payment_hairBeauty"]:checked').value;
+    let length_price = document.querySelector('input[name="payment_hairBeauty"]:checked').getAttribute('data-price')
+
+    let hair_ = document.querySelectorAll('input[name="payment_hair"]:checked')
+
+    let hair = '';
+
+    for(let i=0; i<hair_.length; i++){
 
 
-    let size = document.querySelector('input[name="payment_size"]:check').value;
+        hair += `${hair_[i].value}:${hair_[i].getAttribute('data-price')}${i === (hair_.length)-1 ? '':','}`
+    }
 
-    console.log(size);
+
+    let nail ='';
+
+    let boots = '';
+
+    let bell = '';
+
+
+    let leg_ = document.querySelectorAll('input[name="payment_f2"]:checked');
+
+    let leg_add = [];
+    let leg_count = 0;
+    Array.from(leg_).forEach(function(el){
+
+        if(el.value === '발톱'){
+            nail = el.getAttribute('data-price')
+        }else if(el.value === '장화'){
+            boots = el.getAttribute('data-price')
+        }else if(el.value === '방울'){
+            bell = el.getAttribute('data-price')
+        }else{
+
+            leg_count++;
+            leg_add.push(`${el.value}:${el.getAttribute('data-price')}`)
+        }
+    })
+
+
+
+    let spa_ = document.querySelectorAll('input[name="payment_f3"]:checked');
+
+    let spa_count = 0;
+    let spa = [];
+    Array.from(spa_).forEach(function(el){
+
+        spa_count ++;
+
+        spa.push(`${el.value}:${el.getAttribute('data-price')}`);
+    })
+
+    let dyeing_ = document.querySelectorAll('input[name="payment_f4"]:checked');
+
+    let dyeing_count = 0;
+    let dyeing = [];
+
+    Array.from(dyeing_).forEach(function(el){
+
+        dyeing_count ++;
+
+        dyeing.push(`${el.value}:${el.getAttribute('data-price')}`);
+    })
+
+    let etc_ =document.querySelectorAll('input[name="payment_f5"]:checked');
+
+    let etc_count = 0;
+    let etc = [];
+    Array.from(etc_).forEach(function(el){
+
+        etc_count ++;
+
+        etc.push(`${el.value}:${el.getAttribute('data-price')}`);
+    })
+
+    let coupon_1 = document.querySelectorAll('input[name="cp1"]:checked');
+    let coupon_2 = document.querySelectorAll('input[name="cp2"]:checked');
+
+    let coupon_count = 0;
+
+    let coupon = [];
+    Array.from(coupon_1).forEach(function(el){
+
+        coupon_count++;
+
+        coupon.push(`${el.getAttribute('data-idx')}:${el.value}:${el.getAttribute('data-price')}`)
+    });
+
+    Array.from(coupon_2).forEach(function(el){
+
+        coupon_count++;
+
+        coupon.push(`${el.getAttribute('data-idx')}:${el.value}:${el.getAttribute('data-price')}`)
+    });
+
+    let options1 = document.querySelectorAll('input[name="options1-1"]:checked');
+    let options2 = document.querySelectorAll('input[name="options2-1"]:checked');
+    let options3 = document.querySelectorAll('input[name="options3-1"]:checked');
+    let options4 = document.querySelectorAll('input[name="options4-1"]:checked');
+
+    let options_count = 0;
+
+    let options = [];
+
+
+    Array.from(options1).forEach(function(el){
+
+        options_count++;
+
+        options.push(`${el.value}:${el.getAttribute('data-price')}:${siblings(el,1).children[1].children[1].children[0].value}`)
+    });
+
+    Array.from(options2).forEach(function(el){
+
+        options_count++;
+
+        options.push(`${el.value}:${el.getAttribute('data-price')}:${siblings(el,1).children[1].children[1].children[0].value}`)
+    });
+    Array.from(options3).forEach(function(el){
+
+        options_count++;
+
+        options.push(`${el.value}:${el.getAttribute('data-price')}:${siblings(el,1).children[1].children[1].children[0].value}`)
+    });
+
+    Array.from(options4).forEach(function(el){
+
+        options_count++;
+
+        options.push(`${el.value}:${el.getAttribute('data-price')}:${siblings(el,1).children[1].children[1].children[0].value}`)
+    });
+
+    let price = document.getElementById('real_total_price').value
+
+    let product = `${name}|${type}|${data.shop_name}|${size}|${service}|${weight}:${weight_price}|${face}:${face_price}|${length}:${length_price}|${hair}|${nail}|${boots}|${bell}|||${leg_count}${leg_count >0 ? '|':''}${leg_add.toString().replaceAll(',','|')}|${spa_count}${spa_count >0 ? '|':''}${spa.toString().replaceAll(',','|')}|${dyeing_count}${dyeing_count > 0 ? '|':''}${dyeing.toString().replaceAll(',','|')}|${etc_count}${etc_count>0?'|':''}${etc.toString().replaceAll(',','|')}|${coupon_count}${coupon_count>0?'|':''}${coupon.toString().replaceAll(',','|')}|${options_count}${options_count > 0? '|':''}${options.toString().replaceAll(',','|')}|`
+
+
+    console.log(`size = ${size}`);
+    console.log(`service = ${service}`);
+    console.log(`weight = ${weight}`);
+    console.log(`weight_price = ${weight_price}`);
+    console.log(`face = ${face}`);
+    console.log(`face_price = ${face_price}`);
+    console.log(`length = ${length}`);
+    console.log(`length_price = ${length_price}`);
+    console.log(`hair = ${hair}`);
+    console.log(`nail = ${nail}`);
+    console.log(`boots = ${boots}`);
+    console.log(`bell = ${bell}`);
+    console.log(`leg_count = ${leg_count}`);
+    console.log(leg_add.toString().replaceAll(',','|'));
+    console.log(`spa_count = ${spa_count}`);
+    console.log(spa);
+    console.log(`dyeing_count = ${dyeing_count}`);
+    console.log(dyeing);
+    console.log(`etc_count = ${etc_count}`);
+    console.log(etc);
+    console.log(`coupon_count = ${coupon_count}`);
+    console.log(coupon);
+    console.log(`options_count = ${options_count}`);
+    console.log(options);
+    console.log(product);
+
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+            mode:'product_change',
+            payment_idx:payment_idx,
+            use_coupon:'N',
+            idx:'',
+            customer_id:customer_id,
+            tmp_user_idx:tmp_id,
+            price:price,
+            product:product,
+        },
+        success:function(res) {
+
+            console.log(res)
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                console.log(body);
+
+                // document.getElementById('msg2_txt').innerText = '서비스 정보가 변경되었습니다.'
+                // pop.open('reserveAcceptMsg2');
+
+
+            }
+        }
+    })
 
 
 }

@@ -2702,6 +2702,37 @@ if($r_mode) {
         $rev_to_date = strtotime($pay['year'].'-'.$pay['month'].'-'.$pay['day'].' '.$pay['to_hour'].':'.$pay['to_minute']);
 
         $return_data = array("code"=>"000000","start_date"=>$start_date,"end_date"=>$end_date);
+    }else if($r_mode === 'product_change'){
+
+        $payment_idx = $_POST['payment_idx'];
+        $partner_id = $_POST['partner_id'];
+        $use_coupon = $_POST['use_coupon'];
+        $idx = $_POST['idx'];
+        $customer_id = $_POST['customer_id'];
+        $tmp_user_idx = $_POST['tmp_user_idx'];
+        $price = $_POST['price'];
+        $product = $_POST['product'];
+
+
+        $data = array(
+            'payment_idx'=>intval($payment_idx),
+            'partner_id'=>$partner_id,
+            'use_coupon'=>$use_coupon,
+            'coupon'=>'',
+            'customer_id'=>$customer_id,
+            'tmp_user_idx'=>intval($tmp_user_idx),
+            'price'=>$price,
+            'product'=>$product
+
+        );
+
+        $data_json = json_encode($data);
+
+        $result = $api ->put('/partner/booking/payment-product',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
+
     }
 }
 
