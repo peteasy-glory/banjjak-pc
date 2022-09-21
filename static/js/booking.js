@@ -8894,54 +8894,83 @@ function management_wide_tab(){
         }
     )
 }
+function target_event(target){
+
+
+
+    Array.from(document.getElementsByClassName('btn-tab-item-add')).forEach(function(el_){
+
+        el_.parentElement.classList.remove('actived');
+    })
+
+    target.parentElement.classList.add('actived');
+
+
+
+    if(target.getAttribute('id') === 'payment_basic_service_btn' && target.getAttribute('data-type') === 'dog'){
+
+        document.getElementById('payment_basic_service').style.display = 'block';
+        document.getElementById('payment_other_service').style.display = 'none';
+        document.getElementById('payment_basic_service_cat').style.display = 'none';
+        document.getElementById('payment_other_service_cat').style.display = 'none';
+        document.getElementById('other2_service').style.display = 'none';
+        document.getElementById('other3_service').style.display = 'none';
+
+
+    }else if(target.getAttribute('id') === 'payment_other_service_btn' && target.getAttribute('data-type') === 'dog'){
+        document.getElementById('payment_basic_service').style.display = 'none';
+        document.getElementById('payment_other_service').style.display = 'block';
+        document.getElementById('payment_basic_service_cat').style.display = 'none';
+        document.getElementById('payment_other_service_cat').style.display = 'none';
+        document.getElementById('other2_service').style.display = 'none';
+        document.getElementById('other3_service').style.display = 'none';
+
+    }else if(target.getAttribute('id')==='payment_other2_service_btn'){
+
+        document.getElementById('payment_basic_service').style.display = 'none';
+        document.getElementById('payment_other_service').style.display = 'none';
+        document.getElementById('payment_basic_service_cat').style.display = 'none';
+        document.getElementById('payment_other_service_cat').style.display = 'none';
+        document.getElementById('other2_service').style.display = 'block';
+        document.getElementById('other3_service').style.display = 'none';
+    }else if(target.getAttribute('id') === 'payment_other3_service_btn'){
+
+        document.getElementById('payment_basic_service').style.display = 'none';
+        document.getElementById('payment_other_service').style.display = 'none';
+        document.getElementById('payment_basic_service_cat').style.display = 'none';
+        document.getElementById('payment_other_service_cat').style.display = 'none';
+        document.getElementById('other2_service').style.display = 'none';
+        document.getElementById('other3_service').style.display = 'block';
+    }else if(target.getAttribute('id') === 'payment_other_service_btn' && target.getAttribute('data-type') === 'cat'){
+        document.getElementById('payment_basic_service').style.display = 'none';
+        document.getElementById('payment_other_service').style.display = 'none';
+        document.getElementById('payment_basic_service_cat').style.display = 'none';
+        document.getElementById('payment_other_service_cat').style.display = 'block';
+        document.getElementById('other2_service').style.display = 'none';
+        document.getElementById('other3_service').style.display = 'none';
+
+
+    }else if(target.getAttribute('id') === 'payment_basic_service_btn' && target.getAttribute('data-type') === 'cat'){
+        document.getElementById('payment_basic_service').style.display = 'none';
+        document.getElementById('payment_other_service').style.display = 'none';
+        document.getElementById('payment_basic_service_cat').style.display = 'block';
+        document.getElementById('payment_other_service_cat').style.display = 'none';
+        document.getElementById('other2_service').style.display = 'none';
+        document.getElementById('other3_service').style.display = 'none';
+
+
+    }
+
+}
 
 function management_wide_tab2(){
 
     Array.from(document.getElementsByClassName('btn-tab-item-add')).forEach(function(el){
 
-        el.addEventListener('click',function (){
-
-
-            Array.from(document.getElementsByClassName('btn-tab-item-add')).forEach(function(el_){
-
-                el_.parentElement.classList.remove('actived');
-            })
-
-            el.parentElement.classList.add('actived');
-
-
-
-            if(el.getAttribute('id') === 'payment_basic_service_btn'){
-
-                document.getElementById('payment_basic_service').style.display = 'block';
-                document.getElementById('payment_other_service').style.display = 'none';
-                document.getElementById('other2_service').style.display = 'none';
-                document.getElementById('other3_service').style.display = 'none';
-
-
-            }else if(el.getAttribute('id') === 'payment_other_service_btn'){
-                document.getElementById('payment_basic_service').style.display = 'none';
-                document.getElementById('payment_other_service').style.display = 'block';
-                document.getElementById('other2_service').style.display = 'none';
-                document.getElementById('other3_service').style.display = 'none';
-
-            }else if(el.getAttribute('id')==='payment_other2_service_btn'){
-
-                document.getElementById('payment_basic_service').style.display = 'none';
-                document.getElementById('payment_other_service').style.display = 'none';
-                document.getElementById('other2_service').style.display = 'block';
-                document.getElementById('other3_service').style.display = 'none';
-            }else if(el.getAttribute('id') === 'payment_other3_service_btn'){
-
-                document.getElementById('payment_basic_service').style.display = 'none';
-                document.getElementById('payment_other_service').style.display = 'none';
-                document.getElementById('other2_service').style.display = 'none';
-                document.getElementById('other3_service').style.display = 'block';
-            }
-        })
+        el.addEventListener('click',target_event(el))
     })
 }
-function management_service_1(id,body){
+function management_service_1(id,breed){
 
     // reserve_merchandise_load_init(id).then(function(body){
     //     reserve_merchandise_load(body).then(function(base_svc){
@@ -8957,7 +8986,7 @@ function management_service_1(id,body){
     return new Promise(function (resolve){
 
 
-        let type = body.type;
+        let type = breed;
 
         $.ajax({
 
@@ -8970,24 +8999,29 @@ function management_service_1(id,body){
                 animal:type,
             },
             success:function (res){
+
                 let response = JSON.parse(res);
                 let head = response.data.head;
                 let body = response.data.body;
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
+                    console.log(body)
                     localStorage.setItem('is_vat',body.is_vat === 0 ? '0':'1')
 
                     let service = document.getElementById('service');
                     let service2 = document.getElementById('service2');
                     let basic_service_inner = document.getElementById('payment_basic_service_inner');
+                    let basic_service_inner_cat = document.getElementById('payment_basic_service_inner_cat');
                     let other_service_inner = document.getElementById('payment_other_service_inner');
+                    let other_service_inner_cat = document.getElementById('payment_other_service_inner_cat');
                     let other2_service_inner = document.getElementById('other2_service_inner');
                     let other3_service_inner = document.getElementById('other3_service_inner');
 
 
-                    basic_service_inner.innerHTML = '';
-                    other_service_inner.innerHTML ='';
+                    //
+                    // basic_service_inner.innerHTML = '';
+                    // other_service_inner.innerHTML ='';
 
                     if(type === 'dog'){
 
@@ -9132,9 +9166,12 @@ function management_service_1(id,body){
 
                         }
                     }else if(type === 'cat'){
+                        if(array_empty(body)){
+                            return;
+                        }
                         if(body.beauty.length > 0){
 
-                            basic_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
+                            basic_service_inner_cat.innerHTML += `<div class="grid-layout-cell grid-5">
                                                                             <div class="form-group-item">
                                                                                 <div class="form-item-label font-size-12 display_flex_ju_center">미용</div>
                                                                                 <div class="form-item-data type-2">
@@ -9149,7 +9186,7 @@ function management_service_1(id,body){
                         if(body.bath.length > 0){
 
 
-                            basic_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
+                            basic_service_inner_cat.innerHTML += `<div class="grid-layout-cell grid-5">
                                                                             <div class="form-group-item">
                                                                                 <div class="form-item-label font-size-12 display_flex_ju_center">목욕</div>
                                                                                 <div class="form-item-data type-2">
@@ -9164,7 +9201,7 @@ function management_service_1(id,body){
                         if(body.add_svc.length > 0){
 
 
-                            other_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
+                            other_service_inner_cat.innerHTML += `<div class="grid-layout-cell grid-5">
                                                                     <div class="form-group-item">
                                                                         <div class="form-item-label font-size-12 display_flex_ju_center">추가서비스</div>
                                                                         <div class="form-item-data type-2">
@@ -9194,8 +9231,10 @@ function management_service_1(id,body){
 
 function management_service_2(body){
 
+
     return new Promise(function(resolve){
 
+        console.log(body)
         document.getElementById('is_vat').value = body.is_vat;
 
         if(body.base_svc !== undefined){
@@ -9411,7 +9450,12 @@ function management_service_2(body){
 
         }
 
-        resolve(body.base_svc);
+        if(body.base_svc !== undefined){
+            resolve(body.base_svc);
+        }else{
+            resolve();
+        }
+
     })
 
 
@@ -9422,6 +9466,7 @@ function management_service_3(base_svc){
 
 
     return new Promise(function (resolve){
+        console.log(base_svc)
 
         Array.from(document.getElementsByClassName('pay-toggle-button-cell-size')).forEach(function(el){
 
@@ -9874,9 +9919,10 @@ function set_product2(target,name,price,className,bool){
 
     if(name !== ''){
 
+
         document.getElementById('service_list').innerHTML += `<div class="list-cell">
                                                                         <div class="list-title list-title-add ${className}">${name}</div>
-                                                                     <div class="list-value list-value-add">${price.toLocaleString()}원</div>
+                                                                     <div class="list-value list-value-add" ${target.getAttribute('value') === 'no' ? 'id="surcharge_target"': ''}>${price.toLocaleString()}원</div>
                                                                     </div>`
     }
 
@@ -9959,7 +10005,7 @@ function set_etc_product_count_(target,name,price,bool){
                 let value = siblings(target,1).children[0].value;
 
                 siblings(el,1).innerText = `${parseInt(localStorage.getItem('surcharge_std_price')) + ( (parseInt(document.getElementById('payment_weight_target').value) - parseInt(localStorage.getItem('surcharge_kg') ))*parseInt(localStorage.getItem('surcharge_price')) )}원`
-                siblings(el,1).setAttribute()
+
                 localStorage.setItem('surcharge_result',`${parseInt(localStorage.getItem('surcharge_std_price')) + ( (parseInt(document.getElementById('payment_weight_target').value) - parseInt(localStorage.getItem('surcharge_kg') ))*parseInt(localStorage.getItem('surcharge_price')) )}`)
 
 
@@ -10048,16 +10094,7 @@ function discount_init(){
 
 return new Promise(function(resolve){
 
-    for(let i=0; i<=100;i++){
 
-        document.getElementById('discount_1').innerHTML +=`<option value="${i}">${i}</option>`
-    }
-
-
-    for(let i=0; i<=50000; i+=100){
-
-        document.getElementById('discount_2').innerHTML += `<option value="${i}">${i}</option>`
-    }
 
     document.getElementById('discount_1_btn').addEventListener('click',function(){
 
@@ -10126,11 +10163,10 @@ return new Promise(function(resolve){
 }
 
 
-function reserves(id,body,bool2){
+function reserves(id){
 
 
 
-    let data = body;
 
 
 
@@ -10147,20 +10183,22 @@ function reserves(id,body,bool2){
         },
         success:function(res){
 
+
             let response = JSON.parse(res);
 
 
             let data = response.data;
 
-            if(bool2){
-                if(data.is_use === '1'){
-
-                    document.getElementById('pet_shop_reserves').style.display = 'block';
-
-                }else{
-                    document.getElementById('pet_shop_reserves').style.display = 'none';
-                }
-            }
+            console.log(data);
+            // if(bool2){
+            //     if(data.is_use === '1'){
+            //
+            //         document.getElementById('pet_shop_reserves').style.display = 'block';
+            //
+            //     }else{
+            //         document.getElementById('pet_shop_reserves').style.display = 'none';
+            //     }
+            // }
 
 
 
@@ -10540,6 +10578,7 @@ function pay_management_init(id,target,bool,bool2){
             // }
 
 
+                product_init();
                 document.getElementById('pay_management').scrollTop = 0
 
 
@@ -10589,6 +10628,25 @@ function pay_management_init(id,target,bool,bool2){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
                 console.log(body)
+
+                if(body.type === 'dog'){
+
+                    document.getElementById('payment_basic_service_cat').style.display = 'none';
+                    document.getElementById('payment_other_service_cat').style.display = 'none';
+                    document.getElementById('payment_basic_service').style.display = 'block';
+                    document.getElementById('payment_basic_service_btn').setAttribute('data-type','dog');
+                    document.getElementById('payment_other_service_btn').setAttribute('data-type','dog');
+
+
+                }else{
+
+                    document.getElementById('payment_basic_service_cat').style.display = 'block';
+                    document.getElementById('payment_basic_service').style.display = 'none';
+                    document.getElementById('payment_other_service').style.display = 'none';
+                    document.getElementById('payment_basic_service_btn').setAttribute('data-type','cat');
+                    document.getElementById('payment_other_service_btn').setAttribute('data-type','cat');
+                }
+
 
 
                 document.getElementById('sticky-bottom').setAttribute('data-customer_id',body.customer_Id);
@@ -10971,495 +11029,463 @@ function pay_management_init(id,target,bool,bool2){
 
 
 
-                // if(bool2){
-                //     management_service_1(id,body).then(function(body_){
-                //         management_wide_tab2();
-                //         management_total_price();
-                //
-                //         reserves(id,body,bool2);
-                //
-                //
-                //
-                //         management_service_2(body_).then(function(base_svc){
-                //
-                //             // if(document.getElementById('pay_card_body_inner')){
-                //             //
-                //             //     document.getElementById('pay_management_loading').style.display = 'none';
-                //             //     document.getElementById('pay_card_body_inner').style.display = 'block';
-                //             // }
-                //
-                //
-                //                 management_service_3(base_svc).then(function(){
-                //
-                //
-                //
-                //                     management_service_4(base_svc).then(function(){
-                //
-                //
-                //
-                //
-                //
-                //
-                //
-                //
-                //
-                //
-                //
-                //
-                //                     });
-                //
-                //                 })
-                //
-                //
-                //             document.getElementById(`${parsing.base.size}`).click();
-                //             document.getElementById(`${parsing.base.beauty_kind}`).click();
-                //
-                //             if(document.getElementById(`${parsing.base.weight.unit}kg`)){
-                //                 document.getElementById(`${parsing.base.weight.unit}kg`).click();
-                //             }else if(parsing.base.weight.unit > localStorage.getItem('surcharge_kg')){
-                //
-                //                 document.getElementById('payment_surcharge').click();
-                //                 document.getElementById('payment_weight_target').value = parsing.base.weight.unit;
-                //
-                //
-                //             }
-                //             document.getElementById(`${parsing.base.hair_lenth.unit.replace('mm','')}mm${parsing.base.hair_lenth.price}`).click();
-                //             document.getElementById(`${parsing.add.face.unit}`).click();
-                //
-                //             if(!array_empty(parsing.base.hair_features[0])){
-                //
-                //                 parsing.base.hair_features.forEach(function(el){
-                //
-                //                     document.getElementById(`${el.unit}`).click();
-                //                 })
-                //             }
-                //
-                //             if(parsing.add.leg.nail.price !== ''){
-                //                 document.getElementById('발톱').click()
-                //             }
-                //
-                //             if(parsing.add.leg.bell.price !== ''){
-                //                 document.getElementById('방울').click()
-                //             }
-                //
-                //             if(parsing.add.leg.rain_boots.price !== ''){
-                //                 document.getElementById('장화').click()
-                //             }
-                //
-                //             if(parsing.add.leg?.type1){
-                //                 if(parsing.add.leg.type1.price !==''){
-                //                     document.getElementById(`${parsing.add.leg.type1.unit}`).click();
-                //                 }
-                //             }
-                //
-                //             if(parsing.add.leg?.type2){
-                //                 if(parsing.add.leg.type2.price !==''){
-                //                     document.getElementById(`${parsing.add.leg.type2.unit}`).click();
-                //                 }
-                //             }
-                //             if(parsing.add.leg?.type3){
-                //                 if(parsing.add.leg.type3.price !==''){
-                //                     document.getElementById(`${parsing.add.leg.type3.unit}`).click();
-                //                 }
-                //             }if(parsing.add.leg?.type4){
-                //                 if(parsing.add.leg.type4.price !==''){
-                //                     document.getElementById(`${parsing.add.leg.type4.unit}`).click();
-                //                 }
-                //             }if(parsing.add.leg?.type5){
-                //                 if(parsing.add.leg.type5.price !==''){
-                //                     document.getElementById(`${parsing.add.leg.type5.unit}`).click();
-                //                 }
-                //             }
-                //
-                //             if(!array_empty(parsing.add.spa[0])){
-                //                 parsing.add.spa.forEach(function(el){
-                //
-                //                     document.getElementById(`${el.unit}`).click();
-                //                 })
-                //
-                //
-                //             }
-                //
-                //             if(!array_empty(parsing.add.hair_color[0])){
-                //                 parsing.add.hair_color.forEach(function(el){
-                //
-                //                     document.getElementById(`${el.unit}`).click();
-                //                 })
-                //
-                //             }
-                //
-                //
-                //             if(!array_empty(parsing.add.etc[0])){
-                //
-                //                 parsing.add.etc.forEach(function(el){
-                //
-                //                     document.getElementById(`${el.unit}`).click();
-                //                 })
-                //             }
-                //
-                //
-                //             if(parsing.base.hair_beauty !== ''){
-                //
-                //                     document.getElementById(`${parsing.base.hair_beauty.split(':')[0]}_미용`).click();
-                //                 }
-                //
-                //                 if(parsing.base.bath_long !== ''){
-                //
-                //                         document.getElementById('장모').click();
-                //                 }
-                //
-                //                 if(parsing.base.bath_shot !== ''){
-                //
-                //                     document.getElementById('단모').click();
-                //                 }
-                //
-                //                 if(parsing.add.nail !== ''){
-                //                     document.getElementById('발톱').click();
-                //                 }
-                //
-                //                 if(parsing.add?.etc){
-                //                     if(parsing.add.etc.length >0){
-                //
-                //                         parsing.add.etc.forEach(function(el){
-                //
-                //                             document.getElementById(`${el.unit}`).click();
-                //                         })
-                //                     }
-                //                 }
-                //
-                //
-                //
-                //
-                //
-                //
-                //
-                //
-                //
-                //
-                //
-                //             discount_init().then(function(){
-                //
-                //
-                //                 if(body.discount_type === "1"){
-                //                    document.getElementById('discount_1_btn').click()
-                //                     for(let i=0; i<document.getElementById('discount_1').options.length; i++){
-                //                         if(document.getElementById('discount_1').options[i].value === body.discount_num){
-                //                             document.getElementById('discount_1').options[i].selected =true;
-                //                             setTimeout(function(){
-                //                                 document.getElementById('discount_1').dispatchEvent(new Event('change'));
-                //                             },500)
-                //
-                //                         }
-                //
-                //                     }
-                //
-                //                 }else if(body.discount_type === "2"){
-                //                     document.getElementById('discount_2_btn').click()
-                //                     for(let i=0; i<document.getElementById('discount_2').options.length; i++){
-                //                         if(document.getElementById('discount_2').options[i].value === body.discount_num){
-                //                             document.getElementById('discount_2').options[i].selected =true;
-                //                             setTimeout(function(){
-                //                                 document.getElementById('discount_2').dispatchEvent(new Event('change'));
-                //                             },500)
-                //
-                //                         }
-                //
-                //                     }
-                //
-                //                 }else if(body.discount_type === "0"){
-                //
-                //
-                //                     document.getElementById('discount_1_btn').click()
-                //                     document.getElementById('discount_1').options[0].selected = true;
-                //                     document.getElementById('discount_2').options[0].selected = true;
-                //                     setTimeout(function(){
-                //
-                //                         document.getElementById('discount_1').dispatchEvent(new Event('change'));
-                //                         document.getElementById('discount_2').dispatchEvent(new Event('change'));
-                //                     },500)
-                //                 }
-                //
-                //
-                //
-                //
-                //
-                //
-                //                 if(bool){
-                //                     document.getElementById('pay_management').scrollTop = document.getElementById('scroll_target').offsetTop;
-                //                 }
-                //             });
-                //         })
-                //     });
-                //
-                //     get_coupon(id,body).then(function(){
-                //
-                //         if(parsing?.coupon){
-                //
-                //             parsing.coupon.forEach(function(el){
-                //
-                //                 document.getElementById(`${el.name}`).click();
-                //             })
-                //         }
-                //
-                //
-                //
-                //
-                //     });
-                //     get_etc_product(id).then(function(){
-                //
-                //         if(parsing?.goods){
-                //             parsing.goods.forEach(function(el){
-                //                 document.getElementById(`${el.name}`).click();
-                //
-                //                 document.getElementById(`${el.name}`).parentElement.children[1].children[1].children[1].children[0].value = el.ea;
-                //
-                //
-                //                 setTimeout(function(){
-                //
-                //                     Array.from(document.getElementsByClassName('list-title-add')).forEach(function(_el){
-                //
-                //                         if(_el.innerText === el.name){
-                //
-                //                             siblings(_el,1).innerText = `${el.price*el.ea}원`
-                //                         }
-                //                     })
-                //                 },300)
-                //             })
-                //
-                //         }
-                //
-                //
-                //
-                //
-                //
-                //     });
-                //
-                //     document.getElementById('cardcash-btn').setAttribute('data-payment_idx',payment_idx);
-                //
-                //     if(body.reserve_point === ''){
-                //         body.reserve_point = 0;
-                //     }
-                //     document.getElementById('total_reserves_use').value = body.reserve_point;
-                //     document.getElementById('total_reserves_use').innerText = body.reserve_point;
-                //     last_price()
-                //
-                //
-                //     list.beauty.forEach(function(el){
-                //
-                //         if(el.product.payment_idx == payment_idx){
-                //             let card = el.product.store_payment.card;
-                //             let cash = el.product.store_payment.cash;
-                //
-                //             document.getElementById('last_card').value = card;
-                //             document.getElementById('last_cash').value = cash
-                //
-                //         }
-                //     })
-                // }else{
-                //
-                //     management_service_1(id,body);
-                //
-                //     let parsing = body.product_parsing;
-                //
-                //
-                //     document.getElementById('appr_service_list').innerHTML = '';
-                //
-                //     document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
-                //                                                                     <div class="list-title">${parsing.base.size} / ${parsing.base.beauty_kind} / ~${parsing.base.weight.unit}Kg</div>
-                //                                                                     <div class="list-value appr_sum_target">${(parsing.base.weight.price)}</div>원
-                //                                                                 </div>
-                //                                                                 <div class="list-cell">
-                //                                                                     <div class="list-title">${parsing.base.hair_lenth.unit}mm</div>
-                //                                                                     <div class="list-value appr_sum_target">${(parsing.base.hair_lenth.price)}</div>원
-                //                                                                 </div>`
-                //
-                //     if(parsing.base.hair_features.length > 0){
-                //
-                //         parsing.base.hair_features.forEach(function(el){
-                //
-                //             document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
-                //                                                                     <div class="list-title">${el.unit}</div>
-                //                                                                     <div class="list-value appr_sum_target">${(el.price)}</div>원
-                //                                                                 </div>`
-                //         })
-                //
-                //     }
-                //
-                //     if(parsing.add.face.unit !== '0'){
-                //         document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
-                //                                                                     <div class="list-title">${parsing.add.face.unit}</div>
-                //                                                                     <div class="list-value appr_sum_target">${(parsing.add.face.price)}</div>원
-                //                                                                 </div>`
-                //
-                //     }
-                //
-                //
-                //
-                //     if(parsing.add.hair_color.length > 0 && parsing.add.hair_color?.unit){
-                //
-                //         parsing.add.hair_color.forEach(function(el){
-                //
-                //             document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
-                //                                                                     <div class="list-title">${el.unit}</div>
-                //                                                                     <div class="list-value appr_sum_target">${(el.price)}</div>원
-                //                                                                 </div>`
-                //         })
-                //
-                //     }
-                //
-                //     if(parsing.add.spa.length > 0 && parsing.add.spa?.unit){
-                //
-                //         parsing.add.spa.forEach(function(el){
-                //
-                //             document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
-                //                                                                     <div class="list-title">${el.unit}</div>
-                //                                                                     <div class="list-value appr_sum_target">${(el.price)}</div>원
-                //                                                                 </div>`
-                //         })
-                //
-                //     }
-                //
-                //     if(parsing.add.leg.bell.price !== ''){
-                //
-                //         document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
-                //                                                                     <div class="list-title">${parsing.add.leg.bell.unit}</div>
-                //                                                                     <div class="list-value appr_sum_target">${(parsing.add.leg.bell.price)}</div>원
-                //                                                                 </div>`
-                //     }
-                //
-                //     if(parsing.add.leg.nail.price !== ''){
-                //
-                //         document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
-                //                                                                     <div class="list-title">${parsing.add.leg.nail.unit}</div>
-                //                                                                     <div class="list-value appr_sum_target">${(parsing.add.leg.nail.price)}</div>원
-                //                                                                 </div>`
-                //     }
-                //
-                //     if(parsing.add.leg.rain_boots.price !== ''){
-                //
-                //         document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
-                //                                                                     <div class="list-title">${parsing.add.leg.rain_boots.unit}</div>
-                //                                                                     <div class="list-value appr_sum_target">${(parsing.add.leg.rain_boots.price)}</div>원
-                //                                                                 </div>`
-                //     }
-                //
-                //
-                //     if(parsing.add.leg.type1?.unit){
-                //
-                //         document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
-                //                                                                     <div class="list-title">${parsing.add.leg.type1?.unit}</div>
-                //                                                                     <div class="list-value appr_sum_target">${(parsing.add.leg.type1?.price)}</div>원
-                //                                                                 </div>`
-                //     }
-                //
-                //     if(parsing.add.leg.type2?.unit){
-                //
-                //         document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
-                //                                                                     <div class="list-title">${parsing.add.leg.type2?.unit}</div>
-                //                                                                     <div class="list-value appr_sum_target">${(parsing.add.leg.type2?.price)}</div>원
-                //                                                                 </div>`
-                //     }
-                //
-                //     if(parsing.add.leg.type3?.unit){
-                //
-                //         document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
-                //                                                                     <div class="list-title">${parsing.add.leg.type3?.unit}</div>
-                //                                                                     <div class="list-value appr_sum_target">${(parsing.add.leg.type3?.price)}</div>원
-                //                                                                 </div>`
-                //     }
-                //
-                //
-                //     document.getElementById('appr_sum').innerText = '';
-                //     document.getElementById('appr_vat').innerText = '';
-                //     document.getElementById('appr_last_price').innerText = '';
-                //     setTimeout(function(){
-                //         let sum=0;
-                //         Array.from(document.getElementsByClassName('appr_sum_target')).forEach(function(el){
-                //
-                //             sum += parseInt(el.innerText);
-                //         })
-                //
-                //         document.getElementById('appr_sum').innerText = `${sum}원`;
-                //
-                //         if(localStorage.getItem('is_vat') === '1'){
-                //
-                //             document.getElementById('appr_vat_list').style.display  ='flex';
-                //
-                //             document.getElementById('appr_vat').innerText = `${sum/10}원`
-                //
-                //             document.getElementById('appr_last_price').innerText = `${sum + (sum/10)}원`
-                //
-                //         }else{
-                //             document.getElementById('appr_vat_list').style.display  ='none';
-                //             document.getElementById('appr_last_price').innerText = `${sum}원`
-                //         }
-                //
-                //
-                //
-                //
-                //
-                //
-                //     },300)
-                //
-                //     document.getElementById('appr_date').innerText = ''
-                //     document.getElementById('appr_worker').innerText = ''
-                //     document.getElementById('appr_time').innerText = ''
-                //
-                //
-                //     document.getElementById('appr_date').innerText = body.beauty_date.split(' ')[0].replaceAll('-','.');
-                //     document.getElementById('appr_worker').innerText = body.worker_nick;
-                //     document.getElementById('appr_time').innerText = body.beauty_date.split(' ')[1];
-                //
-                //     $.ajax({
-                //         url: '/data/pc_ajax.php',
-                //         type: 'post',
-                //         data: {
-                //             mode: 'waiting',
-                //             partner_id: id,
-                //         },
-                //         success: function (res) {
-                //
-                //             let response = JSON.parse(res);
-                //             let head = response.data.head;
-                //             let body1 = response.data.body;
-                //             if (head.code === 401) {
-                //                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-                //             } else if (head.code === 200) {
-                //
-                //                 body1.forEach(function(el){
-                //
-                //                     if(el.product.payment_idx == localStorage.getItem('payment_idx')){
-                //                         Array.from(document.getElementsByClassName('apporval-reserve')).forEach((function(el_){
-                //
-                //                             el_.setAttribute('data-approve',`${el.product.approve_idx}`)
-                //                         }))
-                //
-                //                     }
-                //                 })
-                //
-                //             }
-                //         }
-                //     })
-                //
-                //
-                //
-                //
-                //
-                //
-                //
-                //
-                //     if(document.getElementById('pay_card_body_inner')){
-                //
-                //         document.getElementById('pay_management_loading').style.display = 'none';
-                //         document.getElementById('pay_card_body_inner').style.display = 'block';
-                //     }
-                //
-                //
-                //
-                //
-                //
-                //
-                // }
+                if(bool2){
+
+
+                    get_coupon(id,body).then(function(){
+
+                        if(parsing?.coupon){
+
+                            parsing.coupon.forEach(function(el){
+
+                                document.getElementById(`${el.name}`).click();
+                            })
+                        }
+
+                    });
+                    get_etc_product(id).then(function(){
+
+                        if(parsing?.goods){
+                            parsing.goods.forEach(function(el){
+                                document.getElementById(`${el.name}`).click();
+
+                                document.getElementById(`${el.name}`).parentElement.children[1].children[1].children[1].children[0].value = el.ea;
+
+
+                                setTimeout(function(){
+
+                                    Array.from(document.getElementsByClassName('list-title-add')).forEach(function(_el){
+
+                                        if(_el.innerText === el.name){
+
+                                            siblings(_el,1).innerText = `${el.price*el.ea}원`
+                                        }
+                                    })
+                                },300)
+                            })
+
+                        }
+                    });
+
+                    if(body.type === 'dog'){
+                        document.getElementById(`${parsing.base.size}`).click();
+                        document.getElementById(`${parsing.base.beauty_kind}`).click();
+
+                        if(document.getElementById(`${parsing.base.weight.unit}kg`)){
+                            document.getElementById(`${parsing.base.weight.unit}kg`).click();
+                        }else if(parsing.base.weight.unit > localStorage.getItem('surcharge_kg')){
+
+                            document.getElementById('payment_surcharge').click();
+                            document.getElementById('payment_weight_target').value = parsing.base.weight.unit;
+                            document.getElementById('surcharge_target').innerText = `${(parseInt(document.getElementById('payment_weight_target').value) - parseInt(localStorage.getItem('surcharge_kg'))) * parseInt(localStorage.getItem('surcharge_price')) + parseInt(localStorage.getItem('surcharge_std_price'))}원`
+
+                        }
+                        if(parsing.base.hair_lenth.unit !== '0'){
+                            document.getElementById(`${parsing.base.hair_lenth.unit.replace('mm','')}mm${parsing.base.hair_lenth.price}`).click();
+                        }
+                        if(parsing.add.face.unit !== '0'){
+                            document.getElementById(`${parsing.add.face.unit}`).click();
+                        }
+
+
+                        if(!array_empty(parsing.base.hair_features[0])){
+
+                            parsing.base.hair_features.forEach(function(el){
+
+                                document.getElementById(`${el.unit}`).click();
+                            })
+                        }
+
+                        if(parsing.add.leg.nail.price !== ''){
+                            document.getElementById('발톱').click()
+                        }
+
+                        if(parsing.add.leg.bell.price !== ''){
+                            document.getElementById('방울').click()
+                        }
+
+                        if(parsing.add.leg.rain_boots.price !== ''){
+                            document.getElementById('장화').click()
+                        }
+
+                        if(parsing.add.leg?.type1){
+                            if(parsing.add.leg.type1.price !==''){
+                                document.getElementById(`${parsing.add.leg.type1.unit}`).click();
+                            }
+                        }
+
+                        if(parsing.add.leg?.type2){
+                            if(parsing.add.leg.type2.price !==''){
+                                document.getElementById(`${parsing.add.leg.type2.unit}`).click();
+                            }
+                        }
+                        if(parsing.add.leg?.type3){
+                            if(parsing.add.leg.type3.price !==''){
+                                document.getElementById(`${parsing.add.leg.type3.unit}`).click();
+                            }
+                        }if(parsing.add.leg?.type4){
+                            if(parsing.add.leg.type4.price !==''){
+                                document.getElementById(`${parsing.add.leg.type4.unit}`).click();
+                            }
+                        }if(parsing.add.leg?.type5){
+                            if(parsing.add.leg.type5.price !==''){
+                                document.getElementById(`${parsing.add.leg.type5.unit}`).click();
+                            }
+                        }
+
+                        if(!array_empty(parsing.add.spa[0])){
+                            parsing.add.spa.forEach(function(el){
+
+                                document.getElementById(`${el.unit}`).click();
+                            })
+
+
+                        }
+
+                        if(!array_empty(parsing.add.hair_color[0])){
+                            parsing.add.hair_color.forEach(function(el){
+
+                                document.getElementById(`${el.unit}`).click();
+                            })
+
+                        }
+
+
+                        if(parsing.add?.etc){
+                            if(!array_empty(parsing.add.etc[0])){
+
+                                parsing.add.etc.forEach(function(el){
+
+                                    document.getElementById(`${el.unit}`).click();
+                                })
+                            }
+                        }
+
+                    }
+                    if(body.type !== 'dog'){
+
+
+                        if(parsing.base.hair_beauty !== ''){
+
+                                document.getElementById(`${parsing.base.hair_beauty.split(':')[0]}_미용`).click();
+                            }
+
+                            if(parsing.base.bath_long !== ''){
+
+                                    document.getElementById('장모').click();
+                            }
+
+                            if(parsing.base.bath_shot !== ''){
+
+                                document.getElementById('단모').click();
+                            }
+
+                            if(parsing.add.nail !== ''){
+                                document.getElementById('발톱').click();
+                            }
+
+                            if(parsing.add?.etc){
+                                if(parsing.add.etc.length >0){
+
+                                    parsing.add.etc.forEach(function(el){
+
+                                        document.getElementById(`${el.unit}`).click();
+                                    })
+                                }
+                            }
+
+                    }
+
+
+
+
+
+
+
+
+
+                            discount_init().then(function(){
+
+
+                                if(body.discount_type === "1"){
+                                   document.getElementById('discount_1_btn').click()
+                                    for(let i=0; i<document.getElementById('discount_1').options.length; i++){
+                                        if(document.getElementById('discount_1').options[i].value === body.discount_num){
+                                            document.getElementById('discount_1').options[i].selected =true;
+                                            setTimeout(function(){
+                                                document.getElementById('discount_1').dispatchEvent(new Event('change'));
+                                            },500)
+
+                                        }
+
+                                    }
+
+                                }else if(body.discount_type === "2"){
+                                    document.getElementById('discount_2_btn').click()
+                                    for(let i=0; i<document.getElementById('discount_2').options.length; i++){
+                                        if(document.getElementById('discount_2').options[i].value === body.discount_num){
+                                            document.getElementById('discount_2').options[i].selected =true;
+                                            setTimeout(function(){
+                                                document.getElementById('discount_2').dispatchEvent(new Event('change'));
+                                            },500)
+
+                                        }
+
+                                    }
+
+                                }else if(body.discount_type === "0"){
+
+
+                                    document.getElementById('discount_1_btn').click()
+                                    document.getElementById('discount_1').options[0].selected = true;
+                                    document.getElementById('discount_2').options[0].selected = true;
+                                    setTimeout(function(){
+
+                                        document.getElementById('discount_1').dispatchEvent(new Event('change'));
+                                        document.getElementById('discount_2').dispatchEvent(new Event('change'));
+                                    },500)
+                                }
+
+
+
+
+
+
+                                if(bool){
+                                    document.getElementById('pay_management').scrollTop = document.getElementById('scroll_target').offsetTop;
+                                }
+                            });
+
+
+
+
+
+                    document.getElementById('cardcash-btn').setAttribute('data-payment_idx',payment_idx);
+
+                    if(body.reserve_point === ''){
+                        body.reserve_point = 0;
+                    }
+                    document.getElementById('total_reserves_use').value = body.reserve_point;
+                    document.getElementById('total_reserves_use').innerText = body.reserve_point;
+                    last_price()
+
+
+                    list.beauty.forEach(function(el){
+
+                        if(el.product.payment_idx == payment_idx){
+                            let card = el.product.store_payment.card;
+                            let cash = el.product.store_payment.cash;
+
+                            document.getElementById('last_card').value = card;
+                            document.getElementById('last_cash').value = cash
+
+                        }
+                    })
+                }else{
+
+                    management_service_1(id,body);
+
+                    let parsing = body.product_parsing;
+
+
+                    document.getElementById('appr_service_list').innerHTML = '';
+
+                    document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${parsing.base.size} / ${parsing.base.beauty_kind} / ~${parsing.base.weight.unit}Kg</div>
+                                                                                    <div class="list-value appr_sum_target">${(parsing.base.weight.price)}</div>원
+                                                                                </div>
+                                                                                <div class="list-cell">
+                                                                                    <div class="list-title">${parsing.base.hair_lenth.unit}mm</div>
+                                                                                    <div class="list-value appr_sum_target">${(parsing.base.hair_lenth.price)}</div>원
+                                                                                </div>`
+
+                    if(parsing.base.hair_features.length > 0){
+
+                        parsing.base.hair_features.forEach(function(el){
+
+                            document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${el.unit}</div>
+                                                                                    <div class="list-value appr_sum_target">${(el.price)}</div>원
+                                                                                </div>`
+                        })
+
+                    }
+
+                    if(parsing.add.face.unit !== '0'){
+                        document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${parsing.add.face.unit}</div>
+                                                                                    <div class="list-value appr_sum_target">${(parsing.add.face.price)}</div>원
+                                                                                </div>`
+
+                    }
+
+
+
+                    if(parsing.add.hair_color.length > 0 && parsing.add.hair_color?.unit){
+
+                        parsing.add.hair_color.forEach(function(el){
+
+                            document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${el.unit}</div>
+                                                                                    <div class="list-value appr_sum_target">${(el.price)}</div>원
+                                                                                </div>`
+                        })
+
+                    }
+
+                    if(parsing.add.spa.length > 0 && parsing.add.spa?.unit){
+
+                        parsing.add.spa.forEach(function(el){
+
+                            document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${el.unit}</div>
+                                                                                    <div class="list-value appr_sum_target">${(el.price)}</div>원
+                                                                                </div>`
+                        })
+
+                    }
+
+                    if(parsing.add.leg.bell.price !== ''){
+
+                        document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${parsing.add.leg.bell.unit}</div>
+                                                                                    <div class="list-value appr_sum_target">${(parsing.add.leg.bell.price)}</div>원
+                                                                                </div>`
+                    }
+
+                    if(parsing.add.leg.nail.price !== ''){
+
+                        document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${parsing.add.leg.nail.unit}</div>
+                                                                                    <div class="list-value appr_sum_target">${(parsing.add.leg.nail.price)}</div>원
+                                                                                </div>`
+                    }
+
+                    if(parsing.add.leg.rain_boots.price !== ''){
+
+                        document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${parsing.add.leg.rain_boots.unit}</div>
+                                                                                    <div class="list-value appr_sum_target">${(parsing.add.leg.rain_boots.price)}</div>원
+                                                                                </div>`
+                    }
+
+
+                    if(parsing.add.leg.type1?.unit){
+
+                        document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${parsing.add.leg.type1?.unit}</div>
+                                                                                    <div class="list-value appr_sum_target">${(parsing.add.leg.type1?.price)}</div>원
+                                                                                </div>`
+                    }
+
+                    if(parsing.add.leg.type2?.unit){
+
+                        document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${parsing.add.leg.type2?.unit}</div>
+                                                                                    <div class="list-value appr_sum_target">${(parsing.add.leg.type2?.price)}</div>원
+                                                                                </div>`
+                    }
+
+                    if(parsing.add.leg.type3?.unit){
+
+                        document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${parsing.add.leg.type3?.unit}</div>
+                                                                                    <div class="list-value appr_sum_target">${(parsing.add.leg.type3?.price)}</div>원
+                                                                                </div>`
+                    }
+
+
+                    document.getElementById('appr_sum').innerText = '';
+                    document.getElementById('appr_vat').innerText = '';
+                    document.getElementById('appr_last_price').innerText = '';
+                    setTimeout(function(){
+                        let sum=0;
+                        Array.from(document.getElementsByClassName('appr_sum_target')).forEach(function(el){
+
+                            sum += parseInt(el.innerText);
+                        })
+
+                        document.getElementById('appr_sum').innerText = `${sum}원`;
+
+                        if(localStorage.getItem('is_vat') === '1'){
+
+                            document.getElementById('appr_vat_list').style.display  ='flex';
+
+                            document.getElementById('appr_vat').innerText = `${sum/10}원`
+
+                            document.getElementById('appr_last_price').innerText = `${sum + (sum/10)}원`
+
+                        }else{
+                            document.getElementById('appr_vat_list').style.display  ='none';
+                            document.getElementById('appr_last_price').innerText = `${sum}원`
+                        }
+
+
+
+
+
+
+                    },300)
+
+                    document.getElementById('appr_date').innerText = ''
+                    document.getElementById('appr_worker').innerText = ''
+                    document.getElementById('appr_time').innerText = ''
+
+
+                    document.getElementById('appr_date').innerText = body.beauty_date.split(' ')[0].replaceAll('-','.');
+                    document.getElementById('appr_worker').innerText = body.worker_nick;
+                    document.getElementById('appr_time').innerText = body.beauty_date.split(' ')[1];
+
+                    $.ajax({
+                        url: '/data/pc_ajax.php',
+                        type: 'post',
+                        data: {
+                            mode: 'waiting',
+                            partner_id: id,
+                        },
+                        success: function (res) {
+
+                            let response = JSON.parse(res);
+                            let head = response.data.head;
+                            let body1 = response.data.body;
+                            if (head.code === 401) {
+                                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                            } else if (head.code === 200) {
+
+                                body1.forEach(function(el){
+
+                                    if(el.product.payment_idx == localStorage.getItem('payment_idx')){
+                                        Array.from(document.getElementsByClassName('apporval-reserve')).forEach((function(el_){
+
+                                            el_.setAttribute('data-approve',`${el.product.approve_idx}`)
+                                        }))
+
+                                    }
+                                })
+
+                            }
+                        }
+                    })
+
+
+
+
+
+
+
+
+                    if(document.getElementById('pay_card_body_inner')){
+
+                        document.getElementById('pay_management_loading').style.display = 'none';
+                        document.getElementById('pay_card_body_inner').style.display = 'block';
+                    }
+
+
+
+
+
+
+                }
 
 
 
@@ -11873,7 +11899,7 @@ function pay_management_product_change(target){
         }
         let face = document.querySelector('input[name="payment_f1"]:checked').value;
         let face_price = document.querySelector('input[name="payment_f1"]:checked').getAttribute('data-price') === null ? '' : document.querySelector('input[name="payment_f1"]:checked').getAttribute('data-price');
-        let length = document.querySelector('input[name="payment_hairBeauty"]:checked').value;
+        let length = document.querySelector('input[name="payment_hairBeauty"]:checked').value === null ? '' : document.querySelector('input[name="payment_hairBeauty"]:checked').value;
         let length_price = document.querySelector('input[name="payment_hairBeauty"]:checked').getAttribute('data-price') === null ? '' : document.querySelector('input[name="payment_hairBeauty"]:checked').getAttribute('data-price');
 
         let hair_ = document.querySelectorAll('input[name="payment_hair"]:checked')
@@ -12222,4 +12248,11 @@ function pay_set_grade(customer_grade_idx){
         }
 
     })
+}
+
+function product_init(){
+    $('input[type=radio]').each(function(){$(this).prop("checked",false)});
+    $('input[type=checkbox]').each(function(){$(this).prop("checked",false)});
+    document.getElementById('service_list').innerHTML = ''
+
 }

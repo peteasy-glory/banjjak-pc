@@ -2726,7 +2726,7 @@ if($r_mode) {
 
         $result = $api ->put('/partner/booking/payment-product',$data_json);
 
-        $return_data = array("code"=>"000000","data"=>$data);
+        $return_data = array("code"=>"000000","data"=>$result);
 
 
     }
