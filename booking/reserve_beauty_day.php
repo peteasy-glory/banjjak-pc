@@ -32,6 +32,23 @@ if ($artist_flag == 1) {
 			<div class="view">
 				<div class="data-row">
 					<div class="data-col-left">
+
+                        <div class="main-col-group main-side-1" style="margin-bottom:20px;">
+                            <!-- 전화번호 검색 -->
+                            <form action="/customer/customer_inquiry.php" id="search_form" method="get">
+                                <div class="basic-data-card transparent main-phone-group">
+                                    <div class="main-phone">
+
+                                        <div class="item-input"><input type="text" class="text-add" name="search" id="search" placeholder="전화번호 또는 펫이름 입력"></div>
+
+                                        <button type="button" class="btn-main-phone" onclick="document.getElementById('search').value === '' ? pop.open('firstRequestMsg1','전화번호 또는 펫이름을 입력해주세요.'):document.getElementById('search_form').submit()">검색</button>
+
+                                    </div>
+                                </div>
+                            </form>
+                            <!-- //전화번호 검색 -->
+                        </div>
+
 						<div class="basic-data-card-group">
 							<!-- 오늘의 미용 예약 -->
 							<div class="basic-data-card reserve-today fluid"><!-- 20220519 수정 : fluid 클래스 추가 -->
@@ -104,7 +121,7 @@ if ($artist_flag == 1) {
 															</div>
 														</div>
                                                         <div class="loading-container" id="day_mini_calendar_loading" >
-                                                            <div class="mexican-wave"></div>
+                                                            <img src="/static/images/loading.gif" alt="">
                                                         </div>
 														<div class="mini-calendar-month-body" id="mini-calendar-month-body">
 
@@ -115,7 +132,8 @@ if ($artist_flag == 1) {
 										</div>
 									</div>
 								</div>
-							</div>					
+							</div>
+
 							<!-- //오늘의 미용 예약 -->
 							<!-- 오늘의 예약 총 횟수 -->
 							<div class="basic-data-card _reserve-total">
@@ -129,7 +147,7 @@ if ($artist_flag == 1) {
 										<div class="total-text-cell"><div class="item-title">NO SHOW</div><div class="item-value" id="day_noshow"></div></div>
 									</div>
 								</div>
-							</div>					
+							</div>
 							<!-- //오늘의 예약 총 횟수 -->
 							<!-- 빈시간 판매하기 -->
 <!--							<div class="basic-data-card transparent">-->
@@ -159,6 +177,7 @@ if ($artist_flag == 1) {
 									</div>
 									<div class="sort-right">
 										<!-- actived클래스 추가시 활성화 -->
+										<button type="button" onclick="localStorage.setItem('day_select',`${new Date().getFullYear()}.${fill_zero(new Date().getMonth()+1)}.${fill_zero(new Date().getDate())}`); location.reload() " class="btn-reserve-calendar-sort">오늘</button>
 										<button type="button" onclick="location.href='./reserve_beauty_month.php';" class="btn-reserve-calendar-sort">월</button>
 										<button type="button" onclick="location.href='./reserve_beauty_week.php';" class="btn-reserve-calendar-sort">주</button>
 										<button type="button" class="btn-reserve-calendar-sort actived">일</button>
@@ -173,7 +192,7 @@ if ($artist_flag == 1) {
 								<div>
 									<div class="reserve-calendar-data">
                                         <div class="loading-container" id="day_schedule_loading" style="height:648px">
-                                            <div class="mexican-wave"></div>
+                                            <img src="/static/images/loading.gif" alt="">
                                         </div>
 										<div class="reserve-calendar-inner" id="reserve_calendar_inner_day" style="height:648px;">
 											<!--
@@ -221,87 +240,19 @@ if ($artist_flag == 1) {
 							</div>
 						</div>
                         <article id="pay_management" class="pay_management">
+
                             <div class="pay-data-card">
                                 <div class="pay-card-header">
                                     <div class="pay-card-header-title">작업/결제 관리</div>
                                     <div class="pay-close-btn" id="pay_close_btn" onclick="pay_management_toggle(true)">></div>
                                 </div>
                                 <div class="pay-card-body">
-                                    <div class="pay-card-body-inner">
-                                        <div class="pay-card-content-1">
-                                            <div class="pay-card-body-title" id="pay_noshow">
-                                                <h4 class="con-title">예약자 정보</h4>
-
-                                                <div style="width:120px;" id="noshow_count">
-
-                                                </div>
-                                            </div>
-                                            <div class="pay-flex-table">
-                                                <div class="pay-flex-table-cell">
-                                                    <div class="pay-flex-table-item">
-                                                        <div class="pay-flex-table-title">
-                                                            <dlv class="pay-txt">등급</dlv>
-                                                        </div>
-                                                        <div class="pay-flex-table-data">
-                                                            <div class="pay-flex-table-data-inner">
-                                                                <div class="pay-user-grade-item">
-                                                                    <div class="icon" id="pay_customer_grade">
-
-                                                                    </div>
-
-                                                                    <div class="icon-grade-label" id="pay_customer_grade_name">
-
-                                                                    </div>
-                                                                </div>
-                                                                <div class="pay-flex-table-data-side">
-                                                                    <button type="button" class="pay-grade-modify" onclick="pop.open('memberGradeAddPop')"></button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="pay-flex-table-cell">
-                                                    <div class="pay-flex-table-item">
-                                                        <div class="pay-flex-table-title">
-                                                            <div class="pay-txt">연락처</div>
-                                                        </div>
-                                                        <div class="pay-flex-table-data">
-                                                            <dlv class="pay-flex-table-data-inner">
-                                                                <div class="pay-user-cellphone" id="pay_main_phone">
-
-                                                                </div>
-                                                            </dlv>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="pay-flex-table-cell">
-                                                    <div class="pay-flex-table-item">
-                                                        <div class="pay-flex-table-title">
-                                                            <div class="pay-txt">보조 연락처</div>
-                                                            <div class="call-edit"  onclick="pop.open('numberAddPop')">
-                                                                <span>편집</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="pay-flex-table-data">
-                                                            <div class="pay-flex-table-data-inner">
-                                                                <div class="pay-user-sub-cellphone" id="pay_sub_phone">
+                                    <div class="loading-container" id="pay_management_loading">
+                                        <img src="/static/images/loading.gif" alt="">
+                                    </div>
+                                    <div class="pay-card-body-inner" id="pay_card_body_inner">
 
 
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="pay-customer-memo">
-                                                <div class="pay-customer-memo-title">
-                                                    <div class="pay-txt">견주관련 메모<span class="pay-sub-txt"> (고객에게는 노출되지 않습니다.)</span></div>
-                                                </div>
-                                                <textarea name="pay-customer-memo-text" id="pay_customer_memo_text" cols="30" rows="10"></textarea>
-                                                <button type="button" class="pay-customer-memo-save btn btn-outline-purple btn-middle-size btn-round" onclick="customer_memo()">저장</button>
-                                            </div>
-                                        </div>
 
                                         <div class="pay-card-content-2">
                                             <div class="pay-card-body-title">
@@ -457,7 +408,81 @@ if ($artist_flag == 1) {
 
                                             </div>
                                         </div>
-                                        <div class="pay-card-content-3">
+                                        <div class="pay-card-content-1">
+                                            <div class="pay-card-body-title" id="pay_noshow">
+                                                <h4 class="con-title">예약자 정보</h4>
+
+                                                <div style="width:120px;" id="noshow_count">
+
+                                                </div>
+                                            </div>
+                                            <div class="pay-flex-table">
+                                                <div class="pay-flex-table-cell">
+                                                    <div class="pay-flex-table-item">
+                                                        <div class="pay-flex-table-title">
+                                                            <dlv class="pay-txt">등급</dlv>
+                                                        </div>
+                                                        <div class="pay-flex-table-data">
+                                                            <div class="pay-flex-table-data-inner">
+                                                                <div class="pay-user-grade-item">
+                                                                    <div class="icon" id="pay_customer_grade">
+
+                                                                    </div>
+
+                                                                    <div class="icon-grade-label" id="pay_customer_grade_name">
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="pay-flex-table-data-side">
+                                                                    <button type="button" class="pay-grade-modify" onclick="pop.open('memberGradeAddPop')"></button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="pay-flex-table-cell">
+                                                    <div class="pay-flex-table-item">
+                                                        <div class="pay-flex-table-title">
+                                                            <div class="pay-txt">연락처</div>
+                                                        </div>
+                                                        <div class="pay-flex-table-data">
+                                                            <dlv class="pay-flex-table-data-inner">
+                                                                <div class="pay-user-cellphone" id="pay_main_phone">
+
+                                                                </div>
+                                                            </dlv>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="pay-flex-table-cell">
+                                                    <div class="pay-flex-table-item">
+                                                        <div class="pay-flex-table-title">
+                                                            <div class="pay-txt">보조 연락처</div>
+                                                            <div class="call-edit"  onclick="pop.open('numberAddPop')">
+                                                                <span>편집</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="pay-flex-table-data">
+                                                            <div class="pay-flex-table-data-inner">
+                                                                <div class="pay-user-sub-cellphone" id="pay_sub_phone">
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="pay-customer-memo">
+                                                <div class="pay-customer-memo-title">
+                                                    <div class="pay-txt">견주관련 메모<span class="pay-sub-txt"> (고객에게는 노출되지 않습니다.)</span></div>
+                                                </div>
+                                                <textarea name="pay-customer-memo-text" id="pay_customer_memo_text" cols="30" rows="10"></textarea>
+                                                <button type="button" class="pay-customer-memo-save btn btn-outline-purple btn-middle-size btn-round" onclick="customer_memo()">저장</button>
+                                            </div>
+                                        </div>
+                                        <div class="pay-card-content-3 is_approve">
                                             <div class="pay-card-body-title">
                                                 <h4 class="con-title">이전 미용</h4>
                                             </div>
@@ -466,7 +491,7 @@ if ($artist_flag == 1) {
                                             </div>
 
                                         </div>
-                                        <div class="pay-card-content-4">
+                                        <div class="pay-card-content-4 is_approve" id="scroll_target">
                                             <div class="pay-card-body-title">
                                                 <h4 class="con-title">예약 내용</h4>
                                                 <button type="button" class="btn-side btn btn-small-size btn-inline btn-border-radius-16 btn-bg-yellow" id="pay_allim_btn">알림톡 발송 이력</button>
@@ -529,7 +554,7 @@ if ($artist_flag == 1) {
                                             </div>
 
                                         </div>
-                                        <div class="pay-card-content-5">
+                                        <div class="pay-card-content-5 is_approve">
                                             <div class="pay-card-body-title">
                                                 <h4 class="con-title">미용 종료 알림 발송</h4>
                                             </div>
@@ -584,7 +609,7 @@ if ($artist_flag == 1) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="sticky-tab-group">
+                                        <div class="sticky-tab-group is_approve" id="sticky-tab-group-target">
                                             <div class="pay-card-content-6">
                                                 <div class="pay-card-body-title">
                                                     <h4 class="con-title">결제 정보</h4>
@@ -592,29 +617,29 @@ if ($artist_flag == 1) {
                                             </div>
                                             <div class="wide-tab pay-wide-tab">
                                                 <div class="wide-tab-inner" id="wide-tab-inner3">
-                                                    <div class="tab-cell">
-                                                        <button type="button" class="btn-tab-item" id="tab1">
+                                                    <div class="tab-cell actived">
+                                                        <button type="button" class="btn-tab-item btn-tab-item-add"  id="payment_basic_service_btn">
                                                             <span>
                                                                 기본 서비스
                                                             </span>
                                                         </button>
                                                     </div>
                                                     <div class="tab-cell">
-                                                        <button type="button" class="btn-tab-item" id="tab2">
+                                                        <button type="button" class="btn-tab-item btn-tab-item-add" id="payment_other_service_btn">
                                                             <span>
                                                                 추가
                                                             </span>
                                                         </button>
                                                     </div>
                                                     <div class="tab-cell">
-                                                        <button type="button" class="btn-tab-item" id="tab3">
+                                                        <button type="button" class="btn-tab-item btn-tab-item-add" id="payment_other2_service_btn">
                                                             <span>
                                                                 쿠폰상품
                                                             </span>
                                                         </button>
                                                     </div>
                                                     <div class="tab-cell">
-                                                        <button type="button" class="btn-tab-item" id="tab4">
+                                                        <button type="button" class="btn-tab-item btn-tab-item-add" id="payment_other3_service_btn">
                                                             <span>
                                                                 제품
                                                             </span>
@@ -624,43 +649,43 @@ if ($artist_flag == 1) {
                                             </div>
                                         </div>
 
-                                        <div class="basic-data-group vmiddle tab-data-group">
+                                        <div class="basic-data-group vmiddle tab-data-group is_approve">
                                             <input type="hidden" value="" id="customer_id">
                                             <input type="hidden" value="" id="pet_seq">
                                             <input type="hidden" value="" id="is_vat">
                                             <!-- tab-data-cell 클래스에 actived클래스 추가시 활성화-->
                                             <!-- 기본 서비스 -->
-                                            <div class="tab-data-cell actived" id="basic_service">
+                                            <div class="tab-data-cell basic_service actived" id="payment_basic_service">
                                                 <div class="grid-layout basic">
-                                                    <div class="grid-layout-inner" id="basic_service_inner">
+                                                    <div class="grid-layout-inner" id="payment_basic_service_inner">
 
                                                     </div>
                                                 </div>
                                             </div>
                                             <!-- //기본 서비스 -->
                                             <!-- 추가 -->
-                                            <div class="tab-data-cell" id="other_service">
+                                            <div class="tab-data-cell basic_service" id="payment_other_service">
                                                 <div class="grid-layout basic">
-                                                    <div class="grid-layout-inner" id="other_service_inner">
+                                                    <div class="grid-layout-inner" id="payment_other_service_inner">
 
                                                     </div>
                                                 </div>
                                             </div>
                                             <!-- //추가 -->
                                             <!-- 쿠폰상품 -->
-                                            <div class="tab-data-cell" id="other2_service">
+                                            <div class="tab-data-cell basic_service" id="other2_service">
                                                 <div class="grid-layout basic">
                                                     <div class="grid-layout-inner" id="other2_service_inner">
 
                                                         <div class="grid-layout-cell grid-2">
                                                             <div class="form-group-item" id="c_coupon">
-                                                                <div class="form-item-label">쿠폰상품</div>
+                                                                <div class="form-item-label display_flex_ju_center font-size-12">쿠폰상품</div>
 
                                                             </div>
                                                         </div>
                                                         <div class="grid-layout-cell grid-2" >
                                                             <div class="form-group-item" id="f_coupon">
-                                                                <div class="form-item-label">정액상품</div>
+                                                                <div class="form-item-label display_flex_ju_center font-size-12">정액상품</div>
 
                                                             </div>
                                                         </div>
@@ -669,12 +694,12 @@ if ($artist_flag == 1) {
                                             </div>
                                             <!-- //쿠폰상품 -->
                                             <!-- 제품 -->
-                                            <div class="tab-data-cell" id="other3_service">
+                                            <div class="tab-data-cell basic_service" id="other3_service">
                                                 <div class="grid-layout basic">
                                                     <div class="grid-layout-inner" id="other3_service_inner">
                                                         <div class="grid-layout-cell grid-4">
                                                             <div class="form-group-item">
-                                                                <div class="form-item-label">용품</div>
+                                                                <div class="form-item-label font-size-12 display_flex_ju_center">용품</div>
                                                                 <div class="form-item-data type-2">
                                                                     <div class="toggle-button-group vertical" id="etc_product_list_1">
 
@@ -684,7 +709,7 @@ if ($artist_flag == 1) {
                                                         </div>
                                                         <div class="grid-layout-cell grid-4">
                                                             <div class="form-group-item">
-                                                                <div class="form-item-label">간식</div>
+                                                                <div class="form-item-label font-size-12 display_flex_ju_center">간식</div>
                                                                 <div class="form-item-data type-2">
                                                                     <div class="toggle-button-group vertical" id="etc_product_list_2">
 
@@ -694,7 +719,7 @@ if ($artist_flag == 1) {
                                                         </div>
                                                         <div class="grid-layout-cell grid-4">
                                                             <div class="form-group-item">
-                                                                <div class="form-item-label">사료</div>
+                                                                <div class="form-item-label font-size-12 display_flex_ju_center">사료</div>
                                                                 <div class="form-item-data type-2">
                                                                     <div class="toggle-button-group vertical" id="etc_product_list_3">
 
@@ -704,7 +729,7 @@ if ($artist_flag == 1) {
                                                         </div>
                                                         <div class="grid-layout-cell grid-4">
                                                             <div class="form-group-item">
-                                                                <div class="form-item-label">기타</div>
+                                                                <div class="form-item-label font-size-12 display_flex_ju_center">기타</div>
                                                                 <div class="form-item-data type-2">
                                                                     <div class="toggle-button-group vertical" id="etc_product_list_4">
 
@@ -717,46 +742,39 @@ if ($artist_flag == 1) {
                                                 </div>
                                             </div>
 
-                                            <div class="pay-product-save-btn-wrap">
+                                            <div class="pay-product-save-btn-wrap sticky-bottom" style="position:sticky; bottom:40px; margin-bottom:50px;">
 
 
-                                                <button type="button" class="pay-product-save btn btn-outline-purple btn-middle-size btn-round">변경</button>
+                                                <button type="button" class="sticky-bottom-inner pay-product-save btn btn-outline-purple btn-middle-size btn-round" id="sticky-bottom" onclick="pay_management_product_change(this)">변경</button>
                                             </div>
 
                                             <div class="pay-basic-data-group-2  basic-data-group vvsmall2" id="receipt">
                                                 <div class="user-receipt-item user-receipt-item-add">
                                                     <div class="receipt-buy-detail">
-                                                        <div class="item-data-list">
-                                                            <div class="list-cell">
-                                                                <div class="list-title">
-                                                                </div>
-                                                                <div class="list-value">0원</div>
-                                                            </div>
-                                                            <div class="list-cell">
-                                                                <div class="list-title"></div>
-                                                                <div class="list-value">0원</div>
-                                                            </div>
+                                                        <div class="item-data-list" id="service_list">
 
                                                         </div>
 
                                                     </div>
                                                     <div class="receipt-buy-detail total-price" style="border-top: 1px solid #f4f4f4; margin-top: 12px; padding-top: 12px;">
-                                                        <div class="item-data-list">
+                                                        <div class="item-data-list" id="price_list">
                                                             <div class="list-cell">
                                                                 <div class="list-title"><strong>합산 금액</strong></div>
-                                                                <div class="list-value"><strong>0원</strong></div>
+                                                                <div class="list-value"><strong id="total_price"></strong></div>
                                                             </div>
-                                                            <div class="list-cell">
+
+                                                            <div class="list-cell" id="is_vat_list" style="display: none;">
                                                                 <div class="list-title"><strong>부가세 10%</strong></div>
-                                                                <div class="list-value"><strong>0원</strong></div>
+                                                                <div class="list-value"><strong id="vat"></strong></div>
                                                             </div>
+
                                                         </div>
                                                     </div>
                                                     <div class="receipt-buy-detail result-price">
                                                         <div class="item-data-list">
                                                             <div class="list-cell">
-                                                                <div class="list-title font-color-purple"><strong>예상 금액</strong></div>
-                                                                <div class="list-value font-color-purple"><strong><span id="total_pay_money">0</span>원</strong></div>
+                                                                <div class="list-title font-color-purple"><strong>총 결제 합산 금액</strong></div>
+                                                               <div class="list-value font-color-purple"><strong id="real_total_price" value="0"></strong></div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -764,9 +782,67 @@ if ($artist_flag == 1) {
                                             </div>
                                         </div>
 
+                                        <div class="pay-card-content-6-1 is_approve" id="pet_shop_coupon" style="display: none;">
+                                            <div class="pay-card-body-title">
+                                                <h4 class="con-title">보유 쿠폰</h4>
+                                            </div>
+
+                                            <div class="user-receipt-wrap">
 
 
-                                        <div class="pay-card-content-7">
+                                                <div class="form-group user-receipt-item pay-user-receipt">
+                                                    <div class="form-group-cell small">
+                                                        <div class="form-group-item">
+                                                            <div class="form-item-label">쿠폰 명</div>
+                                                            <div class="form-item-data type-2">
+                                                                <div class="form-control-btns">
+                                                                    <select name="coupon_name" id="coupon_name" onchange="user_coupon_change()">
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group-cell small">
+                                                        <div class="grid-layout basic">
+                                                            <div class="grid-layout-inner">
+                                                                <div class="grid-layout-cell grid-60">
+                                                                    <div class="form-group-item">
+                                                                        <div class="form-item-label">보유</div>
+                                                                        <div class="form-item-data type-2">
+                                                                            <div class="form-control-btns">
+                                                                                <select name="coupon_balance" id="coupon_balance">
+                                                                                    <option value="">선택</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="grid-layout-cell grid-40">
+                                                                    <div class="form-group-item">
+                                                                        <div class="form-item-label">차감</div>
+                                                                        <div class="form-item-data type-2">
+                                                                            <div class="form-control-btns">
+                                                                                <select name="use_coupon" id="use_coupon">
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group-cell small">
+                                                        <button type="button" class="btn btn-outline-purple btn-middle-size btn-round use-coupon" onclikc="coupon_use();">적용</button>
+                                                        <div class="form-bottom-info font-color-purple font-weight-500 text-align-right">적용 후 남은 쿠폰 : <span id="remind_coupon">0</span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+
+                                        <div class="pay-card-content-7 is_approve">
                                             <div class="pay-card-body-title">
                                                 <h4 class="con-title">단골 고객 할인</h4>
                                             </div>
@@ -779,90 +855,194 @@ if ($artist_flag == 1) {
                                                         <div class="regular-user-confirm-select">
                                                             <div class="regular-user-confirm-input">
                                                                 <div class="item-check"><label class="form-radiobox">
-                                                                        <input type="radio" id="percent_radio" name="discount_radio">
+                                                                        <input type="radio" id="discount_1_btn" name="discount_radio">
                                                                         <span class="form-check-icon"><em>퍼센트할인</em></span></label></div>
                                                                 <div class="item-data">
-                                                                    <select id="percent_type" class="select_type">
-                                                                        <option value=""></option>
-                                                                        <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option><option value="32">32</option><option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option><option value="37">37</option><option value="38">38</option><option value="39">39</option><option value="40">40</option><option value="41">41</option><option value="42">42</option><option value="43">43</option><option value="44">44</option><option value="45">45</option><option value="46">46</option><option value="47">47</option><option value="48">48</option><option value="49">49</option><option value="50">50</option><option value="51">51</option><option value="52">52</option><option value="53">53</option><option value="54">54</option><option value="55">55</option><option value="56">56</option><option value="57">57</option><option value="58">58</option><option value="59">59</option><option value="60">60</option><option value="61">61</option><option value="62">62</option><option value="63">63</option><option value="64">64</option><option value="65">65</option><option value="66">66</option><option value="67">67</option><option value="68">68</option><option value="69">69</option><option value="70">70</option><option value="71">71</option><option value="72">72</option><option value="73">73</option><option value="74">74</option><option value="75">75</option><option value="76">76</option><option value="77">77</option><option value="78">78</option><option value="79">79</option><option value="80">80</option><option value="81">81</option><option value="82">82</option><option value="83">83</option><option value="84">84</option><option value="85">85</option><option value="86">86</option><option value="87">87</option><option value="88">88</option><option value="89">89</option><option value="90">90</option><option value="91">91</option><option value="92">92</option><option value="93">93</option><option value="94">94</option><option value="95">95</option><option value="96">96</option><option value="97">97</option><option value="98">98</option><option value="99">99</option><option value="100">100</option>                                        </select>
+                                                                    <select id="discount_1">
+                                                                    </select>
+
                                                                     <div class="unit">%</div>
                                                                 </div>
                                                             </div>
                                                             <div class="regular-user-confirm-input">
                                                                 <div class="item-check"><label class="form-radiobox">
-                                                                        <input type="radio" id="won_radio" name="discount_radio" class="discount_radio" value="won_type"><span class="form-check-icon"><em>금액할인</em></span></label></div>
+                                                                        <input type="radio" id="discount_2_btn" name="discount_radio" class="discount_radio" value="won_type"><span class="form-check-icon"><em>금액할인</em></span></label></div>
                                                                 <div class="item-data">
-                                                                    <select id="won_type" class="select_type">
-                                                                        <option value=""></option>
-                                                                        <option value="0">0</option><option value="100">100</option><option value="200">200</option><option value="300">300</option><option value="400">400</option><option value="500">500</option><option value="600">600</option><option value="700">700</option><option value="800">800</option><option value="900">900</option><option value="1000">1000</option><option value="1100">1100</option><option value="1200">1200</option><option value="1300">1300</option><option value="1400">1400</option><option value="1500">1500</option><option value="1600">1600</option><option value="1700">1700</option><option value="1800">1800</option><option value="1900">1900</option><option value="2000">2000</option><option value="2100">2100</option><option value="2200">2200</option><option value="2300">2300</option><option value="2400">2400</option><option value="2500">2500</option><option value="2600">2600</option><option value="2700">2700</option><option value="2800">2800</option><option value="2900">2900</option><option value="3000">3000</option><option value="3100">3100</option><option value="3200">3200</option><option value="3300">3300</option><option value="3400">3400</option><option value="3500">3500</option><option value="3600">3600</option><option value="3700">3700</option><option value="3800">3800</option><option value="3900">3900</option><option value="4000">4000</option><option value="4100">4100</option><option value="4200">4200</option><option value="4300">4300</option><option value="4400">4400</option><option value="4500">4500</option><option value="4600">4600</option><option value="4700">4700</option><option value="4800">4800</option><option value="4900">4900</option><option value="5000">5000</option><option value="5100">5100</option><option value="5200">5200</option><option value="5300">5300</option><option value="5400">5400</option><option value="5500">5500</option><option value="5600">5600</option><option value="5700">5700</option><option value="5800">5800</option><option value="5900">5900</option><option value="6000">6000</option><option value="6100">6100</option><option value="6200">6200</option><option value="6300">6300</option><option value="6400">6400</option><option value="6500">6500</option><option value="6600">6600</option><option value="6700">6700</option><option value="6800">6800</option><option value="6900">6900</option><option value="7000">7000</option><option value="7100">7100</option><option value="7200">7200</option><option value="7300">7300</option><option value="7400">7400</option><option value="7500">7500</option><option value="7600">7600</option><option value="7700">7700</option><option value="7800">7800</option><option value="7900">7900</option><option value="8000">8000</option><option value="8100">8100</option><option value="8200">8200</option><option value="8300">8300</option><option value="8400">8400</option><option value="8500">8500</option><option value="8600">8600</option><option value="8700">8700</option><option value="8800">8800</option><option value="8900">8900</option><option value="9000">9000</option><option value="9100">9100</option><option value="9200">9200</option><option value="9300">9300</option><option value="9400">9400</option><option value="9500">9500</option><option value="9600">9600</option><option value="9700">9700</option><option value="9800">9800</option><option value="9900">9900</option><option value="10000">10000</option><option value="10100">10100</option><option value="10200">10200</option><option value="10300">10300</option><option value="10400">10400</option><option value="10500">10500</option><option value="10600">10600</option><option value="10700">10700</option><option value="10800">10800</option><option value="10900">10900</option><option value="11000">11000</option><option value="11100">11100</option><option value="11200">11200</option><option value="11300">11300</option><option value="11400">11400</option><option value="11500">11500</option><option value="11600">11600</option><option value="11700">11700</option><option value="11800">11800</option><option value="11900">11900</option><option value="12000">12000</option><option value="12100">12100</option><option value="12200">12200</option><option value="12300">12300</option><option value="12400">12400</option><option value="12500">12500</option><option value="12600">12600</option><option value="12700">12700</option><option value="12800">12800</option><option value="12900">12900</option><option value="13000">13000</option><option value="13100">13100</option><option value="13200">13200</option><option value="13300">13300</option><option value="13400">13400</option><option value="13500">13500</option><option value="13600">13600</option><option value="13700">13700</option><option value="13800">13800</option><option value="13900">13900</option><option value="14000">14000</option><option value="14100">14100</option><option value="14200">14200</option><option value="14300">14300</option><option value="14400">14400</option><option value="14500">14500</option><option value="14600">14600</option><option value="14700">14700</option><option value="14800">14800</option><option value="14900">14900</option><option value="15000">15000</option><option value="15100">15100</option><option value="15200">15200</option><option value="15300">15300</option><option value="15400">15400</option><option value="15500">15500</option><option value="15600">15600</option><option value="15700">15700</option><option value="15800">15800</option><option value="15900">15900</option><option value="16000">16000</option><option value="16100">16100</option><option value="16200">16200</option><option value="16300">16300</option><option value="16400">16400</option><option value="16500">16500</option><option value="16600">16600</option><option value="16700">16700</option><option value="16800">16800</option><option value="16900">16900</option><option value="17000">17000</option><option value="17100">17100</option><option value="17200">17200</option><option value="17300">17300</option><option value="17400">17400</option><option value="17500">17500</option><option value="17600">17600</option><option value="17700">17700</option><option value="17800">17800</option><option value="17900">17900</option><option value="18000">18000</option><option value="18100">18100</option><option value="18200">18200</option><option value="18300">18300</option><option value="18400">18400</option><option value="18500">18500</option><option value="18600">18600</option><option value="18700">18700</option><option value="18800">18800</option><option value="18900">18900</option><option value="19000">19000</option><option value="19100">19100</option><option value="19200">19200</option><option value="19300">19300</option><option value="19400">19400</option><option value="19500">19500</option><option value="19600">19600</option><option value="19700">19700</option><option value="19800">19800</option><option value="19900">19900</option><option value="20000">20000</option><option value="20100">20100</option><option value="20200">20200</option><option value="20300">20300</option><option value="20400">20400</option><option value="20500">20500</option><option value="20600">20600</option><option value="20700">20700</option><option value="20800">20800</option><option value="20900">20900</option><option value="21000">21000</option><option value="21100">21100</option><option value="21200">21200</option><option value="21300">21300</option><option value="21400">21400</option><option value="21500">21500</option><option value="21600">21600</option><option value="21700">21700</option><option value="21800">21800</option><option value="21900">21900</option><option value="22000">22000</option><option value="22100">22100</option><option value="22200">22200</option><option value="22300">22300</option><option value="22400">22400</option><option value="22500">22500</option><option value="22600">22600</option><option value="22700">22700</option><option value="22800">22800</option><option value="22900">22900</option><option value="23000">23000</option><option value="23100">23100</option><option value="23200">23200</option><option value="23300">23300</option><option value="23400">23400</option><option value="23500">23500</option><option value="23600">23600</option><option value="23700">23700</option><option value="23800">23800</option><option value="23900">23900</option><option value="24000">24000</option><option value="24100">24100</option><option value="24200">24200</option><option value="24300">24300</option><option value="24400">24400</option><option value="24500">24500</option><option value="24600">24600</option><option value="24700">24700</option><option value="24800">24800</option><option value="24900">24900</option><option value="25000">25000</option><option value="25100">25100</option><option value="25200">25200</option><option value="25300">25300</option><option value="25400">25400</option><option value="25500">25500</option><option value="25600">25600</option><option value="25700">25700</option><option value="25800">25800</option><option value="25900">25900</option><option value="26000">26000</option><option value="26100">26100</option><option value="26200">26200</option><option value="26300">26300</option><option value="26400">26400</option><option value="26500">26500</option><option value="26600">26600</option><option value="26700">26700</option><option value="26800">26800</option><option value="26900">26900</option><option value="27000">27000</option><option value="27100">27100</option><option value="27200">27200</option><option value="27300">27300</option><option value="27400">27400</option><option value="27500">27500</option><option value="27600">27600</option><option value="27700">27700</option><option value="27800">27800</option><option value="27900">27900</option><option value="28000">28000</option><option value="28100">28100</option><option value="28200">28200</option><option value="28300">28300</option><option value="28400">28400</option><option value="28500">28500</option><option value="28600">28600</option><option value="28700">28700</option><option value="28800">28800</option><option value="28900">28900</option><option value="29000">29000</option><option value="29100">29100</option><option value="29200">29200</option><option value="29300">29300</option><option value="29400">29400</option><option value="29500">29500</option><option value="29600">29600</option><option value="29700">29700</option><option value="29800">29800</option><option value="29900">29900</option><option value="30000">30000</option><option value="30100">30100</option><option value="30200">30200</option><option value="30300">30300</option><option value="30400">30400</option><option value="30500">30500</option><option value="30600">30600</option><option value="30700">30700</option><option value="30800">30800</option><option value="30900">30900</option><option value="31000">31000</option><option value="31100">31100</option><option value="31200">31200</option><option value="31300">31300</option><option value="31400">31400</option><option value="31500">31500</option><option value="31600">31600</option><option value="31700">31700</option><option value="31800">31800</option><option value="31900">31900</option><option value="32000">32000</option><option value="32100">32100</option><option value="32200">32200</option><option value="32300">32300</option><option value="32400">32400</option><option value="32500">32500</option><option value="32600">32600</option><option value="32700">32700</option><option value="32800">32800</option><option value="32900">32900</option><option value="33000">33000</option><option value="33100">33100</option><option value="33200">33200</option><option value="33300">33300</option><option value="33400">33400</option><option value="33500">33500</option><option value="33600">33600</option><option value="33700">33700</option><option value="33800">33800</option><option value="33900">33900</option><option value="34000">34000</option><option value="34100">34100</option><option value="34200">34200</option><option value="34300">34300</option><option value="34400">34400</option><option value="34500">34500</option><option value="34600">34600</option><option value="34700">34700</option><option value="34800">34800</option><option value="34900">34900</option><option value="35000">35000</option><option value="35100">35100</option><option value="35200">35200</option><option value="35300">35300</option><option value="35400">35400</option><option value="35500">35500</option><option value="35600">35600</option><option value="35700">35700</option><option value="35800">35800</option><option value="35900">35900</option><option value="36000">36000</option><option value="36100">36100</option><option value="36200">36200</option><option value="36300">36300</option><option value="36400">36400</option><option value="36500">36500</option><option value="36600">36600</option><option value="36700">36700</option><option value="36800">36800</option><option value="36900">36900</option><option value="37000">37000</option><option value="37100">37100</option><option value="37200">37200</option><option value="37300">37300</option><option value="37400">37400</option><option value="37500">37500</option><option value="37600">37600</option><option value="37700">37700</option><option value="37800">37800</option><option value="37900">37900</option><option value="38000">38000</option><option value="38100">38100</option><option value="38200">38200</option><option value="38300">38300</option><option value="38400">38400</option><option value="38500">38500</option><option value="38600">38600</option><option value="38700">38700</option><option value="38800">38800</option><option value="38900">38900</option><option value="39000">39000</option><option value="39100">39100</option><option value="39200">39200</option><option value="39300">39300</option><option value="39400">39400</option><option value="39500">39500</option><option value="39600">39600</option><option value="39700">39700</option><option value="39800">39800</option><option value="39900">39900</option><option value="40000">40000</option><option value="40100">40100</option><option value="40200">40200</option><option value="40300">40300</option><option value="40400">40400</option><option value="40500">40500</option><option value="40600">40600</option><option value="40700">40700</option><option value="40800">40800</option><option value="40900">40900</option><option value="41000">41000</option><option value="41100">41100</option><option value="41200">41200</option><option value="41300">41300</option><option value="41400">41400</option><option value="41500">41500</option><option value="41600">41600</option><option value="41700">41700</option><option value="41800">41800</option><option value="41900">41900</option><option value="42000">42000</option><option value="42100">42100</option><option value="42200">42200</option><option value="42300">42300</option><option value="42400">42400</option><option value="42500">42500</option><option value="42600">42600</option><option value="42700">42700</option><option value="42800">42800</option><option value="42900">42900</option><option value="43000">43000</option><option value="43100">43100</option><option value="43200">43200</option><option value="43300">43300</option><option value="43400">43400</option><option value="43500">43500</option><option value="43600">43600</option><option value="43700">43700</option><option value="43800">43800</option><option value="43900">43900</option><option value="44000">44000</option><option value="44100">44100</option><option value="44200">44200</option><option value="44300">44300</option><option value="44400">44400</option><option value="44500">44500</option><option value="44600">44600</option><option value="44700">44700</option><option value="44800">44800</option><option value="44900">44900</option><option value="45000">45000</option><option value="45100">45100</option><option value="45200">45200</option><option value="45300">45300</option><option value="45400">45400</option><option value="45500">45500</option><option value="45600">45600</option><option value="45700">45700</option><option value="45800">45800</option><option value="45900">45900</option><option value="46000">46000</option><option value="46100">46100</option><option value="46200">46200</option><option value="46300">46300</option><option value="46400">46400</option><option value="46500">46500</option><option value="46600">46600</option><option value="46700">46700</option><option value="46800">46800</option><option value="46900">46900</option><option value="47000">47000</option><option value="47100">47100</option><option value="47200">47200</option><option value="47300">47300</option><option value="47400">47400</option><option value="47500">47500</option><option value="47600">47600</option><option value="47700">47700</option><option value="47800">47800</option><option value="47900">47900</option><option value="48000">48000</option><option value="48100">48100</option><option value="48200">48200</option><option value="48300">48300</option><option value="48400">48400</option><option value="48500">48500</option><option value="48600">48600</option><option value="48700">48700</option><option value="48800">48800</option><option value="48900">48900</option><option value="49000">49000</option><option value="49100">49100</option><option value="49200">49200</option><option value="49300">49300</option><option value="49400">49400</option><option value="49500">49500</option><option value="49600">49600</option><option value="49700">49700</option><option value="49800">49800</option><option value="49900">49900</option><option value="50000">50000</option>                                        </select>
+                                                                    <select id="discount_2">
+                                                                    </select>
                                                                     <div class="unit">원</div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="basic-data-group vsmall">
-                                                        <button type="button" class="btn btn-outline-purple btn-middle-size btn-round set_update_discount_btn" data-seq="601033">적용</button>
+                                                    <div class="form-bottom-info font-color-purple font-weight-500 text-align-right">할인금액 :
+                                                        <span id="discount_price" class="discount_price" value="0"> </span>
                                                     </div>
-                                                    <div class="form-bottom-info font-color-purple font-weight-500 text-align-right">할인금액 : <span id="discount_price">
-                                            0                                </span>원</div></div>
+                                                </div>
                                             </div>
 
+                                        </div>
 
-
+                                        <div class="pay-card-content-8 is_approve" id="pet_shop_reserves" style="display: none">
+                                            <div class="pay-card-body-title">
+                                                <h4 class="con-title">펫샵 적립금
+                                                    <button type="button" class="btn-data-helper" onclick="pop.open('reservePayManagementMsg8')">도움말</button>                                                </h4>
+                                            </div>
 
                                             <div class="user-receipt-wrap">
-
-
-                                                <div class="user-receipt-item pay-user-receipt" style="border: 1px solid #6840B1 !important;">
-                                                    <div class="receipt-buy-detail total-price">
-                                                        <div class="item-data-list">
-                                                            <div class="list-cell">
-                                                                <div class="list-title"><strong>할인금액</strong></div>
-                                                                <div class="list-value"><strong>(-)<span id="total_discount_price">0</span>원</strong></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                <div class="user-receipt-item">
                                                     <div class="receipt-buy-detail result-price">
                                                         <div class="item-data-list">
                                                             <div class="list-cell">
-                                                                <div class="list-title font-color-purple"><strong>최종 결제액</strong></div>
-                                                                <div class="list-value font-color-red"><strong id="total_pay_price_disp">
-                                                                        0                                            원</strong></div>
-                                                                <input type="hidden" name="total_pay_price" id="total_pay_price" value="0" size="3">
+                                                                <div class="list-title"><strong>현 적립금</strong></div>
+                                                                <div class="list-value"><strong class="now_reserves" id="cur_reserve">0원</strong></div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="basic-data-group vmiddle">
-                                                        <div class="form-change-wrap">
-                                                            <div class="form-change-item">
-                                                                <div class="form-change-label"><strong>카드</strong> (단위:원)</div>
-                                                                <div class="form-change-data"><input type="text" name="use_card" id="use_card" value="">
+                                                    <div class="basic-data-group vsmall line">
+                                                        <div class="form-group">
+                                                            <div class="form-group-cell">
+                                                                <div class="form-group-item">
+                                                                    <div class="form-item-label">사용적립금</div>
+                                                                    <div class="form-item-data type-2">
+                                                                        <div class="form-point-input">
+                                                                            <input type="text" name="use_reserves" id="use_reserves" value="" class="" placeholder="">
+                                                                            <div class="char">원</div>
+                                                                            <button type="button" class="btn btn-outline-gray btn-round btn-inline all-use-reserve" onclick="document.getElementById('use_reserves').value = document.querySelector('.now_reserves').getAttribute('value')" data-price="">전액 사용</button>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                            <button type="button" class="btn-data-change">전환하기</button>
-                                                            <div class="form-change-item">
-                                                                <div class="form-change-label"><strong>현금</strong> (단위:원)</div>
-                                                                <div class="form-change-data"><input type="text" name="use_cash" id="use_cash" value="0"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="basic-data-group vvsmall3">
+                                                        <div class="grid-layout btn-grid-group">
+                                                            <div class="grid-layout-inner">
+                                                                <div class="grid-layout-cell grid-1">
+                                                                    <button type="button" class="btn btn-outline-purple btn-middle-size btn-round  reserve-save-btn" data-cid="" data-tid="" data-phone="" data-seq="" data-service="" data-aid="" onclick="reserves_set()">적용</button>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
+<!--                                                    <div class="form-bottom-info font-color-purple font-weight-500 " style="text-align:right; font-size:13px !important;">이 예약 건에 대한 적립금이 아직 지급되지 않았습니다.</div>-->
 
-                                                    <div class="basic-data-group vsmall">
-                                                        <button type="button" class="btn btn-outline-purple btn-middle-size btn-round save-final-price" data-seq="601033">적용</button>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="user-receipt-wrap is_approve">
+
+
+                                            <div class="user-receipt-item pay-user-receipt" style="border: 1px solid #6840B1 !important;">
+                                                <div class="receipt-buy-detail total-price">
+                                                    <div class="item-data-list">
+                                                        <div class="list-cell">
+                                                            <div class="list-title"><strong>할인금액</strong></div>
+                                                            <div class="list-value"><strong>(-)<span id="total_discount_price" class="discount_price" value="0">0</span></strong></div>
+                                                        </div>
+                                                        <div class="list-cell">
+                                                            <div class="list-title"><strong>적립금사용</strong></div>
+                                                            <div class="list-value"><strong>(-)<span id="total_reserves_use" class="reserves_use" value="0">0</span></strong></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="receipt-buy-detail result-price">
+                                                    <div class="item-data-list">
+                                                        <div class="list-cell">
+                                                            <div class="list-title font-color-purple"><strong>최종 결제액</strong></div>
+                                                            <div class="list-value font-color-red"><strong id="last_price"></strong></div>
+                                                            <input type="hidden" name="total_pay_price" id="total_pay_price" value="0" >
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="basic-data-group vmiddle">
+                                                    <div class="form-change-wrap">
+                                                        <div class="form-change-item">
+                                                            <div class="form-change-label"><strong>카드</strong> (단위:원)</div>
+                                                            <div class="form-change-data"><input type="text" name="last_card" id="last_card" value="0">
+                                                            </div>
+                                                        </div>
+                                                        <button type="button" class="btn-data-change" onclick="data_change()">전환하기</button>
+                                                        <div class="form-change-item">
+                                                            <div class="form-change-label"><strong>현금</strong> (단위:원)</div>
+                                                            <div class="form-change-data"><input type="text" name="last_cash" id="last_cash" value="0"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="basic-data-group vsmall">
+                                                    <button type="button" class="btn btn-outline-purple btn-middle-size btn-round save-final-price" data-payment_idx="" id="cardcash-btn" onclick="cardcash(this)">적용</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="pay-complete-wrap is_approve">
+                                            <div class="con-title-group" style="background:none !important;">
+                                                <h4 class="con-title">결제완료 처리</h4>
+                                                <label for="switch-toggle" class="form-switch-toggle"><input type="checkbox" id="pay_confirm" data-seq="" onclick="reserve_confirm(this)"><span class="bar"></span></label>
+                                            </div>
+                                            <div>
+                                                <span id="confirm_dt"></span>
+                                            </div>
+                                        </div>
+                                        <div class="basic-data-group vmiddle is_approve2">
+                                            <div class="user-receipt-item bg-fffbed">
+                                                <div class="con-title-group bg-fffbed">
+                                                    <h5 class="con-title">예약 서비스 내역</h5>
+                                                </div>
+                                                <div class="receipt-buy-detail">
+                                                    <div class="item-data-list" id="appr_service_list">
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="receipt-buy-detail total-price ">
+                                                    <div class="item-data-list" id="appr_service_sum">
+                                                        <div class="list-cell">
+                                                            <div class="list-title"><strong>합산 금액</strong></div>
+                                                            <div class="list-value"><strong id="appr_sum"></strong></div>
+                                                        </div>
+                                                        <div class="list-cell" id="appr_vat_list" style="display:none;">
+                                                            <div class="list-title"><strong>부가세 10%</strong></div>
+                                                            <div class="list-value"><strong id="appr_vat"></strong></div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="receipt-buy-detail result-price">
+                                                    <div class="item-data-list">
+                                                        <div class="list-cell">
+                                                            <div class="list-title font-color-purple"><strong>총 결제 합산 금액</strong></div>
+                                                            <div class="list-value font-color-purple"><strong id="appr_last_price"></strong></div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <div class="pay-complete-wrap">
-                                                <div class="con-title-group" style="background:none !important;">
-                                                    <h4 class="con-title">결제완료 처리</h4>
-                                                    <label for="switch-toggle" class="form-switch-toggle"><input type="checkbox" id="pay_confirm" value="1" data-seq="601033"><span class="bar"></span></label>
+                                        </div>
+                                        <div class="basic-data-group vvsmall2 is_approve2">
+                                            <div class="user-receipt-item bg-fffbed">
+                                                <div class="con-title-group bg-fffbed">
+                                                    <h5 class="con-title">예약 내용</h5>
+                                                    <!--<button type="button" class="btn-side btn btn-outline-purple btn-msmall-size btn-inline btn-border-radius-16">알림톡 발송 이력</button>-->
                                                 </div>
-                                                <div>
-                                                    <span id="confirm_dt"></span>
+                                                <div class="text-list-wrap type-2">
+                                                    <div class="text-list-cell"><div class="item-title unit">날짜</div><div class="item-data" id="appr_date"></div></div>
+                                                    <div class="text-list-cell"><div class="item-title unit">선생님</div><div class="item-data" id="appr_worker"></div></div>
+                                                    <div class="text-list-cell"><div class="item-title unit">시간</div><div class="item-data" id="appr_time"></div></div>
                                                 </div>
                                             </div>
-
+                                        </div>
+                                        <div class="page-bottom is_approve2" style="margin-top:30px; margin-bottom:30px;">
+                                            <div class="grid-layout btn-grid-group">
+                                                <div class="grid-layout-inner">
+                                                    <div class="grid-layout-cell grid-2"><button type="button" class="btn btn-outline-purple btn-middle-size btn-round apporval-reserve" onclick="set_approve(this,true)">예약 확정</button></div>
+                                                    <div class="grid-layout-cell grid-2"><button type="button" class="btn btn-outline-purple btn-middle-size btn-round apporval-reserve" onclick="set_approve(this,false)">예약신청 취소</button></div>
+                                                </div>
+                                            </div>
                                         </div>
 
 
@@ -1343,7 +1523,7 @@ if ($artist_flag == 1) {
                                     <div class="basic-data-group vvsmall3 tab-data-group">
                                         <!-- tab-data-cell 클래스에 actived클래스 추가시 활성화-->
                                         <!-- 기본 서비스 -->
-                                        <div class="tab-data-cell actived" id="basic_service">
+                                        <div class="tab-data-cell  actived" id="basic_service">
                                             <div class="grid-layout basic">
                                                 <div class="grid-layout-inner" id="basic_service_inner">
 
@@ -2575,6 +2755,55 @@ if ($artist_flag == 1) {
     </div>
 </article>
 
+<article id="reservePayManagementMsg8" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data alert-pop-data middle">
+                <div class="pop-body">
+                    <div class="msg-title">펫샵적립금 적립시점 안내</div>
+                    <div class="msg-txt">해당 미용종료시간 10분이 지나면 자동으로 직접 설정하신 기준에 따라 자동 적립됩니다.<br>(설정방법: <strong>상세설정 > 적립금설정</strong>)</div>
+                </div>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm" onclick="pop.close();">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+
+<article id="reservePayManagementMsg4" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+
+            <div class="pop-data alert-pop-data">
+                <div class="pop-body">
+                    <div class="msg-txt">단골 고객 할인이 적용되었습니다.<br>최종 결제액을 확인해주세요.</div>
+                </div>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm" onclick="pop.close();">확인</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+<article id="reservePayManagementMsg5" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data alert-pop-data">
+                <div class="pop-body">
+                    <div class="msg-txt">적립금이 적용되었습니다.<br>최종 결제액을 확인해주세요.</div>
+                </div>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm" onclick="pop.close();">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+
 <script src="/static/js/common.js"></script>
 <script src="/static/js/dev_common.js"></script>
 <script src="/static/js/Sortable.min.js"></script>
@@ -2593,7 +2822,13 @@ if ($artist_flag == 1) {
 
 
     $(document).ready(function(){
-
+        var artist_flag = "<?=$artist_flag?>";
+        if(artist_flag == 1){
+            $("#gnb_home").css("display","none");
+            $("#gnb_shop_wrap").css("display","none");
+            $("#gnb_detail_wrap").css("display","none");
+            $("#gnb_stats_wrap").css("display","none");
+        }
         get_navi(artist_id)
 
         gnb_init();
@@ -2646,7 +2881,15 @@ if ($artist_flag == 1) {
         agree_view_birthday().then(function(){ agree_view_birthday_date()})
         agree_view_pet_type(artist_id);
 
+        document.getElementById('gnb_reserve_wrap').setAttribute('onclick','location.href ="/booking/reserve_beauty_day.php"')
+        document.getElementById('gnb_customer_wrap').setAttribute('onclick','location.href ="/customer/customer_inquiry.php"')
+        document.getElementById('gnb_shop_wrap').setAttribute('onclick','location.href ="/shop/shop_gate_picture.php"')
+        document.getElementById('gnb_detail_wrap').setAttribute('onclick','location.href ="/setting/set_schedule_list.php"')
+        document.getElementById('gnb_stats_wrap').setAttribute('onclick','location.href ="/report/stats_sale_1.php"')
+        document.getElementById('gnb_etc_wrap').setAttribute('onclick','location.href ="/etc/other_notice_list.php"')
 
+
+        document.getElementById('pay_management').addEventListener("scroll",onScroll);
 
     })
 

@@ -27,7 +27,7 @@ var include = {
                                     <a href="/customer/customer_all_inquiry1.php">전체고객조회</a>
                                 </div>
                                 <div class="header-menu-cell">
-                                    <a href="#">예약 접수하기</a>
+                                    <a href="/booking/reserve_registration.php">예약 접수하기</a>
                                 </div>
                                 <div class="header-menu-cell">
                                     <a href="/booking/reserve_advice_view.php">상담대기
@@ -158,7 +158,7 @@ var include = {
                             <!-- 메뉴 유저 정보 -->
                             <div class="gnb-user-data">
                                 <div class="thumb-data">
-                                    <div class="content-thumb">
+                                    <div class="content-thumb" style="cursor:pointer" onclick="location.href='/home/index.php'">
                                         <img src="" alt="" class="front_image">
                                     </div>
                                 </div>
@@ -213,7 +213,7 @@ var include = {
                                                 </a>
                                             </div>
                                             <div class="snb-menu-cell" id="gnb_reserve">
-                                                <a href="#" class="btn-snb-nav">
+                                                <a href="/booking/reserve_registration.php" class="btn-snb-nav">
                                                     <div class="txt">예약 접수하기</div>
                                                 </a>
                                             </div>
@@ -383,7 +383,6 @@ var include = {
         this.footerContainer.innerHTML = _html;
     }
 };
-
 /**********************************
  @ common
  **********************************/
@@ -663,9 +662,21 @@ var common = {
         if ($('#gnb').hasClass('hide')) {
             $('#gnb').removeClass('hide');
             $('#container').removeClass('hide');
+            document.getElementById('gnb_reserve_wrap').removeAttribute('onclick');
+            document.getElementById('gnb_customer_wrap').removeAttribute('onclick');
+            document.getElementById('gnb_shop_wrap').removeAttribute('onclick');
+            document.getElementById('gnb_detail_wrap').removeAttribute('onclick');
+            document.getElementById('gnb_stats_wrap').removeAttribute('onclick');
+            document.getElementById('gnb_etc_wrap').removeAttribute('onclick');
         } else {
             $('#gnb').addClass('hide');
             $('#container').addClass('hide');
+            document.getElementById('gnb_reserve_wrap').setAttribute('onclick','location.href ="/booking/reserve_beauty_day.php"')
+            document.getElementById('gnb_customer_wrap').setAttribute('onclick','location.href ="/customer/customer_inquiry.php"')
+            document.getElementById('gnb_shop_wrap').setAttribute('onclick','location.href ="/shop/shop_gate_picture.php"')
+            document.getElementById('gnb_detail_wrap').setAttribute('onclick','location.href ="/setting/set_schedule_list.php"')
+            document.getElementById('gnb_stats_wrap').setAttribute('onclick','location.href ="/report/stats_sale_1.php"')
+            document.getElementById('gnb_etc_wrap').setAttribute('onclick','location.href ="/etc/other_notice_list.php"')
         }
         common.gnbDataSort();
     },

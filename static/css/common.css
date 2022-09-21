@@ -803,7 +803,7 @@ a.btn-page-bottom:disabled,
 .user-thumb {position:relative; width:56px; height:56px; border-radius:50%; overflow:hidden; box-sizing:border-box; border:1px solid rgba(0, 0, 0, 0.02); background-color:#fafafa; background-repeat:no-repeat; background-position:center center;}
 .user-thumb > img {position:absolute;top:0;left:0;width:100%;height:100%; object-fit:cover;z-index:0;}
 /*.user-thumb {background-image:url(../images/icon/icon-none-thumb-small.png); background-size:40px auto;}*/
-.user-thumb.small {width:42px; height:42px; background-image:url(../images/icon/icon-none-user.png); background-size:30px auto;}
+.user-thumb.small {width:42px; height:42px;}
 .user-thumb.middle {width:72px; height:72px;
 	/*background-image:url(../images/icon/icon-none-thumb-small.png); */
 	/*background-size:40px auto;*/
@@ -2032,6 +2032,7 @@ body {background:#fafafa;}
 .main-reserve-group {display:flex; width:100%; height:100%;}
 .main-reserve-col {width:50%; box-sizing:border-box;}
 .main-reserve-col + .main-reserve-col {border-left:1px solid #eaeaea;}
+.dark .main-reserve-col + .main-reserve-col {border-left-color:#47484b}
 .main-reserve-group .customer-card-item .item-info-wrap .item-thumb {margin-right:30px;}
 
 .main-calendar-stats-group {display:flex; width:100%; height:100%; flex-direction:column;}
@@ -2052,6 +2053,10 @@ body {background:#fafafa;}
 .main-reserve-graph-none {display:flex; align-items:center; justify-content:center; text-align:center; height:160px; font-size:16px; color:#666;}
 
 .main-reserve-calendar-top {display:flex; align-items:center; justify-content:center; height:54px; border-bottom:1px solid #eaeaea;}
+.dark .main-reserve-calendar-top{
+
+	border-bottom-color : #47484b
+}
 .main-reserve-calendar-tab {margin-bottom:20px;}
 .main-reserve-calendar-title {flex:0 0 auto;  position:relative; }
 .main-reserve-calendar-title select {position:absolute;top:0;left:0;width:100%;height:100%;opacity:0; z-index:5;}
@@ -2800,7 +2805,7 @@ table.terms-table > tbody > tr > td {padding:10px 10px; font-size:14px; line-hei
 .reserve-calendar-title {flex:0 0 auto;  position:relative;  display:inline-flex; align-items:center;}
 .reserve-calendar-title select {position:absolute;top:0;left:0;width:100%;height:100%;opacity:0; z-index:5;}
 .reserve-calendar-title .txt {position:relative;font-size:24px; line-height:1; font-weight:500;}
-.reserve-calendar-title button.txt {padding-right:23px; background:url(../images/icon/icon_select_arrow_middle.png) center right no-repeat; background-size:18px auto;}
+/*.reserve-calendar-title button.txt {padding-right:23px; background:url(../images/icon/icon_select_arrow_middle.png) center right no-repeat; background-size:18px auto;}*/
 .btn-reserve-calendar-ui {flex:0 0 auto; display:inline-flex; align-items:center; justify-content:center; width:42px; height:42px;}
 .btn-reserve-calendar-ui.btn-month-prev {margin-right:32px;}
 .btn-reserve-calendar-ui.btn-month-next {margin-left:32px;}
@@ -3524,7 +3529,7 @@ a.btn-calendar-add:hover,
 .user-hack-wrap .hack-detail .detail-txt > em {display:block; font-weight:500;}
 .user-hack-wrap .hack-check {margin-top:18px;}
 .user-hack-wrap .detail-txt span { margin-left: 10px; }
-.user-hack-wrap .detail-txt::before { content: '•'; color: #6840B1; }
+.user-hack-wrap .detail-txt::before { content: '•'; color: #6840B1; margin-right: 5px;}
 .user-hack-wrap .detail-txt:last-child::before { display: none; }
 /*  */
 
@@ -4281,6 +4286,21 @@ button.btn-surtax-set{height:26px;  padding:0 10px 0 4px; border-radius:13px;}
 }
 
 
+/* 22.09.15 추가 */
+.customer-table .table_wrap .customer-table-txt1 {
+	font-size:14px;
+	line-height:18px;
+	color:#666;
+	padding:18px 0;
+	background: #ededed;
+}
+
+.customer-table .table_wrap .customer-table-txt2 {
+	background: #f9faf9;
+}
+
+
+
 /*========================================
 @ 다크모드
 ========================================*/
@@ -4299,7 +4319,7 @@ button.btn-surtax-set{height:26px;  padding:0 10px 0 4px; border-radius:13px;}
 .dark .btn-outline-black , .dark a.btn-outline-black , .dark input[type=submit].btn-outline-black , .dark button.btn-outline-black {color:#fff; border-color:#202020; background-color:#2c2d30;}
 .dark .btn-outline-yellow , .dark a.btn-outline-yellow , .dark input[type=submit].btn-outline-yellow , .dark button.btn-outline-yellow {color:#fdd94e; border-color:#fdd94e; background-color:#2c2d30;}
 .dark .btn-outline-red , .dark a.btn-outline-red , .dark input[type=submit].btn-outline-red , .dark button.btn-outline-red {color:#FF4848; border-color:#FF4848; background-color:#2c2d30;}
-.dark .btn-outline-gray , .dark a.btn-outline-gray , .dark input[type=submit].btn-outline-gray , .dark button.btn-outline-gray {color:#fff; border-color:#ebebeb; background-color:#2c2d30;}
+.dark .btn-outline-gray , .dark a.btn-outline-gray , .dark input[type=submit].btn-outline-gray , .dark button.btn-outline-gray {color:#fff; border-color:#ebebeb; background-color:transparent;}
 .dark .btn-outline-gray.actived , .dark a.btn-outline-gray.actived , .dark input[type=submit].btn-outline-gray.actived , .dark button.btn-outline-gray.actived {color:#6840b1; border-color:#6840b1; background-color:#2c2d30;}
 .dark .btn-outline-darkgray , .dark a.btn-outline-darkgray , .dark input[type=submit].btn-outline-darkgray , .dark button.btn-outline-darkgray {color:#202020; border-color:#b4b4b4; background-color:#2c2d30;}
 
@@ -4338,7 +4358,7 @@ button.btn-surtax-set{height:26px;  padding:0 10px 0 4px; border-radius:13px;}
 .dark .icon-page-alarm {background-image:url(../images/icon/btn-top-noti@2x-white.png);}
 
 .dark .wide-tab {border-color:#47484b;}
-.dark .wide-tab-inner .tab-cell .btn-tab-item {color:#666;}
+.dark .wide-tab-inner .tab-cell .btn-tab-item {color:#fff;}
 .dark .wide-tab-inner .tab-cell .btn-tab-item:after {background:#fff;}
 .dark .wide-tab-inner .tab-cell.actived .btn-tab-item {color:#fff;}
 
@@ -4504,7 +4524,7 @@ button.btn-surtax-set{height:26px;  padding:0 10px 0 4px; border-radius:13px;}
 
 .dark .total-text-group .total-text-cell .item-value {color:#8552e3;}
 
-.dark table.customer-table > thead > tr > th {color:#d8d8d8; border-color:#47484b; background-color:#1e1f21; }
+.dark table.customer-table > thead > tr > th {color:#d8d8d8; border-color:#47484b; background-color:#393a3e; }
 .dark table.customer-table > tbody > tr > td {color:#d8d8d8; border-color:#47484b; background-color:#2c2d30;}
 
 
@@ -4543,6 +4563,701 @@ button.btn-surtax-set{height:26px;  padding:0 10px 0 4px; border-radius:13px;}
 
 
 
+
+/* 예약관리*/
+.dark .thema-gray-item.white {
+	background: #2c2d30;
+	border-color: #47484b;
+}
+
+.dark .thema-gray-item.white.actived {
+	border-color: #fdd94e;
+}
+
+.dark .basic-list-item .item-name {
+	color: #fdd94e;
+}
+
+.dark .basic-list-item .item-phone {
+	color: #d8d8d8;
+}
+
+.dark .basic-list-item .item-date2 {
+	color: #666;
+}
+
+.dark .reserve-advice-view-info {
+	color: #fdd94e;
+}
+
+.dark .btn-data-helper {
+	background: url("../images/icon/info_dark.png") left center no-repeat;
+	background-size: 28px auto;
+}
+
+.dark .flex-table.type-2 .flex-table-title .txt {
+	color: #fff;
+}
+
+.dark .flex-table.type-2 .flex-table-data-inner {
+	color:  #d8d8d8;
+}
+
+.dark .btn-data-tel {
+	background: url("../images/icon/shop_call_dark.png") left center no-repeat;
+	background-size: 30px auto;
+}
+
+.dark .btn-data-message {
+	background: url("../images/icon/message_dark.png") left center no-repeat;
+	background-size: 30px auto;
+}
+
+
+
+/* 고객관리 */
+.dark .user-thumb.large {
+	background: transparent;
+}
+
+.dark .customer-card-item {
+	border-color: #47484b;
+}
+
+.dark .customer-card-item .item-pet-name {
+	color: #fff;
+}
+
+.dark .customer-card-item .item-main-phone .value {
+	color: #d8d8d8;
+}
+
+.dark .label-outline-pink {
+	background-color: #ff4848;
+	color: #fff;
+}
+
+.dark .customer-user-table {
+	border-color: #47484b;
+}
+
+.dark .customer-user-table-row {
+	border-color: #47484b;
+}
+
+.dark .customer-user-table-title .table-title {
+	color: #fff;
+}
+
+.dark .customer-user-table-data .table-user-name {
+	color: #d8d8d8;
+}
+
+.dark .btn-data-modify {
+	background: url("../images/icon/edit_dark.png") left top no-repeat;
+	background-size: 32px auto;
+}
+
+.dark .customer-user-table-data .table-data-txt {
+	color: #d8d8d8;
+}
+
+.dark .font-color-purple {
+	color: #fdd94e !important;
+}
+
+.dark .ui-datepicker-trigger {
+	content: url("../images/icon/icon-datepicker.png");
+}
+
+.dark .ui-datepicker {
+	background: #393a3e;
+	border-color: #47484b;
+}
+
+.dark .ui-datepicker .ui-datepicker-header {
+	border-color: #47484b;
+}
+
+.dark .ui-datepicker .ui-datepicker-prev {
+	background: url("../images/datepicker/btn-calendar-before-arrow_dark.png") center center no-repeat;
+	background-size: 16px auto;
+}
+
+.dark .ui-datepicker .ui-datepicker-next {
+	background: url("../images/datepicker/btn-calendar-after-arrow_dark.png") center center no-repeat;
+	background-size: 16px auto;
+}
+
+.dark .ui-datepicker .ui-datepicker-title, .dark .ui-datepicker .ui-datepicker-title .ui-datepicker-year, .dark .ui-datepicker .ui-datepicker-title .ui-datepicker-month {
+	color: #fff;
+}
+
+.dark .ui-datepicker th {
+	color: #fff;
+}
+
+.dark .ui-datepicker .ui-state-default {
+	background: #393a3e !important;
+	color: #fff;
+}
+
+.dark .ui-datepicker .ui-datepicker-current-day .ui-state-default {
+	background: #fdd94e !important;
+}
+
+.dark .btn-data-refresh {
+	background: url("../images/icon/icon-refresh-dark.png") center center no-repeat;
+	background-size: 24px auto;
+	border-color: #d8d8d8 ;
+}
+
+.dark .pay-card-cell.all {
+	border-color: #47484b;
+}
+
+.dark .customer-view-agree .pay-card-check .btn-pay-card-toggle {
+	color: #fff;
+}
+
+.dark .customer-view-agree .pay-card-check .btn-pay-card-toggle:after {
+	background: url("../images/icon/btn-info-spread@2x_dark.png") center center no-repeat;
+	background-size: 10px auto;
+}
+
+.dark .form-datepicker-group .form-unit {
+	color: #d8d8d8;
+}
+
+.dark .customer-user-phone-wrap .item-main-phone {
+	color: #d8d8d8;
+}
+
+.dark .customer-view-pet-info {
+	border-color: #47484b;
+}
+
+.dark .customer-view-pet-info .flex-table-item {
+	border-color: #47484b;
+}
+
+.dark .customer-view-pet-info .flex-table-title .txt {
+	color: #fff;
+}
+
+.dark .customer-view-pet-info .flex-table-data-inner {
+	color: #d8d8d8;
+}
+
+.dark .btn-detail-toggle {
+	color: #8f8f8f;
+}
+
+.dark .special-note {
+	background: #393a3e;
+	color: #d8d8d8;
+}
+
+.dark .btn-note-toggle {
+	color: #8f8f8f;
+}
+
+.dark .customer-table-toggle.type-2 .toggle-title {
+	color: #fff;
+}
+
+.dark .btn-detail-toggle:after {
+	background: url("../images/icon/icon_select_arrow_dark.png") center center no-repeat;
+	background-size: 10px auto;
+}
+
+.dark .btn-note-toggle:after {
+	background: url("../images/icon/icon_select_arrow_dark.png") center center no-repeat;
+	background-size: 10px auto;
+}
+
+.dark .customer-table-toggle.type-2 .toggle-title:after {
+	background: url("../images/icon/icon-table-toggle-arrow_dark.png") left center no-repeat;
+	background-size: 16px auto;
+}
+
+.dark .flex-table-title .txt {
+	color: #d8d8d8;
+}
+
+.dark .flex-table-data-inner {
+	color:  #8f8f8f;
+}
+
+.dark .flex-table-cell {
+	border-color: #47484b;
+}
+
+.dark .sort-tab.big .sort-tab-inner .tab-cell .btn-tab-item {
+	color: #fff;
+}
+
+.dark .new-doughnutgraph-subject .item-name {
+	color: #fff;
+}
+
+.dark .new-doughnutgraph-label {
+	color: #fff;
+}
+
+.dark .form-item-label {
+	color: #fff;
+}
+
+.dark .btn-more-toggle-nav:before {
+	background: url("../images/icon/icon_select_arrow_dark.png") center center no-repeat;
+	background-size: 10px auto;
+}
+
+.dark .btn-more-toggle-nav .txt {
+	color: #8f8f8f;
+}
+
+.dark .customer-grade-title {
+	color: #d8d8d8;
+}
+
+.dark .customer-grade-info {
+	color: #8f8f8f;
+}
+
+.dark .customer-grade-card {
+	border-color: #47484b;
+}
+
+.dark .customer-grade-card .card-header {
+	background: #393a3e;
+}
+
+.dark .user-grade-item > .icon-grade-label {
+	color: #d8d8d8;
+}
+
+
+
+/* 샵 관리 */
+.dark .shop-gate-info-title {
+	color: #fff;
+}
+
+.dark .shop-gate-info-desc {
+	color: #d8d8d8;
+}
+
+.dark .btn-gate-picture-register {
+	color: #8f8f8f;
+	border-color: #47484b;
+}
+
+.dark .btn-gate-picture-register:hover {
+	background: #1e1f21;
+}
+
+/*펫샵 상세보기의 경우 파트너앱 화면을 불러온것으로 해당 파일에서 다크모드 적용 불가 하여
+임시방편으로 배경색 #fff 로 설정*/
+.dark .page-preview-view {
+	background-color: #fff;
+}
+
+.dark .shop-picture-modify .shop-picture-info .shop-name {
+	color: #fff;
+}
+
+.dark .shop-picture-modify .shop-picture-info .shop-info {
+	color: #d8d8d8;
+}
+
+.dark .shop-picture-modify .shop-picture-info .btn-modify {
+	color: #fff;
+}
+
+.dark .shop-picture-modify .shop-picture-info .btn-modify:hover {
+	background: #1e1f21;
+}
+
+.dark .icon-camera-gray {
+	background: url("../images/icon/camera_dark.png") center center no-repeat;
+	background-size: 24px auto;
+}
+
+.dark .form-year .unit {
+	color: #d8d8d8;
+}
+
+.dark .vertical-list-wrap.line .list-cell + .list-cell {
+	border-color: #47484b;
+}
+
+.dark .basic-list-item.license .item-info {
+	color: #d8d8d8;
+}
+
+.dark .btn-picture-add:hover {
+	background: #1e1f21;
+}
+
+.dark .master-portfolio-item .item-info {
+	background: #393a3e;
+	border-color: #47484b;
+}
+
+.dark .comment-item .item-user-info .user-name {
+	color: #fff;
+}
+
+.dark .comment-item .item-gallery + .item-detail {
+	color: #d8d8d8;
+}
+
+.dark .recomment-item .recomment-data {
+	background: #393a3e;
+	color: #d8d8d8;
+}
+
+.dark .recomment-item .item-name {
+	color: #fff;
+}
+
+.dark .review-detail-cell + .review-detail-cell {
+	border-color: #47484b;
+}
+
+.dark .basic-list-item.blog .item-desc {
+	color: #d8d8d8;
+}
+
+.dark .shop-blog-review-title {
+	color: #fff;
+}
+
+.dark .shop-blog-review-info {
+	color: #d8d8d8;
+}
+
+a.btn-reserve.disabled, a.btn-page-bottom.disabled, a.btn-reserve:disabled, a.btn-page-bottom:disabled, .btn-reserve.disabled, .btn-page-bottom.disabled, .btn-reserve:disabled, .btn-page-bottom:disabled {
+	background-color: #666;
+}
+
+
+
+/* 상세설정 */
+.dark .memo-item {
+	background: #393a3e;
+	color: #fff;
+}
+
+.dark .icon-share-middle-black {
+	background-image: url("../images/icon/icon-share-middle-dark.png");
+}
+
+.dark .icon-close-small-black {
+	background-image: url("../images/icon/10-ic-16-close-dark.png");
+}
+
+.dark .msg-item {
+	border-color: #47484b;
+}
+
+.dark .msg-item.read {
+	color: #d8d8d8;
+}
+
+.dark .flex-table.read .flex-table-cell {
+	border-color:#47484b;
+}
+
+.dark .customer-card-item .item-right-name {
+	color: #fff;
+}
+
+.dark .con-title-info.type-2 {
+	color: #d8d8d8;
+}
+
+.dark .card-teacher-item {
+	background: #393a3e;
+	border-color: #666;
+}
+
+.dark .card-teacher-body {
+	border-color: #666;
+}
+
+.dark .card-teacher-header .item-name {
+	color: #fff;
+}
+
+.dark .card-teacher-header .item-info {
+	color: #d8d8d8;
+}
+
+.dark .label-outline-purple {
+	color: #fdd94e;
+	border-color: #fdd94e;
+	background: transparent;
+}
+
+.dark .card-teacher-header button.btn-accordion-menu:after {
+	background: url("../images/icon/icon_accordion_arrow_gray.png") center center no-repeat;
+	background-size: 12px auto;
+}
+
+.dark .hide .card-teacher-item {
+	background: #2C2D30;
+	border-color: #666;
+}
+
+.dark .hide .card-teacher-item .item-name{
+	color: #8f8f8f;
+}
+
+.dark .schedule-day-item .item-value {
+	color: #8f8f8f;
+}
+
+.dark .hide .card-teacher-body .schedule-day-state {
+	background: #666;
+	border-color: #666;
+}
+
+.dark .page-tab-inner .tab-cell.actived .btn-tab-item {
+	color: #fff;
+}
+
+.dark .page-tab-inner .tab-cell .btn-tab-item > span:before {
+	background: #fff;
+}
+
+.dark .read-table-unit.large {
+	color: #d8d8d8;
+}
+
+.dark .read-table table > thead > tr > th {
+	background: #393a3e;
+	border-color: #47484b;
+	color: #d8d8d8;
+}
+
+.dark .read-table table > tbody > tr > td {
+	background: #3f4145;
+	border-color: #47484b;
+	color: #d8d8d8;
+}
+
+.dark .btn-data-handler:hover {
+	background:#393a3e url("../images/icon/icon_handler2_dark.png") center center no-repeat;
+	background-size: 30px auto;
+}
+
+.dark .btn-data-handler {
+	background: transparent url("../images/icon/icon_handler2_dark.png") center center no-repeat;
+	background-size: 30px auto;
+	border-color: #47484b;
+}
+
+.dark .font-color-black {
+	color: #8f8f8f!important;
+}
+
+.dark .dark .btn-outline-purple, .dark a.btn-outline-purple, .dark input[type=submit].btn-outline-purple, .dark button.btn-outline-purple {
+	border-color: #8552e3;
+	background: #8552e3;
+	color: #fff;
+}
+
+.dark .btn-outline-purple:hover ,.dark  a.btn-outline-purple:hover ,.dark  input[type=submit].btn-outline-purple:hover ,.dark  button.btn-outline-purple:hover {
+	background-color:#6840b1;
+}
+
+.dark .wide-tab.card .wide-tab-inner .tab-cell .btn-tab-item {
+	background: #393a3e;
+	border-color: #47484b;
+	color: #fff;
+}
+
+.dark .wide-tab.card .wide-tab-inner .tab-cell.actived .btn-tab-item {
+	color:#fff;
+	background:#6840b1;
+	border-color:#6840b1;
+}
+
+.dark .form-mulity-input {
+	color: #d8d8d8;
+}
+
+.dark .set-pay-type-item .item-title {
+	color: #fff;
+}
+
+.dark .set-pay-type-item .item-title + .item-info {
+	color: #d8d8d8;
+}
+
+.dark .set-pay-type-item {
+	border-color: #47484b;
+}
+
+
+
+/* 판매실적 */
+.dark .stacked-horizontal-label .label-title {
+	color: #d8d8d8;
+}
+
+.dark .stacked-horizontal-label .label-value {
+	color: #fff;
+}
+
+.dark .stats-result-graph {
+	border-color: #47484b;
+}
+
+.dark .stats-result-total .grid-layout-cell {
+	border-color: #d8d8d8;
+	background: #3f4145;
+}
+
+.dark .stats-result-total-item > p {
+	color: #fff;
+}
+
+.dark .stats-result-total-item > em {
+	color: #d8d8d8;
+}
+
+.dark .stats-result-total-item.total > p {
+	color: #fdd94e;
+}
+
+.dark .customer-table .table_wrap .customer-table-txt1 {
+	background: #35363a;
+	color: #fff;
+}
+
+.dark .customer-table .table_wrap .customer-table-txt2 {
+	background: #3f4145;
+}
+
+
+
+/* 기타 */
+.dark .btn-board-item .item-subject {
+	color: #fff;
+}
+
+.dark .basic-board-list > ul > li {
+	border-color: #47484b;
+}
+
+.dark .btn-board-item .item-cate {
+	color: #fdd94e;
+}
+
+.dark .btn-board-item:hover {
+	background: #393a3e;
+}
+
+.dark .board-view-top {
+	border-color: #47484b;
+}
+
+.dark .btn-page-action {
+	color: #fff;
+}
+
+.dark .chat-item .chat-txt {
+	color: #fff;
+}
+
+.dark .chat-item .chat-cate {
+	color: #fff;
+}
+
+.dark .chat-date .date {
+	color: #d8d8d8;
+	background: #393a3e;
+}
+
+.dark .chat-item.me .chat-data {
+	border-color: #6840b1;
+	background:  #6840b1;
+}
+
+.dark .btn-set-main-menu {
+	color: #fff;
+}
+
+.dark .btn-set-main-menu:hover {
+	background:#393a3e;
+}
+
+.dark .icon-set-menu-7 {
+	background: url("../images/icon/icon-set-menu-7-dark.png");
+	background-size: 36px auto;
+}
+
+.dark .icon-set-menu-8 {
+	background: url("../images/icon/icon-set-menu-8-dark.png");
+	background-size: 36px auto;
+}
+
+.dark .icon-set-menu-9 {
+	background: url("../images/icon/icon-set-menu-9-dark.png");
+	background-size: 36px auto;
+}
+
+.dark .icon-set-menu-10 {
+	background: url("../images/icon/icon-set-menu-10-dark.png");
+	background-size: 36px auto;
+}
+
+.dark .icon-set-menu-11 {
+	background: url("../images/icon/icon-set-menu-11-dark.png");
+	background-size: 36px auto;
+}
+
+.dark .terms-group .terms-sentence {
+	color: #fff;
+}
+
+.dark table.terms-table > thead > tr > th {
+	background: #3f4145;
+	border-color: #47484b;
+	color: #fff;
+}
+
+.dark table.terms-table > tbody > tr > td {
+	background: #393a3e;
+	border-color: #47484b;
+	color: #d8d8d8;
+}
+
+.dark .terms-group h3 {
+	color: #fff;
+}
+
+.dark .user-hack-wrap .hack-info {
+	color: #fff;
+}
+
+.dark .user-hack-wrap .detail-txt::before {
+	color: #fdd94e;
+	margin-right: 5px;
+}
+
+.dark .user-hack-wrap .hack-detail {
+	color: #d8d8d8;
+}
+/*여기서 부터 작업하시요*/
+
+
+
+/* 메인 */
 .dark .main-dashboard-group .title .txt{
 	color:#d8d8d8
 }
@@ -4573,7 +5288,7 @@ button.btn-surtax-set{height:26px;  padding:0 10px 0 4px; border-radius:13px;}
 }
 
 .dark .main-calendar-day-value .number{
-	color:#d8d8d8
+	color: #d8d8d8;
 }
 
 .dark .main-calendar-month-body-col.break{
@@ -4601,4 +5316,33 @@ button.btn-surtax-set{height:26px;  padding:0 10px 0 4px; border-radius:13px;}
 
 .dark .main-notice-list .btn-main-notice-item .txt{
 	color:#d8d8d8
+}
+.dark .main-reserve-list-cell{
+	border-bottom-color :#47484b;
+}
+
+.dark .icon-dashboard-1{
+	background-image: url(../images/icon/icon-main-dashboard-1_darrk.png);
+
+}
+
+.dark .icon-dashboard-2{
+	background-image: url(../images/icon/icon-main-dashboard-2_dark.png);
+
+}
+
+.dark .icon-dashboard-3{
+	background-image: url(../images/icon/icon-main-dashboard-3_dark.png);
+
+}
+.dark .icon-dashboard-4{
+	background-image: url(../images/icon/icon-main-dashboard-4_dark.png);
+
+}
+
+.dark #customer_select{
+	color:#fff;
+}
+.dark #customer_select option{
+	color:#fff;
 }

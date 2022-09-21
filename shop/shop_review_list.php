@@ -235,9 +235,19 @@ if ($artist_flag == 1) {
                     })
 
                     $.each(v.review_images, function(index,value){
+                        if(value.path != '') {
 
-
-                        review_photo += `<div class="list-cell"><div class="btn-portfolio-item" onclick="showReviewGallery(${0},'${img_list}')"><img src="${img_link_change(value.path)}" alt=""></div></div>`;
+                            review_photo += `
+                            <div class="item-gallery">
+                                <div class="portfolio-list-wrap">
+                                    <div class="list-inner">
+                                        <div class="list-cell">
+                                            <div class="btn-portfolio-item" onclick="showReviewGallery(${0},'${img_list}')"><img src="${img_link_change(value.path)}" alt=""></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                        }
                     })
                     var artist_reply = '';
                     if(v.artist_reply != ''){
@@ -255,7 +265,7 @@ if ($artist_flag == 1) {
                                     </div>
                                     <div class="grid-layout toggle-button-group">
                                         <div class="grid-layout-inner">
-                                            <div class="grid-layout-cell grid-2"><a href="#" class="btn btn-outline-gray btn-small-size" onclick="open_reply_pop('${v.review_seq}','${db_to_str(v.artist_reply)}');">수정</a></div>
+                                            <div class="grid-layout-cell grid-2"><a href="#" class="btn btn-outline-gray btn-small-size" onclick="open_reply_pop('${v.review_seq}','${v.artist_reply}');">수정</a></div>
                                             <div class="grid-layout-cell grid-2"><a href="#" class="btn btn-outline-gray btn-small-size" onclick="open_delete_pop('${v.review_seq}');">삭제</a></div>
                                         </div>
                                     </div>
@@ -286,13 +296,7 @@ if ($artist_flag == 1) {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="item-gallery">
-                                    <div class="portfolio-list-wrap">
-                                        <div class="list-inner">
-                                            ${review_photo}
-                                        </div>
-                                    </div>
-                                </div>
+                                ${review_photo}
                                 <div class="item-detail">${db_to_str(v.review)}</div>
                             </div>
                             ${artist_reply}
@@ -310,9 +314,23 @@ if ($artist_flag == 1) {
                     rating += '<div class="icon icon-size-16 icon-star-gray"></div>';
                 }
                 var review_photo = '';
+
                 $.each(v.review_images, function(index,value){
-                    review_photo += `<div class="list-cell"><div class="btn-portfolio-item"><img src="${img_link_change(value.path)}" alt=""></div></div>`;
+                    if(value.path != '') {
+
+                        review_photo += `
+                            <div class="item-gallery">
+                                <div class="portfolio-list-wrap">
+                                    <div class="list-inner">
+                                        <div class="list-cell">
+                                            <div class="btn-portfolio-item" onclick="showReviewGallery(${0},'${img_list}')"><img src="${img_link_change(value.path)}" alt=""></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                    }
                 })
+
                 var artist_reply = '';
                 if(v.artist_reply != ''){
                     artist_reply = `
@@ -329,7 +347,7 @@ if ($artist_flag == 1) {
                                 </div>
                                 <div class="grid-layout toggle-button-group">
                                     <div class="grid-layout-inner">
-                                        <div class="grid-layout-cell grid-2"><a href="#" class="btn btn-outline-gray btn-small-size" onclick="open_reply_pop('${v.review_seq}','${db_to_str(v.artist_reply)}');">수정</a></div>
+                                        <div class="grid-layout-cell grid-2"><a href="#" class="btn btn-outline-gray btn-small-size" onclick="open_reply_pop('${v.review_seq}','${v.artist_reply}');">수정</a></div>
                                         <div class="grid-layout-cell grid-2"><a href="#" class="btn btn-outline-gray btn-small-size" onclick="open_delete_pop('${v.review_seq}');">삭제</a></div>
                                     </div>
                                 </div>
@@ -360,13 +378,7 @@ if ($artist_flag == 1) {
                                     </div>
                                 </div>
                             </div>
-                            <div class="item-gallery">
-                                <div class="portfolio-list-wrap">
-                                    <div class="list-inner">
-                                        ${review_photo}
-                                    </div>
-                                </div>
-                            </div>
+                            ${review_photo}
                             <div class="item-detail">${db_to_str(v.review)}</div>
                         </div>
                         ${artist_reply}
@@ -382,7 +394,7 @@ if ($artist_flag == 1) {
     // 수정, 저장 팝업
     function open_reply_pop(idx, reply){
         $("#recommentWrite .idx").val(idx);
-        $("#recommentWrite .reply").val(reply);
+        $("#recommentWrite .reply").val(db_to_str(reply));
         pop.open('recommentWrite');
     }
 

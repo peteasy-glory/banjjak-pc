@@ -15,6 +15,7 @@ function schedule_render(id){
             fi_date:`${date.getFullYear()}-${fill_zero(date.getMonth()+1)}-${fill_zero(date.getDate()+1)}`,
         },
         beforeSend:function(){
+            pay_management_toggle(true);
             let height;
 
 
@@ -82,10 +83,10 @@ function schedule_render(id){
 
                                     let multiple = (new Date(el.product.date.booking_fi).getTime() - new Date(el.product.date.booking_st).getTime())/1800000;
                                     el_.innerHTML = `<div class="calendar-drag-item-group">
-                                                                        <a href="#" onclick="pay_management_init(artist_id,this); pay_management_toggle(false); localStorage.setItem('payment_idx','${el_.getAttribute('data-pay')}')" data-tooltip_idx="${index}" data-payment_idx="${el_.getAttribute('data-pay')}" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-pay')})" class="calendar-week-time-item toggle green ${color} ${el.product.is_no_show === 1 ? "red" : ''} ${el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
+                                                                        <a href="#" onclick="pay_management_init(artist_id,this,false,${el.product.is_approve === 0 ? false : true}); pay_management_toggle(false); localStorage.setItem('payment_idx','${el_.getAttribute('data-pay')}')" data-tooltip_idx="${index}" data-payment_idx="${el_.getAttribute('data-pay')}" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-pay')})" class="calendar-week-time-item toggle green ${color} ${el.product.is_no_show === 1 ? "red" : ''} ${el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
                                                                             <div class="item-inner" >
                                                                                 <div class="item-name">
-                                                                                    <div class="txt">${el.pet.name}</div>
+                                                                                    <div class="txt" style="font-size:17px; margin-bottom:2px;">${el.pet.name}</div>
                                                                                     ${multiple <4 ? `<button type="button" class="btn-calendar-item-more"></button>`:``}
                                                                                     
                                                                                 </div> 
@@ -95,7 +96,7 @@ function schedule_render(id){
                                                                                 <div class="item-stats">
                                                                                 ${el.product.is_confirm ? `<div class="right">
                                                                                         <div class="item-cash">
-                                                                                            ${el.product.pay_type === "pos-card" ? `<div class="icon icon-reservation-card-off"></div>` : `<div class="icon icon-reservation-cash-off"></div>` }
+                                                                                            ${el.product.pay_type.match('card') ? `<div class="icon icon-reservation-card-off"></div>` : `<div class="icon icon-reservation-cash-off"></div>` }
                                                                                             
                                                                                         </div>
                                                                                     </div>` : `<div class="left">
@@ -1255,13 +1256,13 @@ function consulting_hold_list(id){
                                                                                                     <div class="item-name">
                                                                                                         <strong>${el.pet_name}</strong>
                                                                                                         <br>
-                                                                                                        <div class="">${phone_edit(el.phone)}</div>
+                                                                                                        <div class="item-phone">${phone_edit(el.phone)}</div>
                                                                                                     </div>
                                                                                                     <div class="item-date2">${am_pm_check2(el.date.replace('T',' '))}</div>
                                                                                                 </div>
                                                                                             </a>
                                                                                             <div class="item-state2">
-                                                                                                <strong class="font-color-lightgray">${status}</strong>
+                                                                                                <strong class="font-color-lightgray" ${el.approval == 2 ? 'style="color:#6840B1 !important"' : el.approval == 3 ? 'style=color:red !important':''}>${status}</strong>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>`
@@ -1292,7 +1293,6 @@ function consulting_hold_list(id){
                                         document.getElementById('consulting_data').style.opacity = 1;
                                         document.getElementById('consulting_data').innerHTML = '';
                                         body_.forEach(function(el_){
-                                            console.log(el_)
 
 
                                             if(el_.pet_name === el.getAttribute('data-pet_name') && el_.phone === el.getAttribute('data-phone')){
@@ -1334,16 +1334,8 @@ function consulting_hold_list(id){
                                                 //     }
                                                 // })
 
-                                                let consult_photo = '';
-                                                if(el_.consult_photo.length >0){
+                                                console.log(el_)
 
-                                                    consult_photo = `https://image.banjjakpet.com${el_.consult_photo[0].photo.replace('/pet','')}`
-
-                                                }else{
-
-
-                                                    consult_photo = '/static/images/icon/icon-pup-select-off.png'
-                                                }
 
                                                 document.getElementById('consulting_data').innerHTML = '';
                                                 document.getElementById('consulting_data').innerHTML +=`<div class="basic-data-card">
@@ -1520,13 +1512,14 @@ function consulting_hold_list(id){
                                                                                                             </div>
                                                                                                             <div class="basic-data-group vvsmall2">
                                                                                                                 <div class="portfolio-list-wrap">
-                                                                                                                    <div class="list-inner">
-                                                                                                                        <div class="list-cell">
-                                                                                                                            <a href="#" class="btn-portfolio-item">
-                                                                                                                                <img src="${consult_photo}" alt="">
-                                                                                                                            </a>
-                                                                                                                        </div>
-                                                                                                                    </div>
+                                                                                                                    
+                                                                                                                        ${el_.consult_photo.length > 0 ? `<div class="list-inner">
+                                                                                                                        <div class="list-cell"><a href="#" class="btn-portfolio-item">
+                                                                                                                                                            <img src="https://image.banjjakpet.com${el_.consult_photo[0].photo.replace('/pet','')}" alt="">
+                                                                                                                                                        </a></div>
+                                                                                                                    </div>` : `<span>업로드된 이미지가 없습니다.</span>`}
+                                                                                                                            
+                                                                                                                        
                                                                                                                 </div>
                                                                                                             </div>
                                                                                                         </div>
@@ -2064,6 +2057,7 @@ function cols(id){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
+                    console.log(body)
 
                     document.getElementById('day_header_row').innerHTML = `<div class="calendar-day-header-col time"></div>`
 
@@ -2082,7 +2076,7 @@ function cols(id){
                         if(el.is_show && !el.is_leave){
                             el.work.forEach(function (el_){
                                 if(parseInt(el_.week) === date.getDay() ){
-                                    document.getElementById('day_header_row').innerHTML +=`<div class="calendar-day-header-col">${el.nick}</div>`
+                                    document.getElementById('day_header_row').innerHTML +=`<div class="calendar-day-header-col" data-start="${el_.time_st}" data-end="${el_.time_fi}" data-worker="${el.name}">${el.nick}</div>`
                                     Array.from(document.getElementsByClassName('calendar-day-body-row')).forEach(function(_el,i){
                                         _el.innerHTML += `<div class="calendar-day-body-col time-compare-cols ${break_times.match(_el.getAttribute('data-time-to')) ? 'break1':'' } ${_el.getAttribute('data-time-to') === break_times.split(' ')[0] ? 'break1-1':''}" data-name="${el.name}" data-nick="${el.nick}" data-time-to="${_el.getAttribute('data-time-to')}" data-time-from="${_el.getAttribute('data-time-from')}" data-year="${date.getFullYear()}" data-month="${date.getMonth()}" data-date="${date.getDate()}" data-hour="${_el.getAttribute('data-hour')}" data-minutes="${_el.getAttribute('data-minutes')}">
                                                             <div class="calendar-drag-item-group">
@@ -3113,7 +3107,7 @@ function pay_management(id){
                                                                     </div>
                                                                     <div class="text-list-cell">
                                                                         <div class="item-title unit">선생님</div>
-                                                                            <div class="item-data" id="day_book_target_worker" data-worker="${body.worker}">${body.worker === id ? "실장" : body.worker}</div>
+                                                                            <div class="item-data" id="day_book_target_worker" data-worker="${body.worker}">${body.worker_nick}</div>
                                                                         </div>
                                                                         <div class="text-list-cell">
                                                                             <div class="item-title unit align-self-center">시간</div>
@@ -4689,6 +4683,14 @@ function reserve_search(id){
                 search:search_value,
 
             },
+            beforeSend:function(res){
+
+                if(document.getElementById('search_phone_data')){
+
+                    document.getElementById('search_phone_data').style.display = 'none';
+                    document.getElementById('customer_inquiry_loading').style.display = 'flex';
+                }
+            },
             success:function (res){
                 let response = JSON.parse(res);
                 let head = response.data.head;
@@ -4780,6 +4782,15 @@ function reserve_search_fam(id){
             }
 
         })
+
+
+        if(document.getElementById('search_phone_data')){
+
+            document.getElementById('search_phone_data').style.display = 'block';
+            document.getElementById('customer_inquiry_loading').style.display ='none';
+        }
+
+
 
 
     })
@@ -5043,12 +5054,31 @@ function reserve_merchandise_load_reset(i){
 
     switch (i){
 
-        case 1 : document.getElementById('basic_service_select').innerHTML = '<div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(2)"><label class="form-toggle-box large "><input type="radio" value="" name="s1"><em>선택 안함</em></label></div>';
-            document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" checked ><em><span>선택 안함</span></em></label></div>';
+        case 1 : document.getElementById('basic_service_select').innerHTML = '<div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(2)"><label class="form-toggle-box large "><input type="radio" value="" name="s1"><em class="font-size-12">선택 안함</em></label></div>';
+            document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" checked ><em><span class="font-size-12">선택 안함</span></em></label></div>';
 
             break;
         case 2 :
-            document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" checked><em><span>선택 안함</span></em></label></div>';
+            document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" checked><em><span class="font-size-12">선택 안함</span></em></label></div>';
+
+            break;
+
+
+    }
+
+}
+
+
+function reserve_merchandise_load_reset_(i){
+
+    switch (i){
+
+        case 1 : document.getElementById('payment_basic_service_select').innerHTML = '<div class="toggle-button-cell" onclick="reserve_merchandise_load_reset_(2)"><label class="form-toggle-box large "><input type="radio" value="" name="s1"><em class="font-size-12">선택 안함</em></label></div>';
+            document.getElementById('payment_basic_weight').innerHTML = '<div class="toggle-button-cell" id="payment_weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" checked ><em><span class="font-size-12">선택 안함</span></em></label></div>';
+
+            break;
+        case 2 :
+            document.getElementById('payment_basic_weight').innerHTML = '<div class="toggle-button-cell" id="payment_weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" checked><em><span class="font-size-12">선택 안함</span></em></label></div>';
 
             break;
 
@@ -5097,11 +5127,13 @@ function reserve_service_list_2_delete(element,string){
 }
 
 
-function reserve_merchandise_load_event(id){
+function reserve_merchandise_load_event(artist_id){
 
     Array.from(document.getElementsByClassName('load-pet-type')).forEach(function (el){
 
         el.addEventListener('click',function (evt){
+            console.log('event')
+            let id=artist_id;
 
             reserve_merchandise_load_init(id).then(function(body){
                 reserve_merchandise_load(body).then(function(base_svc){
@@ -5119,7 +5151,10 @@ function reserve_merchandise_load_event(id){
 function reserve_merchandise_load_init(id){
 
 
+
     return new Promise(function(resolve){
+
+        console.log('event2');
 
 
 
@@ -5135,6 +5170,8 @@ function reserve_merchandise_load_init(id){
 
                 breed_input = document.querySelector('input[name="breed"]:checked');
                 breed = breed_input.value
+                console.log(breed);
+                console.log(id)
 
                 $.ajax({
 
@@ -5155,7 +5192,11 @@ function reserve_merchandise_load_init(id){
                             pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                         } else if (head.code === 200) {
 
+                            console.log(body)
 
+                            if(body.is_vat === 1){
+                                localStorage.setItem('is_vat','1');
+                            }
                             let service = document.getElementById('service');
                             let service2 = document.getElementById('service2');
                             let basic_service = document.getElementById('basic_service');
@@ -5203,7 +5244,7 @@ function reserve_merchandise_load_init(id){
                                                                         <div class="form-item-label">크기 선택</div>
                                                                         <div class="form-item-data type-2">
                                                                             <div class="toggle-button-group vertical" id="basic_size">
-                                                                          <div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(1)"><label class="form-toggle-box large"><input type="radio" value="" name="size" onclick="reserve_service_list('service2_basic_size','','0')" checked><em>선택 안함</em></label></div>
+                                                                          <div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(1)"><label class="form-toggle-box large"><input type="radio" value="" name="size" onclick="reserve_service_list('service2_basic_size','','0')" checked><em class="font-size-12">선택 안함</em></label></div>
                                                                      
                                                                             </div>
                                                                         </div>
@@ -5214,7 +5255,7 @@ function reserve_merchandise_load_init(id){
                                                                         <div class="form-item-label">서비스</div>
                                                                         <div class="form-item-data type-2">
                                                                             <div class="toggle-button-group vertical" id="basic_service_select">
-                                                                              <div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(2)"><label class="form-toggle-box large"><input type="radio" value="" name="s1" onclick="reserve_service_list('service2_basic_service','','0')" checked ><em>선택 안함</em></label></div>
+                                                                              <div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(2)"><label class="form-toggle-box large"><input type="radio" value="" name="s1" onclick="reserve_service_list('service2_basic_service','','0')" checked ><em class="font-size-12">선택 안함</em></label></div>
 
                                                                             </div>
                                                                         </div>
@@ -5225,7 +5266,7 @@ function reserve_merchandise_load_init(id){
                                                                     <div class="form-item-label">무게</div>
                                                                     <div class="form-item-data type-2">
                                                                         <div class="toggle-button-group vertical" id="basic_weight">
-                                                                            <div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" onclick="reserve_service_list('service2_basic_weight','','0')" checked><em><span>선택 안함</span></em></label></div>
+                                                                            <div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" onclick="reserve_service_list('service2_basic_weight','','0')" checked><em><span class="font-size-12">선택 안함</span></em></label></div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -5256,7 +5297,7 @@ function reserve_merchandise_load_init(id){
                                                                         <div class="form-item-label">미용털길이</div>
                                                                         <div class="form-item-data type-2">
                                                                             <div class="toggle-button-group vertical" id="basic_hair_length">
-                                                                            <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="hairBeauty" onclick="reserve_service_list('service2_basic_hair_length','','0')" checked ><em>선택 안함</em></label></div>
+                                                                            <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="hairBeauty" onclick="reserve_service_list('service2_basic_hair_length','','0')" checked ><em class="font-size-12">선택 안함</em></label></div>
                                                                                 </div>
                                                                         </div>
                                                                     </div>
@@ -5271,7 +5312,8 @@ function reserve_merchandise_load_init(id){
                                                                         <div class="form-item-label">얼굴컷</div>
                                                                         <div class="form-item-data type-2">
                                                                             <div class="toggle-button-group vertical" id="other_face">
-                                                                                
+                                                                                <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="f1" onclick="reserve_service_list('service2_other_list_face','','0')" checked ><em class="font-size-12">선택 안함</em></label></div>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -5343,7 +5385,7 @@ function reserve_merchandise_load_init(id){
                                                                                 <div class="form-item-label">미용</div>
                                                                                 <div class="form-item-data type-2">
                                                                                     <div class="toggle-button-group vertical" id="basic_beauty">
-                                                                                        <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="beauty" onclick="reserve_service_list('service2_basic_beauty','','0')" checked><em>선택 안함</em></label></div>
+                                                                                        <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="beauty" onclick="reserve_service_list('service2_basic_beauty','','0')" checked><em class="font-size-12">선택 안함</em></label></div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -5358,7 +5400,7 @@ function reserve_merchandise_load_init(id){
                                                                                 <div class="form-item-label">목욕</div>
                                                                                 <div class="form-item-data type-2">
                                                                                     <div class="toggle-button-group vertical" id="basic_bath">
-                                                                                        <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="bath" onclick="reserve_service_list('service2_basic_bath','','0')" checked><em>선택 안함</em></label></div>
+                                                                                        <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="bath" onclick="reserve_service_list('service2_basic_bath','','0')" checked><em class="font-size-12">선택 안함</em></label></div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -5469,7 +5511,7 @@ function reserve_merchandise_load(body){
 
                     document.getElementById('other_face').innerHTML += `<div class="toggle-button-cell">
                                                                                         <label class="form-toggle-box form-toggle-price middle">
-                                                                                            <input type="checkbox" name="f1" data-price="${el.price}" value="${el.type}" onclick="if(this.checked === true){reserve_service_list_2('service2_other_list_face','+${el.type}','${el.price}')}else{reserve_service_list_2_delete('service2_other_list_face','+${el.type}')}">
+                                                                                            <input type="radio" name="f1" data-price="${el.price}" value="${el.type}" onclick="reserve_service_list('service2_other_list_face','+${el.type}',${el.price})">
                                                                                             <em>
                                                                                                 <span>${el.type}</span>
                                                                                                 <strong>+${parseInt(el.price).toLocaleString()}원</strong>
@@ -5480,7 +5522,7 @@ function reserve_merchandise_load(body){
                     if(i===body.face.length-1){
 
                         document.getElementById('service2_other_list').innerHTML += `<div class="service-selected-list-cell">
-                                                                                                    <div class="list-title" id="service2_other_list_face">얼굴컷</div>
+                                                                                                    <div class="list-title list-data" id="service2_other_list_face">얼굴컷</div>
                                                                                                 </div>`
                     }
                 })
@@ -5669,8 +5711,9 @@ function reserve_merchandise_load_2(base_svc){
             el.addEventListener('click',function(){
 
 
-                document.getElementById('basic_service_select').innerHTML= '<div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(2)"><label class="form-toggle-box large"><input type="radio" value="" name="s1" onclick="reserve_service_list(\'service2_basic_service\',\'\')" checked><em>선택 안함</em></label></div>';
-                document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" onclick="reserve_service_list(\'service2_basic_weight\',\'\',\'0\')" checked><em><span>선택 안함</span></em></label></div>';
+
+                document.getElementById('basic_service_select').innerHTML= '<div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(2)"><label class="form-toggle-box large"><input type="radio" value="" name="s1" onclick="reserve_service_list(\'service2_basic_service\',\'\')" checked><em class="font-size-12">선택 안함</em></label></div>';
+                document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" onclick="reserve_service_list(\'service2_basic_weight\',\'\',\'0\')" checked><em><span class="font-size-12">선택 안함</span></em></label></div>';
                 let value = el.children[0].children[0].value;
 
                 base_svc.forEach(function(el_){
@@ -5685,7 +5728,7 @@ function reserve_merchandise_load_2(base_svc){
                                 document.getElementById('basic_service_select').innerHTML += `<div class="toggle-button-cell toggle-button-cell-service">
                                                                                                         <label class="form-toggle-box large">
                                                                                                             <input type="radio" value="${_el.type}" data-size="${el_.size}" data-time="${_el.time}" name="s1" onclick="reserve_service_list('service2_basic_service','${_el.type} ${_el.time}분')">
-                                                                                                            <em>${_el.type} ${_el.time}분</em>
+                                                                                                            <em>${_el.type} <br/> ${_el.time}분</em>
                                                                                                         </label>
                                                                                                     </div>`
                             }
@@ -5717,7 +5760,7 @@ function reserve_merchandise_load_3(base_svc){
 
         el.addEventListener('click',function (){
 
-            document.getElementById('basic_weight').innerHTML= '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" data-price="" name="s2" onclick="reserve_service_list(\'service2_basic_weight\',\'\',\'0\')"><em><span>선택 안함</span></em></label></div>'
+            document.getElementById('basic_weight').innerHTML= '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" data-price="" name="s2" onclick="reserve_service_list(\'service2_basic_weight\',\'\',\'0\')"><em><span class="font-size-12">선택 안함</span></em></label></div>'
 
 
             let size = el.children[0].children[0].getAttribute('data-size');
@@ -5794,7 +5837,7 @@ function reserve_merchandise_load_3(base_svc){
 
                                 })
                             }else{
-                                document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" onclick="reserve_service_list(\'service2_basic_weight\',\'\',0)"><em><span>선택 안함</span></em></label></div>';
+                                document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" onclick="reserve_service_list(\'service2_basic_weight\',\'\',0)"><em><span class="font-size-12">선택 안함</span></em></label></div>';
                             }
 
                         }
@@ -6107,7 +6150,7 @@ function reserve_regist(artist_id,session_id,yesterday){
 
     //cat
     let beauty_input = document.querySelector('input[name="beauty"]:checked');
-    let bath_input = document.querySelector('input[name="beauty"]:checked');
+    let bath_input = document.querySelector('input[name="bath"]:checked');
 
     let add_svc_input = document.querySelectorAll('input[name="add_svc"]:checked');
 
@@ -6241,8 +6284,13 @@ let beauty,bath,add_svc;
             total_price += parseInt(el.getAttribute('data-price'));
 
         }
+
     })
 
+    if(localStorage.getItem('is_vat') === '1'){
+
+        total_price += (total_price/10);
+    }
 
 
     let target = document.getElementById('reserveCalendarPop2');
@@ -6429,7 +6477,7 @@ let beauty,bath,add_svc;
 
     }else{
 
-        product += `${name}|${breed === 'cat' ? '고양이': ''}|${shop_name}|${beauty}|${beauty}:${document.getElementById('service2_basic_beauty').getAttribute('data-price')}|`
+        product += `${name}|${breed === 'cat' ? '고양이': ''}|${shop_name}|${beauty === '' ? '' : '미용'}|all:0|${beauty.replace('_미용','')}:${document.getElementById('service2_basic_beauty').getAttribute('data-price')}|`
 
         if(document.querySelectorAll('input[name="add_svc"]')[0].checked === true){
 
@@ -6444,24 +6492,40 @@ let beauty,bath,add_svc;
             product += `0|`;
         }else{
 
-
-            product += `${bath_input.getAttribute('data-price')}|`
-        }
-
-
-        product += `0|`
-
-        if(add_svc_input.length > 0){
-
-            product += `${add_svc_input.length}|`
-
-            for(let i=0; i<add_svc_input.length; i++){
-
-                product += `${add_svc_input[i].value}:${add_svc_input[i].getAttribute('data-price')}|`
+            if(bath_input.value === '단모'){
+                product += `${bath_input.getAttribute('data-price')}|`
+            }else{
+                product += `|`
             }
-        }else{
-            product += `0|`
+
+            if(bath_input.value === '장모'){
+                product +=  `${bath_input.getAttribute('data-price')}|`
+            }else{
+                product += `|`
+            }
+
+
         }
+
+        let add_svc_count = 0;
+        let add_svc_arr = [];
+
+        add_svc_input.forEach(function(el){
+
+            if(el.value !== '발톱'){
+
+                add_svc_count ++;
+                add_svc_arr.push(`${el.value}:${el.getAttribute('data-price')}`)
+
+            }
+        })
+
+        product += `${add_svc_count}|`
+
+        add_svc_arr.forEach(function(el){
+
+            product += `${el}|`
+        })
 
         product += `0|0|`
 
@@ -6573,7 +6637,7 @@ let beauty,bath,add_svc;
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                location.reload()
+                // location.reload()
             }
 
         }
@@ -6652,6 +6716,17 @@ function reserve_pop_init(id){
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-data-group middle" id="select_pet" style="display: none;">
+                                <div class="form-group-item">
+                                    <div class="form-item-label">펫 선택</div>
+                                    <div class="form-item-data type-2">
+                                        <div class="grid-layout basic">
+                                            <div class="grid-layout-inner" id="select_pet_list">
                                             </div>
                                         </div>
                                     </div>
@@ -7050,7 +7125,7 @@ function exist_user_reserve(id,cellphone){
 
                             document.getElementById('select_pet_list').innerHTML += `<div class="grid-layout-cell flex-auto">
                                                                                                 <label class="form-toggle-box">
-                                                                                                    <input name="pet_no" class="pet-no" type="radio" data-id="${el.detail.customer_id}" value="${el.pet_seq}" onclick="exist_user_reserve_('${el.pet_seq}').then(function(body){exist_user_reserve_init(body)})">
+                                                                                                    <input name="pet_no" class="pet-no" type="radio" data-id="${el.detail.customer_id === '' ? el.detail.tmp_seq : el.detail.customer_id}" value="${el.pet_seq}" onclick="exist_user_reserve_('${el.pet_seq}').then(function(body){exist_user_reserve_init(body)})">
                                                                                                     <em>${el.name}</em>
                                                                                                 </label>
                                                                                             </div>`
@@ -8865,37 +8940,37 @@ function management_wide_tab2(){
 
 
 
-            if(el.getAttribute('id') === 'basic_service_btn'){
+            if(el.getAttribute('id') === 'payment_basic_service_btn'){
 
-                document.getElementById('basic_service').style.display = 'block';
-                document.getElementById('other_service').style.display = 'none';
+                document.getElementById('payment_basic_service').style.display = 'block';
+                document.getElementById('payment_other_service').style.display = 'none';
                 document.getElementById('other2_service').style.display = 'none';
                 document.getElementById('other3_service').style.display = 'none';
 
 
-            }else if(el.getAttribute('id') === 'other_service_btn'){
-                document.getElementById('basic_service').style.display = 'none';
-                document.getElementById('other_service').style.display = 'block';
+            }else if(el.getAttribute('id') === 'payment_other_service_btn'){
+                document.getElementById('payment_basic_service').style.display = 'none';
+                document.getElementById('payment_other_service').style.display = 'block';
                 document.getElementById('other2_service').style.display = 'none';
                 document.getElementById('other3_service').style.display = 'none';
 
-            }else if(el.getAttribute('id')==='other2_service_btn'){
+            }else if(el.getAttribute('id')==='payment_other2_service_btn'){
 
-                document.getElementById('basic_service').style.display = 'none';
-                document.getElementById('other_service').style.display = 'none';
+                document.getElementById('payment_basic_service').style.display = 'none';
+                document.getElementById('payment_other_service').style.display = 'none';
                 document.getElementById('other2_service').style.display = 'block';
                 document.getElementById('other3_service').style.display = 'none';
-            }else if(el.getAttribute('id') === 'other3_service_btn'){
+            }else if(el.getAttribute('id') === 'payment_other3_service_btn'){
 
-                document.getElementById('basic_service').style.display = 'none';
-                document.getElementById('other_service').style.display = 'none';
+                document.getElementById('payment_basic_service').style.display = 'none';
+                document.getElementById('payment_other_service').style.display = 'none';
                 document.getElementById('other2_service').style.display = 'none';
                 document.getElementById('other3_service').style.display = 'block';
             }
         })
     })
 }
-function management_service_1(id,data){
+function management_service_1(id,body){
 
     // reserve_merchandise_load_init(id).then(function(body){
     //     reserve_merchandise_load(body).then(function(base_svc){
@@ -8910,9 +8985,7 @@ function management_service_1(id,data){
 
     return new Promise(function (resolve){
 
-        console.log(data)
 
-        let body = data[3];
         let type = body.type;
 
         $.ajax({
@@ -8936,8 +9009,8 @@ function management_service_1(id,data){
 
                     let service = document.getElementById('service');
                     let service2 = document.getElementById('service2');
-                    let basic_service_inner = document.getElementById('basic_service_inner');
-                    let other_service_inner = document.getElementById('other_service_inner');
+                    let basic_service_inner = document.getElementById('payment_basic_service_inner');
+                    let other_service_inner = document.getElementById('payment_other_service_inner');
                     let other2_service_inner = document.getElementById('other2_service_inner');
                     let other3_service_inner = document.getElementById('other3_service_inner');
 
@@ -8951,10 +9024,10 @@ function management_service_1(id,data){
 
                             basic_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
                                                                     <div class="form-group-item">
-                                                                        <div class="form-item-label">크기 선택</div>
+                                                                        <div class="form-item-label font-size-12 display_flex_ju_center" >크기 선택</div>
                                                                         <div class="form-item-data type-2">
-                                                                            <div class="toggle-button-group vertical" id="basic_size">
-                                                                          <div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(1); "><label class="form-toggle-box large"><input type="radio" value="" name="size" onclick="set_product2(this,'','','list_title_3',true)" checked><em>선택 안함</em></label></div>
+                                                                            <div class="toggle-button-group vertical" id="payment_basic_size">
+                                                                          <div class="toggle-button-cell" onclick="reserve_merchandise_load_reset_(1); "><label class="form-toggle-box large"><input type="radio" value="" name="payment_size" onclick="set_product2(this,'','','list_title_3',true)" checked><em class="font-size-12">선택 안함</em></label></div>
                                                                      
                                                                             </div>
                                                                         </div>
@@ -8962,10 +9035,10 @@ function management_service_1(id,data){
                                                                 </div>
                                                                 <div class="grid-layout-cell grid-5">
                                                                     <div class="form-group-item">
-                                                                        <div class="form-item-label">서비스</div>
+                                                                        <div class="form-item-label font-size-12 display_flex_ju_center">서비스</div>
                                                                         <div class="form-item-data type-2">
-                                                                            <div class="toggle-button-group vertical" id="basic_service_select">
-                                                                              <div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(2)"><label class="form-toggle-box large"><input type="radio" value="" name="s1" checked  onclick="set_product2(this,'','','list_title_3',true)"><em>선택 안함</em></label></div>
+                                                                            <div class="toggle-button-group vertical" id="payment_basic_service_select">
+                                                                              <div class="toggle-button-cell" onclick="reserve_merchandise_load_reset_(2)"><label class="form-toggle-box large"><input type="radio" value="" name="payment_s1" checked  onclick="set_product2(this,'','','list_title_3',true)"><em class="font-size-12">선택 안함</em></label></div>
 
                                                                             </div>
                                                                         </div>
@@ -8973,10 +9046,10 @@ function management_service_1(id,data){
                                                             </div>
                                                             <div class="grid-layout-cell grid-5">
                                                                 <div class="form-group-item">
-                                                                    <div class="form-item-label">무게</div>
+                                                                    <div class="form-item-label font-size-12 display_flex_ju_center">무게</div>
                                                                     <div class="form-item-data type-2">
-                                                                        <div class="toggle-button-group vertical" id="basic_weight">
-                                                                            <div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" checked onclick="set_product2(this,'','','list_title_3',true)"><em><span>선택 안함</span></em></label></div>
+                                                                        <div class="toggle-button-group vertical" id="payment_basic_weight">
+                                                                            <div class="toggle-button-cell" id="payment_weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="payment_s2" checked onclick="set_product2(this,'','','list_title_3',true)"><em><span class="font-size-12">선택 안함</span></em></label></div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -8989,9 +9062,9 @@ function management_service_1(id,data){
 
                             basic_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
                                                                         <div class="form-group-item">
-                                                                            <div class="form-item-label">털특징</div>
+                                                                            <div class="form-item-label font-size-12 display_flex_ju_center">털특징</div>
                                                                             <div class="form-item-data type-2">
-                                                                                <div class="toggle-button-group vertical" id="basic_hair_feature">
+                                                                                <div class="toggle-button-group vertical" id="payment_basic_hair_feature">
                                                                              </div>
                                                                             </div>
                                                                         </div>
@@ -9004,10 +9077,10 @@ function management_service_1(id,data){
 
                             basic_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
                                                                     <div class="form-group-item">
-                                                                        <div class="form-item-label">미용털길이</div>
+                                                                        <div class="form-item-label font-size-12 display_flex_ju_center">미용털길이</div>
                                                                         <div class="form-item-data type-2">
-                                                                            <div class="toggle-button-group vertical" id="basic_hair_length">
-                                                                            <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="hairBeauty" onclick="set_product2(this,'','','list_title_2',true)" checked ><em>선택 안함</em></label></div>
+                                                                            <div class="toggle-button-group vertical" id="payment_basic_hair_length">
+                                                                            <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="payment_hairBeauty" onclick="set_product2(this,'','','list_title_2',true)" checked ><em class="font-size-12">선택 안함</em></label></div>
                                                                                 </div>
                                                                         </div>
                                                                     </div>
@@ -9019,10 +9092,11 @@ function management_service_1(id,data){
 
                             other_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
                                                                     <div class="form-group-item">
-                                                                        <div class="form-item-label">얼굴컷</div>
+                                                                        <div class="form-item-label font-size-12 display_flex_ju_center">얼굴컷</div>
                                                                         <div class="form-item-data type-2">
-                                                                            <div class="toggle-button-group vertical" id="other_face">
-                                                                                
+                                                                            <div class="toggle-button-group vertical" id="payment_other_face">
+                                                                                <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="payment_f1" onclick="set_product2(this,'','','list_title_4',true)" checked ><em class="font-size-12">선택 안함</em></label></div>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -9033,9 +9107,9 @@ function management_service_1(id,data){
 
                             other_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
                                                                         <div class="form-group-item">
-                                                                            <div class="form-item-label">다리</div>
+                                                                            <div class="form-item-label font-size-12 display_flex_ju_center" >다리</div>
                                                                             <div class="form-item-data type-2">
-                                                                                <div class="toggle-button-group vertical" id="other_leg">
+                                                                                <div class="toggle-button-group vertical" id="payment_other_leg">
                 
                                                                                 </div>
                                                                             </div>
@@ -9047,9 +9121,9 @@ function management_service_1(id,data){
 
                             other_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
                                                                     <div class="form-group-item">
-                                                                        <div class="form-item-label">스파</div>
+                                                                        <div class="form-item-label font-size-12 display_flex_ju_center">스파</div>
                                                                         <div class="form-item-data type-2">
-                                                                            <div class="toggle-button-group vertical" id="other_spa">
+                                                                            <div class="toggle-button-group vertical" id="payment_other_spa">
                                                                                 
                                                                             </div>
                                                                         </div>
@@ -9062,9 +9136,9 @@ function management_service_1(id,data){
 
                             other_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
                                                                     <div class="form-group-item">
-                                                                        <div class="form-item-label">염색</div>
+                                                                        <div class="form-item-label font-size-12 display_flex_ju_center">염색</div>
                                                                         <div class="form-item-data type-2">
-                                                                            <div class="toggle-button-group vertical" id="other_dyeing">
+                                                                            <div class="toggle-button-group vertical" id="payment_other_dyeing">
                                                                                 
                                                                             </div>
                                                                         </div>
@@ -9076,9 +9150,9 @@ function management_service_1(id,data){
 
                             other_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
                                                                         <div class="form-group-item">
-                                                                            <div class="form-item-label">기타</div>
+                                                                            <div class="form-item-label font-size-12 display_flex_ju_center">기타</div>
                                                                             <div class="form-item-data type-2">
-                                                                                <div class="toggle-button-group vertical" id="other_etc">
+                                                                                <div class="toggle-button-group vertical" id="payment_other_etc">
                                                                                    
                                                                                 </div>
                                                                             </div>
@@ -9091,10 +9165,10 @@ function management_service_1(id,data){
 
                             basic_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
                                                                             <div class="form-group-item">
-                                                                                <div class="form-item-label">미용</div>
+                                                                                <div class="form-item-label font-size-12 display_flex_ju_center">미용</div>
                                                                                 <div class="form-item-data type-2">
-                                                                                    <div class="toggle-button-group vertical" id="basic_beauty">
-                                                                                        <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="beauty" checked><em>선택 안함</em></label></div>
+                                                                                    <div class="toggle-button-group vertical" id="payment_basic_beauty">
+                                                                                        <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="payment_beauty" checked><em class="font-size-12">선택 안함</em></label></div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -9106,10 +9180,10 @@ function management_service_1(id,data){
 
                             basic_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
                                                                             <div class="form-group-item">
-                                                                                <div class="form-item-label">목욕</div>
+                                                                                <div class="form-item-label font-size-12 display_flex_ju_center">목욕</div>
                                                                                 <div class="form-item-data type-2">
-                                                                                    <div class="toggle-button-group vertical" id="basic_bath">
-                                                                                        <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="bath" checked><em>선택 안함</em></label></div>
+                                                                                    <div class="toggle-button-group vertical" id="payment_basic_bath">
+                                                                                        <div class="toggle-button-cell" ><label class="form-toggle-box large"><input type="radio" value="" name="payment_bath" checked><em class="font-size-12">선택 안함</em></label></div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -9121,9 +9195,9 @@ function management_service_1(id,data){
 
                             other_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
                                                                     <div class="form-group-item">
-                                                                        <div class="form-item-label">추가서비스</div>
+                                                                        <div class="form-item-label font-size-12 display_flex_ju_center">추가서비스</div>
                                                                         <div class="form-item-data type-2">
-                                                                            <div class="toggle-button-group vertical" id="other_add_svc">
+                                                                            <div class="toggle-button-group vertical" id="payment_other_add_svc">
                                                                                 
                                                                             </div>
                                                                         </div>
@@ -9150,6 +9224,7 @@ function management_service_1(id,data){
 function management_service_2(body){
 
     return new Promise(function(resolve){
+        console.log(body)
 
         document.getElementById('is_vat').value = body.is_vat;
 
@@ -9159,10 +9234,10 @@ function management_service_2(body){
 
                 body.base_svc.forEach(function(el){
 
-                    document.getElementById('basic_size').innerHTML += `<div class="toggle-button-cell toggle-button-cell-size">
+                    document.getElementById('payment_basic_size').innerHTML += `<div class="toggle-button-cell toggle-button-cell-size">
                                                                                         <label class="form-toggle-box large">
-                                                                                            <input type="radio" value="${el.size}" name="size">
-                                                                                            <em>${el.size}</em>
+                                                                                            <input type="radio" value="${el.size}" name="payment_size">
+                                                                                            <em class="font-size-12">${el.size}</em>
                                                                                         </label>
                                                                                     </div>`
 
@@ -9175,12 +9250,12 @@ function management_service_2(body){
 
                     if(el.price !== ''){
 
-                        document.getElementById('basic_hair_feature').innerHTML += `<div class="toggle-button-cell">
-                                                                                                    <label class="form-toggle-box form-toggle-price large" for="hair${i}">
-                                                                                                        <input type="checkbox" name="hair" value="${el.type}" data-price="${el.price}" id="hair${i}" onclick="set_product(this,'${el.type}','${el.price.toLocaleString()}')">
+                        document.getElementById('payment_basic_hair_feature').innerHTML += `<div class="toggle-button-cell">
+                                                                                                    <label class="form-toggle-box form-toggle-price large" for="payment_hair${i}">
+                                                                                                        <input type="checkbox" name="payment_hair" value="${el.type}" data-price="${el.price}" id="payment_hair${i}" onclick="set_product(this,'${el.type}','${el.price.toLocaleString()}')">
                                                                                                         <em>
-                                                                                                            <span>${el.type}</span>
-                                                                                                            <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                                            <span class="font-size-12">${el.type}</span>
+                                                                                                            <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
                                                                                                         </em>
                                                                                                     </label>
                                                                                                 </div>`
@@ -9196,12 +9271,12 @@ function management_service_2(body){
 
                 body.hair_length.forEach(function(el,i){
 
-                    document.getElementById('basic_hair_length').innerHTML += `<div class="toggle-button-cell">
-                                                                                            <label class="form-toggle-box form-toggle-price large" for="hairBeauty${i}">
-                                                                                                <input type="radio" name="hairBeauty" value="${el.type}"  data-price="${el.price}" id="hairBeauty${i}" onclick="set_product2(this,'${el.type}','${el.price.toLocaleString()}','list_title_2',true)">
+                    document.getElementById('payment_basic_hair_length').innerHTML += `<div class="toggle-button-cell">
+                                                                                            <label class="form-toggle-box form-toggle-price large" for="payment_hairBeauty${i}">
+                                                                                                <input type="radio" name="payment_hairBeauty" value="${el.type}"  data-price="${el.price}" id="payment_hairBeauty${i}" onclick="set_product2(this,'${el.type}','${el.price.toLocaleString()}','list_title_2',true)">
                                                                                                 <em>
-                                                                                                    <span>${el.type}</span>
-                                                                                                    <strong>${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                                    <span class="font-size-12">${el.type}</span>
+                                                                                                    <strong class="font-size-12">${parseInt(el.price).toLocaleString()}원</strong>
                                                                                                 </em>
                                                                                             </label>
                                                                                         </div>`
@@ -9213,12 +9288,12 @@ function management_service_2(body){
 
                 body.face.forEach(function(el,i){
 
-                    document.getElementById('other_face').innerHTML += `<div class="toggle-button-cell">
+                    document.getElementById('payment_other_face').innerHTML += `<div class="toggle-button-cell">
                                                                                         <label class="form-toggle-box form-toggle-price middle">
-                                                                                            <input type="checkbox" name="f1" data-price="${el.price}" value="${el.type}" onclick="set_product(this,'${el.type}','${el.price}')" >
+                                                                                            <input type="radio" name="payment_f1" data-price="${el.price}" value="${el.type}" onclick="set_product2(this,'${el.type}','${el.price}','list_title_4',true)" >
                                                                                             <em>
-                                                                                                <span>${el.type}</span>
-                                                                                                <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                                <span class="font-size-12">${el.type}</span>
+                                                                                                <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
                                                                                             </em>
                                                                                         </label>
                                                                                     </div>`
@@ -9231,12 +9306,12 @@ function management_service_2(body){
 
                 body.leg.forEach(function(el,i){
 
-                    document.getElementById('other_leg').innerHTML += `<div class="toggle-button-cell">
+                    document.getElementById('payment_other_leg').innerHTML += `<div class="toggle-button-cell">
                                                                                     <label class="form-toggle-box form-toggle-price middle">
-                                                                                        <input type="checkbox" name="f2" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')" >
+                                                                                        <input type="checkbox" name="payment_f2" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')" >
                                                                                         <em>
-                                                                                            <span>${el.type}</span>
-                                                                                            <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                            <span class="font-size-12">${el.type}</span>
+                                                                                            <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
                                                                                         </em>
                                                                                     </label>
                                                                                 </div>`
@@ -9251,12 +9326,12 @@ function management_service_2(body){
 
                 body.spa.forEach(function(el,i){
 
-                    document.getElementById('other_spa').innerHTML += `<div class="toggle-button-cell">
+                    document.getElementById('payment_other_spa').innerHTML += `<div class="toggle-button-cell">
                                                                                     <label class="form-toggle-box form-toggle-price middle">
-                                                                                        <input type="checkbox" name="f3"  value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')"> 
+                                                                                        <input type="checkbox" name="payment_f3"  value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')"> 
                                                                                         <em>
-                                                                                            <span>${el.type}</span>
-                                                                                            <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                            <span class="font-size-12">${el.type}</span>
+                                                                                            <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
                                                                                         </em>
                                                                                     </label>
                                                                                 </div>`
@@ -9268,12 +9343,12 @@ function management_service_2(body){
 
                 body.dyeing.forEach(function(el,i){
 
-                    document.getElementById('other_dyeing').innerHTML += `<div class="toggle-button-cell">
+                    document.getElementById('payment_other_dyeing').innerHTML += `<div class="toggle-button-cell">
                                                                                         <label class="form-toggle-box form-toggle-price middle">
-                                                                                            <input type="checkbox" name="f4" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
+                                                                                            <input type="checkbox" name="payment_f4" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
                                                                                             <em>
-                                                                                                <span>${el.type}</span>
-                                                                                                <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                                <span class="font-size-12">${el.type}</span>
+                                                                                                <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
                                                                                             </em>
                                                                                         </label>
                                                                                     </div>`
@@ -9286,12 +9361,12 @@ function management_service_2(body){
 
                 body.etc.forEach(function(el,i){
 
-                    document.getElementById('other_etc').innerHTML += `<div class="toggle-button-cell">
+                    document.getElementById('payment_other_etc').innerHTML += `<div class="toggle-button-cell">
                                                                             <label class="form-toggle-box form-toggle-price middle">
-                                                                                <input type="checkbox" name="f5" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
+                                                                                <input type="checkbox" name="payment_f5" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
                                                                                 <em>
-                                                                                    <span>${el.type}</span>
-                                                                                    <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                    <span class="font-size-12">${el.type}</span>
+                                                                                    <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
                                                                                </em>
                                                                             </label>
                                                                         </div>`
@@ -9315,12 +9390,12 @@ function management_service_2(body){
 
                 body.beauty.forEach(function(el){
 
-                    document.getElementById('basic_beauty').innerHTML += `<div class="toggle-button-cell">
+                    document.getElementById('payment_basic_beauty').innerHTML += `<div class="toggle-button-cell">
                                                                                         <label class="form-toggle-box large form-toggle-price">
-                                                                                            <input type="radio" value="${el.type}" name="beauty" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
+                                                                                            <input type="radio" value="${el.type}" name="payment_beauty" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
                                                                                             <em> 
-                                                                                                <span>${el.type}</span>
-                                                                                                <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                                <span class="font-size-12">${el.type}</span>
+                                                                                                <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
                                                                                             </em>
                                                                                         </label>
                                                                                     </div>`
@@ -9332,12 +9407,12 @@ function management_service_2(body){
 
                 body.bath.forEach(function(el){
 
-                    document.getElementById('basic_bath').innerHTML += `<div class="toggle-button-cell">
+                    document.getElementById('payment_basic_bath').innerHTML += `<div class="toggle-button-cell">
                                                                                         <label class="form-toggle-box large form-toggle-price">
-                                                                                            <input type="radio" value="${el.type}" name="bath" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
+                                                                                            <input type="radio" value="${el.type}" name="payment_bath" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
                                                                                             <em> 
-                                                                                                <span>${el.type}</span>
-                                                                                                <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                                <span class="font-size-12">${el.type}</span>
+                                                                                                <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
                                                                                             </em>
                                                                                         </label>
                                                                                     </div>`
@@ -9349,12 +9424,12 @@ function management_service_2(body){
 
                 body.add_svc.forEach(function(el,i){
 
-                    document.getElementById('other_add_svc').innerHTML += `<div class="toggle-button-cell">
+                    document.getElementById('payment_other_add_svc').innerHTML += `<div class="toggle-button-cell">
                                                                             <label class="form-toggle-box form-toggle-price middle">
-                                                                                <input type="checkbox" name="add_svc" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
+                                                                                <input type="checkbox" name="payment_add_svc" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
                                                                                 <em>
-                                                                                    <span>${el.type}</span>
-                                                                                    <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                    <span class="font-size-12">${el.type}</span>
+                                                                                    <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
                                                                                </em>
                                                                             </label>
                                                                         </div>`
@@ -9383,10 +9458,8 @@ function management_service_3(base_svc){
 
             el.addEventListener('click',function(){
 
-                console.log(1)
-
-                document.getElementById('basic_service_select').innerHTML= '<div class="toggle-button-cell" onclick="reserve_merchandise_load_reset(2)"><label class="form-toggle-box large"><input type="radio" value="" name="s1" checked><em>선택 안함</em></label></div>';
-                document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell" id="weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2" checked><em><span>선택 안함</span></em></label></div>';
+                document.getElementById('payment_basic_service_select').innerHTML= '<div class="toggle-button-cell" onclick="reserve_merchandise_load_reset_(2)"><label class="form-toggle-box large"><input type="radio" value="" name="payment_s1" checked><em class="font-size-12">선택 안함</em></label></div>';
+                document.getElementById('payment_basic_weight').innerHTML = '<div class="toggle-button-cell" id="payment_weight_not_select"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="payment_s2" checked><em><span class="font-size-12">선택 안함</span></em></label></div>';
                 let value = el.children[0].children[0].value;
 
                 base_svc.forEach(function(el_){
@@ -9398,10 +9471,10 @@ function management_service_3(base_svc){
 
 
                             if(_el.is_show === "y" && _el.unit.length >0){
-                                document.getElementById('basic_service_select').innerHTML += `<div class="toggle-button-cell toggle-button-cell-service">
+                                document.getElementById('payment_basic_service_select').innerHTML += `<div class="toggle-button-cell toggle-button-cell-service">
                                                                                                         <label class="form-toggle-box large">
-                                                                                                            <input type="radio" value="${_el.type}" data-size="${el_.size}" data-time="${_el.time}" name="s1">
-                                                                                                            <em>${_el.type} ${_el.time}분</em>
+                                                                                                            <input type="radio" value="${_el.type}" data-size="${el_.size}" data-time="${_el.time}" name="payment_s1">
+                                                                                                            <em class="font-size-12">${_el.type} <br> ${_el.time}분</em>
                                                                                                         </label>
                                                                                                     </div>`
                             }
@@ -9429,182 +9502,242 @@ function management_service_3(base_svc){
 function management_service_4(base_svc){
 
 
-
-    Array.from(document.getElementsByClassName('toggle-button-cell-service')).forEach(function(el){
-
-        el.addEventListener('click',function (){
-
-            document.getElementById('basic_weight').innerHTML= '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" data-price="" name="s2"><em><span>선택 안함</span></em></label></div>'
-
-
-            let size = el.children[0].children[0].getAttribute('data-size');
-            let value = el.children[0].children[0].value;
+    return new Promise(function(resolve){
 
 
 
-            let surcharge ;
-            base_svc.forEach(function(el_){
+        Array.from(document.getElementsByClassName('toggle-button-cell-service')).forEach(function(el){
+
+            el.addEventListener('click',function (){
+
+                document.getElementById('payment_basic_weight').innerHTML= '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" data-price="" name="payment_s2"><em><span class="font-size-12">선택 안함</span></em></label></div>'
 
 
-                if(el_.size === size){
+                let size = el.children[0].children[0].getAttribute('data-size');
+                let value = el.children[0].children[0].value;
 
 
-                    el_.svc.forEach(function(_el){
 
-                        if(_el.type === value){
-
-
-                            if(_el.unit.length > 0){
-
-                                _el.unit.forEach(function (ele,i){
+                let surcharge ;
+                base_svc.forEach(function(el_){
 
 
-                                    document.getElementById('basic_weight').innerHTML += `<div class="toggle-button-cell">
-                                                                                                    <label class="form-toggle-box form-toggle-price large">
-                                                                                                        <input type="radio" value="${ele.kg}" name="s2" data-price="${ele.price}" ${i ===  _el.unit.length-1 ? 'id="weight_target"':''}onclick="set_product2(this,'${document.querySelector('input[name="size"]:checked').value}/${document.querySelector('input[name="s1"]:checked').value}/${ele.kg}kg','${ele.price}','list_title_3',true)">
-                                                                                                            <em>
-                                                                                                                <span>~${ele.kg}Kg</span>
-                                                                                                            <strong>${ele.is_consulting === "0" ? `${parseInt(ele.price).toLocaleString()}원` : '상담'}</strong>
-                                                                                                            
-                                                                                                        </em>
-                                                                                                    </label>
+                    if(el_.size === size){
+
+
+                        el_.svc.forEach(function(_el){
+
+                            if(_el.type === value){
+
+
+                                if(_el.unit.length > 0){
+
+                                    _el.unit.forEach(function (ele,i){
+
+
+                                        document.getElementById('payment_basic_weight').innerHTML += `<div class="toggle-button-cell">
+                                                                                                        <label class="form-toggle-box form-toggle-price large">
+                                                                                                            <input type="radio" value="${ele.kg}" name="payment_s2" data-price="${ele.price}" ${i ===  _el.unit.length-1 ? 'id="weight_target"':''}onclick="set_product2(this,'${document.querySelector('input[name="payment_size"]:checked').value}/${document.querySelector('input[name="payment_s1"]:checked').value}/${ele.kg}kg','${ele.price}','list_title_3',true)">
+                                                                                                                <em>
+                                                                                                                    <span class="font-size-12">~${ele.kg}Kg</span>
+                                                                                                                <strong class="font-size-12">${ele.is_consulting === "0" ? `${parseInt(ele.price).toLocaleString()}원` : '상담'}</strong>
+                                                                                                                
+                                                                                                            </em>
+                                                                                                        </label>
+                                                                                                    </div>`
+
+
+                                        if(el_.surcharge.is_have ===1 && i === _el.unit.length-1){
+
+
+                                            let surcharge_kg = el_.surcharge.kg ;
+                                            let surcharge_std_price = ele.kg === surcharge_kg ? ele.price : '';
+                                            localStorage.setItem('surcharge_std_price',surcharge_std_price);
+                                            localStorage.setItem('surcharge_kg',surcharge_kg);
+                                            localStorage.setItem('surcharge_price',el_.surcharge.price);
+
+
+
+                                            document.getElementById('payment_basic_weight').innerHTML += `<div class="toggle-button-cell">
+                                                                                                    <div class="form-toggle-options">
+                                                                                                        <input type="radio" name="payment_s2" name="payment_options1"  id="payment_surcharge"  onclick="set_product2(this,'${document.querySelector('input[name="payment_size"]:checked').value}/${document.querySelector('input[name="payment_s1"]:checked').value}/${el_.surcharge.kg}kg','${el_.surcharge.price}','list_title_3',true)">
+                                                                                                            <div class="form-toggle-options-data">
+                                                                                                                <div class="options-labels">
+                                                                                                                    <span class="font-size-12">${el_.surcharge.kg}kg~</span><strong style="font-size:10px">kg당 <br> +${parseInt(el_.surcharge.price).toLocaleString()}원</strong></div>
+                                                                                                                <div class="form-amount-input">
+                                                                                                                    <button type="button" 
+                                                                                                                            class="btn-form-amount-minus" id="payment_surcharge" onclick="set_etc_product_count_(this,'${document.querySelector('input[name="payment_size"]:checked').value}/${document.querySelector('input[name="payment_s1"]:checked').value}/${el_.surcharge.kg}kg','${el_.surcharge.price}',false)">감소
+                                                                                                                    </button>
+                                                                                                                    <div class="form-amount-info">
+                                                                                                                        <input type="number" readOnly=""  value="10" data-weight="10kg+" id="payment_weight_target"
+                                                                                                                               class="form-amount-val">
+                                                                                                                    </div>
+                                                                                                                    <button type="button" 
+                                                                                                                            class="btn-form-amount-plus" id="payment_surcharge" onclick="set_etc_product_count_(this,'${document.querySelector('input[name="payment_size"]:checked').value}/${document.querySelector('input[name="payment_s1"]:checked').value}/${el_.surcharge.kg}kg','${el_.surcharge.price}',true)">증가
+                                                                                                                    </button>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                    </div>
                                                                                                 </div>`
 
 
-                                    if(el_.surcharge.is_have ===1 && i === _el.unit.length-1){
-
-
-                                        let surcharge_kg = el_.surcharge.kg ;
-                                        let surcharge_std_price = ele.kg === surcharge_kg ? ele.price : '';
-                                        localStorage.setItem('surcharge_std_price',surcharge_std_price);
-                                        localStorage.setItem('surcharge_kg',surcharge_kg);
-                                        localStorage.setItem('surcharge_price',el_.surcharge.price);
+                                        }
 
 
 
-                                        document.getElementById('basic_weight').innerHTML += `<div class="toggle-button-cell">
-                                                                                                <div class="form-toggle-options">
-                                                                                                    <input type="radio" name="s2" name="options1"  id="surcharge"  onclick="set_product2(this,'${document.querySelector('input[name="size"]:checked').value}/${document.querySelector('input[name="s1"]:checked').value}/${el_.surcharge.kg}kg','${el_.surcharge.price}','list_title_3',true)">
-                                                                                                        <div class="form-toggle-options-data">
-                                                                                                            <div class="options-labels">
-                                                                                                                <span>${el_.surcharge.kg}kg~</span><strong style="font-size:10px">kg당 <br> +${parseInt(el_.surcharge.price).toLocaleString()}원</strong></div>
-                                                                                                            <div class="form-amount-input">
-                                                                                                                <button type="button" 
-                                                                                                                        class="btn-form-amount-minus" id="surcharge" onclick="set_etc_product_count(this,'${document.querySelector('input[name="size"]:checked').value}/${document.querySelector('input[name="s1"]:checked').value}/${el_.surcharge.kg}kg','${el_.surcharge.price}',false)">감소
-                                                                                                                </button>
-                                                                                                                <div class="form-amount-info">
-                                                                                                                    <input type="number" readOnly=""  value="10" data-weight="10kg+" id="weight_target"
-                                                                                                                           class="form-amount-val">
-                                                                                                                </div>
-                                                                                                                <button type="button" 
-                                                                                                                        class="btn-form-amount-plus" id="surcharge" onclick="set_etc_product_count(this,'${document.querySelector('input[name="size"]:checked').value}/${document.querySelector('input[name="s1"]:checked').value}/${el_.surcharge.kg}kg','${el_.surcharge.price}',true)">증가
-                                                                                                                </button>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                </div>
-                                                                                            </div>`
+                                    })
+                                }else{
+                                    document.getElementById('payment_basic_weight').innerHTML = '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="payment_s2"><em><span class="font-size-12">선택 안함</span></em></label></div>';
+                                }
 
-
-                                    }
-
-
-
-                                })
-                            }else{
-                                document.getElementById('basic_weight').innerHTML = '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" name="s2"><em><span>선택 안함</span></em></label></div>';
                             }
+                        })
+                    }
+                })
 
-                        }
-                    })
-                }
+
+
             })
 
-
-
-            //
-            // let st_time_input = document.getElementById('reserve_st_time');
-            // let st_time = st_time_input.options[st_time_input.selectedIndex].value;
-            // let fi_time_input = document.getElementById('reserve_fi_time');
-            //
-            // let selected = document.querySelector('input[name="s1"]:checked').getAttribute('data-time');
-            //
-            // let st_time_value = new Date(date.getFullYear(),date.getMonth(),date.getDate(),st_time.split(':')[0],st_time.split(':')[1]);
-            //
-            // st_time_value.setMinutes(st_time_value.getMinutes()+parseInt(selected));
-            //
-            // let fi_hour = st_time_value.getHours();
-            // let fi_minutes = st_time_value.getMinutes();
-            // let fi_time = `${fi_hour}:${fill_zero(fi_minutes)}`;
-            //
-            //
-            //
-            //
-            //
-            // for(let i=0; i<fi_time_input.options.length; i++){
-            //
-            //     if(fi_time_input.options[i].value === fi_time){
-            //
-            //         fi_time_input.options[i].selected = true;
-            //
-            //     }
-            // }
-
-
-
         })
+
+        resolve();
     })
 
 }
 
-function get_coupon(id){
+function get_coupon(id,data){
 
-    $.ajax({
+    return new Promise(function(resolve){
 
-        url:'/data/pc_ajax.php',
-        type:'post',
-        data:{
-            mode:'get_coupon',
-            partner_id:id
-        },
-        success:function(res) {
-            let response = JSON.parse(res);
-            let head = response.data.head;
-            let body = response.data.body;
-            if (head.code === 401) {
-                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-            } else if (head.code === 200) {
 
-                if(body.length === undefined){
 
-                    body = [body];
-                }
-                console.log(body)
+        $.ajax({
 
-                body.forEach(function(el){
+            url:'/data/pc_ajax.php',
+            type:'post',
+            data:{
+                mode:'get_coupon',
+                partner_id:id
+            },
+            success:function(res) {
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
 
-                    if(el.type === 'C'){
+                    if(body.length === undefined){
 
-                        document.getElementById('c_coupon').innerHTML +=  `<div class="form-item-data type-2">
-                                                                            <div class="toggle-button-group vertical">
-                                                                                <div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" htmlFor="cp1-1">
-                                                                                    <input type="checkbox" name="cp1" id="cp1-1" onclick="set_product(this,'${el.name}','${el.price}')"><em><span>${el.name}</span><strong>+${el.price.toLocaleString()}원</strong></em></label>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>`
-                    }else{
+                        body = [body];
+                    }
+                    console.log(body)
 
-                        document.getElementById('f_coupon').innerHTML +=  `<div class="form-item-data type-2">
+                    document.getElementById('c_coupon').innerHTML = '<div class="form-item-label display_flex_ju_center font-size-12">쿠폰상품</div>';
+                    document.getElementById('f_coupon').innerHTML = '<div class="form-item-label display_flex_ju_center font-size-12">정액상품</div>';
+
+
+                    body.forEach(function(el){
+
+                        if(el.type === 'C'){
+
+                            document.getElementById('c_coupon').innerHTML +=  `<div class="form-item-data type-2">
                                                                                 <div class="toggle-button-group vertical">
                                                                                     <div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" htmlFor="cp1-1">
-                                                                                        <input type="checkbox" name="cp2" id="cp2-1" onclick="set_product(this,'${el.name}','${el.price}')"><em><span>${el.name}</span><strong>+${el.price.toLocaleString()}원</strong></em></label>
+                                                                                        <input class="pay_coupon" type="checkbox" name="cp1" id="cp1-1" value="${el.name}" data-idx="${el.idx}" data-price="${el.price}" onclick="set_product(this,'${el.name}','${el.price}')"><em><span>${el.name}</span><strong>+${el.price.toLocaleString()}원</strong></em></label>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>`
-                    }
-                })
-            }
-        }
+                        }else{
 
+                            document.getElementById('f_coupon').innerHTML +=  `<div class="form-item-data type-2">
+                                                                                    <div class="toggle-button-group vertical">
+                                                                                        <div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price middle" htmlFor="cp2-1">
+                                                                                            <input class="pay_coupon" type="checkbox" name="cp2" id="cp2-1" value="${el.name}"  data-idx="${el.idx}" data-price="${el.price}" onclick="set_product(this,'${el.name}','${el.price}')"><em><span>${el.name}</span><strong>+${el.price.toLocaleString()}원</strong></em></label>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>`
+                        }
+                    })
+
+
+
+
+                    let customer_id = data.customer_Id;
+                    let tmp_user_idx = data.tmp_id;
+
+                    if(tmp_user_idx === ""){
+                        tmp_user_idx = 0;
+                    }
+
+                    $.ajax({
+                        url:'/data/pc_ajax.php',
+                        type:'post',
+                        data:{
+
+                            mode:'get_user_coupon',
+                            login_id:id,
+                            customer_id:customer_id,
+                            tmp_user_idx:tmp_user_idx
+                        },
+                        success:function(res){
+                            console.log(res)
+                            let response = JSON.parse(res);
+                            let head = response.data.head;
+                            let body_ = response.data.body;
+                            if (head.code === 401) {
+                                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                            } else if (head.code === 200) {
+
+                                if(body_.length === undefined){
+
+                                    body_ = [body_];
+                                }
+
+                                if(body_.length > 0){
+
+                                    document.getElementById('pet_shop_coupon').style.display = 'block';
+
+                                }else{
+
+                                    document.getElementById('pet_shop_coupon').style.display = 'none';
+
+                                }
+
+
+                                console.log(body_);
+
+                                document.getElementById('coupon_name').innerHTML = '';
+                                body_.forEach(function(el){
+
+                                    body.forEach(function(el_){
+
+                                        if(el.coupon_seq === el_.idx){
+                                            if(el.del_yn === "N"){
+
+                                                document.getElementById('coupon_name').innerHTML += `<option data-given="${el.given}" data-type="${el.type}" data-use="${el.use}" data-coupon_seq="${el.coupon_seq}" data-user_coupon_seq="${el.user_coupon_seq}" data-price="${el.price}">${el_.name}</option>`
+
+
+                                            }
+
+                                        }
+                                    })
+
+
+                                })
+                                document.getElementById('coupon_name').dispatchEvent(new Event('change'))
+                            }
+
+                            resolve()
+                        }
+                    })
+
+
+                }
+            }
+
+        })
     })
 
 }
@@ -9618,9 +9751,10 @@ function get_etc_product(id){
         data:{
 
             mode:'get_etc_product',
-            partner_id:id,
+            login_id:id,
         },
         success:function(res) {
+            console.log(res);
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -9635,14 +9769,20 @@ function get_etc_product(id){
 
 
                 console.log(body);
+                document.getElementById('etc_product_list_1').innerHTML = ''
+                document.getElementById('etc_product_list_2').innerHTML = ''
+                document.getElementById('etc_product_list_3').innerHTML = ''
+                document.getElementById('etc_product_list_4').innerHTML = ''
 
                 body.forEach(function(el){
+
+
 
                     switch (parseInt(el.type)){
                         
                         case 1: document.getElementById('etc_product_list_1').innerHTML += `<div class="toggle-button-cell">
                                                                                                 <div class="form-toggle-options">
-                                                                                                    <input type="checkbox" name="options1-1" onclick="set_product(this,'${el.name}','${el.price}')">
+                                                                                                    <input type="checkbox" class="pay_etc_product" name="options1-1" value="${el.name}" data-price="${el.price}" data-idx="${el.idx}" onclick="set_product(this,'${el.name}','${el.price}')">
                                                                                                         <div class="form-toggle-options-data">
                                                                                                             <div class="options-labels"><span>${el.name}</span><strong>+${el.price === null ? '': el.price.toLocaleString()}원</strong></div>
                                                                                                             <div class="form-amount-input">
@@ -9658,7 +9798,7 @@ function get_etc_product(id){
                             break;
                         case 2:  document.getElementById('etc_product_list_2').innerHTML += `<div class="toggle-button-cell">
                                                                                                 <div class="form-toggle-options">
-                                                                                                    <input type="checkbox" name="options2-1"  onclick="set_product(this,'${el.name}','${el.price}')">
+                                                                                                    <input type="checkbox" class="pay_etc_product"  name="options2-1" value="${el.name}" data-price="${el.price}" data-idx="${el.idx}"  onclick="set_product(this,'${el.name}','${el.price}')">
                                                                                                         <div class="form-toggle-options-data">
                                                                                                             <div class="options-labels"><span>${el.name}</span><strong>+${el.price === null ? '': el.price.toLocaleString()}원</strong></div>
                                                                                                             <div class="form-amount-input">
@@ -9674,7 +9814,7 @@ function get_etc_product(id){
                             break;
                         case 3:  document.getElementById('etc_product_list_3').innerHTML += `<div class="toggle-button-cell">
                                                                                                 <div class="form-toggle-options">
-                                                                                                    <input type="checkbox" name="options3-1"  onclick="set_product(this,'${el.name}','${el.price}')">
+                                                                                                    <input type="checkbox" class="pay_etc_product"  name="options3-1" value="${el.name}" data-price="${el.price}" data-idx="${el.idx}"  onclick="set_product(this,'${el.name}','${el.price}')">
                                                                                                         <div class="form-toggle-options-data">
                                                                                                             <div class="options-labels"><span>${el.name}</span><strong>+${el.price === null ? '': el.price.toLocaleString()}원</strong></div>
                                                                                                             <div class="form-amount-input">
@@ -9690,7 +9830,7 @@ function get_etc_product(id){
                             break;
                         case 4:  document.getElementById('etc_product_list_4').innerHTML += `<div class="toggle-button-cell">
                                                                                                 <div class="form-toggle-options">
-                                                                                                    <input type="checkbox" name="options4-1" onclick="set_product(this,'${el.name}','${el.price}')">
+                                                                                                    <input type="checkbox" class="pay_etc_product"  name="options4-1" value="${el.name}" data-price="${el.price}" data-idx="${el.idx}"  onclick="set_product(this,'${el.name}','${el.price}')">
                                                                                                         <div class="form-toggle-options-data">
                                                                                                             <div class="options-labels"><span>${el.name}</span><strong>+${el.price === null ? '': el.price.toLocaleString()}원</strong></div>
                                                                                                             <div class="form-amount-input">
@@ -9709,7 +9849,16 @@ function get_etc_product(id){
                     }
                 })
             }
+        },
+        complete:function(){
+
+            if(document.getElementById('pay_card_body_inner')){
+
+                document.getElementById('pay_management_loading').style.display = 'none';
+                document.getElementById('pay_card_body_inner').style.display = 'block';
+            }
         }
+
     })
 }
 
@@ -9739,11 +9888,12 @@ function set_product(target,name,price){
 
 function set_product2(target,name,price,className,bool){
 
+    console.log(1)
     name = name.trim()
-    if(!location.href.match('management')){
-
-        return;
-    }
+    // if(!location.href.match('management')){
+    //
+    //     return;
+    // }
 
     if(bool){
 
@@ -9789,8 +9939,6 @@ function set_etc_product_count(target,name,price,bool){
                 let value = siblings(target,1).children[0].value;
 
                 if(target.getAttribute('id') === 'surcharge'){
-
-
                     siblings(el,1).innerText = `${((price*value)-(price*parseInt(document.getElementById('weight_target').value))+parseInt(document.getElementById('weight_target').getAttribute('data-price')))}원`
                 }else{
                     siblings(el,1).innerText = `${(price*value)}원`;
@@ -9821,14 +9969,68 @@ function set_etc_product_count(target,name,price,bool){
 
 }
 
+
+function set_etc_product_count_(target,name,price,bool){
+
+
+
+    name =name.trim();
+
+    Array.from(document.getElementsByClassName('list-title-add')).forEach(function(el){
+
+
+
+
+        if(el.innerText === name){
+
+            if(bool){
+
+                siblings(target,1).children[0].value = parseInt(siblings(target,1).children[0].value)+1;
+
+                let value = siblings(target,1).children[0].value;
+
+                if(target.getAttribute('id') === 'payment_surcharge'){
+
+
+                    siblings(el,1).innerText = `${((price*value)-(price*parseInt(document.getElementById('payment_weight_target').value))+parseInt(document.getElementById('payment_weight_target').getAttribute('data-price')))}원`
+                }else{
+                    siblings(el,1).innerText = `${(price*value)}원`;
+                }
+
+
+
+            }else{
+
+                if(parseInt(siblings(target,1).children[0].value ) === 1){
+                    return;
+                }
+
+                siblings(target,1).children[0].value = parseInt(siblings(target,1).children[0].value)-1;
+
+                let value = siblings(target,1).children[0].value;
+
+                if(target.getAttribute('id') === 'payment_surcharge'){
+
+                    siblings(el,1).innerText = `${((price*value)-(price*parseInt(document.getElementById('payment_weight_target').value))+parseInt(document.getElementById('payment_weight_target').getAttribute('data-price')))}원`
+                }else{
+                    siblings(el,1).innerText = `${(price*value)}원`;
+                }
+            }
+        }
+    })
+
+
+}
+
+
 function management_total_price(){
 
     if(localStorage.getItem('is_vat') === '1'){
 
-        document.getElementById('price_list').innerHTML += `<div class="list-cell">
-                                                                <div class="list-title"><strong>부가세 10%</strong></div>
-                                                                <div class="list-value"><strong id="vat"></strong></div>
-                                                            </div>`
+        document.getElementById('is_vat_list').style.display = 'flex';
+    }else{
+
+        document.getElementById('is_vat_list').style.display = 'none';
     }
 
     let target = document.getElementById('service_list');
@@ -9836,12 +10038,10 @@ function management_total_price(){
     let observer = new MutationObserver(function(mutations){
 
         mutations.forEach(function(mutation){
-            console.log(mutation);
 
             let sum = 0;
             Array.from(document.getElementsByClassName('list-value-add')).forEach(function(el){
 
-                console.log(parseInt(el.innerText.replace('원','')));
                 sum += parseInt(el.innerText.replace('원',''));
 
 
@@ -9852,8 +10052,17 @@ function management_total_price(){
             document.getElementById('total_price').setAttribute('value', `${sum}`);
             document.getElementById('vat').innerText = `${(sum/10).toLocaleString()}원`
             document.getElementById('vat').setAttribute('value', `${sum/10}`);
-            document.getElementById('real_total_price').innerText = `${(sum + (sum/10)).toLocaleString()}원`
-            document.getElementById('real_total_price').setAttribute('value', `${sum+(sum/10)}`);
+            if(localStorage.getItem('is_vat') === '1'){
+
+                document.getElementById('real_total_price').innerText = `${(sum + (sum/10)).toLocaleString()}원`
+                document.getElementById('real_total_price').setAttribute('value', `${sum+(sum/10)}`);
+            }else{
+                document.getElementById('real_total_price').innerText = `${(sum).toLocaleString()}원`
+                document.getElementById('real_total_price').setAttribute('value', `${sum}`);
+
+            }
+
+
 
             last_price()
 
@@ -9876,6 +10085,7 @@ function management_total_price(){
 function discount_init(){
 
 
+return new Promise(function(resolve){
 
     for(let i=0; i<=100;i++){
 
@@ -9905,12 +10115,12 @@ function discount_init(){
 
     document.getElementById('discount_1').addEventListener('change',function(){
 
-        if(document.getElementById('real_total_price').getAttribute('value') === null){
-
-            document.getElementById('msg1_txt').innerText = '상품을 먼저 적용해주세요..'
-            pop.open('reserveAcceptMsg1');
-            return;
-        }
+        // if(document.getElementById('real_total_price').getAttribute('value') == 0){
+        //
+        //     document.getElementById('msg1_txt').innerText = '상품을 먼저 적용해주세요..'
+        //     pop.open('reserveAcceptMsg1');
+        //     return;
+        // }
 
         let result = (parseInt(document.getElementById('real_total_price').getAttribute('value'))*(parseInt(document.getElementById('discount_1').value)/100));
 
@@ -9921,17 +10131,17 @@ function discount_init(){
             last_price()
         })
 
-        pop.open('reservePayManagementMsg4')
+        // pop.open('reservePayManagementMsg4')
     })
 
     document.getElementById('discount_2').addEventListener('change',function(){
 
-        if(document.getElementById('real_total_price').getAttribute('value') === null){
-
-            document.getElementById('msg1_txt').innerText = '상품을 먼저 적용해주세요..'
-            pop.open('reserveAcceptMsg1');
-            return;
-        }
+        // if(document.getElementById('real_total_price').getAttribute('value') == 0){
+        //
+        //     document.getElementById('msg1_txt').innerText = '상품을 먼저 적용해주세요..'
+        //     pop.open('reserveAcceptMsg1');
+        //     return;
+        // }
 
         let result = (parseInt(document.getElementById('discount_2').value));
         Array.from(document.getElementsByClassName('discount_price')).forEach(function(el){
@@ -9940,55 +10150,99 @@ function discount_init(){
             el.setAttribute('value',`${Math.floor(result)}`)
             last_price()
         })
-        pop.open('reservePayManagementMsg4')
+        // pop.open('reservePayManagementMsg4')
     })
 
     document.getElementById('discount_1_btn').click();
+
+    resolve();
+})
 
 
 }
 
 
-function reserves(id,body){
+function reserves(id,body,bool2){
 
-    let data =body[3];
+
+
+    let data = body;
+
+
 
     $.ajax({
 
         url:'/data/pc_ajax.php',
         type:'post',
         data:{
-            mode:'reserves',
-            partner_id:id,
-            payment_idx:localStorage.getItem('payment_idx'),
-            customer_id:data.customer_Id,
-            tmp_user_idx : data.tmp_id,
-            service : 'B',
-            reserve_type : 'U',
+
+            mode:'get_pay_reserve',
+            login_id:id,
+
         },
-        success:function(res) {
+        success:function(res){
+
             let response = JSON.parse(res);
-            let head = response.data.head;
-            let body = response.data.body;
-            if (head.code === 401) {
-                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-            } else if (head.code === 200) {
 
 
+            let data = response.data;
 
-                setInputFilter(document.getElementById("use_reserves"), function(value) {
-                    return /^\d*\.?\d*$/.test(value);
-                })
+            if(bool2){
+                if(data.is_use === '1'){
 
-                Array.from(document.getElementsByClassName('now_reserves')).forEach(function(el){
+                    document.getElementById('pet_shop_reserves').style.display = 'block';
 
-                    el.innerText = `${(body.accum_reserve - body.use_reserve).toLocaleString()}원`
-                    el.setAttribute('value',`${body.accum_reserve - body.use_reserve}`)
-                })
+                }else{
+                    document.getElementById('pet_shop_reserves').style.display = 'none';
+                }
             }
-        }
 
+
+
+                $.ajax({
+
+                    url:'/data/pc_ajax.php',
+                    type:'post',
+                    async:false,
+                    data:{
+                        mode:'reserves',
+                        partner_id:id,
+                        payment_idx:localStorage.getItem('payment_idx'),
+                        customer_id:data.customer_Id,
+                        tmp_user_idx : data.tmp_id,
+                        service : 'B',
+                        reserve_type : 'U',
+                    },
+                    success:function(res) {
+                        let response = JSON.parse(res);
+                        let head = response.data.head;
+                        let body = response.data.body;
+                        if (head.code === 401) {
+                            pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                        } else if (head.code === 200) {
+                            console.log(body);
+
+
+
+                            setInputFilter(document.getElementById("use_reserves"), function(value) {
+                                return /^\d*\.?\d*$/.test(value);
+                            })
+
+                            Array.from(document.getElementsByClassName('now_reserves')).forEach(function(el){
+
+                                el.innerText = `${(body.accum_reserve - body.use_reserve).toLocaleString()}원`
+                                el.setAttribute('value',`${body.accum_reserve - body.use_reserve}`)
+                            })
+                        }
+                    }
+
+                })
+
+
+
+            }
     })
+
 
 
 }
@@ -10028,14 +10282,14 @@ function reserves_set(){
 function last_price(){
 
     let sum =  parseInt(document.getElementById('real_total_price').getAttribute('value')) ;
-    let discount =  parseInt(document.querySelector('.discount_price').getAttribute('value'));
-    let reserves =  parseInt(document.querySelector('.reserves_use').getAttribute('value'))
+    let discount =  parseInt(document.getElementById('total_discount_price').getAttribute('value'));
+    let reserves =  parseInt(document.getElementById('total_reserves_use').getAttribute('value'))
 
 
-    document.getElementById('last_price').innerText = `${(sum-discount-reserves)}원`
+    document.getElementById('last_price').innerText = `${(sum-discount-reserves).toLocaleString()}원`
 
-    document.getElementById('last_card').value = `${(sum-discount-reserves)}`
-    document.getElementById('last_cash').value =0;
+    // document.getElementById('last_card').value = `${(sum-discount-reserves)}`
+    // document.getElementById('last_cash').value ='0';
 
 
 }
@@ -10043,17 +10297,17 @@ function last_price(){
 function data_change(){
 
     let sum =  parseInt(document.getElementById('real_total_price').getAttribute('value')) ;
-    let discount =  parseInt(document.querySelector('.discount_price').getAttribute('value'));
-    let reserves =  parseInt(document.querySelector('.reserves_use').getAttribute('value'))
+    let discount =  parseInt(document.getElementById('total_discount_price').getAttribute('value'));
+    let reserves =  parseInt(document.getElementById('total_reserves_use').getAttribute('value'))
 
     if(document.getElementById('last_card').value == 0){
 
-        document.getElementById('last_cash').value =0;
+        document.getElementById('last_cash').value = '0';
         document.getElementById('last_card').value =  `${(sum-discount-reserves)}`;
 
     }else if(document.getElementById('last_cash').value == 0){
         document.getElementById('last_cash').value = `${(sum-discount-reserves)}`;
-        document.getElementById('last_card').value = 0;
+        document.getElementById('last_card').value = '0';
     }
 
 }
@@ -10309,7 +10563,7 @@ function pay_management_toggle(bool){
 
 }
 
-function pay_management_init(id,target){
+function pay_management_init(id,target,bool,bool2){
     console.log(id);
 
 
@@ -10322,6 +10576,53 @@ function pay_management_init(id,target){
             mode:'pay_management',
             payment_idx:payment_idx,
         },
+        beforeSend:function(){
+
+            if(document.getElementById('pay_card_body_inner')){
+
+                document.getElementById('pay_card_body_inner').style.display = 'none';
+                document.getElementById('pay_management_loading').style.display = 'flex';
+            }
+
+
+                document.getElementById('pay_management').scrollTop = 0
+
+
+
+            if(!bool2){
+
+                Array.from(document.getElementsByClassName('is_approve')).forEach(function(el){
+
+                    el.style.display = 'none';
+                })
+
+                Array.from(document.getElementsByClassName('is_approve2')).forEach(function(el){
+
+                    el.style.display = 'block';
+                })
+
+
+
+            }else{
+                Array.from(document.getElementsByClassName('is_approve')).forEach(function(el){
+
+                    if(el.classList.contains('user-receipt-wrap')){
+                        el.style.display = 'flex';
+                    }else{
+                        el.style.display = 'block';
+
+                    }
+                })
+
+                Array.from(document.getElementsByClassName('is_approve2')).forEach(function(el){
+
+                    el.style.display = 'none';
+                })
+
+            }
+
+
+        },
         success:function (res){
 
             let response = JSON.parse(res);
@@ -10332,7 +10633,15 @@ function pay_management_init(id,target){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
+                console.log(body_3)
 
+
+                document.getElementById('sticky-bottom').setAttribute('data-customer_id',body.customer_Id);
+                document.getElementById('sticky-bottom').setAttribute('data-tmp_id',body.tmp_id);
+                document.getElementById('sticky-bottom').setAttribute('data-payment_idx',payment_idx);
+                document.getElementById('sticky-bottom').setAttribute('data-partner_id',id);
+                document.getElementById('sticky-bottom').setAttribute('data-type',body.type === 'dog' ? '개':'고양이');
+                document.getElementById('sticky-bottom').setAttribute('data-name',body.name);
 
                 console.log(body)
                 document.getElementById('pay_noshow').innerHTML = `<h4 class="con-title">예약자 정보</h4>
@@ -10440,6 +10749,16 @@ function pay_management_init(id,target){
                 document.getElementById('pay_customer_memo_text').value = '';
                 document.getElementById('pay_customer_memo_text').removeAttribute('data-scm_seq');
 
+
+                document.getElementById('pay_confirm').setAttribute('data-seq',payment_idx)
+                if(parseInt(body.is_confirm) === 1){
+
+                    document.getElementById('pay_confirm').checked = true;
+
+
+                }else{
+                    document.getElementById('pay_confirm').checked = false;
+                }
 
 
                 // $.ajax({
@@ -10597,6 +10916,7 @@ function pay_management_init(id,target){
                 }
                 if(body.mounting === 1){
                     special += '마운팅 '
+
                 }
 
                 document.getElementById('pay_gender').innerText = body.gender;
@@ -10626,10 +10946,10 @@ function pay_management_init(id,target){
                                                                                         <span class="pay-before-beauty-memo">
                                                                                            ${el.booking_date.split(' ')[0].replaceAll('-','.')}
                                                                                         </span>
-                                                                                        <a href="#" class="pay-before-beauty-detail" data-payment_idx="${el.payment_idx}" onclick="localStorage.setItem('payment_idx','${el.payment_idx}');pay_management_init('${id}',this)">
+                                                                                        <a href="#" class="pay-before-beauty-detail" data-payment_idx="${el.payment_idx}" onclick="localStorage.setItem('payment_idx','${el.payment_idx}');pay_management_init('${id}',this,true,true)">
                                                                                             <span class="pay-before-beauty-detail-memo">상세보기</span>
                                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="5.207" height="9.414" viewBox="0 0 5.207 9.414">
-                                                                                                <path data-name="Path" d="m-4 8 4-4-4-4" transform="translate(4.707 .707)" style="fill:none;stroke:#202020;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;"></path>
+                                                                                                <path data-name="Path" class="before-path" d="m-4 8 4-4-4-4" transform="translate(4.707 .707)" style="fill:none;stroke:#202020;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;"></path>
                                                                                             </svg>
                                                                                         </a>
                                                                                     </div>`
@@ -10641,221 +10961,85 @@ function pay_management_init(id,target){
 
                 document.getElementById('day_book_target').innerText = `${am_pm_check2(body.beauty_date)}`
 
-                document.getElementById('day_book_target_worker').innerText = `${body.worker}`
+                document.getElementById('day_book_target_worker').innerText = `${body.worker_nick}`
 
 
+                let year = body.beauty_date.split(' ')[0].split('-')[0];
+                let month = body.beauty_date.split(' ')[0].split('-')[1];
+                let day = body.beauty_date.split(' ')[0].split('-')[2];
+                let hour = body.beauty_date.split(' ')[1].split(':')[0];
+                let minute = body.beauty_date.split(' ')[1].split(':')[1];
 
-                let st_date = body.beauty_date.split(' ')[0];
+                let start_time ;
 
-
-                $.ajax({
-
-                    url:'/data/pc_ajax.php',
-                    type:'post',
-                    data:{
-                        mode:"day_book",
-                        login_id:id,
-                        st_date:st_date,
-                        fi_date:`${st_date.split('-')[0]}-${st_date.split('-')[1]}-${fill_zero(parseInt(st_date.split('-')[2])+1)}`
-
-
-                    },
-                    success:function(res) {
-                        let response = JSON.parse(res);
-                        let head = response.data.head;
-                        let body_ = response.data.body;
-                        if (head.code === 401) {
-                            pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-                        } else if (head.code === 200) {
-
-
-
-                            let reserve_st = [];
-                            let reserve_fi = [];
-
-                            body_.forEach(function (el){
-
-
-                                if(body.worker === el.product.worker && el.product.is_cancel === 0){
-                                    reserve_st.push(new Date(el.product.date.booking_st).getTime());
-                                    reserve_fi.push(new Date(el.product.date.booking_fi).getTime());
-                                }
-
-                            })
-
-                            reserve_st.sort();
-                            reserve_fi.sort();
-
-                            for(let i=0; i<reserve_st.length; i++){
-
-                                reserve_st[i] = `${fill_zero(new Date(reserve_st[i]).getHours())}:${fill_zero(new Date(reserve_st[i]).getMinutes())}`;
-                            }
-
-                            for(let i=0; i<reserve_fi.length; i++){
-
-                                reserve_fi[i] = `${fill_zero(new Date(reserve_fi[i]).getHours())}:${fill_zero(new Date(reserve_fi[i]).getMinutes())}`;
-                            }
-
-
-
-
-
-                            document.getElementById('start_time').innerHTML = ''
-                            document.getElementById('end_time').innerHTML = ''
-
-                            let open_close = localStorage.getItem('open_close');
-
-                            let open = parseInt(open_close.split('/')[0]);
-                            let close = parseInt(open_close.split('/')[1]);
-
-                            let time = [];
-
-                            for(open; open<=close; open++){
-
-                                time.push(open);
-
-                            }
-
-
-                            let next = '';
-                            for(let i=0; i< reserve_st.length; i++){
-
-                                if(body.beauty_date.split(' ')[1] === reserve_st[i]){
-
-                                    next = reserve_st[i+1]
-                                    break;
-                                }
-                            }
-
-
-
-                            let prev = '';
-                            for(let i=0; i<reserve_fi.length; i++){
-
-                                if(body.beauty_date.split(' ')[1] === reserve_st[i]){
-
-
-                                    prev = reserve_fi[i-1];
-                                    break;
-                                }
-                            }
-
-
-
-                            if(prev === undefined){
-
-                                loop:
-                                    for(let i=0; i<time.length-1; i++){
-
-                                        for(let t= 0; t<60; t +=30){
-
-
-                                            if(`${fill_zero(time[i])}:${fill_zero(t)}` === next){
-
-                                                break loop;
-                                            }else{
-                                                document.getElementById('start_time').innerHTML += `<option value ="${fill_zero(time[i])}${fill_zero(t)}">${fill_zero(am_pm_check(time[i]))}:${fill_zero(t)}</option>`
-                                            }
-
-
-
-
-
-                                        }
-                                    }
-
-                                loop2:
-                                    for(let i=0; i<time.length; i++){
-
-                                        for(let t=0; t<60; t+=30){
-
-                                            if(i===0){
-                                                t=30;
-                                            }
-                                            if(i===time.length-1 && t ===30){
-
-                                                break;
-                                            }
-                                            if(`${fill_zero(time[i])}:${fill_zero(t)}` === next){
-                                                document.getElementById('end_time').innerHTML += `<option value ="${fill_zero(time[i])}${fill_zero(t)}">${fill_zero(am_pm_check(time[i]))}:${fill_zero(t)}</option>`
-                                                break loop2;
-                                            }else{
-
-
-                                                document.getElementById('end_time').innerHTML += `<option value ="${fill_zero(time[i])}${fill_zero(t)}">${fill_zero(am_pm_check(time[i]))}:${fill_zero(t)}</option>`
-                                            }
-                                        }
-                                    }
-                            }else{
-
-                                loop3:
-                                    for(let i=0; i<time.length-1; i++){
-
-                                        for(let t= 0; t<60; t +=30){
-
-
-                                            if(`${fill_zero(time[i])}:${fill_zero(t)}` === prev){
-
-
-                                                loop4:
-                                                    for(let j=i; j<time.length-1; j++){
-
-                                                        for(let t2=0; t2<60; t2+=30){
-
-                                                            if(`${fill_zero(time[j])}:${fill_zero(t2)}` === next){
-
-                                                                break loop4;
-
-                                                            }else if(`${fill_zero(time[j])}:${fill_zero(t2)}` === `${prev.split(':')[0]}:00`){
-                                                                continue;
-
-                                                            }else{
-                                                                document.getElementById('start_time').innerHTML += `<option value ="${fill_zero(time[j])}${fill_zero(t2)}">${fill_zero(am_pm_check(time[j]))}:${fill_zero(t2)}</option>`
-                                                            }
-
-                                                        }
-                                                    }
-                                                break loop3;
-                                            }
-                                        }
-                                    }
-
-
-                                let fi_times = [];
-
-                                for(let i =0; i<document.getElementById('start_time').options.length; i++){
-
-                                    fi_times.push(document.getElementById('start_time').options[i].value);
-                                }
-
-
-                                for(let i=0; i<fi_times.length; i++){
-
-                                    fi_times[i] = new Date(date.getFullYear(),date.getMonth(),date.getDate(),fi_times[i].substr(0,2),fi_times[i].substr(2,2));
-
-                                    fi_times[i].setMinutes(fi_times[i].getMinutes()+30);
-
-                                    document.getElementById('end_time').innerHTML += `<option value ="${fill_zero(fi_times[i].getHours())}${fill_zero(fi_times[i].getMinutes())}">${am_pm_check(fill_zero(fi_times[i].getHours()))}:${fill_zero(fi_times[i].getMinutes())}</option>`
-                                }
-
-
-
-
-
-
-
-                            }
-
-
-
-                        }
+                let end_time;
+                Array.from(document.getElementsByClassName('calendar-day-header-col')).forEach(function(el){
+                    if(el.getAttribute('data-worker') === body.worker){
+                        start_time = el.getAttribute('data-start');
+                        end_time = el.getAttribute('data-end');
                     }
-
-
-
-
-
                 })
+
+               $.ajax({
+                   url:'/data/pc_ajax.php',
+                   type:'post',
+                   data:{
+                       mode:'reserve_get_time',
+                       worker:body.worker,
+                       artist_id:id,
+                       year:year,
+                       month:month,
+                       day:day,
+                       hour:hour,
+                       minute:minute,
+                       start_time:start_time,
+                       end_time:end_time
+
+                   },success:function(res){
+                       let response = JSON.parse(res);
+                       let start = response.start_date.split(' ')[1];
+                       let end = response.end_date.split(' ')[1];
+
+                       console.log(start)
+                       console.log(end)
+                       document.getElementById('start_time').innerHTML = '';
+                       document.getElementById('end_time').innerHTML = '';
+
+
+                       let times = [];
+                       let new_times = [];
+                       for(let i=start.split(':')[0]; i<end.split(':')[0]; i++){
+
+                           for(let t= 0; t<60; t+=30){
+                               if(i== start.split(':')[0] && start.split(':')[1] == 30 && t===0){
+                                   continue;
+                               }
+                               document.getElementById('start_time').innerHTML += `<option value="${i}${fill_zero(t)}">${am_pm_check_time(`${i}:${fill_zero(t)}`)}</option>`
+
+                               times.push(`2022-01-01 ${i}:${fill_zero(t)}`)
+                           }
+
+
+
+
+                       }
+
+                       times.forEach(function(el){
+
+                           let new_time = new Date(el);
+                           new_time.setMinutes(new_time.getMinutes() + 30);
+                           new_times.push(`${fill_zero(new_time.getHours())}:${fill_zero(new_time.getMinutes())}`)
+
+                       })
+
+                       new_times.forEach(function(el){
+
+                           document.getElementById('end_time').innerHTML += `<option value="${el.replace(':','')}">${am_pm_check_time(el)}</option>`
+                       })
+
+
+                   }
+               })
 
 
 
@@ -10865,6 +11049,523 @@ function pay_management_init(id,target){
                 document.getElementById('pay_allim_btn').setAttribute('onclick',`open_customer_allim(${body.cell_phone})`)
 
                 document.getElementById('allim_send_btn').setAttribute('data-cellphone',`${body.cell_phone}`);
+                document.getElementById('allim_send_btn').setAttribute('data-pet_name',`${body.name}`);
+
+                document.getElementById('service_list').innerHTML = '';
+
+                let parsing = body.product_parsing
+
+
+                if(bool2){
+                    management_service_1(id,body).then(function(body_){
+                        management_wide_tab2();
+                        management_total_price();
+
+                        reserves(id,body,bool2);
+
+
+
+                        management_service_2(body_).then(function(base_svc){
+                            if(parsing.animal === '개'){
+
+
+
+                                Array.from(document.querySelectorAll('input[name="payment_size"]')).forEach(function(el){
+
+                                    if(el.value === parsing.base.size){
+
+                                        setTimeout(function(){el.click()},300);
+                                    }
+                                })
+
+
+                            }
+
+
+
+                            management_service_3(base_svc).then(function(base_svc){
+                                if(parsing.animal === '개'){
+                                    Array.from(document.querySelectorAll('input[name="payment_s1"]')).forEach(function(el){
+
+
+                                        if(el.value === parsing.base.beauty_kind){
+
+                                            setTimeout(function(){el.click()},300);
+                                        }
+                                    })
+
+                                }
+
+
+                                management_service_4(base_svc).then(function(){
+
+                                    if(parsing.animal === '개'){
+
+
+                                        setTimeout(function(){
+
+                                            Array.from(document.querySelectorAll('input[name="payment_s2"]')).forEach(function(el){
+
+                                                if(el.value === parsing.base.weight.unit){
+
+                                                    setTimeout(function(){el.click()},100);
+                                                }
+                                            })
+
+                                            Array.from(document.querySelectorAll('input[name="payment_hairBeauty"]')).forEach(function(el){
+
+                                                if(el.value.replace('mm','') === parsing.base.hair_lenth.unit.replace('mm','') && el.getAttribute('data-price') === parsing.base.hair_lenth.price){
+
+                                                    setTimeout(function(){
+                                                        el.click()
+                                                    },500)
+                                                }
+                                            })
+
+
+                                            Array.from(document.querySelectorAll('input[name="payment_f1"]')).forEach(function(el){
+
+
+                                                if(el.value === parsing.add.face.unit){
+                                                    setTimeout(function(){
+                                                        el.click()
+                                                    },300)
+                                                }
+                                            })
+
+
+                                        },300)
+
+
+
+
+                                        Array.from(document.querySelectorAll('input[name="payment_hair"]')).forEach(function(el){
+
+
+                                            parsing.base.hair_features.forEach(function(el_){
+
+                                                if(el.value === el_.unit){
+
+                                                    el.click();
+                                                }
+
+                                            })
+                                        })
+
+
+                                        let array = Object.keys(parsing.add.leg).map((key)=> [key,parsing.add.leg[key]])
+                                        Array.from(document.querySelectorAll('input[name="payment_f2"]')).forEach(function(el){
+
+
+                                            array.forEach(function (el_){
+                                                if(el_[1].unit === '네일'){
+                                                    el_[1].unit = '발톱'
+                                                }
+                                                if(el_[1].unit === el.value && el_[1].price === el.getAttribute('data-price')){
+                                                    el.click();
+                                                }
+                                            })
+
+
+                                        })
+
+
+                                        Array.from(document.querySelectorAll('input[name="payment_f3"]')).forEach(function(el){
+
+                                            parsing.add.spa.forEach(function(el_){
+
+                                                if(el_.unit === el.value){
+                                                    el.click();
+                                                }
+                                            })
+                                        })
+
+
+
+
+
+
+
+                                        Array.from(document.querySelectorAll('input[name="payment_f4"]')).forEach(function(el){
+
+                                            parsing.add.hair_color.forEach(function(el_){
+
+                                                if(el_.unit === el.value){
+                                                    el.click();
+                                                }
+                                            })
+
+
+                                        })
+
+                                        Array.from(document.querySelectorAll('input[name="payment_f5"]')).forEach(function(el){
+
+                                            parsing.add.etc.forEach(function(el_){
+
+                                                if(el_.unit === el.value){
+                                                    el.click();
+                                                }
+                                            })
+
+
+                                        })
+
+                                        if(parsing?.goods){
+                                            Array.from(document.getElementsByClassName('pay_etc_product')).forEach(function(el){
+
+                                                parsing.goods.forEach(function(el_){
+
+                                                    if(el_.name === el.value && el_.price === el.getAttribute('data-price')){
+                                                        el.click();
+                                                        siblings(el,1).children[1].children[1].children[0].value = el_.ea;
+
+                                                        setTimeout(function(){
+
+                                                            Array.from(document.getElementsByClassName('list-title-add')).forEach(function(_el){
+
+                                                                if(_el.innerText === el_.name){
+
+                                                                    siblings(_el,1).innerText = `${el_.price*el_.ea}원`
+                                                                }
+                                                            })
+                                                        },300)
+                                                    }
+                                                })
+                                            })
+                                        }
+
+                                    }else{
+
+                                        Array.from(document.querySelectorAll('input[name="payment_beauty"]')).forEach(function(el){
+
+                                            parsing.add.etc.forEach(function(el_){
+
+                                                if(el_.unit === el.value){
+                                                    el.click();
+                                                }
+                                            })
+
+
+                                        })
+                                    }
+
+                                    discount_init().then(function(){
+                                        console.log("discount_init")
+
+                                        if(body.discount_type === "1"){
+                                            document.getElementById('discount_1_btn').click()
+                                            for(let i=0; i<document.getElementById('discount_1').options.length; i++){
+                                                if(document.getElementById('discount_1').options[i].value === body.discount_num){
+                                                    document.getElementById('discount_1').options[i].selected =true;
+                                                    setTimeout(function(){
+                                                        document.getElementById('discount_1').dispatchEvent(new Event('change'));
+                                                    },500)
+
+                                                }
+
+                                            }
+
+                                        }else if(body.discount_type === "2"){
+                                            document.getElementById('discount_2_btn').click()
+                                            for(let i=0; i<document.getElementById('discount_2').options.length; i++){
+                                                if(document.getElementById('discount_2').options[i].value === body.discount_num){
+                                                    document.getElementById('discount_2').options[i].selected =true;
+                                                    setTimeout(function(){
+                                                        document.getElementById('discount_2').dispatchEvent(new Event('change'));
+                                                    },500)
+
+                                                }
+
+                                            }
+
+                                        }else if(body.discount_type === "0"){
+
+
+                                            document.getElementById('discount_1_btn').click()
+                                            document.getElementById('discount_1').options[0].selected = true;
+                                            document.getElementById('discount_2').options[0].selected = true;
+                                            setTimeout(function(){
+
+                                                document.getElementById('discount_1').dispatchEvent(new Event('change'));
+                                                document.getElementById('discount_2').dispatchEvent(new Event('change'));
+                                            },500)
+                                        }
+
+
+
+
+
+
+                                        if(bool){
+                                            document.getElementById('pay_management').scrollTop = document.getElementById('scroll_target').offsetTop;
+                                        }
+                                    });
+
+
+
+
+
+
+
+
+                                });
+
+                            })
+                        })
+                    });
+
+                    get_coupon(id,body).then(function(){
+
+                        if(parsing?.coupon){
+                            Array.from(document.getElementsByClassName('pay_coupon')).forEach(function(el){
+
+                                parsing.coupon.forEach(function(el_){
+
+                                    if(el_.name === el.value){
+                                        el.click();
+                                    }
+                                })
+
+
+                            })
+                        }
+
+
+                    });
+                    get_etc_product(id);
+
+                    document.getElementById('cardcash-btn').setAttribute('data-payment_idx',payment_idx);
+
+                    if(body.reserve_point === ''){
+                        body.reserve_point = 0;
+                    }
+                    document.getElementById('total_reserves_use').value = body.reserve_point;
+                    document.getElementById('total_reserves_use').innerText = body.reserve_point;
+                    last_price()
+
+
+                    list.beauty.forEach(function(el){
+
+                        if(el.product.payment_idx == payment_idx){
+                            console.log('------------------------')
+                            console.log(el)
+                            let card = el.product.store_payment.card;
+                            let cash = el.product.store_payment.cash;
+
+                            document.getElementById('last_card').value = card;
+                            document.getElementById('last_cash').value = cash
+
+                        }
+                    })
+                }else{
+
+                    management_service_1(id,body);
+
+                    let parsing = body.product_parsing;
+
+
+                    document.getElementById('appr_service_list').innerHTML = '';
+
+                    document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${parsing.base.size} / ${parsing.base.beauty_kind} / ~${parsing.base.weight.unit}Kg</div>
+                                                                                    <div class="list-value appr_sum_target">${(parsing.base.weight.price)}</div>원
+                                                                                </div>
+                                                                                <div class="list-cell">
+                                                                                    <div class="list-title">${parsing.base.hair_lenth.unit}mm</div>
+                                                                                    <div class="list-value appr_sum_target">${(parsing.base.hair_lenth.price)}</div>원
+                                                                                </div>`
+
+                    if(parsing.base.hair_features.length > 0){
+
+                        parsing.base.hair_features.forEach(function(el){
+
+                            document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${el.unit}</div>
+                                                                                    <div class="list-value appr_sum_target">${(el.price)}</div>원
+                                                                                </div>`
+                        })
+
+                    }
+
+                    if(parsing.add.face.unit !== '0'){
+                        document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${parsing.add.face.unit}</div>
+                                                                                    <div class="list-value appr_sum_target">${(parsing.add.face.price)}</div>원
+                                                                                </div>`
+
+                    }
+
+
+
+                    if(parsing.add.hair_color.length > 0 && parsing.add.hair_color?.unit){
+
+                        parsing.add.hair_color.forEach(function(el){
+
+                            document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${el.unit}</div>
+                                                                                    <div class="list-value appr_sum_target">${(el.price)}</div>원
+                                                                                </div>`
+                        })
+
+                    }
+
+                    if(parsing.add.spa.length > 0 && parsing.add.spa?.unit){
+
+                        parsing.add.spa.forEach(function(el){
+
+                            document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${el.unit}</div>
+                                                                                    <div class="list-value appr_sum_target">${(el.price)}</div>원
+                                                                                </div>`
+                        })
+
+                    }
+
+                    if(parsing.add.leg.bell.price !== ''){
+
+                        document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${parsing.add.leg.bell.unit}</div>
+                                                                                    <div class="list-value appr_sum_target">${(parsing.add.leg.bell.price)}</div>원
+                                                                                </div>`
+                    }
+
+                    if(parsing.add.leg.nail.price !== ''){
+
+                        document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${parsing.add.leg.nail.unit}</div>
+                                                                                    <div class="list-value appr_sum_target">${(parsing.add.leg.nail.price)}</div>원
+                                                                                </div>`
+                    }
+
+                    if(parsing.add.leg.rain_boots.price !== ''){
+
+                        document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${parsing.add.leg.rain_boots.unit}</div>
+                                                                                    <div class="list-value appr_sum_target">${(parsing.add.leg.rain_boots.price)}</div>원
+                                                                                </div>`
+                    }
+
+
+                    if(parsing.add.leg.type1?.unit){
+
+                        document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${parsing.add.leg.type1?.unit}</div>
+                                                                                    <div class="list-value appr_sum_target">${(parsing.add.leg.type1?.price)}</div>원
+                                                                                </div>`
+                    }
+
+                    if(parsing.add.leg.type2?.unit){
+
+                        document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${parsing.add.leg.type2?.unit}</div>
+                                                                                    <div class="list-value appr_sum_target">${(parsing.add.leg.type2?.price)}</div>원
+                                                                                </div>`
+                    }
+
+                    if(parsing.add.leg.type3?.unit){
+
+                        document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
+                                                                                    <div class="list-title">${parsing.add.leg.type3?.unit}</div>
+                                                                                    <div class="list-value appr_sum_target">${(parsing.add.leg.type3?.price)}</div>원
+                                                                                </div>`
+                    }
+
+
+                    document.getElementById('appr_sum').innerText = '';
+                    document.getElementById('appr_vat').innerText = '';
+                    document.getElementById('appr_last_price').innerText = '';
+                    setTimeout(function(){
+                        let sum=0;
+                        Array.from(document.getElementsByClassName('appr_sum_target')).forEach(function(el){
+
+                            sum += parseInt(el.innerText);
+                        })
+
+                        document.getElementById('appr_sum').innerText = `${sum}원`;
+
+                        if(localStorage.getItem('is_vat') === '1'){
+
+                            document.getElementById('appr_vat_list').style.display  ='flex';
+
+                            document.getElementById('appr_vat').innerText = `${sum/10}원`
+
+                            document.getElementById('appr_last_price').innerText = `${sum + (sum/10)}원`
+
+                        }else{
+                            document.getElementById('appr_vat_list').style.display  ='none';
+                            document.getElementById('appr_last_price').innerText = `${sum}원`
+                        }
+
+
+
+
+
+
+                    },300)
+
+                    document.getElementById('appr_date').innerText = ''
+                    document.getElementById('appr_worker').innerText = ''
+                    document.getElementById('appr_time').innerText = ''
+
+
+                    document.getElementById('appr_date').innerText = body.beauty_date.split(' ')[0].replaceAll('-','.');
+                    document.getElementById('appr_worker').innerText = body.worker_nick;
+                    document.getElementById('appr_time').innerText = body.beauty_date.split(' ')[1];
+
+                    $.ajax({
+                        url: '/data/pc_ajax.php',
+                        type: 'post',
+                        data: {
+                            mode: 'waiting',
+                            partner_id: id,
+                        },
+                        success: function (res) {
+
+                            let response = JSON.parse(res);
+                            let head = response.data.head;
+                            let body1 = response.data.body;
+                            if (head.code === 401) {
+                                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                            } else if (head.code === 200) {
+
+                                body1.forEach(function(el){
+
+                                    if(el.product.payment_idx == localStorage.getItem('payment_idx')){
+                                        Array.from(document.getElementsByClassName('apporval-reserve')).forEach((function(el_){
+
+                                            el_.setAttribute('data-approve',`${el.product.approve_idx}`)
+                                        }))
+
+                                    }
+                                })
+
+                            }
+                        }
+                    })
+
+
+
+
+
+
+
+
+                    if(document.getElementById('pay_card_body_inner')){
+
+                        document.getElementById('pay_management_loading').style.display = 'none';
+                        document.getElementById('pay_card_body_inner').style.display = 'block';
+                    }
+
+
+
+
+
+
+                }
+
+
+
+
 
 
 
@@ -10880,27 +11581,215 @@ function pay_management_init(id,target){
 
 
 }
+function cardcash(target){
+
+    let payment_idx = target.getAttribute('data-payment_idx');
+
+    let card = document.getElementById('last_card').value;
+
+    let cash = document.getElementById('last_cash').value;
+
+
+    let type;
+    let discount;
+
+    if(document.getElementById('discount_1_btn').checked === true){
+        type=1;
+        discount = document.getElementById('discount_1').value;
+    }else if(document.getElementById('discount_2_btn').checked === true){
+        type=2;
+        discount = document.getElementById('discount_2').value;
+    }else if(document.getElementById('discount_1').value === "0" && document.getElementById('discount_2').value === "0"){
+        type=0;
+        discount=0;
+
+    }
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+            mode:'discount',
+            payment_idx:payment_idx,
+            type:type,
+            discount:discount,
+        },
+        success:function(res) {
+            console.log(res)
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+
+
+            }
+        }
+    })
+
+
+    $.ajax({
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+            mode:'cardcash',
+            payment_idx:payment_idx,
+            card:card,
+            cash:cash,
+        },
+        success:function(res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+
+                document.getElementById('msg1_txt').innerText = '최종 결제액이 적용되었습니다.';
+                pop.open('reserveAcceptMsg1');
+
+            }
+        }
+
+    })
+
+}
+function user_coupon_change(){
+
+
+    let coupon = document.getElementById('coupon_name');
+
+    if(coupon.options.length > 0){
+
+
+
+        let selected = coupon.options[coupon.selectedIndex];
+        console.log(selected)
+
+        document.getElementById('coupon_balance').innerHTML = '<option value="">선택</option>'
+        document.getElementById('use_coupon').innerHTML = '<option value="">선택</option>'
+
+        let given = selected.getAttribute('data-given');
+        let use = selected.getAttribute('data-use');
+        let type = selected.getAttribute('data-type');
+
+        if(type === 'C'){
+            let rest = parseInt(given)-parseInt(use);
+
+
+            for(let i=1; i<=rest; i++){
+
+                document.getElementById('coupon_balance').innerHTML +=`<option value="${i}">${i}</option>`
+                document.getElementById('use_coupon').innerHTML += `<option value="${i}">${i}</option>`
+
+            }
+        }else{
+
+            let rest = parseInt(given)-parseInt(use);
+
+            for(let i=0; i<=rest; i+=1000){
+
+                document.getElementById('coupon_balance').innerHTML +=`<option value="${i}">${i}</option>`
+                document.getElementById('use_coupon').innerHTML += `<option value="${i}">${i}</option>`
+
+            }
+        }
+    }
+
+
+
+
+}
 
 function allim_talk_send(target){
 
 
     let cellphone = target.getAttribute('data-cellphone');
 
+    let name = target.getAttribute('data-pet_name');
+
     let when = document.querySelector('input[name="time1"]:checked').getAttribute('id');
 
     let mode;
+
+    let message;
+
+
 
 
 
     if(when === 'timer_0'){
 
         mode = 'allim_now';
+        message = `반려생활의 단짝, 반짝에서 ${cellphone.slice(-4)}님의 ${name} 미용 종료를 알려드립니다.\n` +
+            '\n' +
+            `${data.shop_name}에서 미용이 종료되었습니다.\n` +
+            '\n' +
+            `깔끔하고 더 귀여워진 ${name}\n` +
+            '이제 만나러 가세요^^\n' +
+            '\n' +
+            '반짝반짝 반려생활의 단짝,\n' +
+            '반짝에서 알려드렸습니다.'
 
     }else{
+
+
         mode = 'allim_before'
 
+        switch (when){
+
+            case 'timer_1': message = `반려생활의 단짝, 반짝에서 ${cellphone.slice(-4)}님의 ${name} 미용 종료시간을 알려드립니다.\n` +
+                '\n' +
+                `${data.shop_name}에서 미용을 마무리하고 있네요. 미용종료 10분전 입니다.\n` +
+                '\n' +
+                `깔끔하고 더 귀여워진 ${name}\n` +
+                '이제 만나러 가세요^^\n' +
+                '\n' +
+                '반짝반짝 반려생활의 단짝,\n' +
+                '반짝에서 알려드렸습니다.';
+            break;
+
+            case 'timer_2':message = `반려생활의 단짝, 반짝에서 ${cellphone.slice(-4)}님의 ${name} 미용 종료시간을 알려드립니다.\n` +
+                '\n' +
+                `${data.shop_name}에서 미용을 마무리하고 있네요. 미용종료 15분전 입니다.\n` +
+                '\n' +
+                `깔끔하고 더 귀여워진 ${name}\n` +
+                '이제 만나러 가세요^^\n' +
+                '\n' +
+                '반짝반짝 반려생활의 단짝,\n' +
+                '반짝에서 알려드렸습니다.';
+            break;
+
+            case 'timer_3':message = `반려생활의 단짝, 반짝에서 ${cellphone.slice(-4)}님의 ${name} 미용 종료시간을 알려드립니다.\n` +
+                '\n' +
+                `${data.shop_name}에서 미용을 마무리하고 있네요. 미용종료 20분전 입니다.\n` +
+                '\n' +
+                `깔끔하고 더 귀여워진 ${name}\n` +
+                '이제 만나러 가세요^^\n' +
+                '\n' +
+                '반짝반짝 반려생활의 단짝,\n' +
+                '반짝에서 알려드렸습니다.';
+            break;
+
+            case 'timer_4':message = `반려생활의 단짝, 반짝에서 ${cellphone.slice(-4)}님의 ${name} 미용 종료시간을 알려드립니다.\n` +
+                '\n' +
+                `${data.shop_name}에서 미용을 마무리하고 있네요. 미용종료 30분전 입니다.\n` +
+                '\n' +
+                `깔끔하고 더 귀여워진 ${name}\n` +
+                '이제 만나러 가세요^^\n' +
+                '\n' +
+                '반짝반짝 반려생활의 단짝,\n' +
+                '반짝에서 알려드렸습니다.';
+            break;
+
+
+        }
+
     }
-    console.log(mode);
+    console.log(mode)
+    console.log(message);
 
 
     $.ajax({
@@ -10911,7 +11800,7 @@ function allim_talk_send(target){
 
             mode:mode,
             cellphone:cellphone,
-            message:'테스트 알림톡입니다.'
+            message:message
 
         },
         success:function(res) {
@@ -10923,13 +11812,344 @@ function allim_talk_send(target){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
-                console.log(body);
+               document.getElementById('msg1_txt').innerText = '발송되었습니다.';
+               pop.open('reserveAcceptMsg1');
 
             }
         }
 
     })
 
+
+
+}
+
+function coupon_use(){
+
+
+    let given = document.getElementById('coupon_balance').value;
+    let use = document.getElementById('use_coupon').value;
+
+    if(parseInt(given)-parseInt(use) <0){
+
+        document.getElementById('msg1_txt').innerText = '잘못입력되었습니다.';
+        pop.open('reserveAcceptMsg1');
+        return;
+    }
+
+
+
+
+}
+
+
+function get_worker(id){
+
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:'working',
+            login_id:id
+        },
+        success:function(res){
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                console.log(body)
+
+
+                document.getElementById('worker_inner').innerHTML = '';
+                body.forEach(function(el){
+
+
+                    if(!el.is_leave && el.is_show){
+
+                        document.getElementById('worker_inner').innerHTML +=`<div class="grid-layout-cell flex-auto"><label class="form-toggle-box middle"><input type="radio" name="worker" data-name="${el.name}" data-nick="${el.nick}" onclick="registration_worker(this)"><em>${el.nick}</em></label></div>`
+
+                    }
+                })
+
+
+            }
+
+        }
+    })
+}
+
+function registration_worker(target){
+
+    let name = target.getAttribute('data-name');
+    let nick = target.getAttribute('data-nick');
+
+
+    document.getElementById('reserveCalendarPop2').setAttribute('data-name',name);
+
+
+
+}
+
+function reserve_confirm(target){
+
+    let payment_idx = target.getAttribute('data-seq');
+
+    let is_confirm;
+
+    if(target.checked === true){
+
+        is_confirm = 1;
+    }else{
+
+        is_confirm = 0;
+    }
+
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:'confirm',
+            payment_idx:payment_idx,
+            is_confirm:is_confirm,
+        },
+        success:function(res) {
+            console.log(res)
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                console.log(body);
+            }
+        }
+
+    })
+
+
+
+}
+
+function pay_management_product_change(target){
+
+    let payment_idx = target.getAttribute('data-payment_idx')
+    let partner_id = target.getAttribute('data-partner_id')
+    let customer_id = target.getAttribute('data-customer_id')
+    let tmp_id = target.getAttribute('data-tmp_id')
+    let type = target.getAttribute('data-type')
+    let name =target.getAttribute('data-name');
+
+    let size = document.querySelector('input[name="payment_size"]:checked').value;
+    let service = document.querySelector('input[name="payment_s1"]:checked').value;
+    let weight = document.querySelector('input[name="payment_s2"]:checked').value;
+    let weight_price = document.querySelector('input[name="payment_s2"]:checked').getAttribute('data-price');
+    let face = document.querySelector('input[name="payment_f1"]:checked').value;
+    let face_price = document.querySelector('input[name="payment_f1"]:checked').getAttribute('data-price');
+    let length = document.querySelector('input[name="payment_hairBeauty"]:checked').value;
+    let length_price = document.querySelector('input[name="payment_hairBeauty"]:checked').getAttribute('data-price')
+
+    let hair_ = document.querySelectorAll('input[name="payment_hair"]:checked')
+
+    let hair = '';
+
+    for(let i=0; i<hair_.length; i++){
+
+
+        hair += `${hair_[i].value}:${hair_[i].getAttribute('data-price')}${i === (hair_.length)-1 ? '':','}`
+    }
+
+
+    let nail ='';
+
+    let boots = '';
+
+    let bell = '';
+
+
+    let leg_ = document.querySelectorAll('input[name="payment_f2"]:checked');
+
+    let leg_add = [];
+    let leg_count = 0;
+    Array.from(leg_).forEach(function(el){
+
+        if(el.value === '발톱'){
+            nail = el.getAttribute('data-price')
+        }else if(el.value === '장화'){
+            boots = el.getAttribute('data-price')
+        }else if(el.value === '방울'){
+            bell = el.getAttribute('data-price')
+        }else{
+
+            leg_count++;
+            leg_add.push(`${el.value}:${el.getAttribute('data-price')}`)
+        }
+    })
+
+
+
+    let spa_ = document.querySelectorAll('input[name="payment_f3"]:checked');
+
+    let spa_count = 0;
+    let spa = [];
+    Array.from(spa_).forEach(function(el){
+
+        spa_count ++;
+
+        spa.push(`${el.value}:${el.getAttribute('data-price')}`);
+    })
+
+    let dyeing_ = document.querySelectorAll('input[name="payment_f4"]:checked');
+
+    let dyeing_count = 0;
+    let dyeing = [];
+
+    Array.from(dyeing_).forEach(function(el){
+
+        dyeing_count ++;
+
+        dyeing.push(`${el.value}:${el.getAttribute('data-price')}`);
+    })
+
+    let etc_ =document.querySelectorAll('input[name="payment_f5"]:checked');
+
+    let etc_count = 0;
+    let etc = [];
+    Array.from(etc_).forEach(function(el){
+
+        etc_count ++;
+
+        etc.push(`${el.value}:${el.getAttribute('data-price')}`);
+    })
+
+    let coupon_1 = document.querySelectorAll('input[name="cp1"]:checked');
+    let coupon_2 = document.querySelectorAll('input[name="cp2"]:checked');
+
+    let coupon_count = 0;
+
+    let coupon = [];
+    Array.from(coupon_1).forEach(function(el){
+
+        coupon_count++;
+
+        coupon.push(`${el.getAttribute('data-idx')}:${el.value}:${el.getAttribute('data-price')}`)
+    });
+
+    Array.from(coupon_2).forEach(function(el){
+
+        coupon_count++;
+
+        coupon.push(`${el.getAttribute('data-idx')}:${el.value}:${el.getAttribute('data-price')}`)
+    });
+
+    let options1 = document.querySelectorAll('input[name="options1-1"]:checked');
+    let options2 = document.querySelectorAll('input[name="options2-1"]:checked');
+    let options3 = document.querySelectorAll('input[name="options3-1"]:checked');
+    let options4 = document.querySelectorAll('input[name="options4-1"]:checked');
+
+    let options_count = 0;
+
+    let options = [];
+
+
+    Array.from(options1).forEach(function(el){
+
+        options_count++;
+
+        options.push(`${el.value}:${el.getAttribute('data-price')}:${siblings(el,1).children[1].children[1].children[0].value}`)
+    });
+
+    Array.from(options2).forEach(function(el){
+
+        options_count++;
+
+        options.push(`${el.value}:${el.getAttribute('data-price')}:${siblings(el,1).children[1].children[1].children[0].value}`)
+    });
+    Array.from(options3).forEach(function(el){
+
+        options_count++;
+
+        options.push(`${el.value}:${el.getAttribute('data-price')}:${siblings(el,1).children[1].children[1].children[0].value}`)
+    });
+
+    Array.from(options4).forEach(function(el){
+
+        options_count++;
+
+        options.push(`${el.value}:${el.getAttribute('data-price')}:${siblings(el,1).children[1].children[1].children[0].value}`)
+    });
+
+    let price = document.getElementById('real_total_price').value
+
+    let product = `${name}|${type}|${data.shop_name}|${size}|${service}|${weight}:${weight_price}|${face}:${face_price}|${length}:${length_price}|${hair}|${nail}|${boots}|${bell}|||${leg_count}${leg_count >0 ? '|':''}${leg_add.toString().replaceAll(',','|')}|${spa_count}${spa_count >0 ? '|':''}${spa.toString().replaceAll(',','|')}|${dyeing_count}${dyeing_count > 0 ? '|':''}${dyeing.toString().replaceAll(',','|')}|${etc_count}${etc_count>0?'|':''}${etc.toString().replaceAll(',','|')}|${coupon_count}${coupon_count>0?'|':''}${coupon.toString().replaceAll(',','|')}|${options_count}${options_count > 0? '|':''}${options.toString().replaceAll(',','|')}|`
+
+
+    console.log(`size = ${size}`);
+    console.log(`service = ${service}`);
+    console.log(`weight = ${weight}`);
+    console.log(`weight_price = ${weight_price}`);
+    console.log(`face = ${face}`);
+    console.log(`face_price = ${face_price}`);
+    console.log(`length = ${length}`);
+    console.log(`length_price = ${length_price}`);
+    console.log(`hair = ${hair}`);
+    console.log(`nail = ${nail}`);
+    console.log(`boots = ${boots}`);
+    console.log(`bell = ${bell}`);
+    console.log(`leg_count = ${leg_count}`);
+    console.log(leg_add.toString().replaceAll(',','|'));
+    console.log(`spa_count = ${spa_count}`);
+    console.log(spa);
+    console.log(`dyeing_count = ${dyeing_count}`);
+    console.log(dyeing);
+    console.log(`etc_count = ${etc_count}`);
+    console.log(etc);
+    console.log(`coupon_count = ${coupon_count}`);
+    console.log(coupon);
+    console.log(`options_count = ${options_count}`);
+    console.log(options);
+    console.log(product);
+
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+            mode:'product_change',
+            payment_idx:payment_idx,
+            use_coupon:'N',
+            idx:'',
+            customer_id:customer_id,
+            tmp_user_idx:tmp_id,
+            price:price,
+            product:product,
+        },
+        success:function(res) {
+
+            console.log(res)
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                console.log(body);
+
+                // document.getElementById('msg2_txt').innerText = '서비스 정보가 변경되었습니다.'
+                // pop.open('reserveAcceptMsg2');
+
+
+            }
+        }
+    })
 
 
 }

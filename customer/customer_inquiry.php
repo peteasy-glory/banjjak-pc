@@ -12,7 +12,7 @@ if ($artist_flag == 1) {
 }
 
 
-$search = ($_POST['search'] && $_POST['search'] !== "") ? $_POST['search']:"";
+$search = ($_GET['search'] && $_GET['search'] !== "") ? $_GET['search']:"";
 
 
 
@@ -62,7 +62,7 @@ $search = ($_POST['search'] && $_POST['search'] !== "") ? $_POST['search']:"";
 									</div>
 									<div class="basic-data-group vvsmall3">
                                         <div class="loading-container" id="customer_inquiry_loading" style="height:300px;">
-                                            <div class="mexican-wave"></div>
+                                            <img src="/static/images/loading.gif" alt="">
                                         </div>
 										<!-- 검색결과 있을 때 -->
 										<div class="customer-card-list" id="search_phone_data">
@@ -104,6 +104,13 @@ $search = ($_POST['search'] && $_POST['search'] !== "") ? $_POST['search']:"";
     // data_set(artist_id)
 
     $(document).ready(function(){
+        var artist_flag = "<?=$artist_flag?>";
+        if(artist_flag == 1){
+            $("#gnb_home").css("display","none");
+            $("#gnb_shop_wrap").css("display","none");
+            $("#gnb_detail_wrap").css("display","none");
+            $("#gnb_stats_wrap").css("display","none");
+        }
         get_navi(artist_id);
         gnb_init();
         set_image('front_image');

@@ -3,8 +3,13 @@ include($_SERVER['DOCUMENT_ROOT']."/include/global.php");
 include($_SERVER['DOCUMENT_ROOT']."/include/skin/header.php");
 include($_SERVER['DOCUMENT_ROOT']."/include/check_login_shop.php");
 
-$artist_id = (isset($_SESSION['gobeauty_user_id'])) ? $_SESSION['gobeauty_user_id'] : "";
+$artist_flag = (isset($_SESSION['artist_flag'])) ? $_SESSION['artist_flag'] : "";
 
+if ($artist_flag == 1) {
+    $artist_id = (isset($_SESSION['shop_user_id'])) ? $_SESSION['shop_user_id'] : "";
+} else {
+    $artist_id = (isset($_SESSION['gobeauty_user_id'])) ? $_SESSION['gobeauty_user_id'] : "";
+}
 
 ?>
 <body>        
@@ -61,6 +66,13 @@ $artist_id = (isset($_SESSION['gobeauty_user_id'])) ? $_SESSION['gobeauty_user_i
 <script>
     let artist_id = "<?=$artist_id?>";
     $(document).ready(function() {
+        var artist_flag = "<?=$artist_flag?>";
+        if(artist_flag == 1){
+            $("#gnb_home").css("display","none");
+            $("#gnb_shop_wrap").css("display","none");
+            $("#gnb_detail_wrap").css("display","none");
+            $("#gnb_stats_wrap").css("display","none");
+        }
         get_navi(artist_id);
         gnb_init();
         gnb_actived('gnb_etc_wrap','gnb_profile');

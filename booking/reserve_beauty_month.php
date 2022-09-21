@@ -30,6 +30,21 @@ if ($artist_flag == 1) {
 			<div class="view">
 				<div class="data-row">
 					<div class="data-col-left">
+                        <div class="main-col-group main-side-1" style="margin-bottom:20px;">
+                            <!-- 전화번호 검색 -->
+                            <form action="/customer/customer_inquiry.php" id="search_form" method="get">
+                                <div class="basic-data-card transparent main-phone-group">
+                                    <div class="main-phone">
+
+                                        <div class="item-input"><input type="text" class="text-add" name="search" id="search" placeholder="전화번호 또는 펫이름 입력"></div>
+
+                                        <button type="button" class="btn-main-phone" onclick="document.getElementById('search').value === '' ? pop.open('firstRequestMsg1','전화번호 또는 펫이름을 입력해주세요.'):document.getElementById('search_form').submit()">검색</button>
+
+                                    </div>
+                                </div>
+                            </form>
+                            <!-- //전화번호 검색 -->
+                        </div>
 						<div class="basic-data-card-group">
 							<!-- 오늘의 미용 예약 -->
 							<div class="basic-data-card reserve-today fluid"><!-- 20220519 수정 : fluid 클래스 추가 -->
@@ -66,7 +81,10 @@ if ($artist_flag == 1) {
 										<div class="total-text-cell"><div class="item-title">NO SHOW</div><div class="item-value" id="day_noshow"></div></div>
 									</div>
 								</div>
-							</div>					
+							</div>
+                            <div style="position: relative; right: 0;width: 100%; display: flex;  justify-content: flex-end; margin-top: 57px;">
+                                <a href="/customer/customer_inquiry.php"><img src="https://image.banjjakpet.com/images/icon-circle-float_search.png" alt="" style="width:64px;"></a>
+                            </div>
 							<!-- //오늘의 예약 총 횟수 -->
 							<!-- 빈시간 판매하기 -->
 <!--							<div class="basic-data-card transparent">-->
@@ -94,37 +112,38 @@ if ($artist_flag == 1) {
 										</div>
 										<button type="button" class="btn-reserve-calendar-ui btn-month-next" id="btn-month-next"><span class="icon icon-calendar-next-small"></span></button>
 										<!-- calendar-title-sort 클래스에 actived클래스 추가시 활성화 -->
-										<div class="calendar-title-sort">
-											<div class="simple-calendar-wrap">
-												<div class="simple-calendar-top">
-													<button type="button" class="btn-simple-calendar-ui btn-simple-calendar-prev">이전</button>
-													<div class="top-title">2022</div>
-													<button type="button" class="btn-simple-calendar-ui btn-simple-calendar-next">다음</button>
-												</div>
-												<div class="simple-calendar-body">
-													<div class="simple-calendar-month-group">
-														<div class="simple-calendar-month-row">
-															<!-- btn-simple-calendar-month-nav 클래스에 actived클래스 추가시 활성화 -->
-															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">1</button></div>
-															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">2</button></div>
-															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">3</button></div>
-															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav actived">4</button></div>
-															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">5</button></div>
-															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">6</button></div>
-															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">7</button></div>
-															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">8</button></div>
-															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">9</button></div>
-															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">10</button></div>
-															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">11</button></div>
-															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">12</button></div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
+<!--										<div class="calendar-title-sort">-->
+<!--											<div class="simple-calendar-wrap">-->
+<!--												<div class="simple-calendar-top">-->
+<!--													<button type="button" class="btn-simple-calendar-ui btn-simple-calendar-prev">이전</button>-->
+<!--													<div class="top-title">2022</div>-->
+<!--													<button type="button" class="btn-simple-calendar-ui btn-simple-calendar-next">다음</button>-->
+<!--												</div>-->
+<!--												<div class="simple-calendar-body">-->
+<!--													<div class="simple-calendar-month-group">-->
+<!--														<div class="simple-calendar-month-row">-->
+<!--															<!-- btn-simple-calendar-month-nav 클래스에 actived클래스 추가시 활성화 -->
+<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">1</button></div>-->
+<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">2</button></div>-->
+<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">3</button></div>-->
+<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav actived">4</button></div>-->
+<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">5</button></div>-->
+<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">6</button></div>-->
+<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">7</button></div>-->
+<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">8</button></div>-->
+<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">9</button></div>-->
+<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">10</button></div>-->
+<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">11</button></div>-->
+<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">12</button></div>-->
+<!--														</div>-->
+<!--													</div>-->
+<!--												</div>-->
+<!--											</div>-->
+<!--										</div>-->
 									</div>
 									<div class="sort-right">
 										<!-- actived클래스 추가시 활성화 -->
+                                        <button type="button" onclick="localStorage.setItem('day_select',`${new Date().getFullYear()}.${fill_zero(new Date().getMonth()+1)}.${fill_zero(new Date().getDate())}`); location.href='./reserve_beauty_day.php' " class="btn-reserve-calendar-sort">오늘</button>
 										<button type="button" class="btn-reserve-calendar-sort actived" >월</button>
 										<button type="button" class="btn-reserve-calendar-sort" onclick="location.href='./reserve_beauty_week.php';" >주</button>
 										<button type="button" class="btn-reserve-calendar-sort" onclick="location.href='./reserve_beauty_day.php';" >일</button>
@@ -138,7 +157,7 @@ if ($artist_flag == 1) {
 								<div>
 									<div class="reserve-calendar-data">
                                         <div class="loading-container" id="month_schedule_loading" style="min-height: 490px;">
-                                            <div class="mexican-wave"></div>
+                                            <img src="/static/images/loading.gif" alt="">
                                         </div>
 										<div class="reserve-calendar-inner" id="month_calendar_inner">
 											<!--
@@ -240,7 +259,13 @@ if ($artist_flag == 1) {
 
 
     $(document).ready(function(){
-
+        var artist_flag = "<?=$artist_flag?>";
+        if(artist_flag == 1){
+            $("#gnb_home").css("display","none");
+            $("#gnb_shop_wrap").css("display","none");
+            $("#gnb_detail_wrap").css("display","none");
+            $("#gnb_stats_wrap").css("display","none");
+        }
         get_navi(artist_id)
         gnb_init();
 
@@ -263,6 +288,13 @@ if ($artist_flag == 1) {
         gnb_actived('gnb_reserve_wrap','gnb_beauty');
         btn_month_calendar(artist_id)
         // waiting(artist_id)
+
+        document.getElementById('gnb_reserve_wrap').setAttribute('onclick','location.href ="/booking/reserve_beauty_day.php"')
+        document.getElementById('gnb_customer_wrap').setAttribute('onclick','location.href ="/customer/customer_inquiry.php"')
+        document.getElementById('gnb_shop_wrap').setAttribute('onclick','location.href ="/shop/shop_gate_picture.php"')
+        document.getElementById('gnb_detail_wrap').setAttribute('onclick','location.href ="/setting/set_schedule_list.php"')
+        document.getElementById('gnb_stats_wrap').setAttribute('onclick','location.href ="/report/stats_sale_1.php"')
+        document.getElementById('gnb_etc_wrap').setAttribute('onclick','location.href ="/etc/other_notice_list.php"')
 
     })
 

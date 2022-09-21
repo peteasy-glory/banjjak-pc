@@ -248,11 +248,11 @@ if ($artist_flag == 1) {
                                 <!-- 캘린더 상단 -->
                                 <div class="reserve-calendar-top">
                                     <div class="reserve-calendar-select">
-                                        <button type="button" class="btn-reserve-calendar-ui btn-month-prev"><span class="icon icon-calendar-prev-small"></span></button>
+                                        <button type="button" class="btn-reserve-calendar-ui btn-month-prev" onclick="move_month('prev')"><span class="icon icon-calendar-prev-small"></span></button>
                                         <div class="reserve-calendar-title">
-                                            <button type="button" class="txt">2021.11</button>
+                                            <button type="button" class="txt year_month">2021.11</button>
                                         </div>
-                                        <button type="button" class="btn-reserve-calendar-ui btn-month-next"><span class="icon icon-calendar-next-small"></span></button>
+                                        <button type="button" class="btn-reserve-calendar-ui btn-month-next" onclick="move_month('next')"><span class="icon icon-calendar-next-small"></span></button>
                                         <!-- calendar-title-sort 클래스에 actived클래스 추가시 활성화 -->
                                         <div class="calendar-title-sort">
                                             <div class="simple-calendar-wrap">
@@ -325,7 +325,7 @@ if ($artist_flag == 1) {
                                                         <div class="calendar-month-header-col saturday">토</div>
                                                     </div>
                                                 </div>
-                                                <div class="calendar-month-body">
+                                                <div id="calendar-month-body" class="calendar-month-body">
                                                     <div class="calendar-month-body-row">
                                                         <div class="calendar-month-body-col before break sunday">
                                                             <div class="calendar-col-inner">
@@ -741,6 +741,23 @@ if ($artist_flag == 1) {
             </div>
         </div>
     </form>
+
+    <article id="scheduleBackUrl" class="layer-pop-wrap">
+        <div class="layer-pop-parent">
+            <div class="layer-pop-children">
+
+                <div class="pop-data alert-pop-data">
+                    <div class="pop-body">
+                        <div class="msg-txt"></div>
+                    </div>
+                    <div class="pop-footer">
+                        <button type="button" class="btn btn-confirm" onclick="location.href='set_schedule_list.php';">확인</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </article>
 </div>
 <!-- //wrap -->
 <script src="../static/js/common.js"></script>
@@ -811,13 +828,15 @@ if ($artist_flag == 1) {
             var name = (v.name == artist_id)? v.nick : v.name;
             var checked = (i == 0)? "checked" : "";
             var is_block = (i == 0)? "flex" : "none";
-            html += `
-                    <div class="grid-layout-cell flex-auto"><label class="form-toggle-box"><input type="radio" class="worker" value="${i}" name="worker" ${checked}><em>${name}</em></label></div>
-                `;
+            if(v.is_leave == false && v.is_show == true){
+                html += `
+                        <div class="grid-layout-cell flex-auto"><label class="form-toggle-box"><input type="radio" class="worker" value="${i}" name="worker" ${checked}><em>${name}</em></label></div>
+                    `;
 
-            html_modify += `
+                html_modify += `
                     <div class="grid-layout-cell flex-auto"><label class="form-toggle-box"><input type="checkbox" name="break_worker[]" value="${v.name}" ${checked}><em>${name}</em></label></div>
                 `;
+            }
 
             start_hour = setting_array[0].open_time;
             close_hour = setting_array[0].close_time;
@@ -921,6 +940,10 @@ if ($artist_flag == 1) {
                 $(st_time).prop("checked", true);
             });
         });
+
+        //임시휴무 달력
+        let date = new Date();
+        renderCalendar(date);
     })
 
     // 공휴일 휴무설정 변경 이벤트
@@ -1002,6 +1025,17 @@ if ($artist_flag == 1) {
         pop.close();
         var idx = $("#delete_pop .idx").val();
         del_vacation(idx);
+    }
+
+    // 임시휴무 달력 이동
+    function move_month(move){
+        if(move == 'prev'){
+            date = new Date(date.setMonth(date.getMonth() - 1));
+            renderCalendar(date);
+        }else{
+            date = new Date(date.setMonth(date.getMonth() + 1));
+            renderCalendar(date);
+        }
     }
 
 </script>

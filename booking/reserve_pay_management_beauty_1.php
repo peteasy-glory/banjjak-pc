@@ -38,7 +38,7 @@ if ($artist_flag == 1) {
 								</div>
 							</div>
                             <div class="loading-container" id="pay_management_loading">
-                                <div class="mexican-wave"></div>
+                                <img src="/static/images/loading.gif" alt="">
                             </div>
 							<div class="card-body" id="pay_management_body">
 								<div class="card-body-inner" id="work_body_inner">
