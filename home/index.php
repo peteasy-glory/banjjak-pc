@@ -321,10 +321,15 @@ if($artist_flag == 1){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
+                    console.log(body)
+
+                    if(body.length > 0){
+
 
                     let open = body[0].open_time;
                     let close = body[0].close_time;
                     localStorage.setItem('open_close', `${open}/${close}`)
+                    }
                 }
             }
         })

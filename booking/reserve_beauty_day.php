@@ -275,13 +275,13 @@ if ($artist_flag == 1) {
                                                         <div class="grid-layout btn-grid-group">
                                                             <div class="grid-layout-inner">
                                                                 <div class="grid-layout-cell grid-2">
-                                                                    <a href="#" class="btn btn-outline-gray btn-middle-size btn-round" onclick="pop.open('reserveBeautyGalleryPop')">미용 갤러리</a>
+                                                                    <a href="#" class="btn btn-outline-gray btn-middle-size btn-round" id="pay_beauty_gal_btn" onclick="beauty_gallery_get(this,artist_id).then(function(pet_seq){ beauty_gallery_add(artist_id,pet_seq)})">미용 갤러리</a>
                                                                 </div>
                                                                 <div class="grid-layout-cell grid-2" id="beauty_agree_view">
                                                                     <a href="#" class="btn btn-outline-gray btn-middle-size btn-round">미용동의서</a>
                                                                 </div>
                                                                 <div class="grid-layout-cell grid-1">
-                                                                    <a href="#" class="btn btn-outline-purple btn-middle-size btn-round"  onclick="pop.open('petModifyPop');" id="modify_pet">펫 정보 수정</a>
+                                                                    <a href="#" class="btn btn-outline-purple btn-middle-size btn-round"  id="modify_pet" onclick="pay_management_modify_pet(this).then(function(body){ pay_management_modify_pet_(body)});">펫 정보 수정</a>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -434,7 +434,7 @@ if ($artist_flag == 1) {
                                                                     </div>
                                                                 </div>
                                                                 <div class="pay-flex-table-data-side">
-                                                                    <button type="button" class="pay-grade-modify" onclick="pop.open('memberGradeAddPop')"></button>
+                                                                    <button type="button" class="pay-grade-modify" id="pay_grade_btn"  onclick="pay_get_grade(this,artist_id)"></button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -618,28 +618,28 @@ if ($artist_flag == 1) {
                                             <div class="wide-tab pay-wide-tab">
                                                 <div class="wide-tab-inner" id="wide-tab-inner3">
                                                     <div class="tab-cell actived">
-                                                        <button type="button" class="btn-tab-item btn-tab-item-add"  id="payment_basic_service_btn">
+                                                        <button type="button" class="btn-tab-item btn-tab-item-add"  onclick="target_event(this)" id="payment_basic_service_btn">
                                                             <span>
                                                                 기본 서비스
                                                             </span>
                                                         </button>
                                                     </div>
                                                     <div class="tab-cell">
-                                                        <button type="button" class="btn-tab-item btn-tab-item-add" id="payment_other_service_btn">
+                                                        <button type="button" class="btn-tab-item btn-tab-item-add" onclick="target_event(this)" id="payment_other_service_btn">
                                                             <span>
                                                                 추가
                                                             </span>
                                                         </button>
                                                     </div>
                                                     <div class="tab-cell">
-                                                        <button type="button" class="btn-tab-item btn-tab-item-add" id="payment_other2_service_btn">
+                                                        <button type="button" class="btn-tab-item btn-tab-item-add" onclick="target_event(this)" id="payment_other2_service_btn">
                                                             <span>
                                                                 쿠폰상품
                                                             </span>
                                                         </button>
                                                     </div>
                                                     <div class="tab-cell">
-                                                        <button type="button" class="btn-tab-item btn-tab-item-add" id="payment_other3_service_btn">
+                                                        <button type="button" class="btn-tab-item btn-tab-item-add" onclick="target_event(this)" id="payment_other3_service_btn">
                                                             <span>
                                                                 제품
                                                             </span>
@@ -662,11 +662,27 @@ if ($artist_flag == 1) {
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="tab-data-cell basic_service actived" id="payment_basic_service_cat">
+                                                <div class="grid-layout basic">
+                                                    <div class="grid-layout-inner" id="payment_basic_service_inner_cat">
+
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <!-- //기본 서비스 -->
                                             <!-- 추가 -->
                                             <div class="tab-data-cell basic_service" id="payment_other_service">
                                                 <div class="grid-layout basic">
                                                     <div class="grid-layout-inner" id="payment_other_service_inner">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="tab-data-cell basic_service" id="payment_other_service_cat">
+                                                <div class="grid-layout basic">
+                                                    <div class="grid-layout-inner" id="payment_other_service_inner_cat">
 
                                                     </div>
                                                 </div>
@@ -856,9 +872,12 @@ if ($artist_flag == 1) {
                                                             <div class="regular-user-confirm-input">
                                                                 <div class="item-check"><label class="form-radiobox">
                                                                         <input type="radio" id="discount_1_btn" name="discount_radio">
+
+
                                                                         <span class="form-check-icon"><em>퍼센트할인</em></span></label></div>
                                                                 <div class="item-data">
                                                                     <select id="discount_1">
+
                                                                     </select>
 
                                                                     <div class="unit">%</div>
@@ -2880,6 +2899,43 @@ if ($artist_flag == 1) {
 
         agree_view_birthday().then(function(){ agree_view_birthday_date()})
         agree_view_pet_type(artist_id);
+
+        for(let i=0; i<=100;i++){
+
+            document.getElementById('discount_1').innerHTML +=`<option value="${i}">${i}</option>`
+        }
+
+
+        for(let i=0; i<=50000; i+=100){
+
+            document.getElementById('discount_2').innerHTML += `<option value="${i}">${i}</option>`
+        }
+
+        management_service_1(artist_id,'dog').then(function(body){
+
+            console.log(body)
+
+            management_total_price();
+
+            reserves(artist_id);
+
+
+            management_service_2(body).then(function(base_svc){
+
+
+                management_service_3(base_svc).then(function(){
+
+                    management_service_4()
+                })
+            })
+
+
+        })
+
+        management_service_1(artist_id,'cat').then(function(body){
+            management_service_2(body).then(function(){
+            })
+        })
 
         document.getElementById('gnb_reserve_wrap').setAttribute('onclick','location.href ="/booking/reserve_beauty_day.php"')
         document.getElementById('gnb_customer_wrap').setAttribute('onclick','location.href ="/customer/customer_inquiry.php"')

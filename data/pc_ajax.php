@@ -2242,9 +2242,14 @@ if($r_mode) {
         $return_data = array("code"=>"000000","data"=>$result);
     }else if($r_mode === "beauty_gal_get"){
 
-        $payment_idx = $_POST['idx'];
+        $pet_seq = $_POST['idx'];
 
-        $result = $api ->get('/partner/booking/beauty-gallery/'.$payment_idx);
+        $artist_id = $_POST['artist_id'];
+
+        $data = array('artist_id'=>$artist_id);
+        $data_json = json_encode($data);
+
+        $result = $api ->get('/partner/booking/beauty-gallery/'.$pet_seq,$data_json);
 
         $return_data = array("code"=>"000000","data"=>$result);
 
@@ -2387,7 +2392,7 @@ if($r_mode) {
         $customer_idx=$_POST['customer_idx'];
         $grade_idx=$_POST['grade_idx'];
 
-        $data= array(customer_idx=>$customer_idx,grade_idx=>intval($grade_idx));
+        $data= array(customer_idx=>intval($customer_idx),grade_idx=>intval($grade_idx));
 
         $data_json = json_encode($data);
 
@@ -2721,23 +2726,15 @@ if($r_mode) {
     }else if($r_mode === 'product_change'){
 
         $payment_idx = $_POST['payment_idx'];
-        $partner_id = $_POST['partner_id'];
         $use_coupon = $_POST['use_coupon'];
-        $idx = $_POST['idx'];
-        $customer_id = $_POST['customer_id'];
-        $tmp_user_idx = $_POST['tmp_user_idx'];
         $price = $_POST['price'];
         $product = $_POST['product'];
 
 
         $data = array(
             'payment_idx'=>intval($payment_idx),
-            'partner_id'=>$partner_id,
             'use_coupon'=>$use_coupon,
-            'coupon'=>'',
-            'customer_id'=>$customer_id,
-            'tmp_user_idx'=>intval($tmp_user_idx),
-            'price'=>$price,
+            'price'=>intval($price),
             'product'=>$product
 
         );
