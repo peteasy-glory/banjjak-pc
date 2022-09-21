@@ -1548,6 +1548,22 @@ if($r_mode) {
 
         $return_data = array("code"=>"000000",'data'=>$result);
 
+    }else if($r_mode === "all_inquiry_graph"){
+
+        $artist_id = $_POST['login_id'];
+
+        $sql = "
+            SELECT 
+            (SELECT COUNT(*) FROM tb_hotel_payment_log WHERE artist_id = '{$artist_id}' AND is_delete = '2' AND is_no_show = '2' AND data_delete = 0) hotel_cnt,
+            (SELECT COUNT(*) FROM tb_playroom_payment_log WHERE artist_id = '{$artist_id}' AND is_delete = '2' AND is_no_show = '2' AND data_delete = 0) playroom_cnt,
+            COUNT(*) beauty_cnt
+            FROM tb_payment_log WHERE artist_id = '{$artist_id}' AND is_no_show = 0 AND is_cancel = 0 AND data_delete = 0
+        ";
+        $res = mysqli_query($connection, $sql);
+        $row = mysqli_fetch_assoc($res);
+
+        $return_data = array("code"=>"000000",'data'=>$row);
+
     }else if($r_mode === "put_vat"){
 
         $partner_id = $_POST['artist_id'];

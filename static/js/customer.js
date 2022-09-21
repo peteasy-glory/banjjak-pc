@@ -332,63 +332,6 @@ function customer_count(id){
     })
 }
 
-function customer_graph(customers){
-
-    let all = (customers[0].body.length === undefined ? 0 : customers[0].body.length)+(customers[1].body.length === undefined ? 0 : customers[1].body.length)+(customers[2].body.length === undefined ? 0 : customers[2].body.length)
-    let beauty = (customers[0].body.length === undefined ? 0 : (customers[0].body.length/all*100).toFixed(1));
-    let hotel = (customers[1].body.length === undefined ? 0 : (customers[1].body.length/all*100).toFixed(1));
-    let kinder = (customers[2].body.length === undefined ? 0 : (customers[2].body.length/all*100).toFixed(1));
-
-    var chart = bb.generate({
-        size: {
-            height: 285,
-            width: 285
-        },
-        data: {
-            columns: [
-                ["유치원", kinder],
-                ["호텔", hotel],
-                ["미용", beauty]
-            ],
-            colors: {
-                유치원: "#7AE19A",
-                호텔: "#FDD94E",
-                미용: "#8667c1",
-
-            },
-            type: "pie",
-            labels: {
-                show: false
-            }
-        },
-        /* order: "asc", */ // 그래프 순서 변경하기
-        legend: {
-            show: false
-        },
-        // tooltip: {
-        //     show: false
-        // },
-        pie: {
-            startingAngle: 0.75,
-            innerRadius: {  // 차트 두께
-                유치원: 90,
-                호텔: 90,
-                미용: 90,
-            },
-            label: {   // text 위치
-                ratio: 1,
-                format: function(value, id) {		return value +"%";       }
-            }
-        },
-        tooltip: {
-            format: {
-                value:
-                    function(value, id) {		return value +"%";    }
-            }
-        },
-        bindto: "#labelRatio"
-    });
-}
 
 function customer_list(id,customers){
 
