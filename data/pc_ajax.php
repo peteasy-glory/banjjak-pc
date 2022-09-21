@@ -1554,9 +1554,9 @@ if($r_mode) {
 
         $sql = "
             SELECT 
-            (SELECT COUNT(*) FROM tb_hotel_payment_log WHERE artist_id = '{$artist_id}' AND is_delete = '2' AND is_no_show = '2' AND data_delete = 0) hotel_cnt,
-            (SELECT COUNT(*) FROM tb_playroom_payment_log WHERE artist_id = '{$artist_id}' AND is_delete = '2' AND is_no_show = '2' AND data_delete = 0) playroom_cnt,
-            COUNT(*) beauty_cnt
+            (SELECT ifnull(SUM(ifnull(total_price,0)),0) FROM tb_hotel_payment_log WHERE artist_id = '{$artist_id}' AND is_delete = '2' AND is_no_show = '2' AND data_delete = 0) hotel_cnt,
+            (SELECT ifnull(SUM(ifnull(total_price,0)),0) FROM tb_playroom_payment_log WHERE artist_id = '{$artist_id}' AND is_delete = '2' AND is_no_show = '2' AND data_delete = 0) playroom_cnt,
+            SUM(ifnull(total_price,0)) + SUM(ifnull(local_price,0)) + SUM(ifnull(local_price_cash,0)) beauty_cnt
             FROM tb_payment_log WHERE artist_id = '{$artist_id}' AND is_no_show = 0 AND is_cancel = 0 AND data_delete = 0
         ";
         $res = mysqli_query($connection, $sql);
@@ -2111,9 +2111,9 @@ if($r_mode) {
     }else if($r_mode === "get_customer_memo"){
 
         $login_id = $_POST['login_id'];
-        $customer_id = $_POST['customer_id'];
-        $tmp_seq = $_POST['tmp_seq'];
-        $cellphone = $_POST['cellphone'];
+        $customer_id = (isset($_POST['customer_id']))? $_POST['customer_id'] : '';
+        $tmp_seq = (isset($_POST['tmp_seq']))? $_POST['tmp_seq'] : '';
+        $cellphone = intval($_POST['cellphone']);
 
 
         $get_memo_data = array(
