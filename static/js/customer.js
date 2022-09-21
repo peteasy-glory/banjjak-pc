@@ -1116,7 +1116,7 @@ function customer_view(id){
                 cellphone:localStorage.getItem('customer_select'),
             },
             success:function(res){
-                console.log(res)
+                //console.log(res)
                 let response = JSON.parse(res);
                 let head = response.data.head;
                 let body = response.data.body;
@@ -1128,7 +1128,7 @@ function customer_view(id){
 
                         body =[body];
                     }
-                    console.log(body)
+                    //console.log(body)
 
                     $.ajax({
 
@@ -1140,7 +1140,7 @@ function customer_view(id){
                             login_id:id,
                             cellphone:localStorage.getItem('customer_select')
                         },success:function(res) {
-                            console.log(res)
+                            //console.log(res)
                             let response = JSON.parse(res);
                             let head_ = response.data.head;
                             let body_ = response.data.body;
@@ -1155,7 +1155,8 @@ function customer_view(id){
 
                                 let body_data= [body,body_]
 
-
+                                // customer_id = body[0].customer_id;
+                                // tmp_seq = body[0].tmp_seq;
 
                                 document.getElementById('customer_view_cellphone').innerText = phone_edit(localStorage.getItem('customer_select'));
                                 document.getElementById('allim_cellphone').innerText = phone_edit(localStorage.getItem('customer_select'));
@@ -1428,7 +1429,7 @@ function get_grade(id){
             } else if (head.code === 200) {
                 body.forEach(function (el){
 
-                    console.log(body)
+                    //console.log(body)
                     if(el.is_delete === 0){
                         switch (el.grade_ord){
 
@@ -1538,7 +1539,7 @@ function pet_reserve_info(data){
                 pet_list.forEach(function(el_){
                     if(parseInt(el.getAttribute('data-pet_seq'))  === el_.pet_seq){
 
-                        console.log(el_)
+                        //console.log(el_)
 
                         let time = new Date(el_.detail.year,el_.detail.month+1,el_.detail.day).getTime()
                         let now = new Date().getTime();
@@ -1668,6 +1669,7 @@ function insert_customer_memo(id,data){
         },
         success:function (res){
             let response = JSON.parse(res);
+            console.log(response);
             let head = response.data.head;
             let body = response.data.body;
             if (head.code === 401) {
@@ -1677,9 +1679,9 @@ function insert_customer_memo(id,data){
 
                 document.getElementById('customer_memo').innerText = body.memo;
 
-                document.getElementById('customer_memo').addEventListener('focusout',function(){
+                document.getElementById('customer_memo').addEventListener('keyup',function(){
 
-
+console.log('test');
 
                     $.ajax({
 

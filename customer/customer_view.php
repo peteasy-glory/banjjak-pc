@@ -1298,7 +1298,7 @@ if ($artist_flag == 1) {
         gnb_init();
         set_image('front_image');
         //prepend_data('consulting_count nick');
-        gnb_actived('gnb_customer_wrap','gnb_inquire_all');
+        gnb_actived('gnb_customer_wrap','gnb_inquire');
         customer_view_(artist_id)
 
 
@@ -1375,6 +1375,13 @@ if ($artist_flag == 1) {
         showOtherMonths:true, //이전 , 다음 달 일수 활성화
     });
 
+    // var customer_id = '';
+    // var tmp_seq = '';
+    //$(document).on("keyup","#customer_memo",function(){
+        // console.log($(this).val());
+        // console.log(localStorage.getItem('customer_select'));
+        // console.log(customer_id, tmp_seq);
+    //})
 </script>
 </body>
 </html>
