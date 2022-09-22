@@ -119,8 +119,10 @@ if($r_mode) {
         $login_id = $_POST['login_id'];
         $year = $_POST['year'];
         $month = $_POST['month'];
+        $month_1 = $_POST['month_1'];
 
-        $month_book = $api->get('/partner/home/' . $login_id . '?y=' . $year . '&m=' . $month);
+        $month_book = $api->get('/partner/booking/b/'.$login_id.'?st_date='.$year.'-'.$month.'-01&fi_date='.$year.'-'.$month_1.'-01');
+//        $month_book = $api->get('/partner/home/' . $login_id . '?y=' . $year . '&m=' . $month);
 
         $return_data = array("code" => "000000", "data" => $month_book);
     } else if ($r_mode === "holiday") {
@@ -2817,6 +2819,32 @@ if($r_mode) {
         $data_json = json_encode($data);
 
         $result = $api ->put('/partner/booking/payment-product',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
+
+    }else if($r_mode === 'stats'){
+        $login_id = $_POST['login_id'];
+        $st_date = $_POST['st_date'];
+        $fi_date = $_POST['fi_date'];
+
+        $stats = $api->get('/partner/booking/pet-pay/' . $login_id. '?st_date=' . $st_date . '&fi_date=' . $fi_date);
+
+        $return_data = array("code" => "000000", "data" => $stats);
+
+    }else if($r_mode === 'reserve_regist_allim'){
+
+
+        $cellphone = $_POST['cellphone'];
+        $message = $_POST['message'];
+        $tem_code = "1000004530_20001";
+        $btn_link = "https://customer.banjjakpet.com/allim/#{주문정보}";
+
+        $data = array('cellphone'=>$cellphone,'message'=>$message,'tem_code'=>$tem_code,'btn_link'=>$btn_link);
+
+        $data_json = json_encode($data);
+
+        $result = $api -> post('/partner/allim/send',$data_json);
 
         $return_data = array("code"=>"000000","data"=>$result);
 

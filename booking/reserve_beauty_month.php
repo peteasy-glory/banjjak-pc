@@ -53,16 +53,16 @@ if ($artist_flag == 1) {
 								</div>
 								<div class="card-body">
 									<!-- 내용이 있을 때 -->
-									<div class="customer-card-list" id="month_today_reserve_list">
+									<div class="customer-card-list" id="main_reserve_list">
 
 
 									</div>
 									<!-- //내용이 있을 때 -->
 									<!-- 내용이 없을 때 -->
-									<div class="common-none-data type-2" id="common_none_data" style="display: none;">
+									<div class="common-none-data type-2" id="reserve_after_none" style="display: none;">
 										<div class="none-inner">
 											<div class="item-visual"><img src="../static/images/icon/img-illust-3@2x.png" alt="" width="103"></div>
-											<div class="item-info">오늘의 내용이 없습니다.</span></div>
+											<div class="item-info">오늘은 확정된 예약일정이 없습니다.</span></div>
 										</div>
 									</div>
 									<!-- //내용이 없을 때 -->
@@ -82,9 +82,6 @@ if ($artist_flag == 1) {
 									</div>
 								</div>
 							</div>
-                            <div style="position: relative; right: 0;width: 100%; display: flex;  justify-content: flex-end; margin-top: 57px;">
-                                <a href="/customer/customer_inquiry.php"><img src="https://image.banjjakpet.com/images/icon-circle-float_search.png" alt="" style="width:64px;"></a>
-                            </div>
 							<!-- //오늘의 예약 총 횟수 -->
 							<!-- 빈시간 판매하기 -->
 <!--							<div class="basic-data-card transparent">-->
@@ -93,7 +90,7 @@ if ($artist_flag == 1) {
 							<!-- //빈시간 판매하기 -->
 						</div>					
 					</div>
-					<div class="data-col-middle">
+					<div class="data-col-middle" style="width:72vw !important;">
 						<div class="basic-data-card reserve-calendar-view">
 							<div class="card-header">
 								<!-- 캘린더 상단 -->
@@ -272,7 +269,7 @@ if ($artist_flag == 1) {
         book_list(artist_id).then(function(body){
 
 
-            today_reserve_month(artist_id);
+            today_reserve(artist_id,false);
             _renderCalendar_month().then(function(){
                 month_reserve_cols(body).then(function (){
 

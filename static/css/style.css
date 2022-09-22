@@ -1061,3 +1061,8 @@
 .bg-fffbed{
     background:#fffbed;
 }
+
+.calendar-drag-item-add{
+
+    max-width:100%;
+}

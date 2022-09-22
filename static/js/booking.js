@@ -34,22 +34,30 @@ function schedule_render(id){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
+                console.log(body)
                 document.getElementById('day_today').innerHTML = `${date.getFullYear()}.${fill_zero(date.getMonth()+1)}.${fill_zero(date.getDate())}`
-                document.getElementById('day_total').innerHTML = `${body.length}건`
+                let day_count = 0;
+
                 let cancel = 0;
                 let noshow = 0;
 
                 body.forEach(function (el){
+
                     if(el.product.is_cancel === 1 ){
                         cancel ++;
                     }
                     if(el.product.is_no_show === 1){
                         noshow ++;
                     }
+
+                    if(el.product.is_cancel !== 1 && el.product.is_no_show !== 1){
+                        day_count++;
+                    }
+
                 })
                 document.getElementById('day_cancel').innerHTML = `${cancel}건`
                 document.getElementById('day_noshow').innerHTML = `${noshow}건`
-
+                document.getElementById('day_total').innerHTML = `${day_count}건`
                 let week = ['일','월','화','수','목','금','토']
                 document.getElementById('schedule_day').innerHTML =`${fill_zero(date.getMonth()+1)}.${fill_zero(date.getDate())}(${week[date.getDay()]})`
 
@@ -874,6 +882,7 @@ return new Promise(function (resolve){
                         pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                     } else if (head.code === 200) {
 
+                        let week_count = 0;
                         let cancel = 0;
                         let noshow = 0;
 
@@ -886,10 +895,15 @@ return new Promise(function (resolve){
                             if (el.product.is_no_show === 1) {
                                 noshow++;
                             }
+
+                            if(el.product.is_cancel !== 1 && el.product.is_no_show !==1 ){
+
+                                week_count++;
+                            }
                         })
 
                         document.getElementById('day_today').innerHTML = `${st_date.replaceAll('-', '.')} ~ ${fi_date.substr(0,4)}.${fi_date.substring(5).split('-')[0]}.${parseInt(fi_date.substring(5).split('-')[1])-1}`
-                        document.getElementById('day_total').innerHTML = `${body_.length}건`
+                        document.getElementById('day_total').innerHTML = `${week_count}건`
                         document.getElementById('day_cancel').innerHTML = `${cancel}건`
                         document.getElementById('day_noshow').innerHTML = `${noshow}건`
                         document.getElementById('schedule_day').innerHTML = `${st_date.substring(5).replaceAll('-', '.')} ~ ${fi_date.substring(5).split('-')[0]}.${fill_zero(parseInt(fi_date.substring(5).split('-')[1])-1)}`
@@ -968,13 +982,16 @@ function book_list(id) {
 
     return new Promise(function (resolve){
 
+        console.log('book_list')
+
         $.ajax({
             url: '/data/pc_ajax.php',
             data: {
                 mode: 'month_book',
                 login_id: id,
                 year: date.getFullYear(),
-                month: date.getMonth()+1,
+                month: fill_zero(date.getMonth()+1),
+                month_1:fill_zero(date.getMonth()+2),
             },
             type: 'POST',
             beforeSend:function(){
@@ -1017,12 +1034,13 @@ function book_list(id) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
                     list = body;
+                    console.log(body)
 
                     if(location.href.match('reserve_beauty_month')){
                         let cancel = 0;
                         let noshow = 0;
 
-                        body.beauty.forEach(function (el){
+                        body.forEach(function (el){
 
                             if(el.product.is_cancel === 1){
 
@@ -1045,7 +1063,7 @@ function book_list(id) {
                         //     }
                         // })
 
-                        body.beauty.forEach(function (el){
+                        body.forEach(function (el){
 
                             if(el.product.is_no_show === 1){
 
@@ -1068,7 +1086,6 @@ function book_list(id) {
                         //     }
                         // })
                         document.getElementById('day_today').innerText = `${date.getFullYear()}.${fill_zero(date.getMonth()+1)}`
-                        document.getElementById('day_total').innerText =`${body.beauty.length + body.hotel.length + body.kindergarden.length}건`
 
 
                         document.getElementById('day_cancel').innerText = `${cancel}건`
@@ -1201,6 +1218,7 @@ function consulting_hold_list(id){
                                 body_ = [body_];
                             }
 
+                            console.log(body_)
                             let status = '';
 
                             if(body_.length === 0){
@@ -1483,7 +1501,7 @@ function consulting_hold_list(id){
                                                                                                                 <h4 class="con-title">특이사항</h4>
                                                                                                             </div>
                                                                                                             <div class="con-title-group">
-                                                                                                                <h5 class="con-title">${el_.dermatosis ? "피부병" : ""} ${el_.heart_trouble ? "심장질환" : ""} ${el_.marking ? "마킹" : ""} ${el_.mounting ? "마운팅" : ""} </h5>
+                                                                                                                <h5 class="con-title">${el_.dermatosis ? "피부병" : ""} ${el_.heart_trouble ? "심장질환" : ""} ${el_.marking ? "마킹" : ""} ${el_.mounting ? "마운팅" : ""} ${!el_.dermatosis && !el_.heart_trouble && !el_.marking && !el_.mounting ? '없음' : ''} </h5>
                                                                                                             </div>
                                                                                                         </div>
                                                                                                         <div class="basic-data-group">
@@ -4031,7 +4049,7 @@ return new Promise(function (resolve){
     }else{
         Array.from(document.getElementsByClassName('insert_data')).forEach(function(el){
 
-            body.beauty.forEach(function(el_){
+            body.forEach(function(el_){
 
 
                 let color;
@@ -4051,7 +4069,7 @@ return new Promise(function (resolve){
 
                     if(new Date(date_init[0],date_init[1]-1,date_init[2]).getTime() === new Date(el.getAttribute('data-year'),el.getAttribute('data-month'),el.getAttribute('data-date')).getTime() && el_.product.is_cancel === 0 ){
 
-                        el.innerHTML += `<div class="calendar-drag-item"><a href="./reserve_pay_management_beauty_1.php" onclick="localStorage.setItem('payment_idx',${el_.product.payment_idx})" class="calendar-month-day-item green ${color} ${el_.product.pay_type} ${el_.product.is_no_show === 1 ? "red" : ''} ${el_.product.is_approve === 0 ? 'gray':''}" style="color: white;"><div class="calendar-month-day-item-name"><strong>${el_.pet.name}</strong><span>(${el_.pet.type})</span></div></a></div>`
+                        el.innerHTML += `<div class="calendar-drag-item calendar-drag-item-add"><a href="./reserve_pay_management_beauty_1.php" onclick="localStorage.setItem('payment_idx',${el_.product.payment_idx})" class="calendar-month-day-item green ${color} ${el_.product.pay_type} ${el_.product.is_no_show === 1 ? "red" : ''} ${el_.product.is_approve === 0 ? 'gray':''}" style="color: white;"><div class="calendar-month-day-item-name"><strong>${el_.pet.name}</strong><span>(${el_.pet.type})</span></div></a></div>`
                     }
                 }
 
@@ -4217,7 +4235,7 @@ function btn_month_calendar(id){
         date.setMonth(date.getMonth() - 1);
         book_list(id).then(function (body){
             document.getElementById('calendar_month_body').innerHTML = '';
-            today_reserve_month(id);
+            today_reserve(id,false);
             _renderCalendar_month().then(function(){
                 month_reserve_cols(body).then(function (){
 
@@ -4237,7 +4255,7 @@ function btn_month_calendar(id){
         book_list(id).then(function(body){
 
             document.getElementById('calendar_month_body').innerHTML = '';
-            today_reserve_month(id);
+            today_reserve(id,false);
             _renderCalendar_month().then(function(){
                 month_reserve_cols(body).then(function (){
 
@@ -4289,7 +4307,8 @@ function schedule_render_list(id){
 
 
                     document.getElementById('day_today').innerHTML = `${date.getFullYear()}.${fill_zero(date.getMonth() + 1)}.${fill_zero(date.getDate())}`
-                    document.getElementById('day_total').innerHTML = `${body.length}건`
+
+                    let day_count = 0;
                     let cancel = 0;
                     let noshow = 0;
 
@@ -4300,10 +4319,14 @@ function schedule_render_list(id){
                         if (el.product.is_no_show === 1) {
                             noshow++;
                         }
+
+                        if(el.product.is_cancel !== 1 && el.product.is_no_show !==1){
+                            day_count++;
+                        }
                     })
                     document.getElementById('day_cancel').innerHTML = `${cancel}건`
                     document.getElementById('day_noshow').innerHTML = `${noshow}건`
-
+                    document.getElementById('day_total').innerHTML = `${day_count}건`
 
 
                     let week = ['일', '월', '화', '수', '목', '금', '토']
@@ -6507,50 +6530,44 @@ let beauty,bath,add_svc;
 
 
     }
-    //
-    //
-    //
-    // //console.log('---------------------')
-    // //console.log(`partner_id : ${login}`);
-    // //console.log(`wokrer : ${document.getElementById('reserveCalendarPop2').getAttribute('data-name')}`)
-    // //console.log(`customer_id : ${document.getElementById('customer_id').value}`)
-    // //console.log(`cellphone : ${cellphone}`)
-    // //console.log(`pet_seq : ${document.getElementById('pet_seq').value}`)
-    // //console.log(`animal : ${breed}`)
-    // //console.log(`pet_type:${breed_select}`)
-    // //console.log(`pet_name :${name}`)
-    // //console.log(`pet_year : ${pet_year}`);
-    // //console.log(`pet_month : ${pet_month}`)
-    // //console.log(`pet_day : ${pet_date}`)
-    // //console.log(`gender:${gender}`)
-    // //console.log(`neutral:${neutral}`)
-    // //console.log(`weight:${weight}`)
-    // //console.log(`beauty_exp:${beauty_exp}`)
-    // //console.log(`vaccination:${vaccination}`)
-    // //console.log(`luxation:${luxation}`)
-    // //console.log(`bite:${bite}`)
-    // //console.log(`dermatosis:${dermatosis}`)
-    // //console.log(`heart_trouble:${heart_trouble}`)
-    // //console.log(`marking:${marking}`)
-    // //console.log(`mounting:${mounting}`)
-    // //console.log(`year:${date.getFullYear()}`)
-    // //console.log(`month:${date.getMonth()+1}`)
-    // //console.log(`day:${date.getDate()}`)
-    // //console.log(`hour:${document.getElementById('reserve_st_time').value.split(':')[0]}`)
-    // //console.log(`min:${document.getElementById('reserve_st_time').value.split(':')[1]}`)
-    // //console.log(`session_id:${session}`)
-    // //console.log(`order_id:''`)
-    // //console.log(`local_price:${total_price}`)
-    // //console.log(`pay_type:'pos-card'`)
-    // //console.log(`pay_status:'pos'`)
-    // //console.log(`pay_data : ${JSON.stringify(pay_data)}`)
-    // //console.log(`to_hour :${document.getElementById('reserve_fi_time').value.split(':')[0]}`)
-    // //console.log(`to_min:${document.getElementById('reserve_fi_time').value.split(':')[1]}`)
-    // //console.log(`use_coupon_yn:'N'`)
-    // //console.log(`is_vat : ${is_vat}`)
-    // //console.log(`product : ${product}`)
-    // //console.log(`reserve_yn : ${document.getElementById('notice_check').getAttribute('data-notice')}`)
-    // //console.log(`aday_ago_yn :${yesterday ? 'Y':'N'}`)
+
+
+    if(document.getElementById('notice_check').getAttribute('data-notice') === 'Y'){
+
+        let year = document.getElementById('reserve_time_year').value;
+        let month = document.getElementById('reserve_time_month').value;
+        let day = document.getElementById('reserve_time_date').value;
+        let hour = document.getElementById('reserve_st_time').value.split(':')[0];
+        let min = document.getElementById('reserve_st_time').value.split(':')[1];
+
+        let message = `반려생활의 단짝, 반짝에서 ${cellphone.slice(-4)}님의 ${name} 미용예약 내용을 알려드립니다.\n` +
+            '\n' +
+            `- 예약펫샵 : ${shop_name}\n` +
+            `- 예약일시 : ${year}년 ${month}월 ${day}일 ${hour}시 ${min}분\n` +
+            '\n' +
+            '예약내용 상세확인과 예약은\n' +
+            '반려생활의 단짝, 반짝에서도 가능합니다.';
+
+
+
+        $.ajax({
+
+            url:'/data/pc_ajax.php',
+            type:'post',
+            data:{
+
+                mode:'reserve_regist_allim',
+                cellphone:cellphone,
+                message:message,
+                
+
+            }
+        })
+
+
+
+
+    }
 
 
 
@@ -11266,7 +11283,7 @@ function pay_management_init(id,target,bool,bool2){
                         body.reserve_point = 0;
                     }
                     document.getElementById('total_reserves_use').value = body.reserve_point;
-                    document.getElementById('total_reserves_use').innerText = body.reserve_point;
+                    document.getElementById('total_reserves_use').innerText = `${body.reserve_point}원`;
                     last_price()
 
 
@@ -11627,7 +11644,7 @@ function user_coupon_change(){
 
 }
 
-function allim_talk_send(target){
+function allim_talk_send_change_time(target){
 
 
     let cellphone = target.getAttribute('data-cellphone');
