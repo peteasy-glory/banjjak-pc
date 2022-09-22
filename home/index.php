@@ -296,7 +296,7 @@ if($artist_flag == 1){
         update();
         wide_tab();
         notice();
-        today_reserve(artist_id);
+        today_reserve(artist_id,true);
         set_image('front_image');
         prepend_data('consulting_count schedule_count new_review_count total_count nick');
         // stats();

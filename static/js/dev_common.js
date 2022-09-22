@@ -157,29 +157,37 @@ function home_cal(id){
                 } else if (head.code === 200) {
                     console.log(body)
 
+                    let reserve;
 
-                    let date_info = document.getElementsByClassName('date-info');
+                    if(body[0].length !== undefined){
+                        if(body[0].length > 0){
+                            reserve = body[0];
 
-                    Array.from(date_info).forEach(function(el){
+                            let date_info = document.getElementsByClassName('date-info');
 
-                        body.forEach(function(el_){
+                            Array.from(date_info).forEach(function(el){
 
-
-                            if(`20${el.innerText.trim().replaceAll('.','-')}` === el_.date){
-
-
-                                siblings(el,1).innerText = `${el_.count}건`;
-
-                                siblings(el.parentElement.parentElement.parentElement.parentElement,0).children[1].innerText= `${el_.count}`;
-
-                                el.parentElement.parentElement.parentElement.childNodes[3].childNodes[1].childNodes[3].innerText = `${el_.count}건`
-                            }
-
-                        })
+                                reserve.forEach(function(el_){
 
 
+                                    if(`20${el.innerText.trim().replaceAll('.','-')}` === el_.date){
 
-                    })
+
+                                        siblings(el,1).innerText = `${el_.count}건`;
+
+                                        siblings(el.parentElement.parentElement.parentElement.parentElement,0).children[1].innerText= `${el_.count}`;
+
+                                        el.parentElement.parentElement.parentElement.childNodes[3].childNodes[1].childNodes[3].innerText = `${el_.count}건`
+                                    }
+
+                                })
+                            })
+
+                        }
+                    }
+
+
+
 
 
                 }
@@ -203,6 +211,93 @@ function home_cal(id){
 
             }
         })
+}
+
+function home_stats(id){
+
+
+    $.ajax({
+        url: '/data/pc_ajax.php',
+        data: {
+            mode: 'stats',
+            login_id: id,
+            st_date: date.getFullYear() + '-' + fill_zero(date.getMonth() + 1) + '-01',
+            fi_date: date.getFullYear() + '-' + fill_zero(date.getMonth() + 2) + '-01'
+        },
+        type: 'POST',
+        success: function (res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+
+
+                if(body[0].card_price === null){
+
+                    document.querySelector('.main-reserve-graph').innerHTML = '';
+                    document.getElementById('main_reserve_graph_none').style.display = 'block';
+                }else{
+                    document.getElementById('main_reserve_graph_none').style.display = 'none';
+
+                    let card = parseInt(body[0].card_price);
+                    let cash = parseInt(body[0].cash_price);
+
+                    let dog = 0;
+                    let cat = 0;
+                    body.forEach(function(el){
+
+                        if(el?.pet_type){
+                            if(el.pet_type === 'dog'){
+
+                                dog = parseInt(el.pet_cnt);
+                            }else{
+                                cat = parseInt(el.pet_cnt);
+
+                            }
+                        }
+
+
+
+                    })
+
+
+                    let total_price = card+cash
+                    let card_ = Math.round(card / total_price * 100)
+                    let cash_ = Math.round(cash / total_price *100)
+
+                    console.log(card_);
+                    console.log(cash_)
+
+                    console.log(dog)
+                    console.log(cat)
+                    let total_pet = cat+dog;
+                    let cat_ = Math.round(cat/total_pet*100)
+                    let dog_ = Math.round(dog/total_pet*100)
+
+                    console.log(total_pet);
+
+                    console.log(cat_)
+                    console.log(dog_)
+
+
+                    document.querySelector('.main-reserve-graph').innerHTML = `<div class="graph-cell">
+                                                                                        <div class="graph-item yellow" style="${cash_ === 0 ? 'display:none;' : `width:${cash_}%;`} ${cash_ < 30 ? `font-size:10px ; flex-direction:column` : ""}; ${cash_ < 8 ? `color:transparent` : ""};">현금 <em style="${cash_ < 30 ? `font-size:10px` : ""}">${cash_}%</em></div>
+                                                                                        <div class="graph-item purple" style="${card_ === 0 ? 'display:none;' : `width:${card_}%;`} ${card_ < 30 ? `font-size:10px ; flex-direction:column` : ""}; ${card_ < 8 ? `color:transparent` : ""};">카드 <em style="${card_ < 30 ? `font-size:10px` : ""}">${card_}%</em></div>
+                                                                                    </div>
+                                                                                    <div class="graph-cell">
+                                                                                        <div class="graph-item yellow" style="${dog_ === 0 ? 'display:none;' : `width:${dog_}%;`} ${dog_ < 30 ? `font-size:10px ; flex-direction:column` : ""};  ${dog_ < 8 ? `color:transparent` : ""}; ">강아지 <em style="${dog_ < 30 ? `font-size:10px` : ""};">${dog_}%</em></div>
+                                                                                        <div class="graph-item purple" style="${cat_  === 0 ? 'display:none;' : `width:${cat_}%;`} ${cat_ < 30 ? `font-size:10px ; flex-direction:column` : ""}; ${cat_ < 8 ? `color:transparent` : ""};">고양이 <em style="${cat_ < 30 ? `font-size:10px` : ""}; ">${cat_}%</em></div>
+                                                                                    </div>`
+
+                }
+
+
+
+            }
+        }
+    })
 }
 
 
@@ -456,62 +551,6 @@ function set_image(className) {
 
 }
 
-
-
-function stats(){
-
-
-    let pay_type_card = 0;
-    let pay_type_cash = 0;
-    let pet_type_dog = 0;
-    let pet_type_cat = 0;
-
-    let stats;
-
-    if(list !== undefined){
-        stats = list;
-    }else{
-        stats = data;
-    }
-
-    if (stats.beauty.length > 0) {
-
-        document.getElementById('main_reserve_graph_none').style.display = 'none';
-        stats.beauty.forEach(function (el, i) {
-
-            console.log(el)
-           if(el.pet.animal !== null){
-               if (el.product.pay_type.match(/card/i)) {
-                   pay_type_card++;
-               } else {
-                   pay_type_cash++;
-               }
-
-               if (el.pet.animal.match(/dog/i)) {
-
-                   pet_type_dog++;
-               } else {
-                   pet_type_cat++;
-               }
-           }
-
-        })
-
-
-        document.querySelector('.main-reserve-graph').innerHTML = `<div class="graph-cell">
-                                                                                        <div class="graph-item yellow" style="${pay_type_cash / stats.beauty.length === 0 ? 'display:none;' : `width:${pay_type_cash/stats.beauty.length * 100}%;`} ${pay_type_cash / stats.beauty.length * 100 < 30 ? `font-size:10px ; flex-direction:column` : ""}; ${pay_type_cash / stats.beauty.length * 100 < 8 ? `color:transparent` : ""};">현금 <em style="${pay_type_cash / stats.beauty.length * 100 < 30 ? `font-size:10px` : ""}">${(pay_type_cash / stats.beauty.length * 100).toFixed(1)}%</em></div>
-                                                                                        <div class="graph-item purple" style="${pay_type_card / stats.beauty.length === 0 ? 'display:none;' : `width:${pay_type_card/stats.beauty.length * 100}%;`} ${pay_type_card / stats.beauty.length * 100 < 30 ? `font-size:10px ; flex-direction:column` : ""}; ${pay_type_card / stats.beauty.length * 100 < 8 ? `color:transparent` : ""};">카드 <em style="${pay_type_card / stats.beauty.length * 100 < 30 ? `font-size:10px` : ""}">${(pay_type_card / stats.beauty.length * 100).toFixed(1)}%</em></div>
-                                                                                    </div>
-                                                                                    <div class="graph-cell">
-                                                                                        <div class="graph-item yellow" style="${pet_type_dog / stats.beauty.length === 0 ? 'display:none;' : `width:${pet_type_dog/stats.beauty.length * 100}%;`} ${pet_type_dog / stats.beauty.length * 100 < 30 ? `font-size:10px ; flex-direction:column` : ""};  ${pet_type_dog / stats.beauty.length * 100 < 8 ? `color:transparent` : ""}; ">강아지 <em style="${pet_type_dog / stats.beauty.length * 100 < 30 ? `font-size:10px` : ""};">${(pet_type_dog / stats.beauty.length * 100).toFixed(1)}%</em></div>
-                                                                                        <div class="graph-item purple" style="${pet_type_cat / stats.beauty.length === 0 ? 'display:none;' : `width:${pet_type_cat/stats.beauty.length * 100}%;`} ${pet_type_cat / stats.beauty.length * 100 < 30 ? `font-size:10px ; flex-direction:column` : ""}; ${pet_type_cat / stats.beauty.length * 100 < 8 ? `color:transparent` : ""};">고양이 <em style="${pet_type_cat / stats.beauty.length * 100 < 30 ? `font-size:10px` : ""}; ">${(pet_type_cat / stats.beauty.length * 100).toFixed(1)}%</em></div>
-                                                                                    </div>`
-
-    }else{
-        document.querySelector('.main-reserve-graph').innerHTML = '';
-        document.getElementById('main_reserve_graph_none').style.display = 'block';
-    }
-}
 function onScroll(e){
     const sticky_target = document.querySelector("#sticky-tab-group-target");
     const classes = sticky_target.classList;
@@ -528,7 +567,7 @@ function onScroll(e){
 }
 
 //오늘 예약 내역
-function today_reserve(id){
+function today_reserve(id,bool){
 
 
     let reserve_list = document.getElementById('main_reserve_list');
@@ -582,18 +621,18 @@ function today_reserve(id){
                             if(el.pet.photo !== null && el.pet.photo.substr(0,4) === '/pet'){
                                 el.pet.photo = el.pet.photo.replace('/pet','');
                             }
-                            reserve_list.innerHTML += `<div class="main-reserve-list-cell">
+                            reserve_list.innerHTML += `<div class="${bool ? 'main-reserve-list-cell' : 'customer-card-list-cell'}">
                                                 <a href="/booking/reserve_beauty_day.php" onclick="localStorage.setItem('payment_idx',${el.product.payment_idx}); localStorage.setItem('day_select',\`${new Date().getFullYear()}.${fill_zero(new Date().getMonth() + 1)}.${fill_zero(new Date().getDate())}\`)" class="customer-card-item transparent">
                                                     <div class="item-info-wrap">
                                                         <div class="item-thumb">
-                                                            <div class="user-thumb middle"><img src="${el.pet.photo !== null ? `https://image.banjjakpet.com${el.pet.photo}`  : `${el.pet.animal === 'dog' ? `../static/images/icon/icon-pup-select-off.png`: `../static/images/icon/icon-cat-select-off.png`}` }" alt=""></div>
+                                                            <div class="user-thumb ${bool ? 'middle' : 'small'}"><img src="${el.pet.photo !== null ? `https://image.banjjakpet.com${el.pet.photo}`  : `${el.pet.animal === 'dog' ? `../static/images/icon/icon-pup-select-off.png`: `../static/images/icon/icon-cat-select-off.png`}` }" alt=""></div>
                                                         </div>
                                                         <div class="item-data">
                                                             <div class="item-data-inner">
-                                                                <div class="item-pet-name">${el.pet.name}
-                                                                    <div class="label label-yellow middle">
+                                                                <div class="${bool ? 'item-pet-name' : 'item-name'}">${el.pet.name}
+                                                                    ${bool ? `<div class="label label-yellow middle">
                                                                         <strong>${el.pet.type}</strong>
-                                                                    </div>
+                                                                    </div>` : `<div class="pet-name">${el.pet.type}</div>`}
                                                                 </div>
                                                                 <div class="item-phone">${el.customer.phone.replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`)}</div>
                                                                 <div class="item-option">
@@ -606,12 +645,12 @@ function today_reserve(id){
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="item-state">
+                                                        ${bool ? `<div class="item-state">
                                                             <div class="item-sort">
                                                                 <div class="txt-1">미용</div>
                                                                 <div class="txt-2">${el.product.category_sub }</div>
                                                             </div>
-                                                        </div>
+                                                        </div>` : ''}
                                                     </div>
                                                 </a>
                                             </div>`
@@ -743,6 +782,7 @@ function _renderCalendar(id) {
 
 
             home_cal(id)
+            home_stats(id);
 
 
         }).then(function() {

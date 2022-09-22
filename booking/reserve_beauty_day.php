@@ -603,7 +603,7 @@ if ($artist_flag == 1) {
                                                             <button type="button" class="btn btn-outline-gray btn-middle-size btn-round" onclick="pop.open('talkExam')">예시보기</button>
                                                         </div>
                                                         <div class="grid-layout-cell grid-2">
-                                                            <button type="button" class="btn btn-outline-purple btn-middle-size btn-round" id="allim_send_btn" onclick="allim_talk_send(this)">발송</button>
+                                                            <button type="button" class="btn btn-outline-purple btn-middle-size btn-round" id="allim_send_btn" onclick="allim_talk_send_change_time(this)">발송</button>
                                                         </div>
                                                     </div>
                                                 </div>
