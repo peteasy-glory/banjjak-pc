@@ -2423,9 +2423,9 @@ if($r_mode) {
     }else if($r_mode === "pet_delete"){
 
         $partner_id = $_POST['partner_id'];
-        $idx = $_POST['idx'];
+        $idx = intval($_POST['idx']);
 
-        $data = array(partner_id=>$partner_id,pet_idx=>$idx);
+        $data = array('partner_id'=>$partner_id,'pet_idx'=>$idx);
 
         $data_json = json_encode($data);
 

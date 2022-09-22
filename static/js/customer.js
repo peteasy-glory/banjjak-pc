@@ -1198,6 +1198,7 @@ function customer_view(id){
                                                                                 <button type="button" class="font-color-purple font-underline btn-text" onclick="open_customer_allim('${localStorage.getItem('customer_select')}');">알림톡 발송 조회
                                                                                 </button>
                                                                             </div>
+                                                                            
                                                                         </div>
                                                                     </div>
                                                                     <div class="customer-user-table-row">
@@ -1505,7 +1506,8 @@ function customer_delete(id){
 
 function pet_delete(id){
 
-    let cellphone = localStorage.getItem('customer_select');
+    var idx = $('input[name=pet_list]:checked').data("pet_seq");
+    var pet_cnt = $(".pet-list-btn").length;
 
     $.ajax({
 
@@ -1518,8 +1520,15 @@ function pet_delete(id){
             idx:idx
         },
         success:function(res){
-            document.getElementById('msg3_txt').innerText = '삭제되었습니다.'
-            pop.open('reserveAcceptMsg3');
+            if(pet_cnt == '1'){
+                pop.close();
+                document.getElementById('msg3_txt').innerText = '삭제되었습니다.'
+                pop.open('reserveAcceptMsg3');
+            }else{
+                pop.close();
+                pop.open('reloadPop','삭제되었습니다.');
+            }
+
         }
 
     })
@@ -3075,6 +3084,7 @@ function customer_beauty_gallery(){
                 data:{
                     mode:'beauty_gal_get',
                     idx:el,
+                    artist_id:artist_id
                 },
                 success:function(res){
                     let response = JSON.parse(res);

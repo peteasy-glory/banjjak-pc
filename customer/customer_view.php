@@ -77,7 +77,7 @@ if ($artist_flag == 1) {
 											<div class="item-thumb">
 												<div class="user-thumb large"><img src="" id="target_pet_img" alt=""></div>
 												<div class="item-thumb-ui"><a href="#" class="btn btn-outline-gray btn-vsmall-size btn-inline" id="modify_pet">펫 정보 수정</a></div>
-                                                <div class="item-thumb-ui"><a href="#" class="btn btn-outline-gray btn-vsmall-size btn-inline" id="modify_pet">펫 정보 삭제</a></div>
+                                                <div class="item-thumb-ui"><a href="#" class="btn btn-outline-gray btn-vsmall-size btn-inline" id="delete_pet">펫 정보 삭제</a></div>
 											</div>
 											<div class="item-user-data">
 												<div class="grid-layout flex-table">
@@ -875,6 +875,21 @@ if ($artist_flag == 1) {
         </div>
     </div>
 </article>
+<article id="deletePet" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data alert-pop-data">
+                <div class="pop-body">
+                    <div class="msg-txt">해당 펫의 모든 정보와 미용이력이 삭제되며, 복구할 수 없습니다.<br>삭제하시겠습니까?</div>
+                </div>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm" onclick="pet_delete(artist_id)">삭제</button>
+                    <button type="button" class="btn btn-confirm" onclick="pop.close();">취소</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
 <article id="reserveAcceptMsg2" class="layer-pop-wrap">
     <div class="layer-pop-parent">
         <div class="layer-pop-children">
@@ -1376,7 +1391,7 @@ if ($artist_flag == 1) {
         showOtherMonths:true, //이전 , 다음 달 일수 활성화
     });
 
-
+    // 메모저장
     $(document).on("keyup","#customer_memo",function(){
         // console.log($(this).val());
         // console.log(localStorage.getItem('customer_select'));
@@ -1395,6 +1410,12 @@ if ($artist_flag == 1) {
             success:function (res){
             }
         })
+    })
+
+    // 펫삭제
+    $(document).on("click","#delete_pet",function(){
+
+        pop.open('deletePet');
     })
 </script>
 </body>
