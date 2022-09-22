@@ -824,6 +824,7 @@ if ($artist_flag == 1) {
                         <div class="customer-view-agree-date">
                             <div class="item-date" id="agree_date"></div>
                             <div class="item-name" id="agree_name2"></div>
+                            <input type="hidden" id="agree_pet_name">
                         </div>
                     </div>
                     <div class="basic-data-group small" id="signature_pad">
@@ -833,6 +834,7 @@ if ($artist_flag == 1) {
                         </div>
                         <div class="user-sign-wrap" id="user_sign_wrap">
                             <canvas id="cview"></canvas>
+                            <img src="" alt="" id="sign_img" style="display:none";>
                         </div>
                     </div>
                 </div>

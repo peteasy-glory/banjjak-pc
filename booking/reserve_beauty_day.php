@@ -2627,8 +2627,8 @@ if ($artist_flag == 1) {
                     <div class="msg-txt">예약변경 알림톡을 발송 하시겠습니까?</div>
                 </div>
                 <div class="pop-footer">
-                    <button type="button" class="btn btn-confirm btn-reserv-block change-cls" id="change_cls" onclick="set_change_time(true)">발송</button>
-                    <button type="button" class="btn btn-confirm btn-reserv-send change-cls" onclick="set_change_time(false);">미발송</button>
+                    <button type="button" class="btn btn-confirm btn-reserv-block change-cls" id="change_cls" onclick="set_change_time(true,this)">발송</button>
+                    <button type="button" class="btn btn-confirm btn-reserv-send change-cls" onclick="set_change_time(false,this);">미발송</button>
                 </div>
             </div>
         </div>
@@ -2936,12 +2936,6 @@ if ($artist_flag == 1) {
             })
         })
 
-        document.getElementById('gnb_reserve_wrap').setAttribute('onclick','location.href ="/booking/reserve_beauty_day.php"')
-        document.getElementById('gnb_customer_wrap').setAttribute('onclick','location.href ="/customer/customer_inquiry.php"')
-        document.getElementById('gnb_shop_wrap').setAttribute('onclick','location.href ="/shop/shop_gate_picture.php"')
-        document.getElementById('gnb_detail_wrap').setAttribute('onclick','location.href ="/setting/set_schedule_list.php"')
-        document.getElementById('gnb_stats_wrap').setAttribute('onclick','location.href ="/report/stats_sale_1.php"')
-        document.getElementById('gnb_etc_wrap').setAttribute('onclick','location.href ="/etc/other_notice_list.php"')
 
 
         document.getElementById('pay_management').addEventListener("scroll",onScroll);

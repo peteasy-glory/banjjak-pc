@@ -1236,7 +1236,7 @@ function customer_view(id){
 
                                     document.getElementById('pet_table').innerHTML += `<div class="grid-layout-cell flex-auto">
                                                                                                     <label class="form-toggle-box" for="pet_list_${i}">
-                                                                                                        <input type="radio" name="pet_list" class="btn-toggle-button pet-list-btn" data-pet_seq="${el.pet_seq}" id="pet_list_${i}">
+                                                                                                        <input type="radio" name="pet_list" data-pet_name="${el.name}" class="btn-toggle-button pet-list-btn" data-pet_seq="${el.pet_seq}" id="pet_list_${i}">
                                                                                                         <em>${el.name}</em>
                                                                                                     </label>
                                                                                                 </div>`
@@ -1973,6 +1973,7 @@ function customer_beauty_agree(id,el){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
+                    console.log(body)
 
                     if(body.length ===0){
 
@@ -1982,6 +1983,9 @@ function customer_beauty_agree(id,el){
 
                         document.getElementById('beauty_agree_btn').addEventListener('click',function(){
 
+                            document.getElementById('agree_pet_name').value = document.querySelector('input[name="pet_list"]:checked').getAttribute('data-pet_name');
+                            document.getElementById('cview').style.display = 'block';
+                            document.getElementById('sign_img').style.display = 'none';
                             pop.open('beautyAgreeWritePop')
                         })
                         document.getElementById('beauty_agree_all_btn').removeAttribute('checked');
@@ -2000,25 +2004,25 @@ function customer_beauty_agree(id,el){
                             
                             pet_seq})">저장</a>`
 
-
-                        document.getElementById('user_sign_wrap').innerHTML = `<canvas id="cview2"></canvas>`
-                        let wrapper = document.getElementById('signature_pad');
-                        let clear_btn = document.getElementById('signature_clear');
-
-                        let canvas = document.getElementById('cview2');
-
-                        let signature_pad = new SignaturePad(canvas,{
-
-                            backgroundColor:'rgb(255,255,255)'
-                        })
-
-                        canvas.width = canvas.parentElement.offsetWidth-2;
-                        canvas.height=canvas.parentElement.offsetHeight-2;
-
-
-                        clear_btn.addEventListener("click", function (event) {
-                            signature_pad.clear();
-                        });
+                        //
+                        // document.getElementById('user_sign_wrap').innerHTML = `<canvas id="cview2"></canvas>`
+                        // let wrapper = document.getElementById('signature_pad');
+                        // let clear_btn = document.getElementById('signature_clear');
+                        //
+                        // let canvas = document.getElementById('cview2');
+                        //
+                        // let signature_pad = new SignaturePad(canvas,{
+                        //
+                        //     backgroundColor:'rgb(255,255,255)'
+                        // })
+                        //
+                        // canvas.width = canvas.parentElement.offsetWidth-2;
+                        // canvas.height=canvas.parentElement.offsetHeight-2;
+                        //
+                        //
+                        // clear_btn.addEventListener("click", function (event) {
+                        //     signature_pad.clear();
+                        // });
 
 
 
@@ -2054,7 +2058,10 @@ function customer_beauty_agree(id,el){
                                     document.getElementById('beauty_agree_2_btn').setAttribute('checked',true);
                                     document.getElementById('agree_date').innerText= `${body.reg_date.substr(0,4)}.${body.reg_date.substr(4,2)}.${body.reg_date.substr(6,2)}`
                                     // document.getElementById('signature_clear').remove();
-                                    document.getElementById('user_sign_wrap').innerHTML = `<img src="https://image.banjjakpet.com${body.image}" alt="">`
+                                    document.getElementById('cview').style.display = 'none';
+                                    document.getElementById('sign_img').style.display = 'block';
+                                    document.getElementById('sign_img').setAttribute('src',img_link_change(body.image));
+
                                 pop.open('beautyAgreeWritePop');
 
                                     setTimeout(function(){
