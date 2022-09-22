@@ -139,48 +139,15 @@ function data_set(id){
 }
 // 홈 캘린더
 function home_cal(id){
-    return new Promise(function(resolve){
-        console.log(year+'-'+month+'-01')
         $.ajax({
             url: '/data/pc_ajax.php',
             data: {
                 mode: 'cal_count',
                 login_id: id,
-                st_date:year+'-'+fill_zero(month)+'-01',
-                fi_date:year+'-'+fill_zero(month)+'-30'
+                st_date:date.getFullYear()+'-'+fill_zero(date.getMonth()+1)+'-01',
+                fi_date:date.getFullYear()+'-'+fill_zero(date.getMonth()+2)+'-01'
             },
             type: 'POST',
-            async:false,
-            success: function (res) {
-                let response = JSON.parse(res);
-                console.log(response);
-                let head = response.data.head;
-                let body = response.data.body;
-                if (head.code === 401) {
-                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-                } else if (head.code === 200) {
-                    //data = body;
-
-                    resolve();
-                }
-            }
-        })
-    })
-}
-
-// 데이터 갱신
-function data_interval(){
-
-
-    setInterval(function () {
-        $.ajax({
-            url: '/data/pc_ajax.php',
-            data: {
-                mode: 'home',
-                login_id: localStorage.getItem('id'),
-            },
-            type: 'POST',
-            async:false,
             success: function (res) {
                 let response = JSON.parse(res);
                 let head = response.data.head;
@@ -188,12 +155,56 @@ function data_interval(){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
-                    data = body;
+                    console.log(body)
+
+
+                    let date_info = document.getElementsByClassName('date-info');
+
+                    Array.from(date_info).forEach(function(el){
+
+                        body.forEach(function(el_){
+
+
+                            if(`20${el.innerText.trim().replaceAll('.','-')}` === el_.date){
+
+
+                                siblings(el,1).innerText = `${el_.count}건`;
+
+                                siblings(el.parentElement.parentElement.parentElement.parentElement,0).children[1].innerText= `${el_.count}`;
+
+                                el.parentElement.parentElement.parentElement.childNodes[3].childNodes[1].childNodes[3].innerText = `${el_.count}건`
+                            }
+
+                        })
+
+
+
+                    })
+
+
                 }
+            },complete:function(){
+                if(document.getElementById('main-calendar-month-body')){
+
+
+                    document.getElementById('main-calendar-month-body').style.display = 'block';
+                    document.getElementById('home_main_calendar_loading').style.display = 'none';
+                }else if(document.getElementById('mini-calendar-month-body')){
+                    document.getElementById('mini-calendar-month-body').style.display = 'block';
+                    if(document.getElementById('day_mini_calendar_loading')){
+
+                        document.getElementById('day_mini_calendar_loading').style.display = 'none';
+                    }else if(document.getElementById('week_mini_calendar_loading')){
+                        document.getElementById('week_mini_calendar_loading').style.display = 'none';
+
+                    }
+
+                }
+
             }
         })
-    }, 10000)
 }
+
 
 //등록 현황 통계 날짜
 function update(){
@@ -517,44 +528,61 @@ function onScroll(e){
 }
 
 //오늘 예약 내역
-function today_reserve(){
+function today_reserve(id){
 
 
     let reserve_list = document.getElementById('main_reserve_list');
 
 
-    // let booking_list;
 
-    // if(list !== undefined){
-    //     booking_list = list;
-    // }else{
-    //     booking_list = data;
-    // }
-    if(data.beauty.length > 0 || data.hotel.length > 0 || data.kindergarden.length > 0){
+    $.ajax({
 
 
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
 
-        if(data.beauty.length > 0){
+            mode:'day_book',
+            login_id:id,
+            st_date:`${new Date().getFullYear()}-${fill_zero(new Date().getMonth()+1)}-${fill_zero(new Date().getDate())}`,
+            fi_date:`${new Date().getFullYear()}-${fill_zero(new Date().getMonth()+1)}-${fill_zero(new Date().getDate()+1)}`
 
-            data.beauty.forEach(function(el,i){
+        },
+        success:function (res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                console.log(body)
 
-                let today_reserve = el.product.date.booking_st;
-                let date_today_reserve = new Date(today_reserve);
-                let today_reserve_fi = el.product.date.booking_fi;
-                let date_today_reserve_fi = new Date(today_reserve_fi);
+                if(body.length === undefined){
 
-                if(date_today_reserve.getFullYear() === date.getFullYear()
-                    && date_today_reserve.getMonth() === date.getMonth()
-                    && date_today_reserve.getDate() === date.getDate()
-                    &&el.product.is_cancel !== 1
-                ){
+                    body =[body];
 
-                    console.log(el)
-                    document.getElementById('reserve_after_none').style.display = 'none';
-                    if(el.pet.photo !== null && el.pet.photo.substr(0,4) === '/pet'){
-                        el.pet.photo = el.pet.photo.replace('/pet','');
-                    }
-                    reserve_list.innerHTML += `<div class="main-reserve-list-cell">
+                }
+
+                if(body.length > 0){
+
+                    body.forEach(function(el){
+                        let today_reserve = el.product.date.booking_st;
+                        let date_today_reserve = new Date(today_reserve);
+                        let today_reserve_fi = el.product.date.booking_fi;
+                        let date_today_reserve_fi = new Date(today_reserve_fi);
+
+                        if(date_today_reserve.getFullYear() === date.getFullYear()
+                            && date_today_reserve.getMonth() === date.getMonth()
+                            && date_today_reserve.getDate() === date.getDate()
+                            &&el.product.is_cancel !== 1
+                        ){
+
+                            console.log(el)
+                            document.getElementById('reserve_after_none').style.display = 'none';
+                            if(el.pet.photo !== null && el.pet.photo.substr(0,4) === '/pet'){
+                                el.pet.photo = el.pet.photo.replace('/pet','');
+                            }
+                            reserve_list.innerHTML += `<div class="main-reserve-list-cell">
                                                 <a href="/booking/reserve_beauty_day.php" onclick="localStorage.setItem('payment_idx',${el.product.payment_idx}); localStorage.setItem('day_select',\`${new Date().getFullYear()}.${fill_zero(new Date().getMonth() + 1)}.${fill_zero(new Date().getDate())}\`)" class="customer-card-item transparent">
                                                     <div class="item-info-wrap">
                                                         <div class="item-thumb">
@@ -587,16 +615,23 @@ function today_reserve(){
                                                     </div>
                                                 </a>
                                             </div>`
+                        }
+
+                    })
                 }
 
 
-            })
 
 
+
+            }
         }
 
+    })
 
-    }
+
+
+
 }
 
 
@@ -706,52 +741,10 @@ function _renderCalendar(id) {
         })
         .then(function(){
 
-            let date_info = document.getElementsByClassName('date-info');
-            let booking_list ;
 
-            if(list !== undefined){
-                booking_list = list;
-            }else{
-                booking_list = data;
-            }
-
-            //기타 데이터 채우기
-            Array.from(date_info).forEach(function(el,i){
-                let count = 0;
-                let date_ck_1 = new Date(`20${el.innerText.trim()}`);
-
-                if(booking_list.beauty.length === 0){
-                    // Array.from(document.getElementsByClassName('reserve-total')).forEach(function (el,i){
-                    //     el.innerHTML = '0';
-                    // })
-                    // Array.from(document.getElementsByClassName('reserve-total-2')).forEach(function (el,i){
-                    //     el.innerHTML = '0건';
-                    // })
-                    // Array.from(document.getElementsByClassName('beauty-count')).forEach(function (el,i){
-                    //     el.innerHTML = '0건';
-                    // })
-                }else{
-                    booking_list.beauty.forEach(function(el_,i_){
-                        let date_ck_2  =  new Date(el_.product.date.booking_st);
-
-                        if(date_ck_1.getFullYear() === date_ck_2.getFullYear()
-                            && date_ck_1.getMonth() === date_ck_2.getMonth()
-                            && date_ck_1.getDate() === date_ck_2.getDate()){
-                            count++;
-                        }
-
-                        if(count !== 0){
+            home_cal(id)
 
 
-                            siblings(el,1).innerHTML = `${count}건`;
-
-                            siblings(el.parentElement.parentElement.parentElement.parentElement,0).children[1].innerHTML= `${count}`;
-
-                            el.parentElement.parentElement.parentElement.childNodes[3].childNodes[1].childNodes[3].innerHTML = `${count}건`
-                        }
-                    })
-                }
-            })
         }).then(function() {
 
         //오늘날짜 표시시
@@ -821,9 +814,32 @@ function btn_month(id){
 
     document.getElementById('btn-month-prev').addEventListener('click', function (evt) {
 
+        let height;
+        if(document.getElementById('main-calendar-month-body')){
+
+
+            height = document.getElementById('main-calendar-month-body').offsetHeight;
+            document.getElementById('main-calendar-month-body').style.display = 'none';
+            document.getElementById('home_main_calendar_loading').style.height = `${height}px`;
+            document.getElementById('home_main_calendar_loading').style.display = 'flex';
+        }else if(document.getElementById('mini-calendar-month-body')){
+            height = document.getElementById('mini-calendar-month-body').offsetHeight;
+            document.getElementById('mini-calendar-month-body').style.display = 'none';
+            if(document.getElementById('day_mini_calendar_loading')){
+
+                document.getElementById('day_mini_calendar_loading').style.height = `${height}px`;
+                document.getElementById('day_mini_calendar_loading').style.display = 'flex';
+            }else if(document.getElementById('week_mini_calendar_loading')){
+
+                document.getElementById('week_mini_calendar_loading').style.height = `${height}px`;
+                document.getElementById('week_mini_calendar_loading').style.display = 'flex';
+            }
+
+
+        }
+
         date.setDate(1);
         date.setMonth(date.getMonth() - 1);
-        book_list(id).then(function (){
             if(document.getElementById('main-calendar-month-body')){
 
                 _renderCalendar(id);
@@ -832,30 +848,48 @@ function btn_month(id){
                 _renderCalendar_mini(id);
             }
             if(document.getElementById('main_reserve_graph_none')){
-                stats();
+                // stats();
             }
-        })
     })
 
     document.getElementById('btn-month-next').addEventListener('click', function (evt) {
 
+        let height;
+        if(document.getElementById('main-calendar-month-body')){
+
+
+            height = document.getElementById('main-calendar-month-body').offsetHeight;
+            document.getElementById('main-calendar-month-body').style.display = 'none';
+            document.getElementById('home_main_calendar_loading').style.height = `${height}px`;
+            document.getElementById('home_main_calendar_loading').style.display = 'flex';
+        }else if(document.getElementById('mini-calendar-month-body')){
+            height = document.getElementById('mini-calendar-month-body').offsetHeight;
+            document.getElementById('mini-calendar-month-body').style.display = 'none';
+            if(document.getElementById('day_mini_calendar_loading')){
+
+                document.getElementById('day_mini_calendar_loading').style.height = `${height}px`;
+                document.getElementById('day_mini_calendar_loading').style.display = 'flex';
+            }else if(document.getElementById('week_mini_calendar_loading')){
+
+                document.getElementById('week_mini_calendar_loading').style.height = `${height}px`;
+                document.getElementById('week_mini_calendar_loading').style.display = 'flex';
+            }
+
+
+        }
+
         date.setDate(1);
         date.setMonth(date.getMonth() + 1);
-        book_list(id).then(function (){
-            if(document.getElementById('main-calendar-month-body')){
+        if(document.getElementById('main-calendar-month-body')){
 
-                _renderCalendar(id);
-            }else{
+            _renderCalendar(id);
+        }else{
 
-                _renderCalendar_mini(id);
-            }
-
-
-            if(document.getElementById('main_reserve_graph_none')){
-                stats();
-            }
-
-        })
+            _renderCalendar_mini(id);
+        }
+        if(document.getElementById('main_reserve_graph_none')){
+            // stats();
+        }
 
 
     })
@@ -960,42 +994,45 @@ function _renderCalendar_mini(id,session_id){
         })
         .then(function(){
 
-            let date_info = document.getElementsByClassName('date-info');
-            let booking_list ;
 
-            if(list !== undefined){
-                booking_list = list;
-            }else{
-                booking_list = data;
-            }
+            home_cal(id)
 
-            Array.from(date_info).forEach(function(el,i){
-                let count = 0;
-                let date_ck_1 = new Date(`20${el.innerText.trim()}`);
-
-                if(booking_list.beauty.length === 0){
-                    // Array.from(document.getElementsByClassName('reserve-total')).forEach(function (el,i){
-                    //     el.innerHTML = '0';
-                    // })
-                }else{
-                    booking_list.beauty.forEach(function(el_,i_){
-                        let date_ck_2  =  new Date(el_.product.date.booking_st);
-
-                        if(date_ck_1.getFullYear() === date_ck_2.getFullYear()
-                            && date_ck_1.getMonth() === date_ck_2.getMonth()
-                            && date_ck_1.getDate() === date_ck_2.getDate()){
-                            count++;
-                        }
-
-
-                        if(count !==0){
-
-                            siblings(el.parentElement.parentElement.parentElement.parentElement,0).children[1].innerHTML= `${count}`;
-                        }
-
-                    })
-                }
-            })
+            // let date_info = document.getElementsByClassName('date-info');
+            // let booking_list ;
+            //
+            // if(list !== undefined){
+            //     booking_list = list;
+            // }else{
+            //     booking_list = data;
+            // }
+            //
+            // Array.from(date_info).forEach(function(el,i){
+            //     let count = 0;
+            //     let date_ck_1 = new Date(`20${el.innerText.trim()}`);
+            //
+            //     if(booking_list.beauty.length === 0){
+            //         // Array.from(document.getElementsByClassName('reserve-total')).forEach(function (el,i){
+            //         //     el.innerHTML = '0';
+            //         // })
+            //     }else{
+            //         booking_list.beauty.forEach(function(el_,i_){
+            //             let date_ck_2  =  new Date(el_.product.date.booking_st);
+            //
+            //             if(date_ck_1.getFullYear() === date_ck_2.getFullYear()
+            //                 && date_ck_1.getMonth() === date_ck_2.getMonth()
+            //                 && date_ck_1.getDate() === date_ck_2.getDate()){
+            //                 count++;
+            //             }
+            //
+            //
+            //             if(count !==0){
+            //
+            //                 siblings(el.parentElement.parentElement.parentElement.parentElement,0).children[1].innerHTML= `${count}`;
+            //             }
+            //
+            //         })
+            //     }
+            // })
         })
         .then(function(){
             Array.from(document.getElementsByClassName('date-info')).forEach(function (el){
@@ -1402,17 +1439,17 @@ function holiday(id){
             if(document.getElementById('main-calendar-month-body')){
 
 
-                document.getElementById('main-calendar-month-body').style.display = 'block';
-                document.getElementById('home_main_calendar_loading').style.display = 'none';
+                // document.getElementById('main-calendar-month-body').style.display = 'block';
+                // document.getElementById('home_main_calendar_loading').style.display = 'none';
             }else if(document.getElementById('mini-calendar-month-body')){
-                document.getElementById('mini-calendar-month-body').style.display = 'block';
-                if(document.getElementById('day_mini_calendar_loading')){
-
-                    document.getElementById('day_mini_calendar_loading').style.display = 'none';
-                }else if(document.getElementById('week_mini_calendar_loading')){
-                    document.getElementById('week_mini_calendar_loading').style.display = 'none';
-
-                }
+                // document.getElementById('mini-calendar-month-body').style.display = 'block';
+                // if(document.getElementById('day_mini_calendar_loading')){
+                //
+                //     document.getElementById('day_mini_calendar_loading').style.display = 'none';
+                // }else if(document.getElementById('week_mini_calendar_loading')){
+                //     document.getElementById('week_mini_calendar_loading').style.display = 'none';
+                //
+                // }
 
             }
 
@@ -1519,7 +1556,7 @@ var gallery = {
             result += '<img src="https://image.banjjakpet.com'+imgList[i]+'" alt="" />';
             result += '</div></div>';
 
-            resultThumb += '<button type="button" class="btn-gallery-thumb-nav hide">';
+            resultThumb += '<a type="button" class="btn-gallery-thumb-nav hide">';
             resultThumb += '<span class="loading-bar"><span class="sk-fading-circle"><span class="sk-circle1 sk-circle"></span><span class="sk-circle2 sk-circle"></span><span class="sk-circle3 sk-circle"></span><span class="sk-circle4 sk-circle"></span><span class="sk-circle5 sk-circle"></span><span class="sk-circle6 sk-circle"></span><span class="sk-circle7 sk-circle"></span><span class="sk-circle8 sk-circle"></span><span class="sk-circle9 sk-circle"></span><span class="sk-circle10 sk-circle"></span><span class="sk-circle11 sk-circle"></span><span class="sk-circle12 sk-circle"></span></span></span>';
             resultThumb += '<img src="https://image.banjjakpet.com'+imgList[i]+'" alt="" >';
             resultThumb += '</button>';

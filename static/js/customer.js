@@ -1131,7 +1131,7 @@ function customer_view(id){
 
                         body =[body];
                     }
-                    //console.log(body)
+                    console.log(body)
 
                     $.ajax({
 
@@ -1528,6 +1528,7 @@ function pet_delete(id){
 
 function pet_reserve_info(data){
 
+    console.log(data)
 
 
         let pet_list = data[0];

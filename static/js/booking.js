@@ -968,6 +968,8 @@ function book_list(id) {
 
     return new Promise(function (resolve){
 
+        console.log('book_list')
+
         $.ajax({
             url: '/data/pc_ajax.php',
             data: {
@@ -1201,6 +1203,7 @@ function consulting_hold_list(id){
                                 body_ = [body_];
                             }
 
+                            console.log(body_)
                             let status = '';
 
                             if(body_.length === 0){
@@ -1483,7 +1486,7 @@ function consulting_hold_list(id){
                                                                                                                 <h4 class="con-title">특이사항</h4>
                                                                                                             </div>
                                                                                                             <div class="con-title-group">
-                                                                                                                <h5 class="con-title">${el_.dermatosis ? "피부병" : ""} ${el_.heart_trouble ? "심장질환" : ""} ${el_.marking ? "마킹" : ""} ${el_.mounting ? "마운팅" : ""} </h5>
+                                                                                                                <h5 class="con-title">${el_.dermatosis ? "피부병" : ""} ${el_.heart_trouble ? "심장질환" : ""} ${el_.marking ? "마킹" : ""} ${el_.mounting ? "마운팅" : ""} ${!el_.dermatosis && !el_.heart_trouble && !el_.marking && !el_.mounting ? '없음' : ''} </h5>
                                                                                                             </div>
                                                                                                         </div>
                                                                                                         <div class="basic-data-group">

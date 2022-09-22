@@ -286,8 +286,6 @@ if($artist_flag == 1){
     $(document).ready(function(){
 
         data_set(artist_id).then(function(){
-            home_cal(artist_id);
-
 
         })
 
@@ -298,10 +296,10 @@ if($artist_flag == 1){
         update();
         wide_tab();
         notice();
-        today_reserve();
+        today_reserve(artist_id);
         set_image('front_image');
         prepend_data('consulting_count schedule_count new_review_count total_count nick');
-        stats();
+        // stats();
         gnb_actived('gnb_home');
         break_time(artist_id);
 

@@ -21,10 +21,10 @@ if ($artist_flag == 1) {
 	<header id="header"></header>
 	<!-- //header -->
 	<!-- gnb -->
-	<nav id="gnb"></nav>
+	<nav id="gnb" class="hide"></nav>
 	<!-- //gnb -->
     <!-- container -->
-    <section id="container">     
+    <section id="container" class="hide">
 		<!-- contents -->
 		<section id="contents">
 			<!-- view -->
@@ -272,7 +272,6 @@ if ($artist_flag == 1) {
 
 
             })
-        reload_list(artist_id)
         btn_schedule(artist_id)
         waiting(artist_id)
 

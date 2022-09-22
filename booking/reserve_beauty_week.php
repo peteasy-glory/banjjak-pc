@@ -977,7 +977,6 @@ if ($artist_flag == 1) {
             .then(function(){
                 _renderCalendar_mini(artist_id,session_id);
             })
-        reload_list(artist_id);
 
         gnb_actived('gnb_reserve_wrap','gnb_beauty');
         btn_schedule(artist_id);

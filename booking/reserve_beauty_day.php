@@ -2863,7 +2863,6 @@ if ($artist_flag == 1) {
 
 
             })
-        reload_list(artist_id)
 
         input_enter('reserve_search','reserve_search_btn');
         gnb_actived('gnb_reserve_wrap','gnb_beauty');
