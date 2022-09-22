@@ -2009,9 +2009,9 @@ if($r_mode) {
 
         $reserve_regist = $api ->post('/partner/booking/b/join/', $regist_data_json);
 
-        $idx = mysqli_insert_id($connection);
 
-        $return_data = array("code" => "000000","data"=>$reserve_regist,'idx'=>$idx);
+
+        $return_data = array("code" => "000000","data"=>$reserve_regist);
 
 
     }else if($r_mode === "pet_info"){
@@ -2821,20 +2821,55 @@ if($r_mode) {
     }else if($r_mode === 'reserve_regist_allim'){
 
 
-//        $cellphone = $_POST['cellphone'];
-//        $message = $_POST['message'];
-//        $tem_code = "1000004530_20001";
-//        $btn_link = "https://customer.banjjakpet.com/allim/#{주문정보}";
-//
-//        $data = array('cellphone'=>$cellphone,'message'=>$message,'tem_code'=>$tem_code,'btn_link'=>$btn_link);
-//
-//        $data_json = json_encode($data);
-//
-//        $result = $api -> post('/partner/allim/send',$data_json);
-//
-//        $return_data = array("code"=>"000000","data"=>$result);
+        $cellphone = $_POST['cellphone'];
+        $message = $_POST['message'];
+        $tem_code = "1000004530_20001";
+        $payment_idx = $_POST['payment_idx'];
+
+        $btn_link = "{\"button\":[{\"name\":\"예약정보\",\"type\":\"WL\",\"url_pc\":\"\",\"url_mobile\":\"https://customer.banjjakpet.com/allim/reserve_info?payment_log_seq=".$payment_idx."\"}]}";
+
+        $data = array('cellphone'=>$cellphone,'message'=>$message,'tem_code'=>$tem_code,'btn_link'=>$btn_link);
+
+        $data_json = json_encode($data);
+
+        $result = $api -> post('/partner/allim/send',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$data);
 
 
+    }else if($r_mode === 'beauty_gal_allim'){
+
+        $cellphone = $_POST['cellphone'];
+        $message = $_POST['message'];
+        $tem_code = "1000004530_14516";
+        $idx = $_POST['idx'];
+
+        $btn_link = "{\"button\":[{\"name\":\"미용동의서 자세히 보기\",\"type\":\"WL\",\"url_pc\":\"\",\"url_mobile\":\"https://gopet.kr/pet/docba/?k=".$idx."\"}]}";
+
+        $data = array('cellphone'=>$cellphone,'message'=>$message,'tem_code'=>$tem_code,'btn_link'=>$btn_link);
+
+        $data_json = json_encode($data);
+
+        $result = $api -> post('/partner/allim/send',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
+    }else if($r_mode === 'reserve_regist_change_allim'){
+
+        $cellphone = $_POST['cellphone'];
+        $message = $_POST['message'];
+        $tem_code = "1000004530_20002";
+        $payment_idx = $_POST['payment_idx'];
+
+        $btn_link = "{\"button\":[{\"name\":\"예약변경\",\"type\":\"WL\",\"url_pc\":\"\",\"url_mobile\":\"https://customer.banjjakpet.com/allim/reserve_info?payment_log_seq=".$payment_idx."\"}]}";
+
+        $data = array('cellphone'=>$cellphone,'message'=>$message,'tem_code'=>$tem_code,'btn_link'=>$btn_link);
+
+        $data_json = json_encode($data);
+
+        $result = $api -> post('/partner/allim/send',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$data);
     }
 }
 

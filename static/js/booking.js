@@ -78,6 +78,11 @@ function schedule_render(id){
                             Array.from(document.getElementsByClassName('calendar-day-body-col')).forEach(function (el_){
 
                                 if(el_.getAttribute('data-name') === el.product.worker && new Date(el_.getAttribute('data-year'),el_.getAttribute('data-month'),el_.getAttribute('data-date'),el_.getAttribute('data-hour'),el_.getAttribute('data-minutes')).getTime() === new Date(el.product.date.booking_st).getTime() && el.product.is_cancel === 0){
+                                    console.log('ㅂㅈㄷㄱ')
+                                    if(el.product.store_payment.discount === null){
+
+                                        el.product.store_payment.discount = 0
+                                    }
                                     switch(el.product.pay_type){
 
                                         case "pos-card" : case "pos-cash" : color = 'yellow'; break;
@@ -6540,42 +6545,7 @@ let beauty,bath,add_svc;
     }
 
 
-    if(document.getElementById('notice_check').getAttribute('data-notice') === 'Y'){
 
-        // let year = document.getElementById('reserve_time_year').value;
-        // let month = document.getElementById('reserve_time_month').value;
-        // let day = document.getElementById('reserve_time_date').value;
-        // let hour = document.getElementById('reserve_st_time').value.split(':')[0];
-        // let min = document.getElementById('reserve_st_time').value.split(':')[1];
-        //
-        // let message = `반려생활의 단짝, 반짝에서 ${cellphone.slice(-4)}님의 ${name} 미용예약 내용을 알려드립니다.\n` +
-        //     '\n' +
-        //     `- 예약펫샵 : ${shop_name}\n` +
-        //     `- 예약일시 : ${year}년 ${month}월 ${day}일 ${hour}시 ${min}분\n` +
-        //     '\n' +
-        //     '예약내용 상세확인과 예약은\n' +
-        //     '반려생활의 단짝, 반짝에서도 가능합니다.';
-        //
-        //
-        //
-        // $.ajax({
-        //
-        //     url:'/data/pc_ajax.php',
-        //     type:'post',
-        //     data:{
-        //
-        //         mode:'reserve_regist_allim',
-        //         cellphone:cellphone,
-        //         message:message,
-        //
-        //
-        //     }
-        // })
-
-
-
-
-    }
 
 
     console.log(product);
@@ -6641,7 +6611,54 @@ let beauty,bath,add_svc;
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
-                // location.reload()
+
+                if(document.getElementById('notice_check').getAttribute('data-notice') === 'Y'){
+
+                    let year = document.getElementById('reserve_time_year').value;
+                    let month = document.getElementById('reserve_time_month').value;
+                    let day = document.getElementById('reserve_time_date').value;
+                    let hour = document.getElementById('reserve_st_time').value.split(':')[0];
+                    let min = document.getElementById('reserve_st_time').value.split(':')[1];
+
+                    let message = `반려생활의 단짝, 반짝에서 ${cellphone.slice(-4)}님의 ${name} 미용예약 내용을 알려드립니다.\n` +
+                        '\n' +
+                        `- 예약펫샵 : ${shop_name}\n` +
+                        `- 예약일시 : ${year}년 ${month}월 ${day}일 ${hour}시 ${min}분\n` +
+                        '\n' +
+                        '예약내용 상세확인과 예약은\n' +
+                        '반려생활의 단짝, 반짝에서도 가능합니다.';
+
+
+
+                    $.ajax({
+
+                        url:'/data/pc_ajax.php',
+                        type:'post',
+                        data:{
+
+                            mode:'reserve_regist_allim',
+                            cellphone:cellphone,
+                            message:message,
+                            payment_idx:body.idx,
+
+
+                        },success:function(res){
+                            console.log(res)
+
+
+                        }
+                    })
+
+
+
+
+                }
+
+                location.reload()
+
+
+
+
             }
 
         }
@@ -7769,15 +7786,30 @@ function reserve_cancel(bool){
 }
 
 
-function set_change_time(bool){
+function set_change_time(bool,target){
 
 
     let idx = localStorage.getItem('payment_idx');
 
+    let a_date = target.getAttribute('data-a_date');
+    let name = target.getAttribute('data-name');
+
+
+    let a_year = a_date.split(' ')[0].split('-')[0]
+    let a_month = a_date.split(' ')[0].split('-')[1]
+    let a_day = a_date.split(' ')[0].split('-')[2]
+    let a_hour = a_date.split(' ')[1].split(':')[0]
+    let a_min = a_date.split(' ')[1].split(':')[1]
+
+    let cellphone = target.getAttribute('data-cellphone');
     let st_time = document.getElementById('start_time').value;
+    let b_hour = st_time.substr(0,2);
+    let b_min = st_time.substr(2,2);
     let fi_time = document.getElementById('end_time').value;
 
-    let notice = bool;
+    console.log(b_hour);
+    console.log(b_min)
+
 
     $.ajax({
 
@@ -7801,6 +7833,35 @@ function set_change_time(bool){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
+
+                if(bool){
+
+                    let message = `반려생활의 단짝, 반짝에서 ${cellphone.slice(-4)}님의 ${name} 미용예약 변경 내용을 알려드립니다.\n` +
+                        '\n' +
+                        `- 예약펫샵 : ${data.shop_name}\n` +
+                        `- 기존예약 : ${a_year}년 ${a_month}월 ${a_day}일 ${a_hour}시 ${a_min}분\n` +
+                        `- 변경일시 : ${a_year}년 ${a_month}월 ${a_day}일 ${b_hour}시 ${b_min}분\n` +
+                        '\n' +
+                        '예약내용 상세 확인과 예약은\n' +
+                        '반려생활의 단짝, 반짝에서도 가능합니다.'
+
+                    $.ajax({
+
+                        url:'/data/pc_ajax.php',
+                        type:'post',
+                        data:{
+
+                            mode:'reserve_regist_change_allim',
+                            cellphone:cellphone,
+                            message:message,
+                            payment_idx:idx,
+
+
+                        }
+                    })
+
+
+                }
 
                 location.reload();
             }
@@ -8615,6 +8676,8 @@ function dataURLToBlob(dataURL) {
 
 function beauty_agree_submit(id,pet_seq){
 
+    let pet_name = document.getElementById('agree_pet_name').value;
+
     if(document.getElementById('agree_name').value === ''){
 
         document.getElementById('msg1_txt').innerText = '고객명을 입력해주세요.'
@@ -8721,6 +8784,37 @@ function beauty_agree_submit(id,pet_seq){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
+                console.log(body)
+
+
+                let message = `반려생활의 단짝, 반짝에서 ${cellphone.slice(-4)}님이 작성해주신 미용동의서를 공유해 드립니다.\n` +
+                    '\n' +
+                    `- 이용샵 : ${data.shop_name}\n` +
+                    `- 펫 이름 : ${pet_name} \n` +
+                    `- 작성일시 : ${new Date().getFullYear()}년 ${new Date().getMonth()+1}월 ${new Date().getDate()}일 ${new Date().getHours()}시 ${new Date().getMinutes()}분\n` +
+                    '\n' +
+                    '자세히 보기를 클릭하시면 미용동의서 원본을 확인하실 수 있습니다.'
+
+                $.ajax({
+
+                    url:'/data/pc_ajax.php',
+                    type:'post',
+                    data:{
+
+                        mode:'beauty_gal_allim',
+                        cellphone:cellphone,
+                        message:message,
+                        idx:body.idx
+
+                    },success:function(res){
+                        console.log(res)
+                    }
+
+
+                })
+
+
+
 
                 document.getElementById('msg2_txt').innerText = '저장되었습니다.'
                 pop.open('reserveAcceptMsg2');
@@ -10657,6 +10751,7 @@ function pay_management_init(id,target,bool,bool2){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
                 console.log(body)
+                console.log(body_3)
 
                 if(body.type === 'dog'){
 
@@ -10736,6 +10831,12 @@ function pay_management_init(id,target,bool,bool2){
 
 
 
+                Array.from(document.getElementsByClassName('change-cls')).forEach(function(el){
+
+                    el.setAttribute('data-cellphone',body.cell_phone);
+                    el.setAttribute('data-a_date',body.beauty_date);
+                    el.setAttribute('data-name',body.name)
+                })
 
 
 
