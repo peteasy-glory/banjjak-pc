@@ -1516,12 +1516,12 @@ var gallery = {
         for(i = 0; i < imgList.length; i++){
             result += '<div class="swiper-slide"><div class="slider-item hide">';
             result += '<span class="loading-bar"><span class="sk-fading-circle"><span class="sk-circle1 sk-circle"></span><span class="sk-circle2 sk-circle"></span><span class="sk-circle3 sk-circle"></span><span class="sk-circle4 sk-circle"></span><span class="sk-circle5 sk-circle"></span><span class="sk-circle6 sk-circle"></span><span class="sk-circle7 sk-circle"></span><span class="sk-circle8 sk-circle"></span><span class="sk-circle9 sk-circle"></span><span class="sk-circle10 sk-circle"></span><span class="sk-circle11 sk-circle"></span><span class="sk-circle12 sk-circle"></span></span></span>	';
-            result += '<img src="https://image.banjjakpet.com'+imgList[i]+'" alt="" />';
+            result += '<img src="'+imgList[i]+'" alt="" />';
             result += '</div></div>';
 
             resultThumb += '<button type="button" class="btn-gallery-thumb-nav hide">';
             resultThumb += '<span class="loading-bar"><span class="sk-fading-circle"><span class="sk-circle1 sk-circle"></span><span class="sk-circle2 sk-circle"></span><span class="sk-circle3 sk-circle"></span><span class="sk-circle4 sk-circle"></span><span class="sk-circle5 sk-circle"></span><span class="sk-circle6 sk-circle"></span><span class="sk-circle7 sk-circle"></span><span class="sk-circle8 sk-circle"></span><span class="sk-circle9 sk-circle"></span><span class="sk-circle10 sk-circle"></span><span class="sk-circle11 sk-circle"></span><span class="sk-circle12 sk-circle"></span></span></span>';
-            resultThumb += '<img src="https://image.banjjakpet.com'+imgList[i]+'" alt="" >';
+            resultThumb += '<img src="'+imgList[i]+'" alt="" >';
             resultThumb += '</button>';
         };
 
@@ -1607,9 +1607,12 @@ var gallery = {
 
 function showReviewGallery(startIndex, img_list){
     var imgs	= img_list.split('|');
-    imgs.forEach(element => {
-        element = img_link_change(element);
+    $.each(imgs, function(i,v){
+        imgs[i] = img_link_change(imgs[i]);
     });
+    // imgs.forEach(element => {
+    //     element = img_link_change(element);
+    // });
     console.log(imgs);
     gallery.dataSet(imgs);
     gallery.open(startIndex);

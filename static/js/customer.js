@@ -1579,8 +1579,8 @@ function pet_reserve_info(data){
                         let time = new Date(el_.detail.year,el_.detail.month+1,el_.detail.day).getTime()
                         let now = new Date().getTime();
 
-                        let subtract_year= Math.floor((now-time)/1000/60/60/24/30/12);
-                        let subtract_month = Math.floor((now-time)/1000/60/60/24/30%12) ;
+                        let subtract_year= Math.floor((now-time)/1000/60/60/24/30/11);
+                        let subtract_month = Math.floor((now-time)/1000/60/60/24/30%11) ;
 
 
 
@@ -1591,7 +1591,7 @@ function pet_reserve_info(data){
                         document.getElementById('target_pet_gender').innerText = el_.detail.gender;
                         document.getElementById('target_pet_weight').innerText = `${el_.detail.weight}kg`;
 
-                        document.getElementById('target_pet_birthday').innerText = `${el_.detail.year}.${fill_zero(el_.detail.month)}.${fill_zero(el_.detail.day)}(${subtract_year}년 ${subtract_month+2}개월)`
+                        document.getElementById('target_pet_birthday').innerText = `${el_.detail.year}.${fill_zero(el_.detail.month)}.${fill_zero(el_.detail.day)}(${subtract_year}년 ${subtract_month}개월)`
 
                         document.getElementById('target_pet_neutral').innerText = `${el_.detail.neutral === 0 ? 'X' : 'O'}`;
                         document.getElementById('target_pet_beauty_exp').innerText = `${el_.detail.beauty_exp}`;
@@ -1608,16 +1608,16 @@ function pet_reserve_info(data){
 
 
                         let image = '';
-                        if(el_.detail.photo === ""){
-                            if(el_.detail.type ==="dog"){
-                                image = '/static/images/icon/icon-pup-select-off.png'
-                            }else{
-                                image = '/static/images/icon/icon-cat-select-off.png'
-                            }
+                        //if(el_.detail.photo === ""){
+                        if(el_.detail.type ==="dog"){
+                            image = '/static/images/icon/icon-pup-select-off.png'
                         }else{
-
-                            image = img_link_change(el_.detail.photo);
+                            image = '/static/images/icon/icon-cat-select-off.png'
                         }
+                        // }else{
+                        //
+                        //     image = img_link_change(el_.detail.photo);
+                        // }
                         document.getElementById('target_pet_img').setAttribute('src',image);
 
 
@@ -3061,7 +3061,7 @@ function customer_beauty_gallery(){
 
 
         if(payment_idx_list === null){
-            document.getElementById('beauty_gal_wrap').innerHTML ='';
+            document.getElementById('beauty_gal_wrap').innerHTML ='<div class="list-cell"><a href="#" class="btn-gate-picture-register" onclick="MemofocusNcursor();"><span><em>이미지 추가</em></span></a></div>';
             return;
         }
 
@@ -3069,12 +3069,12 @@ function customer_beauty_gallery(){
         let payment_idxs = payment_idx_list.split('|');
 
 
-        payment_idxs.forEach(function(el,i){
+        //payment_idxs.forEach(function(el,i){
 
-            if(i === payment_idxs.length-1){
-
-                return;
-            }
+            // if(i === payment_idxs.length-1){
+            //
+            //     return;
+            // }
 
 
             $.ajax({
@@ -3083,7 +3083,7 @@ function customer_beauty_gallery(){
                 type:'post',
                 data:{
                     mode:'beauty_gal_get',
-                    idx:el,
+                    idx:$('input[name=pet_list]:checked').data("pet_seq"),
                     artist_id:artist_id
                 },
                 success:function(res){
@@ -3112,13 +3112,15 @@ function customer_beauty_gallery(){
                         })
 
 
-
+                        console.log('test');
+                        console.log(body);
+                        var html = `<div class="list-cell"><a href="#" class="btn-gate-picture-register" onclick="MemofocusNcursor();"><span><em>이미지 추가</em></span></a></div>`;
                         body.forEach(function(el,i){
 
 
-                            document.getElementById('beauty_gal_wrap').innerHTML += `<div class="list-cell">
+                            html += `<div class="list-cell">
                                                                                     <div class="picture-thumb-view">
-                                                                                        <div class="picture-obj" onclick="showReviewGallery(${i},'${imgs}')"><img src="https://image.banjjakpet.com${el.file_path}" alt=""></div>
+                                                                                        <div class="picture-obj" onclick="showReviewGallery(${i},'${imgs}')"><img src="${img_link_change(el.file_path)}" alt=""></div>
                                                                                         <div class="picture-date">${el.upload_dt.substr(0,4)}.${el.upload_dt.substr(4,2)}.${el.upload_dt.substr(6,2)}</div>
                                                                                         <div class="picture-ui">
                                                                                             <button type="button" class="btn-picture-ui"></button>
@@ -3130,7 +3132,9 @@ function customer_beauty_gallery(){
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>`
+                            document.getElementById('target_pet_img').setAttribute('src',img_link_change(el.file_path));
                         })
+                        $("#beauty_gal_wrap").append(html);
 
 
                     }
@@ -3139,7 +3143,7 @@ function customer_beauty_gallery(){
 
             })
 
-        })
+       // })
 
 
 
@@ -3150,6 +3154,47 @@ function customer_beauty_gallery(){
 
 
 
+
+}
+
+// 이미지 추가 클릭시
+function MemofocusNcursor() {
+    html = "<div id='upimgarea'></div>";
+    //document.getElementById('dmemo').focus();
+    var sel, range;
+    if (window.getSelection) {
+        // IE9 and non-IE
+        sel = window.getSelection();
+        if (sel.getRangeAt && sel.rangeCount) {
+            range = sel.getRangeAt(0);
+            range.deleteContents();
+
+            // Range.createContextualFragment() would be useful here but is
+            // non-standard and not supported in all browsers (IE9, for one)
+            var el = document.createElement("div");
+            el.innerHTML = html;
+            var frag = document.createDocumentFragment(),
+                node, lastNode;
+            while ((node = el.firstChild)) {
+                lastNode = frag.appendChild(node);
+            }
+            range.insertNode(frag);
+
+            // Preserve the selection
+            if (lastNode) {
+                range = range.cloneRange();
+                range.setStartAfter(lastNode);
+                range.collapse(true);
+                sel.removeAllRanges();
+                sel.addRange(range);
+            }
+        }
+    } else if (document.selection && document.selection.type != "Control") {
+        // IE < 9
+        document.selection.createRange().pasteHTML(html);
+    }
+
+    $("#addimgfile").trigger("click");
 
 }
 
