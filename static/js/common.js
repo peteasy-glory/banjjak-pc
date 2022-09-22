@@ -182,7 +182,7 @@ var include = {
                                         </a>
                                     </div>
                                     <div class="gnb-menu-cell " id="gnb_reserve_wrap">
-                                        <a href="#" class="btn-gnb-nav">
+                                        <a href="/booking/reserve_beauty_day.php" class="btn-gnb-nav">
                                             <span class="nav-icons">
                                                 <span class="icon icon-size-24 icon-calendar-black off"></span>
                                                 <span class="icon icon-size-24 icon-calendar-black-fill on"></span>
@@ -220,7 +220,7 @@ var include = {
                                         </div>
                                     </div>
                                     <div class="gnb-menu-cell " id="gnb_customer_wrap">
-                                        <a href="#" class="btn-gnb-nav">
+                                        <a href="/customer/customer_inquiry.php" class="btn-gnb-nav">
                                             <span class="nav-icons">
                                                 <span class="icon icon-size-24 icon-dubble-user-black off"></span>
                                                 <span class="icon icon-size-24 icon-dubble-user-black-fill on"></span>
@@ -251,7 +251,7 @@ var include = {
                                         </div>
                                     </div>
                                     <div class="gnb-menu-cell" id="gnb_shop_wrap">
-                                        <a href="#" class="btn-gnb-nav">
+                                        <a href="/shop/shop_gate_picture.php" class="btn-gnb-nav">
                                             <span class="nav-icons">
                                                 <span class="icon icon-size-24 icon-shop-black off"></span>
                                                 <span class="icon icon-size-24 icon-shop-black-fill on"></span>
@@ -287,7 +287,7 @@ var include = {
                                         </div>
                                     </div>
                                     <div class="gnb-menu-cell" id="gnb_detail_wrap">
-                                        <a href="#" class="btn-gnb-nav">
+                                        <a href="/setting/set_schedule_list.php" class="btn-gnb-nav">
                                             <span class="nav-icons">
                                                 <span class="icon icon-size-24 icon-set-black off"></span>
                                                 <span class="icon icon-size-24 icon-set-black-fill on"></span>
@@ -328,7 +328,7 @@ var include = {
                                         </div>
                                     </div>
                                     <div class="gnb-menu-cell" id="gnb_stats_wrap">
-                                        <a href="#" class="btn-gnb-nav">
+                                        <a href="/report/stats_sale_1.php" class="btn-gnb-nav">
                                             <span class="nav-icons">
                                                 <span class="icon icon-size-24 icon-money-black off"></span>
                                                 <span class="icon icon-size-24 icon-money-black-fill on"></span>
@@ -344,7 +344,7 @@ var include = {
                                         </div>
                                     </div>
                                     <div class="gnb-menu-cell" id="gnb_etc_wrap">
-                                        <a href="#" class="btn-gnb-nav">
+                                        <a href="/etc/other_notice_list.php" class="btn-gnb-nav">
                                             <span class="nav-icons">
                                                 <span class="icon icon-size-24 icon-other off"></span>
                                                 <span class="icon icon-size-24 icon-other-fill on"></span>
@@ -662,22 +662,9 @@ var common = {
         if ($('#gnb').hasClass('hide')) {
             $('#gnb').removeClass('hide');
             $('#container').removeClass('hide');
-            document.getElementById('gnb_reserve_wrap').removeAttribute('onclick');
-            document.getElementById('gnb_customer_wrap').removeAttribute('onclick');
-            document.getElementById('gnb_shop_wrap').removeAttribute('onclick');
-            document.getElementById('gnb_detail_wrap').removeAttribute('onclick');
-            document.getElementById('gnb_stats_wrap').removeAttribute('onclick');
-            document.getElementById('gnb_etc_wrap').removeAttribute('onclick');
         } else {
             $('#gnb').addClass('hide');
-            $('#container').addClass('hide');
-            document.getElementById('gnb_reserve_wrap').setAttribute('onclick','location.href ="/booking/reserve_beauty_day.php"')
-            document.getElementById('gnb_customer_wrap').setAttribute('onclick','location.href ="/customer/customer_inquiry.php"')
-            document.getElementById('gnb_shop_wrap').setAttribute('onclick','location.href ="/shop/shop_gate_picture.php"')
-            document.getElementById('gnb_detail_wrap').setAttribute('onclick','location.href ="/setting/set_schedule_list.php"')
-            document.getElementById('gnb_stats_wrap').setAttribute('onclick','location.href ="/report/stats_sale_1.php"')
-            document.getElementById('gnb_etc_wrap').setAttribute('onclick','location.href ="/etc/other_notice_list.php"')
-        }
+            $('#container').addClass('hide'); }
         common.gnbDataSort();
     },
     gnbDataSet: function () {

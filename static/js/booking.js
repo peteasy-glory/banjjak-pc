@@ -28,6 +28,7 @@ function schedule_render(id){
             }
         },
         success:function (res){
+            console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -1479,7 +1480,7 @@ function consulting_hold_list(id){
                                                                                                                         </div>
                                                                                                                         <div class="flex-table-data">
                                                                                                                             <div class="flex-table-data-inner">
-                                                                                                                            
+                                                                                                                                ${el_.dislike_string.replaceAll(',',' ')}
                                                                                                                             </div>
                                                                                                                         </div>
                                                                                                                     </div>
@@ -1509,7 +1510,9 @@ function consulting_hold_list(id){
                                                                                                                 <h4 class="con-title">원하는 미용</h4>
                                                                                                             </div>
                                                                                                             <div class="con-title-group">
-                                                                                                                <h5 class="con-title"> </h5>
+                                                                                                                <h5 class="con-title"> 
+                                                                                                                ${el_.memo}
+                                                                                                                </h5>
                                                                                                             </div>
                                                                                                         </div>
                                                                                                         <div class="basic-data-group">
@@ -5809,7 +5812,7 @@ function reserve_merchandise_load_3(base_svc){
 
                                         document.getElementById('basic_weight').innerHTML += `<div class="toggle-button-cell">
                                                                                                 <div class="form-toggle-options">
-                                                                                                    <input type="radio" name="s2" name="options1"  id="surcharge" onclick="reserve_service_list('service2_basic_weight','${el_.surcharge.kg}kg~','surcharge')">
+                                                                                                    <input type="radio" name="s2" name="options1" value="no" id="surcharge" onclick="reserve_service_list('service2_basic_weight','${el_.surcharge.kg}kg~','surcharge')">
                                                                                                         <div class="form-toggle-options-data">
                                                                                                             <div class="options-labels">
                                                                                                                 <span>${el_.surcharge.kg}kg~</span><strong style="font-size:10px">kg당 <br> +${parseInt(el_.surcharge.price).toLocaleString()}원</strong></div>
@@ -6193,12 +6196,17 @@ let beauty,bath,add_svc;
 
         size = size_input === null ? '' : size_input.value;
         service = service_input === null ? '' : service_input.value;
-        weight_merchandise = weight_input === null ? '' : weight_input.value;
+        weight_merchandise = weight_input === null ? '' : weight_input.value ==='no' ? `${document.getElementById('weight_target').value}` : weight_input.value;
         hair_feature = hair_feature_input === null ? '' :hair_feature_input.value;
         hair_length = hair_length_input === null ? '' : hair_length_input.value;
 
 
-        weight_price = weight_input === null ? '' : weight_input.getAttribute('data-price');
+        if(weight_input.value === 'no'){
+            weight_price =  parseInt(localStorage.getItem('surcharge_std_price')) + (parseInt(document.getElementById('weight_target').value)- parseInt(localStorage.getItem('surcharge_kg'))) * parseInt(localStorage.getItem('surcharge_price'))
+        }else{
+            weight_price = weight_input === null ? '' : weight_input.getAttribute('data-price');
+        }
+
         hair_length_price = hair_length_input === null ? '' : hair_length_input.getAttribute('data-price');
     }else{
 
@@ -6233,13 +6241,13 @@ let beauty,bath,add_svc;
     let arr_hair_feature = [];
     for(let i=0; i<hair_feature_input.length;i++){
 
-        arr_hair_feature.push(`${hair_feature_input[i].value}:${hair_feature_input[i].getAttribute('data-price')}`)
+        arr_hair_feature.push(`${hair_feature_input[i].value}${hair_feature_input[i].getAttribute('data-price') === null ? '':':'}${hair_feature_input[i].getAttribute('data-price') === null ? '' : hair_feature_input[i].getAttribute('data-price')}`)
     }
 
     let arr_face = [];
     for(let i=0; i<face_input.length;i++){
 
-        arr_face.push(`${face_input[i].value}:${face_input[i].getAttribute('data-price')}`);
+        arr_face.push(`${face_input[i].value}${face_input[i].getAttribute('data-price') === null ? '' : ':'}${face_input[i].getAttribute('data-price') === null ? '' : face_input[i].getAttribute('data-price')}`);
     }
 
     let arr_leg = [];
@@ -6412,7 +6420,7 @@ let beauty,bath,add_svc;
     if(breed ==='dog'){
 
 
-            product += `${name}|${breed === 'dog' ? '개' : ''}|${shop_name}|${size}|${service}|${weight_merchandise}:${weight_price === null ? '0' : weight_price}|${arr_face.toString()}|${hair_length}:${hair_length_price === null ? '0' : hair_length_price}|${arr_hair_feature.toString()}|`;
+            product += `${name}|${breed === 'dog' ? '개' : ''}|${shop_name}|${size}|${service}|${weight_merchandise}:${weight_price === null ? '0' : weight_price}|${arr_face.toString()}|${hair_length}${hair_length_price === null ? '' : ':'}${hair_length_price === null ? '' : hair_length_price}|${arr_hair_feature.toString()}|`;
 
 
         for(let i=0; i<3; i++){
@@ -6534,41 +6542,43 @@ let beauty,bath,add_svc;
 
     if(document.getElementById('notice_check').getAttribute('data-notice') === 'Y'){
 
-        let year = document.getElementById('reserve_time_year').value;
-        let month = document.getElementById('reserve_time_month').value;
-        let day = document.getElementById('reserve_time_date').value;
-        let hour = document.getElementById('reserve_st_time').value.split(':')[0];
-        let min = document.getElementById('reserve_st_time').value.split(':')[1];
-
-        let message = `반려생활의 단짝, 반짝에서 ${cellphone.slice(-4)}님의 ${name} 미용예약 내용을 알려드립니다.\n` +
-            '\n' +
-            `- 예약펫샵 : ${shop_name}\n` +
-            `- 예약일시 : ${year}년 ${month}월 ${day}일 ${hour}시 ${min}분\n` +
-            '\n' +
-            '예약내용 상세확인과 예약은\n' +
-            '반려생활의 단짝, 반짝에서도 가능합니다.';
-
-
-
-        $.ajax({
-
-            url:'/data/pc_ajax.php',
-            type:'post',
-            data:{
-
-                mode:'reserve_regist_allim',
-                cellphone:cellphone,
-                message:message,
-                
-
-            }
-        })
+        // let year = document.getElementById('reserve_time_year').value;
+        // let month = document.getElementById('reserve_time_month').value;
+        // let day = document.getElementById('reserve_time_date').value;
+        // let hour = document.getElementById('reserve_st_time').value.split(':')[0];
+        // let min = document.getElementById('reserve_st_time').value.split(':')[1];
+        //
+        // let message = `반려생활의 단짝, 반짝에서 ${cellphone.slice(-4)}님의 ${name} 미용예약 내용을 알려드립니다.\n` +
+        //     '\n' +
+        //     `- 예약펫샵 : ${shop_name}\n` +
+        //     `- 예약일시 : ${year}년 ${month}월 ${day}일 ${hour}시 ${min}분\n` +
+        //     '\n' +
+        //     '예약내용 상세확인과 예약은\n' +
+        //     '반려생활의 단짝, 반짝에서도 가능합니다.';
+        //
+        //
+        //
+        // $.ajax({
+        //
+        //     url:'/data/pc_ajax.php',
+        //     type:'post',
+        //     data:{
+        //
+        //         mode:'reserve_regist_allim',
+        //         cellphone:cellphone,
+        //         message:message,
+        //
+        //
+        //     }
+        // })
 
 
 
 
     }
 
+
+    console.log(product);
 
 
     $.ajax({
@@ -6623,13 +6633,15 @@ let beauty,bath,add_svc;
 
         },
         success:function(res){
+            console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                location.reload()
+
+                // location.reload()
             }
 
         }

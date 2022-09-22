@@ -2936,12 +2936,6 @@ if ($artist_flag == 1) {
             })
         })
 
-        document.getElementById('gnb_reserve_wrap').setAttribute('onclick','location.href ="/booking/reserve_beauty_day.php"')
-        document.getElementById('gnb_customer_wrap').setAttribute('onclick','location.href ="/customer/customer_inquiry.php"')
-        document.getElementById('gnb_shop_wrap').setAttribute('onclick','location.href ="/shop/shop_gate_picture.php"')
-        document.getElementById('gnb_detail_wrap').setAttribute('onclick','location.href ="/setting/set_schedule_list.php"')
-        document.getElementById('gnb_stats_wrap').setAttribute('onclick','location.href ="/report/stats_sale_1.php"')
-        document.getElementById('gnb_etc_wrap').setAttribute('onclick','location.href ="/etc/other_notice_list.php"')
 
 
         document.getElementById('pay_management').addEventListener("scroll",onScroll);

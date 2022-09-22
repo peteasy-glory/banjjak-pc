@@ -2009,7 +2009,9 @@ if($r_mode) {
 
         $reserve_regist = $api ->post('/partner/booking/b/join/', $regist_data_json);
 
-        $return_data = array("code" => "000000","data"=>$reserve_regist);
+        $idx = mysqli_insert_id($connection);
+
+        $return_data = array("code" => "000000","data"=>$reserve_regist,'idx'=>$idx);
 
 
     }else if($r_mode === "pet_info"){
@@ -2819,18 +2821,18 @@ if($r_mode) {
     }else if($r_mode === 'reserve_regist_allim'){
 
 
-        $cellphone = $_POST['cellphone'];
-        $message = $_POST['message'];
-        $tem_code = "1000004530_20001";
-        $btn_link = "https://customer.banjjakpet.com/allim/#{주문정보}";
-
-        $data = array('cellphone'=>$cellphone,'message'=>$message,'tem_code'=>$tem_code,'btn_link'=>$btn_link);
-
-        $data_json = json_encode($data);
-
-        $result = $api -> post('/partner/allim/send',$data_json);
-
-        $return_data = array("code"=>"000000","data"=>$result);
+//        $cellphone = $_POST['cellphone'];
+//        $message = $_POST['message'];
+//        $tem_code = "1000004530_20001";
+//        $btn_link = "https://customer.banjjakpet.com/allim/#{주문정보}";
+//
+//        $data = array('cellphone'=>$cellphone,'message'=>$message,'tem_code'=>$tem_code,'btn_link'=>$btn_link);
+//
+//        $data_json = json_encode($data);
+//
+//        $result = $api -> post('/partner/allim/send',$data_json);
+//
+//        $return_data = array("code"=>"000000","data"=>$result);
 
 
     }
