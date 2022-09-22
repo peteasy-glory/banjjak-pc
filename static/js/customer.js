@@ -55,13 +55,13 @@ function search(search_value,id) {
                                 }
 
 
-                            }else if(el.pet_photo !== null && el.pet_photo !== ""){
-                                if(el.pet_photo.substr(0,4) === '/pet'){
-
-                                    image = `https://image.banjjakpet.com${el.pet_photo.replace('/pet','')}`;
-                                }else{
-                                    image = `https://image.banjjakpet.com${el.pet_photo}`;
-                                }
+                            // }else if(el.pet_photo !== null && el.pet_photo !== ""){
+                            //     if(el.pet_photo.substr(0,4) === '/pet'){
+                            //
+                            //         image = `https://image.banjjakpet.com${el.pet_photo.replace('/pet','')}`;
+                            //     }else{
+                            //         image = `https://image.banjjakpet.com${el.pet_photo}`;
+                            //     }
                             }else{
                                 if(el.type === 'dog'){
                                     image = `/static/images/icon/icon-pup-select-off.png`
@@ -82,7 +82,7 @@ function search(search_value,id) {
 
 
                             document.getElementById('search_phone_inner').innerHTML += `<div class="grid-layout-cell grid-2">
-                                                                                                <a href="/customer/customer_view.php" onclick="localStorage.setItem('customer_select','${el.cellphone}'); localStorage.setItem('noshow_cnt','${el.no_show_count > 0 ? el.no_show_count : 0}'); localStorage.setItem('sub_cellphone','${sub_cellphone}')" class="customer-card-item">
+                                                                                                <a href="/customer/customer_view.php" onclick="localStorage.setItem('user_pet_seq','${el.pet_seq}'); localStorage.setItem('customer_select','${el.cellphone}'); localStorage.setItem('noshow_cnt','${el.no_show_count > 0 ? el.no_show_count : 0}'); localStorage.setItem('sub_cellphone','${sub_cellphone}')" class="customer-card-item">
                                                                                                     <div class="item-info-wrap">
                                                                                                         <div class="item-thumb">
                                                                                                             <div class="user-thumb large">
@@ -1251,15 +1251,15 @@ function customer_view(id){
 
 
                                 if(body_.length > 0) {
-
+//console.log(body_);
 
                                     body_.forEach(function (el, i) {
-
+                                        var is_cancel = (el.is_cancel != 0 || el.is_no_show != 0)? 'style="color: red;"' : '';
                                         document.getElementById('usage_history_list').innerHTML += `<tr class="customer-table-cell gallery-check" data-payment_idx="${el.payment_log_seq}" data-pet_seq="${el.pet_seq}" onclick="if(document.getElementById('customer_table_view_${i}').classList.contains('actived')){document.getElementById('customer_table_view_${i}').classList.remove('actived')}else{document.getElementById('customer_table_view_${i}').classList.add('actived')}; if(document.getElementById('customer_table_cell_${i}').classList.contains('actived')){document.getElementById('customer_table_cell_${i}').classList.remove('actived')}else{document.getElementById('customer_table_cell_${i}').classList.add('actived')}">
                                                                                                     <td>
                                                                                                         <!-- customer-table-toggle 클래스에 actived클래스 추가시 활성화 -->
                                                                                                         <button type="button" class="customer-table-toggle type-2 actived" id="customer_table_cell_${i}">
-                                                                                                            <span class="toggle-title"><span class="ellipsis">${el?.product.split('|')[0]}</span></span>
+                                                                                                            <span class="toggle-title" ${is_cancel}><span class="ellipsis">${el?.product.split('|')[0]}</span></span>
                                                                                                         </button>
                                                                                                     </td>
                                                                                                     <td>
@@ -1300,7 +1300,7 @@ function customer_view(id){
                                                                                                                     </div>
                                                                                                                     <div class="flex-table-data">
                                                                                                                         <div class="flex-table-data-inner">
-                                                                                                                            ${el.worker}
+                                                                                                                            ${(el.worker == artist_id)? '실장' : el.worker}
                                                                                                                         </div>
                                                                                                                     </div>
                                                                                                                 </div>
@@ -1324,7 +1324,7 @@ function customer_view(id){
                                                                                                                     </div>
                                                                                                                     <div class="flex-table-data">
                                                                                                                         <div class="flex-table-data-inner">
-                                                                                                                            ${el.is_cancel === 1 ? el.cancel_time : 'X'}
+                                                                                                                            ${el.is_cancel === 1 ? el.cancel_time.substr(0, 4)+'.'+el.cancel_time.substr(4, 2)+'.'+el.cancel_time.substr(6, 2)+' '+el.cancel_time.substr(8, 2)+':'+el.cancel_time.substr(10, 2) : 'X'}
                                                                                                                         </div>
                                                                                                                     </div>
                                                                                                                 </div>
@@ -1934,7 +1934,7 @@ function insert_customer_special(id){
 
                 body.forEach(function(el){
 
-                    document.getElementById('special_note').innerHTML =`<div class="grid-layout-cell grid-2 note-toggle-cell">
+                    document.getElementById('special_note').innerHTML +=`<div class="grid-layout-cell grid-2 note-toggle-cell">
                                                                                         <div class="special-note">
                                                                                             <div class="note-desc"><em>${el.recent}</em>
                                                                                                 <div class="txt">${el.etc_memo}

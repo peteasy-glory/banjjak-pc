@@ -230,7 +230,7 @@ if ($artist_flag == 1) {
 												</div>
 											</div>
 											<div class="note-toggle-ui">
-												<button type="button" class="btn-note-toggle">더보기</button>
+												<!--<button type="button" class="btn-note-toggle">더보기</button>-->
 											</div>
 										</div>
 									</div>
