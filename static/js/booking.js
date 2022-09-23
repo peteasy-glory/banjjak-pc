@@ -246,7 +246,7 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
             el.classList.add('actived');
 
             body_.forEach(function(_el, index){
-                tooltip(_el.product.payment_idx);
+                //tooltip(_el.product.payment_idx);
 
                 ////console.log(_el);
                 if(_el.product.worker === el.getAttribute('data-worker')){
