@@ -85,8 +85,8 @@ function search(search_value,id) {
                                                                                                 <a href="/customer/customer_view.php" onclick="localStorage.setItem('customer_select','${el.cellphone}'); localStorage.setItem('noshow_cnt','${el.no_show_count > 0 ? el.no_show_count : 0}'); localStorage.setItem('sub_cellphone','${sub_cellphone}')" class="customer-card-item">
                                                                                                     <div class="item-info-wrap">
                                                                                                         <div class="item-thumb">
-                                                                                                            <div class="user-thumb large" ${el.pet_photo !== null && el.pet_photo !== "" ? `onclick="thumb_view(this,'${el.pet_photo.replace('/pet','')}')"` : ''}>
-                                                                                                                <img src="${el.pet_photo !== null && el.pet_photo !== "" ? img_link_change(el.pet_photo) : el.type === 'dog' ? '/static/images/icon/icon-pup-select-off.png' :'/static/images/icon/icon-cat-select-off.png'  }" alt="">
+                                                                                                            <div class="user-thumb large">
+                                                                                                                <img src="${image}" alt="">
                                                                                                             </div>
                                                                                                         </div>
                                                                                                         <div class="item-data">
@@ -3048,7 +3048,6 @@ function customer_beauty_gallery(id,pet_seq){
                 data:{
                     mode:'beauty_gal_get',
                     idx:pet_seq,
-                    login_id:id,
                 },
                 success:function(res){
                     let response = JSON.parse(res);
@@ -3057,7 +3056,6 @@ function customer_beauty_gallery(id,pet_seq){
                     if (head.code === 401) {
                         pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                     } else if (head.code === 200) {
-                        console.log(body)
 
                         if(body.length === undefined){
 

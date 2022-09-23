@@ -212,6 +212,22 @@ if($r_mode) {
         $post = $api ->post('/partner/shop/front',$data_json);
 
         $return_data = array("code"=>"000000","data"=>$post);
+    }else if($r_mode === "post_beauty_gallery"){
+
+        $payment_log_seq = ($_POST['payment_log_seq'] > 0)? intval($_POST['payment_log_seq']) : 0;
+        $login_id = $_POST['login_id'];
+        $pet_seq = intval($_POST['pet_seq']);
+        $prnt_title = $_POST['prnt_title'];
+        $mime = $_POST['mime'];
+        $image = $_FILES['image']['tmp_name'];
+        $base_img = base64_encode(file_get_contents($image));
+
+        $data = array('payment_log_seq'=>$payment_log_seq,'partner_id'=>$login_id,'pet_seq'=>$pet_seq,'prnt_title'=>$prnt_title,'mime'=>$mime,'image'=>$base_img);
+        $data_json = json_encode($data);
+
+        $post = $api ->post('/partner/booking/beauty-gallery',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$post);
     }else if($r_mode === "put_front_main"){
 
         $partner_id = $_POST['login_id'];
@@ -2269,7 +2285,7 @@ if($r_mode) {
 
     }else if($r_mode === "beauty_gal_add"){
 
-        $payment_log_seq = $_POST['payment_log_seq'];
+        $payment_log_seq = ($_POST['payment_log_seq'] != '')? $_POST['payment_log_seq'] : 0;
         $partner_id = $_POST['login_id'];
         $pet_seq = $_POST['pet_seq'];
         $prnt_title = $_POST['prnt_title'];
@@ -2427,9 +2443,9 @@ if($r_mode) {
     }else if($r_mode === "pet_delete"){
 
         $partner_id = $_POST['partner_id'];
-        $idx = $_POST['idx'];
+        $idx = intval($_POST['idx']);
 
-        $data = array(partner_id=>$partner_id,pet_idx=>$idx);
+        $data = array('partner_id'=>$partner_id,'pet_idx'=>$idx);
 
         $data_json = json_encode($data);
 

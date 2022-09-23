@@ -128,7 +128,7 @@ $endDate = DATE('Y-m-d');
 																		<div class="new-doughnutgraph-subject">
 																			<div class="item-inner">
 																				<div class="item-name">매출기여도</div>
-																				<div class="item-cate">서비스별</div>
+<!--																				<div class="item-cate">서비스별</div>-->
 																			</div>
 																		</div>
 																		<div class="new-doughnutgraph-data">

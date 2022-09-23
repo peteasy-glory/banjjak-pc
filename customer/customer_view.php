@@ -77,7 +77,7 @@ if ($artist_flag == 1) {
 											<div class="item-thumb">
 												<div class="user-thumb large"><img src="" id="target_pet_img" alt=""></div>
 												<div class="item-thumb-ui"><a href="#" class="btn btn-outline-gray btn-vsmall-size btn-inline" id="modify_pet">펫 정보 수정</a></div>
-                                                <div class="item-thumb-ui"><a href="#" class="btn btn-outline-gray btn-vsmall-size btn-inline" id="modify_pet">펫 정보 삭제</a></div>
+                                                <div class="item-thumb-ui"><a href="#" class="btn btn-outline-gray btn-vsmall-size btn-inline" id="delete_pet">펫 정보 삭제</a></div>
 											</div>
 											<div class="item-user-data">
 												<div class="grid-layout flex-table">
@@ -230,7 +230,7 @@ if ($artist_flag == 1) {
 												</div>
 											</div>
 											<div class="note-toggle-ui">
-												<button type="button" class="btn-note-toggle">더보기</button>
+												<!--<button type="button" class="btn-note-toggle">더보기</button>-->
 											</div>
 										</div>
 									</div>
@@ -296,8 +296,9 @@ if ($artist_flag == 1) {
                 <div class="pop-body">
                     <div class="reserve-beauty-gallery">
                         <div class="shop-gate-picture-select">
+                            <div style="display:block;position:absolute;top:-50px"><input type="file" accept="image/*" name=imgupfile id=addimgfile></div>
                             <div class="list-inner img_wrap" id="beauty_gal_wrap" style="min-height:176px;">
-
+                                <div class="list-cell"><a href="#" class="btn-gate-picture-register" onclick="MemofocusNcursor();"><span><em>이미지 추가</em></span></a></div>
                             </div>
                         </div>
                         <div class="picture-add-info">이미지는 최대 25개까지 등록할 수 있습니다.<br>gif, png, jpg, jpeg 형식의 절차 이미지만 등록됩니다.</div>
@@ -841,6 +842,21 @@ if ($artist_flag == 1) {
         </div>
     </div>
 </article>
+<article id="deletePet" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data alert-pop-data">
+                <div class="pop-body">
+                    <div class="msg-txt">해당 펫의 모든 정보와 미용이력이 삭제되며, 복구할 수 없습니다.<br>삭제하시겠습니까?</div>
+                </div>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm" onclick="pet_delete(artist_id)">삭제</button>
+                    <button type="button" class="btn btn-confirm" onclick="pop.close();">취소</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
 <article id="reserveAcceptMsg2" class="layer-pop-wrap">
     <div class="layer-pop-parent">
         <div class="layer-pop-children">
@@ -1378,7 +1394,7 @@ if ($artist_flag == 1) {
         showOtherMonths:true, //이전 , 다음 달 일수 활성화
     });
 
-
+    // 메모저장
     $(document).on("keyup","#customer_memo",function(){
         // console.log($(this).val());
         // console.log(localStorage.getItem('customer_select'));
@@ -1398,6 +1414,60 @@ if ($artist_flag == 1) {
             }
         })
     })
+
+    // 펫삭제
+    $(document).on("click","#delete_pet",function(){
+
+        pop.open('deletePet');
+    })
+
+    // 이미지 추가
+    $(document).on("change", "#addimgfile", function(e){
+        var ext = $('#addimgfile').val().split('.').pop().toLowerCase();
+        if ($.inArray(ext, ['png', 'jpg', 'jpeg']) == -1) {
+            alert('gif,png,jpg,jpeg 파일만 업로드 할수 있습니다.');
+            return;
+        }
+
+        var filename = $("input[name=imgupfile]")[0].files[0];
+        console.log($("input[name=imgupfile]")[0]);
+        var type = ($("input[name=imgupfile]")[0].files[0].type).split('/')[1];
+        //console.log(type);
+        var formData = new FormData();
+        formData.append("mode", "post_beauty_gallery");
+        formData.append("payment_log_seq", '');
+        formData.append("pet_seq", $('input[name=pet_list]:checked').data("pet_seq"));
+        formData.append("login_id", artist_id);
+        formData.append("mime", type);
+        formData.append("image", $("input[name=imgupfile]")[0].files[0]);
+        console.log(filename);
+
+        $.ajax({
+            url: '/data/pc_ajax.php',
+            enctype: 'multipart/form-data',
+            data: formData,
+            type: 'POST',
+            processData: false,
+            contentType: false,
+            success: function(data) {
+
+                if (/(MSIE|Trident)/.test(navigator.userAgent)) {
+                    // ie 일때 input[type=file] init.
+                    $("#addimgfile").replaceWith($("#addimgfile").clone(true));
+                } else {
+                    // other browser 일때 input[type=file] init.
+                    $("#addimgfile").val("");
+                }
+                //console.log(data);
+                pop.open('reloadPop', '완료되었습니다.');
+
+            },
+            error: function(xhr, status, error) {
+                alert(error + "에러발생");
+            }
+        });
+
+    });
 </script>
 </body>
 </html>
