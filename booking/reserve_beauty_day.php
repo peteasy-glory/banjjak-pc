@@ -490,6 +490,14 @@ if ($artist_flag == 1) {
 
                                             </div>
 
+                                            <button type="button" class="pay-btn-detail-toggle-2" style=" margin:0 auto; margin-top:16px; margin-bottom:20px;">
+                                                이전 미용 더보기
+                                            </button>
+                                            <div class="pay-before-beauty-list" id="pay_before_beauty_list_more" style="display: none;">
+
+                                            </div>
+
+
                                         </div>
                                         <div class="pay-card-content-4 is_approve" id="scroll_target">
                                             <div class="pay-card-body-title">
@@ -3027,6 +3035,20 @@ $(function(){
         }else{
             document.querySelector('.pay-btn-detail-toggle').classList.remove('actived')
             document.querySelector('.pay-service-selected-wrap').style.display = 'none';
+        }
+
+
+    })
+
+    document.querySelector('.pay-btn-detail-toggle-2').addEventListener('click',function(){
+        console.log(1)
+
+        if(document.querySelector('#pay_before_beauty_list_more').style.display === 'none'){
+            document.querySelector('.pay-btn-detail-toggle-2').classList.add('actived');
+            document.querySelector('#pay_before_beauty_list_more').style.display = 'block';
+        }else{
+            document.querySelector('.pay-btn-detail-toggle-2').classList.remove('actived')
+            document.querySelector('#pay_before_beauty_list_more').style.display = 'none';
         }
 
 

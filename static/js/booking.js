@@ -9474,12 +9474,12 @@ function pay_management_init(id,target,bool,bool2){
             payment_idx:payment_idx,
         },
         beforeSend:function(){
-            //
-            // if(document.getElementById('pay_card_body_inner')){
-            //
-            //     document.getElementById('pay_card_body_inner').style.display = 'none';
-            //     document.getElementById('pay_management_loading').style.display = 'flex';
-            // }
+
+            if(document.getElementById('pay_card_body_inner')){
+
+                document.getElementById('pay_card_body_inner').style.display = 'none';
+                document.getElementById('pay_management_loading').style.display = 'flex';
+            }
 
 
                 product_init();
@@ -9626,8 +9626,6 @@ function pay_management_init(id,target,bool,bool2){
 
                 }
 
-                console.log(body)
-                console.log(body_3)
 
                 if(body.type === 'dog'){
 
@@ -9777,6 +9775,8 @@ function pay_management_init(id,target,bool,bool2){
                 if(body.photo !== ''){
                     document.getElementById('beauty_img_target').setAttribute('src',`${img_link_change(body.photo)}`);
 
+                }else{
+                    document.getElementById('beauty_img_target').setAttribute('src',`${body.type ==='dog' ? '/static/images/icon/icon-pup-select-off.png' : '/static/images/icon/icon-cat-select-off.png'}`);
                 }
 
                 document.getElementById('pay_pet_name').innerText = ''
@@ -9914,18 +9914,29 @@ function pay_management_init(id,target,bool,bool2){
 
                 document.getElementById('pay_special_memo_text').value = body.payment_memo;
 
+                if(document.getElementById('pay_card_body_inner')){
+
+                    document.getElementById('pay_management_loading').style.display = 'none';
+                    document.getElementById('pay_card_body_inner').style.display = 'block';
+                }
 
 
 
 
                 document.getElementById('pay_before_beauty_list').innerHTML = ``
 
-                body_3.forEach(function(el){
+
+                let before_price = 0;
+                body_3.forEach(function(el,i){
+
+                    let card = el.local_price === null ? 0 : parseInt(el.local_price);
+                    let cash = el.local_price_cash === null ? 0 : parseInt(el.local_price_cash);
+                    before_price = cash + card;
 
 
-                    document.getElementById('pay_before_beauty_list').innerHTML += `<div class="pay-before-beauty-item">
-                                                                                        <span class="pay-before-beauty-memo">
-                                                                                           ${el.booking_date.split(' ')[0].replaceAll('-','.')}
+                    document.getElementById(`${i >4 ? 'pay_before_beauty_list_more' : 'pay_before_beauty_list'}`).innerHTML += `<div class="pay-before-beauty-item">
+                                                                                        <span class="pay-before-beauty-memo" style="font-size:10px;">
+                                                                                           ${el.booking_date.split(' ')[0].replaceAll('-','.')} / ${el.product_parsing?.base?.size} / ${el.product_parsing.base.beauty_kind} / ${before_price.toLocaleString()}원
                                                                                         </span>
                                                                                         <a href="#" class="pay-before-beauty-detail" data-payment_idx="${el.payment_idx}" onclick="localStorage.setItem('payment_idx','${el.payment_idx}');pay_management_init('${id}',this,true,true)">
                                                                                             <span class="pay-before-beauty-detail-memo">상세보기</span>
@@ -10035,6 +10046,8 @@ function pay_management_init(id,target,bool,bool2){
                 document.getElementById('service_list').innerHTML = '';
 
                 let parsing = body.product_parsing
+
+
 
 
 
@@ -10231,6 +10244,8 @@ function pay_management_init(id,target,bool,bool2){
 
 
                             discount_init().then(function(){
+
+
 
 
                                 if(body.discount_type === "1"){
@@ -10490,24 +10505,6 @@ function pay_management_init(id,target,bool,bool2){
                             }
                         }
                     })
-
-
-
-
-
-
-
-
-                    if(document.getElementById('pay_card_body_inner')){
-
-                        document.getElementById('pay_management_loading').style.display = 'none';
-                        document.getElementById('pay_card_body_inner').style.display = 'block';
-                    }
-
-
-
-
-
 
                 }
 

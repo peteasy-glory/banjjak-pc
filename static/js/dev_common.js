@@ -1701,3 +1701,11 @@ function showReviewGallery(startIndex, img_list){
     gallery.dataSet(imgs);
     gallery.open(startIndex);
 };
+
+
+function thumb_view(e,img){
+
+    event.stopImmediatePropagation();
+    showReviewGallery(0,img);
+
+}

@@ -85,8 +85,8 @@ function search(search_value,id) {
                                                                                                 <a href="/customer/customer_view.php" onclick="localStorage.setItem('customer_select','${el.cellphone}'); localStorage.setItem('noshow_cnt','${el.no_show_count > 0 ? el.no_show_count : 0}'); localStorage.setItem('sub_cellphone','${sub_cellphone}')" class="customer-card-item">
                                                                                                     <div class="item-info-wrap">
                                                                                                         <div class="item-thumb">
-                                                                                                            <div class="user-thumb large">
-                                                                                                                <img src="${image}" alt="">
+                                                                                                            <div class="user-thumb large" ${el.pet_photo !== null && el.pet_photo !== "" ? `onclick="thumb_view(this,'${el.pet_photo.replace('/pet','')}')"` : ''}>
+                                                                                                                <img src="${el.pet_photo !== null && el.pet_photo !== "" ? img_link_change(el.pet_photo) : el.type === 'dog' ? '/static/images/icon/icon-pup-select-off.png' :'/static/images/icon/icon-cat-select-off.png'  }" alt="">
                                                                                                             </div>
                                                                                                         </div>
                                                                                                         <div class="item-data">
@@ -1387,7 +1387,7 @@ function customer_view_(id){
     customer_view(id).then(function(body_data){
 
         document.getElementById('customer_cellphone').value = localStorage.getItem('customer_select');
-        pet_reserve_info(body_data)
+        pet_reserve_info(body_data,id)
         noshow_initialize(id,body_data);
         insert_customer_grade(id,body_data);
         insert_customer_memo(id,body_data);
@@ -1526,7 +1526,7 @@ function pet_delete(id){
 
 }
 
-function pet_reserve_info(data){
+function pet_reserve_info(data,id){
 
     console.log(data)
 
@@ -1541,22 +1541,8 @@ function pet_reserve_info(data){
                 document.getElementById('beauty_gal_wrap').innerHTML ='';
 
 
-                Array.from(document.getElementsByClassName('gallery-check')).forEach(function(el_){
 
-                    if(el.getAttribute('data-pet_seq') === el_.getAttribute('data-pet_seq')){
-
-                        payment_idx_list += `${el_.getAttribute('data-payment_idx')}|`
-
-                            el.setAttribute('data-payment_idx',payment_idx_list)
-
-
-
-                    }
-
-                })
-
-                payment_idx_list ='';
-                customer_beauty_gallery()
+                customer_beauty_gallery(id,el.getAttribute('data-pet_seq'))
 
 
 
@@ -3051,29 +3037,8 @@ function direct_new(id,cellphone){
 }
 
 
-function customer_beauty_gallery(){
+function customer_beauty_gallery(id,pet_seq){
 
-
-
-
-        let payment_idx_list = document.querySelector('input[name="pet_list"]:checked').getAttribute('data-payment_idx')
-
-
-        if(payment_idx_list === null){
-            document.getElementById('beauty_gal_wrap').innerHTML ='';
-            return;
-        }
-
-
-        let payment_idxs = payment_idx_list.split('|');
-
-
-        payment_idxs.forEach(function(el,i){
-
-            if(i === payment_idxs.length-1){
-
-                return;
-            }
 
 
             $.ajax({
@@ -3082,7 +3047,8 @@ function customer_beauty_gallery(){
                 type:'post',
                 data:{
                     mode:'beauty_gal_get',
-                    idx:el,
+                    idx:pet_seq,
+                    login_id:id,
                 },
                 success:function(res){
                     let response = JSON.parse(res);
@@ -3091,6 +3057,7 @@ function customer_beauty_gallery(){
                     if (head.code === 401) {
                         pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                     } else if (head.code === 200) {
+                        console.log(body)
 
                         if(body.length === undefined){
 
@@ -3137,7 +3104,7 @@ function customer_beauty_gallery(){
 
             })
 
-        })
+
 
 
 
