@@ -730,14 +730,13 @@ function renderCalendar(id) {
                                         <div class="list-cell">
                                             <div class="btn-list-nav total">
                                                 <div class="title">전체</div>
-                                                <div class="value be"></div>
+                                                <div class="value beauty-count"></div>
                                                 <div class="title date-info" style="display: none">
                                                 
                                                 ${prevDates.indexOf(_date) >= 0 && i <= 7 ? `${date.getFullYear().toString().substr(-2)}.${fill_zero(date.getMonth())}.${fill_zero(_date)}` : `${nextDates.indexOf(_date) >= 0 && i >= dates.length - 7 ? `${date.getFullYear().toString().substr(-2)}.${fill_zero(date.getMonth()+2)}.${fill_zero(_date)}` : `${date.getFullYear().toString().substr(-2)}.${fill_zero(date.getMonth()+1)}.${fill_zero(_date)}`}`}
                                                 </div>
                                                 
-                                                
-                                                <div class="value reserve-total-2"></div>
+                                               
                                             </div>
                                         </div>
                                         <div class="list-cell">
@@ -1712,7 +1711,8 @@ function showReviewGallery(startIndex, img_list){
 
 function thumb_view(e,img){
 
-    event.stopImmediatePropagation();
+    event.preventDefault();
+    event.stopPropagation();
     showReviewGallery(0,img);
 
 }
