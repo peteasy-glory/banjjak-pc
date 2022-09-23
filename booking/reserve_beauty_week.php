@@ -139,7 +139,7 @@ if ($artist_flag == 1) {
 								</div>
 								<div class="card-body">
 									<div class="total-text-group">
-										<div class="total-text-cell"><div class="item-title">총 미용 예약</div><div class="item-value" id="day_total"></div></div>
+										<div class="total-text-cell"><div class="item-title">미용 예약</div><div class="item-value" id="day_total"></div></div>
 										<div class="total-text-cell"><div class="item-title">예약 취소</div><div class="item-value" id="day_cancel"></div></div>
 										<div class="total-text-cell"><div class="item-title">NO SHOW</div><div class="item-value" id="day_noshow"></div></div>
 									</div>
@@ -512,6 +512,12 @@ if ($artist_flag == 1) {
                                                 <h4 class="con-title">이전 미용</h4>
                                             </div>
                                             <div class="pay-before-beauty-list" id="pay_before_beauty_list">
+
+                                            </div>
+                                            <button type="button" class="pay-btn-detail-toggle-2" style=" margin:0 auto; margin-top:16px; margin-bottom:20px;">
+                                                이전 미용 더보기
+                                            </button>
+                                            <div class="pay-before-beauty-list" id="pay_before_beauty_list_more" style="display: none;">
 
                                             </div>
 

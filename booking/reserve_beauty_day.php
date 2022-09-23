@@ -142,7 +142,7 @@ if ($artist_flag == 1) {
 								</div>
 								<div class="card-body">
 									<div class="total-text-group">
-										<div class="total-text-cell"><div class="item-title">총 미용 예약</div><div class="item-value" id="day_total"></div></div>
+										<div class="total-text-cell"><div class="item-title">미용 예약</div><div class="item-value" id="day_total"></div></div>
 										<div class="total-text-cell"><div class="item-title">예약 취소</div><div class="item-value" id="day_cancel"></div></div>
 										<div class="total-text-cell"><div class="item-title">NO SHOW</div><div class="item-value" id="day_noshow"></div></div>
 									</div>

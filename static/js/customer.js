@@ -55,13 +55,13 @@ function search(search_value,id) {
                                 }
 
 
-                            }else if(el.pet_photo !== null && el.pet_photo !== ""){
-                                if(el.pet_photo.substr(0,4) === '/pet'){
-
-                                    image = `https://image.banjjakpet.com${el.pet_photo.replace('/pet','')}`;
-                                }else{
-                                    image = `https://image.banjjakpet.com${el.pet_photo}`;
-                                }
+                            // }else if(el.pet_photo !== null && el.pet_photo !== ""){
+                            //     if(el.pet_photo.substr(0,4) === '/pet'){
+                            //
+                            //         image = `https://image.banjjakpet.com${el.pet_photo.replace('/pet','')}`;
+                            //     }else{
+                            //         image = `https://image.banjjakpet.com${el.pet_photo}`;
+                            //     }
                             }else{
                                 if(el.type === 'dog'){
                                     image = `/static/images/icon/icon-pup-select-off.png`
@@ -82,7 +82,7 @@ function search(search_value,id) {
 
 
                             document.getElementById('search_phone_inner').innerHTML += `<div class="grid-layout-cell grid-2">
-                                                                                                <a href="/customer/customer_view.php" onclick="localStorage.setItem('customer_select','${el.cellphone}'); localStorage.setItem('noshow_cnt','${el.no_show_count > 0 ? el.no_show_count : 0}'); localStorage.setItem('sub_cellphone','${sub_cellphone}')" class="customer-card-item">
+                                                                                                <a href="/customer/customer_view.php" onclick="localStorage.setItem('user_pet_seq','${el.pet_seq}'); localStorage.setItem('customer_select','${el.cellphone}'); localStorage.setItem('noshow_cnt','${el.no_show_count > 0 ? el.no_show_count : 0}'); localStorage.setItem('sub_cellphone','${sub_cellphone}')" class="customer-card-item">
                                                                                                     <div class="item-info-wrap">
                                                                                                         <div class="item-thumb">
                                                                                                             <div class="user-thumb large">
@@ -1104,6 +1104,9 @@ function customer_new(id){
 
 }
 
+
+
+
 function customer_view(id){
 
     return new Promise(function (resolve) {
@@ -1198,6 +1201,7 @@ function customer_view(id){
                                                                                 <button type="button" class="font-color-purple font-underline btn-text" onclick="open_customer_allim('${localStorage.getItem('customer_select')}');">알림톡 발송 조회
                                                                                 </button>
                                                                             </div>
+                                                                            
                                                                         </div>
                                                                     </div>
                                                                     <div class="customer-user-table-row">
@@ -1250,15 +1254,15 @@ function customer_view(id){
 
 
                                 if(body_.length > 0) {
-
+//console.log(body_);
 
                                     body_.forEach(function (el, i) {
-
+                                        var is_cancel = (el.is_cancel != 0 || el.is_no_show != 0)? 'style="color: red;"' : '';
                                         document.getElementById('usage_history_list').innerHTML += `<tr class="customer-table-cell gallery-check" data-payment_idx="${el.payment_log_seq}" data-pet_seq="${el.pet_seq}" onclick="if(document.getElementById('customer_table_view_${i}').classList.contains('actived')){document.getElementById('customer_table_view_${i}').classList.remove('actived')}else{document.getElementById('customer_table_view_${i}').classList.add('actived')}; if(document.getElementById('customer_table_cell_${i}').classList.contains('actived')){document.getElementById('customer_table_cell_${i}').classList.remove('actived')}else{document.getElementById('customer_table_cell_${i}').classList.add('actived')}">
                                                                                                     <td>
                                                                                                         <!-- customer-table-toggle 클래스에 actived클래스 추가시 활성화 -->
                                                                                                         <button type="button" class="customer-table-toggle type-2 actived" id="customer_table_cell_${i}">
-                                                                                                            <span class="toggle-title"><span class="ellipsis">${el?.product.split('|')[0]}</span></span>
+                                                                                                            <span class="toggle-title" ${is_cancel}><span class="ellipsis">${el?.product.split('|')[0]}</span></span>
                                                                                                         </button>
                                                                                                     </td>
                                                                                                     <td>
@@ -1299,7 +1303,7 @@ function customer_view(id){
                                                                                                                     </div>
                                                                                                                     <div class="flex-table-data">
                                                                                                                         <div class="flex-table-data-inner">
-                                                                                                                            ${el.worker}
+                                                                                                                            ${(el.worker == artist_id)? '실장' : el.worker}
                                                                                                                         </div>
                                                                                                                     </div>
                                                                                                                 </div>
@@ -1323,7 +1327,7 @@ function customer_view(id){
                                                                                                                     </div>
                                                                                                                     <div class="flex-table-data">
                                                                                                                         <div class="flex-table-data-inner">
-                                                                                                                            ${el.is_cancel === 1 ? el.cancel_time : 'X'}
+                                                                                                                            ${el.is_cancel === 1 ? el.cancel_time.substr(0, 4)+'.'+el.cancel_time.substr(4, 2)+'.'+el.cancel_time.substr(6, 2)+' '+el.cancel_time.substr(8, 2)+':'+el.cancel_time.substr(10, 2) : 'X'}
                                                                                                                         </div>
                                                                                                                     </div>
                                                                                                                 </div>
@@ -1387,11 +1391,11 @@ function customer_view_(id){
     customer_view(id).then(function(body_data){
 
         document.getElementById('customer_cellphone').value = localStorage.getItem('customer_select');
-        pet_reserve_info(body_data,id)
+        pet_reserve_info(body_data)
         noshow_initialize(id,body_data);
         insert_customer_grade(id,body_data);
         insert_customer_memo(id,body_data);
-        insert_customer_special(id);
+        //insert_customer_special(id);
 
 
 
@@ -1505,7 +1509,8 @@ function customer_delete(id){
 
 function pet_delete(id){
 
-    let cellphone = localStorage.getItem('customer_select');
+    var idx = $('input[name=pet_list]:checked').data("pet_seq");
+    var pet_cnt = $(".pet-list-btn").length;
 
     $.ajax({
 
@@ -1518,15 +1523,22 @@ function pet_delete(id){
             idx:idx
         },
         success:function(res){
-            document.getElementById('msg3_txt').innerText = '삭제되었습니다.'
-            pop.open('reserveAcceptMsg3');
+            if(pet_cnt == '1'){
+                pop.close();
+                document.getElementById('msg3_txt').innerText = '삭제되었습니다.'
+                pop.open('reserveAcceptMsg3');
+            }else{
+                pop.close();
+                pop.open('reloadPop','삭제되었습니다.');
+            }
+
         }
 
     })
 
 }
 
-function pet_reserve_info(data,id){
+function pet_reserve_info(data){
 
     console.log(data)
 
@@ -1541,8 +1553,22 @@ function pet_reserve_info(data,id){
                 document.getElementById('beauty_gal_wrap').innerHTML ='';
 
 
+                Array.from(document.getElementsByClassName('gallery-check')).forEach(function(el_){
 
-                customer_beauty_gallery(id,el.getAttribute('data-pet_seq'))
+                    if(el.getAttribute('data-pet_seq') === el_.getAttribute('data-pet_seq')){
+
+                        payment_idx_list += `${el_.getAttribute('data-payment_idx')}|`
+
+                            el.setAttribute('data-payment_idx',payment_idx_list)
+
+
+
+                    }
+
+                })
+
+                payment_idx_list ='';
+                customer_beauty_gallery()
 
 
 
@@ -1557,19 +1583,19 @@ function pet_reserve_info(data,id){
                         let time = new Date(el_.detail.year,el_.detail.month+1,el_.detail.day).getTime()
                         let now = new Date().getTime();
 
-                        let subtract_year= Math.floor((now-time)/1000/60/60/24/30/12);
-                        let subtract_month = Math.floor((now-time)/1000/60/60/24/30%12) ;
+                        let subtract_year= Math.floor((now-time)/1000/60/60/24/30/11);
+                        let subtract_month = Math.floor((now-time)/1000/60/60/24/30%11) ;
 
 
 
-
+                        insert_customer_special(artist_id, el_.pet_seq);
 
                         document.getElementById('target_pet_name').innerText = el_.name;
                         document.getElementById('target_pet_type').innerText = el_.detail.pet_type;
                         document.getElementById('target_pet_gender').innerText = el_.detail.gender;
                         document.getElementById('target_pet_weight').innerText = `${el_.detail.weight}kg`;
 
-                        document.getElementById('target_pet_birthday').innerText = `${el_.detail.year}.${fill_zero(el_.detail.month)}.${fill_zero(el_.detail.day)}(${subtract_year}년 ${subtract_month+2}개월)`
+                        document.getElementById('target_pet_birthday').innerText = `${el_.detail.year}.${fill_zero(el_.detail.month)}.${fill_zero(el_.detail.day)}(${subtract_year}년 ${subtract_month}개월)`
 
                         document.getElementById('target_pet_neutral').innerText = `${el_.detail.neutral === 0 ? 'X' : 'O'}`;
                         document.getElementById('target_pet_beauty_exp').innerText = `${el_.detail.beauty_exp}`;
@@ -1586,16 +1612,16 @@ function pet_reserve_info(data,id){
 
 
                         let image = '';
-                        if(el_.detail.photo === ""){
-                            if(el_.detail.type ==="dog"){
-                                image = '/static/images/icon/icon-pup-select-off.png'
-                            }else{
-                                image = '/static/images/icon/icon-cat-select-off.png'
-                            }
+                        //if(el_.detail.photo === ""){
+                        if(el_.detail.type ==="dog"){
+                            image = '/static/images/icon/icon-pup-select-off.png'
                         }else{
-
-                            image = img_link_change(el_.detail.photo);
+                            image = '/static/images/icon/icon-cat-select-off.png'
                         }
+                        // }else{
+                        //
+                        //     image = img_link_change(el_.detail.photo);
+                        // }
                         document.getElementById('target_pet_img').setAttribute('src',image);
 
 
@@ -1883,7 +1909,7 @@ function set_grade(data,customer_id){
     }
 }
 
-function insert_customer_special(id){
+function insert_customer_special(id, seq){
 
 
     $.ajax({
@@ -1894,7 +1920,7 @@ function insert_customer_special(id){
 
             mode:'get_customer_special',
             partner_id:id,
-            cellphone:localStorage.getItem('customer_select')
+            pet_seq:seq
         },
         success:function(res) {
             let response = JSON.parse(res);
@@ -1909,11 +1935,12 @@ function insert_customer_special(id){
                     body = [body];
                 }
 
+                document.getElementById('special_note').innerHTML = '';
                 body.forEach(function(el){
 
-                    document.getElementById('special_note').innerHTML =`<div class="grid-layout-cell grid-2 note-toggle-cell">
+                    document.getElementById('special_note').innerHTML +=`<div class="grid-layout-cell grid-2 note-toggle-cell">
                                                                                         <div class="special-note">
-                                                                                            <div class="note-desc"><em>${el.recent}</em>
+                                                                                            <div class="note-desc"><em>${(el.recent != '')? el.recent : '신규등록'}</em>
                                                                                                 <div class="txt">${el.etc_memo}
                                                                                                 </div>
                                                                                             </div>
@@ -1931,6 +1958,7 @@ function insert_customer_special(id){
 function customer_beauty_agree(id,el){
 
     return new Promise(function(resolve){
+        console.log(el)
 
         let pet_seq = el.detail.pet_seq;
 
@@ -1969,7 +1997,8 @@ function customer_beauty_agree(id,el){
                         document.getElementById('beauty_agree_1_btn').removeAttribute('checked');
                         document.getElementById('beauty_agree_2_btn').removeAttribute('checked');
                         document.getElementById('agree_cellphone').value = localStorage.getItem('customer_select');
-                        if(el.type==='dog'){
+                        console.log(el.detail.type);
+                        if(el.detail.type==='dog'){
 
                             document.getElementById('agree_breed1').click();
                         }else{
@@ -2020,7 +2049,7 @@ function customer_beauty_agree(id,el){
                                     document.getElementById('beauty_agree_title').innerText ='미용 동의서 보기';
                                     document.getElementById('agree_name').value = body.customer_name;
                                 document.getElementById('agree_cellphone').value = localStorage.getItem('customer_select');
-                                if(el.type==='dog'){
+                                if(el.detail.type==='dog'){
 
                                     document.getElementById('agree_breed1').click();
                                 }else{
@@ -2090,10 +2119,10 @@ function customer_beauty_agree_(_data){
 
     if(_data.detail.gender === '남아'){
 
-        document.getElementById('agree_gender1').checked = true;
+        document.getElementById('agree_gender1').click()
     }else{
 
-        document.getElementById('agree_gender2').checked = true;
+        document.getElementById('agree_gender2').click()
     }
 
 
@@ -3037,8 +3066,29 @@ function direct_new(id,cellphone){
 }
 
 
-function customer_beauty_gallery(id,pet_seq){
+function customer_beauty_gallery(){
 
+
+
+
+        let payment_idx_list = document.querySelector('input[name="pet_list"]:checked').getAttribute('data-payment_idx')
+
+
+        if(payment_idx_list === null){
+            document.getElementById('beauty_gal_wrap').innerHTML ='<div class="list-cell"><a href="#" class="btn-gate-picture-register" onclick="MemofocusNcursor();"><span><em>이미지 추가</em></span></a></div>';
+            return;
+        }
+
+
+        let payment_idxs = payment_idx_list.split('|');
+
+
+        //payment_idxs.forEach(function(el,i){
+
+            // if(i === payment_idxs.length-1){
+            //
+            //     return;
+            // }
 
 
             $.ajax({
@@ -3047,7 +3097,8 @@ function customer_beauty_gallery(id,pet_seq){
                 type:'post',
                 data:{
                     mode:'beauty_gal_get',
-                    idx:pet_seq,
+                    idx:$('input[name=pet_list]:checked').data("pet_seq"),
+                    artist_id:artist_id
                 },
                 success:function(res){
                     let response = JSON.parse(res);
@@ -3075,13 +3126,15 @@ function customer_beauty_gallery(id,pet_seq){
                         })
 
 
-
+                        console.log('test');
+                        console.log(body);
+                        var html = `<div class="list-cell"><a href="#" class="btn-gate-picture-register" onclick="MemofocusNcursor();"><span><em>이미지 추가</em></span></a></div>`;
                         body.forEach(function(el,i){
 
 
-                            document.getElementById('beauty_gal_wrap').innerHTML += `<div class="list-cell">
+                            html += `<div class="list-cell">
                                                                                     <div class="picture-thumb-view">
-                                                                                        <div class="picture-obj" onclick="showReviewGallery(${i},'${imgs}')"><img src="https://image.banjjakpet.com${el.file_path}" alt=""></div>
+                                                                                        <div class="picture-obj" onclick="showReviewGallery(${i},'${imgs}')"><img src="${img_link_change(el.file_path)}" alt=""></div>
                                                                                         <div class="picture-date">${el.upload_dt.substr(0,4)}.${el.upload_dt.substr(4,2)}.${el.upload_dt.substr(6,2)}</div>
                                                                                         <div class="picture-ui">
                                                                                             <button type="button" class="btn-picture-ui"></button>
@@ -3093,7 +3146,9 @@ function customer_beauty_gallery(id,pet_seq){
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>`
+                            document.getElementById('target_pet_img').setAttribute('src',img_link_change(el.file_path));
                         })
+                        $("#beauty_gal_wrap").append(html);
 
 
                     }
@@ -3102,6 +3157,7 @@ function customer_beauty_gallery(id,pet_seq){
 
             })
 
+       // })
 
 
 
@@ -3113,6 +3169,46 @@ function customer_beauty_gallery(id,pet_seq){
 
 
 
+}
+
+// 이미지 추가 클릭시
+function MemofocusNcursor() {
+    html = "<div id='upimgarea'></div>";
+    //document.getElementById('dmemo').focus();
+    var sel, range;
+    if (window.getSelection) {
+        // IE9 and non-IE
+        sel = window.getSelection();
+        if (sel.getRangeAt && sel.rangeCount) {
+            range = sel.getRangeAt(0);
+            range.deleteContents();
+
+            // Range.createContextualFragment() would be useful here but is
+            // non-standard and not supported in all browsers (IE9, for one)
+            var el = document.createElement("div");
+            el.innerHTML = html;
+            var frag = document.createDocumentFragment(),
+                node, lastNode;
+            while ((node = el.firstChild)) {
+                lastNode = frag.appendChild(node);
+            }
+            range.insertNode(frag);
+
+            // Preserve the selection
+            if (lastNode) {
+                range = range.cloneRange();
+                range.setStartAfter(lastNode);
+                range.collapse(true);
+                sel.removeAllRanges();
+                sel.addRange(range);
+            }
+        }
+    } else if (document.selection && document.selection.type != "Control") {
+        // IE < 9
+        document.selection.createRange().pasteHTML(html);
+    }
+
+    $("#addimgfile").trigger("click");
 
 }
 

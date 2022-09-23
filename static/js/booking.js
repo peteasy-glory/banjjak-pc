@@ -9927,14 +9927,17 @@ function pay_management_init(id,target,bool,bool2){
 
 
                 let before_price = 0;
-                body_3.forEach(function(el,i){
 
-                    let card = el.local_price === null ? 0 : parseInt(el.local_price);
-                    let cash = el.local_price_cash === null ? 0 : parseInt(el.local_price_cash);
-                    before_price = cash + card;
+                if(body_3.length >0){
+                    document.querySelector('.pay-btn-detail-toggle-2').style.display ='block';
+                    body_3.forEach(function(el,i){
+
+                        let card = el.local_price === null ? 0 : parseInt(el.local_price);
+                        let cash = el.local_price_cash === null ? 0 : parseInt(el.local_price_cash);
+                        before_price = cash + card;
 
 
-                    document.getElementById(`${i >4 ? 'pay_before_beauty_list_more' : 'pay_before_beauty_list'}`).innerHTML += `<div class="pay-before-beauty-item">
+                        document.getElementById(`${i >4 ? 'pay_before_beauty_list_more' : 'pay_before_beauty_list'}`).innerHTML += `<div class="pay-before-beauty-item">
                                                                                         <span class="pay-before-beauty-memo" style="font-size:10px;">
                                                                                            ${el.booking_date.split(' ')[0].replaceAll('-','.')} / ${el.product_parsing?.base?.size} / ${el.product_parsing.base.beauty_kind} / ${before_price.toLocaleString()}원
                                                                                         </span>
@@ -9948,7 +9951,15 @@ function pay_management_init(id,target,bool,bool2){
 
 
 
-                })
+                    })
+                }else{
+
+                    document.querySelector('.pay-btn-detail-toggle-2').style.display ='none';
+
+                }
+
+
+
 
 
                 document.getElementById('day_book_target').innerText = `${am_pm_check2(body.beauty_date)}`
