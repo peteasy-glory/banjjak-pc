@@ -1392,7 +1392,7 @@ function customer_view_(id){
         noshow_initialize(id,body_data);
         insert_customer_grade(id,body_data);
         insert_customer_memo(id,body_data);
-        insert_customer_special(id);
+        //insert_customer_special(id);
 
 
 
@@ -1585,7 +1585,7 @@ function pet_reserve_info(data){
 
 
 
-
+                        insert_customer_special(artist_id, el_.pet_seq);
 
                         document.getElementById('target_pet_name').innerText = el_.name;
                         document.getElementById('target_pet_type').innerText = el_.detail.pet_type;
@@ -1906,7 +1906,7 @@ function set_grade(data,customer_id){
     }
 }
 
-function insert_customer_special(id){
+function insert_customer_special(id, seq){
 
 
     $.ajax({
@@ -1917,7 +1917,7 @@ function insert_customer_special(id){
 
             mode:'get_customer_special',
             partner_id:id,
-            cellphone:localStorage.getItem('customer_select')
+            pet_seq:seq
         },
         success:function(res) {
             let response = JSON.parse(res);
@@ -1932,11 +1932,12 @@ function insert_customer_special(id){
                     body = [body];
                 }
 
+                document.getElementById('special_note').innerHTML = '';
                 body.forEach(function(el){
 
                     document.getElementById('special_note').innerHTML +=`<div class="grid-layout-cell grid-2 note-toggle-cell">
                                                                                         <div class="special-note">
-                                                                                            <div class="note-desc"><em>${el.recent}</em>
+                                                                                            <div class="note-desc"><em>${(el.recent != '')? el.recent : '신규등록'}</em>
                                                                                                 <div class="txt">${el.etc_memo}
                                                                                                 </div>
                                                                                             </div>
