@@ -2869,7 +2869,25 @@ if($r_mode) {
 
         $result = $api -> post('/partner/allim/send',$data_json);
 
-        $return_data = array("code"=>"000000","data"=>$data);
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode ==='use_coupon'){
+
+
+        $payment_idx = $_POST['payment_idx'];
+        $user_coupon_idx = $_POST['user_coupon_idx'];
+        $amount = $_POST['amount'];
+        $balance = $_POST['balance'];
+
+        $data = array('payment_idx'=>intval($payment_idx),'user_coupon_idx'=>intval($user_coupon_idx),'amount'=>intval($amount), 'balance'=>intval($balance));
+
+        $data_json = json_encode($data);
+
+        $result = $api -> put('/partner/booking/payment-coupon',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
+
+
     }
 }
 

@@ -17,6 +17,7 @@ function schedule_render(id){
         beforeSend:function(){
             pay_management_toggle(true);
             let height;
+            console.log(new Date().toISOString())
 
 
             if(document.getElementById('reserve_calendar_inner_day')){
@@ -28,7 +29,6 @@ function schedule_render(id){
             }
         },
         success:function (res){
-            console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -72,8 +72,10 @@ function schedule_render(id){
 
                         let color;
                         body.forEach(function (el, index){
+
                             // 툴팁배열에 idx 넣기
                             tooltip(el.product.payment_idx);
+
 
                             Array.from(document.getElementsByClassName('calendar-day-body-col')).forEach(function (el_){
 
@@ -281,6 +283,10 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
 
                         if(parseInt(el__.getAttribute('data-day')) === day && _booking_st === el__.getAttribute('data-time-to') && _el.product.is_cancel === 0){
 
+                            if(_el.product.store_payment.discount === null){
+
+                                _el.product.store_payment.discount=0;
+                            }
 
 
                             el__.setAttribute('data-pay',_el.product.payment_idx);
@@ -869,6 +875,7 @@ return new Promise(function (resolve){
                 },
                 beforeSend:function(){
                     let height;
+                    console.log(new Date().toISOString())
 
                     if(document.getElementById('week_schedule_card_body')){
                         height = document.getElementById('week_schedule_card_body').offsetHeight;
@@ -3440,524 +3447,6 @@ function pay_management(id){
 
 }
 
-function pay_management_(id){
-
-    pay_management(id).then(function (body_){
-
-        management_wide_tab()
-        management_wide_tab2()
-        wide_tab();
-
-        let sub_phone;
-        if(body_[3].sub_phone !== ""){
-            sub_phone = body_[3].sub_phone.split(',');
-
-            sub_phone.forEach(function (el,i){
-
-                if(i<3){
-                    document.getElementById('item_sub_phone').innerHTML += `<div class="value">${el.split('|')[1]}</div>`
-                }
-
-                if(i===3){
-
-                    document.getElementById('item_sub_phone').innerHTML += `<div class="value">외 ${sub_phone.length -3}개 연락처처</div>`
-                }
-
-           })
-        }
-
-
-
-
-        document.getElementById('item_sub_phone').innerHTML += ``
-
-        body_[0].forEach(function (el){
-
-
-            document.getElementById('etc1_list').innerHTML += `<div class="memo-item note-toggle-cell">
-                                                                                <div class="note-desc">
-                                                                                    <em>${el.booking_date}</em>
-                                                                                    <div class="txt">${el.memo}</div>
-                                                                                </div>
-                                                                          </div>`
-        })
-
-        // body_[1].forEach(function (el,i){
-        //
-        //     //console.log(el)
-        //     if(i===0){
-        //
-        //     let split_el = el.product.split('|');
-        //     document.getElementById('etc2_list').innerHTML += `<div class="memo-item note-toggle-cell">${el.booking_date} / ${split_el[0]} / ${split_el[4]} / ${el.product_parsing === null || el.product_parsing === undefined ? '미기입':  el.product_parsing.base.weight.unit }Kg / ${el.product_parsing === null || el.product_parsing === undefined ? '미기입': el.product_parsing.base.weight.price }원
-        //                                                                         <div class="memo-link">
-        //                                                                             <a href="#" class="btn-memo-link">상세보기
-        //                                                                                 <div class="icon icon-arrow-right-small"></div>
-        //                                                                             </a>
-        //                                                                         </div>
-        //                                                                   </div>`
-        //     }
-        //
-        // })
-
-
-
-        document.getElementById('modify_pet').addEventListener('click',function(){
-
-            pay_management_modify_pet(body_[2]).then(function(body){
-
-                pay_management_modify_pet_(body)
-
-            });
-
-        });
-
-
-        let customer_id = '';
-        let tmp_seq = '';
-
-        if(document.getElementById('customer_id').innerText.match('@')){
-
-
-            customer_id = document.getElementById('customer_id').innerText;
-
-        }else{
-
-            tmp_seq = document.getElementById('customer_id').innerText;
-
-        }
-
-
-
-        $.ajax({
-
-           url:'/data/pc_ajax.php',
-            type:'post',
-            data:{
-                mode:'get_customer_memo',
-                login_id:id,
-                customer_id : customer_id,
-                tmp_seq : tmp_seq,
-                cellphone: document.getElementById('cellphone_detail').innerText,
-            },
-            success:function(res) {
-               
-                let response = JSON.parse(res);
-                let head = response.data.head;
-                let body = response.data.body;
-                if (head.code === 401) {
-                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-                } else if (head.code === 200) {
-
-
-                    document.getElementById('customer_memo').value = body.memo;
-                    document.getElementById('customer_memo').setAttribute('data-scm_seq',body.scm_seq);
-
-                }
-            }
-
-
-        })
-
-        let st_date = document.getElementById('day_book_target').getAttribute('data-date').split(' ')[0];
-
-
-        $.ajax({
-
-            url:'/data/pc_ajax.php',
-            type:'post',
-            data:{
-                mode:"day_book",
-                login_id:id,
-                st_date:st_date,
-                fi_date:`${st_date.split('-')[0]}-${st_date.split('-')[1]}-${fill_zero(parseInt(st_date.split('-')[2])+1)}`
-
-
-            },
-            success:function(res) {
-                let response = JSON.parse(res);
-                let head = response.data.head;
-                let body = response.data.body;
-                if (head.code === 401) {
-                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-                } else if (head.code === 200) {
-
-
-
-
-
-                    let reserve_st = [];
-                    let reserve_fi = [];
-
-                    body.forEach(function (el){
-
-
-                        if(document.getElementById('day_book_target_worker').getAttribute('data-worker') === el.product.worker && el.product.is_cancel === 0){
-                            reserve_st.push(new Date(el.product.date.booking_st).getTime());
-                            reserve_fi.push(new Date(el.product.date.booking_fi).getTime());
-                        }
-
-                    })
-
-                    reserve_st.sort();
-                    reserve_fi.sort();
-
-                    for(let i=0; i<reserve_st.length; i++){
-
-                        reserve_st[i] = `${fill_zero(new Date(reserve_st[i]).getHours())}:${fill_zero(new Date(reserve_st[i]).getMinutes())}`;
-                    }
-
-                    for(let i=0; i<reserve_fi.length; i++){
-
-                        reserve_fi[i] = `${fill_zero(new Date(reserve_fi[i]).getHours())}:${fill_zero(new Date(reserve_fi[i]).getMinutes())}`;
-                    }
-
-
-
-
-
-                    document.getElementById('start_time').innerHTML = ''
-                    document.getElementById('end_time').innerHTML = ''
-
-                    let open_close = localStorage.getItem('open_close');
-
-                    let open = parseInt(open_close.split('/')[0]);
-                    let close = parseInt(open_close.split('/')[1]);
-
-                    let time = [];
-
-                    for(open; open<=close; open++){
-
-                        time.push(open);
-
-                    }
-
-
-                    let next = '';
-                    for(let i=0; i< reserve_st.length; i++){
-
-                        if(document.getElementById('day_book_target').getAttribute('data-date').split(' ')[1] === reserve_st[i]){
-
-                            next = reserve_st[i+1]
-                            break;
-                        }
-                    }
-
-
-
-                    let prev = '';
-                    for(let i=0; i<reserve_fi.length; i++){
-
-                        if(document.getElementById('day_book_target').getAttribute('data-date').split(' ')[1] === reserve_st[i]){
-
-
-                            prev = reserve_fi[i-1];
-                            break;
-                        }
-                    }
-
-
-
-                    if(prev === undefined){
-
-                        loop:
-                        for(let i=0; i<time.length-1; i++){
-
-                            for(let t= 0; t<60; t +=30){
-
-
-                                if(`${fill_zero(time[i])}:${fill_zero(t)}` === next){
-
-                                    break loop;
-                                }else{
-                                    document.getElementById('start_time').innerHTML += `<option value ="${fill_zero(time[i])}${fill_zero(t)}">${fill_zero(am_pm_check(time[i]))}:${fill_zero(t)}</option>`
-                                }
-
-
-
-
-
-                            }
-                        }
-
-                        loop2:
-                        for(let i=0; i<time.length; i++){
-
-                            for(let t=0; t<60; t+=30){
-
-                                if(i===0){
-                                    t=30;
-                                }
-                                if(i===time.length-1 && t ===30){
-
-                                    break;
-                                }
-                                if(`${fill_zero(time[i])}:${fill_zero(t)}` === next){
-                                    document.getElementById('end_time').innerHTML += `<option value ="${fill_zero(time[i])}${fill_zero(t)}">${fill_zero(am_pm_check(time[i]))}:${fill_zero(t)}</option>`
-                                    break loop2;
-                                }else{
-
-
-                                    document.getElementById('end_time').innerHTML += `<option value ="${fill_zero(time[i])}${fill_zero(t)}">${fill_zero(am_pm_check(time[i]))}:${fill_zero(t)}</option>`
-                                }
-                            }
-                        }
-                    }else{
-
-                        loop3:
-                            for(let i=0; i<time.length-1; i++){
-
-                                for(let t= 0; t<60; t +=30){
-
-
-                                    if(`${fill_zero(time[i])}:${fill_zero(t)}` === prev){
-
-
-                                        loop4:
-                                        for(let j=i; j<time.length-1; j++){
-
-                                            for(let t2=0; t2<60; t2+=30){
-
-                                                if(`${fill_zero(time[j])}:${fill_zero(t2)}` === next){
-
-                                                    break loop4;
-
-                                                }else if(`${fill_zero(time[j])}:${fill_zero(t2)}` === `${prev.split(':')[0]}:00`){
-                                                    continue;
-
-                                                }else{
-                                                    document.getElementById('start_time').innerHTML += `<option value ="${fill_zero(time[j])}${fill_zero(t2)}">${fill_zero(am_pm_check(time[j]))}:${fill_zero(t2)}</option>`
-                                                }
-
-                                            }
-                                        }
-                                       break loop3;
-                                    }
-                                }
-                            }
-
-
-                            let fi_times = [];
-
-                            for(let i =0; i<document.getElementById('start_time').options.length; i++){
-
-                                fi_times.push(document.getElementById('start_time').options[i].value);
-                            }
-
-
-                            for(let i=0; i<fi_times.length; i++){
-
-                                fi_times[i] = new Date(date.getFullYear(),date.getMonth(),date.getDate(),fi_times[i].substr(0,2),fi_times[i].substr(2,2));
-
-                                fi_times[i].setMinutes(fi_times[i].getMinutes()+30);
-
-                                document.getElementById('end_time').innerHTML += `<option value ="${fill_zero(fi_times[i].getHours())}${fill_zero(fi_times[i].getMinutes())}">${am_pm_check(fill_zero(fi_times[i].getHours()))}:${fill_zero(fi_times[i].getMinutes())}</option>`
-                            }
-
-
-
-
-
-
-
-                    }
-
-
-
-                }
-            }
-
-
-
-
-
-        })
-
-        //
-        //
-        // beauty_gallery_get(body_).then(function(){
-        //
-        //     beauty_gallery_add(id,body_[2]);
-        // });
-        //
-        // get_coupon(id);
-        // get_etc_product(id);
-
-
-
-        management_service_1(id,body_).then(function(body){
-            management_total_price();
-            discount_init();
-            reserves(id,body_);
-
-            management_service_2(body).then(function(base_svc){
-
-                management_service_3(base_svc).then(function(base_svc){
-
-                    management_service_4(base_svc);
-
-                })
-            })
-        });
-
-
-        $.ajax({
-
-            url:'/data/pc_ajax.php',
-            type:'post',
-            data:{
-                mode:'get_beauty_agree',
-                partner_id:id,
-                pet_idx:body_[2],
-            },
-            success:function(res) {
-                let response = JSON.parse(res);
-                let head = response.data.head;
-                let body = response.data.body;
-                if (head.code === 401) {
-                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-                } else if (head.code === 200) {
-
-                  if(body.length === 0){
-
-                      document.getElementById('beauty_agree_view').innerHTML =  `<button type="button" class="btn btn-outline-gray btn-vsmall-size btn-inline" id="beauty_agree_btn">미용 동의서 작성</button>`
-
-                      setTimeout(function(){
-                          document.getElementById('beauty_agree_btn').addEventListener('click',function(){
-
-                              beauty_agree_init(body_[3]).then(function(data_){
-
-                                  beauty_agree_init_(data_);
-                              });
-                          })
-                      },50)
-
-                  }else{
-
-                      document.getElementById('beauty_agree_view').innerHTML = `<button type="button" class="btn btn-outline-gray btn-vsmall-size btn-inline" id="beauty_agree_view_btn">미용 동의서 보기</button>`
-
-                      setTimeout(function(){
-                          document.getElementById('beauty_agree_view_btn').addEventListener('click',function(){
-
-
-                                  beauty_agree_init(body_[3]).then(function(data_) {
-
-                                      beauty_agree_init_(data_);
-                                      document.getElementById('beauty_agree_title').innerText ='미용 동의서 보기';
-                                      document.getElementById('agree_name').value = body.customer_name;
-                                      document.getElementById('agree_name2').innerText = body.customer_name;
-                                      document.getElementById('beauty_agree_footer').innerHTML = '';
-                                      document.getElementById('beauty_agree_all_btn').setAttribute('checked',true);
-                                      document.getElementById('beauty_agree_1_btn').setAttribute('checked',true);
-                                      document.getElementById('beauty_agree_2_btn').setAttribute('checked',true);
-                                      document.getElementById('agree_date').innerText= `${body.reg_date.substr(0,4)}.${body.reg_date.substr(4,2)}.${body.reg_date.substr(6,2)}`
-                                      document.getElementById('signature_clear').remove();
-                                      document.getElementById('user_sign_wrap').innerHTML = `<img src="https://image.banjjakpet.com${body.image}" alt="">`
-
-
-                                  });
-
-
-
-                              });
-
-                      },50)
-
-
-                  }
-
-                }
-
-            }
-        })
-
-
-
-    })
-
-}
-
-
-function today_reserve_month(id){
-
-    let reserve_list = document.getElementById('month_today_reserve_list');
-
-
-
-    let booking_list;
-
-    if(list !== undefined){
-        booking_list = list;
-    }else{
-        booking_list = data;
-    }
-
-    if(booking_list.beauty.length > 0 || booking_list.hotel.length >0 || booking_list.kindergarden.length >0){
-
-
-        if(booking_list.beauty.length > 0){
-            document.getElementById('common_none_data').style.display = 'none';
-            booking_list.beauty.forEach(function(el){
-
-                let today_reserve = el.product.date.booking_st;
-                let date_today_reserve = new Date(today_reserve);
-                let today_reserve_fi = el.product.date.booking_fi;
-                let date_today_reserve_fi = new Date(today_reserve_fi);
-
-                if(date_today_reserve.getFullYear() === new Date().getFullYear()
-                    && date_today_reserve.getMonth() === new Date().getMonth()
-                    && date_today_reserve.getDate() === new Date().getDate()
-                    && el.product.is_cancel !== 1
-                ){
-
-
-                    reserve_list.innerHTML += `<div class="customer-card-list-cell">
-                                                    <a href="../booking/reserve_pay_management_beauty_1.php" onclick="localStorage.setItem('payment_idx',${el.product.payment_idx})"  class="customer-card-item small transparent">
-                                                        <div class="item-info-wrap">
-                                                            <div class="item-thumb">
-                                                                <div class="user-thumb small"><img src="${el.pet.photo !== null ? `https://image.banjjakpet.com${el.pet.photo}`  : `${el.pet.animal === 'dog' ? `../static/images/icon/icon-pup-select-off.png`: `../static/images/icon/icon-cat-select-off.png`}` }" alt=""></div>
-                                                                <div class="item-kind">
-                                                                    <span>${el.product.category_sub.match(':') ? el.product.category_sub.split(':')[0].replace('_',' ') : el.product.category_sub }</span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="item-data">
-                                                                <div class="item-data-inner">
-                                                                    <div class="item-name">${el.pet.name}
-                                                                        <div class="pet-name">${el.pet.type}</div>
-                                                                    </div>
-                                                                    <div class="item-phone">${el.customer.phone.replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`)}</div>
-                                                                    <div class="item-option">
-                                                                        <div class="option-cell">
-                                                                            <div class="icon icon-size-16 icon-time-purple"></div>
-                                                                             ${am_pm_check(date_today_reserve.getHours())}:${fill_zero(date_today_reserve.getMinutes())} ~ ${am_pm_check(date_today_reserve_fi.getHours())}:${fill_zero(date_today_reserve_fi.getMinutes())}
-                                                                        </div>
-                                                                        <div class="option-cell">${el.product.worker === id ? '실장' : el.product.worker}</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>`
-
-
-
-                }
-
-
-            })
-        }else{
-
-            document.getElementById('common_none_data').setAttribute('style','display:block')
-        }
-
-
-
-
-    }
-
-
-
-}
-
 function renderCalendar_month(){
 
 
@@ -4312,6 +3801,7 @@ function schedule_render_list(id){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
+                    console.log(body)
 
 
                     document.getElementById('day_today').innerHTML = `${date.getFullYear()}.${fill_zero(date.getMonth() + 1)}.${fill_zero(date.getDate())}`
@@ -4342,36 +3832,107 @@ function schedule_render_list(id){
 
 
 
+                    $.ajax({
+                        url:'/data/pc_ajax.php',
+                        type:'post',
+                        data:{
+                            mode:'working',
+                            login_id:id,
+                        },success:function(res){
+                            let response = JSON.parse(res);
+                            let head = response.data.head;
+                            let body_ = response.data.body;
+                            if (head.code === 401) {
+                                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                            } else if (head.code === 200) {
 
-                    let list_inner = document.getElementById('list_inner');
+                                let list_inner = document.getElementById('list_inner');
 
-                    if(body.length > 0){
-                        let set = new Set();
-                        body.forEach(function (el){
+                                let set = new Set();
+                                body.forEach(function (el){
 
-                            set.add(el.product.worker);
+                                    set.add(el.product.worker);
 
-                        })
+                                })
 
-                        list_inner.innerHTML = '';
-                        set.forEach(function (el){
+                                list_inner.innerHTML = '';
 
-                            list_inner.innerHTML +=`<div class="reserve-calendar-list-group">
-                                                <div class="con-title-group">
-                                                    <h5 class="con-title worker_id">${el === id ? '실장' : el}</h5>
-                                                </div>
-                                                <div class="reserve-calendar-list-data" id="list-data-${el}"></div>
-                                            </div>`
-                        })
-                    }else{
+                                if(set.size >0){
+                                    set.forEach(function(_el){
+
+                                        body_.forEach(function(el){
+
+                                            if(el.is_show && !el.is_leave && el.name === _el){
+
+                                                console.log(el)
+
+                                                el.work.forEach(function(el_){
+
+                                                    if(el_.week == date.getDay()){
+
+                                                        console.log(el_)
+                                                        list_inner.innerHTML +=`<div class="reserve-calendar-list-group">
+                                                                                <div class="con-title-group">
+                                                                                    <h5 class="con-title worker_id" data-worker="${_el}" data-start="${el_.time_st}" data-end="${el_.time_fi}" >${el.nick}</h5>
+                                                                                </div>
+                                                                                <div class="reserve-calendar-list-data" id="list-data-${_el}"></div>
+                                                                            </div>`
+
+                                                    }
+
+                                                })
+
+                                            }
+                                        })
+                                    })
 
 
-                        list_inner.innerHTML = `<div style="height:300px; margin:0 auto; line-height: 300px; text-align: center">확정된 예약일정이 없습니다.</div>`
-                    }
+
+                                }else{
+                                    list_inner.innerHTML = `<div style="height:300px; margin:0 auto; line-height: 300px; text-align: center">확정된 예약일정이 없습니다.</div>`
+
+                                }
 
 
 
-                    resolve(body);
+
+
+                            }
+
+                            resolve(body);
+                        }
+                    })
+
+
+
+
+                    // if(body.length > 0){
+                    //     let set = new Set();
+                    //     body.forEach(function (el){
+                    //
+                    //         set.add(el.product.worker);
+                    //
+                    //     })
+                    //
+                    //     list_inner.innerHTML = '';
+                    //     set.forEach(function (el){
+                    //
+                    //         list_inner.innerHTML +=`<div class="reserve-calendar-list-group">
+                    //                             <div class="con-title-group">
+                    //                                 <h5 class="con-title worker_id">${el === id ? '실장' : el}</h5>
+                    //                             </div>
+                    //                             <div class="reserve-calendar-list-data" id="list-data-${el}"></div>
+                    //                         </div>`
+                    //     })
+                    // }else{
+                    //
+                    //
+                    //
+                    // }
+
+
+
+
                 }
 
             }
@@ -4384,6 +3945,8 @@ function schedule_render_list(id){
 
 function _schedule_render_list(body){
 
+
+    console.log(body)
 
 
 
@@ -4401,7 +3964,8 @@ function _schedule_render_list(body){
         Array.from(document.getElementsByClassName('reserve-calendar-list-data')).forEach(function (el_){
 
             if(el_.getAttribute(`id`).replaceAll('list-data-','') === el.product.worker && el.product.is_cancel === 0){
-                document.getElementById(`list-data-${el.product.worker}`).innerHTML +=`<a href="../booking/reserve_pay_management_beauty_1.php" onclick="localStorage.setItem('payment_idx',${el.product.payment_idx})" class="reserve-calendar-list-items ${color} ${el.product.is_no_show === 1 ? "red" : ''}">
+
+                document.getElementById(`list-data-${el.product.worker}`).innerHTML +=`<a href="#" onclick="pay_management_init(artist_id,this,false,true); pay_management_toggle(false);localStorage.setItem('payment_idx',${el.product.payment_idx})" data-payment_idx="${el.product.payment_idx}" class="reserve-calendar-list-items ${color} ${el.product.is_no_show === 1 ? "red" : ''}">
                                                                                                         <div class="item-time">
                                                                                                             <div class="item-time-start">
                                                                                                                 <em>${parseInt(el.product.date.booking_st.split(' ')[1].split(':')[0]) < 12 ? '오전' : '오후' }</em>
@@ -4850,6 +4414,7 @@ function reserve_prohibition_list(id){
 
         url:'/data/pc_ajax.php',
         type:'post',
+        async:false,
         data:{
             mode:'get_prohibition',
             login_id : id,
@@ -4994,6 +4559,8 @@ function reserve_prohibition_list(id){
 
         },
         complete:function(){
+
+            console.log(new Date().toISOString())
 
             if(document.getElementById('week_schedule_card_body')){
                 document.getElementById('week_schedule_card_body').style.display = 'block';
@@ -9129,7 +8696,6 @@ function management_service_1(id,breed){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
-                    console.log(body)
                     localStorage.setItem('is_vat',body.is_vat === 0 ? '0':'1')
 
                     let service = document.getElementById('service');
@@ -9357,7 +8923,6 @@ function management_service_2(body){
 
     return new Promise(function(resolve){
 
-        console.log(body)
         document.getElementById('is_vat').value = body.is_vat;
 
         if(body.base_svc !== undefined){
@@ -9384,7 +8949,7 @@ function management_service_2(body){
 
                         document.getElementById('payment_basic_hair_feature').innerHTML += `<div class="toggle-button-cell">
                                                                                                     <label class="form-toggle-box form-toggle-price large" for="payment_hair${i}">
-                                                                                                        <input type="checkbox" id="${el.type}" name="payment_hair" value="${el.type}" data-price="${el.price}" id="payment_hair${i}" onclick="set_product(this,'${el.type}','${el.price.toLocaleString()}')">
+                                                                                                        <input type="checkbox" id="${el.type.replaceAll('_','')}" name="payment_hair" value="${el.type}" data-price="${el.price}" id="payment_hair${i}" onclick="set_product(this,'${el.type}','${el.price.toLocaleString()}')">
                                                                                                         <em>
                                                                                                             <span class="font-size-12">${el.type}</span>
                                                                                                             <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
@@ -9748,7 +9313,7 @@ function management_service_4(base_svc){
 
 }
 
-function get_coupon(id,data){
+function get_coupon(id,data,payment_idx){
 
     return new Promise(function(resolve){
 
@@ -9830,12 +9395,24 @@ function get_coupon(id,data){
                                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                             } else if (head.code === 200) {
 
+                                console.log(body_)
                                 if(body_.length === undefined){
 
                                     body_ = [body_];
                                 }
 
-                                if(body_.length > 0){
+                                let coupon = [];
+                                body_.forEach(function(el){
+
+                                    if(el.payment_log_seq === payment_idx){
+
+                                        coupon.push(el)
+                                    }
+                                })
+
+                                console.log(coupon);
+                                if(coupon.length > 0){
+
 
                                     document.getElementById('pet_shop_coupon').style.display = 'block';
 
@@ -9853,9 +9430,9 @@ function get_coupon(id,data){
                                     body.forEach(function(el_){
 
                                         if(el.coupon_seq === el_.idx){
-                                            if(el.del_yn === "N"){
+                                            if(el.del_yn === "N" && el.payment_log_seq === payment_idx){
 
-                                                document.getElementById('coupon_name').innerHTML += `<option data-given="${el.given}" data-type="${el.type}" data-use="${el.use}" data-coupon_seq="${el.coupon_seq}" data-user_coupon_seq="${el.user_coupon_seq}" data-price="${el.price}">${el_.name}</option>`
+                                                document.getElementById('coupon_name').innerHTML += `<option data-given="${el.given}" data-type="${el.type}" data-use="${el.use}" data-coupon_seq="${el.coupon_seq}" value="${el.user_coupon_seq}" data-price="${el.price}">${el_.name}</option>`
 
 
                                             }
@@ -10155,6 +9732,7 @@ function set_etc_product_count_(target,name,price,bool){
 
 function management_total_price(){
 
+
     if(localStorage.getItem('is_vat') === '1'){
 
         document.getElementById('is_vat_list').style.display = 'flex';
@@ -10165,6 +9743,7 @@ function management_total_price(){
 
     let target = document.getElementById('service_list');
 
+    console.log(target)
     let observer = new MutationObserver(function(mutations){
 
         mutations.forEach(function(mutation){
@@ -10197,6 +9776,8 @@ function management_total_price(){
             last_price()
 
        })
+
+
     })
 
     let config = {
@@ -10205,6 +9786,7 @@ function management_total_price(){
         characterData:true,
         subtree:true
     }
+    console.log(observer)
 
 
     observer.observe(target,config);
@@ -10773,6 +10355,8 @@ function pay_management_init(id,target,bool,bool2){
 
 
 
+                document.getElementById('remind_coupon').innerText = '0'
+
                 document.getElementById('sticky-bottom').setAttribute('data-customer_id',body.customer_Id);
                 document.getElementById('sticky-bottom').setAttribute('data-tmp_id',body.tmp_id);
                 document.getElementById('sticky-bottom').setAttribute('data-payment_idx',payment_idx);
@@ -10894,6 +10478,7 @@ function pay_management_init(id,target,bool,bool2){
 
                 document.getElementById('pay_customer_memo_text').value = body.owner_memo;
                 document.getElementById('beauty_img_target').setAttribute('src','');
+                document.getElementById('coupon_use').setAttribute('data-payment_idx',payment_idx);
 
                 if(body.photo !== ''){
                     document.getElementById('beauty_img_target').setAttribute('src',`${img_link_change(body.photo)}`);
@@ -11075,12 +10660,33 @@ function pay_management_init(id,target,bool,bool2){
                 let start_time ;
 
                 let end_time;
-                Array.from(document.getElementsByClassName('calendar-day-header-col')).forEach(function(el){
-                    if(el.getAttribute('data-worker') === body.worker){
-                        start_time = el.getAttribute('data-start');
-                        end_time = el.getAttribute('data-end');
-                    }
-                })
+
+                if(document.querySelector('.calendar-day-header-col')){
+
+                    Array.from(document.getElementsByClassName('calendar-day-header-col')).forEach(function(el){
+                        if(el.getAttribute('data-worker') === body.worker){
+                            start_time = el.getAttribute('data-start');
+                            end_time = el.getAttribute('data-end');
+                        }
+                    })
+
+                }else if(document.querySelector('.worker_id')){
+
+                    Array.from(document.getElementsByClassName('worker_id')).forEach(function(el){
+
+                        if(el.getAttribute('data-worker') === body.worker){
+                            
+                            start_time = el.getAttribute('data-start');
+                            end_time = el.getAttribute('data-end')
+                        }
+                    })
+
+
+                }
+
+
+
+
 
                $.ajax({
                    url:'/data/pc_ajax.php',
@@ -11162,37 +10768,46 @@ function pay_management_init(id,target,bool,bool2){
                 if(bool2){
 
 
-                    get_coupon(id,body).then(function(){
+                    get_coupon(id,body,payment_idx).then(function(){
 
                         if(parsing?.coupon){
 
-                            parsing.coupon.forEach(function(el){
+                            if(!array_empty(parsing.coupon[0])){
+                                parsing.coupon.forEach(function(el){
 
-                                document.getElementById(`${el.name}`).click();
-                            })
+                                    document.getElementById(`${el.name}`).click();
+                                })
+
+                            }
+
+
                         }
 
                     });
                     get_etc_product(id).then(function(){
 
                         if(parsing?.goods){
-                            parsing.goods.forEach(function(el){
-                                document.getElementById(`${el.name}`).click();
+                            if(!array_empty(parsing.goods[0])){
 
-                                document.getElementById(`${el.name}`).parentElement.children[1].children[1].children[1].children[0].value = el.ea;
+                                parsing.goods.forEach(function(el){
+                                    document.getElementById(`${el.name}`).click();
+
+                                    document.getElementById(`${el.name}`).parentElement.children[1].children[1].children[1].children[0].value = el.ea;
 
 
-                                setTimeout(function(){
+                                    setTimeout(function(){
 
-                                    Array.from(document.getElementsByClassName('list-title-add')).forEach(function(_el){
+                                        Array.from(document.getElementsByClassName('list-title-add')).forEach(function(_el){
 
-                                        if(_el.innerText === el.name){
+                                            if(_el.innerText === el.name){
 
-                                            siblings(_el,1).innerText = `${el.price*el.ea}원`
-                                        }
-                                    })
-                                },300)
-                            })
+                                                siblings(_el,1).innerText = `${el.price*el.ea}원`
+                                            }
+                                        })
+                                    },300)
+                                })
+                            }
+
 
                         }
                     });
@@ -11218,13 +10833,21 @@ function pay_management_init(id,target,bool,bool2){
                         }
 
 
-                        if(!array_empty(parsing.base.hair_features[0])){
+                        if(parsing.base?.hair_features){
+                            if(!array_empty(parsing.base.hair_features)){
 
-                            parsing.base.hair_features.forEach(function(el){
+                                if(!array_empty(parsing.base.hair_features[0])){
 
-                                document.getElementById(`${el.unit}`).click();
-                            })
+                                    parsing.base.hair_features.forEach(function(el){
+
+                                        document.getElementById(`${el.unit.replace('_','')}`).click();
+                                    })
+                                }
+
+
+                            }
                         }
+
 
                         if(parsing.add.leg.nail.price !== ''){
                             document.getElementById('발톱').click()
@@ -11400,17 +11023,15 @@ function pay_management_init(id,target,bool,bool2){
                     last_price()
 
 
-                    list.beauty.forEach(function(el){
 
-                        if(el.product.payment_idx == payment_idx){
-                            let card = el.product.store_payment.card;
-                            let cash = el.product.store_payment.cash;
+
+
+                            let card = body.local_price;
+                            let cash = body.local_price_cash;
 
                             document.getElementById('last_card').value = card;
                             document.getElementById('last_cash').value = cash
 
-                        }
-                    })
                 }else{
 
                     management_service_1(id,body);
@@ -11878,18 +11499,67 @@ function allim_talk_send_change_time(target){
 
 }
 
-function coupon_use(){
+function coupon_use(target){
+
+    let payment_idx = target.getAttribute('data-payment_idx');
 
 
+    let user_coupon_idx = document.getElementById('coupon_name').value;
     let given = document.getElementById('coupon_balance').value;
     let use = document.getElementById('use_coupon').value;
+
+    if(given === '0' || use === '0'){
+        document.getElementById('msg1_txt').innerText = '잘못입력되었습니다.';
+        pop.open('reserveAcceptMsg1');
+        return;
+
+    }
 
     if(parseInt(given)-parseInt(use) <0){
 
         document.getElementById('msg1_txt').innerText = '잘못입력되었습니다.';
         pop.open('reserveAcceptMsg1');
         return;
+    }else{
+
+        $.ajax({
+
+            url:'/data/pc_ajax.php',
+            type:'post',
+            data:{
+                mode:'use_coupon',
+                payment_idx:payment_idx,
+                user_coupon_idx: user_coupon_idx,
+                amount:use,
+                balance:given
+
+
+
+            },
+            success:function(res) {
+                console.log(res)
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+
+
+                    document.getElementById('remind_coupon').innerText = `${given-use}`
+
+                }
+            }
+        })
+
+
     }
+
+
+
+
+
+
 
 
 
@@ -12027,9 +11697,9 @@ function pay_management_product_change(target){
             weight_price= document.querySelector('input[name="payment_s2"]:checked').getAttribute('data-price');
 
         }
-        let face = document.querySelector('input[name="payment_f1"]:checked').value;
-        let face_price = document.querySelector('input[name="payment_f1"]:checked').getAttribute('data-price') === null ? '' : document.querySelector('input[name="payment_f1"]:checked').getAttribute('data-price');
-        let length = document.querySelector('input[name="payment_hairBeauty"]:checked').value === null ? '' : document.querySelector('input[name="payment_hairBeauty"]:checked').value;
+        let face = document.querySelector('input[name="payment_f1"]:checked') === null ? '' : document.querySelector('input[name="payment_f1"]:checked').value;
+        let face_price = document.querySelector('input[name="payment_f1"]:checked') === null ? '' : document.querySelector('input[name="payment_f1"]:checked').getAttribute('data-price');
+        let length = document.querySelector('input[name="payment_hairBeauty"]:checked') === null ? '' : document.querySelector('input[name="payment_hairBeauty"]:checked').value;
         let length_price = document.querySelector('input[name="payment_hairBeauty"]:checked').getAttribute('data-price') === null ? '' : document.querySelector('input[name="payment_hairBeauty"]:checked').getAttribute('data-price');
 
         let hair_ = document.querySelectorAll('input[name="payment_hair"]:checked')
