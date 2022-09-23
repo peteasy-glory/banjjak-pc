@@ -2485,8 +2485,8 @@ function representative(target,id){
                 } else if (head.code === 200) {
 
                     if(body.err ===0){
-                        document.getElementById('msg3_txt').innerText = '대표 번호가 변경되었습니다.'
-                        pop.open('reserveAcceptMsg3');
+                        document.getElementById('msg2_txt').innerText = '대표 번호가 변경되었습니다.'
+                        pop.open('reserveAcceptMsg2');
                         return;
 
                     }else{

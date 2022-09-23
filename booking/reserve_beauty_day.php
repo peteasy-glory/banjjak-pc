@@ -2677,8 +2677,8 @@ if ($artist_flag == 1) {
                     <div class="msg-txt">예약취소 알림톡을 발송 하시겠습니까?</div>
                 </div>
                 <div class="pop-footer">
-                    <button type="button" class="btn btn-confirm btn-reserv-block cancel-cls" onclick="reserve_cancel(true) pop.close();">발송</button>
-                    <button type="button" class="btn btn-confirm btn-reserv-send cancel-cls" onclick="reserve_cancel(false); pop.close();">미발송</button>
+                    <button type="button" class="btn btn-confirm btn-reserv-block cancel-cls" onclick="reserve_cancel(true,this); pop.close();">발송</button>
+                    <button type="button" class="btn btn-confirm btn-reserv-send cancel-cls" onclick="reserve_cancel(false,this); pop.close();">미발송</button>
                 </div>
             </div>
         </div>

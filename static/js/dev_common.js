@@ -1698,7 +1698,12 @@ var gallery = {
 function showReviewGallery(startIndex, img_list){
     var imgs	= img_list.split('|');
     $.each(imgs, function(i,v){
-        imgs[i] = img_link_change(imgs[i]);
+        if(imgs[i].substr(0,7) === '/static'){
+            imgs[i] = imgs[i]
+        }else{
+
+            imgs[i] = img_link_change(imgs[i]);
+        }
     });
     // imgs.forEach(element => {
     //     element = img_link_change(element);
