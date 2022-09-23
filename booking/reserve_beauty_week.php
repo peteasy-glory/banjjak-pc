@@ -145,9 +145,7 @@ if ($artist_flag == 1) {
 									</div>
 								</div>
 							</div>
-                            <div style="position: relative; right: 0;width: 100%; display: flex;  justify-content: flex-end; margin-top: 57px;">
-                                <a href="/customer/customer_inquiry.php"><img src="https://image.banjjakpet.com/images/icon-circle-float_search.png" alt="" style="width:64px;"></a>
-                            </div>
+
 							<!-- //오늘의 예약 총 횟수 -->
 							<!-- 빈시간 판매하기 -->
 <!--							<div class="basic-data-card transparent">-->
@@ -181,7 +179,7 @@ if ($artist_flag == 1) {
 										<button type="button" onclick="location.href='./reserve_beauty_month.php';" class="btn-reserve-calendar-sort">월</button>
 										<button type="button" class="btn-reserve-calendar-sort actived">주</button>
 										<button type="button" onclick="location.href='./reserve_beauty_day.php';" class="btn-reserve-calendar-sort">일</button>
-										<button type="button" class="btn-reserve-calendar-sort"><span class="icon icon-type-list-gray off"></span><span class="icon icon-type-list-white on"></span></button>
+										<button type="button" onclick="location.href='./reserve_beauty_list.php';"class="btn-reserve-calendar-sort"><span class="icon icon-type-list-gray off"></span><span class="icon icon-type-list-white on"></span></button>
 									</div>
 								</div>
 								<!-- //캘린더 상단 -->
@@ -305,6 +303,12 @@ if ($artist_flag == 1) {
                 <div class="pop-body type-3">
                     <div class="msg-txt"><span class="msg-text-date"></span><br><br>선택한 예약을<br>이 곳으로 변경합니다.</div>
                 </div>
+                <div style="display:flex; justify-content: center; align-items: center; margin-bottom:20px;">
+                    예약변경알림발송
+                    <input type="radio" name="log_msg_send" style="vertical-align: baseline; accent-color: #6840b1; " value="Y" checked> 발송
+                    <input type="radio" name="log_msg_send" style="vertical-align: baseline; accent-color: #6840b1;" value="N"> 미발송
+                </div>
+
                 <div class="pop-footer">
                     <button type="button" class="btn btn-confirm" onclick="pop.close(); reserve_change_time();">확인</button>
                     <button type="button" class="btn btn-confirm" onclick="location.reload();">예약변경취소</button>

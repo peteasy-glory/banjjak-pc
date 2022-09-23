@@ -758,9 +758,9 @@ function renderCalendar(id) {
             document.getElementById(`main-calendar-month-body`).innerHTML += ` <div class="main-calendar-month-body-row ${i > 0 && i < 5 ? "op-1" : ""} ${i === 0 || i === 2 ? '1or3' : i === 1 || i === 3 ? '2or4':""} " id="main-calendar-month-body-row-${i}" ></div>`
         }
 
-        //정기휴일적용
         holiday(id);
         statutory_holiday(id)
+        //정기휴일적용
         resolve(div_dates);
     })
 }
@@ -1474,26 +1474,6 @@ function holiday(id){
                     }
                 }
             }
-
-        },complete:function(){
-            if(document.getElementById('main-calendar-month-body')){
-
-
-                // document.getElementById('main-calendar-month-body').style.display = 'block';
-                // document.getElementById('home_main_calendar_loading').style.display = 'none';
-            }else if(document.getElementById('mini-calendar-month-body')){
-                // document.getElementById('mini-calendar-month-body').style.display = 'block';
-                // if(document.getElementById('day_mini_calendar_loading')){
-                //
-                //     document.getElementById('day_mini_calendar_loading').style.display = 'none';
-                // }else if(document.getElementById('week_mini_calendar_loading')){
-                //     document.getElementById('week_mini_calendar_loading').style.display = 'none';
-                //
-                // }
-
-            }
-
-
 
         }
     })

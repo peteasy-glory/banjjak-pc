@@ -848,7 +848,7 @@ if ($artist_flag == 1) {
                                                         </div>
                                                     </div>
                                                     <div class="form-group-cell small">
-                                                        <button type="button" class="btn btn-outline-purple btn-middle-size btn-round use-coupon" onclikc="coupon_use();">적용</button>
+                                                        <button type="button" class="btn btn-outline-purple btn-middle-size btn-round use-coupon" id="coupon_use" onclick="coupon_use(this);">적용</button>
                                                         <div class="form-bottom-info font-color-purple font-weight-500 text-align-right">적용 후 남은 쿠폰 : <span id="remind_coupon">0</span></div>
                                                     </div>
                                                 </div>
@@ -2829,7 +2829,6 @@ if ($artist_flag == 1) {
 <script src="/static/js/shop.js"></script>
 <script src="/static/js/signature_pad.umd.js"></script>
 <script src="/static/js/jquery-ui.min.js"></script>
-
 <script src="/static/js/booking.js"></script>
 <script src="/static/js/customer.js"></script>
 <script>
