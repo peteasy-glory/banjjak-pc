@@ -310,42 +310,6 @@ if ($artist_flag == 1) {
     </div>
 </article>
 
-<div class="gallery-pop-wrap">
-    <div class="gallery-pop-inner">
-        <div class="gallery-pop-data" id="ga-da">
-            <div class="gallery-pop-slider" id="ga-sl" style="width:100%;height:100%;">
-                <div class="swiper-container" id="sw-con">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <div class="slider-item">
-                                <span class="loading-bar"><span class="sk-fading-circle"><span class="sk-circle1 sk-circle"></span><span class="sk-circle2 sk-circle"></span><span class="sk-circle3 sk-circle"></span><span class="sk-circle4 sk-circle"></span><span class="sk-circle5 sk-circle"></span><span class="sk-circle6 sk-circle"></span><span class="sk-circle7 sk-circle"></span><span class="sk-circle8 sk-circle"></span><span class="sk-circle9 sk-circle"></span><span class="sk-circle10 sk-circle"></span><span class="sk-circle11 sk-circle"></span><span class="sk-circle12 sk-circle"></span></span></span>
-                                <img src="/static/pub/images/gate_picture.jpg" alt=""/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-page"></div>
-                <button type="button" class="btn-swiper-slider-prev"></button>
-                <button type="button" class="btn-swiper-slider-next"></button>
-            </div>
-            <div class="gallery-pop-ui" id="ga-btn">
-                <button type="button" class="btn-gallery-pop-nav btn-gallery-mode" onclick="gallery.viewModeChange(this);">
-                    <span class="icon icon-size-24 icon-viewall-white off"></span>
-                    <span class="icon icon-size-24 icon-viewmax-white on"></span>
-                </button>
-                <button type="button" class="btn-gallery-pop-nav" onclick="gallery.close();"><span class="icon icon-size-24 icon-close-white"></span></button>
-            </div>
-        </div>
-        <div class="gallery-thumb-data">
-            <div class="gallery-thumb-list">
-                <button type="button" class="btn-gallery-thumb-nav">
-                    <span class="loading-bar"><span class="sk-fading-circle"><span class="sk-circle1 sk-circle"></span><span class="sk-circle2 sk-circle"></span><span class="sk-circle3 sk-circle"></span><span class="sk-circle4 sk-circle"></span><span class="sk-circle5 sk-circle"></span><span class="sk-circle6 sk-circle"></span><span class="sk-circle7 sk-circle"></span><span class="sk-circle8 sk-circle"></span><span class="sk-circle9 sk-circle"></span><span class="sk-circle10 sk-circle"></span><span class="sk-circle11 sk-circle"></span><span class="sk-circle12 sk-circle"></span></span></span>
-                    <img src="/static/pub/images/user_thumb.png" alt="">
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <article id="petAddPop" class="layer-pop-wrap">
     <div class="layer-pop-parent">
@@ -1288,6 +1252,42 @@ if ($artist_flag == 1) {
         </div>
     </div>
 </article>
+<div class="gallery-pop-wrap">
+    <div class="gallery-pop-inner">
+        <div class="gallery-pop-data" id="ga-da">
+            <div class="gallery-pop-slider" id="ga-sl" style="width:100%;height:100%;">
+                <div class="swiper-container" id="sw-con">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="slider-item">
+                                <span class="loading-bar"><span class="sk-fading-circle"><span class="sk-circle1 sk-circle"></span><span class="sk-circle2 sk-circle"></span><span class="sk-circle3 sk-circle"></span><span class="sk-circle4 sk-circle"></span><span class="sk-circle5 sk-circle"></span><span class="sk-circle6 sk-circle"></span><span class="sk-circle7 sk-circle"></span><span class="sk-circle8 sk-circle"></span><span class="sk-circle9 sk-circle"></span><span class="sk-circle10 sk-circle"></span><span class="sk-circle11 sk-circle"></span><span class="sk-circle12 sk-circle"></span></span></span>
+                                <img src="" alt=""/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-page"></div>
+                <button type="button" class="btn-swiper-slider-prev"></button>
+                <button type="button" class="btn-swiper-slider-next"></button>
+            </div>
+            <div class="gallery-pop-ui" id="ga-btn">
+                <button type="button" class="btn-gallery-pop-nav btn-gallery-mode" onclick="gallery.viewModeChange(this);">
+                    <span class="icon icon-size-24 icon-viewall-white off"></span>
+                    <span class="icon icon-size-24 icon-viewmax-white on"></span>
+                </button>
+                <button type="button" class="btn-gallery-pop-nav" onclick="gallery.close();"><span class="icon icon-size-24 icon-close-white"></span></button>
+            </div>
+        </div>
+        <div class="gallery-thumb-data">
+            <div class="gallery-thumb-list">
+                <button type="button" class="btn-gallery-thumb-nav">
+                    <span class="loading-bar"><span class="sk-fading-circle"><span class="sk-circle1 sk-circle"></span><span class="sk-circle2 sk-circle"></span><span class="sk-circle3 sk-circle"></span><span class="sk-circle4 sk-circle"></span><span class="sk-circle5 sk-circle"></span><span class="sk-circle6 sk-circle"></span><span class="sk-circle7 sk-circle"></span><span class="sk-circle8 sk-circle"></span><span class="sk-circle9 sk-circle"></span><span class="sk-circle10 sk-circle"></span><span class="sk-circle11 sk-circle"></span><span class="sk-circle12 sk-circle"></span></span></span>
+                    <img src="" alt="">
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- //알림톡발송조회 팝업 -->
 <script src="/static/js/common.js"></script>
 <script src="/static/js/dev_common.js"></script>

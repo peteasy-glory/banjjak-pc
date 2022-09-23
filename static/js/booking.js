@@ -94,12 +94,12 @@ function schedule_render(id){
                                     }
 
 
-                                    el_.setAttribute('data-pay',el.product.payment_idx)
+                                    el_.setAttribute('data-payment_idx',el.product.payment_idx)
                                     el_.setAttribute('data-time_length',(new Date(el.product.date.booking_fi).getTime()-new Date(el.product.date.booking_st).getTime())/1000/60)
 
                                     let multiple = (new Date(el.product.date.booking_fi).getTime() - new Date(el.product.date.booking_st).getTime())/1800000;
                                     el_.innerHTML = `<div class="calendar-drag-item-group">
-                                                                        <a href="#" onclick="pay_management_init(artist_id,this,false,${el.product.is_approve === 0 ? false : true}); pay_management_toggle(false); localStorage.setItem('payment_idx','${el_.getAttribute('data-pay')}')" data-tooltip_idx="${index}" data-payment_idx="${el_.getAttribute('data-pay')}" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-pay')})" class="calendar-week-time-item toggle green ${color} ${el.product.is_no_show === 1 ? "red" : ''} ${el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
+                                                                        <a href="#" onclick="pay_management_init(artist_id,this,false,${el.product.is_approve === 0 ? false : true}); pay_management_toggle(false); localStorage.setItem('payment_idx','${el_.getAttribute('data-payment_idx')}')" data-tooltip_idx="${index}" data-cellphone="${el.customer.phone}" data-payment_idx="${el_.getAttribute('data-payment_idx')}" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-payment_idx')})" class="calendar-week-time-item toggle green ${color} ${el.product.is_no_show === 1 ? "red" : ''} ${el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
                                                                             <div class="item-inner" >
                                                                                 <div class="item-name">
                                                                                     <div class="txt" style="font-size:17px; margin-bottom:2px;">${el.pet.name}</div>
@@ -289,12 +289,12 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
                             }
 
 
-                            el__.setAttribute('data-pay',_el.product.payment_idx);
+                            el__.setAttribute('data-payment_idx',_el.product.payment_idx);
 
                             el__.setAttribute('data-time_length',(new Date(_el.product.date.booking_fi).getTime()-new Date(_el.product.date.booking_st).getTime())/1000/60)
 
-                            el__.innerHTML = `<div class="calendar-drag-item-group">
-                                                    <a href="/booking/reserve_pay_management_beauty_1.php" data-tooltip_idx="${index}" onclick="localStorage.setItem('payment_idx',${_el.product.payment_idx})" data-pay="${_el.product.payment_idx}" class="calendar-week-time-item toggle green ${color} ${_el.product.is_no_show === 1 ? "red" : ''} ${_el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
+                            el__.innerHTML = `<div class="calendar-drag-item-group" data-cellphone="${_el.customer.phone}" data-pet_name="${_el.pet.name}" >
+                                                    <a href="#" data-tooltip_idx="${index}" onclick="pay_management_init(artist_id,this,false,true); pay_management_toggle(false);localStorage.setItem('payment_idx',${_el.product.payment_idx})" data-payment_idx="${_el.product.payment_idx}" class="calendar-week-time-item toggle green ${color} ${_el.product.is_no_show === 1 ? "red" : ''} ${_el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
                                                         <div class="item-inner">
                                                             <div class="item-name">
                                                                 <div class="txt">${_el.pet.name}</div>
@@ -407,6 +407,7 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
             });
             reserve_prohibition_list(id);
             setTimeout(function(){week_drag()},500)
+
 
 
 
@@ -640,13 +641,19 @@ function week_working(id){
 
                     document.getElementById('grid_layout_inner').innerHTML = '';
 
+
                     body.forEach(function(el){
+                        console.log(el)
 
                         if(!el.is_leave && el.is_show){
+
 
                             document.getElementById('grid_layout_inner').innerHTML += `<div class="grid-layout-cell flex-auto" >
                                                                                                         <button type="button" class="btn-toggle-button header-worker" data-worker="${el.name}" data-nick="${el.nick}">${el.nick}</button>
                                                                                                   </div>`
+
+
+
                         }
                     })
 
@@ -690,68 +697,49 @@ function reserve_schedule_week(id,body_data) {
 
 
 
+        let break_time = '';
+        let break_times = '';
+        if(localStorage.getItem('break_time') !== ''){
+            break_time = JSON.parse(localStorage.getItem('break_time'))
+
+            break_time.forEach(function(el,i){
+                break_times += `${el.time.split('~')[0]} `
+            })
+        }
+
+        let day_body = document.getElementById('day_body');
 
 
-    $.ajax({
-
-        url: '/data/pc_ajax.php',
-        type: 'post',
-        data: {
-            mode: 'open_close',
-            login_id: id,
-
-        },
-        success: function (res) {
-            let response = JSON.parse(res);
-            let head = response.data.head;
-            let body = response.data.body;
-            if (head.code === 401) {
-                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-            } else if (head.code === 200) {
-
-                let break_time = '';
-                let break_times = '';
-                if(localStorage.getItem('break_time') !== ''){
-                    break_time = JSON.parse(localStorage.getItem('break_time'))
-
-                    break_time.forEach(function(el,i){
-                        break_times += `${el.time.split('~')[0]} `
-                    })
-                }
-
-                let day_body = document.getElementById('day_body');
-
-
-                let open = body[0].open_time;
-                let close = body[0].close_time;
-                let row = document.getElementById('week_header_row');
+        let open = parseInt(localStorage.getItem('open_close').split('/')[0]);
+        let close = parseInt(localStorage.getItem('open_close').split('/')[1]);
+        let row = document.getElementById('week_header_row');
 
 
 
-                day_body.innerHTML = '';
+        day_body.innerHTML = '';
 
 
-                for (let i = open; i < close; i++) {
+        for (let i = open; i < close; i++) {
 
-                    for (let t = 0; t < 60; t += 30) {
+            for (let t = 0; t < 60; t += 30) {
 
-                        let thisTime = `${fill_zero(i)}:${fill_zero(t)}`
-                        let thisTime_s = thisTime.split(':');
-                        let date_ = fill_zero(new Date('', '', '', thisTime_s[0], thisTime_s[1]));
-                        let date__ = fill_zero(new Date('', '', '', thisTime_s[0], thisTime_s[1]));
+                let thisTime = `${fill_zero(i)}:${fill_zero(t)}`
+                let thisTime_s = thisTime.split(':');
+                let date_ = fill_zero(new Date('', '', '', thisTime_s[0], thisTime_s[1]));
+                let date__ = fill_zero(new Date('', '', '', thisTime_s[0], thisTime_s[1]));
 
-                        date__.setMinutes(date__.getMinutes() + 30);
+                date__.setMinutes(date__.getMinutes() + 30);
 
 
-                        day_body.innerHTML += `<div class="calendar-week-body-row" data-time-to="${thisTime}" data-time-from="${fill_zero(date__.getHours())}:${fill_zero(date__.getMinutes())}" data-hour="${thisTime_s[0]}" data-minutes="${thisTime_s[1]}">
+                day_body.innerHTML += `<div class="calendar-week-body-row" data-time-to="${thisTime}" data-time-from="${fill_zero(date__.getHours())}:${fill_zero(date__.getMinutes())}" data-hour="${thisTime_s[0]}" data-minutes="${thisTime_s[1]}">
                                                                                         <div class="calendar-week-body-col time">
                                                                                             ${thisTime === `${fill_zero(open)}:00` && thisTime < '12:00'
-                            ? `<div class="day-division-label">오전</div>`
-                            : `${thisTime === `${fill_zero(open)}:00` && thisTime >= '12:00'
-                                ? `<div class="day-division-label">오후</div>`
-                                : `${thisTime === '12:00'
-                                    ? `<div class="day-division-label">오후</div>`
-                                    : ``}`}`}
+                    ? `<div class="day-division-label">오전</div>`
+                    : `${thisTime === `${fill_zero(open)}:00` && thisTime >= '12:00'
+                        ? `<div class="day-division-label">오후</div>`
+                        : `${thisTime === '12:00'
+                            ? `<div class="day-division-label">오후</div>`
+                            : ``}`}`}
                                                                                             
                                                                                             <div class="time-label">
                                                                                                 <div class="time-start-label">${am_pm_check3(fill_zero(date_.getHours()))}:${fill_zero(date_.getMinutes())}</div>
@@ -799,18 +787,11 @@ function reserve_schedule_week(id,body_data) {
 
 
 
-                    }
-                }
-
-
             }
-
-            resolve(body);
         }
 
 
-    })
-
+        resolve();
 
 })
 }
@@ -820,7 +801,7 @@ function schedule_render_week(el,id){
 
 return new Promise(function (resolve){
 
-
+    pay_management_toggle(true);
 
 
 
@@ -866,6 +847,9 @@ return new Promise(function (resolve){
                 url: '/data/pc_ajax.php',
                 type: 'post',
                 // async:false,
+                // beforeSend:function(){
+                //
+                // },
                 data: {
 
                     mode: 'week_book',
@@ -947,6 +931,17 @@ return new Promise(function (resolve){
 
                     }
 
+                },complete:function(){
+
+                    if(document.getElementById('week_schedule_card_body')){
+                        document.getElementById('week_schedule_card_body').style.display = 'block';
+                        document.getElementById('week_schedule_loading').style.display ='none';
+                        document.getElementById('btn-schedule-prev').removeAttribute('disabled');
+                        document.getElementById('btn-schedule-next').removeAttribute('disabled');
+                        week_timebar();
+                        week_drag();
+
+                    }
                 }
             })
 
@@ -1008,6 +1003,7 @@ function book_list(id) {
             },
             type: 'POST',
             beforeSend:function(){
+                pay_management_toggle(true)
                 let height;
                 if(document.getElementById('main-calendar-month-body')){
 
@@ -1937,53 +1933,33 @@ function reserve_schedule(id){
     return new Promise(function (resolve){
 
 
+        let open = parseInt(localStorage.getItem('open_close').split('/')[0]);
+        let close = parseInt(localStorage.getItem('open_close').split('/')[1]);
+        let row = document.getElementsByClassName('calendar-day-body-row');
+        let day_body = document.getElementById('day_body');
+
+        day_body.innerHTML = '';
+        for(let i=open; i<close; i++){
+
+            for(let t= 0; t<60; t +=30){
+
+                let thisTime = `${fill_zero(i)}:${fill_zero(t)}`
+                let thisTime_s = thisTime.split(':');
+                let date_ = fill_zero(new Date('','','',thisTime_s[0],thisTime_s[1]));
+                let date__ = fill_zero(new Date('','','',thisTime_s[0],thisTime_s[1]));
+
+                date__.setMinutes(date__.getMinutes()+30);
 
 
-        $.ajax({
-
-            url:'/data/pc_ajax.php',
-            type:'post',
-            data:{
-                mode:'open_close',
-                login_id:id,
-
-            },
-            success:function(res){
-                let response = JSON.parse(res);
-                let head = response.data.head;
-                let body = response.data.body;
-                if (head.code === 401) {
-                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-                } else if (head.code === 200) {
-
-                    let open = body[0].open_time;
-                    let close = body[0].close_time;
-                    localStorage.setItem('open_close',`${open}/${close}`)
-                    let row = document.getElementsByClassName('calendar-day-body-row');
-                    let day_body = document.getElementById('day_body');
-
-                    day_body.innerHTML = '';
-                    for(let i=open; i<close; i++){
-
-                        for(let t= 0; t<60; t +=30){
-
-                            let thisTime = `${fill_zero(i)}:${fill_zero(t)}`
-                            let thisTime_s = thisTime.split(':');
-                            let date_ = fill_zero(new Date('','','',thisTime_s[0],thisTime_s[1]));
-                            let date__ = fill_zero(new Date('','','',thisTime_s[0],thisTime_s[1]));
-
-                            date__.setMinutes(date__.getMinutes()+30);
-
-
-                            day_body.innerHTML += `<div class="calendar-day-body-row" data-time-to="${thisTime}" data-time-from="${fill_zero(date__.getHours())}:${fill_zero(date__.getMinutes())}" data-hour="${thisTime_s[0]}" data-minutes="${thisTime_s[1]}">
+                day_body.innerHTML += `<div class="calendar-day-body-row" data-time-to="${thisTime}" data-time-from="${fill_zero(date__.getHours())}:${fill_zero(date__.getMinutes())}" data-hour="${thisTime_s[0]}" data-minutes="${thisTime_s[1]}">
                                                                                         <div class="calendar-day-body-col time">
                                                                                             ${thisTime === `${fill_zero(open)}:00` && thisTime < '12:00'
-                                ? `<div class="day-division-label">오전</div>`
-                                : `${thisTime === `${fill_zero(open)}:00` && thisTime >= '12:00'
-                                    ? `<div class="day-division-label">오후</div>`
-                                    : `${thisTime === '12:00'
-                                        ? `<div class="day-division-label">오후</div>`
-                                        : `` }` }`}
+                    ? `<div class="day-division-label">오전</div>`
+                    : `${thisTime === `${fill_zero(open)}:00` && thisTime >= '12:00'
+                        ? `<div class="day-division-label">오후</div>`
+                        : `${thisTime === '12:00'
+                            ? `<div class="day-division-label">오후</div>`
+                            : `` }` }`}
                                                                                             
                                                                                             <div class="time-label">
                                                                                                 <div class="time-start-label">${am_pm_check3(fill_zero(date_.getHours()))}:${fill_zero(date_.getMinutes())}</div>
@@ -1993,32 +1969,20 @@ function reserve_schedule(id){
                                                                                         
                                                                                         
                                                                                     </div>`
-
-
-
-
-
-                        }
-
-
-
-                    }
-
-
-
-
-
-
-
-                    resolve();
-
-
-
-
-
-                }
             }
-        })
+        }
+
+
+
+
+
+
+
+        resolve();
+
+
+
+
     })
 }
 
@@ -2479,7 +2443,7 @@ function day_drag(){
                         _thisMinutes = $(evt.from).parent().attr("data-minutes")
                         _thisTimeStart   = $(evt.from).parent().attr("data-time-to");
                         _thisTimeEnd   = $(evt.from).parent().attr("data-time-from");
-                        thisLogSeq = $(evt.from).parent().attr("data-pay");
+                        thisLogSeq = $(evt.from).parent().attr("data-payment_idx");
 
 
 
@@ -2561,6 +2525,13 @@ function week_drag(){
 
                     if(evt.from != evt.to){
 
+                        console.log(evt.to);
+                        console.log(evt.from)
+
+                        let pet_name = $(evt.from).attr('data-pet_name');
+
+                        let cellphone = $(evt.from).attr('data-cellphone');
+
                         let thisWorker;
                         let thisWorker2;
                         Array.from(document.getElementsByClassName('header-worker')).forEach(function (el){
@@ -2578,7 +2549,7 @@ function week_drag(){
                         _thisMinutes = $(evt.from).parent().attr("data-minutes")
                         _thisTimeStart   = $(evt.from).parent().attr("data-time-to");
                         _thisTimeEnd   = $(evt.from).parent().attr("data-time-from");
-                        thisLogSeq = $(evt.from).parent().attr("data-pay");
+                        thisLogSeq = $(evt.from).parent().attr("data-payment_idx");
 
 
 
@@ -2615,6 +2586,17 @@ function week_drag(){
                         $("#reserveCalendarPop4 input[name='log_date']").val(thisDate);
                         $("#reserveCalendarPop4 input[name='log_start_time']").val(thisTimeStart);
                         $("#reserveCalendarPop4 input[name='log_end_time']").val(fi_time);
+                        $("#reserveCalendarPop4 input[name='log_cellphone']").val(cellphone);
+                        $("#reserveCalendarPop4 input[name='log_pet_name']").val(pet_name);
+                        $("#reserveCalendarPop4 input[name='log_a_year']").val(_thisYear);
+                        $("#reserveCalendarPop4 input[name='log_a_month']").val(parseInt(_thisMonth)+1);
+                        $("#reserveCalendarPop4 input[name='log_a_date']").val(_thisDate);
+                        $("#reserveCalendarPop4 input[name='log_a_start_hour']").val(_thisHour);
+                        $("#reserveCalendarPop4 input[name='log_a_start_min']").val(_thisMinutes);
+
+
+
+
 
 
 
@@ -2639,813 +2621,6 @@ function week_drag(){
 }
 
 
-
-//작업결제관리 페이지
-function pay_management(id){
-
-    return new Promise(function (resolve){
-
-
-
-
-    $.ajax({
-
-
-        url:'/data/pc_ajax.php',
-        type:'post',
-        data:{
-
-            mode:'pay_management',
-            payment_idx:localStorage.getItem('payment_idx'),
-        },
-        beforeSend:function (){
-
-            let height;
-
-            if(document.getElementById('pay_management_body')){
-
-                height = document.getElementById('pay_management_body').offsetHeight;
-                document.getElementById('pay_management_body').style.display = 'none';
-                document.getElementById('pay_management_loading').style.height = `${height}px`;
-                document.getElementById('pay_management_loading').style.display = `flex`;
-
-            }
-
-
-        },
-        success:function (res){
-            
-            let response = JSON.parse(res);
-            let head = response.data.head;
-            let body = response.data.body;
-            let body_ = [response.data2.body,response.data3.body,body.pet_seq,body]
-            if (head.code === 401) {
-                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-            } else if (head.code === 200) {
-
-                let work_body_inner = document.getElementById('work_body_inner');
-                let data_col_right = document.getElementById('data_col_right_1');
-
-                if(body.is_approve === 0){
-
-                    document.getElementById('approve').innerText ='상담대기'
-                    document.getElementById('waiting_footer').style.display = 'block';
-                    document.getElementById('approve_wrap').style.display ='block';
-                    $.ajax({
-                        url:'/data/pc_ajax.php',
-                        type:'post',
-                        data:{
-                            mode:'waiting',
-                            partner_id:id,
-                        },
-                        success:function(res) {
-                            
-                            let response = JSON.parse(res);
-                            let head = response.data.head;
-                            let body1 = response.data.body;
-                            if (head.code === 401) {
-                                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-                            } else if (head.code === 200) {
-
-                                body1.forEach(function(el){
-
-                                    if(el.product.payment_idx === parseInt(localStorage.getItem('payment_idx'))){
-                                        Array.from(document.getElementsByClassName('approve_idx')).forEach(function(el_){
-
-
-                                            el_.setAttribute('data-approve',`${el.product.approve_idx}`)
-                                        })
-
-                                    }
-                                })
-
-
-
-                            }
-                        }
-
-
-                    })
-                }else if(body.is_approve === 1 || body.is_approve === 2 || body.is_approve === -1){
-                    document.getElementById('approve').innerText ='예약확정'
-                    document.getElementById('approve_wrap').style.display ='block';
-
-                }else if(body.is_approve === 3){
-                    document.getElementById('approve').innerText = '상담거절'
-                    document.getElementById('approve_wrap').style.display ='block';
-                }
-
-
-
-
-                let data = body.disliked_part;
-                let text = '';
-                data = [...data];
-                data.forEach(function (d,i){
-                    if(parseInt(d)===1){
-                        if(i===0){
-                            text += '눈 '
-                        }
-                        if(i===1){
-                            text += '코 '
-                        }
-                        if(i===2){
-                            text += '입 '
-                        }
-                        if(i===3){
-                            text += '귀 '
-                        }
-                        if(i===4){
-                            text += '목 '
-                        }
-                        if(i===5){
-                            text += '몸통 '
-                        }
-                        if(i===6){
-                            text += '다리 '
-                        }
-                        if(i===7){
-                            text += '꼬리 '
-                        }
-                        if(i===8){
-                            text += '생식기 '
-                        }
-                        if(i===9){
-                            text += '없음 '
-                        }
-                    }
-                })
-
-                // work_body_inner.innerHTML = ''
-
-
-                work_body_inner.innerHTML += `<div  id="manage_1"><div class="basic-data-group vsmall" >
-                                        <div class="con-title-group">
-                                            <h4 class="con-title">예약자 정보</h4>
-                                        </div>
-                                        <div class="customer-view-user-info">
-                                            <div class="customer-user-table">
-                                                <div class="customer-user-table-row">
-                                                    <div class="customer-user-table-title">
-                                                        <div class="table-title">아이디</div>
-                                                    </div>
-                                                    <div class="customer-user-table-data">
-                                                        <div class="table-data">
-                                                            <div class="table-user-name">
-                                                                <span id="customer_id">${body.customer_Id === "" ? body.tmp_id : body.customer_Id}</span>
-                                                                <div class="user-grade-item">
-                                                                    <div class="icon icon-grade-${body.grade_ord === 1 ? 'vip' : body.grade_ord === 2 ? 'normal' : 'normalb'}"></div>
-                                                                    <div class="icon-grade-label">${body.grade_name}</div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="customer-user-info-ui">
-                                                    
-                                                        ${body.noshow_count > 0 ? `<div class="label label-outline-pink">NO SHOW ${body.noshow_count}회</div>`:''}
-                                                        ${body.is_noshow === 0 ? `<a href="#" onclick="pop.open('noshow')" class="btn btn-inline btn-red">NO SHOW 등록</a>` : `<div class="btn btn-inline" style="cursor:pointer; background: #8f8f8f; color:white;" onclick="pop.open('cancel_noshow')">노쇼 취소</div>` }
-                                                    </div>
-                                                </div>
-                                                <div class="customer-user-table-row">
-                                                    <div class="customer-user-table-title">
-                                                        <div class="table-title">연락처</div>
-                                                    </div>
-                                                    <div class="customer-user-table-data">
-                                                        <div class="table-data">
-                                                            <div class="customer-user-phone-wrap read">
-                                                                <div class="item-main-phone">
-                                                                    <div class="value" id="cellphone_detail">${body.cell_phone}</div>
-                                                                </div>
-                                                                <div class="item-sub-phone" id="item_sub_phone">
-                                                                
-                                                                
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="basic-data-group">
-                                        <div class="con-title-group">
-                                            <h4 class="con-title">예약동물 정보</h4>
-                                            <div class="con-title-btns">
-                                                <div class="btns-cell">
-                                                    <button type="button" class="btn btn-outline-gray btn-vsmall-size btn-inline" onclick="pop.open('reserveBeautyGalleryPop')">미용 갤러리</button>
-                                                </div>
-                                                <div class="btns-cell" id="beauty_agree_view">
-                                                    <button type="button" class="btn btn-outline-gray btn-vsmall-size btn-inline">미용 동의서</button>
-                                                </div>  
-                                            </div>
-                                        </div>
-                                        <div class="customer-view-pet-info detail-toggle-parents">
-                                            <div class="item-thumb">
-                                                <div class="user-thumb large"><img src="" id="beauty_img_target" alt=""></div>
-                                                <div class="item-thumb-ui">
-                                                    <a href="#" class="btn btn-outline-gray btn-vsmall-size btn-inline" id="modify_pet">펫 정보 수정</a>
-                                                </div>
-                                            </div>
-                                            <div class="item-user-data">
-                                                <div class="grid-layout flex-table">
-                                                    <div class="grid-layout-inner">
-                                                        <div class="grid-layout-cell grid-2">
-                                                            <div class="flex-table-item">
-                                                                <div class="flex-table-title">
-                                                                    <div class="txt">이름</div>
-                                                                </div>
-                                                                <div class="flex-table-data">
-                                                                    <div class="flex-table-data-inner">
-                                                                        ${body.name}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="grid-layout-cell grid-2">
-                                                            <div class="flex-table-item">
-                                                                <div class="flex-table-title">
-                                                                    <div class="txt">품종</div>
-                                                                </div>
-                                                                <div class="flex-table-data">
-                                                                    <div class="flex-table-data-inner">
-                                                                        ${body.pet_type}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="grid-layout-cell grid-2">
-                                                            <div class="flex-table-item">
-                                                                <div class="flex-table-title">
-                                                                    <div class="txt">성별</div>
-                                                                </div>
-                                                                <div class="flex-table-data">
-                                                                    <div class="flex-table-data-inner">
-                                                                        ${body.gender}
-                                                                    </div>
-                                                                </div>
-                                                            </div>  
-                                                        </div>
-                                                        <div class="grid-layout-cell grid-2">
-                                                            <div class="flex-table-item">
-                                                                <div class="flex-table-title">
-                                                                    <div class="txt">무게</div>
-                                                                </div>
-                                                                <div class="flex-table-data">
-                                                                    <div class="flex-table-data-inner">
-                                                                        ${body.weight}kg
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="grid-layout-cell grid-2">
-                                                                <div class="flex-table-item">
-                                                                    <div class="flex-table-title">
-                                                                        <div class="txt">생일</div>
-                                                                    </div>
-                                                                    <div class="flex-table-data">
-                                                                        <div class="flex-table-data-inner">
-                                                                            ${body.birth.replaceAll('-','.')}(${Math.floor((new Date().getTime() - new Date(body.birth.split('-')[0],body.birth.split('-')[1],body.birth.split('-')[2]).getTime())/1000/60/60/24/30/12)}년 ${Math.floor((new Date().getTime() - new Date(body.birth.split('-')[0],body.birth.split('-')[1],body.birth.split('-')[2]).getTime())/1000/60/60/24/30%12)}개월)
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                        </div>
-                                                        <div class="grid-layout-cell grid-2">
-                                                            <div class="flex-table-item">
-                                                                <div class="flex-table-title">
-                                                                    <div class="txt">중성화</div>
-                                                                </div>
-                                                                <div class="flex-table-data">
-                                                                    <div class="flex-table-data-inner">
-                                                                        ${body.neutral === 0 ? 'X' : 'O'}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="grid-layout-cell grid-2 toggle">
-                                                            <div class="flex-table-item">
-                                                                <div class="flex-table-title">
-                                                                    <div class="txt">미용경험</div>
-                                                                </div>
-                                                                <div class="flex-table-data">
-                                                                    <div class="flex-table-data-inner">
-                                                                        ${body.beauty_exp === null || body.beauty_exp ==="" ? '미기입': body.beauty_exp}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="grid-layout-cell grid-2 toggle">
-                                                            <div class="flex-table-item">
-                                                                <div class="flex-table-title">
-                                                                    <div class="txt">예방접종</div>
-                                                                </div>
-                                                                <div class="flex-table-data">
-                                                                    <div class="flex-table-data-inner">
-                                                                        ${body.vaccination === null || body.vaccination === "" ? '미기입': body.vaccination}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="grid-layout-cell grid-2 toggle">
-                                                            <div class="flex-table-item">
-                                                                <div class="flex-table-title">
-                                                                    <div class="txt">입질</div>
-                                                                </div>
-                                                                <div class="flex-table-data">
-                                                                    <div class="flex-table-data-inner">
-                                                                        ${parseInt(body.bite) === 0 ? '안해요':'해요'}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="grid-layout-cell grid-2 toggle">
-                                                            <div class="flex-table-item">
-                                                                <div class="flex-table-title">
-                                                                    <div class="txt">슬개골 탈구</div>
-                                                                </div>
-                                                                <div class="flex-table-data">
-                                                                    <div class="flex-table-data-inner">
-                                                                        ${body.luxation === "" || body.luxation === null ? "미기입" : body.luxation}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="grid-layout-cell grid-2 toggle">
-                                                            <div class="flex-table-item">
-                                                                <div class="flex-table-title">
-                                                                    <div class="txt">특이사항</div>
-                                                                </div>
-                                                                <div class="flex-table-data">
-                                                                    <div class="flex-table-data-inner">
-                                                                    ${body.dermatosis ? '피부병' : '' } ${body.heart_trouble ? '심장 질환' : ''} ${body.marking ? '마킹': ''} ${body.mounting ? '마운팅' : ''}
-                                                                        
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="grid-layout-cell grid-2 toggle">
-                                                            <div class="flex-table-item">
-                                                                <div class="flex-table-title">
-                                                                    <div class="txt">싫어하는 부위</div>
-                                                                </div>
-                                                                <div class="flex-table-data">
-                                                                    <div class="flex-table-data-inner">
-                                                                        ${text === "" ? '없음' : text}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="grid-layout-cell grid-2 toggle">
-                                                            <div class="flex-table-item">
-                                                                <div class="flex-table-title">
-                                                                    <div class="txt">기타</div>
-                                                                </div>
-                                                                <div class="flex-table-data">
-                                                                    <div class="flex-table-data-inner">
-                                                                        ${body.etc === "" ? '없음' : body.etc}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="item-action">
-                                                <button type="button" class="btn-detail-toggle">펫 정보 자세히 보기</button>
-                                            </div>
-                                        </div>
-                                        <div class="basic-data-group middle">
-                                            <div class="form-group">
-                                                <div class="grid-layout margin-14-17">
-                                                    <div class="grid-layout-inner">
-                                                        <div class="grid-layout-cell grid-2">
-                                                            <div class="form-group-item">
-                                                                <div class="form-item-label">특이사항</div>
-                                                                <div class="form-item-data type-2">
-                                                                    <div class="form-textarea-btns">
-                                                                        <textarea style="height:60px;" id="payment_memo" placeholder="입력">${body.payment_memo}</textarea>
-                                                                        <button type="button" class="btn btn-outline-gray" onclick="payment_memo()">저장</button>
-                                                                    </div>
-                                                                    <div class="form-input-info">(고객에게는 노출되지 않습니다.)</div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="grid-layout-cell grid-2">
-                                                            <div class="form-group-item">
-                                                                <div class="form-item-label">견주관련 메모</div>
-                                                                    <div class="form-item-data type-2">
-                                                                        <div class="form-textarea-btns">
-                                                                            <textarea style="height:60px;" id="customer_memo"  placeholder="입력"></textarea>
-                                                                            <button type="button" class="btn btn-outline-gray" onclick="customer_memo()">저장</button>
-                                                                        </div>
-                                                                        <div class="form-input-info">(고객에게는 노출되지 않습니다.)</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="basic-data-group">
-                                                    <div class="wide-tab card">
-                                                        <div class="wide-tab-inner">
-                                                            <!-- 활성화시 actived클래스 추가 -->
-                                                            <div class="tab-cell actived">
-                                                                <a href="#" class="btn-tab-item">미용</a>
-                                                            </div>
-                                                            <div class="tab-cell">
-                                                                <a href="#" class="btn-tab-item" onclick="pop.open('firstRequestMsg1','준비 중 입니다.');">호텔</a>
-                                                            </div>
-                                                            <div class="tab-cell">
-                                                                <a href="#" class="btn-tab-item" onclick="pop.open('firstRequestMsg1','준비 중 입니다.');">유치원</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="basic-data-group vvsmall3">
-                                                        <div class="grid-layout margin-14-17">
-                                                            <div class="grid-layout-inner">
-                                                                <div class="grid-layout-cell grid-2">
-                                                                    <div class="note-toggle-group">
-                                                                        <div class="con-title-group">
-                                                                            <!--
-                                                                            <h4 class="con-title"><a href="#" class="btn-con-title"><div>이전 특이사항</div><div class="icon icon-btn-more-black"></div></a></h4>
-                                                                            -->
-                                                                            <h4 class="con-title">이전 특이사항</h4>
-                                                                        </div>
-                                                                        <div class="memo-item-list note-toggle-list" id="etc1_list">
-                                                                            
-                                                                        </div>
-                                                                        ${response.data2.body.length >5 ? `<div class="note-toggle-ui">
-                                                                            <button type="button" class="btn-note-toggle">더보기</button>
-                                                                        </div>` : ''}
-                                                                     
-                                                                    </div>
-                                                                </div>
-                                                                <div class="grid-layout-cell grid-2">
-                                                                    <div class="note-toggle-group">
-                                                                        <div class="con-title-group">
-                                                                            <!--
-                                                                            <h4 class="con-title"><a href="#" class="btn-con-title"><div>이전 이용내역</div><div class="icon icon-btn-more-black"></div></a></h4>
-                                                                            -->
-                                                                            <h4 class="con-title">이전 이용내역</h4>
-                                                                        </div>
-                                                                        <div class="memo-item-list note-toggle-list" id="etc2_list">
-                                                                            
-                                                                        </div>
-                                                                        ${response.data3.body.length >5 ? `<div class="note-toggle-ui">
-                                                                            <button type="button" class="btn-note-toggle">더보기</button>
-                                                                        </div>` : ''}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div></div>`
-
-                
-                
-                data_col_right.innerHTML = `<div class="basic-data-card">
-                                                <div class="card-header">
-                                                    <h3 class="card-header-title">예약 정보</h3>
-                                                </div>
-                                                <div class="card-body">
-                                                    <div class="card-body-inner">
-                                                        <div class="basic-data-group">
-                                                            <div class="user-receipt-item">
-                                                                <div class="con-title-group">
-                                                                    <h5 class="con-title">예약 내용</h5>
-                                                                    <button type="button" class="btn-side btn btn-outline-purple btn-round-full btn-vsmall-size">알림톡 발송 이력</button>
-                                                                </div>
-                                                                <div class="text-list-wrap type-2">
-                                                                    <div class="text-list-cell">
-                                                                        <div class="item-title unit">날짜</div>
-                                                                        <div class="item-data" id="day_book_target" data-date="${body.beauty_date}">${am_pm_check2(body.beauty_date)}</div>
-                                                                    </div>
-                                                                    <div class="text-list-cell">
-                                                                        <div class="item-title unit">선생님</div>
-                                                                            <div class="item-data" id="day_book_target_worker" data-worker="${body.worker}">${body.worker_nick}</div>
-                                                                        </div>
-                                                                        <div class="text-list-cell">
-                                                                            <div class="item-title unit align-self-center">시간</div>
-                                                                                <div class="item-data">
-                                                                                    <div class="form-datepicker-group">
-                                                                                        <div class="form-datepicker">
-                                                                                            <select id="start_time">
-                                                                                                
-                                                                                            </select>
-                                                                                        </div>
-                                                                                        <div class="form-unit">~</div>
-                                                                                            <div class="form-datepicker">
-                                                                                                <select id="end_time">
-                                                                                                    
-                                                                                                </select>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="basic-data-group vsmall">
-                                                                                <button type="button" class="btn btn-outline-gray btn-basic-full" onclick="check_time();">시간만 변경</button>
-                                                                            </div>
-                                                                            <div class="form-bottom-info">
-                                                                                <span>*시간 변경만 하는 경우 시간선택 후 변경을 눌러주세요.</span>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="basic-data-group small">
-                                                                            <div class="grid-layout btn-grid-group">
-                                                                                <div class="grid-layout-inner">
-                                                                                    <div class="grid-layout-cell grid-2">
-                                                                                        <button type="button" class="btn btn-purple" id="change_check_worker_btn" data-worker="${body.worker}" onclick="pop.open('reservePayManagementMsg1')">날짜/미용사 변경</button>
-                                                                                    </div>
-                                                                                    <div class="grid-layout-cell grid-2">
-                                                                                        <button type="button" class="btn btn-outline-purple" onclick="pop.open('reserveCancel')">예약 취소</button>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="basic-data-group">
-                                                                        <div class="con-title-group">
-                                                                            <h4 class="con-title">미용 종료 알림 발송</h4>
-                                                                        </div>
-                                                                        <div class="basic-data-group vvsmall">
-                                                                            <div class="grid-layout basic">
-                                                                                <div class="grid-layout-inner">
-                                                                                    <div class="grid-layout-cell grid-4">
-                                                                                        <label class="form-toggle-box block">
-                                                                                            <input type="radio" name="time1">
-                                                                                            <em>지금종료</em>
-                                                                                        </label>
-                                                                                    </div>
-                                                                                    <div class="grid-layout-cell grid-4">
-                                                                                        <label class="form-toggle-box block">
-                                                                                            <input type="radio" name="time1">
-                                                                                            <em>10분전</em>
-                                                                                        </label>
-                                                                                    </div>
-                                                                                    <div class="grid-layout-cell grid-4">
-                                                                                        <label class="form-toggle-box block">
-                                                                                            <input type="radio" name="time1">
-                                                                                            <em>15분전</em>
-                                                                                        </label>
-                                                                                    </div>
-                                                                                    <div class="grid-layout-cell grid-4">
-                                                                                        <label class="form-toggle-box block">
-                                                                                            <input type="radio" name="time1">
-                                                                                            <em>20분전</em>
-                                                                                        </label>
-                                                                                    </div>
-                                                                                    <div class="grid-layout-cell grid-4">
-                                                                                        <label class="form-toggle-box block">
-                                                                                            <input type="radio" name="time1">
-                                                                                            <em>30분전</em>
-                                                                                        </label>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="form-bottom-info">*시간 선택 후 발송을 누르면 견주에게 즉시알림이 발송됩니다.</div>
-                                                                            <div class="basic-data-group vmiddle">
-                                                                                <div class="grid-layout btn-grid-group">
-                                                                                    <div class="grid-layout-inner">
-                                                                                        <div class="grid-layout-cell grid-2">
-                                                                                            <button type="button" class="btn btn-outline-gray">예시보기</button>
-                                                                                        </div>
-                                                                                        <div class="grid-layout-cell grid-2">
-                                                                                            <button type="button" class="btn btn-outline-purple">발송</button>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>`
-                
-                document.getElementById('data_col_right_2').innerHTML += `<div class="basic-data-card">
-                                                                            <div class="card-header">
-                                                                                <h3 class="card-header-title">서비스 내역</h3>
-                                                                            </div>
-                                                                            <div class="card-body">
-                                                                                <div class="card-body-inner">
-                                                                                    <div class="user-receipt-item total">
-                                                                                        <div class="receipt-buy-detail">
-                                                                                            <div class="item-data-list" id="service_list">
-                                                                                                
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="receipt-buy-detail total-price">
-                                                                                            <div class="item-data-list" id="price_list">
-                                                                                                <div class="list-cell">
-                                                                                                    <div class="list-title"><strong>합산 금액</strong></div>
-                                                                                                    <div class="list-value"><strong id="total_price"></strong></div>
-                                                                                                </div>
-                                                                                                
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="receipt-buy-detail result-price">
-                                                                                            <div class="item-data-list">
-                                                                                                <div class="list-cell">
-                                                                                                    <div class="list-title font-color-purple"><strong>총 결제 합산 금액</strong>
-                                                                                                    </div>
-                                                                                                    <div class="list-value font-color-purple"><strong id="real_total_price" value="0"></strong></div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="pay-accordion-group">
-                                                                                        <div class="pay-accordion-items">
-                                                                                            <div class="items-header">
-                                                                                                <div class="items-title">보유 쿠폰</div>
-                                                                                                <div class="items-value">4개 보유</div>
-                                                                                                <button type="button" class="btn-data-view">열기</button>
-                                                                                            </div>
-                                                                                            <div class="items-body">
-                                                                                                <div class="form-group">
-                                                                                                    <div class="form-group-cell small">
-                                                                                                        <div class="form-group-item">
-                                                                                                            <div class="form-item-label">쿠폰 명</div>
-                                                                                                            <div class="form-item-data type-2">
-                                                                                                                <div class="form-control-btns small">
-                                                                                                                    <select>
-                                                                                                                        <option value="">쿠폰명1</option>
-                                                                                                                        <option value="">쿠폰명2</option>
-                                                                                                                        <option value="">쿠폰명3</option>
-                                                                                                                    </select>
-                                                                                                                    <div class="btn btn-gray btn-inline">보유 4</div>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                    <div class="form-group-cell small">
-                                                                                                        <div class="form-group-item">
-                                                                                                            <div class="form-item-label">쿠폰 차감</div>
-                                                                                                            <div class="form-item-data type-2">
-                                                                                                                <div class="form-control-btns small">
-                                                                                                                    <select>
-                                                                                                                        <option value="">1</option>
-                                                                                                                        <option value="">2</option>
-                                                                                                                        <option value="">3</option>
-                                                                                                                    </select>
-                                                                                                                    <button type="button"
-                                                                                                                            class="btn btn-outline-gray btn-inline">적용
-                                                                                                                    </button>
-                                                                                                                </div>
-                                                                                                                <div
-                                                                                                                    class="form-bottom-info font-color-purple text-align-right">적용
-                                                                                                                    후 잔액 3회
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="pay-accordion-items">
-                                                                                            <div class="items-header">
-                                                                                                <div class="items-title">단골 고객 확인</div>
-                                                                                                <button type="button" class="btn-data-view">열기</button>
-                                                                                            </div>
-                                                                                            <div class="items-body">
-                                                                                                <div class="items-info">*원하시는 할인방법을 선택하신 후 적용을 누르세요.</div>
-                                                                                                <div class="regular-user-confirm-select">
-                                                                                                    <div class="regular-user-confirm-input">
-                                                                                                        <div class="item-check"><label class="form-radiobox"><input
-                                                                                                            type="radio" name="regular" id="discount_1_btn"><span
-                                                                                                            class="form-check-icon"><em>퍼센트할인</em></span></label></div>
-                                                                                                        <div class="item-data">
-                                                                                                            <select id="discount_1">
-                                                                                                                
-                                                                                                            </select>
-                                                                                                            <div class="unit">%</div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                    <div class="regular-user-confirm-input">
-                                                                                                        <div class="item-check"><label class="form-radiobox"><input
-                                                                                                            type="radio" name="regular" id="discount_2_btn"><span
-                                                                                                            class="form-check-icon"><em>금액할인</em></span></label></div>
-                                                                                                        <div class="item-data">
-                                                                                                            <select id="discount_2">
-                                                                                                                
-                                                                                                            </select>
-                                                                                                            <div class="unit">원</div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div class="form-bottom-info font-color-purple text-align-right">할인금액 : <span class="discount_price" value="0"></span>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="pay-accordion-items">
-                                                                                            <div class="items-header">
-                                                                                                <div class="items-title">펫샵 적립금
-                                                                                                    <button type="button" class="btn-data-helper" onclick="pop.open('reservePayManagementMsg8')">도움말</button>
-                                                                                                </div>
-                                                                                                <div class="items-value now_reserves"></div>
-                                                                                                <button type="button" class="btn-data-view">열기</button>
-                                                                                            </div>
-                                                                                            <div class="items-body">
-                                                                                                <div class="receipt-buy-detail">
-                                                                                                    <div class="item-data-list">
-                                                                                                        <div class="list-cell">
-                                                                                                            <div class="list-title"><strong>현 적립금</strong></div>
-                                                                                                            <div class="list-value"><strong
-                                                                                                                class="large now_reserves"></strong></div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div class="basic-data-group vsmall line">
-                                                                                                    <div class="form-group">
-                                                                                                        <div class="form-group-cell">
-                                                                                                            <div class="form-group-item">
-                                                                                                                <div class="form-item-label">사용적립금</div>
-                                                                                                                <div class="form-item-data type-2">
-                                                                                                                    <div class="form-point-input">
-                                                                                                                        <input type="text" id="use_reserves" class="" placeholder="">
-                                                                                                                            <div class="char">원</div>
-                                                                                                                            <button type="button"
-                                                                                                                                    class="btn btn-outline-gray btn-round btn-inline" onclick="document.getElementById('use_reserves').value = document.querySelector('.now_reserves').getAttribute('value')">전액
-                                                                                                                                사용
-                                                                                                                            </button>
-                                                                                                                    </div>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div class="basic-data-group vsmall">
-                                                                                                    <button type="button"
-                                                                                                            class="btn btn-outline-gray btn-middle-size btn-basic-full" onclick="reserves_set()">적용
-                                                                                                    </button>
-                                                                                                </div>
-<!--                                                                                                <div class="form-bottom-info font-color-purple text-align-right">본 예약의 적립금이-->
-<!--                                                                                                    아직 지급되지 않았습니다.-->
-<!--                                                                                                </div>-->
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="pay-accordion-total">
-                                                                                            <div class="receipt-buy-detail">
-                                                                                                <div class="item-data-list">
-                                                                                                    <div class="list-cell">
-                                                                                                        <div class="list-title"><strong>할인금액</strong></div>
-                                                                                                        <div class="list-value"><strong class="discount_price" value="0"></strong></div>
-                                                                                                    </div>
-                                                                                                    <div class="list-cell">
-                                                                                                        <div class="list-title"><strong>적립금 사용</strong></div>
-                                                                                                        <div class="list-value"><strong class="reserves_use" value="0"></strong></div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="receipt-buy-detail result-price">
-                                                                                                <div class="item-data-list">
-                                                                                                    <div class="list-cell">
-                                                                                                        <div class="list-title font-color-purple"><strong>최종 결제액</strong>
-                                                                                                        </div>
-                                                                                                        <div class="list-value font-color-purple"><strong id="last_price"></strong>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="basic-data-group vmiddle">
-                                                                                                <div class="form-change-wrap">
-                                                                                                    <div class="form-change-item">
-                                                                                                        <div class="form-change-label"><strong>카드</strong> (단위:원)</div>
-                                                                                                        <div class="form-change-data"><input type="text" id="last_card" value="0"></div>
-                                                                                                    </div>
-                                                                                                    <button type="button" class="btn-data-change" onclick="data_change()">전환하기</button>
-                                                                                                    <div class="form-change-item">
-                                                                                                        <div class="form-change-label"><strong>현금</strong> (단위:원)</div>
-                                                                                                        <div class="form-change-data"><input type="text" id="last_cash" value="0"></div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="basic-data-group vsmall">
-                                                                                                <button type="button"
-                                                                                                        class="btn btn-outline-gray btn-middle-size btn-basic-full">적용
-                                                                                                </button>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="basic-data-group none">
-                                                                                        <div class="con-title-group">
-                                                                                            <h5 class="con-title">결제완료 처리</h5>
-                                                                                            <label htmlFor="switch-toggle" class="form-switch-toggle"><input type="checkbox"
-                                                                                                                                                                 id="switch-toggle"><span
-                                                                                                class="bar"></span></label>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>`
-
-                resolve(body_);
-            }
-
-        }
-    })
-    })
-
-}
 
 function renderCalendar_month(){
 
@@ -3566,7 +2741,7 @@ return new Promise(function (resolve){
 
                     if(new Date(date_init[0],date_init[1]-1,date_init[2]).getTime() === new Date(el.getAttribute('data-year'),el.getAttribute('data-month'),el.getAttribute('data-date')).getTime() && el_.product.is_cancel === 0 ){
 
-                        el.innerHTML += `<div class="calendar-drag-item calendar-drag-item-add"><a href="./reserve_pay_management_beauty_1.php" onclick="localStorage.setItem('payment_idx',${el_.product.payment_idx})" class="calendar-month-day-item green ${color} ${el_.product.pay_type} ${el_.product.is_no_show === 1 ? "red" : ''} ${el_.product.is_approve === 0 ? 'gray':''}" style="color: white;"><div class="calendar-month-day-item-name"><strong>${el_.pet.name}</strong><span>(${el_.pet.type})</span></div></a></div>`
+                        el.innerHTML += `<div class="calendar-drag-item calendar-drag-item-add"><a href="#" onclick="pay_management_init(artist_id,this,false,true); pay_management_toggle(false); localStorage.setItem('payment_idx',${el_.product.payment_idx})" data-payment_idx="${el_.product.payment_idx}" class="calendar-month-day-item green ${color} ${el_.product.pay_type} ${el_.product.is_no_show === 1 ? "red" : ''} ${el_.product.is_approve === 0 ? 'gray':''}" style="color: white;"><div class="calendar-month-day-item-name"><strong>${el_.pet.name}</strong><span>(${el_.pet.type})</span></div></a></div>`
                     }
                 }
 
@@ -4557,20 +3732,6 @@ function reserve_prohibition_list(id){
                 }
             }
 
-        },
-        complete:function(){
-
-            console.log(new Date().toISOString())
-
-            if(document.getElementById('week_schedule_card_body')){
-                document.getElementById('week_schedule_card_body').style.display = 'block';
-                document.getElementById('week_schedule_loading').style.display ='none';
-                document.getElementById('btn-schedule-prev').removeAttribute('disabled');
-                document.getElementById('btn-schedule-next').removeAttribute('disabled');
-                week_timebar();
-                week_drag();
-
-            }
         }
     })
 }
@@ -8401,12 +7562,50 @@ function reserve_change_time(){
 
     let idx = document.querySelector('input[name="log_seq"]').value;
     let st_time = document.querySelector('input[name="log_start_time"]').value.replace(':','');
+
     let fi_time = document.querySelector('input[name="log_end_time"]').value.replace(':','');
     let year = document.querySelector('input[name="log_year"]').value;
     let month = fill_zero(document.querySelector('input[name="log_month"]').value);
     let date = fill_zero(document.querySelector('input[name="log_date"]').value);
     let worker = document.querySelector('input[name="log_worker"]').value;
+    let cellphone = document.querySelector('input[name="log_cellphone"]').value;
+    let name = document.querySelector('input[name="log_pet_name"]').value;
 
+    let a_year = document.querySelector('input[name="log_a_year"]').value;
+    let a_month = document.querySelector('input[name="log_a_month"]').value;
+    let a_day = document.querySelector('input[name="log_a_date"]').value;
+    let a_hour = document.querySelector('input[name="log_a_start_hour"]').value;
+    let a_min = document.querySelector('input[name="log_a_start_min"]').value;
+
+
+    let send = document.querySelector('input[name="log_msg_send"]:checked').value;
+
+    if(send === 'Y'){
+
+        let message = `반려생활의 단짝, 반짝에서 ${cellphone.slice(-4)}님의 ${name} 미용예약 변경 내용을 알려드립니다.\n` +
+            '\n' +
+            `- 예약펫샵 : ${data.shop_name}\n` +
+            `- 기존예약 : ${a_year}년 ${a_month}월 ${a_day}일 ${a_hour}시 ${a_min}분\n` +
+            `- 변경일시 : ${year}년 ${month}월 ${date}일 ${st_time.substr(0,2)}시 ${st_time.substr(2,2)}분\n` +
+            '\n' +
+            '예약내용 상세 확인과 예약은\n' +
+            '반려생활의 단짝, 반짝에서도 가능합니다.'
+
+        $.ajax({
+
+            url:'/data/pc_ajax.php',
+            type:'post',
+            data:{
+
+                mode:'reserve_regist_change_allim',
+                cellphone:cellphone,
+                message:message,
+                payment_idx:idx,
+
+
+            }
+        })
+    }
 
 
     $.ajax({
@@ -8550,7 +7749,7 @@ function guide_reserve(){
         Array.from(document.getElementsByClassName('calendar-week-time-item')).forEach(function(el){
 
 
-            if(el.getAttribute('data-pay') === localStorage.getItem('payment_idx')){
+            if(el.getAttribute('data-payment_idx') === localStorage.getItem('payment_idx')){
 
 
                 el.style.border = 'red dotted'
@@ -10275,12 +9474,12 @@ function pay_management_init(id,target,bool,bool2){
             payment_idx:payment_idx,
         },
         beforeSend:function(){
-            //
-            // if(document.getElementById('pay_card_body_inner')){
-            //
-            //     document.getElementById('pay_card_body_inner').style.display = 'none';
-            //     document.getElementById('pay_management_loading').style.display = 'flex';
-            // }
+
+            if(document.getElementById('pay_card_body_inner')){
+
+                document.getElementById('pay_card_body_inner').style.display = 'none';
+                document.getElementById('pay_management_loading').style.display = 'flex';
+            }
 
 
                 product_init();
@@ -10332,8 +9531,101 @@ function pay_management_init(id,target,bool,bool2){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body)
-                console.log(body_3)
+
+                let start_time ;
+
+                let end_time;
+
+                if(document.querySelector('.calendar-day-header-col')){
+
+                    Array.from(document.getElementsByClassName('calendar-day-header-col')).forEach(function(el){
+                        if(el.getAttribute('data-worker') === body.worker){
+                            start_time = el.getAttribute('data-start');
+                            end_time = el.getAttribute('data-end');
+                        }
+                    })
+
+                }else if(document.querySelector('.worker_id')){
+
+                    Array.from(document.getElementsByClassName('worker_id')).forEach(function(el){
+
+                        if(el.getAttribute('data-worker') === body.worker){
+
+                            start_time = el.getAttribute('data-start');
+                            end_time = el.getAttribute('data-end')
+                        }
+                    })
+                }else if(document.querySelector('.header-worker')){
+
+
+                    Array.from(document.getElementsByClassName('header-worker')).forEach(function(el){
+
+                        if(body.worker === el.getAttribute('data-worker')){
+
+                            let time = el.getAttribute(`data-week-${new Date(body.beauty_date).getDay()}`)
+
+                            start_time = time.split('|')[1];
+                            end_time = time.split('|')[2];
+
+
+                        }
+                    })
+
+
+                }else if(document.getElementById('month_reserve_total')){
+
+
+                    $.ajax({
+
+
+                        url:'/data/pc_ajax.php',
+                        type:'post',
+                        async:false,
+                        data:{
+
+                            mode:'working',
+                            login_id:id
+                        },
+                        success:function(res){
+                            let response = JSON.parse(res);
+                            let head = response.data.head;
+                            let body_ = response.data.body;
+                            if (head.code === 401) {
+                                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                            } else if (head.code === 200) {
+
+                                console.log(body)
+
+                                body_.forEach(function(el){
+
+                                    if(el.name === body.worker && !el.is_leave && el.is_show){
+
+                                        el.work.forEach(function(el_){
+
+                                            if(new Date(body.beauty_date).getDay() === parseInt(el_.week)){
+
+                                                console.log(el_)
+
+                                                start_time = el_.time_st;
+                                                end_time = el_.time_fi;
+
+
+                                            }
+
+
+                                        })
+                                    }
+                                })
+
+
+                            }
+
+                        }
+                    })
+
+
+                }
+
 
                 if(body.type === 'dog'){
 
@@ -10483,6 +9775,8 @@ function pay_management_init(id,target,bool,bool2){
                 if(body.photo !== ''){
                     document.getElementById('beauty_img_target').setAttribute('src',`${img_link_change(body.photo)}`);
 
+                }else{
+                    document.getElementById('beauty_img_target').setAttribute('src',`${body.type ==='dog' ? '/static/images/icon/icon-pup-select-off.png' : '/static/images/icon/icon-cat-select-off.png'}`);
                 }
 
                 document.getElementById('pay_pet_name').innerText = ''
@@ -10620,18 +9914,29 @@ function pay_management_init(id,target,bool,bool2){
 
                 document.getElementById('pay_special_memo_text').value = body.payment_memo;
 
+                if(document.getElementById('pay_card_body_inner')){
+
+                    document.getElementById('pay_management_loading').style.display = 'none';
+                    document.getElementById('pay_card_body_inner').style.display = 'block';
+                }
 
 
 
 
                 document.getElementById('pay_before_beauty_list').innerHTML = ``
 
-                body_3.forEach(function(el){
+
+                let before_price = 0;
+                body_3.forEach(function(el,i){
+
+                    let card = el.local_price === null ? 0 : parseInt(el.local_price);
+                    let cash = el.local_price_cash === null ? 0 : parseInt(el.local_price_cash);
+                    before_price = cash + card;
 
 
-                    document.getElementById('pay_before_beauty_list').innerHTML += `<div class="pay-before-beauty-item">
-                                                                                        <span class="pay-before-beauty-memo">
-                                                                                           ${el.booking_date.split(' ')[0].replaceAll('-','.')}
+                    document.getElementById(`${i >4 ? 'pay_before_beauty_list_more' : 'pay_before_beauty_list'}`).innerHTML += `<div class="pay-before-beauty-item">
+                                                                                        <span class="pay-before-beauty-memo" style="font-size:10px;">
+                                                                                           ${el.booking_date.split(' ')[0].replaceAll('-','.')} / ${el.product_parsing?.base?.size} / ${el.product_parsing.base.beauty_kind} / ${before_price.toLocaleString()}원
                                                                                         </span>
                                                                                         <a href="#" class="pay-before-beauty-detail" data-payment_idx="${el.payment_idx}" onclick="localStorage.setItem('payment_idx','${el.payment_idx}');pay_management_init('${id}',this,true,true)">
                                                                                             <span class="pay-before-beauty-detail-memo">상세보기</span>
@@ -10657,32 +9962,9 @@ function pay_management_init(id,target,bool,bool2){
                 let hour = body.beauty_date.split(' ')[1].split(':')[0];
                 let minute = body.beauty_date.split(' ')[1].split(':')[1];
 
-                let start_time ;
-
-                let end_time;
-
-                if(document.querySelector('.calendar-day-header-col')){
-
-                    Array.from(document.getElementsByClassName('calendar-day-header-col')).forEach(function(el){
-                        if(el.getAttribute('data-worker') === body.worker){
-                            start_time = el.getAttribute('data-start');
-                            end_time = el.getAttribute('data-end');
-                        }
-                    })
-
-                }else if(document.querySelector('.worker_id')){
-
-                    Array.from(document.getElementsByClassName('worker_id')).forEach(function(el){
-
-                        if(el.getAttribute('data-worker') === body.worker){
-                            
-                            start_time = el.getAttribute('data-start');
-                            end_time = el.getAttribute('data-end')
-                        }
-                    })
 
 
-                }
+
 
 
 
@@ -10691,6 +9973,8 @@ function pay_management_init(id,target,bool,bool2){
                $.ajax({
                    url:'/data/pc_ajax.php',
                    type:'post',
+                   async:false,
+
                    data:{
                        mode:'reserve_get_time',
                        worker:body.worker,
@@ -10762,6 +10046,8 @@ function pay_management_init(id,target,bool,bool2){
                 document.getElementById('service_list').innerHTML = '';
 
                 let parsing = body.product_parsing
+
+
 
 
 
@@ -10958,6 +10244,8 @@ function pay_management_init(id,target,bool,bool2){
 
 
                             discount_init().then(function(){
+
+
 
 
                                 if(body.discount_type === "1"){
@@ -11217,24 +10505,6 @@ function pay_management_init(id,target,bool,bool2){
                             }
                         }
                     })
-
-
-
-
-
-
-
-
-                    if(document.getElementById('pay_card_body_inner')){
-
-                        document.getElementById('pay_management_loading').style.display = 'none';
-                        document.getElementById('pay_card_body_inner').style.display = 'block';
-                    }
-
-
-
-
-
 
                 }
 

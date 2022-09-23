@@ -547,6 +547,21 @@
     background-size: 10px auto;
 }
 
+.pay-btn-detail-toggle-2{
+    display: flex;
+    align-items: center;
+
+}
+.pay-btn-detail-toggle-2:after{
+    content: '';
+    display: block;
+    width: 10px;
+    height: 10px;
+    margin-left: 4px;
+    background: url(../images/icon/btn-info-spread@2x.png) center center no-repeat;
+    background-size: 10px auto;
+}
+
 .pay-service-selected-wrap{
     border : 1px solid #ebebeb;
     border-radius:12px;
@@ -574,7 +589,9 @@
 .pay-btn-detail-toggle.actived:after{
     transform:rotate(-180deg);
 }
-
+.pay-btn-detail-toggle-2.actived:after{
+    transform:rotate(-180deg);
+}
 .pay-before-beauty-list{
     margin-top:10px;
     width:calc(100% - 40px);
