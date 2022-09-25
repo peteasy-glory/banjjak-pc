@@ -1083,3 +1083,9 @@
 
     max-width:100%;
 }
+
+.user-thumb.large{
+    cursor: pointer;
+}
+.shortcut-wrap{right:40px;  bottom:55px; cursor:pointer; display:flex; flex-direction: column;  z-index: 100; position: fixed}
+.shortcut-wrap img{margin-top:10px; width:40px; height:40px;}

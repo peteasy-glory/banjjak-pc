@@ -77,9 +77,9 @@ if ($artist_flag == 1) {
 								<div class="card-body">
 									<div class="total-text-group">
 										<div class="total-text-cell"><div class="item-title">미용 예약</div><div class="item-value" id="day_total"></div></div>
-										<div class="total-text-cell"><div class="item-title">예약 취소</div><div class="item-value" id="day_cancel"></div></div>
-										<div class="total-text-cell"><div class="item-title">NO SHOW</div><div class="item-value" id="day_noshow"></div></div>
-									</div>
+                                        <div class="total-text-cell"><div class="item-title">NO SHOW</div><div class="item-value" id="day_noshow"></div></div>
+                                        <div class="total-text-cell"><div class="item-title">예약 취소</div><div class="item-value" id="day_cancel"></div></div>
+                                    </div>
 								</div>
 							</div>
 							<!-- //오늘의 예약 총 횟수 -->
@@ -216,9 +216,14 @@ if ($artist_flag == 1) {
 							</div>
 						</div>
                         <article id="pay_management" class="pay_management">
+                            <div class="shortcut-wrap" id="shortcutWrap" style="display: flex; opacity: 1;">
+                                <a href="#pay_card_header" class=""><img src="/static/images/icon-page-top.png" alt="" id="shortcut1" style="display: block;"></a>
+                                <a href="#scroll_target"><img src="/static/images/icon-reserve.png" alt="" "></a>
+                                <a href="#sticky-tab-group-target"><img src="/static/images/icon-pay.png" alt="" "></a>
 
+                            </div>
                             <div class="pay-data-card">
-                                <div class="pay-card-header">
+                                <div class="pay-card-header" id="pay_card_header">
                                     <div class="pay-card-header-title">작업/결제 관리</div>
                                     <div class="pay-close-btn" id="pay_close_btn" onclick="pay_management_toggle(true)">></div>
                                 </div>
@@ -237,7 +242,7 @@ if ($artist_flag == 1) {
                                             <div class="pay-customer-pet-group">
                                                 <div class="pay-customer-view-pet-picture">
                                                     <div class="pay-item-thumb">
-                                                        <div class="user-thumb large">
+                                                        <div class="user-thumb large" id="pay_thumb">
                                                             <img src="" id="beauty_img_target" alt="">
                                                         </div>
                                                     </div>
@@ -2805,6 +2810,43 @@ if ($artist_flag == 1) {
     </div>
 </article>
 
+<div class="gallery-pop-wrap">
+    <div class="gallery-pop-inner">
+        <div class="gallery-pop-data" id="ga-da">
+            <div class="gallery-pop-slider" id="ga-sl" style="width:100%;height:100%;">
+                <div class="swiper-container" id="sw-con">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="slider-item">
+                                <span class="loading-bar"><span class="sk-fading-circle"><span class="sk-circle1 sk-circle"></span><span class="sk-circle2 sk-circle"></span><span class="sk-circle3 sk-circle"></span><span class="sk-circle4 sk-circle"></span><span class="sk-circle5 sk-circle"></span><span class="sk-circle6 sk-circle"></span><span class="sk-circle7 sk-circle"></span><span class="sk-circle8 sk-circle"></span><span class="sk-circle9 sk-circle"></span><span class="sk-circle10 sk-circle"></span><span class="sk-circle11 sk-circle"></span><span class="sk-circle12 sk-circle"></span></span></span>
+                                <img src="" alt=""/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-page"></div>
+                <button type="button" class="btn-swiper-slider-prev"></button>
+                <button type="button" class="btn-swiper-slider-next"></button>
+            </div>
+            <div class="gallery-pop-ui" id="ga-btn">
+                <button type="button" class="btn-gallery-pop-nav btn-gallery-mode" onclick="gallery.viewModeChange(this);">
+                    <span class="icon icon-size-24 icon-viewall-white off"></span>
+                    <span class="icon icon-size-24 icon-viewmax-white on"></span>
+                </button>
+                <button type="button" class="btn-gallery-pop-nav" onclick="gallery.close();"><span class="icon icon-size-24 icon-close-white"></span></button>
+            </div>
+        </div>
+        <div class="gallery-thumb-data">
+            <div class="gallery-thumb-list">
+                <button type="button" class="btn-gallery-thumb-nav">
+                    <span class="loading-bar"><span class="sk-fading-circle"><span class="sk-circle1 sk-circle"></span><span class="sk-circle2 sk-circle"></span><span class="sk-circle3 sk-circle"></span><span class="sk-circle4 sk-circle"></span><span class="sk-circle5 sk-circle"></span><span class="sk-circle6 sk-circle"></span><span class="sk-circle7 sk-circle"></span><span class="sk-circle8 sk-circle"></span><span class="sk-circle9 sk-circle"></span><span class="sk-circle10 sk-circle"></span><span class="sk-circle11 sk-circle"></span><span class="sk-circle12 sk-circle"></span></span></span>
+                    <img src="" alt="">
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="/static/js/common.js"></script>
 <script src="/static/js/dev_common.js"></script>
 <script src="/static/js/Sortable.min.js"></script>
@@ -2812,6 +2854,7 @@ if ($artist_flag == 1) {
 <script src="/static/js/signature_pad.umd.js"></script>
 <script src="/static/js/jquery-ui.min.js"></script>
 <script src="/static/js/booking.js"></script>
+<script src="/static/js/imagesloaded.pkgd.min.js"></script>
 <script src="/static/js/customer.js"></script>
 <script>
 
@@ -2886,7 +2929,6 @@ if ($artist_flag == 1) {
 
             management_total_price();
 
-            reserves(artist_id);
 
 
             management_service_2(body).then(function(base_svc){
@@ -2910,6 +2952,7 @@ if ($artist_flag == 1) {
 
         document.getElementById('pay_management').addEventListener("scroll",onScroll);
 
+        gallery.init()
     })
 
 

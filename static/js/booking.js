@@ -6485,9 +6485,16 @@ function payment_memo(){
 
 }
 
-function reserve_cancel(bool){
+function reserve_cancel(bool,target){
 
     let idx = localStorage.getItem('payment_idx');
+
+    let cellphone = target.getAttribute('data-cellphone');
+    let pet_name = target.getAttribute('data-pet_name');
+
+    let beauty_date = new Date(target.getAttribute('data-beauty_date'));
+
+
 
     $.ajax({
 
@@ -6506,6 +6513,38 @@ function reserve_cancel(bool){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
+
+
+                if(bool){
+
+                    let message = `반려생활의 단짝, 반짝에서 ${cellphone.slice(-4)}님의 ${pet_name} 미용예약이 취소되었음을 알려드립니다.\n` +
+                        '\n' +
+                        `- 취소일시 : ${new Date().getFullYear()}년 ${new Date().getMonth()+1}월 ${new Date().getDate()}일 ${new Date().getHours()}시 ${new Date().getMinutes()}분\n` +
+                        '\n' +
+                        `- 예약펫샵 : ${data.shop_name}\n` +
+                        `- 예약일시 : ${beauty_date.getFullYear()}년 ${beauty_date.getMonth()+1}월 ${beauty_date.getDate()}일 ${beauty_date.getHours()}시 ${beauty_date.getMinutes()}분\n` +
+                        '\n' +
+                        '\n' +
+                        '취소내역 상세확인은\n' +
+                        '반려생활의 단짝, 반짝에서도 가능합니다.'
+
+                    $.ajax({
+
+                        url:'/data/pc_ajax.php',
+                        type:'post',
+                        data:{
+                            mode:'reserve_cancel_allim',
+                            cellphone:cellphone,
+                            payment_idx:idx,
+                            message:message
+
+
+
+                        }
+                    })
+
+
+                }
 
                 location.reload();
             }
@@ -7404,7 +7443,7 @@ function dataURLToBlob(dataURL) {
 
 function beauty_agree_submit(id,pet_seq){
 
-    let pet_name = document.getElementById('agree_pet_name').value;
+    let pet_name = document.getElementById('agree_pet_name') ? document.getElementById('agree_pet_name').value : document.getElementById('pay_pet_name').value;
 
     if(document.getElementById('agree_name').value === ''){
 
@@ -8150,8 +8189,8 @@ function management_service_2(body){
                                                                                                     <label class="form-toggle-box form-toggle-price large" for="payment_hair${i}">
                                                                                                         <input type="checkbox" id="${el.type.replaceAll('_','')}" name="payment_hair" value="${el.type}" data-price="${el.price}" id="payment_hair${i}" onclick="set_product(this,'${el.type}','${el.price.toLocaleString()}')">
                                                                                                         <em>
-                                                                                                            <span class="font-size-12">${el.type}</span>
-                                                                                                            <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                                            <span style="${el.type.length > 5 ? 'font-size:10px' : 'font-size:12px'}" >${el.type}</span>
+                                                                                                            <strong style="${el.type.length > 5 ? 'font-size:10px' : 'font-size:12px'}" >+${parseInt(el.price).toLocaleString()}원</strong>
                                                                                                         </em>
                                                                                                     </label>
                                                                                                 </div>`
@@ -9437,6 +9476,14 @@ function pay_management_toggle(bool){
             opacity:'0'
 
         },500,'swing')
+
+        $('#shortcutWrap').stop().animate({
+            marginRight:`-${$('#pay_management').width()}px`,
+            opacity:'0'
+
+        })
+
+
         toggle_validate= true;
 
     }else{
@@ -9451,6 +9498,11 @@ function pay_management_toggle(bool){
                 marginRight:`-1px`,
                 opacity:'1'
             },500,'swing')
+            $('#shortcutWrap').stop().animate({
+                marginRight:`0px`,
+                opacity:'1'
+
+            })
             toggle_validate = false;
         }else{
 
@@ -9482,6 +9534,7 @@ function pay_management_init(id,target,bool,bool2){
             }
 
 
+                document.getElementById('payment_basic_service_btn').click();
                 product_init();
                 document.getElementById('pay_management').scrollTop = 0
 
@@ -9531,6 +9584,7 @@ function pay_management_init(id,target,bool,bool2){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
+                console.log(body)
 
                 let start_time ;
 
@@ -9736,6 +9790,14 @@ function pay_management_init(id,target,bool,bool2){
                     document.getElementById('pay_confirm').checked = false;
                 }
 
+                Array.from(document.getElementsByClassName('cancel-cls')).forEach(function(el){
+
+                    el.setAttribute('data-cellphone',body.cell_phone);
+                    el.setAttribute('data-pet_name',body.name);
+                    el.setAttribute('data-beauty_date',body.beauty_date);
+
+
+                })
 
                 // $.ajax({
                 //
@@ -9774,6 +9836,7 @@ function pay_management_init(id,target,bool,bool2){
 
                 if(body.photo !== ''){
                     document.getElementById('beauty_img_target').setAttribute('src',`${img_link_change(body.photo)}`);
+                    document.getElementById('pay_thumb').setAttribute('onclick',`thumb_view(this,"${body.photo.replace('/pet','')}")`)
 
                 }else{
                     document.getElementById('beauty_img_target').setAttribute('src',`${body.type ==='dog' ? '/static/images/icon/icon-pup-select-off.png' : '/static/images/icon/icon-cat-select-off.png'}`);
@@ -9929,7 +9992,7 @@ function pay_management_init(id,target,bool,bool2){
                 let before_price = 0;
 
                 if(body_3.length >0){
-                    document.querySelector('.pay-btn-detail-toggle-2').style.display ='block';
+                    document.querySelector('.pay-btn-detail-toggle-2').style.display ='flex';
                     body_3.forEach(function(el,i){
 
                         let card = el.local_price === null ? 0 : parseInt(el.local_price);
@@ -9938,11 +10001,11 @@ function pay_management_init(id,target,bool,bool2){
 
 
                         document.getElementById(`${i >4 ? 'pay_before_beauty_list_more' : 'pay_before_beauty_list'}`).innerHTML += `<div class="pay-before-beauty-item">
-                                                                                        <span class="pay-before-beauty-memo" style="font-size:10px;">
-                                                                                           ${el.booking_date.split(' ')[0].replaceAll('-','.')} / ${el.product_parsing?.base?.size} / ${el.product_parsing.base.beauty_kind} / ${before_price.toLocaleString()}원
+                                                                                        <span class="pay-before-beauty-memo" >
+                                                                                           ${el.booking_date.split(' ')[0].replaceAll('-','.')} / ${el.product_parsing?.base?.size} / ${el.product_parsing.base?.beauty_kind} / ${before_price.toLocaleString()}원
                                                                                         </span>
                                                                                         <a href="#" class="pay-before-beauty-detail" data-payment_idx="${el.payment_idx}" onclick="localStorage.setItem('payment_idx','${el.payment_idx}');pay_management_init('${id}',this,true,true)">
-                                                                                            <span class="pay-before-beauty-detail-memo">상세보기</span>
+                                                                                            
                                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="5.207" height="9.414" viewBox="0 0 5.207 9.414">
                                                                                                 <path data-name="Path" class="before-path" d="m-4 8 4-4-4-4" transform="translate(4.707 .707)" style="fill:none;stroke:#202020;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;"></path>
                                                                                             </svg>
@@ -10146,15 +10209,15 @@ function pay_management_init(id,target,bool,bool2){
                         }
 
 
-                        if(parsing.add.leg.nail.price !== ''){
+                        if(parsing.add.leg.nail.price !== '' && parsing.add.leg.nail.price !== '0'){
                             document.getElementById('발톱').click()
                         }
 
-                        if(parsing.add.leg.bell.price !== ''){
+                        if(parsing.add.leg.bell.price !== '' && parsing.add.leg.bell.price !== '0'){
                             document.getElementById('방울').click()
                         }
 
-                        if(parsing.add.leg.rain_boots.price !== ''){
+                        if(parsing.add.leg.rain_boots.price !== '' && parsing.add.leg.rain_boots.price !== '0'){
                             document.getElementById('장화').click()
                         }
 

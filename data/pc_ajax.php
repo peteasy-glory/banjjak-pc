@@ -2886,6 +2886,22 @@ if($r_mode) {
         $result = $api -> post('/partner/allim/send',$data_json);
 
         $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === 'reserve_cancel_allim'){
+
+        $cellphone = $_POST['cellphone'];
+        $message = $_POST['message'];
+        $tem_code = "1000004530_20006";
+        $payment_idx = $_POST['payment_idx'];
+
+        $btn_link = "{\"button\":[{\"name\":\"취소정보\",\"type\":\"WL\",\"url_pc\":\"\",\"url_mobile\":\"https://gopet.kr/pet/reservation/?payment_log_seq=".$payment_idx."\"}]}";
+
+        $data = array('cellphone'=>$cellphone,'message'=>$message,'tem_code'=>$tem_code,'btn_link'=>$btn_link);
+
+        $data_json = json_encode($data);
+
+        $result = $api -> post('/partner/allim/send',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
     }else if($r_mode ==='use_coupon'){
 
 
