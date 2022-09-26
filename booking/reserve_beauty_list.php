@@ -2942,8 +2942,6 @@ if ($artist_flag == 1) {
 
         management_service_1(artist_id,'dog').then(function(body){
 
-            console.log(body)
-
             management_total_price();
 
 

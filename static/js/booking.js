@@ -17,7 +17,6 @@ function schedule_render(id){
         beforeSend:function(){
             pay_management_toggle(true);
             let height;
-            console.log(new Date().toISOString())
 
 
             if(document.getElementById('reserve_calendar_inner_day')){
@@ -35,7 +34,6 @@ function schedule_render(id){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body)
                 document.getElementById('day_today').innerHTML = `${date.getFullYear()}.${fill_zero(date.getMonth()+1)}.${fill_zero(date.getDate())}`
                 let day_count = 0;
 
@@ -148,8 +146,6 @@ function schedule_render(id){
 
                         })
 
-                        console.log(tooltip_arr)
-                        //tooltip(tooltip_arr);
 
                         $.ajax({
 
@@ -250,8 +246,7 @@ function schedule_render(id){
 
 function reserve_schedule_week_cols(body,body_,parent,id,session_id){
     memo_array = [];
-    console.log(body)
-    console.log(body_)
+
 
 
 
@@ -294,9 +289,7 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
             body_.forEach(function(_el, index){
 
                 tooltip_arr.push(_el.product.payment_idx);
-                //tooltip(_el.product.payment_idx);
 
-                ////console.log(_el);
                 if(_el.product.worker === el.getAttribute('data-worker')){
 
 
@@ -403,10 +396,9 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
                 if(el.getAttribute('data-worker') === q.name){
 
                     q.work.forEach(function (w){
-
-                        console.log(w)
+                        
                         work_day.push(w.week)
-                        console.log(work_day)
+
 
 
 
@@ -450,7 +442,6 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
 
 
 
-            //console.log(work_day_search(work_day))
 
             week_holiday(parent,id).then(function(){
 
@@ -709,7 +700,6 @@ function week_working(id){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
-                    console.log(body)
 
                     let open = `${fill_zero(localStorage.getItem('open_close').split('/')[0])}:00`;
                     let close = `${fill_zero(localStorage.getItem('open_close').split('/')[1])}:00`;
@@ -720,7 +710,6 @@ function week_working(id){
 
 
                     body.forEach(function(el){
-                        console.log(el)
 
                         if(!el.is_leave && el.is_show){
 
@@ -936,7 +925,6 @@ return new Promise(function (resolve){
                 },
                 beforeSend:function(){
                     let height;
-                    console.log(new Date().toISOString())
 
                     if(document.getElementById('week_schedule_card_body')){
                         height = document.getElementById('week_schedule_card_body').offsetHeight;
@@ -1066,7 +1054,6 @@ function book_list(id) {
 
     return new Promise(function (resolve){
 
-        console.log('book_list')
 
         $.ajax({
             url: '/data/pc_ajax.php',
@@ -1119,7 +1106,6 @@ function book_list(id) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
                     list = body;
-                    console.log(body)
 
                     if(location.href.match('reserve_beauty_month')){
                         let cancel = 0;
@@ -1303,7 +1289,6 @@ function consulting_hold_list(id){
                                 body_ = [body_];
                             }
 
-                            console.log(body_)
                             let status = '';
 
                             if(body_.length === 0){
@@ -1655,276 +1640,6 @@ function consulting_hold_list(id){
 
 
 }
-
-// //상담내역선택
-// function consulting_list_select(){
-//     let select = document.getElementsByClassName('consulting-select');
-//     Array.from(select).forEach(function (el){
-//
-//         el.addEventListener('click',function (){
-//
-//             if(el.classList.contains('actived')){
-//
-//                 el.classList.remove('actived');
-//                 document.getElementById('consulting_data').style.opacity = 0;
-//             }else{
-//
-//                 Array.from(select).forEach(function (el_){
-//
-//
-//                     el_.classList.remove('actived')
-//                 })
-//
-//
-//                 el.classList.add('actived');
-//
-//                 document.getElementById('consulting_data').style.opacity = 1;
-//                 document.getElementById('consulting_data').innerHTML = '';
-//                 data.consulting.forEach(function(el_){
-//                     // //console.log(el_)
-//
-//
-//                     if(el_.pet_name === el.getAttribute('data-pet_name') && el_.phone === el.getAttribute('data-phone')){
-//                         let data = el_.disliked_part;
-//                         let text = '';
-//                         data = [...data];
-//                         data.forEach(function (d,i){
-//                             if(parseInt(d)===1){
-//                                 if(i===0){
-//                                     text += '눈 '
-//                                 }
-//                                 if(i===1){
-//                                     text += '코 '
-//                                 }
-//                                 if(i===2){
-//                                     text += '입 '
-//                                 }
-//                                 if(i===3){
-//                                     text += '귀 '
-//                                 }
-//                                 if(i===4){
-//                                     text += '목 '
-//                                 }
-//                                 if(i===5){
-//                                     text += '몸통 '
-//                                 }
-//                                 if(i===6){
-//                                     text += '다리 '
-//                                 }
-//                                 if(i===7){
-//                                     text += '꼬리 '
-//                                 }
-//                                 if(i===8){
-//                                     text += '생식기 '
-//                                 }
-//                                 if(i===9){
-//                                     text += '없음 '
-//                                 }
-//                             }
-//                         })
-//
-//                         document.getElementById('consulting_data').innerHTML = '';
-//                         document.getElementById('consulting_data').innerHTML +=`<div class="basic-data-card">
-//                                                                                                 <div class="card-header">
-//                                                                                                     <h3 class="card-header-title">이용상담 정보</h3>
-//                                                                                                 </div>
-//                                                                                                 <div class="card-body">
-//                                                                                                     <div class="card-body-inner">
-//                                                                                                         <div class="reserve-advice-view">
-//                                                                                                             <div class="reserve-advice-view-info">* 상담신청 후 12시간 이내에 상담 완료를 꼭 눌러주세요.
-//                                                                                                                 <button type="button" onclick="pop.open('reserveAdviceMsg1')" class="btn-data-helper">도움말</button>
-//                                                                                                             </div>
-//                                                                                                         <div class="basic-data-group">
-//                                                                                                             <div class="con-title-group">
-//                                                                                                                 <h4 class="con-title">신청고객정보</h4>
-//                                                                                                             </div>
-//                                                                                                             <div class="flex-table type-2">
-//                                                                                                                 <div class="flex-table-cell">
-//                                                                                                                     <div class="flex-table-item">
-//                                                                                                                         <div class="flex-table-title">
-//                                                                                                                             <div class="txt">연락처</div>
-//                                                                                                                         </div>
-//                                                                                                                         <div class="flex-table-data">
-//                                                                                                                             <div class="flex-table-data-inner">${phone_edit(el_.phone)}</div>
-//                                                                                                                             <div class="flex-table-data-side">
-//                                                                                                                                 <div class="btn-ui-group">
-//                                                                                                                                     <a href="tel:${el_.phone}"><button type="button" class="btn-data-tel">전화하기</button></a>
-//                                                                                                                                     <a href="sms:${el_.phone}"><button type="button" class="btn-data-message">메시지보내기</button></a>
-//                                                                                                                                 </div>
-//                                                                                                                             </div>
-//                                                                                                                         </div>
-//                                                                                                                     </div>
-//                                                                                                                 </div>
-//                                                                                                             </div>
-//                                                                                                         </div>
-//                                                                                                         <div class="basic-data-group">
-//                                                                                                             <div class="con-title-group">
-//                                                                                                                 <h4 class="con-title">기본 정보</h4>
-//                                                                                                             </div>
-//                                                                                                             <div class="flex-table type-2">
-//                                                                                                                 <div class="flex-table-cell">
-//                                                                                                                     <div class="flex-table-item">
-//                                                                                                                         <div class="flex-table-title">
-//                                                                                                                             <div class="txt">이름</div>
-//                                                                                                                         </div>
-//                                                                                                                         <div class="flex-table-data">
-//                                                                                                                             <div class="flex-table-data-inner">${el_.pet_name}</div>
-//                                                                                                                         </div>
-//                                                                                                                     </div>
-//                                                                                                                 </div>
-//                                                                                                                 <div class="flex-table-cell">
-//                                                                                                                     <div class="flex-table-item">
-//                                                                                                                         <div class="flex-table-title">
-//                                                                                                                             <div class="txt">품종</div>
-//                                                                                                                         </div>
-//                                                                                                                         <div class="flex-table-data">
-//                                                                                                                             <div class="flex-table-data-inner">${el_.pet_type}</div>
-//                                                                                                                         </div>
-//                                                                                                                     </div>
-//                                                                                                                 </div>
-//                                                                                                                 <div class="flex-table-cell">
-//                                                                                                                     <div class="flex-table-item">
-//                                                                                                                         <div class="flex-table-title">
-//                                                                                                                             <div class="txt">생일</div>
-//                                                                                                                         </div>
-//                                                                                                                         <div class="flex-table-data">
-//                                                                                                                             <div class="flex-table-data-inner">${el_.birth}</div>
-//                                                                                                                         </div>
-//                                                                                                                     </div>
-//                                                                                                                 </div>
-//                                                                                                                 <div class="flex-table-cell">
-//                                                                                                                     <div class="flex-table-item">
-//                                                                                                                         <div class="flex-table-title">
-//                                                                                                                             <div class="txt">성별</div>
-//                                                                                                                         </div>
-//                                                                                                                         <div class="flex-table-data">
-//                                                                                                                             <div class="flex-table-data-inner">${el_.gender}</div>
-//                                                                                                                         </div>
-//                                                                                                                     </div>
-//                                                                                                                 </div>
-//                                                                                                                 <div class="flex-table-cell">
-//                                                                                                                     <div class="flex-table-item">
-//                                                                                                                         <div class="flex-table-title">
-//                                                                                                                             <div class="txt">중성화</div>
-//                                                                                                                         </div>
-//                                                                                                                         <div class="flex-table-data">
-//                                                                                                                             <div class="flex-table-data-inner">${el_.neutral ? 'O' : 'X'}</div>
-//                                                                                                                         </div>
-//                                                                                                                     </div>
-//                                                                                                                 </div>
-//                                                                                                                 <div class="flex-table-cell">
-//                                                                                                                     <div class="flex-table-item">
-//                                                                                                                         <div class="flex-table-title">
-//                                                                                                                             <div class="txt">몸무게</div>
-//                                                                                                                         </div>
-//                                                                                                                         <div class="flex-table-data">
-//                                                                                                                             <div class="flex-table-data-inner">${el_.weight}Kg</div>
-//                                                                                                                         </div>
-//                                                                                                                     </div>
-//                                                                                                                 </div>
-//                                                                                                                 <div class="flex-table-cell">
-//                                                                                                                     <div class="flex-table-item">
-//                                                                                                                         <div class="flex-table-title">
-//                                                                                                                             <div class="txt">미용경험</div>
-//                                                                                                                         </div>
-//                                                                                                                         <div class="flex-table-data">
-//                                                                                                                             <div class="flex-table-data-inner">${el_.beauty_exp}</div>
-//                                                                                                                         </div>
-//                                                                                                                    </div>
-//                                                                                                                 </div>
-//                                                                                                                 <div class="flex-table-cell">
-//                                                                                                                     <div class="flex-table-item">
-//                                                                                                                         <div class="flex-table-title">
-//                                                                                                                             <div class="txt">예방접종</div>
-//                                                                                                                         </div>
-//                                                                                                                         <div class="flex-table-data">
-//                                                                                                                             <div class="flex-table-data-inner">${el_.vaccination === "" || el_.vaccination === null ? '미기입' : el_.vaccination}</div>
-//                                                                                                                         </div>
-//                                                                                                                     </div>
-//                                                                                                                 </div>
-//                                                                                                                 <div class="flex-table-cell">
-//                                                                                                                     <div class="flex-table-item">
-//                                                                                                                         <div class="flex-table-title">
-//                                                                                                                             <div class="txt">입질</div>
-//                                                                                                                         </div>
-//                                                                                                                         <div class="flex-table-data">
-//                                                                                                                             <div class="flex-table-data-inner">${el_.bite ? '해요' : '안해요'}</div>
-//                                                                                                                         </div>
-//                                                                                                                     </div>
-//                                                                                                                 </div>
-//                                                                                                                 <div class="flex-table-cell">
-//                                                                                                                     <div class="flex-table-item">
-//                                                                                                                         <div class="flex-table-title">
-//                                                                                                                             <div class="txt">싫어하는 부위</div>
-//                                                                                                                         </div>
-//                                                                                                                         <div class="flex-table-data">
-//                                                                                                                             <div class="flex-table-data-inner">${text === '' ? '없음' : text}</div>
-//                                                                                                                         </div>
-//                                                                                                                     </div>
-//                                                                                                                 </div>
-//                                                                                                                 <div class="flex-table-cell">
-//                                                                                                                     <div class="flex-table-item">
-//                                                                                                                         <div class="flex-table-title">
-//                                                                                                                             <div class="txt">슬개골 탈구</div>
-//                                                                                                                         </div>
-//                                                                                                                         <div class="flex-table-data">
-//                                                                                                                             <div class="flex-table-data-inner">${el_.luxation === '' || el_.luxation === null ? '미기입':el_.vaccination }</div>
-//                                                                                                                         </div>
-//                                                                                                                     </div>
-//                                                                                                                 </div>
-//                                                                                                             </div>
-//                                                                                                         </div>
-//                                                                                                         <div class="basic-data-group">
-//                                                                                                             <div class="con-title-group">
-//                                                                                                                 <h4 class="con-title">특이사항</h4>
-//                                                                                                             </div>
-//                                                                                                             <div class="con-title-group">
-//                                                                                                                 <h5 class="con-title">${el_.dermatosis ? "피부병" : ""} ${el_.heart_trouble ? "심장질환" : ""} ${el_.marking ? "마킹" : ""} ${el_.mounting ? "마운팅" : ""} </h5>
-//                                                                                                             </div>
-//                                                                                                         </div>
-//                                                                                                         <div class="basic-data-group">
-//                                                                                                             <div class="con-title-group">
-//                                                                                                                 <h4 class="con-title">원하는 미용</h4>
-//                                                                                                             </div>
-//                                                                                                             <div class="con-title-group">
-//                                                                                                                 <h5 class="con-title">${el_.memo === "" || el_.memo === null ? '미기입' : el_.memo} </h5>
-//                                                                                                             </div>
-//                                                                                                         </div>
-//                                                                                                         <div class="basic-data-group">
-//                                                                                                             <div class="con-title-group">
-//                                                                                                                 <h4 class="con-title">현재 아이 모습</h4>
-//                                                                                                             </div>
-//                                                                                                             <div class="basic-data-group vvsmall2">
-//                                                                                                                 <div class="portfolio-list-wrap">
-//                                                                                                                     <div class="list-inner">
-//                                                                                                                         <div class="list-cell">
-//                                                                                                                             <a href="#" class="btn-portfolio-item">
-//                                                                                                                                 <img src="https://image.banjjakpet.com${el_.consult_photo.length >0 ? el_.consult_photo[0].photo : `${el_.photo ? el_.photo.replace('/pet','') : ``}`}" alt="">
-//                                                                                                                             </a>
-//                                                                                                                         </div>
-//                                                                                                                     </div>
-//                                                                                                                 </div>
-//                                                                                                             </div>
-//                                                                                                         </div>
-//                                                                                                         <div class="basic-data-group">
-//                                                                                                             <button type="button" class="btn btn-outline-red btn-basic-full">예약 거부</button>
-//                                                                                                         </div>
-//                                                                                                     </div>
-//                                                                                                 </div>
-//                                                                                             </div>
-//                                                                                             <div class="card-footer">
-//                                                                                             <!-- btn-page-bottom 클래스에 disabled 클래스 추가시 비활성화 또는 button 태그일 시 disabled 속성 추가시 비활성화 -->
-//                                                                                                 <button type="button" class="btn-page-bottom">상담완료</button>
-//                                                                                             </div>
-//                                                                                         </div>`
-//
-//
-//                     }
-//                 })
-//             }
-//         })
-//     })
-// }
 
 //미니달력 달기준 바꾸기
 function calendar_change_month(id){
@@ -2559,11 +2274,11 @@ function day_drag(){
                 draggable : '.calendar-week-time-item',
                 onStart : function(evt){
                     //드래그 시작
-                    // //console.log('drag start');
+               
                 },
                 onEnd : function(evt){
                     //드래그 끝
-                    // //console.log('drag end');
+                 
                     //evt.to;    // 현재 아이템
                     //evt.from;  // 이전 아이템
                     //evt.oldIndex;  // 이전 인덱스값
@@ -2619,13 +2334,13 @@ function day_drag(){
                     }
                 },
                 onUpdate : function(evt){
-                    // //console.log('update');
+                    // ////console.log('update');
                 },
                 onUpdate : function(evt){
-                    // //console.log('onChange');
+                    // ////console.log('onChange');
                 },
                 onRemove: function (/**Event*/evt) {
-                    // //console.log('remove');
+                    // ////console.log('remove');
                 }
 
             });
@@ -2647,11 +2362,11 @@ function week_drag(){
                 draggable : '.calendar-week-time-item',
                 onStart : function(evt){
                     //드래그 시작
-                    // //console.log('drag start');
+                    // ////console.log('drag start');
                 },
                 onEnd : function(evt){
                     //드래그 끝
-                    // //console.log('drag end');
+                    // ////console.log('drag end');
                     //evt.to;    // 현재 아이템
                     //evt.from;  // 이전 아이템
                     //evt.oldIndex;  // 이전 인덱스값
@@ -2660,8 +2375,8 @@ function week_drag(){
 
                     if(evt.from != evt.to){
 
-                        console.log(evt.to);
-                        console.log(evt.from)
+                        //console.log(evt.to);
+                        //console.log(evt.from)
 
                         let pet_name = $(evt.from).attr('data-pet_name');
 
@@ -2740,13 +2455,13 @@ function week_drag(){
                     }
                 },
                 onUpdate : function(evt){
-                    // //console.log('update');
+                    // ////console.log('update');
                 },
                 onUpdate : function(evt){
-                    // //console.log('onChange');
+                    // ////console.log('onChange');
                 },
                 onRemove: function (/**Event*/evt) {
-                    // //console.log('remove');
+                    // ////console.log('remove');
                 }
 
             });
@@ -3111,7 +2826,7 @@ function schedule_render_list(id){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
-                    console.log(body)
+                    //console.log(body)
 
 
                     document.getElementById('day_today').innerHTML = `${date.getFullYear()}.${fill_zero(date.getMonth() + 1)}.${fill_zero(date.getDate())}`
@@ -3174,13 +2889,13 @@ function schedule_render_list(id){
 
                                             if(el.is_show && !el.is_leave && el.name === _el){
 
-                                                console.log(el)
+                                                //console.log(el)
 
                                                 el.work.forEach(function(el_){
 
                                                     if(el_.week == date.getDay()){
 
-                                                        console.log(el_)
+                                                        //console.log(el_)
                                                         list_inner.innerHTML +=`<div class="reserve-calendar-list-group">
                                                                                 <div class="con-title-group">
                                                                                     <h5 class="con-title worker_id" data-worker="${_el}" data-start="${el_.time_st}" data-end="${el_.time_fi}" >${el.nick}</h5>
@@ -3256,7 +2971,7 @@ function schedule_render_list(id){
 function _schedule_render_list(body){
 
 
-    console.log(body)
+    //console.log(body)
 
 
 
@@ -4062,14 +3777,14 @@ function reserve_merchandise_load_init(id){
                         if (head.code === 401) {
                             pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                         } else if (head.code === 200) {
-                            console.log(body)
+                            //console.log(body)
 
 
                             if(body.is_vat == 1){
-                                console.log('1이야')
+                                //console.log('1이야')
                                 localStorage.setItem('is_vat','1');
                             }else{
-                                console.log('0이야');
+                                //console.log('0이야');
                                 localStorage.setItem('is_vat','0');
                             }
                             let service = document.getElementById('service');
@@ -5441,7 +5156,7 @@ let beauty,bath,add_svc;
 
 
 
-    console.log(product);
+    //console.log(product);
 
 
     $.ajax({
@@ -5496,7 +5211,7 @@ let beauty,bath,add_svc;
 
         },
         success:function(res){
-            console.log(res)
+            //console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -5536,7 +5251,7 @@ let beauty,bath,add_svc;
 
 
                         },success:function(res){
-                            console.log(res)
+                            //console.log(res)
 
 
                         }
@@ -6739,8 +6454,8 @@ function set_change_time(bool,target){
     let b_min = st_time.substr(2,2);
     let fi_time = document.getElementById('end_time').value;
 
-    console.log(b_hour);
-    console.log(b_min)
+    //console.log(b_hour);
+    //console.log(b_min)
 
 
     $.ajax({
@@ -6904,14 +6619,14 @@ function beauty_gallery_get(target,id){
                 artist_id:id,
             },
             success:function(res) {
-                console.log(res)
+                //console.log(res)
                 let response = JSON.parse(res);
                 let head = response.data.head;
                 let body = response.data.body;
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
-                    console.log(body);
+                    //console.log(body);
                     if(body.length === undefined){
 
                         body = [body];
@@ -7716,7 +7431,7 @@ function beauty_agree_submit(id,pet_seq){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body)
+                //console.log(body)
 
 
                 let message = `반려생활의 단짝, 반짝에서 ${cellphone.slice(-4)}님이 작성해주신 미용동의서를 공유해 드립니다.\n` +
@@ -7739,7 +7454,7 @@ function beauty_agree_submit(id,pet_seq){
                         idx:body.idx
 
                     },success:function(res){
-                        console.log(res)
+                        //console.log(res)
                     }
 
 
@@ -7890,7 +7605,7 @@ function tooltip(arr){
             success: function (res) {
                 //
                 let response = JSON.parse(res);
-                ////console.log(response);
+                //////console.log(response);
                 let head = response.data.head;
                 let body = response.data.body;
                 if (head.code === 401) {
@@ -8569,7 +8284,7 @@ function management_service_3(base_svc){
 
 
     return new Promise(function (resolve){
-        console.log(base_svc)
+        //console.log(base_svc)
 
         Array.from(document.getElementsByClassName('pay-toggle-button-cell-size')).forEach(function(el){
 
@@ -8819,7 +8534,7 @@ function get_coupon(id,data,payment_idx){
                                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                             } else if (head.code === 200) {
 
-                                console.log(body_)
+                                //console.log(body_)
                                 if(body_.length === undefined){
 
                                     body_ = [body_];
@@ -8834,7 +8549,7 @@ function get_coupon(id,data,payment_idx){
                                     }
                                 })
 
-                                console.log(coupon);
+                                //console.log(coupon);
                                 if(coupon.length > 0){
 
 
@@ -9110,7 +8825,7 @@ function set_etc_product_count(target,name,price,bool){
 
 function set_etc_product_count_(target,name,price,bool){
 
-    console.log(price);
+    //console.log(price);
 
 
     name =name.trim();
@@ -9167,7 +8882,7 @@ function management_total_price(){
 
     let target = document.getElementById('service_list');
 
-    console.log(target)
+    //console.log(target)
     let observer = new MutationObserver(function(mutations){
 
         mutations.forEach(function(mutation){
@@ -9210,7 +8925,7 @@ function management_total_price(){
         characterData:true,
         subtree:true
     }
-    console.log(observer)
+    //console.log(observer)
 
 
     observer.observe(target,config);
@@ -9318,7 +9033,7 @@ function reserves(id){
 
             let data = response.data;
 
-            console.log(data);
+            //console.log(data);
             // if(bool2){
             //     if(data.is_use === '1'){
             //
@@ -9451,7 +9166,7 @@ function waiting(id){
                 partner_id:id,
             },
             success:function(res) {
-                console.log(res)
+                //console.log(res)
                 let response = JSON.parse(res);
                 let head = response.data.head;
                 let body = response.data.body;
@@ -9509,7 +9224,7 @@ function set_approve(target,bool){
 
         },
         success:function(res){
-            console.log(res)
+            //console.log(res)
 
             
             let response = JSON.parse(res);
@@ -9772,9 +9487,9 @@ function pay_management_init(id,target,bool,bool2){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body)
-                console.log(body_2)
-                console.log(body_3)
+                //console.log(body)
+                //console.log(body_2)
+                //console.log(body_3)
 
                 let start_time ;
 
@@ -9838,7 +9553,7 @@ function pay_management_init(id,target,bool,bool2){
                                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                             } else if (head.code === 200) {
 
-                                console.log(body)
+                                //console.log(body)
 
                                 body_.forEach(function(el){
 
@@ -9848,7 +9563,7 @@ function pay_management_init(id,target,bool,bool2){
 
                                             if(new Date(body.beauty_date).getDay() === parseInt(el_.week)){
 
-                                                console.log(el_)
+                                                //console.log(el_)
 
                                                 start_time = el_.time_st;
                                                 end_time = el_.time_fi;
@@ -10001,7 +9716,7 @@ function pay_management_init(id,target,bool,bool2){
                 //         cellphone: body.cell_phone
                 //     },
                 //     success:function(res) {
-                //         //console.log(res)
+                //         ////console.log(res)
                 //
                 //         let response = JSON.parse(res);
                 //         let head = response.data.head;
@@ -10064,11 +9779,11 @@ function pay_management_init(id,target,bool,bool2){
                         } else if (head.code === 200) {
 
 
-                            //console.log(body_)
+                            ////console.log(body_)
 
                             if(body_.length === 0){
 
-                                //console.log(body)
+                                ////console.log(body)
                                 document.getElementById('beauty_agree_view').innerHTML =  `<button type="button" class="btn btn-outline-gray btn-middle-size btn-round" id="beauty_agree_btn">미용 동의서 작성</button>`
                                 document.getElementById('beauty_agree_all_btn').checked = false;
                                 document.getElementById('beauty_agree_1_btn').checked = false;
@@ -10088,7 +9803,7 @@ function pay_management_init(id,target,bool,bool2){
 
                             }else{
 
-                                //console.log(body_)
+                                ////console.log(body_)
                                 document.getElementById('agree_view_disease1').checked = false;
                                 document.getElementById('agree_view_disease2').checked = false;
                                 document.getElementById('agree_view_disease3').checked = false;
@@ -10291,7 +10006,7 @@ function pay_management_init(id,target,bool,bool2){
                        end_time:end_time
 
                    },success:function(res){
-                       console.log(res)
+                       //console.log(res)
                        let response = JSON.parse(res);
                        let start = response.start_date.split(' ')[1];
                        let end = response.end_date.split(' ')[1];
@@ -10319,9 +10034,9 @@ function pay_management_init(id,target,bool,bool2){
                        })
 
                        new_times.forEach(function(el){
-                           console.log(el)
+                           //console.log(el)
 
-                           console.log(document.getElementById('start_time'))
+                           //console.log(document.getElementById('start_time'))
                            document.getElementById('start_time').innerHTML += `<option value="${el.replace(':','')}">${am_pm_check_time(el)}</option>`
                        })
 
@@ -10337,12 +10052,10 @@ function pay_management_init(id,target,bool,bool2){
 
                        })
 
-                       end_times.forEach(function(el){
-
+                       end_new_times.forEach(function(el){
 
                            document.getElementById('end_time').innerHTML += `<option value="${el.replace(':','')}">${am_pm_check_time(el)}</option>`
                        })
-                       console.log(end_new_times);
 
 
 
@@ -10970,7 +10683,6 @@ function cardcash(target){
             discount:discount,
         },
         success:function(res) {
-            //console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -11020,8 +10732,6 @@ function user_coupon_change(){
 
 
         let selected = coupon.options[coupon.selectedIndex];
-        //console.log(selected)
-
         document.getElementById('coupon_balance').innerHTML = '<option value="">선택</option>'
         document.getElementById('use_coupon').innerHTML = '<option value="">선택</option>'
 
@@ -11142,8 +10852,7 @@ function allim_talk_send_change_time(target){
         }
 
     }
-    //console.log(mode)
-    //console.log(message);
+
 
 
     $.ajax({
@@ -11158,7 +10867,7 @@ function allim_talk_send_change_time(target){
 
         },
         success:function(res) {
-            //console.log(res)
+            ////console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -11216,7 +10925,6 @@ function coupon_use(target){
 
             },
             success:function(res) {
-                console.log(res)
                 let response = JSON.parse(res);
                 let head = response.data.head;
                 let body = response.data.body;
@@ -11265,7 +10973,6 @@ function get_worker(id){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                //console.log(body)
 
 
                 document.getElementById('worker_inner').innerHTML = '';
@@ -11324,14 +11031,12 @@ function reserve_confirm(target){
             is_confirm:is_confirm,
         },
         success:function(res) {
-            //console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                //console.log(body);
             }
         }
 
@@ -11629,15 +11334,12 @@ function pay_management_product_change(target){
             product:product,
         },
         success:function(res) {
-
-            console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body);
 
                 document.getElementById('msg2_txt').innerText = '서비스 정보가 변경되었습니다.'
                 pop.open('reserveAcceptMsg2');

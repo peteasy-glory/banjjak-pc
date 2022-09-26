@@ -2983,7 +2983,6 @@ if ($artist_flag == 1) {
 
         management_service_1(artist_id,'dog').then(function(body){
 
-            console.log(body)
 
             management_total_price();
 
@@ -3107,7 +3106,6 @@ $(function(){
     })
 
     document.querySelector('.pay-btn-detail-toggle-2').addEventListener('click',function(){
-        console.log(1)
 
         if(document.querySelector('#pay_before_beauty_list_more').style.display === 'none'){
             document.querySelector('.pay-btn-detail-toggle-2').classList.add('actived');
@@ -3121,8 +3119,6 @@ $(function(){
     })
 
     document.querySelector('.pay-btn-detail-toggle-3').addEventListener('click',function(){
-        console.log(1)
-
         if(document.querySelector('#pay_before_special_list_more').style.display === 'none'){
             document.querySelector('.pay-btn-detail-toggle-3').classList.add('actived');
             document.querySelector('#pay_before_special_list_more').style.display = 'block';

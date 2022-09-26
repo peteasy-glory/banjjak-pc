@@ -80,7 +80,7 @@ function get_navi(id){
         type: 'POST',
         async:false,
         success: function (res) {
-            //console.log(res);
+            ////console.log(res);
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -112,7 +112,7 @@ function data_set(id){
                 type: 'POST',
                 async:false,
                 success: function (res) {
-                    console.log(res)
+                    //console.log(res)
                     let response = JSON.parse(res);
                     let head = response.data.head;
                     let body = response.data.body;
@@ -156,7 +156,7 @@ function home_cal(id){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
-                    console.log(body)
+                    //console.log(body)
 
                     let reserve;
 
@@ -268,19 +268,19 @@ function home_stats(id){
                     let card_ = Math.round(card / total_price * 100)
                     let cash_ = Math.round(cash / total_price *100)
 
-                    console.log(card_);
-                    console.log(cash_)
+                    //console.log(card_);
+                    //console.log(cash_)
 
-                    console.log(dog)
-                    console.log(cat)
+                    //console.log(dog)
+                    //console.log(cat)
                     let total_pet = cat+dog;
                     let cat_ = Math.round(cat/total_pet*100)
                     let dog_ = Math.round(dog/total_pet*100)
 
-                    console.log(total_pet);
+                    //console.log(total_pet);
 
-                    console.log(cat_)
-                    console.log(dog_)
+                    //console.log(cat_)
+                    //console.log(dog_)
 
 
                     document.querySelector('.main-reserve-graph').innerHTML = `<div class="graph-cell">
@@ -595,7 +595,7 @@ function today_reserve(id,bool){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body)
+                //console.log(body)
 
                 if(body.length === undefined){
 
@@ -617,7 +617,7 @@ function today_reserve(id,bool){
                             &&el.product.is_cancel !== 1
                         ){
 
-                            console.log(el)
+                            //console.log(el)
                             document.getElementById('reserve_after_none').style.display = 'none';
                             if(el.pet.photo !== null && el.pet.photo.substr(0,4) === '/pet'){
                                 el.pet.photo = el.pet.photo.replace('/pet','');
@@ -799,7 +799,7 @@ function _renderCalendar(id) {
         })
        $(document).ready( function () {
             setTimeout(function () {
-                console.log(1)
+                //console.log(1)
                 document.getElementById('wrap').style.display = 'block';
                 document.getElementById('splash').style.display = 'none';
                 sessionStorage.setItem('splash', '1');
@@ -823,7 +823,7 @@ function statutory_holiday(id){
             month: 0
         },
         success: function (res) {
-            console.log(res)
+            //console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -831,7 +831,7 @@ function statutory_holiday(id){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
-                console.log(body)
+                //console.log(body)
 
                 Array.from(document.getElementsByClassName('main-calendar-month-body-col')).forEach(function (el){
 
@@ -1165,7 +1165,7 @@ function _renderCalendar_mini(id,session_id){
 
                                     }
 
-                                        console.log(new Date().toISOString())
+                                        //console.log(new Date().toISOString())
 
 
 
@@ -1549,9 +1549,9 @@ function mms_log(cellphone,date,seq){
         type: 'POST',
         async:false,
         success: function (res) {
-            //console.log(res);
+            ////console.log(res);
             let response = JSON.parse(res);
-            //console.log(response);
+            ////console.log(response);
             txt = response.data;
         }
     })
@@ -1636,7 +1636,7 @@ var gallery = {
 
         gallery.element.find('.swiper-wrapper .slider-item').each(function(){
             $(this).imagesLoaded().always(function(instance){
-                //console.log('model image loaded');
+                ////console.log('model image loaded');
             }).done(function(instance){
                 $(instance.elements).removeClass('hide');
             }).fail( function(){
@@ -1648,7 +1648,7 @@ var gallery = {
 
         gallery.element.find('.gallery-thumb-list .btn-gallery-thumb-nav').each(function(){
             $(this).imagesLoaded().always(function(instance){
-                //console.log('model image loaded');
+                ////console.log('model image loaded');
             }).done(function(instance){
                 $(instance.elements).removeClass('hide');
             }).fail( function(){
@@ -1723,7 +1723,7 @@ function showReviewGallery(startIndex, img_list){
     // imgs.forEach(element => {
     //     element = img_link_change(element);
     // });
-    console.log(imgs);
+    //console.log(imgs);
     gallery.dataSet(imgs);
     gallery.open(startIndex);
 };

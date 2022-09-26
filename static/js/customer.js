@@ -36,7 +36,7 @@ function search(search_value,id) {
                         body = [body];
                     }
 
-                    console.log(body)
+                    //console.log(body)
                     if(body.length > 0){
                         document.getElementById('search_phone_none_data').style.display = 'none';
                         document.getElementById('search_phone_inner').innerHTML = ''
@@ -170,11 +170,11 @@ function customer_all_scroll_paging(id){
 
 
     list.addEventListener('scroll',function(){
-        // console.log('-------------------------')
-        // console.log('list.offsetHeight = ' + list.offsetHeight);
-        // console.log('list.scrollTop = ' + list.scrollTop);
-        // console.log('list.scrollHeight = ' + list.scrollHeight);
-        // console.log(list.offsetHeight + list.scrollTop >= (list.scrollHeight - 200));
+        // //console.log('-------------------------')
+        // //console.log('list.offsetHeight = ' + list.offsetHeight);
+        // //console.log('list.scrollTop = ' + list.scrollTop);
+        // //console.log('list.scrollHeight = ' + list.scrollHeight);
+        // //console.log(list.offsetHeight + list.scrollTop >= (list.scrollHeight - 200));
 
         if(list.offsetHeight + list.scrollTop >= (list.scrollHeight - 200)){
 
@@ -257,11 +257,11 @@ function customer_all(id){
             case 'e' : ord = 4; break;
         }
 
-        console.log(id)
-        console.log(type)
-        console.log(ord)
-        console.log(offset)
-        console.log(number);
+        //console.log(id)
+        //console.log(type)
+        //console.log(ord)
+        //console.log(offset)
+        //console.log(number);
 
         $.ajax({
 
@@ -278,12 +278,12 @@ function customer_all(id){
 
             },
             success:function (res){
-                console.log(res)
+                //console.log(res)
                 let response = JSON.parse(res);
                 let customers =response.data
                 let head = response.data.head;
                 let body = response.data.body;
-                console.log(body);
+                //console.log(body);
 
                 if(body.length === undefined){
                     body = [body];
@@ -293,13 +293,13 @@ function customer_all(id){
                     list_end = true;
                 }
 
-                console.log(body);
+                //console.log(body);
                 resolve(customers)
             }
             ,complete:function(){
 
                 offset +=20
-                console.log(offset)
+                //console.log(offset)
                 list_loging=false;
             }
         })
@@ -365,7 +365,7 @@ function customer_list(id,customers){
                 let grade = parseInt(el.grade.split('|')[1]);
 
 
-                console.log(el)
+                //console.log(el)
 
 
             $.ajax({
@@ -971,8 +971,8 @@ function customer_new(id){
     let mounting = '0';
     let submit_and_reserve = document.querySelector('input[name="submit_and_reserve"]:checked') === null ? false : true;
 
-    console.log(breed_select);
-    console.log(breed_value);
+    //console.log(breed_select);
+    //console.log(breed_value);
 
     let special = [];
     for(let i =0; i<special_input.length;i++){
@@ -1122,7 +1122,7 @@ function customer_view(id){
                 cellphone:localStorage.getItem('customer_select'),
             },
             success:function(res){
-                //console.log(res)
+                ////console.log(res)
                 let response = JSON.parse(res);
                 let head = response.data.head;
                 let body = response.data.body;
@@ -1134,7 +1134,7 @@ function customer_view(id){
 
                         body =[body];
                     }
-                    console.log(body)
+                    //console.log(body)
 
                     $.ajax({
 
@@ -1146,7 +1146,7 @@ function customer_view(id){
                             login_id:id,
                             cellphone:localStorage.getItem('customer_select')
                         },success:function(res) {
-                            console.log(res)
+                            //console.log(res)
                             let response = JSON.parse(res);
                             let head_ = response.data.head;
                             let body_ = response.data.body;
@@ -1254,7 +1254,7 @@ function customer_view(id){
 
 
                                 if(body_.length > 0) {
-//console.log(body_);
+////console.log(body_);
 
                                     body_.forEach(function (el, i) {
                                         var is_cancel = (el.is_cancel != 0 || el.is_no_show != 0)? 'style="color: red;"' : '';
@@ -1436,7 +1436,7 @@ function get_grade(id){
             } else if (head.code === 200) {
                 body.forEach(function (el){
 
-                    //console.log(body)
+                    ////console.log(body)
                     if(el.is_delete === 0){
                         switch (el.grade_ord){
 
@@ -1540,7 +1540,7 @@ function pet_delete(id){
 
 function pet_reserve_info(data){
 
-    console.log(data)
+    //console.log(data)
 
 
         let pet_list = data[0];
@@ -1578,7 +1578,7 @@ function pet_reserve_info(data){
                 pet_list.forEach(function(el_){
                     if(parseInt(el.getAttribute('data-pet_seq'))  === el_.pet_seq){
 
-                        //console.log(el_)
+                        ////console.log(el_)
 
                         let time = new Date(el_.detail.year,el_.detail.month+1,el_.detail.day).getTime()
                         let now = new Date().getTime();
@@ -1703,7 +1703,7 @@ function insert_customer_memo(id,data){
     // let customer_id = data[0][0].customer_id;
     // let tmp_seq = data[0][0].tmp_seq;
     let cellphone = localStorage.getItem('customer_select');
-console.log(id,customer_id,tmp_seq,cellphone);
+//console.log(id,customer_id,tmp_seq,cellphone);
     $.ajax({
 
         url:'/data/pc_ajax.php',
@@ -1718,14 +1718,14 @@ console.log(id,customer_id,tmp_seq,cellphone);
         },
         success:function (res){
             let response = JSON.parse(res);
-            console.log(response);
+            //console.log(response);
             let head = response.data.head;
             let body = response.data.body;
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
-console.log(body);
+//console.log(body);
                 document.getElementById('customer_memo').innerText = body.memo;
 
                 // document.getElementById('customer_memo').addEventListener('keyup',function(){
@@ -1759,7 +1759,7 @@ console.log(body);
 function insert_customer_grade(id,data){
 
 
-    console.log(data);
+    //console.log(data);
     customer_id = data[0][0].detail.customer_id !== "" ? data[0][0].detail.customer_id : '';
     tmp_seq = data[0][0].detail.tmp_seq !== "" ? data[0][0].detail.tmp_seq : '';
     $.ajax({
@@ -1812,7 +1812,7 @@ function insert_customer_grade(id,data){
                         if (head.code === 401) {
                             pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                         } else if (head.code === 200) {
-                            console.log(body);
+                            //console.log(body);
 
                             body_.forEach(function(el){
 
@@ -1968,7 +1968,7 @@ function insert_customer_special(id, seq){
 function customer_beauty_agree(id,el){
 
     return new Promise(function(resolve){
-        console.log(el)
+        //console.log(el)
 
         let pet_seq = el.detail.pet_seq;
 
@@ -1988,7 +1988,7 @@ function customer_beauty_agree(id,el){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
-                    console.log(body)
+                    //console.log(body)
 
                     if(body.length ===0){
 
@@ -2007,7 +2007,7 @@ function customer_beauty_agree(id,el){
                         document.getElementById('beauty_agree_1_btn').removeAttribute('checked');
                         document.getElementById('beauty_agree_2_btn').removeAttribute('checked');
                         document.getElementById('agree_cellphone').value = localStorage.getItem('customer_select');
-                        console.log(el.detail.type);
+                        //console.log(el.detail.type);
                         if(el.detail.type==='dog'){
 
                             document.getElementById('agree_breed1').click();
@@ -2107,7 +2107,7 @@ function customer_beauty_agree(id,el){
 function customer_beauty_agree_(_data){
 
 
-    console.log(_data)
+    //console.log(_data)
     document.getElementById('agree_date').innerText = `${new Date().getFullYear()}.${fill_zero(new Date().getMonth()+1)}.${fill_zero(new Date().getDate())}`
     document.getElementById('agree_name').addEventListener('change',function(){
 
@@ -2247,7 +2247,7 @@ function sub_phone_pop_init(id,bool,cellphone){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
-                console.log(body)
+                //console.log(body)
 
 
 
@@ -2299,7 +2299,7 @@ function sub_phone_pop_init(id,bool,cellphone){
 
                 body.forEach(function(el,i){
 
-                    console.log(el)
+                    //console.log(el)
 
                     if(!bool){
                         if(i <3){
@@ -2396,7 +2396,7 @@ function delete_sub_phone(){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
-                console.log(body);
+                //console.log(body);
 
                 document.getElementById('msg2_txt').innerText = '삭제되었습니다.'
                 pop.open('reserveAcceptMsg2');
@@ -2441,7 +2441,7 @@ function add_sub_phone(id,bool){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body)
+                //console.log(body)
 
                 if(body.err === 0){
                     document.getElementById('msg2_txt').innerText = '등록되었습니다.'
@@ -2465,7 +2465,7 @@ function add_sub_phone(id,bool){
 
 function representative(target,id){
 
-    console.log(target);
+    //console.log(target);
 
     let nick = target.getAttribute('data-nick');
     let old_phone = target.getAttribute('data-to_cellphone');
@@ -2542,7 +2542,7 @@ function customer_modify_pet(pet_seq){
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
 
-                    console.log(body)
+                    //console.log(body)
                     document.getElementById('modify_customer_name').value = body.name;
 
                     if(body.type === 'dog'){
@@ -2574,7 +2574,7 @@ function customer_modify_pet(pet_seq){
 function customer_modify_pet_(body){
 
 
-    console.log(body);
+    //console.log(body);
 
 
     for(let i=0; i<document.getElementById('modify_customer_breed_select').options.length; i++){
@@ -2834,8 +2834,8 @@ function direct_get_pet_info(id,target,pet_seq,session_id){
     let thisWorker;
     let thisWorker2;
 
-    console.log(thisHour)
-    console.log(thisMinutes);
+    //console.log(thisHour)
+    //console.log(thisMinutes);
 
     Array.from(document.getElementsByClassName('header-worker')).forEach(function (el){
 
@@ -2865,7 +2865,7 @@ function direct_get_pet_info(id,target,pet_seq,session_id){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body);
+                //console.log(body);
 
                 let is_vat;
                 $.ajax({
@@ -3019,7 +3019,7 @@ function direct_reserve_regist(){
 
         },
         success:function(res){
-            console.log(res)
+            //console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -3136,8 +3136,8 @@ function customer_beauty_gallery(){
                         })
 
 
-                        console.log('test');
-                        console.log(body);
+                        //console.log('test');
+                        //console.log(body);
                         var html = `<div class="list-cell"><a href="#" class="btn-gate-picture-register" onclick="MemofocusNcursor();"><span><em>이미지 추가</em></span></a></div>`;
                         body.forEach(function(el,i){
 
@@ -3295,9 +3295,9 @@ function customer_allim_inquiry(st_time, fi_time, cellphone){
         type: 'POST',
         async:false,
         success: function (res) {
-            //console.log(res);
+            ////console.log(res);
             let response = JSON.parse(res);
-            //console.log(response);
+            ////console.log(response);
             // let head = response.data.head;
             let body = response.data;
             // if (head.code === 401) {
@@ -3305,11 +3305,11 @@ function customer_allim_inquiry(st_time, fi_time, cellphone){
             // } else if (head.code === 200) {
             //     shop_array.push(body);
             // }
-            console.log(body);
+            //console.log(body);
             var html = '';
             if(body != null){
                 $.each(body, function(i,v){
-                    //console.log(v.date_client_req.split(' ')[0]);
+                    ////console.log(v.date_client_req.split(' ')[0]);
                     var template_code = "";
                     switch(v.template_code){
                         case "1000004530_14040" : template_code = "예약알림";
@@ -3399,7 +3399,7 @@ function customer_all_agree(id,target){
                         body = [body]
                     }
 
-                    console.log(body)
+                    //console.log(body)
                     if(body.length === 0 ){
 
                         document.getElementById('msg1_txt').innerText = '작성된 동의서가 없습니다.'
@@ -3407,7 +3407,7 @@ function customer_all_agree(id,target){
                     }else{
 
                         let data = body.at(-1);
-                        console.log(data)
+                        //console.log(data)
 
                         let reg_date = `${data.reg_date.substr(0,4)}.${data.reg_date.substr(4,2)}.${data.reg_date.substr(6,2)}`;
 
