@@ -10143,12 +10143,12 @@ function pay_management_init(id,target,bool,bool2){
                 document.getElementById('pay_weight').innerText = `${body.weight}kg`;
                 document.getElementById('pay_pet_year').innerText = `${time_year}년 ${time_month}개월`;
                 document.getElementById('pay_bite').innerText = body.bite === "0" || body.bite === "안해요" ? "안해요" : "해요";
-                document.getElementById('pay_luxation').innerText = body.luxation;
+                document.getElementById('pay_luxation').innerText = body.luxation === '' ? '없음':body.luxation;
                 document.getElementById('pay_gender').innerText = body.gender;
-                document.getElementById('pay_beauty_exp').innerText = body.beauty_exp;
-                document.getElementById('pay_vaccination').innerText = body.vaccination;
-                document.getElementById('pay_special').innerText = special;
-                document.getElementById('pay_etc').innerText = body.etc;
+                document.getElementById('pay_beauty_exp').innerText = body.beauty_exp === '' ? '없음' : body.beauty_exp;
+                document.getElementById('pay_vaccination').innerText = body.vaccination === '' ? '2차 이하' : body.vaccination;
+                document.getElementById('pay_special').innerText = special === '' ? '없음':special;
+                document.getElementById('pay_etc').innerText = body.etc === '' ? '없음':body.etc;
 
                 document.getElementById('pay_special_memo_text').value = body.payment_memo;
 
