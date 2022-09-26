@@ -8646,13 +8646,7 @@ function management_service_4(base_svc){
                                     _el.unit.forEach(function (ele,i){
 
 
-                                        if(el_.surcharge.is_have ===0 && el_.size.match('대형')){
 
-
-                                            console.log('zxcvbn')
-
-
-                                        }else{
                                             document.getElementById('payment_basic_weight').innerHTML += `<div class="toggle-button-cell">
                                                                                                         <label class="form-toggle-box form-toggle-price large">
                                                                                                             <input type="radio" id="${ele.kg}kg" value="${ele.kg}" name="payment_s2" data-price="${ele.price}" ${i ===  _el.unit.length-1 ? 'id="weight_target"':''}onclick="set_product2(this,'${document.querySelector('input[name="payment_size"]:checked').value}/${document.querySelector('input[name="payment_s1"]:checked').value}/${ele.kg}kg','${ele.price}','list_title_3',true)">
@@ -8665,13 +8659,12 @@ function management_service_4(base_svc){
                                                                                                     </div>`
 
 
-                                        }
+
 
 
                                         if(el_.surcharge.is_have ===1 && i === _el.unit.length-1){
 
 
-                                            console.log('1234567')
                                             let surcharge_kg = el_.surcharge.kg ;
                                             let surcharge_std_price = ele.kg === surcharge_kg ? ele.price : '';
                                             localStorage.setItem('surcharge_std_price',surcharge_std_price);
