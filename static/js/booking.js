@@ -252,6 +252,7 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
 
 
 
+
     let body_col = document.getElementsByClassName('calendar-week-body-col-add');
 
     // $(document).on('mouseenter mouseleave mousemove', '.calendar-week-time-item',function(){
@@ -285,10 +286,10 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
             })
             el.classList.add('actived');
 
-            let tooltip_arr = [];
+
             body_.forEach(function(_el, index){
 
-                tooltip_arr.push(_el.product.payment_idx);
+
 
                 if(_el.product.worker === el.getAttribute('data-worker')){
 
@@ -466,7 +467,7 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
             });
 
             reserve_prohibition_list(id);
-            tooltip(tooltip_arr);
+
 
             setTimeout(function(){week_drag()},500)
 
@@ -480,6 +481,17 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
 
 
     })
+
+    let tooltip_arr = [];
+
+    body_.forEach(function(el){
+
+        tooltip_arr.push(el.product.payment_idx);
+
+    })
+
+    tooltip(tooltip_arr);
+    
 
 
 }
@@ -3602,7 +3614,7 @@ function reserve_prohibition_delete(){
             ph_seq:ph_seq
         },
         success:function(res) {
-            // 
+            //
             location.reload();
         }
     })
@@ -3757,7 +3769,7 @@ function reserve_merchandise_load_init(id){
 
                 breed_input = document.querySelector('input[name="breed"]:checked');
                 breed = breed_input.value
-           
+
 
                 $.ajax({
 
@@ -6315,7 +6327,7 @@ function customer_memo(){
             memo:memo,
         },
         success:function(res) {
-            
+
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -6348,7 +6360,7 @@ function payment_memo(){
             memo:memo,
         },
         success:function(res) {
-            
+
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -6473,7 +6485,7 @@ function set_change_time(bool,target){
 
         },
         success:function(res) {
-            
+
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -7561,7 +7573,7 @@ function reserve_change_time(){
 
                     },
                     success:function(res) {
-                        
+
                         let response = JSON.parse(res);
                         let head = response.data.head;
                         let body = response.data.body;
@@ -8044,7 +8056,7 @@ function management_service_1(id,breed){
         })
     })
 
-    
+
 }
 
 
@@ -9226,7 +9238,7 @@ function set_approve(target,bool){
         success:function(res){
             //console.log(res)
 
-            
+
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
