@@ -118,7 +118,7 @@ function schedule_render(id){
                                                                                     <div class="item-cate">${el.pet.type}</div>
                                                                                     <div class="item-price">${((parseInt(el.product.store_payment.card === null || el.product.store_payment.card === "" ? 0 : parseInt(el.product.store_payment.card))+(el.product.store_payment.cash === null || el.product.store_payment.cash === "" ? 0 : parseInt(el.product.store_payment.cash)))-parseInt(el.product.store_payment.discount.toString().length <3 ? (parseInt(el.product.store_payment.cash === null || el.product.store_payment.cash === "" ? 0 : el.product.store_payment.cash) + parseInt(el.product.store_payment.card === null || el.product.store_payment.card === "" ? 0 : el.product.store_payment.card)) * el.product.store_payment.discount /100: el.product.store_payment.discount  )).toLocaleString()}원</div>
                                                                                     <div class="item-option">${el.product.category}</div>
-                                                                                    <div class="item-memo"><strong>${el.product.memo === null ? '' : el.product.memo}</strong></div>
+                                                                                    <div class="item-memo" style="font-size:12px;">${el.product.memo === null ? '' : el.product.memo}</div>
                                                                                 </div>
                                                                                 <div class="item-stats">
                                                                                 ${el.product.is_confirm ? `<div class="right">
@@ -344,7 +344,7 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
                                                             <div class="item-cate">${_el.pet.type}</div>
                                                             <div class="item-price">${((parseInt(_el.product.store_payment.card === null || _el.product.store_payment.card === "" ? 0 : parseInt(_el.product.store_payment.card))+(_el.product.store_payment.cash === null || _el.product.store_payment.cash === "" ? 0 : parseInt(_el.product.store_payment.cash)))-parseInt(_el.product.store_payment.discount.toString().length <3 ? (parseInt(_el.product.store_payment.cash === null || _el.product.store_payment.cash === "" ? 0 : _el.product.store_payment.cash) + parseInt(_el.product.store_payment.card === null || _el.product.store_payment.card === "" ? 0 : _el.product.store_payment.card)) * _el.product.store_payment.discount /100: _el.product.store_payment.discount  )).toLocaleString()}원</div>
                                                             <div class="item-option">${_el.product.category}</div>
-                                                            <div class="item-memo"><strong>${_el.product.memo === null ? '' : _el.product.memo}</strong></div>
+                                                            <div class="item-memo" style="font-size:12px;">${_el.product.memo === null ? '' : _el.product.memo}</div>
                                                             <div class="item-stats">
                                                                                 ${_el.product.is_confirm ? `<div class="right">
                                                                                         <div class="item-cash">
@@ -4049,10 +4049,15 @@ function reserve_merchandise_load_init(id){
                         if (head.code === 401) {
                             pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                         } else if (head.code === 200) {
+                            console.log(body)
 
 
-                            if(body.is_vat === 1){
+                            if(body.is_vat == 1){
+                                console.log('1이야')
                                 localStorage.setItem('is_vat','1');
+                            }else{
+                                console.log('0이야');
+                                localStorage.setItem('is_vat','0');
                             }
                             let service = document.getElementById('service');
                             let service2 = document.getElementById('service2');
@@ -8074,14 +8079,20 @@ function management_service_1(id,breed){
                 animal:type,
             },
             success:function (res){
-
                 let response = JSON.parse(res);
                 let head = response.data.head;
                 let body = response.data.body;
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
-                    localStorage.setItem('is_vat',body.is_vat === 0 ? '0':'1')
+                    if(body.is_vat == 0){
+
+                        localStorage.setItem('is_vat','0');
+                    }else if(body.is_vat == 1){
+                        localStorage.setItem('is_vat','1');
+                    }else{
+                        localStorage.setItem('is_vat','0')
+                    }
 
                     let service = document.getElementById('service');
                     let service2 = document.getElementById('service2');
@@ -8412,8 +8423,8 @@ function management_service_2(body){
                                                                                     <label class="form-toggle-box form-toggle-price middle">
                                                                                         <input type="checkbox" id="${el.type}" name="payment_f3"  value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')"> 
                                                                                         <em>
-                                                                                            <span class="font-size-12">${el.type}</span>
-                                                                                            <strong class="font-size-12">+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                            <span style="${el.type.length < 5 ? 'font-size:12px' : el.type.length > 10 ? 'font-size:8px' : 'font-size:12px'}">${el.type}</span>
+                                                                                            <strong style="${el.type.length > 5 ? 'font-size:10px' : 'font-size:12px'}">+${parseInt(el.price).toLocaleString()}원</strong>
                                                                                         </em>
                                                                                     </label>
                                                                                 </div>`
@@ -8555,7 +8566,7 @@ function management_service_3(base_svc){
                 base_svc.forEach(function(el_){
 
 
-                    if(value === el_.size){
+                    if(value === el_.size ){
 
                         el_.svc.forEach(function (_el){
 
@@ -8572,7 +8583,12 @@ function management_service_3(base_svc){
 
                         })
                     }
+
                 })
+
+
+
+
                 management_service_4(base_svc);
 
 
@@ -8627,7 +8643,14 @@ function management_service_4(base_svc){
                                     _el.unit.forEach(function (ele,i){
 
 
-                                        document.getElementById('payment_basic_weight').innerHTML += `<div class="toggle-button-cell">
+                                        if(el_.surcharge.is_have ===0 && el_.size.match('대형')){
+
+
+                                            console.log('zxcvbn')
+
+
+                                        }else{
+                                            document.getElementById('payment_basic_weight').innerHTML += `<div class="toggle-button-cell">
                                                                                                         <label class="form-toggle-box form-toggle-price large">
                                                                                                             <input type="radio" id="${ele.kg}kg" value="${ele.kg}" name="payment_s2" data-price="${ele.price}" ${i ===  _el.unit.length-1 ? 'id="weight_target"':''}onclick="set_product2(this,'${document.querySelector('input[name="payment_size"]:checked').value}/${document.querySelector('input[name="payment_s1"]:checked').value}/${ele.kg}kg','${ele.price}','list_title_3',true)">
                                                                                                                 <em>
@@ -8639,9 +8662,13 @@ function management_service_4(base_svc){
                                                                                                     </div>`
 
 
+                                        }
+
+
                                         if(el_.surcharge.is_have ===1 && i === _el.unit.length-1){
 
 
+                                            console.log('1234567')
                                             let surcharge_kg = el_.surcharge.kg ;
                                             let surcharge_std_price = ele.kg === surcharge_kg ? ele.price : '';
                                             localStorage.setItem('surcharge_std_price',surcharge_std_price);
@@ -10139,7 +10166,9 @@ function pay_management_init(id,target,bool,bool2){
 
 
                 document.getElementById('pay_before_beauty_list').innerHTML = ``
+                document.getElementById('pay_before_beauty_list_more').innerHTML = ``
                 document.getElementById('pay_before_special_list').innerHTML = ``
+                document.getElementById('pay_before_special_list_more').innerHTML = ``
 
 
                 if(body_2.length >4){
@@ -10156,7 +10185,7 @@ function pay_management_init(id,target,bool,bool2){
 
 
 
-                        document.getElementById(`${i >4 ? 'pay_before_special_list_more' : 'pay_before_special_list'}`).innerHTML += `<div class="pay-before-beauty-item">
+                        document.getElementById(`${i >3 ? 'pay_before_special_list_more' : 'pay_before_special_list'}`).innerHTML += `<div class="pay-before-beauty-item">
                                                                                         <span class="pay-before-beauty-memo" >
                                                                                            ${el.booking_date.split(' ')[0].replaceAll('-','.')} ${el.memo}
                                                                                         </span>
@@ -10181,7 +10210,7 @@ function pay_management_init(id,target,bool,bool2){
                         before_price = cash + card;
 
 
-                        document.getElementById(`${i >4 ? 'pay_before_beauty_list_more' : 'pay_before_beauty_list'}`).innerHTML += `<div class="pay-before-beauty-item">
+                        document.getElementById(`${i >3 ? 'pay_before_beauty_list_more' : 'pay_before_beauty_list'}`).innerHTML += `<div class="pay-before-beauty-item">
                                                                                         <span class="pay-before-beauty-memo" >
                                                                                            ${el.booking_date.split(' ')[0].replaceAll('-','.')} / ${el.product_parsing?.base?.size} / ${el.product_parsing.base?.beauty_kind} / ${before_price.toLocaleString()}원
                                                                                         </span>
@@ -10359,16 +10388,34 @@ function pay_management_init(id,target,bool,bool2){
                     });
 
                     if(body.type === 'dog'){
-                        document.getElementById(`${parsing.base.size}`).click();
-                        document.getElementById(`${parsing.base.beauty_kind}`).click();
+                        if(parsing.base.size === ''){
+
+
+                        }else{
+                            document.getElementById(`${parsing.base.size}`).click();
+                        }
+
+                        if(parsing.base.beauty_kind === ''){
+
+
+                        }else{
+                            document.getElementById(`${parsing.base.beauty_kind}`).click();
+
+                        }
 
                         if(document.getElementById(`${parsing.base.weight.unit}kg`)){
                             document.getElementById(`${parsing.base.weight.unit}kg`).click();
                         }else if(parsing.base.weight.unit > localStorage.getItem('surcharge_kg')){
 
-                            document.getElementById('payment_surcharge').click();
-                            document.getElementById('payment_weight_target').value = parsing.base.weight.unit;
-                            document.getElementById('surcharge_target').innerText = `${(parseInt(document.getElementById('payment_weight_target').value) - parseInt(localStorage.getItem('surcharge_kg'))) * parseInt(localStorage.getItem('surcharge_price')) + parseInt(localStorage.getItem('surcharge_std_price'))}원`
+                            if(document.getElementById('payment_surcharge')){
+
+                                document.getElementById('payment_surcharge').click();
+                                document.getElementById('payment_weight_target').value = parsing.base.weight.unit;
+                                document.getElementById('surcharge_target').innerText = `${(parseInt(document.getElementById('payment_weight_target').value) - parseInt(localStorage.getItem('surcharge_kg'))) * parseInt(localStorage.getItem('surcharge_price')) + parseInt(localStorage.getItem('surcharge_std_price'))}원`
+                            }else{
+
+                            }
+
 
                         }
                         if(parsing.base.hair_lenth.unit !== '0'){
@@ -10385,8 +10432,14 @@ function pay_management_init(id,target,bool,bool2){
                                 if(!array_empty(parsing.base.hair_features[0])){
 
                                     parsing.base.hair_features.forEach(function(el){
+                                        if(document.getElementById(`${el.unit.replace('_','')}목욕`)){
 
-                                        document.getElementById(`${el.unit.replace('_','')}`).click();
+                                            document.getElementById(`${el.unit.replace('_','')}목욕`).click()
+                                        }else if(document.getElementById(`${el.unit.replace('_','')}`)){
+                                            document.getElementById(`${el.unit.replace('_','')}`).click();
+
+                                        }
+
                                     })
                                 }
 

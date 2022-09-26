@@ -3120,6 +3120,20 @@ $(function(){
 
     })
 
+    document.querySelector('.pay-btn-detail-toggle-3').addEventListener('click',function(){
+        console.log(1)
+
+        if(document.querySelector('#pay_before_special_list_more').style.display === 'none'){
+            document.querySelector('.pay-btn-detail-toggle-3').classList.add('actived');
+            document.querySelector('#pay_before_special_list_more').style.display = 'block';
+        }else{
+            document.querySelector('.pay-btn-detail-toggle-3').classList.remove('actived')
+            document.querySelector('#pay_before_special_list_more').style.display = 'none';
+        }
+
+
+    })
+
     $(document).on('mouseenter mouseleave mousemove' , '.calendar-week-time-item' , function(e){
         //console.log($(this).data('payment_idx'));
 		var x = e.pageX;
