@@ -10244,6 +10244,8 @@ function pay_management_init(id,target,bool,bool2){
 
 
 
+                document.getElementById('day_book_target').setAttribute('data-close_time', `${body.beauty_close_date}`);
+                document.getElementById('day_book_target').setAttribute('data-start_time', `${body.beauty_date}`);
 
                 document.getElementById('day_book_target').innerText = `${am_pm_check2(body.beauty_date)}`
 
@@ -10282,48 +10284,124 @@ function pay_management_init(id,target,bool,bool2){
                        end_time:end_time
 
                    },success:function(res){
+                       console.log(res)
                        let response = JSON.parse(res);
                        let start = response.start_date.split(' ')[1];
                        let end = response.end_date.split(' ')[1];
 
-                       //console.log(start)
-                       //console.log(end)
+                       let start_time = new Date(response.start_date).getTime();
+                       let end_time = new Date(response.end_date).getTime();
+
                        document.getElementById('start_time').innerHTML = '';
                        document.getElementById('end_time').innerHTML = '';
-
-
                        let times = [];
                        let new_times = [];
-                       for(let i=start.split(':')[0]; i<end.split(':')[0]; i++){
+                       let end_times = [];
+                       let end_new_times = [];
 
-                           for(let t= 0; t<60; t+=30){
-                               if(i== start.split(':')[0] && start.split(':')[1] == 30 && t===0){
-                                   continue;
-                               }
-                               document.getElementById('start_time').innerHTML += `<option value="${i}${fill_zero(t)}">${am_pm_check_time(`${i}:${fill_zero(t)}`)}</option>`
+                       for(let i=start_time; i<end_time; i+=1800000){
 
-                               times.push(`2022-01-01 ${i}:${fill_zero(t)}`)
-                           }
-
-
+                           times.push(i);
 
 
                        }
 
                        times.forEach(function(el){
 
-                           let new_time = new Date(el);
-                           new_time.setMinutes(new_time.getMinutes() + 30);
-                           new_times.push(`${fill_zero(new_time.getHours())}:${fill_zero(new_time.getMinutes())}`)
-
+                           new_times.push(`${fill_zero(new Date(el).getHours())}:${fill_zero(new Date(el).getMinutes())}`);
                        })
 
                        new_times.forEach(function(el){
+                           console.log(el)
 
-                           document.getElementById('end_time').innerHTML += `<option value="${el.replace(':','')}">${am_pm_check_time(el)}</option>`
+                           console.log(document.getElementById('start_time'))
+                           document.getElementById('start_time').innerHTML += `<option value="${el.replace(':','')}">${am_pm_check_time(el)}</option>`
                        })
 
 
+                       times.forEach(function(el){
+
+                           end_times.push(el+1800000);
+                       })
+
+                       end_times.forEach(function(el){
+
+                           end_new_times.push(`${fill_zero(new Date(el).getHours())}:${fill_zero(new Date(el).getMinutes())}`);
+
+                       })
+
+                       end_times.forEach(function(el){
+
+
+                           document.getElementById('end_time').innerHTML += `<option value="${el.replace(':','')}">${am_pm_check_time(el)}</option>`
+                       })
+                       console.log(end_new_times);
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       // for(let i=start.split(':')[0]; i<end.split(':')[0]; i++){
+                       //
+                       //     for(let t= 0; t<60; t+=30){
+                       //         if(i== start.split(':')[0] && start.split(':')[1] == 30 && t===0){
+                       //             continue;
+                       //         }
+                       //         document.getElementById('start_time').innerHTML += `<option value="${i}${fill_zero(t)}">${am_pm_check_time(`${i}:${fill_zero(t)}`)}</option>`
+                       //
+                       //         times.push(`2022-01-01 ${i}:${fill_zero(t)}`)
+                       //     }
+                       //
+                       //
+                       //
+                       //
+                       // }
+                       //
+                       // times.forEach(function(el){
+                       //
+                       //     let new_time = new Date(el);
+                       //     new_time.setMinutes(new_time.getMinutes() + 30);
+                       //     new_times.push(`${fill_zero(new_time.getHours())}:${fill_zero(new_time.getMinutes())}`)
+                       //
+                       // })
+                       //
+                       // new_times.forEach(function(el){
+                       //
+                       //     document.getElementById('end_time').innerHTML += `<option value="${el.replace(':','')}">${am_pm_check_time(el)}</option>`
+                       // })
+
+
+                   },complete:function(){
+                       let target_time = document.getElementById('day_book_target').getAttribute('data-start_time');
+                       let end_time = document.getElementById('day_book_target').getAttribute('data-close_time');
+
+
+
+                       let time = target_time.split(' ')[1].replace(':','');
+                       let end = end_time.split(' ')[1].replace(':','');
+
+
+                       for(let i=0; i<document.getElementById('start_time').options.length; i++){
+
+                           if(document.getElementById('start_time').options[i].value === time){
+                               document.getElementById('start_time').options[i].selected = true;
+                           }
+                       }
+
+                       for(let i=0; i<document.getElementById('end_time').options.length; i++){
+
+                           if(document.getElementById('end_time').options[i].value === end ){
+                               document.getElementById('end_time').options[i].selected = true;
+                           }
+                       }
                    }
                })
 
