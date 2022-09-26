@@ -3063,7 +3063,7 @@ a.calendar-month-day-item,
 .calendar-week-time-item .item-check-out {margin-top:2px; font-size:12px;line-height:15px;font-weight:300; color:#666;}
 .calendar-week-time-item .item-check-in + .item-name,
 .calendar-week-time-item .item-check-out + .item-name {}
-.calendar-week-time-item .item-stats {display:flex; margin:11px -4px -8px -8px; padding:0; box-sizing:border-box;}
+.calendar-week-time-item .item-stats {display:flex; margin:0px -4px -8px -8px; padding:0; box-sizing:border-box;}
 .calendar-week-time-item .item-stats .left {margin-right:auto;}
 .calendar-week-time-item .item-stats .right {margin-left:auto;}
 

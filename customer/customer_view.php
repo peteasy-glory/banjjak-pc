@@ -75,7 +75,7 @@ if ($artist_flag == 1) {
 										</div>
 										<div class="customer-view-pet-info detail-toggle-parents">
 											<div class="item-thumb">
-												<div class="user-thumb large"><img src="" id="target_pet_img" alt=""></div>
+												<div class="user-thumb large" id="customer_gallery_target"><img src="" id="target_pet_img" alt=""></div>
 												<div class="item-thumb-ui"><a href="#" class="btn btn-outline-gray btn-vsmall-size btn-inline" id="modify_pet">펫 정보 수정</a></div>
                                                 <div class="item-thumb-ui"><a href="#" class="btn btn-outline-gray btn-vsmall-size btn-inline" id="delete_pet">펫 정보 삭제</a></div>
 											</div>

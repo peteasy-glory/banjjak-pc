@@ -490,6 +490,24 @@ if ($artist_flag == 1) {
                                                 <button type="button" class="pay-customer-memo-save btn btn-outline-purple btn-middle-size btn-round" onclick="customer_memo()">저장</button>
                                             </div>
                                         </div>
+                                        <div class="pay-card-content-3-2 is_approve">
+                                            <div class="pay-card-body-title">
+                                                <h4 class="con-title">이전 특이사항</h4>
+                                            </div>
+                                            <div class="pay-before-beauty-list" id="pay_before_special_list">
+
+                                            </div>
+
+                                            <button type="button" class="pay-btn-detail-toggle-3" style=" margin:0 auto; margin-top:16px; margin-bottom:20px;">
+                                                이전 특이사항 더보기
+                                            </button>
+                                            <div class="pay-before-beauty-list" id="pay_before_special_list_more" style="display: none;">
+
+                                            </div>
+
+
+                                        </div>
+
                                         <div class="pay-card-content-3 is_approve">
                                             <div class="pay-card-body-title">
                                                 <h4 class="con-title">이전 미용</h4>

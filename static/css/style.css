@@ -442,6 +442,9 @@
 .pay-card-content-3{
     margin-top:50px;
 }
+.pay-card-content-3-2{
+    margin-top:50px;
+}
 .pay-card-content-4{
     margin-top:50px;
 }
@@ -562,6 +565,21 @@
     background-size: 10px auto;
 }
 
+.pay-btn-detail-toggle-3{
+    display: flex;
+    align-items: center;
+
+}
+.pay-btn-detail-toggle-3:after{
+    content: '';
+    display: block;
+    width: 10px;
+    height: 10px;
+    margin-left: 4px;
+    background: url(../images/icon/btn-info-spread@2x.png) center center no-repeat;
+    background-size: 10px auto;
+}
+
 .pay-service-selected-wrap{
     border : 1px solid #ebebeb;
     border-radius:12px;
@@ -590,6 +608,9 @@
     transform:rotate(-180deg);
 }
 .pay-btn-detail-toggle-2.actived:after{
+    transform:rotate(-180deg);
+}
+.pay-btn-detail-toggle-3.actived:after{
     transform:rotate(-180deg);
 }
 .pay-before-beauty-list{
@@ -1089,3 +1110,45 @@
 }
 .shortcut-wrap{right:40px;  bottom:55px; cursor:pointer; display:flex; flex-direction: column;  z-index: 100; position: fixed}
 .shortcut-wrap img{margin-top:10px; width:40px; height:40px;}
+
+.item-photo-name{
+
+    display:flex;
+}
+.item-other{
+    padding-left:40px;
+
+}
+
+.item-photo{
+
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    min-height: 30px;
+    margin-right: 8px;
+    overflow: hidden;
+    border-radius: 5px;
+    border: 0.5px solid #bebebe;
+}
+
+.item-noshow{
+
+    background: #ff4848;
+    border-radius: 3px;
+    width: 35px;
+    height: 15px;
+    display: flex;
+    color: white;
+    font-size: 10px;
+    justify-content: center;
+    align-items: center;
+    margin-left: 3px;
+
+}
+
+.item-noshow img{
+    width: 15px;
+    height: 15px;
+
+}

@@ -85,7 +85,7 @@ function search(search_value,id) {
                                                                                                 <a href="/customer/customer_view.php" onclick="localStorage.setItem('user_pet_seq','${el.pet_seq}'); localStorage.setItem('customer_select','${el.cellphone}'); localStorage.setItem('noshow_cnt','${el.no_show_count > 0 ? el.no_show_count : 0}'); localStorage.setItem('sub_cellphone','${sub_cellphone}')" class="customer-card-item">
                                                                                                     <div class="item-info-wrap">
                                                                                                         <div class="item-thumb">
-                                                                                                            <div class="user-thumb large">
+                                                                                                            <div class="user-thumb large" onclick="thumb_view(this,\`${el.beauty_photo}\`)">
                                                                                                                 <img src="${image}" alt="">
                                                                                                             </div>
                                                                                                         </div>
@@ -1611,18 +1611,28 @@ function pet_reserve_info(data){
                         document.getElementById('target_pet_etc').innerText = `${el_.detail.etc}`;
 
 
-                        let image = '';
-                        //if(el_.detail.photo === ""){
-                        if(el_.detail.type ==="dog"){
-                            image = '/static/images/icon/icon-pup-select-off.png'
+                        if(el_.detail.photo === ''){
+                            document.getElementById('target_pet_img').removeAttribute('onclick');
+
+
+                            if(el_.detail.type === 'dog'){
+
+                                document.getElementById('target_pet_img').setAttribute('src','/static/images/icon/icon-pup-select-off.png');
+
+
+                            }else{
+                                document.getElementById('target_pet_img').setAttribute('src','/static/images/icon/icon-cat-select-off.png');
+
+
+                            }
+
                         }else{
-                            image = '/static/images/icon/icon-cat-select-off.png'
+
+                            document.getElementById('target_pet_img').setAttribute('src',img_link_change(el_.detail.photo));
+                            document.getElementById('target_pet_img').setAttribute('onclick',`thumb_view(this,\`${el_.detail.photo}\`)`);
+
                         }
-                        // }else{
-                        //
-                        //     image = img_link_change(el_.detail.photo);
-                        // }
-                        document.getElementById('target_pet_img').setAttribute('src',image);
+
 
 
                         agree_birthday().then(function(){ agree_birthday_date()})
@@ -3146,7 +3156,7 @@ function customer_beauty_gallery(){
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>`
-                            document.getElementById('target_pet_img').setAttribute('src',img_link_change(el.file_path));
+                            // document.getElementById('target_pet_img').setAttribute('src',img_link_change(el.file_path));
                         })
                         $("#beauty_gal_wrap").append(html);
 

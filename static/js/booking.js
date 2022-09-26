@@ -68,6 +68,7 @@ function schedule_render(id){
 
                     cols(id).then(function (body_data){
 
+
                         no_one(body_data);
 
                         let color;
@@ -80,7 +81,6 @@ function schedule_render(id){
                             Array.from(document.getElementsByClassName('calendar-day-body-col')).forEach(function (el_){
 
                                 if(el_.getAttribute('data-name') === el.product.worker && new Date(el_.getAttribute('data-year'),el_.getAttribute('data-month'),el_.getAttribute('data-date'),el_.getAttribute('data-hour'),el_.getAttribute('data-minutes')).getTime() === new Date(el.product.date.booking_st).getTime() && el.product.is_cancel === 0){
-                                    console.log('ㅂㅈㄷㄱ')
                                     if(el.product.store_payment.discount === null){
 
                                         el.product.store_payment.discount = 0
@@ -99,16 +99,27 @@ function schedule_render(id){
 
                                     let multiple = (new Date(el.product.date.booking_fi).getTime() - new Date(el.product.date.booking_st).getTime())/1800000;
                                     el_.innerHTML = `<div class="calendar-drag-item-group">
-                                                                        <a href="#" onclick="pay_management_init(artist_id,this,false,${el.product.is_approve === 0 ? false : true}); pay_management_toggle(false); localStorage.setItem('payment_idx','${el_.getAttribute('data-payment_idx')}')" data-tooltip_idx="${index}" data-cellphone="${el.customer.phone}" data-payment_idx="${el_.getAttribute('data-payment_idx')}" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-payment_idx')})" class="calendar-week-time-item toggle green ${color} ${el.product.is_no_show === 1 ? "red" : ''} ${el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
+                                                                        <a href="#" onclick="pay_management_init(artist_id,this,false,${el.product.is_approve === 0 ? false : true}); pay_management_toggle(false); localStorage.setItem('payment_idx','${el_.getAttribute('data-payment_idx')}')" ${el.product.approve_idx === null ? '' : `data-approve_idx="${el.product.approve_idx}"`} data-tooltip_idx="${index}" data-cellphone="${el.customer.phone}" data-payment_idx="${el_.getAttribute('data-payment_idx')}" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-payment_idx')})" class="calendar-week-time-item toggle green ${color} ${el.product.is_no_show === 1 ? "red" : ''} ${el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
                                                                             <div class="item-inner" >
-                                                                                <div class="item-name">
-                                                                                    <div class="txt" style="font-size:17px; margin-bottom:2px;">${el.pet.name}</div>
-                                                                                    ${multiple <4 ? `<button type="button" class="btn-calendar-item-more"></button>`:``}
-                                                                                    
-                                                                                </div> 
-                                                                                <div class="item-cate">${el.pet.type}</div>
-                                                                                <div class="item-price">${((parseInt(el.product.store_payment.card === null || el.product.store_payment.card === "" ? 0 : parseInt(el.product.store_payment.card))+(el.product.store_payment.cash === null || el.product.store_payment.cash === "" ? 0 : parseInt(el.product.store_payment.cash)))-parseInt(el.product.store_payment.discount.toString().length <3 ? (parseInt(el.product.store_payment.cash === null || el.product.store_payment.cash === "" ? 0 : el.product.store_payment.cash) + parseInt(el.product.store_payment.card === null || el.product.store_payment.card === "" ? 0 : el.product.store_payment.card)) * el.product.store_payment.discount /100: el.product.store_payment.discount  )).toLocaleString()}원</div>
-                                                                                <div class="item-option">${el.product.category}</div>
+                                                                                <div class="item-photo-name">
+                                                                                
+
+                                                                                        
+                                                                                    <div class="item-photo" ${el.pet.photo === null || el.pet.photo === '' ? '' : `onclick="thumb_view(this,'${el.pet.photo === null ? '' : el.pet.photo}')"`}>
+                                                                                        <img src="${el.pet.photo === null ? el.pet.animal === 'dog' ? '/static/images/icon/icon-pup-select-off.png' : '/static/images/icon/icon-cat-select-off.png' : img_link_change(el.pet.photo)}" alt="">
+                                                                                    </div>
+                                                                                    <div class="item-name">
+                                                                                        <div class="txt" style="font-size:17px; margin-bottom:2px;">${el.pet.name}</div>
+                                                                                        ${multiple <4 ? `<button type="button" class="btn-calendar-item-more"></button>`:``}
+                                                                                    </div> 
+                                                                                    ${el.product.noshow_cnt >0 ? `<div class="item-noshow"><img src="/static/images/noshow@2x.png" alt="">${el.product.noshow_cnt}회</div>` : ''}
+                                                                                </div>
+                                                                                <div class="item-other">
+                                                                                    <div class="item-cate">${el.pet.type}</div>
+                                                                                    <div class="item-price">${((parseInt(el.product.store_payment.card === null || el.product.store_payment.card === "" ? 0 : parseInt(el.product.store_payment.card))+(el.product.store_payment.cash === null || el.product.store_payment.cash === "" ? 0 : parseInt(el.product.store_payment.cash)))-parseInt(el.product.store_payment.discount.toString().length <3 ? (parseInt(el.product.store_payment.cash === null || el.product.store_payment.cash === "" ? 0 : el.product.store_payment.cash) + parseInt(el.product.store_payment.card === null || el.product.store_payment.card === "" ? 0 : el.product.store_payment.card)) * el.product.store_payment.discount /100: el.product.store_payment.discount  )).toLocaleString()}원</div>
+                                                                                    <div class="item-option">${el.product.category}</div>
+                                                                                    <div class="item-memo"><strong>${el.product.memo === null ? '' : el.product.memo}</strong></div>
+                                                                                </div>
                                                                                 <div class="item-stats">
                                                                                 ${el.product.is_confirm ? `<div class="right">
                                                                                         <div class="item-cash">
@@ -194,6 +205,29 @@ function schedule_render(id){
                         })
 
 
+
+                        let workers = [];
+
+                        body_data.forEach(function(el){
+
+                            if(el.is_show && !el.is_leave){
+
+                                workers.push(el);
+                            }
+                        })
+
+                        if(workers.length > 3){
+
+                            Array.from(document.getElementsByClassName('item-photo')).forEach(function(el){
+
+                                el.style.display = 'none';
+                            })
+
+                            Array.from(document.getElementsByClassName('item-other')).forEach(function(el){
+
+                                el.style.paddingLeft = '0px'
+                            })
+                        }
 
                         day_drag();
                     });
@@ -299,13 +333,18 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
                             el__.innerHTML = `<div class="calendar-drag-item-group" data-cellphone="${_el.customer.phone}" data-pet_name="${_el.pet.name}" >
                                                     <a href="#" data-tooltip_idx="${index}" onclick="pay_management_init(artist_id,this,false,true); pay_management_toggle(false);localStorage.setItem('payment_idx',${_el.product.payment_idx})" data-payment_idx="${_el.product.payment_idx}" class="calendar-week-time-item toggle green ${color} ${_el.product.is_no_show === 1 ? "red" : ''} ${_el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
                                                         <div class="item-inner">
+                                                            <div class="item-photo-name">
                                                             <div class="item-name">
                                                                 <div class="txt">${_el.pet.name}</div>
                                                                 <button type="button" class="btn-calendar-item-more"></button>
                                                             </div>
+                                                            ${_el.product.noshow_cnt > 0 ? `<div class="item-noshow"><img src="/static/images/noshow@2x.png" alt="">${_el.product.noshow_cnt}회</div>`:''}
+                                                            </div>
+                                                            
                                                             <div class="item-cate">${_el.pet.type}</div>
                                                             <div class="item-price">${((parseInt(_el.product.store_payment.card === null || _el.product.store_payment.card === "" ? 0 : parseInt(_el.product.store_payment.card))+(_el.product.store_payment.cash === null || _el.product.store_payment.cash === "" ? 0 : parseInt(_el.product.store_payment.cash)))-parseInt(_el.product.store_payment.discount.toString().length <3 ? (parseInt(_el.product.store_payment.cash === null || _el.product.store_payment.cash === "" ? 0 : _el.product.store_payment.cash) + parseInt(_el.product.store_payment.card === null || _el.product.store_payment.card === "" ? 0 : _el.product.store_payment.card)) * _el.product.store_payment.discount /100: _el.product.store_payment.discount  )).toLocaleString()}원</div>
                                                             <div class="item-option">${_el.product.category}</div>
+                                                            <div class="item-memo"><strong>${_el.product.memo === null ? '' : _el.product.memo}</strong></div>
                                                             <div class="item-stats">
                                                                                 ${_el.product.is_confirm ? `<div class="right">
                                                                                         <div class="item-cash">
@@ -2082,6 +2121,8 @@ function cols(id){
 
                     body.forEach(function (el){
                         if(el.is_show && !el.is_leave){
+
+
                             el.work.forEach(function (el_){
                                 if(parseInt(el_.week) === date.getDay() ){
                                     document.getElementById('day_header_row').innerHTML +=`<div class="calendar-day-header-col" data-start="${el_.time_st}" data-end="${el_.time_fi}" data-worker="${el.name}">${el.nick}</div>`
@@ -2100,6 +2141,8 @@ function cols(id){
                             })
                         }
                     })
+
+
 
                     resolve(body);
 
@@ -2155,88 +2198,106 @@ function btn_schedule(id){
             this.setAttribute('disabled',true);
             date.setDate(date.getDate()+1)
             if(date.getDate() === 1){
-                book_list(id).then(function (){
+                // book_list(id).then(function (){
+                //
+                //
+                //     renderCalendar_mini(id).then(function(div_dates){
+                //
+                //         for (let i = 0; i < div_dates.length; i++) {
+                //             document.getElementById(`mini-calendar-month-body-row-${i}`).innerHTML = '';
+                //             for (let j = 0; j < div_dates[i].length; j++) {
+                //                 document.getElementById(`mini-calendar-month-body-row-${i}`).innerHTML += div_dates[i][j]
+                //             }
+                //         }
+                //     })
+                // }).then(function(){
+                //
+                //     let date_info = document.getElementsByClassName('date-info');
+                //     let booking_list ;
+                //
+                //     if(list !== undefined){
+                //         booking_list = list;
+                //     }else{
+                //         booking_list = data;
+                //     }
+                //
+                //     Array.from(date_info).forEach(function(el,i){
+                //         let count = 0;
+                //         let date_ck_1 = new Date(`20${el.innerText.trim()}`);
+                //
+                //         if(booking_list.beauty.length === 0){
+                //             Array.from(document.getElementsByClassName('reserve-total')).forEach(function (el,i){
+                //                 el.innerHTML = '0';
+                //             })
+                //         }else{
+                //             booking_list.beauty.forEach(function(el_,i_){
+                //                 let date_ck_2  =  new Date(el_.product.date.booking_st);
+                //
+                //                 if(date_ck_1.getFullYear() === date_ck_2.getFullYear()
+                //                     && date_ck_1.getMonth() === date_ck_2.getMonth()
+                //                     && date_ck_1.getDate() === date_ck_2.getDate()){
+                //                     count++;
+                //                 }
+                //
+                //
+                //                 if(count !==0){
+                //
+                //                     siblings(el.parentElement.parentElement.parentElement.parentElement,0).children[1].innerHTML= `${count}`;
+                //                 }
+                //
+                //             })
+                //         }
+                //     })
+                // }).then(function(){
+                //     let mini_col = document.getElementsByClassName('mini-calendar-month-body-col');
+                //
+                //     Array.from(mini_col).forEach(function(el) {
+                //
+                //         if(el.classList.contains('actived')){
+                //             el.classList.remove('actived');
+                //         };
+                //         el.addEventListener('click', function () {
+                //
+                //             Array.from(mini_col).forEach(function (el_) {
+                //
+                //                 el_.classList.remove('actived');
+                //             })
+                //
+                //             el.classList.add('actived');
+                //             localStorage.setItem('day_select', `${date.getFullYear()}.${fill_zero(date.getMonth() + 1)}.${fill_zero(el.children[0].children[0].children[0].children[0].innerText.trim())}`)
+                //             date.setDate(el.children[0].children[0].children[0].children[0].innerText.trim());
+                //
+                //             if(location.href.match('reserve_beauty_list')){
+                //                 schedule_render_list(id).then(function (body){
+                //
+                //                     _schedule_render_list(body)
+                //                 })
+                //             }else{
+                //
+                //                 schedule_render(id);
+                //             }
+                //
+                //         })
+                //     })
+                // })
 
+                // renderCalendar_mini(id).then(function(div_dates){
+                //
+                //     for (let i = 0; i < div_dates.length; i++) {
+                //                     document.getElementById(`mini-calendar-month-body-row-${i}`).innerHTML = '';
+                //                     for (let j = 0; j < div_dates[i].length; j++) {
+                //                         document.getElementById(`mini-calendar-month-body-row-${i}`).innerHTML += div_dates[i][j]
+                //                     }
+                //                 }
+                //
+                //     home_cal(id)
+                //
+                //
+                // })
+                _renderCalendar_mini(id)
+                let new_date = new Date(date.getFullYear(),date.getMonth(),0);
+                localStorage.setItem('day_select',`${new_date.getFullYear()}.${fill_zero(new_date.getMonth()+1)}.01`)
 
-                    renderCalendar_mini(id).then(function(div_dates){
-
-                        for (let i = 0; i < div_dates.length; i++) {
-                            document.getElementById(`mini-calendar-month-body-row-${i}`).innerHTML = '';
-                            for (let j = 0; j < div_dates[i].length; j++) {
-                                document.getElementById(`mini-calendar-month-body-row-${i}`).innerHTML += div_dates[i][j]
-                            }
-                        }
-                    })
-                }).then(function(){
-
-                    let date_info = document.getElementsByClassName('date-info');
-                    let booking_list ;
-
-                    if(list !== undefined){
-                        booking_list = list;
-                    }else{
-                        booking_list = data;
-                    }
-
-                    Array.from(date_info).forEach(function(el,i){
-                        let count = 0;
-                        let date_ck_1 = new Date(`20${el.innerText.trim()}`);
-
-                        if(booking_list.beauty.length === 0){
-                            Array.from(document.getElementsByClassName('reserve-total')).forEach(function (el,i){
-                                el.innerHTML = '0';
-                            })
-                        }else{
-                            booking_list.beauty.forEach(function(el_,i_){
-                                let date_ck_2  =  new Date(el_.product.date.booking_st);
-
-                                if(date_ck_1.getFullYear() === date_ck_2.getFullYear()
-                                    && date_ck_1.getMonth() === date_ck_2.getMonth()
-                                    && date_ck_1.getDate() === date_ck_2.getDate()){
-                                    count++;
-                                }
-
-
-                                if(count !==0){
-
-                                    siblings(el.parentElement.parentElement.parentElement.parentElement,0).children[1].innerHTML= `${count}`;
-                                }
-
-                            })
-                        }
-                    })
-                }).then(function(){
-                    let mini_col = document.getElementsByClassName('mini-calendar-month-body-col');
-
-                    Array.from(mini_col).forEach(function(el) {
-
-                        if(el.classList.contains('actived')){
-                            el.classList.remove('actived');
-                        };
-                        el.addEventListener('click', function () {
-
-                            Array.from(mini_col).forEach(function (el_) {
-
-                                el_.classList.remove('actived');
-                            })
-
-                            el.classList.add('actived');
-                            localStorage.setItem('day_select', `${date.getFullYear()}.${fill_zero(date.getMonth() + 1)}.${fill_zero(el.children[0].children[0].children[0].children[0].innerText.trim())}`)
-                            date.setDate(el.children[0].children[0].children[0].children[0].innerText.trim());
-
-                            if(location.href.match('reserve_beauty_list')){
-                                schedule_render_list(id).then(function (body){
-
-                                    _schedule_render_list(body)
-                                })
-                            }else{
-
-                                schedule_render(id);
-                            }
-
-                        })
-                    })
-                })
             }
             if(location.href.match('reserve_beauty_list')){
                 schedule_render_list(id).then(function (body){
@@ -2254,87 +2315,106 @@ function btn_schedule(id){
         document.getElementById('btn-schedule-prev').addEventListener('click',function (){
             this.setAttribute('disabled',true);
             date.setDate(date.getDate()-1)
-            if(date.getDate() >= 28){
-                book_list(id).then(function (){
+            let new_date_2 = new Date(date.getFullYear(),date.getMonth()-1,0);
+            if(date.getDate() === new_date_2.getDate()){
+                // book_list(id).then(function (){
+                //
+                //
+                //     renderCalendar_mini(id).then(function(div_dates){
+                //         for (let i = 0; i < div_dates.length; i++) {
+                //             document.getElementById(`mini-calendar-month-body-row-${i}`).innerHTML = '';
+                //             for (let j = 0; j < div_dates[i].length; j++) {
+                //                 document.getElementById(`mini-calendar-month-body-row-${i}`).innerHTML += div_dates[i][j]
+                //             }
+                //         }
+                //     })
+                // }).then(function(){
+                //
+                //     let date_info = document.getElementsByClassName('date-info');
+                //     let booking_list ;
+                //
+                //     if(list !== undefined){
+                //         booking_list = list;
+                //     }else{
+                //         booking_list = data;
+                //     }
+                //
+                //     Array.from(date_info).forEach(function(el,i){
+                //         let count = 0;
+                //         let date_ck_1 = new Date(`20${el.innerText.trim()}`);
+                //
+                //         if(booking_list.beauty.length === 0){
+                //             Array.from(document.getElementsByClassName('reserve-total')).forEach(function (el,i){
+                //                 el.innerHTML = '0';
+                //             })
+                //         }else{
+                //             booking_list.beauty.forEach(function(el_,i_){
+                //                 let date_ck_2  =  new Date(el_.product.date.booking_st);
+                //
+                //                 if(date_ck_1.getFullYear() === date_ck_2.getFullYear()
+                //                     && date_ck_1.getMonth() === date_ck_2.getMonth()
+                //                     && date_ck_1.getDate() === date_ck_2.getDate()){
+                //                     count++;
+                //                 }
+                //                 if(count !==0){
+                //
+                //                     siblings(el.parentElement.parentElement.parentElement.parentElement,0).children[1].innerHTML= `${count}`;
+                //                 }
+                //                 ;
+                //             })
+                //         }
+                //     })
+                // }).then(function(){
+                //     let mini_col = document.getElementsByClassName('mini-calendar-month-body-col');
+                //
+                //     Array.from(mini_col).forEach(function(el) {
+                //
+                //         el.addEventListener('click', function () {
+                //
+                //             Array.from(mini_col).forEach(function (el_) {
+                //
+                //                 el_.classList.remove('actived');
+                //             })
+                //
+                //             el.classList.add('actived');
+                //             localStorage.setItem('day_select', `${date.getFullYear()}.${fill_zero(date.getMonth() + 1)}.${fill_zero(el.children[0].children[0].children[0].children[0].innerText.trim())}`)
+                //             date.setDate(el.children[0].children[0].children[0].children[0].innerText.trim());
+                //
+                //             if(location.href.match('reserve_beauty_list')){
+                //                 schedule_render_list(id).then(function (body){
+                //
+                //                     _schedule_render_list(body)
+                //                 })
+                //             }else{
+                //
+                //                 schedule_render(id);
+                //             }
+                //
+                //         })
+                //     })
+                //
+                //
+                //
+                //
+                // })
+                // renderCalendar_mini(id).then(function(div_dates){
+                //
+                //     for (let i = 0; i < div_dates.length; i++) {
+                //         document.getElementById(`mini-calendar-month-body-row-${i}`).innerHTML = '';
+                //         for (let j = 0; j < div_dates[i].length; j++) {
+                //             document.getElementById(`mini-calendar-month-body-row-${i}`).innerHTML += div_dates[i][j]
+                //         }
+                //     }
+                //
+                //     home_cal(id)
+                //
+                //
+                // })
+                _renderCalendar_mini(id)
+                let new_date = new Date(date.getFullYear(),date.getMonth()+1,0);
+                localStorage.setItem('day_select',`${new_date.getFullYear()}.${fill_zero(new_date.getMonth()+1)}.${fill_zero(new_date.getDate())}`)
 
 
-                    renderCalendar_mini(id).then(function(div_dates){
-                        for (let i = 0; i < div_dates.length; i++) {
-                            document.getElementById(`mini-calendar-month-body-row-${i}`).innerHTML = '';
-                            for (let j = 0; j < div_dates[i].length; j++) {
-                                document.getElementById(`mini-calendar-month-body-row-${i}`).innerHTML += div_dates[i][j]
-                            }
-                        }
-                    })
-                }).then(function(){
-
-                    let date_info = document.getElementsByClassName('date-info');
-                    let booking_list ;
-
-                    if(list !== undefined){
-                        booking_list = list;
-                    }else{
-                        booking_list = data;
-                    }
-
-                    Array.from(date_info).forEach(function(el,i){
-                        let count = 0;
-                        let date_ck_1 = new Date(`20${el.innerText.trim()}`);
-
-                        if(booking_list.beauty.length === 0){
-                            Array.from(document.getElementsByClassName('reserve-total')).forEach(function (el,i){
-                                el.innerHTML = '0';
-                            })
-                        }else{
-                            booking_list.beauty.forEach(function(el_,i_){
-                                let date_ck_2  =  new Date(el_.product.date.booking_st);
-
-                                if(date_ck_1.getFullYear() === date_ck_2.getFullYear()
-                                    && date_ck_1.getMonth() === date_ck_2.getMonth()
-                                    && date_ck_1.getDate() === date_ck_2.getDate()){
-                                    count++;
-                                }
-                                if(count !==0){
-
-                                    siblings(el.parentElement.parentElement.parentElement.parentElement,0).children[1].innerHTML= `${count}`;
-                                }
-                                ;
-                            })
-                        }
-                    })
-                }).then(function(){
-                    let mini_col = document.getElementsByClassName('mini-calendar-month-body-col');
-
-                    Array.from(mini_col).forEach(function(el) {
-
-                        el.addEventListener('click', function () {
-
-                            Array.from(mini_col).forEach(function (el_) {
-
-                                el_.classList.remove('actived');
-                            })
-
-                            el.classList.add('actived');
-                            localStorage.setItem('day_select', `${date.getFullYear()}.${fill_zero(date.getMonth() + 1)}.${fill_zero(el.children[0].children[0].children[0].children[0].innerText.trim())}`)
-                            date.setDate(el.children[0].children[0].children[0].children[0].innerText.trim());
-
-                            if(location.href.match('reserve_beauty_list')){
-                                schedule_render_list(id).then(function (body){
-
-                                    _schedule_render_list(body)
-                                })
-                            }else{
-
-                                schedule_render(id);
-                            }
-
-                        })
-                    })
-
-
-
-
-                })
             }
             if(location.href.match('reserve_beauty_list')){
                 schedule_render_list(id).then(function (body){
@@ -2358,23 +2438,33 @@ function btn_schedule(id){
         let select_low = parseInt(localStorage.getItem('select_row'));
 
 
-        document.getElementById('btn-schedule-next').addEventListener('click',function(){
-            select_low = parseInt(localStorage.getItem('select_row'));
-            this.setAttribute('disabled',true);
-
-            if(select_low !== lows.length-1){
-                lows[select_low+1].children[0].click();
-                localStorage.setItem('select_row',select_low+1)
+        document.getElementById('btn-schedule-next').addEventListener('click',function() {
                 select_low = parseInt(localStorage.getItem('select_row'));
+                // this.setAttribute('disabled', true);
 
-            }
+                if (select_low !== lows.length - 1) {
+                    lows[select_low + 1].children[0].click();
+                    localStorage.setItem('select_row', select_low + 1)
+                    select_low = parseInt(localStorage.getItem('select_row'));
+
+                } else if (select_low === lows.length - 1) {
+
+                    date.setMonth(date.getMonth() + 1);
+                    localStorage.setItem('day_select',`${date.getFullYear()}.${fill_zero(date.getMonth()+1)}.01`)
+                    _renderCalendar_mini(id);
+
+                }
+
+
+
+
 
 
 
         })
 
         document.getElementById('btn-schedule-prev').addEventListener('click',function(){
-            this.setAttribute('disabled',true);
+            // this.setAttribute('disabled',true);
             select_low = parseInt(localStorage.getItem('select_row'));
 
             if(select_low !== 0){
@@ -2382,6 +2472,14 @@ function btn_schedule(id){
                 lows[select_low-1].children[0].click();
                 localStorage.setItem('select_row',select_low-1)
                 select_low = parseInt(localStorage.getItem('select_row'));
+            } else if (select_low === 0) {
+
+                let new_date = new Date(date.getFullYear(),date.getMonth(),0);
+                date.setMonth(date.getMonth() -1);
+                date.setDate(new_date.getDate())
+                localStorage.setItem('day_select',`${date.getFullYear()}.${fill_zero(new_date.getMonth())}.${fill_zero(new_date.getDate())}`)
+                _renderCalendar_mini(id);
+
             }
 
 
@@ -9314,6 +9412,7 @@ function waiting(id){
                 partner_id:id,
             },
             success:function(res) {
+                console.log(res)
                 let response = JSON.parse(res);
                 let head = response.data.head;
                 let body = response.data.body;
@@ -9371,6 +9470,7 @@ function set_approve(target,bool){
 
         },
         success:function(res){
+            console.log(res)
 
             
             let response = JSON.parse(res);
@@ -9634,6 +9734,8 @@ function pay_management_init(id,target,bool,bool2){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
                 console.log(body)
+                console.log(body_2)
+                console.log(body_3)
 
                 let start_time ;
 
@@ -9922,6 +10024,7 @@ function pay_management_init(id,target,bool,bool2){
                             pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                         } else if (head.code === 200) {
 
+
                             //console.log(body_)
 
                             if(body_.length === 0){
@@ -10036,12 +10139,41 @@ function pay_management_init(id,target,bool,bool2){
 
 
                 document.getElementById('pay_before_beauty_list').innerHTML = ``
+                document.getElementById('pay_before_special_list').innerHTML = ``
+
+
+                if(body_2.length >4){
+                    document.querySelector('.pay-btn-detail-toggle-3').style.display ='flex';
+                }else{
+
+                    document.querySelector('.pay-btn-detail-toggle-3').style.display ='none';
+
+                }
+
+                if(body_2.length >0){
+
+                    body_2.forEach(function(el,i){
+
+
+
+                        document.getElementById(`${i >4 ? 'pay_before_special_list_more' : 'pay_before_special_list'}`).innerHTML += `<div class="pay-before-beauty-item">
+                                                                                        <span class="pay-before-beauty-memo" >
+                                                                                           ${el.booking_date.split(' ')[0].replaceAll('-','.')} ${el.memo}
+                                                                                        </span>
+                                                                                    </div>`
+
+
+
+                    })
+
+
+                }
 
 
                 let before_price = 0;
 
                 if(body_3.length >0){
-                    document.querySelector('.pay-btn-detail-toggle-2').style.display ='flex';
+
                     body_3.forEach(function(el,i){
 
                         let card = el.local_price === null ? 0 : parseInt(el.local_price);
@@ -10064,6 +10196,11 @@ function pay_management_init(id,target,bool,bool2){
 
 
                     })
+                }
+
+
+                if(body_3.length >4){
+                    document.querySelector('.pay-btn-detail-toggle-2').style.display ='flex';
                 }else{
 
                     document.querySelector('.pay-btn-detail-toggle-2').style.display ='none';
@@ -10445,7 +10582,6 @@ function pay_management_init(id,target,bool,bool2){
 
                 }else{
 
-                    management_service_1(id,body);
 
                     let parsing = body.product_parsing;
 
@@ -10483,7 +10619,7 @@ function pay_management_init(id,target,bool,bool2){
 
 
 
-                    if(parsing.add.hair_color.length > 0 && parsing.add.hair_color?.unit){
+                    if(parsing.add.hair_color.length > 0 && parsing.add.hair_color[0]?.unit){
 
                         parsing.add.hair_color.forEach(function(el){
 
@@ -10495,8 +10631,7 @@ function pay_management_init(id,target,bool,bool2){
 
                     }
 
-                    if(parsing.add.spa.length > 0 && parsing.add.spa?.unit){
-
+                    if(parsing.add.spa.length > 0 && parsing.add.spa[0]?.unit){
                         parsing.add.spa.forEach(function(el){
 
                             document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
@@ -10598,36 +10733,44 @@ function pay_management_init(id,target,bool,bool2){
                     document.getElementById('appr_worker').innerText = body.worker_nick;
                     document.getElementById('appr_time').innerText = body.beauty_date.split(' ')[1];
 
-                    $.ajax({
-                        url: '/data/pc_ajax.php',
-                        type: 'post',
-                        data: {
-                            mode: 'waiting',
-                            partner_id: id,
-                        },
-                        success: function (res) {
 
-                            let response = JSON.parse(res);
-                            let head = response.data.head;
-                            let body1 = response.data.body;
-                            if (head.code === 401) {
-                                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-                            } else if (head.code === 200) {
+                    let approve_idx = target.getAttribute('data-approve_idx')
+                    Array.from(document.getElementsByClassName('apporval-reserve')).forEach((function(el_){
 
-                                body1.forEach(function(el){
+                                                el_.setAttribute('data-approve',`${approve_idx}`)
+                                            }))
 
-                                    if(el.product.payment_idx == localStorage.getItem('payment_idx')){
-                                        Array.from(document.getElementsByClassName('apporval-reserve')).forEach((function(el_){
 
-                                            el_.setAttribute('data-approve',`${el.product.approve_idx}`)
-                                        }))
-
-                                    }
-                                })
-
-                            }
-                        }
-                    })
+                    // $.ajax({
+                    //     url: '/data/pc_ajax.php',
+                    //     type: 'post',
+                    //     data: {
+                    //         mode: 'waiting',
+                    //         partner_id: id,
+                    //     },
+                    //     success: function (res) {
+                    //
+                    //         let response = JSON.parse(res);
+                    //         let head = response.data.head;
+                    //         let body1 = response.data.body;
+                    //         if (head.code === 401) {
+                    //             pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                    //         } else if (head.code === 200) {
+                    //
+                    //             body1.forEach(function(el){
+                    //
+                    //                 if(el.product.payment_idx == localStorage.getItem('payment_idx')){
+                    //                     Array.from(document.getElementsByClassName('apporval-reserve')).forEach((function(el_){
+                    //
+                    //                         el_.setAttribute('data-approve',`${el.product.approve_idx}`)
+                    //                     }))
+                    //
+                    //                 }
+                    //             })
+                    //
+                    //         }
+                    //     }
+                    // })
 
                 }
 
@@ -11079,7 +11222,7 @@ function pay_management_product_change(target){
 
         }
 
-        
+
         let size = document.querySelector('input[name="payment_size"]:checked').value;
         let service = document.querySelector('input[name="payment_s1"]:checked').value;
         let weight;

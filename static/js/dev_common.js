@@ -625,7 +625,7 @@ function today_reserve(id,bool){
                                                 <a href="/booking/reserve_beauty_day.php" onclick="localStorage.setItem('payment_idx',${el.product.payment_idx}); localStorage.setItem('day_select',\`${new Date().getFullYear()}.${fill_zero(new Date().getMonth() + 1)}.${fill_zero(new Date().getDate())}\`)" class="customer-card-item transparent">
                                                     <div class="item-info-wrap">
                                                         <div class="item-thumb">
-                                                            <div class="user-thumb ${bool ? 'middle' : 'small'}"><img src="${el.pet.photo !== null ? `https://image.banjjakpet.com${el.pet.photo}`  : `${el.pet.animal === 'dog' ? `../static/images/icon/icon-pup-select-off.png`: `../static/images/icon/icon-cat-select-off.png`}` }" alt=""></div>
+                                                            <div class="user-thumb ${bool ? 'middle' : 'small'}" ${el.pet.photo !== null ? `onclick="thumb_view(this,\`${el.pet.photo}\`)"` : ''}><img src="${el.pet.photo !== null ? `https://image.banjjakpet.com${el.pet.photo}`  : `${el.pet.animal === 'dog' ? `../static/images/icon/icon-pup-select-off.png`: `../static/images/icon/icon-cat-select-off.png`}` }" alt=""></div>
                                                         </div>
                                                         <div class="item-data">
                                                             <div class="item-data-inner">
@@ -721,7 +721,7 @@ function renderCalendar(id) {
             dates[i] = `<div class="main-calendar-month-body-col ${prevDates.indexOf(_date) >= 0 && i <= 7 ? "before" : ""} ${nextDates.indexOf(_date) >= 0 && i >= dates.length - 7 ? "after" : ""} ${new Date(date.getFullYear(),date.getMonth(),_date).getDay() === 0 ? 'sunday' : ''} ${new Date(date.getFullYear(),date.getMonth(),_date).getDay() === 6 ? 'saturday' : '' } ">
                         <div class="main-calendar-col-inner">
                             <div class="main-calendar-toggle-group">
-                                <a href="javascript:;" class="main-calendar-day-value">
+                                <a href="/booking/reserve_beauty_day.php" onclick="localStorage.setItem('day_select',\`${date.getFullYear()}.${fill_zero(date.getMonth()+1)}.${fill_zero(_date)}\`)" class="main-calendar-day-value">
                                     <div class="number ${new Date(date.getFullYear(),date.getMonth(),_date).getDay() === 0 ? 'sunday' : ''} ${new Date(date.getFullYear(),date.getMonth(),_date).getDay() === 6 ? 'saturday' : '' }" >${_date}</div>
                                     <div class="value reserve-total"></div>
                                 </a>
