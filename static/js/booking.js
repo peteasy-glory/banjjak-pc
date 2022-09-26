@@ -149,7 +149,7 @@ function schedule_render(id){
                         })
 
                         console.log(tooltip_arr)
-                        tooltip(tooltip_arr);
+                        //tooltip(tooltip_arr);
 
                         $.ajax({
 
@@ -233,6 +233,7 @@ function schedule_render(id){
                                 el.style.paddingLeft = '0px'
                             })
                         }
+                        tooltip(tooltip_arr);
 
                         day_drag();
                     });
@@ -385,7 +386,7 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
 
             })
 
-            tooltip(tooltip_arr);
+            //tooltip(tooltip_arr);
 
 
             Array.from(body_col).forEach(function (e){
@@ -472,6 +473,7 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
 
 
             });
+            tooltip(tooltip_arr);
             reserve_prohibition_list(id);
             setTimeout(function(){week_drag()},500)
 
