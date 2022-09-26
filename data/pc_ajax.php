@@ -1753,7 +1753,7 @@ if($r_mode) {
     }else if($r_mode === "get_tooltip"){
 
         $payment_idx = $_POST['payment_idx'];
-        $is_beauty_false = array("is_beauty" => false, "get_count" => 5);
+        $is_beauty_false = array("is_beauty" => false, "get_count" => 3);
 
         $is_beauty_false_data_json = json_encode($is_beauty_false);
 

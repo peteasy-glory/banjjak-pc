@@ -3,7 +3,7 @@ var memo_array = [];
 
 //일간 예약관리 렌더
 function schedule_render(id){
-
+    memo_array = [];
     $.ajax({
 
         url:'/data/pc_ajax.php',
@@ -243,7 +243,7 @@ function schedule_render(id){
 
 
 function reserve_schedule_week_cols(body,body_,parent,id,session_id){
-
+    memo_array = [];
     console.log(body)
     console.log(body_)
 
@@ -947,6 +947,8 @@ return new Promise(function (resolve){
                         let noshow = 0;
 
                         body_.forEach(function (el) {
+                            // 툴팁배열에 idx 넣기
+                            tooltip(el.product.payment_idx);
 
                             if (el.product.is_cancel === 1) {
                                 cancel++;
@@ -971,6 +973,7 @@ return new Promise(function (resolve){
 
 
                         Array.from(document.querySelector('.week-check').children).forEach(function (el) {
+
 
 
                             if (el.classList.contains('before') || el.classList.contains('after')) {

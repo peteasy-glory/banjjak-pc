@@ -1315,7 +1315,7 @@ function customer_view(id){
                                                                                                                     </div>
                                                                                                                     <div class="flex-table-data">
                                                                                                                         <div class="flex-table-data-inner">
-                                                                                                                            ${el.product.split('|')[8]}
+                                                                                                                            ${el.product.split('|')[6].split(':')[0]}
                                                                                                                         </div>
                                                                                                                     </div>
                                                                                                                 </div>
