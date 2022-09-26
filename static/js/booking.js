@@ -1002,23 +1002,16 @@ return new Promise(function (resolve){
 
 
                         let data = [body_,parent];
+
+
                         resolve(data);
-
-
                     }
 
-                },complete:function(){
-
-                    if(document.getElementById('week_schedule_card_body')){
-                        document.getElementById('week_schedule_card_body').style.display = 'block';
-                        document.getElementById('week_schedule_loading').style.display ='none';
-                        document.getElementById('btn-schedule-prev').removeAttribute('disabled');
-                        document.getElementById('btn-schedule-next').removeAttribute('disabled');
-                        week_timebar();
-                        week_drag();
-
-                    }
                 }
+                // ,complete:function(){
+
+
+                // }
             })
 
 
