@@ -1130,12 +1130,17 @@ function _renderCalendar_mini(id,session_id){
                                         if(el_.getAttribute('data-worker') === el.name){
 
                                             el.work.forEach(function(_el){
-
                                                 el_.setAttribute(`data-week-${_el.week}`,`${_el.week}|${_el.time_st}|${_el.time_fi}`)
                                             })
+
+
                                         }
                                     })
                                 })
+
+
+
+
                                 reserve_schedule_week_cols(body_data,body_,parent,id,session_id)
                                 reserve_schedule_week(id,body_data).then(function(_body){
 
