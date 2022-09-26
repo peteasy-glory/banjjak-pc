@@ -473,8 +473,10 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
 
 
             });
-            tooltip(tooltip_arr);
+
             reserve_prohibition_list(id);
+            tooltip(tooltip_arr);
+
             setTimeout(function(){week_drag()},500)
 
 
@@ -953,6 +955,10 @@ return new Promise(function (resolve){
                     if (head.code === 401) {
                         pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                     } else if (head.code === 200) {
+                        let data = [body_,parent];
+
+
+                        resolve(data);
 
                         let week_count = 0;
                         let cancel = 0;
@@ -1003,10 +1009,9 @@ return new Promise(function (resolve){
                         })
 
 
-                        let data = [body_,parent];
 
 
-                        resolve(data);
+
                     }
 
                 }
