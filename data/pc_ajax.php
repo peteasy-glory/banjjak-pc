@@ -2893,7 +2893,7 @@ if($r_mode) {
         $tem_code = "1000004530_20006";
         $payment_idx = $_POST['payment_idx'];
 
-        $btn_link = "{\"button\":[{\"name\":\"취소정보\",\"type\":\"WL\",\"url_pc\":\"\",\"url_mobile\":\"https://gopet.kr/pet/reservation/?payment_log_seq=".$payment_idx."\"}]}";
+        $btn_link = "{\"button\":[{\"name\":\"취소정보\",\"type\":\"WL\",\"url_pc\":\"\",\"url_mobile\":\"https://customer.banjjakpet.com/allim/reserve_info?payment_log_seq=".$payment_idx."\"}]}";
 
         $data = array('cellphone'=>$cellphone,'message'=>$message,'tem_code'=>$tem_code,'btn_link'=>$btn_link);
 

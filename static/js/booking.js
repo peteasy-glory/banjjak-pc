@@ -210,6 +210,9 @@ function schedule_render(id){
 
 function reserve_schedule_week_cols(body,body_,parent,id,session_id){
 
+    console.log(body)
+    console.log(body_)
+
 
 
 
@@ -351,12 +354,26 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
 
                     q.work.forEach(function (w){
 
-                        work_day.push(w.week);
+                        console.log(w)
+                        work_day.push(w.week)
+                        console.log(work_day)
+
+
+
 
 
 
                         Array.from(body_col).forEach(function (e){
 
+
+
+                            if(!work_day.toString().match(e.getAttribute('data-day'))){
+
+                                e.classList.add('break')
+                            }else{
+
+                                e.classList.remove('break')
+                            }
 
                             if(w.week === e.getAttribute('data-day') && (time_compare(w.time_st,e.getAttribute('data-time-to')) || time_compare(e.getAttribute('data-time-from'),w.time_fi))){
 
@@ -366,18 +383,19 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
 
                             }
 
-                            if(e.getAttribute('data-day').includes(work_day_search(work_day))){
 
-                                e.classList.add('break')
-                            }
+
 
 
 
                         })
 
 
+
+
                     })
                 }
+
             })
 
 
@@ -422,34 +440,35 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
 
 }
 
-function work_day_search(work_day){
-
-
-    for(let i=0; i<7; i++) {
-
-        if(work_day.includes(i.toString())){
-            let value = i.toString();
-            work_day = work_day.filter(function(item){
-                return item !== value;
-            })
-        }else{
-
-            work_day.push(i.toString())
-        }
-
-    }
-
-    if(work_day.length === 0){
-
-        work_day.push('999')
-    }
-
-    return work_day;
-
-
-
-
-}
+// function work_day_search(work_day){
+//
+//
+//     for(let i=0; i<7; i++) {
+//
+//         if(work_day.includes(i.toString())){
+//             let value = i.toString();
+//             work_day = work_day.filter(function(item){
+//                 return item !== value;
+//             })
+//         }
+//         // else{
+//         //
+//         //     work_day.push(i.toString())
+//         // }
+//
+//     }
+//
+//     if(work_day.length === 0){
+//
+//         work_day.push('999')
+//     }
+//
+//     return work_day;
+//
+//
+//
+//
+// }
 
 
 function week_holiday(parent,id){
@@ -637,7 +656,12 @@ function week_working(id){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
-                    //console.log(body)
+                    console.log(body)
+
+                    let open = `${fill_zero(localStorage.getItem('open_close').split('/')[0])}:00`;
+                    let close = `${fill_zero(localStorage.getItem('open_close').split('/')[1])}:00`;
+                    
+
 
                     document.getElementById('grid_layout_inner').innerHTML = '';
 
@@ -649,7 +673,7 @@ function week_working(id){
 
 
                             document.getElementById('grid_layout_inner').innerHTML += `<div class="grid-layout-cell flex-auto" >
-                                                                                                        <button type="button" class="btn-toggle-button header-worker" data-worker="${el.name}" data-nick="${el.nick}">${el.nick}</button>
+                                                                                                        <button type="button" class="btn-toggle-button header-worker" data-worker="${el.name}" data-nick="${el.nick}" data-week-0="0|${open}|${close}" data-week-1="1|${open}|${close}" data-week-2="2|${open}|${close}" data-week-3="3|${open}|${close}" data-week-4="4|${open}|${close}" data-week-5="5|${open}|${close}" data-week-6="6|${open}|${close}">${el.nick}</button>
                                                                                                   </div>`
 
 
@@ -4640,32 +4664,38 @@ function reserve_time(){
 
 function reserve_time_date(){
 
+    return new Promise(function(resolve){
 
-    let year = document.getElementById('reserve_time_year').value;
-    let month = document.getElementById('reserve_time_month').value;
+        let year = document.getElementById('reserve_time_year').value;
+        let month = document.getElementById('reserve_time_month').value;
 
-    let date_length = new Date(year,month,0).getDate();
-    document.getElementById('reserve_time_date').innerHTML = '';
-    for(let i = 1; i<=date_length; i++){
-        document.getElementById('reserve_time_date').innerHTML += `<option value="${fill_zero(i)}">${i}</option>`
+        let date_length = new Date(year,month,0).getDate();
+        document.getElementById('reserve_time_date').innerHTML = '';
+        for(let i = 1; i<=date_length; i++){
+            document.getElementById('reserve_time_date').innerHTML += `<option value="${fill_zero(i)}">${i}</option>`
 
-    }
+        }
 
-    Array.from(document.getElementsByClassName('reserve-time')).forEach(function(el){
+        Array.from(document.getElementsByClassName('reserve-time')).forEach(function(el){
 
-        el.addEventListener('change',function(){
+            el.addEventListener('change',function(){
 
-            year = document.getElementById('reserve_time_year').value;
-            month = document.getElementById('reserve_time_month').value;
+                year = document.getElementById('reserve_time_year').value;
+                month = document.getElementById('reserve_time_month').value;
 
-            date_length = new Date(year,month,0).getDate();
-            document.getElementById('reserve_time_date').innerHTML = '';
-            for(let i = 1; i<=date_length; i++){
-                document.getElementById('reserve_time_date').innerHTML += `<option value="${i}">${i}</option>`
+                date_length = new Date(year,month,0).getDate();
+                document.getElementById('reserve_time_date').innerHTML = '';
+                for(let i = 1; i<=date_length; i++){
+                    document.getElementById('reserve_time_date').innerHTML += `<option value="${i}">${i}</option>`
 
-            }
+                }
+            })
         })
+
+
+        resolve();
     })
+
 
 }
 
@@ -4792,6 +4822,18 @@ function reserve_regist_event(artist_id,session_id){
             let weight = `${weight1}.${weight2}`;
 
 
+            let worker = document.getElementById('reserveCalendarPop2').getAttribute('data-name');
+
+
+            if(worker === '' || worker === null){
+
+
+                document.getElementById('msg1_txt').innerText = '선생님을 선택해주세요.'
+                pop.open('reserveAcceptMsg1');
+                return;
+
+            }
+
 
             if(cellphone === ''){
 
@@ -4842,6 +4884,9 @@ function reserve_regist_event(artist_id,session_id){
                 pop.open('reserveCalendarPop11');
                 document.getElementById('notice_check').setAttribute('data-notice','Y');
             }
+
+
+
 
         })
     })
@@ -5273,6 +5318,10 @@ let beauty,bath,add_svc;
     }
 
 
+    let worker = document.getElementById('reserveCalendarPop2').getAttribute('data-name');
+
+
+
 
 
 
@@ -5287,7 +5336,7 @@ let beauty,bath,add_svc;
 
             mode:'reserve_regist',
             partner_id : login,
-            worker : document.getElementById('reserveCalendarPop2').getAttribute('data-name'),
+            worker : worker,
             customer_id : customer_id,
             cellphone : cellphone,
             pet_seq : pet_seq,

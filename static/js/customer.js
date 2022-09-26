@@ -1146,7 +1146,7 @@ function customer_view(id){
                             login_id:id,
                             cellphone:localStorage.getItem('customer_select')
                         },success:function(res) {
-                            //console.log(res)
+                            console.log(res)
                             let response = JSON.parse(res);
                             let head_ = response.data.head;
                             let body_ = response.data.body;
@@ -2460,7 +2460,7 @@ function representative(target,id){
     let nick = target.getAttribute('data-nick');
     let old_phone = target.getAttribute('data-to_cellphone');
     let new_phone = target.getAttribute('data-cellphone');
-    let client_id = target.getAttribute('data-idx');
+    let client_id = target.getAttribute('data-idx').match('신규등록') ? target.getAttribute('data-idx').split('(')[1].replace(')','') : target.getAttribute('data-idx');
 
     $.ajax({
 
@@ -2485,13 +2485,13 @@ function representative(target,id){
                 } else if (head.code === 200) {
 
                     if(body.err ===0){
-                        document.getElementById('msg2_txt').innerText = '대표 번호가 변경되었습니다.'
-                        pop.open('reserveAcceptMsg2');
+                        document.getElementById('msg3_txt').innerText = '대표 번호가 변경되었습니다.'
+                        pop.open('reserveAcceptMsg3');
                         return;
 
                     }else{
-                        document.getElementById('msg2_txt').innerText = '잠시 후 다시 시도 해주세요.'
-                        pop.open('reserveAcceptMsg2');
+                        document.getElementById('msg3_txt').innerText = '잠시 후 다시 시도 해주세요.'
+                        pop.open('reserveAcceptMsg3');
                         return;
                     }
                 }
@@ -3016,7 +3016,7 @@ function direct_reserve_regist(){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                // location.reload()
+                location.reload()
             }
 
         }

@@ -554,11 +554,36 @@ $search = ($_POST['search'] && $_POST['search'] !== "") ? $_POST['search']:"";
         customer_pet_type()
         reserve_merchandise_load_event(artist_id);
         reserve_regist_tab();
-        reserve_time().then(function (){reserve_time_date()});
+        reserve_time().then(function (){reserve_time_date().then(function(){
+
+            for(let i=0; i<document.getElementById('reserve_time_month').options.length; i++){
+
+                if(document.getElementById('reserve_time_month').options[i].value === fill_zero(new Date().getMonth()+1)){
+
+                    document.getElementById('reserve_time_month').options[i].selected = true;
+                }
+            }
+
+            for(let i=0; i<document.getElementById('reserve_time_date').options.length; i++){
+
+                if(document.getElementById('reserve_time_date').options[i].value == fill_zero(new Date().getDate())){
+
+                    document.getElementById('reserve_time_date').options[i].selected = true;
+                }
+            }
+        });
+
+
+
+
+        });
         get_worker(artist_id);
         customer_new_birthday().then(function(){ customer_new_birthday_date()})
         reserve_time_init();
         new_exist_check(artist_id);
+
+
+
 
 
     })
