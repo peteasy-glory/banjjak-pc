@@ -72,10 +72,13 @@ function schedule_render(id){
                         no_one(body_data);
 
                         let color;
+                        let tooltip_arr = [];
                         body.forEach(function (el, index){
 
                             // 툴팁배열에 idx 넣기
-                            tooltip(el.product.payment_idx);
+
+
+                            tooltip_arr.push(el.product.payment_idx);
 
 
                             Array.from(document.getElementsByClassName('calendar-day-body-col')).forEach(function (el_){
@@ -145,6 +148,8 @@ function schedule_render(id){
 
                         })
 
+                        console.log(tooltip_arr)
+                        tooltip(tooltip_arr);
 
                         $.ajax({
 
@@ -284,7 +289,10 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
             })
             el.classList.add('actived');
 
+            let tooltip_arr = [];
             body_.forEach(function(_el, index){
+
+                tooltip_arr.push(_el.product.payment_idx);
                 //tooltip(_el.product.payment_idx);
 
                 ////console.log(_el);
@@ -376,6 +384,8 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
 
 
             })
+
+            tooltip(tooltip_arr);
 
 
             Array.from(body_col).forEach(function (e){
@@ -948,7 +958,7 @@ return new Promise(function (resolve){
 
                         body_.forEach(function (el) {
                             // 툴팁배열에 idx 넣기
-                            tooltip(el.product.payment_idx);
+                            // tooltip(el.product.payment_idx);
 
                             if (el.product.is_cancel === 1) {
                                 cancel++;
@@ -7866,38 +7876,44 @@ function reserve_change_time(){
 }
 
 // 이전 특이사항 툴팁
-function tooltip(idx){
-    $.ajax({
-        url: '../data/pc_ajax.php',
-        data: {
-            mode: "get_tooltip",
-            payment_idx: idx,
-        },
-        type: 'POST',
-        success: function (res) {
-            //
-            let response = JSON.parse(res);
-            ////console.log(response);
-            let head = response.data.head;
-            let body = response.data.body;
-            if (head.code === 401) {
-                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-            } else if (head.code === 200) {
+function tooltip(arr){
 
-                if(body && body.length>0){
-                    var memo = '';
-                    $.each(body, function(index,value){
-                        memo += value.booking_date+'</br>';
-                        memo += value.memo+'</br></br>';
-                    })
-                    memo_array.push(memo);
-                }else{
-                    memo_array.push('')
+    arr.forEach(function(el){
+
+        $.ajax({
+            url: '../data/pc_ajax.php',
+            data: {
+                mode: "get_tooltip",
+                payment_idx: el,
+            },
+            type: 'POST',
+            success: function (res) {
+                //
+                let response = JSON.parse(res);
+                ////console.log(response);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+
+                    if(body && body.length>0){
+                        var memo = '';
+                        $.each(body, function(index,value){
+                            memo += value.booking_date+'</br>';
+                            memo += value.memo+'</br></br>';
+                        })
+                        memo_array.push(memo);
+                    }else{
+                        memo_array.push('')
+                    }
+
                 }
-
             }
-        }
+        })
     })
+
+
 }
 
 function change_check(){
