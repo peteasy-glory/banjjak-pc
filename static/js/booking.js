@@ -11065,10 +11065,21 @@ function pay_management_product_change(target){
     let name =target.getAttribute('data-name');
 
     let product = '';
+
+
     if(type === '개'){
 
 
 
+        if(document.querySelector('input[name="payment_s2"]:checked') === null){
+
+            document.getElementById('msg1_txt').innerText = '무게를 선택해주세요.'
+            pop.open('reserveAcceptMsg1');
+            return;
+
+        }
+
+        
         let size = document.querySelector('input[name="payment_size"]:checked').value;
         let service = document.querySelector('input[name="payment_s1"]:checked').value;
         let weight;
@@ -11318,7 +11329,7 @@ function pay_management_product_change(target){
     let price = document.getElementById('real_total_price').getAttribute('value');
 
 
-    console.log(price);
+
 
     $.ajax({
 
