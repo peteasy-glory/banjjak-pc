@@ -490,7 +490,12 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
 
     })
 
-    tooltip(tooltip_arr);
+
+    setTimeout(function(){
+
+        tooltip(tooltip_arr);
+    },300)
+
     
 
 
@@ -955,6 +960,17 @@ return new Promise(function (resolve){
                     if (head.code === 401) {
                         pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                     } else if (head.code === 200) {
+
+                        if(document.getElementById('week_schedule_card_body')){
+                            document.getElementById('week_schedule_card_body').style.display = 'block';
+                            document.getElementById('week_schedule_loading').style.display ='none';
+                            document.getElementById('btn-schedule-prev').removeAttribute('disabled');
+                            document.getElementById('btn-schedule-next').removeAttribute('disabled');
+                            week_timebar();
+                            week_drag();
+
+                        }
+
                         let data = [body_,parent];
 
 

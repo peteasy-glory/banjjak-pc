@@ -1119,15 +1119,7 @@ function _renderCalendar_mini(id,session_id){
                             let body_ = data[0];
                             let parent = data[1]
 
-                            if(document.getElementById('week_schedule_card_body')){
-                                document.getElementById('week_schedule_card_body').style.display = 'block';
-                                document.getElementById('week_schedule_loading').style.display ='none';
-                                document.getElementById('btn-schedule-prev').removeAttribute('disabled');
-                                document.getElementById('btn-schedule-next').removeAttribute('disabled');
-                                week_timebar();
-                                week_drag();
 
-                            }
 
                             week_working(id).then(function (body_data){
 
