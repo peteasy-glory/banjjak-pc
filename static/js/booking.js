@@ -1137,6 +1137,7 @@ function book_list(id) {
                     list = body;
 
                     if(location.href.match('reserve_beauty_month')){
+                        let count = 0;
                         let cancel = 0;
                         let noshow = 0;
 
@@ -1145,6 +1146,15 @@ function book_list(id) {
                             if(el.product.is_cancel === 1){
 
                                 cancel++;
+                            }
+
+                            if(el.product.is_no_show === 1){
+
+                                noshow++;
+                            }
+
+                            if(el.product.is_cancel !== 1 && el.product.is_no_show !==1){
+                                count++;
                             }
                         })
 
@@ -1163,13 +1173,7 @@ function book_list(id) {
                         //     }
                         // })
 
-                        body.forEach(function (el){
 
-                            if(el.product.is_no_show === 1){
-
-                                noshow++;
-                            }
-                        })
 
                         // body.hotel.forEach(function(el){
                         //
@@ -1188,6 +1192,8 @@ function book_list(id) {
                         document.getElementById('day_today').innerText = `${date.getFullYear()}.${fill_zero(date.getMonth()+1)}`
 
 
+
+                        document.getElementById('day_total').innerText = `${count}건`
                         document.getElementById('day_cancel').innerText = `${cancel}건`
                         document.getElementById('day_noshow').innerText = `${noshow}건`
 
@@ -9520,9 +9526,9 @@ function pay_management_init(id,target,bool,bool2){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                //console.log(body)
-                //console.log(body_2)
-                //console.log(body_3)
+                console.log(body)
+                console.log(body_2)
+                console.log(body_3)
 
                 let start_time ;
 
