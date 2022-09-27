@@ -1092,7 +1092,6 @@ function _renderCalendar_mini(id,session_id){
             Array.from(mini_col).forEach(function(el){
 
                 el.addEventListener('click',function(evt){
-                    $.ajaxQ.abortAll();
 
 
 

@@ -31,38 +31,38 @@
     <script src="/static/js/swiper.min.js"></script>
     <script>
 
-        $.ajaxQ = (function(){
-            var id = 0, Q = {};
-
-            $(document).ajaxSend(function(e, jqx,i){
-
-                if(i.data.split('&')[0].replace('mode=','') === 'cal_count' || i.data.split('&')[0].replace('mode=','') === 'waiting' || i.data.split('&')[0].replace('mode=','') === 'merchandise' || i.data.split('&')[0].replace('mode=','') === 'holiday'){
-
-
-                }else{
-
-                    jqx._id = ++id;
-                    Q[jqx._id] = jqx;
-                }
-
-            });
-            $(document).ajaxComplete(function(e, jqx){
-                delete Q[jqx._id];
-            });
-
-            return {
-                abortAll: function(){
-
-                    var r = [];
-                    $.each(Q, function(i, jqx){
-                        r.push(jqx._id);
-                        jqx.abort();
-                    });
-                    return r;
-                }
-            };
-
-        })();
+        // $.ajaxQ = (function(){
+        //     var id = 0, Q = {};
+        //
+        //     $(document).ajaxSend(function(e, jqx,i){
+        //
+        //         if(i.data.split('&')[0].replace('mode=','') === 'cal_count' || i.data.split('&')[0].replace('mode=','') === 'waiting' || i.data.split('&')[0].replace('mode=','') === 'merchandise' || i.data.split('&')[0].replace('mode=','') === 'holiday'){
+        //
+        //
+        //         }else{
+        //
+        //             jqx._id = ++id;
+        //             Q[jqx._id] = jqx;
+        //         }
+        //
+        //     });
+        //     $(document).ajaxComplete(function(e, jqx){
+        //         delete Q[jqx._id];
+        //     });
+        //
+        //     return {
+        //         abortAll: function(){
+        //
+        //             var r = [];
+        //             $.each(Q, function(i, jqx){
+        //                 r.push(jqx._id);
+        //                 jqx.abort();
+        //             });
+        //             return r;
+        //         }
+        //     };
+        //
+        // })();
 
     </script>
 </head>

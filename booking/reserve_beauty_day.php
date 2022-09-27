@@ -487,7 +487,7 @@ if ($artist_flag == 1) {
                                                     <div class="pay-txt">견주관련 메모<span class="pay-sub-txt"> (고객에게는 노출되지 않습니다.)</span></div>
                                                 </div>
                                                 <textarea name="pay-customer-memo-text" id="pay_customer_memo_text" cols="30" rows="10"></textarea>
-                                                <button type="button" class="pay-customer-memo-save btn btn-outline-purple btn-middle-size btn-round" onclick="customer_memo()">저장</button>
+                                                <button type="button" class="pay-customer-memo-save btn btn-outline-purple btn-middle-size btn-round"  id="customer_memo_btn" onclick="customer_memo(this,artist_id)">저장</button>
                                             </div>
                                         </div>
                                         <div class="pay-card-content-3-2 is_approve">
@@ -1132,6 +1132,14 @@ if ($artist_flag == 1) {
     <input type="hidden" name="log_date">
     <input type="hidden" name="log_start_time">
     <input type="hidden" name="log_end_time">
+    <input type="hidden" name="log_cellphone">
+    <input type="hidden" name="log_pet_name">
+    <input type="hidden" name="log_a_year">
+    <input type="hidden" name="log_a_month">
+    <input type="hidden" name="log_a_date">
+    <input type="hidden" name="log_a_start_hour">
+    <input type="hidden" name="log_a_start_min">
+
 
     <div class="layer-pop-parent">
         <div class="layer-pop-children">
@@ -1141,6 +1149,11 @@ if ($artist_flag == 1) {
                 </div>
                 <div class="pop-body type-3">
                     <div class="msg-txt"><span class="msg-text-date"></span><br><br>선택한 예약을<br>이 곳으로 변경합니다.</div>
+                </div>
+                <div style="display:flex; justify-content: center; align-items: center; margin-bottom:20px;">
+                    예약변경알림발송
+                    <input type="radio" name="log_msg_send" style="vertical-align: baseline; accent-color: #6840b1; " value="Y" checked> 발송
+                    <input type="radio" name="log_msg_send" style="vertical-align: baseline; accent-color: #6840b1;" value="N"> 미발송
                 </div>
                 <div class="pop-footer">
                     <button type="button" class="btn btn-confirm" onclick="pop.close(); reserve_change_time();">확인</button>
@@ -1163,6 +1176,20 @@ if ($artist_flag == 1) {
                 <div class="pop-footer">
                     <button type="button" class="btn btn-confirm btn-reserv-block" onclick="pop.close(); reserve_prohibition_init().then(function(){reserve_prohibition_select()}); ">예약금지설정</button>
                     <button type="button" class="btn btn-confirm btn-reserv-send" onclick="pop.close(); pop.open('reserveAcceptUser'); reserve_time_select()">예약접수</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+<article id="reserveAcceptMsg3" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data alert-pop-data">
+                <div class="pop-body">
+                    <div class="msg-txt" id="msg3_txt"></div>
+                </div>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm" onclick="location.reload()">확인</button>
                 </div>
             </div>
         </div>
@@ -3012,10 +3039,7 @@ if ($artist_flag == 1) {
 
         gallery.init()
 
-        window.addEventListener('beforeunload',function(){
 
-            $.ajaxQ.abortAll();
-        })
 
     })
 
