@@ -116,9 +116,22 @@ $pet_type = (isset($_GET['is_cat']))? $_GET['is_cat'] : "dog";
 													<div class="basic-data-group vmiddle" style="display:block;">
 														<div class="basic-data-group middle">
 															<div class="form-group-item">
+                                                                <div class="basic-data-group middle huge_weight_wrap" style="display: none;">
+                                                                    <div class="form-group-item">
+                                                                        <div class="form-item-label">Kg당 추가요금설정(개별등록)</div>
+                                                                        <div class="form-item-data type-2">
+                                                                            <div class="form-check-group">
+                                                                                <div class="form-check-inner">
+                                                                                    <div class="check-cell"><label class="form-radiobox"><input type="radio" class="huge_weight is_kgs_by_price1" name="is_kgs_by_price" value="1"><span class="form-check-icon"><em>설정</em></span></label></div>
+                                                                                    <div class="check-cell"><label class="form-radiobox"><input type="radio" class="huge_weight is_kgs_by_price0" name="is_kgs_by_price" value="0" checked><span class="form-check-icon"><em>설정안함</em></span></label></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
 																<div class="form-item-label">
 																	옵션목록
-																	<div class="grid-layout btn-grid-group">
+																	<div class="grid-layout btn-grid-group add_del_wrap">
 																		<div class="grid-layout-inner justify-content-end">
 																			<div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-gray btn-small-size btn-basic-small dog_add_table">구간추가</button></div>
 																			<div class="grid-layout-cell flex-auto"><button type="button" class="btn btn-outline-gray btn-small-size btn-basic-small dog_del_table">구간삭제</button></div>
@@ -364,7 +377,7 @@ $pet_type = (isset($_GET['is_cat']))? $_GET['is_cat'] : "dog";
 																</div>
 															</div>
 														</div>
-														<div class="basic-data-group middle">
+														<div class="basic-data-group middle is_over_kgs_warp">
 															<div class="form-group-item">
 																<div class="form-item-label">Kg당 추가요금설정(추가옵션1)</div>
 																<div class="form-item-data type-2">									
@@ -924,6 +937,9 @@ $pet_type = (isset($_GET['is_cat']))? $_GET['is_cat'] : "dog";
 
         // 강아지 상품 수정으로 들어왔을때
         if(second_type != ''){
+            if(second_type == '대형견미용'){
+                $(".direct_title_wrap").css("display", "block");
+            }
             get_dog_type_product(artist_id, second_type, direct_title);
         }
         //console.log(setting_array);
@@ -999,10 +1015,17 @@ $pet_type = (isset($_GET['is_cat']))? $_GET['is_cat'] : "dog";
 
     // 직접입력 선택시 입력칸 노출
     $(document).on("change",".second_type",function(){
-        if($(this).val() == '직접입력'){
-            $(".direct_title_wrap").css("display","block");
+        if($(this).val() == '직접입력') {
+            $(".direct_title_wrap").css("display", "block");
+            $(".huge_weight_wrap").css("display","none");
+        }else if($(this).val() == '대형견미용'){
+            $(".direct_title_wrap").css("display","none");
+            get_dog_type_product(artist_id, $(this).val(), '');
+            $(".huge_weight_wrap").css("display","block");
         }else{
             $(".direct_title_wrap").css("display","none");
+            get_dog_type_product(artist_id, $(this).val(), '');
+            $(".huge_weight_wrap").css("display","none");
         }
     })
 
@@ -1025,8 +1048,26 @@ $pet_type = (isset($_GET['is_cat']))? $_GET['is_cat'] : "dog";
         console.log('test');
         if($(this).val() == '0'){
             $(".dog_over_kgs_wrap").css("display","none");
+            $(".huge_weight_wrap").css("display","block");
         }else{
             $(".dog_over_kgs_wrap").css("display","block");
+            $(".huge_weight_wrap").css("display","none");
+        }
+    })
+
+    // 대형견 1kg당 추가요금설정
+    $(document).on("change",".huge_weight",function(){
+        //console.log('test');
+        if($(this).val() == '0'){
+            $(".add_del_wrap").css("display","block");
+            $(".is_over_kgs_warp").css("display","block");
+            $(".kgs_arr").prop("disabled",false);
+        }else{
+            $(".add_del_wrap").css("display","none");
+            view_add_product();
+            $(".kgs_arr").val('1.0');
+            $(".kgs_arr").prop("disabled",true);
+            $(".is_over_kgs_warp").css("display","none");
         }
     })
 
