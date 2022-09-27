@@ -290,7 +290,7 @@ function customer_all(id){
                 let customers =response.data
                 let head = response.data.head;
                 let body = response.data.body;
-                //console.log(body);
+                console.log(body);
 
                 if(body.length === undefined){
                     body = [body];
@@ -406,7 +406,7 @@ function customer_list(id,customers){
                                             <strong>${el.name}</strong>
                                         </div>
                                         <div class="customer-table-txt">
-                                            <span class="icon icon-grade-${grade ===  1 ? 'vip' : grade === 2 ? 'normal' : 'normalb'}"></span>
+                                            <span class="icon icon-grade-${grade ===  1 ? 'vip' : grade === 3 ? 'normalb' : 'normal'}"></span>
                                         </div>
                                     </td>
                                     <td>

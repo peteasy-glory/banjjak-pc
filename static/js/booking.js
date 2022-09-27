@@ -4419,7 +4419,7 @@ function reserve_merchandise_load_3(base_svc){
                                                                                                         <input type="radio" value="${ele.kg}" name="s2" data-price="${ele.price}"  onclick="reserve_service_list('service2_basic_weight','~${ele.kg}kg',${ele.is_consulting === "0" ? ele.price : '0'})">
                                                                                                             <em>
                                                                                                                 <span>~${ele.kg}Kg</span>
-                                                                                                            <strong>${ele.is_consulting === "0" ? `${parseInt(ele.price).toLocaleString()}원` : '상담'}</strong>
+                                                                                                            <strong>${ele.is_consulting == "1" ? '상담' :`${parseInt(ele.price).toLocaleString()}원` }</strong>
                                                                                                             
                                                                                                         </em>
                                                                                                     </label>
@@ -7858,6 +7858,7 @@ function management_service_1(id,breed){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
+                    console.log(body)
                     if(body.is_vat == 0){
 
                         localStorage.setItem('is_vat','0');
@@ -8422,7 +8423,7 @@ function management_service_4(base_svc){
                                                                                                             <input type="radio" id="${ele.kg}kg" value="${ele.kg}" name="payment_s2" data-price="${ele.price}" ${i ===  _el.unit.length-1 ? 'id="weight_target"':''}onclick="set_product2(this,'${document.querySelector('input[name="payment_size"]:checked').value}/${document.querySelector('input[name="payment_s1"]:checked').value}/${ele.kg}kg','${ele.price}','list_title_3',true)">
                                                                                                                 <em>
                                                                                                                     <span class="font-size-12">~${ele.kg}Kg</span>
-                                                                                                                <strong class="font-size-12">${ele.is_consulting === "0" ? `${parseInt(ele.price).toLocaleString()}원` : '상담'}</strong>
+                                                                                                                <strong class="font-size-12">${ele.is_consulting == "1" ? '상담' : `${parseInt(ele.price).toLocaleString()}원`}</strong>
                                                                                                                 
                                                                                                             </em>
                                                                                                         </label>
@@ -8882,9 +8883,9 @@ function set_etc_product_count_(target,name,price,bool){
 
                 let value = siblings(target,1).children[0].value;
 
-                siblings(el,1).innerText = `${parseInt(localStorage.getItem('surcharge_std_price')) + ( (parseInt(document.getElementById('payment_weight_target').value) - parseInt(localStorage.getItem('surcharge_kg') ))*parseInt(localStorage.getItem('surcharge_price')) )}원`
+                siblings(el,1).innerText = `${parseInt(localStorage.getItem('surcharge_std_price')) + ( (parseInt(document.getElementById('payment_weight_target').value) - parseInt(localStorage.getItem('surcharge_kg') ))*parseInt(localStorage.getItem('surcharge_price'))) + parseInt(localStorage.getItem('surcharge_price'))}원`
 
-                localStorage.setItem('surcharge_result',`${parseInt(localStorage.getItem('surcharge_std_price')) + ( (parseInt(document.getElementById('payment_weight_target').value) - parseInt(localStorage.getItem('surcharge_kg') ))*parseInt(localStorage.getItem('surcharge_price')) )}`)
+                localStorage.setItem('surcharge_result',`${parseInt(localStorage.getItem('surcharge_std_price')) + ( (parseInt(document.getElementById('payment_weight_target').value) - parseInt(localStorage.getItem('surcharge_kg') ))*parseInt(localStorage.getItem('surcharge_price'))) + parseInt(localStorage.getItem('surcharge_price'))}`)
 
 
 
@@ -8897,8 +8898,8 @@ function set_etc_product_count_(target,name,price,bool){
                 siblings(target,1).children[0].value = parseInt(siblings(target,1).children[0].value)-1;
 
 
-                siblings(el,1).innerText = `${parseInt(localStorage.getItem('surcharge_std_price')) + ( (parseInt(document.getElementById('payment_weight_target').value) - parseInt(localStorage.getItem('surcharge_kg') ))*parseInt(localStorage.getItem('surcharge_price')) )}원`
-                localStorage.setItem('surcharge_result',`${parseInt(localStorage.getItem('surcharge_std_price')) + ( (parseInt(document.getElementById('payment_weight_target').value) - parseInt(localStorage.getItem('surcharge_kg') ))*parseInt(localStorage.getItem('surcharge_price')) )}`)
+                siblings(el,1).innerText = `${parseInt(localStorage.getItem('surcharge_std_price')) + ( (parseInt(document.getElementById('payment_weight_target').value) - parseInt(localStorage.getItem('surcharge_kg') ))*parseInt(localStorage.getItem('surcharge_price')) ) +  parseInt(localStorage.getItem('surcharge_price'))}원`
+                localStorage.setItem('surcharge_result',`${parseInt(localStorage.getItem('surcharge_std_price')) + ( (parseInt(document.getElementById('payment_weight_target').value) - parseInt(localStorage.getItem('surcharge_kg') ))*parseInt(localStorage.getItem('surcharge_price')) ) +  parseInt(localStorage.getItem('surcharge_price'))}`)
 
             }
         }
@@ -10253,7 +10254,7 @@ function pay_management_init(id,target,bool,bool2){
 
                                 document.getElementById('payment_surcharge').click();
                                 document.getElementById('payment_weight_target').value = parsing.base.weight.unit;
-                                document.getElementById('surcharge_target').innerText = `${(parseInt(document.getElementById('payment_weight_target').value) - parseInt(localStorage.getItem('surcharge_kg'))) * parseInt(localStorage.getItem('surcharge_price')) + parseInt(localStorage.getItem('surcharge_std_price'))}원`
+                                document.getElementById('surcharge_target').innerText = `${(parseInt(document.getElementById('payment_weight_target').value) - parseInt(localStorage.getItem('surcharge_kg'))) * parseInt(localStorage.getItem('surcharge_price')) + parseInt(localStorage.getItem('surcharge_std_price')) + parseInt(localStorage.getItem('surcharge_price'))}원`
                             }else{
 
                             }
