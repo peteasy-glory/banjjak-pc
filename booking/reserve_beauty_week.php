@@ -3127,6 +3127,10 @@ if ($artist_flag == 1) {
 
         backgroundColor:'rgb(255,255,255)'
     })
+    window.addEventListener('beforeunload',function(){
+
+        $.ajaxQ.abortAll();
+    })
 
     canvas.width = canvas.parentElement.offsetWidth-2;
     canvas.height=canvas.parentElement.offsetHeight-2;

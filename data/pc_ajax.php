@@ -111,7 +111,7 @@ if($r_mode) {
 
         $home = $api->get('/partner/booking/count/' . $login_id. '?st_date=' . $st_date . '&fi_date=' . $fi_date);
 
-        $return_data = array("code" => "000000", "data" => $home);
+        $return_data = array("code" => "300000", "data" => $home);
 
     } else if ($r_mode === "month_book") {
 
@@ -131,7 +131,7 @@ if($r_mode) {
 
         $holiday = $api->get('/partner/setting/regular-holiday/' . $login_id);
 
-        $return_data = array("code" => "000000", "data" => $holiday);
+        $return_data = array("code" => "300000", "data" => $holiday);
     } else if ($r_mode === "search") {
 
         $login_id = $_POST['login_id'];
@@ -1929,7 +1929,7 @@ if($r_mode) {
 
         $merchandise = $api->get('/partner/booking/b/join/' . $login_id . '?animal=' . $animal);
 
-        $return_data = array("code" => "000000", "data" => $merchandise);
+        $return_data = array("code" => "300000", "data" => $merchandise);
 
 
     } else if ($r_mode === "reserve_regist") {

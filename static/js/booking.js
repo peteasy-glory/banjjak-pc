@@ -884,6 +884,7 @@ function schedule_render_week(el,id){
 
 return new Promise(function (resolve){
 
+
     pay_management_toggle(true);
 
 
@@ -924,6 +925,7 @@ return new Promise(function (resolve){
             let st_date = `${date.getFullYear()}-${fill_zero(date.getMonth() + 1)}-${fill_zero(st_target)}`
             let fi_date = `${date.getFullYear()}-${fill_zero(date.getMonth() + 1)}-${fill_zero(parseInt(fi_target)+1)}`
 
+
             $.ajax({
 
 
@@ -942,7 +944,6 @@ return new Promise(function (resolve){
                 },
                 beforeSend:function(){
                     let height;
-
                     if(document.getElementById('week_schedule_card_body')){
                         height = document.getElementById('week_schedule_card_body').offsetHeight;
                         document.getElementById('week_schedule_card_body').style.display = 'none';
@@ -1952,6 +1953,7 @@ function btn_schedule(id){
 
         document.getElementById('btn-schedule-next').addEventListener('click',function(){
             this.setAttribute('disabled',true);
+            $.ajaxQ.abortAll();
             date.setDate(date.getDate()+1)
             if(date.getDate() === 1){
                 // book_list(id).then(function (){
@@ -2070,6 +2072,7 @@ function btn_schedule(id){
 
         document.getElementById('btn-schedule-prev').addEventListener('click',function (){
             this.setAttribute('disabled',true);
+            $.ajaxQ.abortAll();
             date.setDate(date.getDate()-1)
             let new_date_2 = new Date(date.getFullYear(),date.getMonth()-1,0);
             if(date.getDate() === new_date_2.getDate()){
@@ -2196,7 +2199,8 @@ function btn_schedule(id){
 
         document.getElementById('btn-schedule-next').addEventListener('click',function() {
                 select_low = parseInt(localStorage.getItem('select_row'));
-                // this.setAttribute('disabled', true);
+                $.ajaxQ.abortAll()
+                this.setAttribute('disabled', true);
 
                 if (select_low !== lows.length - 1) {
                     lows[select_low + 1].children[0].click();
@@ -2220,7 +2224,8 @@ function btn_schedule(id){
         })
 
         document.getElementById('btn-schedule-prev').addEventListener('click',function(){
-            // this.setAttribute('disabled',true);
+            this.setAttribute('disabled',true);
+            $.ajaxQ.abortAll()
             select_low = parseInt(localStorage.getItem('select_row'));
 
             if(select_low !== 0){

@@ -3012,6 +3012,11 @@ if ($artist_flag == 1) {
 
         gallery.init()
 
+        window.addEventListener('beforeunload',function(){
+
+            $.ajaxQ.abortAll();
+        })
+
     })
 
     let wrapper = document.getElementById('signature_pad');

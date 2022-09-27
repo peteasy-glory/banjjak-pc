@@ -1161,9 +1161,6 @@ function customer_view(id){
 
                                 let body_data= [body,body_]
 
-                                // customer_id = body[0].customer_id;
-                                // tmp_seq = body[0].tmp_seq;
-
                                 document.getElementById('customer_view_cellphone').innerText = phone_edit(localStorage.getItem('customer_select'));
                                 document.getElementById('allim_cellphone').innerText = phone_edit(localStorage.getItem('customer_select'));
                                 document.getElementById('allim_cellphone_val').value = localStorage.getItem('customer_select');
@@ -1339,7 +1336,7 @@ function customer_view(id){
                                                                                                                     </div>
                                                                                                                     <div class="flex-table-data">
                                                                                                                         <div class="flex-table-data-inner">
-                                                                                                                            사용:0 누적:0
+                                                                                                                            사용:${el.use_reserve === '' ? '0' : el.use_reserve} 누적:${el.add_reserve === '' ? '0' : el.add_reserve}
                                                                                                                         </div>
                                                                                                                     </div>
                                                                                                                 </div>
