@@ -3198,19 +3198,49 @@ $(function(){
         var x = e.pageX;
         var y = e.pageY;
         var tooltip = $('.reserve-calendar-tooltip');
-        var idx = $(this).data('tooltip_idx');
+        var idx = $(this).data('payment_idx');
         /* 확장용 */
         if(e.type == 'mouseenter'){
             $(this).addClass('actived');
             if(parseInt($(this).attr('data-height')) <4){
                 $(this).attr('style',`height:${$(this).children()[0].offsetHeight}px; ${localStorage.getItem('change_check') === "1" ? 'border:red dotted' : ''}`)
             }
-            if(memo_array[idx] == ''){
-                return;
-            }
-            tooltip.addClass('actived');
-            document.getElementById("tooltip-date-text").innerHTML = "특이 사항";
-            document.getElementById("tooltip-desc-text").innerHTML = memo_array[idx];
+            $.ajax({
+                url: '../data/pc_ajax.php',
+                data: {
+                    mode: "get_tooltip",
+                    payment_idx: idx,
+                },
+                type: 'POST',
+                success: function (res) {
+                    //
+                    let response = JSON.parse(res);
+                    //////console.log(response);
+                    let head = response.data.head;
+                    let body = response.data.body;
+                    if (head.code === 401) {
+                        pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                    } else if (head.code === 200) {
+
+                        if(body && body.length>0){
+                            var memo = '';
+                            $.each(body, function(index,value){
+                                // memo += value.booking_date+'</br>';
+                                // memo += value.memo+'</br></br>';
+                                document.getElementById("tooltip-date-text").innerHTML = "특이 사항";
+                                document.getElementById("tooltip-desc-text").innerHTML = value.booking_date +'</br>'+ value.memo + '</br></br>';
+                                tooltip.addClass('actived');
+                            })
+                            // memo_array.push(memo);
+                        }else{
+                            // memo_array.push('')
+                            tooltip.removeClass('actived');
+                        }
+
+                    }
+                }
+            })
+
         }else if(e.type == 'mouseleave'){
             $(this).removeClass('actived');
 
