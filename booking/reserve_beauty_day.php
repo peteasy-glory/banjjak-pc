@@ -178,7 +178,7 @@ if ($artist_flag == 1) {
 									</div>
 									<div class="sort-right">
 										<!-- actived클래스 추가시 활성화 -->
-										<button type="button" onclick="localStorage.setItem('day_select',`${new Date().getFullYear()}.${fill_zero(new Date().getMonth()+1)}.${fill_zero(new Date().getDate())}`); location.reload() " class="btn-reserve-calendar-sort">오늘</button>
+										<button type="button" onclick="localStorage.setItem('day_select',`${new Date().getFullYear()}.${fill_zero(new Date().getMonth()+1)}.${fill_zero(new Date().getDate())}`); location.reload() " class="btn-reserve-calendar-sort" style="font-size:15px;">오늘</button>
 										<button type="button" onclick="location.href='./reserve_beauty_month.php';" class="btn-reserve-calendar-sort">월</button>
 										<button type="button" onclick="location.href='./reserve_beauty_week.php';" class="btn-reserve-calendar-sort">주</button>
 										<button type="button" class="btn-reserve-calendar-sort actived">일</button>

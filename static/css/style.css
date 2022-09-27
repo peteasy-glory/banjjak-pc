@@ -1184,3 +1184,10 @@
     -webkit-box-orient: vertical
 
 }
+
+.dark .item-memo{
+    color:#fff;
+}
+.dark .item-price{
+    color :#fff!important;
+}

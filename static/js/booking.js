@@ -338,7 +338,7 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
                                                         <div class="item-inner">
                                                             <div class="item-photo-name">
                                                             <div class="item-name">
-                                                                <div class="txt">${_el.pet.name}</div>
+                                                                <div class="txt" style="font-size:17px; margin-bottom:2px; max-width:80px;">${_el.pet.name}</div>
                                                                 <button type="button" class="btn-calendar-item-more"></button>
                                                             </div>
                                                             ${_el.product.noshow_cnt > 0 ? `<div class="item-noshow"><img src="/static/images/noshow@2x.png" alt="">${_el.product.noshow_cnt}회</div>`:''}
@@ -3816,7 +3816,7 @@ function reserve_merchandise_load_init(id){
                         if (head.code === 401) {
                             pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                         } else if (head.code === 200) {
-                            //console.log(body)
+                            console.log(body)
 
 
                             if(body.is_vat == 1){
@@ -4126,7 +4126,7 @@ function reserve_merchandise_load(body){
                                                                                                 <input type="radio" name="hairBeauty" value="${el.type}"  data-price="${el.price}" id="hairBeauty${i}" onclick="reserve_service_list('service2_basic_hair_length','${el.type}',${el.price})">
                                                                                                 <em>
                                                                                                     <span>${el.type}</span>
-                                                                                                    <strong>${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                                    <strong>${el.price === '' ? 0 : parseInt(el.price).toLocaleString()}원</strong>
                                                                                                 </em>
                                                                                             </label>
                                                                                         </div>`
@@ -8143,7 +8143,7 @@ function management_service_2(body){
                                                                                                 <input type="radio" id="${el.type}${el.price}" name="payment_hairBeauty" value="${el.type}"  data-price="${el.price}" id="payment_hairBeauty${i}" onclick="set_product2(this,'${el.type}','${el.price.toLocaleString()}','list_title_2',true)">
                                                                                                 <em>
                                                                                                     <span class="font-size-12">${el.type}</span>
-                                                                                                    <strong class="font-size-12">${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                                    <strong class="font-size-12">${el.price === '' ? 0 : parseInt(el.price).toLocaleString()}원</strong>
                                                                                                 </em>
                                                                                             </label>
                                                                                         </div>`

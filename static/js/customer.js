@@ -374,7 +374,7 @@ function customer_list(id,customers){
                 let product = el.product.split('|');
                 let size = product[3];
                 let b_product = product[4];
-                let grade = parseInt(el.grade.split('|')[1]);
+                let grade = el.grade === null || el.grade === '' ? 3 : el.grade;
 
 
                 //console.log(el)
