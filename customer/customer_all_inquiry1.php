@@ -31,7 +31,12 @@ if ($artist_flag == 1) {
 			<div class="view">
 				<div class="data-row">
 					<div class="data-col-middle wide">
-						<div class="basic-data-card">
+						<div class="basic-data-card" style="position: relative">
+                            <div class="sales-loading-wrap" id="loading_wrap">
+                                <div class="loading-container-2">
+                                    <img src="/static/images/loading.gif" alt="">
+                                </div>
+                            </div>
 							<div class="card-header">
 								<h3 class="card-header-title">전체 고객 조회</h3>
 							</div>

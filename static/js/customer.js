@@ -277,6 +277,13 @@ function customer_all(id){
                 number:number,
 
             },
+            beforeSend:function(){
+
+                if(document.getElementById('loading_wrap')){
+
+                    document.getElementById('loading_wrap').style.display = 'flex';
+                }
+            },
             success:function (res){
                 //console.log(res)
                 let response = JSON.parse(res);
@@ -297,6 +304,11 @@ function customer_all(id){
                 resolve(customers)
             }
             ,complete:function(){
+
+                if(document.getElementById('loading_wrap')){
+
+                    document.getElementById('loading_wrap').style.display = 'none';
+                }
 
                 offset +=20
                 //console.log(offset)
