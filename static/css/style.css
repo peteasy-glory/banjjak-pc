@@ -289,7 +289,6 @@
     /* border-radius: 5px; */
     box-sizing: border-box;
     /* border-right: none; */
-    border-top: none;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1190,4 +1189,8 @@
 }
 .dark .item-price{
     color :#fff!important;
+}
+
+.form-switch-toggle{
+    margin-right:40px;
 }

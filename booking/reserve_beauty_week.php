@@ -511,7 +511,7 @@ if ($artist_flag == 1) {
                                                     <div class="pay-txt">견주관련 메모<span class="pay-sub-txt"> (고객에게는 노출되지 않습니다.)</span></div>
                                                 </div>
                                                 <textarea name="pay-customer-memo-text" id="pay_customer_memo_text" cols="30" rows="10"></textarea>
-                                                <button type="button" class="pay-customer-memo-save btn btn-outline-purple btn-middle-size btn-round" onclick="customer_memo()">저장</button>
+                                                <button type="button" class="pay-customer-memo-save btn btn-outline-purple btn-middle-size btn-round" id="customer_memo_btn" onclick="customer_memo(this,artist_id)">저장</button>
                                             </div>
                                         </div>
                                         <div class="pay-card-content-3-2 is_approve">
@@ -3127,10 +3127,7 @@ if ($artist_flag == 1) {
 
         backgroundColor:'rgb(255,255,255)'
     })
-    window.addEventListener('beforeunload',function(){
 
-        $.ajaxQ.abortAll();
-    })
 
     canvas.width = canvas.parentElement.offsetWidth-2;
     canvas.height=canvas.parentElement.offsetHeight-2;

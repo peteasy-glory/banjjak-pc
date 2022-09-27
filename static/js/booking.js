@@ -66,6 +66,7 @@ function schedule_render(id){
 
                     cols(id).then(function (body_data){
 
+                        console.log(body)
 
                         no_one(body_data);
 
@@ -99,7 +100,7 @@ function schedule_render(id){
                                     el_.setAttribute('data-time_length',(new Date(el.product.date.booking_fi).getTime()-new Date(el.product.date.booking_st).getTime())/1000/60)
 
                                     let multiple = (new Date(el.product.date.booking_fi).getTime() - new Date(el.product.date.booking_st).getTime())/1800000;
-                                    el_.innerHTML = `<div class="calendar-drag-item-group">
+                                    el_.innerHTML = `<div class="calendar-drag-item-group"  data-pet_name="${el.pet.name}" data-cellphone="${el.customer.phone}">
                                                                         <a href="#" onclick="pay_management_init(artist_id,this,false,${el.product.is_approve === 0 ? false : true}); pay_management_toggle(false); localStorage.setItem('payment_idx','${el_.getAttribute('data-payment_idx')}')" ${el.product.approve_idx === null ? '' : `data-approve_idx="${el.product.approve_idx}"`} data-tooltip_idx="${index}" data-cellphone="${el.customer.phone}" data-payment_idx="${el_.getAttribute('data-payment_idx')}" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-payment_idx')})" class="calendar-week-time-item toggle green ${color} ${el.product.is_no_show === 1 ? "red" : ''} ${el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
                                                                             <div class="item-inner" >
                                                                                 <div class="item-photo-name">
@@ -118,7 +119,7 @@ function schedule_render(id){
                                                                                 <div class="item-other">
                                                                                     <div class="item-cate">${el.pet.type}</div>
                                                                                     <div class="item-price">${((parseInt(el.product.store_payment.card === null || el.product.store_payment.card === "" ? 0 : parseInt(el.product.store_payment.card))+(el.product.store_payment.cash === null || el.product.store_payment.cash === "" ? 0 : parseInt(el.product.store_payment.cash)))-parseInt(el.product.store_payment.discount.toString().length <3 ? (parseInt(el.product.store_payment.cash === null || el.product.store_payment.cash === "" ? 0 : el.product.store_payment.cash) + parseInt(el.product.store_payment.card === null || el.product.store_payment.card === "" ? 0 : el.product.store_payment.card)) * el.product.store_payment.discount /100: el.product.store_payment.discount  )).toLocaleString()}원</div>
-                                                                                    <div class="item-option">${el.product.category}</div>
+                                                                                    <div class="item-option">${el.product.category} | ${el.product.category_sub}</div>
                                                                                     <div class="item-memo" style="font-size:12px;">${el.product.memo === null ? '' : el.product.memo}</div>
                                                                                 </div>
                                                                                 <div class="item-stats">
@@ -229,7 +230,6 @@ function schedule_render(id){
                                 el.style.paddingLeft = '0px'
                             })
                         }
-                        tooltip(tooltip_arr);
 
                         day_drag();
                     });
@@ -277,6 +277,13 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
                     __el.innerHTML =`<div class="calendar-drag-item-group">
                                     <a href="#add" onclick="direct_get_pet_info('${id}',this,${sessionStorage.getItem('direct_pet_seq')},'${session_id}')" class="btn-calendar-add">등록하기</a>
                                     </div>`
+                }else if(localStorage.getItem('change_check')==='1'){
+                    __el.innerHTML = `<div class="calendar-drag-item-group">
+                                    <a href="#add" onclick="change_check_reserve(this)" class="btn-calendar-add">등록하기</a>
+                                    </div>`
+
+
+
                 }else{
                     __el.innerHTML =`<div class="calendar-drag-item-group">
                                     <a href="#add" onclick="reserve_pop(this)" class="btn-calendar-add">등록하기</a>
@@ -334,7 +341,7 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
                             el__.setAttribute('data-time_length',(new Date(_el.product.date.booking_fi).getTime()-new Date(_el.product.date.booking_st).getTime())/1000/60)
 
                             el__.innerHTML = `<div class="calendar-drag-item-group" data-cellphone="${_el.customer.phone}" data-pet_name="${_el.pet.name}" >
-                                                    <a href="#" data-tooltip_idx="${index}" onclick="pay_management_init(artist_id,this,false,true); pay_management_toggle(false);localStorage.setItem('payment_idx',${_el.product.payment_idx})" data-payment_idx="${_el.product.payment_idx}" class="calendar-week-time-item toggle green ${color} ${_el.product.is_no_show === 1 ? "red" : ''} ${_el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
+                                                    <a href="#" data-tooltip_idx="${index}" onclick="pay_management_init(artist_id,this,false,true); pay_management_toggle(false);localStorage.setItem('payment_idx',${_el.product.payment_idx})" data-payment_idx="${_el.product.payment_idx}" class="calendar-week-time-item toggle green ${color} ${_el.product.is_no_show === 1 ? "red" : ''} ${_el.product.is_approve === 0 ? 'gray': ''}" data-cellphone="${_el.customer.phone}" data-pet_name="${_el.pet.name}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
                                                         <div class="item-inner">
                                                             <div class="item-photo-name">
                                                             <div class="item-name">
@@ -482,19 +489,7 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
 
     })
 
-    let tooltip_arr = [];
 
-    body_.forEach(function(el){
-
-        tooltip_arr.push(el.product.payment_idx);
-
-    })
-
-
-    setTimeout(function(){
-
-        tooltip(tooltip_arr);
-    },300)
 
     
 
@@ -1959,7 +1954,6 @@ function btn_schedule(id){
 
         document.getElementById('btn-schedule-next').addEventListener('click',function(){
             this.setAttribute('disabled',true);
-            $.ajaxQ.abortAll();
             date.setDate(date.getDate()+1)
             if(date.getDate() === 1){
                 // book_list(id).then(function (){
@@ -2078,7 +2072,6 @@ function btn_schedule(id){
 
         document.getElementById('btn-schedule-prev').addEventListener('click',function (){
             this.setAttribute('disabled',true);
-            $.ajaxQ.abortAll();
             date.setDate(date.getDate()-1)
             let new_date_2 = new Date(date.getFullYear(),date.getMonth()-1,0);
             if(date.getDate() === new_date_2.getDate()){
@@ -2205,7 +2198,6 @@ function btn_schedule(id){
 
         document.getElementById('btn-schedule-next').addEventListener('click',function() {
                 select_low = parseInt(localStorage.getItem('select_row'));
-                $.ajaxQ.abortAll()
                 this.setAttribute('disabled', true);
 
                 if (select_low !== lows.length - 1) {
@@ -2231,7 +2223,6 @@ function btn_schedule(id){
 
         document.getElementById('btn-schedule-prev').addEventListener('click',function(){
             this.setAttribute('disabled',true);
-            $.ajaxQ.abortAll()
             select_low = parseInt(localStorage.getItem('select_row'));
 
             if(select_low !== 0){
@@ -2324,6 +2315,13 @@ function day_drag(){
                     //evt.newIndex;  // 새로운 인덱스값
 
                     if(evt.from != evt.to){
+
+                        let pet_name = $(evt.from).attr('data-pet_name');
+
+                        let cellphone = $(evt.from).attr('data-cellphone');
+                        console.log(pet_name);
+                        console.log(cellphone);
+
                         _thisWorker = $(evt.from).parent().attr("data-nick");
                         _thisYear = $(evt.from).parent().attr("data-year");
                         _thisMonth = $(evt.from).parent().attr("data-month")
@@ -2368,6 +2366,13 @@ function day_drag(){
                         $("#reserveCalendarPop4 input[name='log_date']").val(thisDate);
                         $("#reserveCalendarPop4 input[name='log_start_time']").val(thisTimeStart);
                         $("#reserveCalendarPop4 input[name='log_end_time']").val(fi_time);
+                        $("#reserveCalendarPop4 input[name='log_cellphone']").val(cellphone);
+                        $("#reserveCalendarPop4 input[name='log_pet_name']").val(pet_name);
+                        $("#reserveCalendarPop4 input[name='log_a_year']").val(_thisYear);
+                        $("#reserveCalendarPop4 input[name='log_a_month']").val(parseInt(_thisMonth)+1);
+                        $("#reserveCalendarPop4 input[name='log_a_date']").val(_thisDate);
+                        $("#reserveCalendarPop4 input[name='log_a_start_hour']").val(_thisHour);
+                        $("#reserveCalendarPop4 input[name='log_a_start_min']").val(_thisMinutes);
 
                         pop.open('reserveCalendarPop4');
                     }
@@ -4151,7 +4156,7 @@ function reserve_merchandise_load(body){
                     if(i===body.face.length-1){
 
                         document.getElementById('service2_other_list').innerHTML += `<div class="service-selected-list-cell">
-                                                                                                    <div class="list-title list-data" id="service2_other_list_face">얼굴컷</div>
+                                                                                                    <div class="list-title list-data" id="service2_other_list_face"></div>
                                                                                                 </div>`
                     }
                 })
@@ -4176,7 +4181,7 @@ function reserve_merchandise_load(body){
                     if(i===body.leg.length-1){
 
                         document.getElementById('service2_other_list').innerHTML += `<div class="service-selected-list-cell">
-                                                                                                    <div class="list-title" id="service2_other_list_leg">다리</div>
+                                                                                                    <div class="list-title" id="service2_other_list_leg"></div>
                                                                                                 </div>`
                     }
 
@@ -6336,38 +6341,75 @@ function modify_pet_info(body){
     })
 }
 
-function customer_memo(){
+function customer_memo(target,id){
 
     let scm_seq = document.getElementById('pay_customer_memo_text').getAttribute('data-scm_seq');
     let memo = document.getElementById('pay_customer_memo_text').value;
 
+    let customer_id = target.getAttribute('data-customer_id');
+    let tmp_id = target.getAttribute('data-tmp_id');
+    let cellphone = target.getAttribute('data-cellphone');
+    console.log(customer_id);
+    console.log(tmp_id);
+    console.log(cellphone)
+    console.log(data.shop_name)
 
 
-    $.ajax({
+    if(scm_seq === '' || scm_seq === null){
 
-        url:'/data/pc_ajax.php',
-        type:'post',
-        data:{
+        $.ajax({
 
-            mode:'put_customer_memo',
-            idx:scm_seq,
-            memo:memo,
-        },
-        success:function(res) {
+            url:'/data/pc_ajax.php',
+            type:'post',
+            data:{
 
-            let response = JSON.parse(res);
-            let head = response.data.head;
-            let body = response.data.body;
-            if (head.code === 401) {
-                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-            } else if (head.code === 200) {
+                mode:'customer_memo_sql',
+                artist_id:id,
+                customer_id:customer_id,
+                tmp_seq:tmp_id,
+                cellphone:cellphone,
+                comment:document.getElementById('pay_customer_memo_text').value,
 
+            },
+            success:function(res) {
+                console.log(res)
 
-                document.getElementById('msg2_txt').innerText = '견주 메모가 변경되었습니다.'
-                pop.open('reserveAcceptMsg2');
+                    document.getElementById('msg2_txt').innerText = '견주 메모가 변경되었습니다.'
+                    pop.open('reserveAcceptMsg2');
+
             }
-        }
-    })
+        })
+
+    }else{
+        $.ajax({
+
+            url:'/data/pc_ajax.php',
+            type:'post',
+            data:{
+
+                mode:'put_customer_memo',
+                idx:scm_seq,
+                memo:memo,
+            },
+            success:function(res) {
+
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+
+
+                    document.getElementById('msg2_txt').innerText = '견주 메모가 변경되었습니다.'
+                    pop.open('reserveAcceptMsg2');
+                }
+            }
+        })
+
+    }
+
+
 
 }
 
@@ -7586,6 +7628,7 @@ function reserve_change_time(){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
+                console.log(body)
 
 
                 $.ajax({
@@ -7607,6 +7650,7 @@ function reserve_change_time(){
                         if (head.code === 401) {
                             pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                         } else if (head.code === 200) {
+                            console.log(body)
 
                             localStorage.removeItem('payment_idx');
                             localStorage.removeItem('change_check');
@@ -7717,6 +7761,7 @@ function guide_reserve(){
 
 
                 el.style.border = 'red dotted'
+                el.classList.add('change_target')
             }
 
 
@@ -9704,6 +9749,11 @@ function pay_management_init(id,target,bool,bool2){
                 document.getElementById('pay_grade_btn').setAttribute('data-customer_grade_idx',body.customer_grade_idx);
 
 
+                document.getElementById('customer_memo_btn').setAttribute('data-customer_id',body.customer_Id);
+                document.getElementById('customer_memo_btn').setAttribute('data-tmp_id',body.tmp_id);
+                document.getElementById('customer_memo_btn').setAttribute('data-cellphone',body.cell_phone);
+
+
 
 
                 Array.from(document.getElementsByClassName('change-cls')).forEach(function(el){
@@ -9744,36 +9794,36 @@ function pay_management_init(id,target,bool,bool2){
 
                 })
 
-                // $.ajax({
-                //
-                //     url:'/data/pc_ajax.php',
-                //     type:'post',
-                //     data:{
-                //         mode:'get_customer_memo',
-                //         login_id:id,
-                //         customer_id : body.customer_Id,
-                //         tmp_seq : body.tmp_id,
-                //         cellphone: body.cell_phone
-                //     },
-                //     success:function(res) {
-                //         ////console.log(res)
-                //
-                //         let response = JSON.parse(res);
-                //         let head = response.data.head;
-                //         let body = response.data.body;
-                //         if (head.code === 401) {
-                //             pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-                //         } else if (head.code === 200) {
-                //
-                //
-                //             document.getElementById('pay_customer_memo_text').value = body.memo;
-                //             document.getElementById('pay_customer_memo_text').setAttribute('data-scm_seq',body.scm_seq);
-                //
-                //         }
-                //     }
-                //
-                //
-                // })
+                $.ajax({
+
+                    url:'/data/pc_ajax.php',
+                    type:'post',
+                    data:{
+                        mode:'get_customer_memo',
+                        login_id:id,
+                        customer_id : body.customer_Id,
+                        tmp_seq : body.tmp_id,
+                        cellphone: body.cell_phone
+                    },
+                    success:function(res) {
+                        console.log(res)
+
+                        let response = JSON.parse(res);
+                        let head = response.data.head;
+                        let body = response.data.body;
+                        if (head.code === 401) {
+                            pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                        } else if (head.code === 200) {
+
+
+                            document.getElementById('pay_customer_memo_text').value = body.memo;
+                            document.getElementById('pay_customer_memo_text').setAttribute('data-scm_seq',body.scm_seq);
+
+                        }
+                    }
+
+
+                })
 
                 document.getElementById('pay_customer_memo_text').value = body.owner_memo;
                 document.getElementById('beauty_img_target').setAttribute('src','');
@@ -11135,7 +11185,7 @@ function pay_management_product_change(target){
         let face = document.querySelector('input[name="payment_f1"]:checked') === null ? '' : document.querySelector('input[name="payment_f1"]:checked').value;
         let face_price = document.querySelector('input[name="payment_f1"]:checked') === null ? '' : document.querySelector('input[name="payment_f1"]:checked').getAttribute('data-price');
         let length = document.querySelector('input[name="payment_hairBeauty"]:checked') === null ? '' : document.querySelector('input[name="payment_hairBeauty"]:checked').value;
-        let length_price = document.querySelector('input[name="payment_hairBeauty"]:checked').getAttribute('data-price') === null ? '' : document.querySelector('input[name="payment_hairBeauty"]:checked').getAttribute('data-price');
+        let length_price = document.querySelector('input[name="payment_hairBeauty"]:checked') === null ? '' : document.querySelector('input[name="payment_hairBeauty"]:checked').getAttribute('data-price');
 
         let hair_ = document.querySelectorAll('input[name="payment_hair"]:checked')
 
@@ -11487,4 +11537,70 @@ function product_init(){
     $('input[type=checkbox]').each(function(){$(this).prop("checked",false)});
     document.getElementById('service_list').innerHTML = ''
 
+}
+
+function change_check_reserve(target){
+
+
+
+    let worker = '';
+    let nick = '';
+    let thisYear = target.parentElement.parentElement.getAttribute('data-year');
+    let thisMonth = target.parentElement.parentElement.getAttribute('data-month');
+    let thisDate = target.parentElement.parentElement.getAttribute('data-date');
+    let thisTimeStart = target.parentElement.parentElement.getAttribute('data-time-to');
+    let thisHour = target.parentElement.parentElement.getAttribute('data-hour');
+    let thisMinutes = target.parentElement.parentElement.getAttribute('data-minutes');
+
+
+    Array.from(document.getElementsByClassName('header-worker')).forEach(function(el){
+
+        if(el.classList.contains('actived')){
+
+            worker = el.getAttribute('data-worker');
+            nick = el.getAttribute('data-nick');
+        }
+    })
+
+    let thisLogSeq = document.querySelector('.change_target').getAttribute('data-payment_idx');
+
+    let target_date = new Date(2022,0,1,thisTimeStart.split(':')[0],thisTimeStart.split(':')[1]);
+    let fi_time_ = parseInt(document.querySelector('.change_target').getAttribute('data-height')) * 30 ;
+
+    target_date.setMinutes(target_date.getMinutes() + fi_time_);
+
+    let fi_time = `${fill_zero(target_date.getHours())}:${fill_zero(target_date.getMinutes())}`
+
+    let cellphone = document.querySelector('.change_target').getAttribute('data-cellphone');
+    let pet_name = document.querySelector('.change_target').getAttribute('data-pet_name');
+
+
+    let _thisYear = document.querySelector('.change_target').parentElement.parentElement.getAttribute('data-year')
+    let _thisMonth = document.querySelector('.change_target').parentElement.parentElement.getAttribute('data-month')
+    let _thisDate = document.querySelector('.change_target').parentElement.parentElement.getAttribute('data-date')
+    let _thisHour = document.querySelector('.change_target').parentElement.parentElement.getAttribute('data-hour')
+    let _thisMinutes = document.querySelector('.change_target').parentElement.parentElement.getAttribute('data-minutes')
+
+
+    $("#reserveCalendarPop4 .con-title").text(nick);
+    $("#reserveCalendarPop4 .msg-text-date").text(am_pm_check2(`${thisYear}.${fill_zero(parseInt(thisMonth)+1)}.${fill_zero(thisDate)} ${fill_zero(thisHour)}:${fill_zero(thisMinutes)}`));
+
+
+    $("#reserveCalendarPop4 input[name='log_type']").val("week");
+    $("#reserveCalendarPop4 input[name='log_seq']").val(thisLogSeq);
+    $("#reserveCalendarPop4 input[name='log_worker']").val(worker);
+    $("#reserveCalendarPop4 input[name='log_year']").val(thisYear);
+    $("#reserveCalendarPop4 input[name='log_month']").val(parseInt(thisMonth)+1);
+    $("#reserveCalendarPop4 input[name='log_date']").val(thisDate);
+    $("#reserveCalendarPop4 input[name='log_start_time']").val(thisTimeStart);
+    $("#reserveCalendarPop4 input[name='log_end_time']").val(fi_time);
+    $("#reserveCalendarPop4 input[name='log_cellphone']").val(cellphone);
+    $("#reserveCalendarPop4 input[name='log_pet_name']").val(pet_name);
+    $("#reserveCalendarPop4 input[name='log_a_year']").val(_thisYear);
+    $("#reserveCalendarPop4 input[name='log_a_month']").val(parseInt(_thisMonth)+1);
+    $("#reserveCalendarPop4 input[name='log_a_date']").val(_thisDate);
+    $("#reserveCalendarPop4 input[name='log_a_start_hour']").val(_thisHour);
+    $("#reserveCalendarPop4 input[name='log_a_start_min']").val(_thisMinutes);
+
+    pop.open('reserveCalendarPop4');
 }
