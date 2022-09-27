@@ -55,7 +55,6 @@
 
                     var r = [];
                     $.each(Q, function(i, jqx){
-                        console.log(jqx)
                         r.push(jqx._id);
                         jqx.abort();
                     });

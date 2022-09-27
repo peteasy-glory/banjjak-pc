@@ -150,14 +150,12 @@ function home_cal(id){
             },
             type: 'POST',
             success: function (res) {
-                console.log(res)
                 let response = JSON.parse(res);
                 let head = response.data.head;
                 let body = response.data.body;
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
-                    console.log(body)
 
                     let reserve;
 

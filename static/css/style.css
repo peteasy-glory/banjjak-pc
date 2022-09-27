@@ -168,6 +168,29 @@
         max-width:50px;
     }
 
+    .loading-container-2 {
+        position: relative;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+
+
+    }
+    .loading-container-2 img{
+        max-width:50px;
+    }
+    .sales-loading-wrap{
+        display: none;
+        position: absolute;
+        background:rgba(255,255,255,0.6);
+        z-index: 99999;
+        width:100%;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+
+    }
+
     .splash-wrap {
         display:none;
         width:100%;
