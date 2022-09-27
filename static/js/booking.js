@@ -110,7 +110,7 @@ function schedule_render(id){
                                                                                         <img src="${el.pet.photo === null ? el.pet.animal === 'dog' ? '/static/images/icon/icon-pup-select-off.png' : '/static/images/icon/icon-cat-select-off.png' : img_link_change(el.pet.photo)}" alt="">
                                                                                     </div>
                                                                                     <div class="item-name">
-                                                                                        <div class="txt" style="font-size:17px; margin-bottom:2px;">${el.pet.name}</div>
+                                                                                        <div class="txt" style="font-size:17px; margin-bottom:2px; max-width:100px;">${el.pet.name}</div>
                                                                                         ${multiple <4 ? `<button type="button" class="btn-calendar-item-more"></button>`:``}
                                                                                     </div> 
                                                                                     ${el.product.noshow_cnt >0 ? `<div class="item-noshow"><img src="/static/images/noshow@2x.png" alt="">${el.product.noshow_cnt}회</div>` : ''}
