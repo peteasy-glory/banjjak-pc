@@ -54,7 +54,7 @@ if ($artist_flag == 1) {
 													<option value="e">등급별</option>
 												</select>
 											</div>
-											<div class="customer-state-graph">
+											<!--<div class="customer-state-graph">
 												<div class="new-doughnut-graph">
 													<div class="new-doughnutgraph-view">
 														<div class="new-doughnutgraph-subject">
@@ -75,7 +75,7 @@ if ($artist_flag == 1) {
 														</div>
 													</div>
 												</div>
-											</div>
+											</div>-->
 										</div>										
 										<div class="basic-data-group large">
 											<div class="customer-all-inquiry-result">
@@ -487,7 +487,7 @@ if ($artist_flag == 1) {
         agree_view_birthday().then(function(){ agree_view_birthday_date()})
         agree_view_pet_type(artist_id);
 
-        customer_graph();
+        //customer_graph();
     })
 
     function customer_graph(){
