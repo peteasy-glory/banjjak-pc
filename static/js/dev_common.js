@@ -606,9 +606,9 @@ function today_reserve(id,bool){
 
                     body.forEach(function(el){
                         let today_reserve = el.product.date.booking_st;
-                        let date_today_reserve = new Date(today_reserve);
+                        let date_today_reserve = new Date(today_reserve.replace(' ','T'));
                         let today_reserve_fi = el.product.date.booking_fi;
-                        let date_today_reserve_fi = new Date(today_reserve_fi);
+                        let date_today_reserve_fi = new Date(today_reserve_fi.replace(' ','T'));
 
                         if(date_today_reserve.getFullYear() === date.getFullYear()
                             && date_today_reserve.getMonth() === date.getMonth()
@@ -1105,8 +1105,8 @@ function _renderCalendar_mini(id,session_id){
                     date.setDate(el.children[0].children[0].children[0].children[0].innerText.trim());
 
 
-
                     if(location.href.match('reserve_beauty_day')){
+                        console.log('day')
                         schedule_render(id);
                     }else if(location.href.match('reserve_beauty_week')){
 

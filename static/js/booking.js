@@ -36,6 +36,7 @@ function schedule_render(id){
             } else if (head.code === 200) {
                 document.getElementById('day_today').innerHTML = `${date.getFullYear()}.${fill_zero(date.getMonth()+1)}.${fill_zero(date.getDate())}`
                 let day_count = 0;
+                console.log(body)
 
                 let cancel = 0;
                 let noshow = 0;
@@ -74,7 +75,25 @@ function schedule_render(id){
                         let tooltip_arr = [];
                         body.forEach(function (el, index){
 
-                            // 툴팁배열에 idx 넣기
+                            if(el.product.store_payment.card === null || el.product.store_payment.card === ''){
+
+                                el.product.store_payment.card = 0;
+
+                            }
+
+                            if(el.product.store_payment.cash === null || el.product.store_payment.cash === ''){
+                                el.product.store_payment.cash = 0;
+                            }
+
+                            if(typeof el.product.store_payment.cash === 'string'){
+                                el.product.store_payment.cash = parseInt(el.product.store_payment.cash)
+                            }
+
+                            if(typeof el.product.store_payment.card === 'string'){
+                                el.product.store_payment.card = parseInt(el.product.store_payment.card)
+                            }
+
+                                // 툴팁배열에 idx 넣기
 
 
                             tooltip_arr.push(el.product.payment_idx);
@@ -123,16 +142,11 @@ function schedule_render(id){
                                                                                     <div class="item-memo" style="font-size:12px;">${el.product.memo === null ? '' : el.product.memo}</div>
                                                                                 </div>
                                                                                 <div class="item-stats">
-                                                                                ${el.product.is_confirm ? `<div class="right">
-                                                                                        <div class="item-cash">
-                                                                                            ${el.product.pay_type.match('card') ? `<div class="icon icon-reservation-card-off"></div>` : `<div class="icon icon-reservation-cash-off"></div>` }
-                                                                                            
-                                                                                        </div>
-                                                                                    </div>` : `<div class="left">
-                                                                                        <div class="item-master">
-                                                                                            <div class="icon icon-reservation-selfadd"></div>
-                                                                                        </div>
-                                                                                    </div>`}
+                                                                                ${el.product.product_detail_parsing.base.size === '' || el.product.product_detail_parsing.base.size=== null ? `<div class="left">
+                                                                                                                                                                                                    <div class="item-master">
+                                                                                                                                                                                                        <div class="icon icon-reservation-selfadd"></div>
+                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                </div>`  : el.product.is_confirm === true ? el.product.store_payment.card >= el.product.store_payment.cash ? `<div class="right"><div class="item-cash"><div class="icon icon-reservation-card-on"></div></div></div>` : `<div class="right"><div class="item-cash"><div class="icon icon-reservation-cash-on"></div></div></div>` : el.product.store_payment.card >= el.product.store_payment.cash ? `<div class="right"><div class="item-cash"><div class="icon icon-reservation-card-off"></div></div></div>` : `<div class="right"><div class="item-cash"><div class="icon icon-reservation-cash-off"></div></div></div>`}
                                                                                     
                                                                                 </div>
                                                                                 
@@ -296,16 +310,24 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
 
             body_.forEach(function(_el, index){
 
+                console.log(_el)
+
 
 
                 if(_el.product.worker === el.getAttribute('data-worker')){
 
+                    console.log(1)
 
 
                     let booking_st = _el.product.date.booking_st
                     let booking_fi = _el.product.date.booking_fi
-                    let day = new Date(booking_st).getDay();
+                    let day = new Date(booking_st.replace(' ','T')).getDay();
                     let _booking_st = _el.product.date.booking_st.split(' ')[1];
+
+                    console.log(booking_st);
+                    console.log(booking_fi);
+                    console.log(day);
+                    console.log(_booking_st);
 
 
                     let color;
@@ -317,29 +339,35 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
                         default : color = ''; break;
 
                     }
-                    let multiple = (new Date(booking_fi).getTime() - new Date(booking_st).getTime())/1800000;
+                    let multiple = (new Date(booking_fi.replace(' ','T')).getTime() - new Date(booking_st.replace(' ','T')).getTime())/1800000;
 
 
 
                     Array.from(body_col).forEach(function(el__){
 
+                        console.log(2)
 
 
 
 
 
-                        if(parseInt(el__.getAttribute('data-day')) === day && _booking_st === el__.getAttribute('data-time-to') && _el.product.is_cancel === 0){
+                        if(parseInt(el__.getAttribute('data-day')) === day
+                            && _booking_st === el__.getAttribute('data-time-to')
+                            && _el.product.is_cancel == 0
+                        ){
 
-                            if(_el.product.store_payment.discount === null){
+                            if(_el.product.store_payment.discount == null){
 
                                 _el.product.store_payment.discount=0;
                             }
 
 
+                            console.log(3)
                             el__.setAttribute('data-payment_idx',_el.product.payment_idx);
 
-                            el__.setAttribute('data-time_length',(new Date(_el.product.date.booking_fi).getTime()-new Date(_el.product.date.booking_st).getTime())/1000/60)
+                            el__.setAttribute('data-time_length',(new Date(_el.product.date.booking_fi.replace(' ','T')).getTime()-new Date(_el.product.date.booking_st.replace(' ','T')).getTime())/1000/60)
 
+                            console.log('3-1')
                             el__.innerHTML = `<div class="calendar-drag-item-group" data-cellphone="${_el.customer.phone}" data-pet_name="${_el.pet.name}" >
                                                     <a href="#" data-tooltip_idx="${index}" onclick="pay_management_init(artist_id,this,false,true); pay_management_toggle(false);localStorage.setItem('payment_idx',${_el.product.payment_idx})" data-payment_idx="${_el.product.payment_idx}" class="calendar-week-time-item toggle green ${color} ${_el.product.is_no_show === 1 ? "red" : ''} ${_el.product.is_approve === 0 ? 'gray': ''}" data-cellphone="${_el.customer.phone}" data-pet_name="${_el.pet.name}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
                                                         <div class="item-inner">
@@ -371,7 +399,10 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
                                                         </div>
                                                     </a>
                                             </div>`
+                            console.log(4)
+
                         }
+                        console.log(5)
                     })
 
 
@@ -1237,7 +1268,7 @@ function consulting() {
                                                                                                        </div>
                                                                                                    </div>
                                                                                                    <div class="item-state">
-                                                                                                       <div class="item-time">${((new Date().getTime() - new Date(el.date).getTime())/1000/60).toFixed() <60 ? ((new Date().getTime() - new Date(el.date).getTime())/1000/60).toFixed() < 1 ? '방금 전' : `${((new Date().getTime() - new Date(el.date).getTime())/1000/60).toFixed()}분 전` : `${((new Date().getTime() - new Date(el.date).getTime())/1000/60/60).toFixed()}시간 전` }</div>
+                                                                                                       <div class="item-time">${((new Date().getTime() - new Date(el.date.replace(' ','T')).getTime())/1000/60).toFixed() <60 ? ((new Date().getTime() - new Date(el.date.replace(' ','T')).getTime())/1000/60).toFixed() < 1 ? '방금 전' : `${((new Date().getTime() - new Date(el.date.replace(' ','T')).getTime())/1000/60).toFixed()}분 전` : `${((new Date().getTime() - new Date(el.date.replace(' ','T')).getTime())/1000/60/60).toFixed()}시간 전` }</div>
                                                                                                    </div>
                                                                                                </div>
                                                                                            </a>
@@ -2419,9 +2450,6 @@ function week_drag(){
 
                     if(evt.from != evt.to){
 
-                        //console.log(evt.to);
-                        //console.log(evt.from)
-
                         let pet_name = $(evt.from).attr('data-pet_name');
 
                         let cellphone = $(evt.from).attr('data-cellphone');
@@ -3511,8 +3539,8 @@ function reserve_prohibition_list(id){
                         body.forEach(function(el){
 
 
-                            let st_date = new Date(el.st_date).getTime();
-                            let fi_date = new Date(el.fi_date).getTime();
+                            let st_date = new Date(el.st_date.replace(' ','T')).getTime();
+                            let fi_date = new Date(el.fi_date.replace(' ','T')).getTime();
                             let time = [];
 
                             for(let i=st_date; i<=fi_date; i+=1800000){
@@ -3528,7 +3556,7 @@ function reserve_prohibition_list(id){
                                 let el_hour= el_.getAttribute('data-hour');
                                 let el_minutes = el_.getAttribute('data-minutes');
 
-                                let el_new_date = new Date(`${el_year}-${fill_zero(parseInt(el_month)+1)}-${fill_zero(parseInt(el_date))} ${fill_zero(el_hour)}:${fill_zero(el_minutes)}`).getTime();
+                                let el_new_date = new Date(`${el_year}-${fill_zero(parseInt(el_month)+1)}-${fill_zero(parseInt(el_date))}T${fill_zero(el_hour)}:${fill_zero(el_minutes)}`).getTime();
 
 
                                 for(let i=0; i<time.length-1; i++){
@@ -3569,9 +3597,9 @@ function reserve_prohibition_list(id){
 
                         body.forEach(function(el){
 
-                            let st_date = new Date(el.st_date).getTime();
+                            let st_date = new Date(el.st_date.replace(' ','T')).getTime();
 
-                            let fi_date = new Date(el.fi_date).getTime();
+                            let fi_date = new Date(el.fi_date.replace(' ','T')).getTime();
 
                             let time = [];
 
@@ -3592,7 +3620,7 @@ function reserve_prohibition_list(id){
                                     let el_hour= el_.getAttribute('data-hour');
                                     let el_minutes = el_.getAttribute('data-minutes');
 
-                                    let el_new_date = new Date(`${el_year}-${fill_zero(parseInt(el_month)+1)}-${fill_zero(parseInt(el_date))} ${fill_zero(el_hour)}:${fill_zero(el_minutes)}`).getTime();
+                                    let el_new_date = new Date(`${el_year}-${fill_zero(parseInt(el_month)+1)}-${fill_zero(parseInt(el_date))}T${fill_zero(el_hour)}:${fill_zero(el_minutes)}`).getTime();
 
 
                                     for(let i=0; i<time.length-1; i++){
@@ -6349,11 +6377,6 @@ function customer_memo(target,id){
     let customer_id = target.getAttribute('data-customer_id');
     let tmp_id = target.getAttribute('data-tmp_id');
     let cellphone = target.getAttribute('data-cellphone');
-    console.log(customer_id);
-    console.log(tmp_id);
-    console.log(cellphone)
-    console.log(data.shop_name)
-
 
     if(scm_seq === '' || scm_seq === null){
 
@@ -6453,7 +6476,7 @@ function reserve_cancel(bool,target){
     let cellphone = target.getAttribute('data-cellphone');
     let pet_name = target.getAttribute('data-pet_name');
 
-    let beauty_date = new Date(target.getAttribute('data-beauty_date'));
+    let beauty_date = new Date(target.getAttribute('data-beauty_date').replace(' ','T'));
 
 
 
@@ -6746,7 +6769,7 @@ function beauty_gallery_get(target,id){
 
                         document.getElementById('beauty_gal_wrap').innerHTML += `<div class="list-cell">
                                                                                 <div class="picture-thumb-view">
-                                                                                    <div class="picture-obj" onclick="show_image('https://image.banjjakpet.com${el.file_path}')"><img src="https://image.banjjakpet.com${el.file_path}" alt=""></div>
+                                                                                    <div class="picture-obj" onclick="show_image('https://image.banjjakpet.com${el.file_path.replace('/pet','')}')"><img src="https://image.banjjakpet.com${el.file_path.replace('/pet','')}" alt=""></div>
                                                                                     <div class="picture-date">${el.upload_dt.substr(0,4)}.${el.upload_dt.substr(4,2)}.${el.upload_dt.substr(6,2)}</div>
                                                                                     <div class="picture-ui">
                                                                                         <button type="button" class="btn-picture-ui"></button>
@@ -8463,6 +8486,7 @@ function management_service_4(base_svc){
 
 
 
+                                        if(el_.surcharge.is_huge_weight !== 1){
                                             document.getElementById('payment_basic_weight').innerHTML += `<div class="toggle-button-cell">
                                                                                                         <label class="form-toggle-box form-toggle-price large">
                                                                                                             <input type="radio" id="${ele.kg}kg" value="${ele.kg}" name="payment_s2" data-price="${ele.price}" ${i ===  _el.unit.length-1 ? 'id="weight_target"':''}onclick="set_product2(this,'${document.querySelector('input[name="payment_size"]:checked').value}/${document.querySelector('input[name="payment_s1"]:checked').value}/${ele.kg}kg','${ele.price}','list_title_3',true)">
@@ -8473,6 +8497,33 @@ function management_service_4(base_svc){
                                                                                                             </em>
                                                                                                         </label>
                                                                                                     </div>`
+                                        }
+
+                                        if(el_.surcharge.is_huge_weight === 1){
+
+                                            document.getElementById('payment_basic_weight').innerHTML += `<div class="toggle-button-cell">
+                                                                                                    <div class="form-toggle-options">
+                                                                                                        <input type="radio" name="payment_s2"  id="payment_huge_weight" data-price="${ele.price}" value="huge" onclick="set_product2(this,'${document.querySelector('input[name="payment_size"]:checked').value}/${document.querySelector('input[name="payment_s1"]:checked').value}/${ele.kg}kg','${ele.price}','list_title_3',true)">
+                                                                                                            <div class="form-toggle-options-data">
+                                                                                                                <div class="options-labels">
+                                                                                                                    <span class="font-size-12">~${ele.kg}kg당</span><strong style="font-size:10px">+${ele.price}원</strong></div>
+                                                                                                                <div class="form-amount-input">
+                                                                                                                    <button type="button" 
+                                                                                                                            class="btn-form-amount-minus" onclick="set_etc_product_count_huge(this,'${document.querySelector('input[name="payment_size"]:checked').value}/${document.querySelector('input[name="payment_s1"]:checked').value}/${ele.kg}kg','${ele.price}',false)">감소
+                                                                                                                    </button>
+                                                                                                                    <div class="form-amount-info">
+                                                                                                                        <input type="number" id="huge_weight" readOnly="" value="1" data-price="${ele.price}"
+                                                                                                                               class="form-amount-val">
+                                                                                                                    </div>
+                                                                                                                    <button type="button" 
+                                                                                                                            class="btn-form-amount-plus" onclick="set_etc_product_count_huge(this,'${document.querySelector('input[name="payment_size"]:checked').value}/${document.querySelector('input[name="payment_s1"]:checked').value}/${ele.kg}kg','${ele.price}',true)">증가
+                                                                                                                    </button>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                    </div>
+                                                                                                </div>`
+                                        }
+
 
 
 
@@ -8846,7 +8897,7 @@ function set_product2(target,name,price,className,bool){
 
         document.getElementById('service_list').innerHTML += `<div class="list-cell">
                                                                         <div class="list-title list-title-add ${className}">${name}</div>
-                                                                     <div class="list-value list-value-add" ${target.getAttribute('value') === 'no' ? 'id="surcharge_target"': ''}>${price.toLocaleString()}원</div>
+                                                                     <div class="list-value list-value-add" ${target.getAttribute('value') === 'no' ? 'id="surcharge_target"' : target.getAttribute('value') === 'huge' ? 'id="huge_target"' : ''}>${price.toLocaleString()}원</div>
                                                                     </div>`
     }
 
@@ -8953,6 +9004,39 @@ function set_etc_product_count_(target,name,price,bool){
 
 }
 
+function  set_etc_product_count_huge(target,name,price,bool){
+
+    console.log(price);
+
+
+    name =name.trim();
+
+
+    Array.from(document.getElementsByClassName('list-title-add')).forEach(function(el){
+
+
+
+
+        if(el.innerText.match('대형')){
+
+            if(bool){
+
+                siblings(target,1).children[0].value = parseInt(siblings(target,1).children[0].value)+1;
+                let value = siblings(target,1).children[0].value;
+                siblings(el,1).innerText = `${value * price}원`
+                el.innerText = `${el.innerText.split('/')[0]}/${el.innerText.split('/')[1]}/${value}kg`
+            }else{
+
+                siblings(target,1).children[0].value = parseInt(siblings(target,1).children[0].value)-1;
+                let value = siblings(target,1).children[0].value;
+                siblings(el,1).innerText = `${value * price}원`
+                el.innerText = `${el.innerText.split('/')[0]}/${el.innerText.split('/')[1]}/${value}kg`
+            }
+        }
+    })
+
+
+}
 
 function management_total_price(){
 
@@ -9606,7 +9690,7 @@ function pay_management_init(id,target,bool,bool2){
 
                         if(body.worker === el.getAttribute('data-worker')){
 
-                            let time = el.getAttribute(`data-week-${new Date(body.beauty_date).getDay()}`)
+                            let time = el.getAttribute(`data-week-${new Date(body.beauty_date.replace(' ','T')).getDay()}`)
 
                             start_time = time.split('|')[1];
                             end_time = time.split('|')[2];
@@ -9646,7 +9730,7 @@ function pay_management_init(id,target,bool,bool2){
 
                                         el.work.forEach(function(el_){
 
-                                            if(new Date(body.beauty_date).getDay() === parseInt(el_.week)){
+                                            if(new Date(body.beauty_date.replace(' ','T')).getDay() === parseInt(el_.week)){
 
                                                 //console.log(el_)
 
@@ -9806,7 +9890,6 @@ function pay_management_init(id,target,bool,bool2){
                         cellphone: body.cell_phone
                     },
                     success:function(res) {
-                        console.log(res)
 
                         let response = JSON.parse(res);
                         let head = response.data.head;
@@ -9938,7 +10021,7 @@ function pay_management_init(id,target,bool,bool2){
 
 
 
-                let time = new Date().getTime() - new Date(body.birth).getTime();
+                let time = new Date().getTime() - new Date(body.birth.replace(' ','T')).getTime();
 
                 let time_year = Math.floor(time/1000/60/60/24/30/12);
                 let time_month = Math.floor(time/1000/60/60/24/30%12);
@@ -9959,19 +10042,33 @@ function pay_management_init(id,target,bool,bool2){
 
                 }
 
+                let bite = '';
+
+                switch(body.bite){
+
+                    case 0 : bite = '안해요'; break;
+                    case 1 : bite = '해요'; break;
+                    case '해요' : bite = '해요'; break;
+                    case '안해요' : bite = '안해요'; break;
+                    case null : bite ='미기입';break;
+                    case '' : bite = '미기입'; break;
+                }
+
+
+
                 document.getElementById('pay_gender').innerText = body.gender;
                 document.getElementById('pay_neutral').innerText = body.neutral === 0 ? 'X' : 'O'
                 document.getElementById('pay_weight').innerText = `${body.weight}kg`;
                 document.getElementById('pay_pet_year').innerText = `${time_year}년 ${time_month}개월`;
-                document.getElementById('pay_bite').innerText = body.bite === "0" || body.bite === "안해요" ? "안해요" : "해요";
-                document.getElementById('pay_luxation').innerText = body.luxation === '' ? '없음':body.luxation;
+                document.getElementById('pay_bite').innerText = bite;
+                document.getElementById('pay_luxation').innerText = body.luxation === '' ? '미기입':body.luxation;
                 document.getElementById('pay_gender').innerText = body.gender;
-                document.getElementById('pay_beauty_exp').innerText = body.beauty_exp === '' ? '없음' : body.beauty_exp;
-                document.getElementById('pay_vaccination').innerText = body.vaccination === '' ? '2차 이하' : body.vaccination;
-                document.getElementById('pay_special').innerText = special === '' ? '없음':special;
-                document.getElementById('pay_etc').innerText = body.etc === '' ? '없음':body.etc;
+                document.getElementById('pay_beauty_exp').innerText = body.beauty_exp === '' ? '미기입' : body.beauty_exp;
+                document.getElementById('pay_vaccination').innerText = body.vaccination === '' ? '미기입' : body.vaccination;
+                document.getElementById('pay_special').innerText = special === '' ? '미기입':special;
+                document.getElementById('pay_etc').innerText = body.etc === '' ? '미기입':body.etc;
 
-                document.getElementById('pay_special_memo_text').value = body.payment_memo;
+               document.getElementById('pay_special_memo_text').value = body.payment_memo;
 
                 if(document.getElementById('pay_card_body_inner')){
 
@@ -10101,8 +10198,8 @@ function pay_management_init(id,target,bool,bool2){
                        let start = response.start_date.split(' ')[1];
                        let end = response.end_date.split(' ')[1];
 
-                       let start_time = new Date(response.start_date).getTime();
-                       let end_time = new Date(response.end_date).getTime();
+                       let start_time = new Date(response.start_date.replace(' ','T')).getTime();
+                       let end_time = new Date(response.end_date.replace(' ','T')).getTime();
 
                        document.getElementById('start_time').innerHTML = '';
                        document.getElementById('end_time').innerHTML = '';
@@ -10298,7 +10395,7 @@ function pay_management_init(id,target,bool,bool2){
 
                         if(document.getElementById(`${parsing.base.weight.unit}kg`)){
                             document.getElementById(`${parsing.base.weight.unit}kg`).click();
-                        }else if(parsing.base.weight.unit > localStorage.getItem('surcharge_kg')){
+                        }else if(parsing.base.weight.unit > localStorage.getItem('surcharge_kg') && !parsing.base.size.match('대형') ){
 
                             if(document.getElementById('payment_surcharge')){
 
@@ -10307,6 +10404,17 @@ function pay_management_init(id,target,bool,bool2){
                                 document.getElementById('surcharge_target').innerText = `${(parseInt(document.getElementById('payment_weight_target').value) - parseInt(localStorage.getItem('surcharge_kg'))) * parseInt(localStorage.getItem('surcharge_price')) + parseInt(localStorage.getItem('surcharge_std_price')) + parseInt(localStorage.getItem('surcharge_price'))}원`
                             }else{
 
+                            }
+
+
+                        }else{
+
+                            if(document.getElementById('payment_huge_weight')){
+
+                                document.getElementById('payment_huge_weight').click();
+                                document.getElementById('huge_weight').value = parsing.base.weight.unit;
+                                document.getElementById('huge_target').innerText = `${parseInt(parsing.base.weight.unit)*parseInt(document.getElementById('payment_huge_weight').getAttribute('data-price'))}원`
+                                document.querySelector('.list_title_3').innerText = `${document.querySelector('.list_title_3').innerText.split('/')[0]}/${document.querySelector('.list_title_3').innerText.split('/')[1]}/${parsing.base.weight.unit}kg`
                             }
 
 
