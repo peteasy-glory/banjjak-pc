@@ -3483,17 +3483,18 @@ function reserve_prohibition_list(id){
     let fi_date;
     if(location.href.match('reserve_beauty_day')){
 
-        st_date = `${date.getFullYear()}${fill_zero(date.getMonth()+1)}${fill_zero(date.getDate())}`;
-        fi_date = `${date.getFullYear()}${fill_zero(date.getMonth()+1)}${fill_zero(date.getDate()+1)}`
+        st_date = `${date.getFullYear()}-${fill_zero(date.getMonth()+1)}-${fill_zero(date.getDate())}`;
+        fi_date = `${date.getFullYear()}-${fill_zero(date.getMonth()+1)}-${fill_zero(date.getDate()+1)}`
     }else if(location.href.match('reserve_beauty_week')){
 
-        let dates = document.getElementById('schedule_day').innerText.replaceAll('.','').split(' ~ ');
+        let dates = document.getElementById('schedule_day').innerText.replaceAll('.','-').split(' ~ ');
 
-        st_date = `${date.getFullYear()}${dates[0]}`;
-        fi_date = `${date.getFullYear()}${dates[1]}`;
+        st_date = `${date.getFullYear()}-${dates[0]}`;
+        fi_date = `${date.getFullYear()}-${dates[1]}`;
 
 
     }
+
 
     $.ajax({
 
@@ -3514,6 +3515,7 @@ function reserve_prohibition_list(id){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
+                console.log(body)
 
 
                 if(body.length === undefined){
@@ -4443,7 +4445,11 @@ function reserve_merchandise_load_3(base_svc){
                                 _el.unit.forEach(function (ele,i){
 
 
-                                    document.getElementById('basic_weight').innerHTML += `<div class="toggle-button-cell">
+
+
+
+                                    if(el_.surcharge.is_huge_weight !== 1){
+                                        document.getElementById('basic_weight').innerHTML += `<div class="toggle-button-cell">
                                                                                                     <label class="form-toggle-box form-toggle-price large">
                                                                                                         <input type="radio" value="${ele.kg}" name="s2" data-price="${ele.price}"  onclick="reserve_service_list('service2_basic_weight','~${ele.kg}kg',${ele.is_consulting === "0" ? ele.price : '0'})">
                                                                                                             <em>
@@ -4453,16 +4459,48 @@ function reserve_merchandise_load_3(base_svc){
                                                                                                         </em>
                                                                                                     </label>
                                                                                                 </div>`
+                                    }
+
+                                    if(el_.surcharge.is_huge_weight === 1){
+
+                                        document.getElementById('basic_weight').innerHTML += `<div class="toggle-button-cell">
+                                                                                                    <div class="form-toggle-options">
+                                                                                                        <input type="radio" name="s2"  id="huge_weight" data-price="${ele.price}" value="huge" onclick="reserve_service_list('service2_basic_weight','~${ele.kg}kg','huge')">
+                                                                                                            <div class="form-toggle-options-data">
+                                                                                                                <div class="options-labels">
+                                                                                                                    <span class="font-size-12">~${ele.kg}kg당</span><strong style="font-size:10px">+${ele.price}원</strong></div>
+                                                                                                                <div class="form-amount-input">
+                                                                                                                    <button type="button" 
+                                                                                                                            class="btn-form-amount-minus" onclick="document.getElementById('reserve_huge_weight').value = parseInt(document.getElementById('reserve_huge_weight').value)-1">감소
+                                                                                                                    </button>
+                                                                                                                    <div class="form-amount-info">
+                                                                                                                        <input type="number" id="reserve_huge_weight" readOnly="" value="1" data-price="${ele.price}"
+                                                                                                                               class="form-amount-val">
+                                                                                                                    </div>
+                                                                                                                    <button type="button" 
+                                                                                                                            class="btn-form-amount-plus" onclick="document.getElementById('reserve_huge_weight').value = parseInt(document.getElementById('reserve_huge_weight').value)+1">증가
+                                                                                                                    </button>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                    </div>
+                                                                                                </div>`
+                                    }
 
 
                                     if(el_.surcharge.is_have ===1 && i === _el.unit.length-1){
 
 
                                         let surcharge_kg = el_.surcharge.kg ;
-                                        let surcharge_std_price = ele.kg === surcharge_kg ? ele.price : '';
+                                        let surcharge_std_price = ele.kg <= surcharge_kg ? ele.price : 0;
                                         localStorage.setItem('surcharge_std_price',surcharge_std_price);
                                         localStorage.setItem('surcharge_kg',surcharge_kg);
                                         localStorage.setItem('surcharge_price',el_.surcharge.price);
+
+
+                                        console.log(ele.kg)
+                                        console.log(surcharge_kg)
+                                        console.log(ele.price)
+
 
 
 
@@ -4873,13 +4911,16 @@ let beauty,bath,add_svc;
 
         size = size_input === null ? '' : size_input.value;
         service = service_input === null ? '' : service_input.value;
-        weight_merchandise = weight_input === null ? '' : weight_input.value ==='no' ? `${document.getElementById('weight_target').value}` : weight_input.value;
+        weight_merchandise = weight_input === null ? '' : weight_input.value ==='no' ? `${document.getElementById('weight_target').value}` : weight_input.value === 'huge' ? `${document.getElementById('reserve_huge_weight').value}`:weight_input.value;
         hair_feature = hair_feature_input === null ? '' :hair_feature_input.value;
         hair_length = hair_length_input === null ? '' : hair_length_input.value;
 
 
         if(weight_input.value === 'no'){
             weight_price =  parseInt(localStorage.getItem('surcharge_std_price')) + (parseInt(document.getElementById('weight_target').value)- parseInt(localStorage.getItem('surcharge_kg'))) * parseInt(localStorage.getItem('surcharge_price'))
+        }else if(weight_input.value ==='huge'){
+
+            weight_price = parseInt(document.getElementById('reserve_huge_weight').value) * parseInt(document.getElementById('reserve_huge_weight').getAttribute('data-price'))
         }else{
             weight_price = weight_input === null ? '' : weight_input.getAttribute('data-price');
         }
@@ -4964,12 +5005,18 @@ let beauty,bath,add_svc;
 
             total_price += parseInt(localStorage.getItem('surcharge_std_price'))+ (parseInt(document.getElementById('weight_target').value)-parseInt(localStorage.getItem('surcharge_kg')))*parseInt(localStorage.getItem('surcharge_price'))
 
+        }else if(el.getAttribute('data-price') === 'huge'){
+
+            total_price += parseInt(document.getElementById('huge_weight').getAttribute('data-price')) * parseInt(document.getElementById('reserve_huge_weight').value);
+
+
         }else {
             total_price += parseInt(el.getAttribute('data-price'));
 
         }
 
     })
+
 
     if(localStorage.getItem('is_vat') === '1'){
 
@@ -8531,7 +8578,11 @@ function management_service_4(base_svc){
 
 
                                             let surcharge_kg = el_.surcharge.kg ;
-                                            let surcharge_std_price = ele.kg === surcharge_kg ? ele.price : '';
+                                            let surcharge_std_price = ele.kg <= surcharge_kg ? ele.price :'0';
+
+                                            console.log(ele.kg)
+                                            console.log(surcharge_kg)
+                                            console.log(ele.price)
                                             localStorage.setItem('surcharge_std_price',surcharge_std_price);
                                             localStorage.setItem('surcharge_kg',surcharge_kg);
                                             localStorage.setItem('surcharge_price',el_.surcharge.price);
