@@ -72,7 +72,6 @@ function schedule_render(id){
                         no_one(body_data);
 
                         let color;
-                        let tooltip_arr = [];
                         body.forEach(function (el, index){
 
                             if(el.product.store_payment.card === null || el.product.store_payment.card === ''){
@@ -96,12 +95,11 @@ function schedule_render(id){
                                 // 툴팁배열에 idx 넣기
 
 
-                            tooltip_arr.push(el.product.payment_idx);
 
 
                             Array.from(document.getElementsByClassName('calendar-day-body-col')).forEach(function (el_){
 
-                                if(el_.getAttribute('data-name') === el.product.worker && new Date(el_.getAttribute('data-year'),el_.getAttribute('data-month'),el_.getAttribute('data-date'),el_.getAttribute('data-hour'),el_.getAttribute('data-minutes')).getTime() === new Date(el.product.date.booking_st).getTime() && el.product.is_cancel === 0){
+                                if(el_.getAttribute('data-name') === el.product.worker && new Date(el_.getAttribute('data-year'),el_.getAttribute('data-month'),el_.getAttribute('data-date'),el_.getAttribute('data-hour'),el_.getAttribute('data-minutes')).getTime() === new Date(el.product.date.booking_st.replace(' ','T')).getTime() && el.product.is_cancel === 0){
                                     if(el.product.store_payment.discount === null){
 
                                         el.product.store_payment.discount = 0
@@ -116,9 +114,9 @@ function schedule_render(id){
 
 
                                     el_.setAttribute('data-payment_idx',el.product.payment_idx)
-                                    el_.setAttribute('data-time_length',(new Date(el.product.date.booking_fi).getTime()-new Date(el.product.date.booking_st).getTime())/1000/60)
+                                    el_.setAttribute('data-time_length',(new Date(el.product.date.booking_fi.replace(' ','T')).getTime()-new Date(el.product.date.booking_st.replace(' ','T')).getTime())/1000/60)
 
-                                    let multiple = (new Date(el.product.date.booking_fi).getTime() - new Date(el.product.date.booking_st).getTime())/1800000;
+                                    let multiple = (new Date(el.product.date.booking_fi.replace(' ','T')).getTime() - new Date(el.product.date.booking_st.replace(' ','T')).getTime())/1800000;
                                     el_.innerHTML = `<div class="calendar-drag-item-group"  data-pet_name="${el.pet.name}" data-cellphone="${el.customer.phone}">
                                                                         <a href="#" onclick="pay_management_init(artist_id,this,false,${el.product.is_approve === 0 ? false : true}); pay_management_toggle(false); localStorage.setItem('payment_idx','${el_.getAttribute('data-payment_idx')}')" ${el.product.approve_idx === null ? '' : `data-approve_idx="${el.product.approve_idx}"`} data-tooltip_idx="${index}" data-cellphone="${el.customer.phone}" data-payment_idx="${el_.getAttribute('data-payment_idx')}" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-payment_idx')})" class="calendar-week-time-item toggle green ${color} ${el.product.is_no_show === 1 ? "red" : ''} ${el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
                                                                             <div class="item-inner" >
@@ -142,11 +140,11 @@ function schedule_render(id){
                                                                                     <div class="item-memo" style="font-size:12px;">${el.product.memo === null ? '' : el.product.memo}</div>
                                                                                 </div>
                                                                                 <div class="item-stats">
-                                                                                ${el.product.product_detail_parsing.base.size === '' || el.product.product_detail_parsing.base.size=== null ? `<div class="left">
+                                                                                ${el.product?.product_detail_parsing?.base?.size ? el.product.product_detail_parsing.base.size === '' || el.product.product_detail_parsing.base.size=== null ? `<div class="left">
                                                                                                                                                                                                     <div class="item-master">
                                                                                                                                                                                                         <div class="icon icon-reservation-selfadd"></div>
                                                                                                                                                                                                     </div>
-                                                                                                                                                                                                </div>`  : el.product.is_confirm === true ? el.product.store_payment.card >= el.product.store_payment.cash ? `<div class="right"><div class="item-cash"><div class="icon icon-reservation-card-on"></div></div></div>` : `<div class="right"><div class="item-cash"><div class="icon icon-reservation-cash-on"></div></div></div>` : el.product.store_payment.card >= el.product.store_payment.cash ? `<div class="right"><div class="item-cash"><div class="icon icon-reservation-card-off"></div></div></div>` : `<div class="right"><div class="item-cash"><div class="icon icon-reservation-cash-off"></div></div></div>`}
+                                                                                                                                                                                                </div>`  : el.product.is_confirm === true ? el.product.store_payment.card >= el.product.store_payment.cash ? `<div class="right"><div class="item-cash"><div class="icon icon-reservation-card-on"></div></div></div>` : `<div class="right"><div class="item-cash"><div class="icon icon-reservation-cash-on"></div></div></div>` : el.product.store_payment.card >= el.product.store_payment.cash ? `<div class="right"><div class="item-cash"><div class="icon icon-reservation-card-off"></div></div></div>` : `<div class="right"><div class="item-cash"><div class="icon icon-reservation-cash-off"></div></div></div>` : ''}
                                                                                     
                                                                                 </div>
                                                                                 
@@ -232,18 +230,18 @@ function schedule_render(id){
                             }
                         })
 
-                        if(workers.length > 3){
+                        // if(workers.length > 3){
 
-                            Array.from(document.getElementsByClassName('item-photo')).forEach(function(el){
+                            // Array.from(document.getElementsByClassName('item-photo')).forEach(function(el){
+                            //
+                            //     el.style.display = 'none';
+                            // })
 
-                                el.style.display = 'none';
-                            })
-
-                            Array.from(document.getElementsByClassName('item-other')).forEach(function(el){
-
-                                el.style.paddingLeft = '0px'
-                            })
-                        }
+                            // Array.from(document.getElementsByClassName('item-other')).forEach(function(el){
+                            //
+                            //     el.style.paddingLeft = '0px'
+                            // })
+                        // }
 
                         day_drag();
                     });
@@ -308,15 +306,12 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
             el.classList.add('actived');
 
 
+            console.log(body_)
             body_.forEach(function(_el, index){
-
-                console.log(_el)
-
 
 
                 if(_el.product.worker === el.getAttribute('data-worker')){
 
-                    console.log(1)
 
 
                     let booking_st = _el.product.date.booking_st
@@ -324,10 +319,6 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
                     let day = new Date(booking_st.replace(' ','T')).getDay();
                     let _booking_st = _el.product.date.booking_st.split(' ')[1];
 
-                    console.log(booking_st);
-                    console.log(booking_fi);
-                    console.log(day);
-                    console.log(_booking_st);
 
 
                     let color;
@@ -345,8 +336,6 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
 
                     Array.from(body_col).forEach(function(el__){
 
-                        console.log(2)
-
 
 
 
@@ -362,14 +351,12 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
                             }
 
 
-                            console.log(3)
                             el__.setAttribute('data-payment_idx',_el.product.payment_idx);
 
                             el__.setAttribute('data-time_length',(new Date(_el.product.date.booking_fi.replace(' ','T')).getTime()-new Date(_el.product.date.booking_st.replace(' ','T')).getTime())/1000/60)
 
-                            console.log('3-1')
                             el__.innerHTML = `<div class="calendar-drag-item-group" data-cellphone="${_el.customer.phone}" data-pet_name="${_el.pet.name}" >
-                                                    <a href="#" data-tooltip_idx="${index}" onclick="pay_management_init(artist_id,this,false,true); pay_management_toggle(false);localStorage.setItem('payment_idx',${_el.product.payment_idx})" data-payment_idx="${_el.product.payment_idx}" class="calendar-week-time-item toggle green ${color} ${_el.product.is_no_show === 1 ? "red" : ''} ${_el.product.is_approve === 0 ? 'gray': ''}" data-cellphone="${_el.customer.phone}" data-pet_name="${_el.pet.name}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
+                                                    <a href="#" data-tooltip_idx="${index}" onclick="pay_management_init(artist_id,this,false,${_el.product.is_approve === 0 ? false : true}); pay_management_toggle(false);localStorage.setItem('payment_idx',${_el.product.payment_idx})" ${_el.product.approve_idx === null ? '' : `data-approve_idx="${_el.product.approve_idx}"`} data-payment_idx="${_el.product.payment_idx}" class="calendar-week-time-item toggle green ${color} ${_el.product.is_no_show === 1 ? "red" : ''} ${_el.product.is_approve === 0 ? 'gray': ''}" data-cellphone="${_el.customer.phone}" data-pet_name="${_el.pet.name}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
                                                         <div class="item-inner">
                                                             <div class="item-photo-name">
                                                             <div class="item-name">
@@ -399,10 +386,8 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
                                                         </div>
                                                     </a>
                                             </div>`
-                            console.log(4)
 
                         }
-                        console.log(5)
                     })
 
 
@@ -504,10 +489,12 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
 
             });
 
-            reserve_prohibition_list(id);
 
 
-            setTimeout(function(){week_drag()},500)
+
+            setTimeout(function(){
+                reserve_prohibition_list(id);
+                week_drag()},500)
 
 
 
@@ -1653,7 +1640,7 @@ function consulting_hold_list(id){
                                                                                                                 <div class="portfolio-list-wrap">
                                                                                                                     
                                                                                                                         ${el_.consult_photo.length > 0 ? `<div class="list-inner">
-                                                                                                                        <div class="list-cell"><a href="#" class="btn-portfolio-item">
+                                                                                                                        <div class="list-cell" onclick="thumb_view(this,\`${el_.consult_photo[0].photo.replace('/pet','')}\`)"><a href="#" class="btn-portfolio-item">
                                                                                                                                                             <img src="https://image.banjjakpet.com${el_.consult_photo[0].photo.replace('/pet','')}" alt="">
                                                                                                                                                         </a></div>
                                                                                                                     </div>` : `<span>업로드된 이미지가 없습니다.</span>`}
@@ -2583,8 +2570,8 @@ function renderCalendar_month(){
 
             dates[i] = `<div class="calendar-month-body-col  ${prevDates.indexOf(_date) >= 0 && i <= 7 ? "before" : ""} ${nextDates.indexOf(_date) >= 0 && i >= dates.length - 7 ? "after" : ""}" >
                             <div class="calendar-col-inner" id="inner_data_${i}">
-                                <div class="calendar-day-value">
-                                    <div class="number">${_date}</div>
+                                <div class="calendar-day-value" style="cursor:pointer" onclick="localStorage.setItem('day_select',\`${date.getFullYear()}.${fill_zero(parseInt(date.getMonth())+1)}.${fill_zero(_date)}\`); location.href='/booking/reserve_beauty_day.php'">
+                                    <div class="number" style="cursor:pointer;">${_date}</div>
                                     <div class="state"></div>
                                 </div>
                                 <div class="calendar-drag-item-group insert_data" data-year="${date.getFullYear()}" data-month="${date.getMonth()}" data-date="${_date}" >
@@ -3329,7 +3316,8 @@ function reserve_prohibition(id){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                // location.reload();
+
+                location.reload();
             }
 
         }
@@ -3527,6 +3515,7 @@ function reserve_prohibition_list(id){
             } else if (head.code === 200) {
 
 
+
                 if(body.length === undefined){
                     body = [body];
                 }
@@ -3537,6 +3526,7 @@ function reserve_prohibition_list(id){
 
                     if(location.href.match('reserve_beauty_day')){
                         body.forEach(function(el){
+                            console.log(el)
 
 
                             let st_date = new Date(el.st_date.replace(' ','T')).getTime();
@@ -3548,33 +3538,39 @@ function reserve_prohibition_list(id){
                                 time.push(i);
                             }
 
-                            Array.from(document.getElementsByClassName('time-compare-cols')).forEach(function (el_){
+                            console.log(time)
 
-                                let el_year = el_.getAttribute('data-year');
-                                let el_month= el_.getAttribute('data-month');
-                                let el_date= el_.getAttribute('data-date');
-                                let el_hour= el_.getAttribute('data-hour');
-                                let el_minutes = el_.getAttribute('data-minutes');
+                            console.log(document.getElementsByClassName('time-compare-cols'))
+                            setTimeout(function(){
 
-                                let el_new_date = new Date(`${el_year}-${fill_zero(parseInt(el_month)+1)}-${fill_zero(parseInt(el_date))}T${fill_zero(el_hour)}:${fill_zero(el_minutes)}`).getTime();
+                                Array.from(document.getElementsByClassName('time-compare-cols')).forEach(function (el_,i){
+
+                                    let el_year = el_.getAttribute('data-year');
+                                    let el_month= el_.getAttribute('data-month');
+                                    let el_date= el_.getAttribute('data-date');
+                                    let el_hour= el_.getAttribute('data-hour');
+                                    let el_minutes = el_.getAttribute('data-minutes');
+
+                                    let el_new_date = new Date(`${el_year}-${fill_zero(parseInt(el_month)+1)}-${fill_zero(parseInt(el_date))}T${fill_zero(el_hour)}:${fill_zero(el_minutes)}`).getTime();
+
+                                    for(let i=0; i<time.length-1; i++){
+
+                                        if(el_new_date === time[i] && el.worker === el_.getAttribute('data-name')){
 
 
-                                for(let i=0; i<time.length-1; i++){
+                                            if(i===0){
+                                                el_.classList.add('break3-1')
+                                            }
 
-                                    if(el_new_date === time[i] && el.worker === el_.getAttribute('data-name')){
-
-
-                                        if(i===0){
-                                            el_.classList.add('break3-1')
+                                            el_.setAttribute('onclick',`pop.open("reserveCalendarPop10"); document.getElementById("reserveCalendarPop10").setAttribute('data-ph_seq',${el.ph_seq})`)
+                                            el_.setAttribute('data-ph_seq',el.ph_seq)
+                                            el_.classList.add('break3');
                                         }
-
-                                        el_.setAttribute('onclick',`pop.open("reserveCalendarPop10"); document.getElementById("reserveCalendarPop10").setAttribute('data-ph_seq',${el.ph_seq})`)
-                                        el_.setAttribute('data-ph_seq',el.ph_seq)
-                                        el_.classList.add('break3');
                                     }
-                                }
 
-                            })
+                                })
+                            },500)
+
 
                         })
                     }else if(location.href.match('reserve_beauty_week')){
@@ -4176,7 +4172,7 @@ function reserve_merchandise_load(body){
                                                                                             <input type="radio" name="f1" data-price="${el.price}" value="${el.type}" onclick="reserve_service_list('service2_other_list_face','+${el.type}',${el.price})">
                                                                                             <em>
                                                                                                 <span>${el.type}</span>
-                                                                                                <strong>+${parseInt(el.price).toLocaleString()}원</strong>
+                                                                                                <strong>+${el.price === '' ? 0 : parseInt(el.price).toLocaleString()}원</strong>
                                                                                             </em>
                                                                                         </label>
                                                                                     </div>`
@@ -4233,7 +4229,7 @@ function reserve_merchandise_load(body){
                     if(i===body.spa.length-1){
 
                         document.getElementById('service2_other_list').innerHTML += `<div class="service-selected-list-cell">
-                                                                                                    <div class="list-title" id="service2_other_list_spa">스파</div>
+                                                                                                    <div class="list-title" id="service2_other_list_spa"></div>
                                                                                                 </div>`
                     }
                 })
@@ -4256,7 +4252,7 @@ function reserve_merchandise_load(body){
                     if(i===body.dyeing.length-1){
 
                         document.getElementById('service2_other_list').innerHTML += `<div class="service-selected-list-cell">
-                                                                                                    <div class="list-title" id="service2_other_list_dyeing">염색</div>
+                                                                                                    <div class="list-title" id="service2_other_list_dyeing"></div>
                                                                                                 </div>`
                     }
                 })
@@ -4280,7 +4276,7 @@ function reserve_merchandise_load(body){
                     if(i===body.etc.length-1){
 
                         document.getElementById('service2_other_list').innerHTML += `<div class="service-selected-list-cell">
-                                                                                                    <div class="list-title" id="service2_other_list_etc">기타</div>
+                                                                                                    <div class="list-title" id="service2_other_list_etc"></div>
                                                                                                 </div>`
                     }
                 })
@@ -5904,6 +5900,8 @@ function exist_user_reserve_(pet_seq){
 
 function exist_user_reserve_init(body){
 
+    console.log(body)
+
 
     for(let i =0; i<document.getElementById('breed_select').options.length; i++){
 
@@ -6769,7 +6767,7 @@ function beauty_gallery_get(target,id){
 
                         document.getElementById('beauty_gal_wrap').innerHTML += `<div class="list-cell">
                                                                                 <div class="picture-thumb-view">
-                                                                                    <div class="picture-obj" onclick="show_image('https://image.banjjakpet.com${el.file_path.replace('/pet','')}')"><img src="https://image.banjjakpet.com${el.file_path.replace('/pet','')}" alt=""></div>
+                                                                                    <div class="picture-obj" onclick="show_image('https://image.banjjakpet.com${el.file_path.replace('/pet/','/')}')"><img src="https://image.banjjakpet.com${el.file_path.replace('/pet/','/')}" alt=""></div>
                                                                                     <div class="picture-date">${el.upload_dt.substr(0,4)}.${el.upload_dt.substr(4,2)}.${el.upload_dt.substr(6,2)}</div>
                                                                                     <div class="picture-ui">
                                                                                         <button type="button" class="btn-picture-ui"></button>
@@ -8883,6 +8881,10 @@ function set_product2(target,name,price,className,bool){
     //     return;
     // }
 
+    if(price === ''){
+        price = 0;
+    }
+
     if(bool){
 
             Array.from(document.getElementsByClassName(className)).forEach(function(el){
@@ -9911,11 +9913,12 @@ function pay_management_init(id,target,bool,bool2){
 
                 document.getElementById('pay_customer_memo_text').value = body.owner_memo;
                 document.getElementById('beauty_img_target').setAttribute('src','');
+                document.getElementById('beauty_img_target').removeAttribute('onclick');
                 document.getElementById('coupon_use').setAttribute('data-payment_idx',payment_idx);
 
                 if(body.photo !== ''){
                     document.getElementById('beauty_img_target').setAttribute('src',`${img_link_change(body.photo)}`);
-                    document.getElementById('pay_thumb').setAttribute('onclick',`thumb_view(this,"${body.photo.replace('/pet','')}")`)
+                    document.getElementById('pay_thumb').setAttribute('onclick',`thumb_view(this,"${body.photo.replace('/pet/','/')}")`)
 
                 }else{
                     document.getElementById('beauty_img_target').setAttribute('src',`${body.type ==='dog' ? '/static/images/icon/icon-pup-select-off.png' : '/static/images/icon/icon-cat-select-off.png'}`);
