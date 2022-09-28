@@ -9019,6 +9019,7 @@ function  set_etc_product_count_huge(target,name,price,bool){
 
         if(el.innerText.match('대형')){
 
+            console.log(2)
             if(bool){
 
                 siblings(target,1).children[0].value = parseInt(siblings(target,1).children[0].value)+1;
@@ -10397,6 +10398,7 @@ function pay_management_init(id,target,bool,bool2){
                             document.getElementById(`${parsing.base.weight.unit}kg`).click();
                         }else if(parsing.base.weight.unit > localStorage.getItem('surcharge_kg') && !parsing.base.size.match('대형') ){
 
+                            console.log(1)
                             if(document.getElementById('payment_surcharge')){
 
                                 document.getElementById('payment_surcharge').click();
@@ -11276,15 +11278,22 @@ function pay_management_product_change(target){
         if(document.querySelector('input[name="payment_s2"]:checked').value === 'no'){
 
             weight = document.getElementById('payment_weight_target').value;
+        }else if(document.querySelector('input[name="payment_s2"]:checked').value === 'huge'){
+
+            weight = document.getElementById('huge_weight').value;
         }else{
 
             weight = document.querySelector('input[name="payment_s2"]:checked').value;
-        };
+        }
         let weight_price;
 
         if(document.querySelector('input[name="payment_s2"]:checked').getAttribute('data-price')===null){
 
             weight_price = localStorage.getItem('surcharge_result');
+
+        }else if(document.querySelector('input[name="payment_s2"]:checked').value === 'huge'){
+
+            weight_price = parseInt(document.querySelector('input[name="payment_s2"]:checked').getAttribute('data-price')) * parseInt(document.getElementById('huge_weight').value);
 
         }else{
             weight_price= document.querySelector('input[name="payment_s2"]:checked').getAttribute('data-price');
