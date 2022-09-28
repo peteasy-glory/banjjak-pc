@@ -1150,14 +1150,14 @@ if ($artist_flag == 1) {
                 <div class="pop-body type-3">
                     <div class="msg-txt"><span class="msg-text-date"></span><br><br>선택한 예약을<br>이 곳으로 변경합니다.</div>
                 </div>
-                <div style="display:flex; justify-content: center; align-items: center; margin-bottom:20px;">
+                <div class="change-reserve-pop-text" style="display:flex; justify-content: center; align-items: center; margin-bottom:20px;">
                     예약변경알림발송
                     <input type="radio" name="log_msg_send" style="vertical-align: baseline; accent-color: #6840b1; " value="Y" checked> 발송
                     <input type="radio" name="log_msg_send" style="vertical-align: baseline; accent-color: #6840b1;" value="N"> 미발송
                 </div>
                 <div class="pop-footer">
                     <button type="button" class="btn btn-confirm" onclick="pop.close(); reserve_change_time();">확인</button>
-                    <button type="button" class="btn btn-confirm" onclick="location.reload();">예약변경취소</button>
+                    <button type="button" class="btn btn-confirm" onclick="localStorage.removeItem('change_check');location.reload();">예약변경취소</button>
                 </div>
             </div>
         </div>

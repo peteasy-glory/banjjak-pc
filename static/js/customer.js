@@ -184,7 +184,10 @@ function customer_all_scroll_paging(id){
 
                     time = null;
                     customer_all(id).then(function(customers){
-                        customer_list(id,customers)
+                        customer_list(id,customers).then(function(){
+
+                            document.getElementById('customer_select').removeAttribute('disabled')
+                        })
                     });
                 },100)
             }
@@ -209,7 +212,10 @@ function customer_select_(id){
             list_loging = false;
             list_end = false;
             customer_all(id).then(function(customers) {
-                customer_list(id,customers);
+                customer_list(id,customers).then(function(){
+
+                    document.getElementById('customer_select').removeAttribute('disabled')
+                });
             })
         })
 
@@ -225,6 +231,12 @@ function customer_all(id){
         if(list_loging || list_end){
             return false;
         }
+
+        if(offset !== 1){
+
+            document.getElementById('customer_select').setAttribute('disabled',true);
+        }
+
 
         list_loging = true;
         // document.getElementById('tbody').innerHTML ='';
@@ -308,6 +320,7 @@ function customer_all(id){
                 if(document.getElementById('loading_wrap')){
 
                     document.getElementById('loading_wrap').style.display = 'none';
+
                 }
 
                 offset +=20
@@ -350,10 +363,7 @@ function customer_count(id){
 
 function customer_list(id,customers){
 
-
-
-
-
+    return new Promise(function(resolve){
         let beauty = customers.body;
 
         if(beauty.length === undefined){
@@ -366,18 +376,18 @@ function customer_list(id,customers){
 
 
 
-                let y = el.ymdhm.substr(0, 4);
-                let M = el.ymdhm.substr(4, 2);
-                let d = el.ymdhm.substr(6, 2);
-                let h = el.ymdhm.substr(8, 2);
-                let m = el.ymdhm.substr(10, 2);
-                let product = el.product.split('|');
-                let size = product[3];
-                let b_product = product[4];
-                let grade = el.grade === null || el.grade === '' ? 3 : el.grade;
+            let y = el.ymdhm.substr(0, 4);
+            let M = el.ymdhm.substr(4, 2);
+            let d = el.ymdhm.substr(6, 2);
+            let h = el.ymdhm.substr(8, 2);
+            let m = el.ymdhm.substr(10, 2);
+            let product = el.product.split('|');
+            let size = product[3];
+            let b_product = product[4];
+            let grade = el.grade === null || el.grade === '' ? 3 : el.grade;
 
 
-                //console.log(el)
+            //console.log(el)
 
 
             $.ajax({
@@ -449,8 +459,20 @@ function customer_list(id,customers){
                 }
 
 
+
+
+
             })
         })
+
+        resolve();
+
+    })
+
+
+
+
+
 
 
 

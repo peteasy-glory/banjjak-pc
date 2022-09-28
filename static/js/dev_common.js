@@ -397,7 +397,7 @@ function am_pm_check_time(time){
     var minute = time.split(":")[1];
     if(hours > 12){
         time = `오후 ${(hours-12).toString().length <2 ? '0' : ''}${hours-12}:${minute}`
-    }else if(hours === 12){
+    }else if(hours == 12){
         time = `오후 ${hours}:${minute}`
     }else{
         time = `오전 ${hours}:${minute}`

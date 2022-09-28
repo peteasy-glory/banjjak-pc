@@ -1112,7 +1112,7 @@ if ($artist_flag == 1) {
                 </div>
                 <div class="pop-footer">
                     <button type="button" class="btn btn-confirm" onclick="pop.close(); reserve_change_time();">확인</button>
-                    <button type="button" class="btn btn-confirm" onclick="location.reload();">예약변경취소</button>
+                    <button type="button" class="btn btn-confirm" onclick="localStorage.removeItem('change_check'); location.reload();">예약변경취소</button>
                 </div>
             </div>
         </div>
