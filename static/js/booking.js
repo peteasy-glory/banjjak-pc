@@ -9949,7 +9949,7 @@ function pay_management_init(id,target,bool,bool2){
 
                 document.getElementById('pay_customer_memo_text').value = body.owner_memo;
                 document.getElementById('beauty_img_target').setAttribute('src','');
-                document.getElementById('beauty_img_target').removeAttribute('onclick');
+                document.getElementById('pay_thumb').removeAttribute('onclick');
                 document.getElementById('coupon_use').setAttribute('data-payment_idx',payment_idx);
 
                 if(body.photo !== ''){
