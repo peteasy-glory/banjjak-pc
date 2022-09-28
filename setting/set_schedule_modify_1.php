@@ -615,7 +615,8 @@ if ($artist_flag == 1) {
                                                                 <div class="grid-layout-cell grid-3">
                                                                     <select name="notall_year" class="notall_year">
                                                                         <option value="2021">2021 년</option>
-                                                                        <option value="2022">2022 년</option>
+                                                                        <option value="2022" selected>2022 년</option>
+                                                                        <option value="2023">2021 년</option>
                                                                     </select>
                                                                 </div>
                                                                 <div class="grid-layout-cell grid-3">

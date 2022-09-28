@@ -1472,11 +1472,21 @@ if($r_mode) {
 
         // 정기휴일 설정
         $is_tb_regular_holiday = $api -> get('/partner/setting/regular-holiday/'.$partner_id);
-        $week_day = 0;
+        $week_day = 1000000;
         for($i=0;$i<count($week);$i++){
             $week_day += intval($week[$i]);
         }
-        $week_day = ($week_day == 0)? "0000000" : $week_day;
+        if($week_day == 1000000){
+            $week_day = "0000000";
+        }else if($week_day > 2000000){
+            $week_day = '1'.substr(strval($week_day),1);
+        }else if($week_day > 1000000){
+            $week_day = '0'.substr(strval($week_day),1);
+        }
+        $week_day = ($week_day == 1000000)? "0000000" : $week_day;
+        $week_day = ($week_day > 2000000)? $week_day - 1000000 : $week_day;
+
+
         if(count($is_tb_regular_holiday['body']) > 0){
             $regular_data = array('partner_id'=>$partner_id,'week'=>$week_day);
             $regular_data_json = json_encode($regular_data);

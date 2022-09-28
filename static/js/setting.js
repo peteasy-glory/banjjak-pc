@@ -2004,7 +2004,7 @@ function get_dog_type_product(artist_id,second_type,direct_title){
                         var bt_div = $('.dog_table_tr:last-child').clone();
 
                         // row에 값 넣기
-                        $('.dog_table_tr:last-child .kgs_arr').val((kg_array[i]));
+                        $('.dog_table_tr:last-child .kgs_arr').val((parseFloat(kg_array[i]).toFixed(1)));
 
                         // 목욕
                         if(body.bath.price != ''){
