@@ -3201,6 +3201,8 @@ $(function(){
             $(this).addClass('actived');
             if(parseInt($(this).attr('data-height')) <4){
                 $(this).attr('style',`height:${$(this).children()[0].offsetHeight}px; ${localStorage.getItem('change_check') === "1" ? 'border:red dotted' : ''}`)
+            }else{
+                $(this).attr('style',`height:${$(this).children()[0].offsetHeight+20}px ${localStorage.getItem('change_check') === "1" ? 'border:red dotted' : ''}`);
             }
             $.ajax({
                 url: '../data/pc_ajax.php',

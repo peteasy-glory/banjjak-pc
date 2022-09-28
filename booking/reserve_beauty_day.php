@@ -3172,6 +3172,9 @@ $(function(){
 			$(this).addClass('actived');
             if(parseInt($(this).attr('data-height')) <4){
                 $(this).attr('style',`height:${$(this).children()[0].offsetHeight}px`)
+            }else{
+                $(this).attr('style',`height:${$(this).children()[0].offsetHeight+20}px`)
+
             }
             $.ajax({
                 url: '../data/pc_ajax.php',
