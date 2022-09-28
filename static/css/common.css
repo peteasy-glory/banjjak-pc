@@ -2805,7 +2805,7 @@ table.terms-table > tbody > tr > td {padding:10px 10px; font-size:14px; line-hei
 .reserve-calendar-title {flex:0 0 auto;  position:relative;  display:inline-flex; align-items:center;}
 .reserve-calendar-title select {position:absolute;top:0;left:0;width:100%;height:100%;opacity:0; z-index:5;}
 .reserve-calendar-title .txt {position:relative;font-size:24px; line-height:1; font-weight:500;}
-/*.reserve-calendar-title button.txt {padding-right:23px; background:url(../images/icon/icon_select_arrow_middle.png) center right no-repeat; background-size:18px auto;}*/
+.reserve-calendar-title button.txt {padding-right:23px; background:url(../images/icon/icon_select_arrow_middle.png) center right no-repeat; background-size:18px auto;}
 .btn-reserve-calendar-ui {flex:0 0 auto; display:inline-flex; align-items:center; justify-content:center; width:42px; height:42px;}
 .btn-reserve-calendar-ui.btn-month-prev {margin-right:32px;}
 .btn-reserve-calendar-ui.btn-month-next {margin-left:32px;}

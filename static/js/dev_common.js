@@ -1014,10 +1014,13 @@ function renderCalendar_mini(id) {
                     </div>`;
         })
         const div_dates = dates.division(7).slice(0,-1);
-        document.getElementById(`mini-calendar-month-body`).innerHTML = '';
-        for (let i = 0; i < div_dates.length; i++) {
-            document.getElementById(`mini-calendar-month-body`).innerHTML += ` <div class="mini-calendar-month-body-row ${i > 0 && i < 5 ? "op-1" : ""} ${i === 0 || i === 2 ? '1or3' : i === 1 || i === 3 ? '2or4':""} " id="mini-calendar-month-body-row-${i}" data-row="${i}" ></div>`
+        if(document.getElementById('mini-calendar-month-body')){
+            document.getElementById(`mini-calendar-month-body`).innerHTML = '';
+            for (let i = 0; i < div_dates.length; i++) {
+                document.getElementById(`mini-calendar-month-body`).innerHTML += ` <div class="mini-calendar-month-body-row ${i > 0 && i < 5 ? "op-1" : ""} ${i === 0 || i === 2 ? '1or3' : i === 1 || i === 3 ? '2or4':""} " id="mini-calendar-month-body-row-${i}" data-row="${i}" ></div>`
+            }
         }
+
         holiday(id);
         resolve(div_dates);
     })

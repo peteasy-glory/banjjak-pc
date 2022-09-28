@@ -106,8 +106,9 @@ function schedule_render(id){
                                     }
                                     switch(el.product.pay_type){
 
-                                        case "pos-card" : case "pos-cash" : color = 'yellow'; break;
+                                        case "pos-card" : case "pos-cash" : color = 'green'; break;
                                         case "offline-card" : case "offline-cash" : color = 'purple'; break;
+                                        case "card" : case "bank" : color = 'yellow'; break;
                                         default : color = ''; break;
 
                                     }
@@ -118,7 +119,7 @@ function schedule_render(id){
 
                                     let multiple = (new Date(el.product.date.booking_fi.replace(' ','T')).getTime() - new Date(el.product.date.booking_st.replace(' ','T')).getTime())/1800000;
                                     el_.innerHTML = `<div class="calendar-drag-item-group"  data-pet_name="${el.pet.name}" data-cellphone="${el.customer.phone}">
-                                                                        <a href="#" onclick="pay_management_init(artist_id,this,false,${el.product.is_approve === 0 ? false : true}); pay_management_toggle(false); localStorage.setItem('payment_idx','${el_.getAttribute('data-payment_idx')}')" ${el.product.approve_idx === null ? '' : `data-approve_idx="${el.product.approve_idx}"`} data-tooltip_idx="${index}" data-cellphone="${el.customer.phone}" data-payment_idx="${el_.getAttribute('data-payment_idx')}" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-payment_idx')})" class="calendar-week-time-item toggle green ${color} ${el.product.is_no_show === 1 ? "red" : ''} ${el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
+                                                                        <a href="#" onclick="pay_management_init(artist_id,this,false,${el.product.is_approve === 0 ? false : true}); pay_management_toggle(false); localStorage.setItem('payment_idx','${el_.getAttribute('data-payment_idx')}')" ${el.product.approve_idx === null ? '' : `data-approve_idx="${el.product.approve_idx}"`} data-tooltip_idx="${index}" data-cellphone="${el.customer.phone}" data-payment_idx="${el_.getAttribute('data-payment_idx')}" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-payment_idx')})" class="calendar-week-time-item toggle ${color} ${el.product.is_no_show === 1 ? "red" : ''} ${el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
                                                                             <div class="item-inner" >
                                                                                 <div class="item-photo-name">
                                                                                 
@@ -325,8 +326,9 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
 
                     switch(_el.product.pay_type){
 
-                        case "pos-card" : case "pos-cash" : color = 'yellow'; break;
+                        case "pos-card" : case "pos-cash" : color = 'green'; break;
                         case "offline-card" : case "offline-cash" : color = 'purple'; break;
+                        case "card" : case "bank" : color = 'yellow'; break;
                         default : color = ''; break;
 
                     }
@@ -356,7 +358,7 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
                             el__.setAttribute('data-time_length',(new Date(_el.product.date.booking_fi.replace(' ','T')).getTime()-new Date(_el.product.date.booking_st.replace(' ','T')).getTime())/1000/60)
 
                             el__.innerHTML = `<div class="calendar-drag-item-group" data-cellphone="${_el.customer.phone}" data-pet_name="${_el.pet.name}" >
-                                                    <a href="#" data-tooltip_idx="${index}" onclick="pay_management_init(artist_id,this,false,${_el.product.is_approve === 0 ? false : true}); pay_management_toggle(false);localStorage.setItem('payment_idx',${_el.product.payment_idx})" ${_el.product.approve_idx === null ? '' : `data-approve_idx="${_el.product.approve_idx}"`} data-payment_idx="${_el.product.payment_idx}" class="calendar-week-time-item toggle green ${color} ${_el.product.is_no_show === 1 ? "red" : ''} ${_el.product.is_approve === 0 ? 'gray': ''}" data-cellphone="${_el.customer.phone}" data-pet_name="${_el.pet.name}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
+                                                    <a href="#" data-tooltip_idx="${index}" onclick="pay_management_init(artist_id,this,false,${_el.product.is_approve === 0 ? false : true}); pay_management_toggle(false);localStorage.setItem('payment_idx',${_el.product.payment_idx})" ${_el.product.approve_idx === null ? '' : `data-approve_idx="${_el.product.approve_idx}"`} data-payment_idx="${_el.product.payment_idx}" class="calendar-week-time-item toggle ${color} ${_el.product.is_no_show === 1 ? "red" : ''} ${_el.product.is_approve === 0 ? 'gray': ''}" data-cellphone="${_el.customer.phone}" data-pet_name="${_el.pet.name}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
                                                         <div class="item-inner">
                                                             <div class="item-photo-name">
                                                             <div class="item-name">
@@ -1701,8 +1703,21 @@ function calendar_change_month(id){
                 el_.classList.remove('actived');
             })
             date.setMonth(parseInt(el.innerText.trim())-1);
-            book_list(id).then(function(){
-                _renderCalendar_mini(id);
+            book_list(id).then(function(body){
+                if(location.href.match('reserve_beauty_month')){
+
+                    _renderCalendar_month().then(function(){
+                        month_reserve_cols(body).then(function (){
+
+                            day_total_reserve()
+                            month_holiday(id)
+
+                        });
+                    });
+                }else{
+
+                    _renderCalendar_mini(id);
+                }
                 document.querySelector('.calendar-title-sort').classList.remove('actived')
 
 
@@ -2333,8 +2348,6 @@ function day_drag(){
                         let pet_name = $(evt.from).attr('data-pet_name');
 
                         let cellphone = $(evt.from).attr('data-cellphone');
-                        console.log(pet_name);
-                        console.log(cellphone);
 
                         _thisWorker = $(evt.from).parent().attr("data-nick");
                         _thisYear = $(evt.from).parent().attr("data-year");
@@ -2628,12 +2641,12 @@ return new Promise(function (resolve){
 
             body.forEach(function(el_){
 
-
                 let color;
                 switch(el_.product.pay_type){
 
-                    case "pos-card": case "pos-cash" : color = 'yellow'; break;
+                    case "pos-card": case "pos-cash" : color = 'green'; break;
                     case "offline-card" : case "offline-cash" : color = 'purple'; break;
+                    case "card" : case "bank" : color = 'yellow'; break;
                     default : color = ''; break;
 
                 }
@@ -2646,7 +2659,7 @@ return new Promise(function (resolve){
 
                     if(new Date(date_init[0],date_init[1]-1,date_init[2]).getTime() === new Date(el.getAttribute('data-year'),el.getAttribute('data-month'),el.getAttribute('data-date')).getTime() && el_.product.is_cancel === 0 ){
 
-                        el.innerHTML += `<div class="calendar-drag-item calendar-drag-item-add"><a href="#" onclick="pay_management_init(artist_id,this,false,true); pay_management_toggle(false); localStorage.setItem('payment_idx',${el_.product.payment_idx})" data-payment_idx="${el_.product.payment_idx}" class="calendar-month-day-item green ${color} ${el_.product.pay_type} ${el_.product.is_no_show === 1 ? "red" : ''} ${el_.product.is_approve === 0 ? 'gray':''}" style="color: white;"><div class="calendar-month-day-item-name"><strong>${el_.pet.name}</strong><span>(${el_.pet.type})</span></div></a></div>`
+                        el.innerHTML += `<div class="calendar-drag-item calendar-drag-item-add"><a href="#" onclick="pay_management_init(artist_id,this,false,true); pay_management_toggle(false); localStorage.setItem('payment_idx',${el_.product.payment_idx})" data-payment_idx="${el_.product.payment_idx}" class="calendar-month-day-item ${color} ${el_.product.pay_type} ${el_.product.is_no_show === 1 ? "red" : ''} ${el_.product.is_approve === 0 ? 'gray':''}" style="color: white;"><div class="calendar-month-day-item-name"><strong>${el_.pet.name}</strong><span>(${el_.pet.type})</span></div></a></div>`
                     }
                 }
 
@@ -3035,8 +3048,9 @@ function _schedule_render_list(body){
 
         switch(el.product.pay_type){
 
-            case "pos-card" : case "pos-cash" : color = 'yellow'; break;
+            case "pos-card" : case "pos-cash" : color = 'green'; break;
             case "offline-card" : case "offline-cash" : color = 'purple'; break;
+            case "card" : case "bank" : color = 'yellow'; break;
             default : color = ''; break;
 
         }

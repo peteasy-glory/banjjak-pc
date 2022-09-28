@@ -105,38 +105,38 @@ if ($artist_flag == 1) {
 									<div class="reserve-calendar-select">
 										<button type="button" class="btn-reserve-calendar-ui btn-month-prev" id="btn-month-prev"><span class="icon icon-calendar-prev-small"></span></button>
 										<div class="reserve-calendar-title">
-											<button type="button" class="txt" id="this_month"></button>
+											<button type="button" class="txt year-month" id="this_month"></button>
 										</div>
 										<button type="button" class="btn-reserve-calendar-ui btn-month-next" id="btn-month-next"><span class="icon icon-calendar-next-small"></span></button>
 										<!-- calendar-title-sort 클래스에 actived클래스 추가시 활성화 -->
-<!--										<div class="calendar-title-sort">-->
-<!--											<div class="simple-calendar-wrap">-->
-<!--												<div class="simple-calendar-top">-->
-<!--													<button type="button" class="btn-simple-calendar-ui btn-simple-calendar-prev">이전</button>-->
-<!--													<div class="top-title">2022</div>-->
-<!--													<button type="button" class="btn-simple-calendar-ui btn-simple-calendar-next">다음</button>-->
-<!--												</div>-->
-<!--												<div class="simple-calendar-body">-->
-<!--													<div class="simple-calendar-month-group">-->
-<!--														<div class="simple-calendar-month-row">-->
-<!--															<!-- btn-simple-calendar-month-nav 클래스에 actived클래스 추가시 활성화 -->
-<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">1</button></div>-->
-<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">2</button></div>-->
-<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">3</button></div>-->
-<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav actived">4</button></div>-->
-<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">5</button></div>-->
-<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">6</button></div>-->
-<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">7</button></div>-->
-<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">8</button></div>-->
-<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">9</button></div>-->
-<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">10</button></div>-->
-<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">11</button></div>-->
-<!--															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">12</button></div>-->
-<!--														</div>-->
-<!--													</div>-->
-<!--												</div>-->
-<!--											</div>-->
-<!--										</div>-->
+										<div class="calendar-title-sort">
+											<div class="simple-calendar-wrap">
+												<div class="simple-calendar-top">
+													<button type="button" class="btn-simple-calendar-ui btn-simple-calendar-prev" id="btn-simple-calendar-prev">이전</button>
+													<div class="top-title" id="top-title"></div>
+													<button type="button" class="btn-simple-calendar-ui btn-simple-calendar-next" id="btn-simple-calendar-next">다음</button>
+												</div>
+												<div class="simple-calendar-body">
+													<div class="simple-calendar-month-group">
+														<div class="simple-calendar-month-row">
+															<!-- btn-simple-calendar-month-nav 클래스에 actived클래스 추가시 활성화-->
+															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">1</button></div>
+															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">2</button></div>
+															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">3</button></div>
+															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">4</button></div>
+															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">5</button></div>
+															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">6</button></div>
+															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">7</button></div>
+															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">8</button></div>
+															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">9</button></div>
+															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">10</button></div>
+															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">11</button></div>
+															<div class="simple-calendar-month-col"><button type="button" class="btn-simple-calendar-month-nav">12</button></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
 									</div>
 									<div class="sort-right">
 										<!-- actived클래스 추가시 활성화 -->
@@ -2909,6 +2909,7 @@ if ($artist_flag == 1) {
         });
         gnb_actived('gnb_reserve_wrap','gnb_beauty');
         btn_month_calendar(artist_id)
+        btn_month_simple()
 
         customer_new_birthday().then(function(){ customer_new_birthday_date()})
         customer_pet_type();
@@ -2963,7 +2964,7 @@ if ($artist_flag == 1) {
             management_service_2(body).then(function(){
             })
         })
-
+        calendar_change_month(artist_id)
 
 
         document.getElementById('pay_management').addEventListener("scroll",onScroll);
@@ -2985,7 +2986,6 @@ if ($artist_flag == 1) {
     })
 
     document.querySelector('.pay-btn-detail-toggle-2').addEventListener('click',function(){
-        console.log(1)
 
         if(document.querySelector('#pay_before_beauty_list_more').style.display === 'none'){
             document.querySelector('.pay-btn-detail-toggle-2').classList.add('actived');
@@ -2999,7 +2999,6 @@ if ($artist_flag == 1) {
     })
 
     document.querySelector('.pay-btn-detail-toggle-3').addEventListener('click',function(){
-        console.log(1)
 
         if(document.querySelector('#pay_before_special_list_more').style.display === 'none'){
             document.querySelector('.pay-btn-detail-toggle-3').classList.add('actived');
