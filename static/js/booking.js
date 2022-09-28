@@ -5947,7 +5947,6 @@ function exist_user_reserve_(pet_seq){
 
 function exist_user_reserve_init(body){
 
-    console.log(body)
 
 
     for(let i =0; i<document.getElementById('breed_select').options.length; i++){
@@ -6440,7 +6439,6 @@ function customer_memo(target,id){
 
             },
             success:function(res) {
-                console.log(res)
 
                     document.getElementById('msg2_txt').innerText = '견주 메모가 변경되었습니다.'
                     pop.open('reserveAcceptMsg2');
@@ -7696,7 +7694,6 @@ function reserve_change_time(){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body)
 
 
                 $.ajax({
@@ -7718,7 +7715,6 @@ function reserve_change_time(){
                         if (head.code === 401) {
                             pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                         } else if (head.code === 200) {
-                            console.log(body)
 
                             localStorage.removeItem('payment_idx');
                             localStorage.removeItem('change_check');
@@ -7971,7 +7967,6 @@ function management_service_1(id,breed){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
-                    console.log(body)
                     if(body.is_vat == 0){
 
                         localStorage.setItem('is_vat','0');
@@ -8580,9 +8575,6 @@ function management_service_4(base_svc){
                                             let surcharge_kg = el_.surcharge.kg ;
                                             let surcharge_std_price = ele.kg <= surcharge_kg ? ele.price :'0';
 
-                                            console.log(ele.kg)
-                                            console.log(surcharge_kg)
-                                            console.log(ele.price)
                                             localStorage.setItem('surcharge_std_price',surcharge_std_price);
                                             localStorage.setItem('surcharge_kg',surcharge_kg);
                                             localStorage.setItem('surcharge_price',el_.surcharge.price);
@@ -9059,8 +9051,6 @@ function set_etc_product_count_(target,name,price,bool){
 
 function  set_etc_product_count_huge(target,name,price,bool){
 
-    console.log(price);
-
 
     name =name.trim();
 
@@ -9072,7 +9062,6 @@ function  set_etc_product_count_huge(target,name,price,bool){
 
         if(el.innerText.match('대형')){
 
-            console.log(2)
             if(bool){
 
                 siblings(target,1).children[0].value = parseInt(siblings(target,1).children[0].value)+1;
@@ -9710,9 +9699,6 @@ function pay_management_init(id,target,bool,bool2){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body)
-                console.log(body_2)
-                console.log(body_3)
 
                 let start_time ;
 
@@ -9776,7 +9762,6 @@ function pay_management_init(id,target,bool,bool2){
                                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                             } else if (head.code === 200) {
 
-                                //console.log(body)
 
                                 body_.forEach(function(el){
 
@@ -10452,7 +10437,6 @@ function pay_management_init(id,target,bool,bool2){
                             document.getElementById(`${parsing.base.weight.unit}kg`).click();
                         }else if(parsing.base.weight.unit > localStorage.getItem('surcharge_kg') && !parsing.base.size.match('대형') ){
 
-                            console.log(1)
                             if(document.getElementById('payment_surcharge')){
 
                                 document.getElementById('payment_surcharge').click();
