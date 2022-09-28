@@ -14,6 +14,7 @@ if ($artist_flag == 1) {
 $type = (isset($_GET['type']))? $_GET['type'] : "";
 $title = (isset($_GET['title']))? $_GET['title'] : "";
 $date = (isset($_GET['date']))? $_GET['date'] : "";
+$notice = (isset($_GET['notice']))? $_GET['notice'] : "";
 $img = (isset($_GET['img']))? img_link_change($_GET['img']) : "";
 
 
@@ -56,6 +57,8 @@ $img = (isset($_GET['img']))? img_link_change($_GET['img']) : "";
 									</div>
 									<div class="board-view-detail">
 										<img src="https://image.banjjakpet.com<?=$img?>" alt="">
+                                        </br></br>
+                                        <?=$notice ?>
 									</div>
 								</div>
 							</div>
