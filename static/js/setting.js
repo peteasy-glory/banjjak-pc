@@ -1815,6 +1815,9 @@ function view_add_product(){
     $(".is_over_kgs0").prop("checked",true);
     $(".dog_over_kgs_wrap").css("display","none");
 
+    // 코멘트 초기화
+    $(".dog_add_comment").val('');
+
     //////////////////////////////////////////////////////// 고양이상품 뿌려주기
     if(setting_array[0].cat != ''){
         if(setting_array[0].cat.in_shop == 1 && setting_array[0].cat.out_shop == 1){
@@ -1994,7 +1997,8 @@ function get_dog_type_product(artist_id,second_type,direct_title){
                 console.log(body);
                 if(body != ''){
                     var kg_array = (body.kgs).split(',');
-                    console.log(kg_array);
+                    //console.log(kg_array);
+                    view_add_product();
                     $.each(kg_array,function(i,v){
                         // 아무것도 없는 row 복사
                         var bt_div = $('.dog_table_tr:last-child').clone();
@@ -2156,6 +2160,16 @@ function get_dog_type_product(artist_id,second_type,direct_title){
                         $(".what_over_kgs").val(body.what_over_kgs);
                         $(".over_kgs_price").val(body.over_kgs_price);
                     }
+
+                    // 대형견 키로당 무게 설정일시
+                    if(body.is_kgs_by_price == 1 && body.second_type == '대형견미용'){
+                        $(".add_del_wrap").css("display","none");
+                        $(".is_kgs_by_price1").prop("checked",true);
+                        //$(".kgs_arr").val('1.0');
+                        //$(".kgs_arr").prop("disabled",true);
+                        $(".is_over_kgs_warp").css("display","none");
+                    }
+
                     $(".dog_add_comment").val(db_to_str(body.add_comment));
                 }else{
                     view_add_product();

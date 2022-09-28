@@ -1293,7 +1293,8 @@ if($r_mode) {
 
         $is_over_kgs = $_POST['is_over_kgs'];
         $what_over_kgs = (isset($_POST['what_over_kgs']))? $_POST['what_over_kgs'] : '';
-        $over_kgs_price = (isset($_POST['over_kgs_price']))? $_POST['over_kgs_price'] : '';
+        $over_kgs_price = (isset($_POST['over_kgs_price']))? $_POST['over_kgs_price'] : '0';
+        $is_kgs_by_price = $_POST['is_kgs_by_price'];
         $add_comment = $_POST['add_comment'];
 
 
@@ -1303,7 +1304,7 @@ if($r_mode) {
         ,'beauty3_price'=>$beauty3_price,'beauty4_price'=>$beauty4_price,'beauty5_price'=>$beauty5_price,'is_consult_bath'=>$is_consult_bath,'is_consult_part'=>$is_consult_part,'is_consult_bath_part'=>$is_consult_bath_part
         ,'is_consult_sanitation'=>$is_consult_sanitation,'is_consult_sanitation_bath'=>$is_consult_sanitation_bath,'is_consult_all'=>$is_consult_all,'is_consult_spoting'=>$is_consult_spoting,'is_consult_scissors'=>$is_consult_scissors
         ,'is_consult_summercut'=>$is_consult_summercut,'is_consult_beauty1'=>$is_consult_beauty1,'is_consult_beauty2'=>$is_consult_beauty2,'is_consult_beauty3'=>$is_consult_beauty3,'is_consult_beauty4'=>$is_consult_beauty4
-        ,'is_consult_beauty5'=>$is_consult_beauty5,'is_over_kgs'=>$is_over_kgs,'what_over_kgs'=>$what_over_kgs,'over_kgs_price'=>$over_kgs_price,'add_comment'=>$add_comment);
+        ,'is_consult_beauty5'=>$is_consult_beauty5,'is_over_kgs'=>$is_over_kgs,'what_over_kgs'=>$what_over_kgs,'over_kgs_price'=>$over_kgs_price,'is_kgs_by_price'=>$is_kgs_by_price,'add_comment'=>$add_comment);
         $data_json = json_encode($data);
         $result = $api ->put('/partner/setting/b/product/add-opt/dog' ,$data_json);
 

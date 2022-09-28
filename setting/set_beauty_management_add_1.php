@@ -923,7 +923,7 @@ $pet_type = (isset($_GET['is_cat']))? $_GET['is_cat'] : "dog";
 <script>
     let artist_id = "<?=$artist_id?>";
     var add_worktime = 0;
-    var second_type = '<?=$_GET['second_type'] ?>';
+    var second_type = '<?=$second_type ?>';
     var direct_title = '<?=$direct_title ?>';
     var pet_type = '<?=$pet_type ?>';
     $(document).ready(function() {
@@ -938,7 +938,12 @@ $pet_type = (isset($_GET['is_cat']))? $_GET['is_cat'] : "dog";
         // 강아지 상품 수정으로 들어왔을때
         if(second_type != ''){
             if(second_type == '대형견미용'){
-                $(".direct_title_wrap").css("display", "block");
+                $(".huge_weight_wrap").css("display","block");
+                $(".direct_title_wrap").css("display", "none");
+            }else{
+                $(".is_kgs_by_price0").prop("checked",true);
+                $(".dog_over_kgs_wrap").css("display","block");
+                $(".is_over_kgs_warp").css("display","block");
             }
             get_dog_type_product(artist_id, second_type, direct_title);
         }
@@ -1018,14 +1023,22 @@ $pet_type = (isset($_GET['is_cat']))? $_GET['is_cat'] : "dog";
         if($(this).val() == '직접입력') {
             $(".direct_title_wrap").css("display", "block");
             $(".huge_weight_wrap").css("display","none");
+            $(".is_kgs_by_price0").prop("checked",true);
+            $(".dog_over_kgs_wrap").css("display","block");
+            $(".is_over_kgs_warp").css("display","block");
         }else if($(this).val() == '대형견미용'){
             $(".direct_title_wrap").css("display","none");
-            get_dog_type_product(artist_id, $(this).val(), '');
             $(".huge_weight_wrap").css("display","block");
+            $(".dog_over_kgs_wrap").css("display","block");
+            $(".is_over_kgs_warp").css("display","block");
+            get_dog_type_product(artist_id, $(this).val(), '');
         }else{
             $(".direct_title_wrap").css("display","none");
-            get_dog_type_product(artist_id, $(this).val(), '');
             $(".huge_weight_wrap").css("display","none");
+            $(".is_kgs_by_price0").prop("checked",true);
+            $(".dog_over_kgs_wrap").css("display","block");
+            $(".is_over_kgs_warp").css("display","block");
+            get_dog_type_product(artist_id, $(this).val(), '');
         }
     })
 
@@ -1064,10 +1077,10 @@ $pet_type = (isset($_GET['is_cat']))? $_GET['is_cat'] : "dog";
             $(".kgs_arr").prop("disabled",false);
         }else{
             $(".add_del_wrap").css("display","none");
-            view_add_product();
             $(".kgs_arr").val('1.0');
-            $(".kgs_arr").prop("disabled",true);
+            //$(".kgs_arr").prop("disabled",true);
             $(".is_over_kgs_warp").css("display","none");
+            view_add_product();
         }
     })
 
