@@ -371,18 +371,14 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
                                                             <div class="item-option">${_el.product.category}</div>
                                                             <div class="item-memo" style="font-size:12px;">${_el.product.memo === null ? '' : _el.product.memo}</div>
                                                             <div class="item-stats">
-                                                                                ${_el.product.is_confirm ? `<div class="right">
-                                                                                        <div class="item-cash">
-                                                                                            ${_el.product.pay_type === "pos-card" ? `<div class="icon icon-reservation-card-off"></div>` : `<div class="icon icon-reservation-cash-off"></div>` }
-                                                                                            
-                                                                                        </div>
-                                                                                    </div>` : `<div class="left">
-                                                                                        <div class="item-master">
-                                                                                            <div class="icon icon-reservation-selfadd"></div>
-                                                                                        </div>
-                                                                                    </div>`}
-                                                                                    
-                                                                                </div>
+                                                                               
+                                                                         ${_el.product?.product_detail_parsing?.base?.size ? _el.product.product_detail_parsing.base.size === '' || _el.product.product_detail_parsing.base.size=== null ? `<div class="left">
+                                                                                                                                                                                                    <div class="item-master">
+                                                                                                                                                                                                        <div class="icon icon-reservation-selfadd"></div>
+                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                </div>`  : _el.product.is_confirm === true ? _el.product.store_payment.card >= _el.product.store_payment.cash ? `<div class="right"><div class="item-cash"><div class="icon icon-reservation-card-on"></div></div></div>` : `<div class="right"><div class="item-cash"><div class="icon icon-reservation-cash-on"></div></div></div>` : _el.product.store_payment.card >= _el.product.store_payment.cash ? `<div class="right"><div class="item-cash"><div class="icon icon-reservation-card-off"></div></div></div>` : `<div class="right"><div class="item-cash"><div class="icon icon-reservation-cash-off"></div></div></div>` : ''}
+                                                                                                
+                                                            </div>
                                                         </div>
                                                     </a>
                                             </div>`
