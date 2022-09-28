@@ -3221,13 +3221,15 @@ $(function(){
 
                         if(body && body.length>0){
                             var memo = '';
+                            document.getElementById("tooltip-date-text").innerHTML = "특이 사항";
                             $.each(body, function(index,value){
                                 // memo += value.booking_date+'</br>';
                                 // memo += value.memo+'</br></br>';
-                                document.getElementById("tooltip-date-text").innerHTML = "특이 사항";
-                                document.getElementById("tooltip-desc-text").innerHTML = value.booking_date +'</br>'+ value.memo + '</br></br>';
-                                tooltip.addClass('actived');
+                                memo += value.booking_date +'</br>'+ value.memo + '</br></br>';
+
                             })
+                            $("#tooltip-desc-text").html(memo)
+                            tooltip.addClass('actived');
                             // memo_array.push(memo);
                         }else{
                             // memo_array.push('')
