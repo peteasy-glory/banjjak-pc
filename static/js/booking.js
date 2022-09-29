@@ -4449,7 +4449,7 @@ function reserve_merchandise_load_3(base_svc){
 
         el.addEventListener('click',function (){
 
-            document.getElementById('basic_weight').innerHTML= '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" data-price="" name="s2" onclick="reserve_service_list(\'service2_basic_weight\',\'\',\'0\')"><em><span class="font-size-12">선택 안함</span></em></label></div>'
+            document.getElementById('basic_weight').innerHTML= '<div class="toggle-button-cell"><label class="form-toggle-box form-toggle-price large"><input type="radio" value="" data-price="" name="s2" onclick="reserve_service_list(\'service2_basic_weight\',\'\',\'0\')" checked><em><span class="font-size-12">선택 안함</span></em></label></div>'
 
 
             let size = el.children[0].children[0].getAttribute('data-size');
