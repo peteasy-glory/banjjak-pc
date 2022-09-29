@@ -3405,7 +3405,7 @@ function reserve_search(id){
                                                                                             <a href="#" onclick="exist_user_reserve(artist_id,'${el.cellphone}')" class="customer-card-item">
                                                                                                 <div class="item-info-wrap">
                                                                                                     <div class="item-thumb">
-                                                                                                        <div class="user-thumb large">
+                                                                                                        <div class="user-thumb large" ${el.pet_photo !== '' ? `onclick="thumb_view(this,'${el.pet_photo.replace('/pet/','/')}')"`:''}>
                                                                                                         <img src="${el.pet_photo === "" ? el.type === 'dog' ? `../static/images/icon/icon-pup-select-off.png` : `../static/images/icon/icon-cat-select-off.png` : `https://image.banjjakpet.com${el.pet_photo.replace('/pet/','/')}`}" alt="">
                                                                                                         </div>
                                                                                                     </div>
