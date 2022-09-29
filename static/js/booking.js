@@ -146,7 +146,7 @@ function schedule_render(id){
                                                                                 <div class="item-other">
                                                                                     <div class="item-cate">${el.pet.type}</div>
                                                                                     <div class="item-price">${(el.product.store_payment.card + el.product.store_payment.cash).toLocaleString()}원</div>
-                                                                                    <div class="item-option">${el.product.category} ${el.product.category !== ''? '|':''}${el.product.category_sub}</div>
+                                                                                    <div class="item-option">${el.product.category} ${el.product.category_sub !== ''? '|':''}${el.product.category_sub}</div>
                                                                                     <div class="item-memo" style="font-size:12px;">${el.product.memo === null ? '' : el.product.memo}</div>
                                                                                 </div>
                                                                                 <div class="item-stats">
@@ -389,7 +389,7 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
                                                             
                                                             <div class="item-cate">${_el.pet.type}</div>
                                                             <div class="item-price">${(parseInt(_el.product.store_payment.card) + parseInt(_el.product.store_payment.cash)).toLocaleString()}원</div>
-                                                            <div class="item-option">${_el.product.category}</div>
+                                                            <div class="item-option">${_el.product.category}${_el.product.category_sub !== '' ? '|':''}${_el.product.category_sub}</div>
                                                             <div class="item-memo" style="font-size:12px;">${_el.product.memo === null ? '' : _el.product.memo}</div>
                                                             <div class="item-stats">
                                                                                
