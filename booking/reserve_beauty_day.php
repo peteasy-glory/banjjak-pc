@@ -3179,7 +3179,7 @@ $(function(){
                 if($(this).children()[0].offsetHeight>95){
                     $(this).attr('style',`height:${$(this).children()[0].offsetHeight+20}px`)
                 }else{
-                    $(this).attr('style',`height:${$(this).children()[0].offsetHeight+20}px`)
+                    $(this).attr('style',`height:${$(this).children()[0].offsetHeight+40}px`)
 
 
 
