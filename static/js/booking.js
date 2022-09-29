@@ -113,6 +113,15 @@ function schedule_render(id){
 
                                     }
 
+                                    if(el.product.store_payment.card == '' || el.product.store_payment.card == null){
+                                        el.product.store_payment.card = 0;
+
+                                    }
+
+                                    if(el.product.store_payment.cash == '' || el.product.store_payment.cash == null){
+                                        el.product.store_payment.cash = 0;
+
+                                    }
 
                                     el_.setAttribute('data-payment_idx',el.product.payment_idx)
                                     el_.setAttribute('data-time_length',(new Date(el.product.date.booking_fi.replace(' ','T')).getTime()-new Date(el.product.date.booking_st.replace(' ','T')).getTime())/1000/60)
@@ -136,8 +145,8 @@ function schedule_render(id){
                                                                                 </div>
                                                                                 <div class="item-other">
                                                                                     <div class="item-cate">${el.pet.type}</div>
-                                                                                    <div class="item-price">${((parseInt(el.product.store_payment.card === null || el.product.store_payment.card === "" ? 0 : parseInt(el.product.store_payment.card))+(el.product.store_payment.cash === null || el.product.store_payment.cash === "" ? 0 : parseInt(el.product.store_payment.cash)))-parseInt(el.product.store_payment.discount.toString().length <3 ? (parseInt(el.product.store_payment.cash === null || el.product.store_payment.cash === "" ? 0 : el.product.store_payment.cash) + parseInt(el.product.store_payment.card === null || el.product.store_payment.card === "" ? 0 : el.product.store_payment.card)) * el.product.store_payment.discount /100: el.product.store_payment.discount  )).toLocaleString()}원</div>
-                                                                                    <div class="item-option">${el.product.category} | ${el.product.category_sub}</div>
+                                                                                    <div class="item-price">${(el.product.store_payment.card + el.product.store_payment.cash).toLocaleString()}원</div>
+                                                                                    <div class="item-option">${el.product.category} ${el.product.category !== ''? '|':''}${el.product.category_sub}</div>
                                                                                     <div class="item-memo" style="font-size:12px;">${el.product.memo === null ? '' : el.product.memo}</div>
                                                                                 </div>
                                                                                 <div class="item-stats">
@@ -352,6 +361,16 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
                                 _el.product.store_payment.discount=0;
                             }
 
+                            if(_el.product.store_payment.cash == null){
+
+                                _el.product.store_payment.cash=0;
+                            }
+
+                            if(_el.product.store_payment.card == null){
+
+                                _el.product.store_payment.card=0;
+                            }
+
 
                             el__.setAttribute('data-payment_idx',_el.product.payment_idx);
 
@@ -369,7 +388,7 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
                                                             </div>
                                                             
                                                             <div class="item-cate">${_el.pet.type}</div>
-                                                            <div class="item-price">${((parseInt(_el.product.store_payment.card === null || _el.product.store_payment.card === "" ? 0 : parseInt(_el.product.store_payment.card))+(_el.product.store_payment.cash === null || _el.product.store_payment.cash === "" ? 0 : parseInt(_el.product.store_payment.cash)))-parseInt(_el.product.store_payment.discount.toString().length <3 ? (parseInt(_el.product.store_payment.cash === null || _el.product.store_payment.cash === "" ? 0 : _el.product.store_payment.cash) + parseInt(_el.product.store_payment.card === null || _el.product.store_payment.card === "" ? 0 : _el.product.store_payment.card)) * _el.product.store_payment.discount /100: _el.product.store_payment.discount  )).toLocaleString()}원</div>
+                                                            <div class="item-price">${(parseInt(_el.product.store_payment.card) + parseInt(_el.product.store_payment.cash)).toLocaleString()}원</div>
                                                             <div class="item-option">${_el.product.category}</div>
                                                             <div class="item-memo" style="font-size:12px;">${_el.product.memo === null ? '' : _el.product.memo}</div>
                                                             <div class="item-stats">
@@ -10961,35 +10980,39 @@ function cardcash(target){
             } else if (head.code === 200) {
 
 
+
+
+                $.ajax({
+                    url:'/data/pc_ajax.php',
+                    type:'post',
+                    data:{
+                        mode:'cardcash',
+                        payment_idx:payment_idx,
+                        card:card,
+                        cash:cash,
+                    },
+                    success:function(res) {
+                        let response = JSON.parse(res);
+                        let head = response.data.head;
+                        let body = response.data.body;
+                        if (head.code === 401) {
+                            pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                        } else if (head.code === 200) {
+
+                            document.getElementById('msg1_txt').innerText = '최종 결제액이 적용되었습니다.';
+                            pop.open('reserveAcceptMsg1');
+
+                        }
+                    }
+
+                })
+
             }
         }
     })
 
 
-    $.ajax({
-        url:'/data/pc_ajax.php',
-        type:'post',
-        data:{
-            mode:'cardcash',
-            payment_idx:payment_idx,
-            card:card,
-            cash:cash,
-        },
-        success:function(res) {
-            let response = JSON.parse(res);
-            let head = response.data.head;
-            let body = response.data.body;
-            if (head.code === 401) {
-                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-            } else if (head.code === 200) {
 
-                document.getElementById('msg1_txt').innerText = '최종 결제액이 적용되었습니다.';
-                pop.open('reserveAcceptMsg1');
-
-            }
-        }
-
-    })
 
 }
 function user_coupon_change(){
