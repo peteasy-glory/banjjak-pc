@@ -119,7 +119,7 @@ function schedule_render(id){
 
                                     let multiple = (new Date(el.product.date.booking_fi.replace(' ','T')).getTime() - new Date(el.product.date.booking_st.replace(' ','T')).getTime())/1800000;
                                     el_.innerHTML = `<div class="calendar-drag-item-group"  data-pet_name="${el.pet.name}" data-cellphone="${el.customer.phone}">
-                                                                        <a href="#" onclick="pay_management_init(artist_id,this,false,${el.product.is_approve === 0 ? false : true}); pay_management_toggle(false); localStorage.setItem('payment_idx','${el_.getAttribute('data-payment_idx')}')" ${el.product.approve_idx === null ? '' : `data-approve_idx="${el.product.approve_idx}"`} data-tooltip_idx="${index}" data-cellphone="${el.customer.phone}" data-payment_idx="${el_.getAttribute('data-payment_idx')}" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-payment_idx')})" class="calendar-week-time-item toggle ${color} ${el.product.is_no_show === 1 ? "red" : ''} ${el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
+                                                                        <a href="#" onclick="pay_management_init(artist_id,this,false,${el.product.is_approve === 0 ? false : true}); pay_management_toggle(false).then(function(){ }); localStorage.setItem('payment_idx','${el_.getAttribute('data-payment_idx')}')" ${el.product.approve_idx === null ? '' : `data-approve_idx="${el.product.approve_idx}"`} data-tooltip_idx="${index}" data-cellphone="${el.customer.phone}" data-payment_idx="${el_.getAttribute('data-payment_idx')}" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-payment_idx')})" class="calendar-week-time-item toggle ${color} ${el.product.is_no_show === 1 ? "red" : ''} ${el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
                                                                             <div class="item-inner" >
                                                                                 <div class="item-photo-name">
                                                                                 
@@ -3525,7 +3525,6 @@ function reserve_prohibition_list(id){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
-                console.log(body)
 
 
                 if(body.length === undefined){
@@ -3538,7 +3537,6 @@ function reserve_prohibition_list(id){
 
                     if(location.href.match('reserve_beauty_day')){
                         body.forEach(function(el){
-                            console.log(el)
 
 
                             let st_date = new Date(el.st_date.replace(' ','T')).getTime();
@@ -3550,9 +3548,7 @@ function reserve_prohibition_list(id){
                                 time.push(i);
                             }
 
-                            console.log(time)
 
-                            console.log(document.getElementsByClassName('time-compare-cols'))
                             setTimeout(function(){
 
                                 Array.from(document.getElementsByClassName('time-compare-cols')).forEach(function (el_,i){
@@ -3857,7 +3853,6 @@ function reserve_merchandise_load_init(id){
                         if (head.code === 401) {
                             pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                         } else if (head.code === 200) {
-                            console.log(body)
 
 
                             if(body.is_vat == 1){
@@ -4505,12 +4500,6 @@ function reserve_merchandise_load_3(base_svc){
                                         localStorage.setItem('surcharge_std_price',surcharge_std_price);
                                         localStorage.setItem('surcharge_kg',surcharge_kg);
                                         localStorage.setItem('surcharge_price',el_.surcharge.price);
-
-
-                                        console.log(ele.kg)
-                                        console.log(surcharge_kg)
-                                        console.log(ele.price)
-
 
 
 
@@ -5281,8 +5270,6 @@ let beauty,bath,add_svc;
 
 
 
-    //console.log(product);
-
 
     $.ajax({
 
@@ -5336,7 +5323,6 @@ let beauty,bath,add_svc;
 
         },
         success:function(res){
-            //console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -5376,7 +5362,7 @@ let beauty,bath,add_svc;
 
 
                         },success:function(res){
-                            //console.log(res)
+
 
 
                         }
@@ -6611,9 +6597,6 @@ function set_change_time(bool,target){
     let b_min = st_time.substr(2,2);
     let fi_time = document.getElementById('end_time').value;
 
-    //console.log(b_hour);
-    //console.log(b_min)
-
 
     $.ajax({
 
@@ -6776,14 +6759,12 @@ function beauty_gallery_get(target,id){
                 artist_id:id,
             },
             success:function(res) {
-                //console.log(res)
                 let response = JSON.parse(res);
                 let head = response.data.head;
                 let body = response.data.body;
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
-                    //console.log(body);
                     if(body.length === undefined){
 
                         body = [body];
@@ -9589,53 +9570,60 @@ function pay_management_toggle(bool){
 
 
 
-    if(bool){
-        document.getElementById('pay_management').classList.remove('animate-check');
-        $('#pay_management').stop().animate({
-            marginRight:`-${$('#pay_management').width()}px`,
-            opacity:'0'
 
-        },500,'swing')
-        $('#pay_close_btn').stop().animate({
-            marginRight:`-${$('#pay_management').width()}px`,
-            opacity:'0'
+        if(bool){
 
-        },500,'swing')
-
-        $('#shortcutWrap').stop().animate({
-            marginRight:`-${$('#pay_management').width()}px`,
-            opacity:'0'
-
-        })
-
-
-        toggle_validate= true;
-
-    }else{
-
-        if(toggle_validate){
-            document.getElementById('pay_management').classList.add('animate-check');
+            document.getElementById('pay_management').classList.remove('animate-check');
             $('#pay_management').stop().animate({
-                marginRight:`25px`,
-                opacity:'1'
+                marginRight:`-${$('#pay_management').width()}px`,
+                opacity:'0'
+
             },500,'swing')
             $('#pay_close_btn').stop().animate({
-                marginRight:`-1px`,
-                opacity:'1'
+                marginRight:`-${$('#pay_management').width()}px`,
+                opacity:'0'
+
             },500,'swing')
+
             $('#shortcutWrap').stop().animate({
-                marginRight:`0px`,
-                opacity:'1'
+                marginRight:`-${$('#pay_management').width()}px`,
+                opacity:'0'
 
             })
-            toggle_validate = false;
+
+
+            toggle_validate= true;
+
         }else{
 
-            return;
+            if(toggle_validate){
+                document.getElementById('pay_management').classList.add('animate-check');
+                $('#pay_management').stop().animate({
+                    marginRight:`25px`,
+                    opacity:'1'
+                },500,'swing')
+                $('#pay_close_btn').stop().animate({
+                    marginRight:`-1px`,
+                    opacity:'1'
+                },500,'swing')
+                $('#shortcutWrap').stop().animate({
+                    marginRight:`0px`,
+                    opacity:'1'
+
+                })
+                toggle_validate = false;
+            }else{
+
+                return;
+            }
+
+
         }
 
 
-    }
+
+
+
 
 }
 

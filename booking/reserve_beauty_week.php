@@ -3199,13 +3199,15 @@ $(function(){
         /* 확장용 */
         if(e.type == 'mouseenter'){
             $(this).addClass('actived');
+
+            console.log($(this).children()[0].offsetHeight)
             if(parseInt($(this).attr('data-height')) <4){
-                if($(this).children()[0].offsetHeight>100){
+                if($(this).children()[0].offsetHeight>95){
 
                     $(this).attr('style',`height:${$(this).children()[0].offsetHeight}px; ${localStorage.getItem('change_check') === "1" ? 'border:red dotted' : ''}`)
                 }
             }else{
-                if($(this).children()[0].offsetHeight>100){
+                if($(this).children()[0].offsetHeight>95){
 
                     $(this).attr('style',`height:${$(this).children()[0].offsetHeight+20}px ${localStorage.getItem('change_check') === "1" ? 'border:red dotted' : ''}`);
                 }

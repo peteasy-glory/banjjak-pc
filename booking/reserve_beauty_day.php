@@ -382,7 +382,7 @@ if ($artist_flag == 1) {
                                                     <button type="button" class="pay-btn-detail-toggle">
                                                         펫 정보 자세히 보기
                                                     </button>
-                                                    <div class="pay-service-selected-wrap">
+                                                    <div class="pay-service-selected-wrap" style="display:none">
                                                         <div class="pay-service-selected-group">
                                                             <div class="pay-list-title">미용 경험</div>
                                                             <div class="pay-list-data" id="pay_beauty_exp"></div>
@@ -3171,15 +3171,21 @@ $(function(){
 		if(e.type == 'mouseenter'){
 			$(this).addClass('actived');
             if(parseInt($(this).attr('data-height')) <4){
-                if($(this).children()[0].offsetHeight>100){
+                if($(this).children()[0].offsetHeight>95){
 
                     $(this).attr('style',`height:${$(this).children()[0].offsetHeight}px`)
                 }
             }else{
-                if($(this).children()[0].offsetHeight>100){
-
+                if($(this).children()[0].offsetHeight>95){
                     $(this).attr('style',`height:${$(this).children()[0].offsetHeight+20}px`)
+                }else{
+                    $(this).attr('style',`height:${$(this).children()[0].offsetHeight+20}px`)
+
+
+
                 }
+
+
 
             }
             $.ajax({

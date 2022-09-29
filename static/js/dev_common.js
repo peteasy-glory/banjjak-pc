@@ -1109,7 +1109,6 @@ function _renderCalendar_mini(id,session_id){
 
 
                     if(location.href.match('reserve_beauty_day')){
-                        console.log('day')
                         schedule_render(id);
                     }else if(location.href.match('reserve_beauty_week')){
 
