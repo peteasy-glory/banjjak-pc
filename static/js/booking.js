@@ -9094,7 +9094,7 @@ function  set_etc_product_count_huge(target,name,price,bool){
 
 
 
-        if(el.innerText.match('대형')){
+        if(el.innerText.match(`${name.split('/')[0]}/${name.split('/')[1]}`)){
 
             if(bool){
 
@@ -10500,21 +10500,15 @@ function pay_management_init(id,target,bool,bool2){
 
                             if(document.getElementById(`${parsing.base.weight.unit}kg`)){
                                 document.getElementById(`${parsing.base.weight.unit}kg`).click();
-                            }else if(parsing.base.weight.unit > localStorage.getItem('surcharge_kg') && !parsing.base.size.match('대형') ){
+                            }else if(parsing.base.weight.unit > localStorage.getItem('surcharge_kg')){
 
                                 if(document.getElementById('payment_surcharge')){
 
                                     document.getElementById('payment_surcharge').click();
                                     document.getElementById('payment_weight_target').value = parsing.base.weight.unit;
                                     document.getElementById('surcharge_target').innerText = `${(parseInt(document.getElementById('payment_weight_target').value) - parseInt(localStorage.getItem('surcharge_kg'))) * parseInt(localStorage.getItem('surcharge_price')) + parseInt(localStorage.getItem('surcharge_std_price')) + parseInt(localStorage.getItem('surcharge_price'))}원`
-                                }else{
+                                }else if(document.getElementById('payment_huge_weight')){
 
-                                }
-
-
-                            }else{
-
-                                if(document.getElementById('payment_huge_weight')){
 
                                     document.getElementById('payment_huge_weight').click();
                                     document.getElementById('huge_weight').value = parsing.base.weight.unit;
@@ -10524,6 +10518,8 @@ function pay_management_init(id,target,bool,bool2){
 
 
                             }
+
+                            
                             if(parsing.base.hair_lenth.unit !== '0'){
                                 document.getElementById(`${parsing.base.hair_lenth.unit.replace('mm','')}mm${parsing.base.hair_lenth.price}`).click();
                             }
