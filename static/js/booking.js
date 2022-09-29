@@ -119,7 +119,7 @@ function schedule_render(id){
 
                                     let multiple = (new Date(el.product.date.booking_fi.replace(' ','T')).getTime() - new Date(el.product.date.booking_st.replace(' ','T')).getTime())/1800000;
                                     el_.innerHTML = `<div class="calendar-drag-item-group"  data-pet_name="${el.pet.name}" data-cellphone="${el.customer.phone}">
-                                                                        <a href="#" onclick="pay_management_init(artist_id,this,false,${el.product.is_approve === 0 ? false : true}); pay_management_toggle(false).then(function(){ }); localStorage.setItem('payment_idx','${el_.getAttribute('data-payment_idx')}')" ${el.product.approve_idx === null ? '' : `data-approve_idx="${el.product.approve_idx}"`} data-tooltip_idx="${index}" data-cellphone="${el.customer.phone}" data-payment_idx="${el_.getAttribute('data-payment_idx')}" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-payment_idx')})" class="calendar-week-time-item toggle ${color} ${el.product.is_no_show === 1 ? "red" : ''} ${el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
+                                                                        <a href="#" onclick="pay_management_init(artist_id,this,false,${el.product.is_approve === 0 ? false : true}); pay_management_toggle(false); localStorage.setItem('payment_idx','${el_.getAttribute('data-payment_idx')}')" ${el.product.approve_idx === null ? '' : `data-approve_idx="${el.product.approve_idx}"`} data-tooltip_idx="${index}" data-cellphone="${el.customer.phone}" data-payment_idx="${el_.getAttribute('data-payment_idx')}" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-payment_idx')})" class="calendar-week-time-item toggle ${color} ${el.product.is_no_show === 1 ? "red" : ''} ${el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
                                                                             <div class="item-inner" >
                                                                                 <div class="item-photo-name">
                                                                                 
@@ -4157,7 +4157,8 @@ function reserve_merchandise_load(body){
 
                 body.hair_length.forEach(function(el,i){
 
-                   document.getElementById('basic_hair_length').innerHTML += `<div class="toggle-button-cell">
+                    if(el.type !== 'mm'){
+                        document.getElementById('basic_hair_length').innerHTML += `<div class="toggle-button-cell">
                                                                                             <label class="form-toggle-box form-toggle-price large" for="hairBeauty${i}">
                                                                                                 <input type="radio" name="hairBeauty" value="${el.type}"  data-price="${el.price}" id="hairBeauty${i}" onclick="reserve_service_list('service2_basic_hair_length','${el.type}',${el.price})">
                                                                                                 <em>
@@ -4166,6 +4167,9 @@ function reserve_merchandise_load(body){
                                                                                                 </em>
                                                                                             </label>
                                                                                         </div>`
+                    }
+
+
 
                 })
             }
@@ -8190,6 +8194,7 @@ function management_service_1(id,breed){
 function management_service_2(body){
 
 
+    console.log(body)
     return new Promise(function(resolve){
 
         document.getElementById('is_vat').value = body.is_vat;
@@ -8237,7 +8242,8 @@ function management_service_2(body){
 
                 body.hair_length.forEach(function(el,i){
 
-                    document.getElementById('payment_basic_hair_length').innerHTML += `<div class="toggle-button-cell">
+                    if(el.type !=='mm'){
+                        document.getElementById('payment_basic_hair_length').innerHTML += `<div class="toggle-button-cell">
                                                                                             <label class="form-toggle-box form-toggle-price large" for="payment_hairBeauty${i}">
                                                                                                 <input type="radio" id="${el.type}${el.price}" name="payment_hairBeauty" value="${el.type}"  data-price="${el.price}" id="payment_hairBeauty${i}" onclick="set_product2(this,'${el.type}','${el.price.toLocaleString()}','list_title_2',true)">
                                                                                                 <em>
@@ -8246,6 +8252,8 @@ function management_service_2(body){
                                                                                                 </em>
                                                                                             </label>
                                                                                         </div>`
+                    }
+
 
                 })
             }
@@ -9589,7 +9597,7 @@ function pay_management_toggle(bool){
                 marginRight:`-${$('#pay_management').width()}px`,
                 opacity:'0'
 
-            })
+            },300,'swing')
 
 
             toggle_validate= true;
@@ -9610,7 +9618,7 @@ function pay_management_toggle(bool){
                     marginRight:`0px`,
                     opacity:'1'
 
-                })
+                },300,'swing')
                 toggle_validate = false;
             }else{
 
@@ -9704,6 +9712,7 @@ function pay_management_init(id,target,bool,bool2){
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
 
+                    console.log(body)
                     let start_time ;
 
                     let end_time;
@@ -10159,6 +10168,7 @@ function pay_management_init(id,target,bool,bool2){
 
                     let before_price = 0;
 
+                    console.log(body_3)
                     if(body_3.length >0){
 
                         body_3.forEach(function(el,i){
@@ -10168,7 +10178,8 @@ function pay_management_init(id,target,bool,bool2){
                             before_price = cash + card;
 
 
-                            document.getElementById(`${i >3 ? 'pay_before_beauty_list_more' : 'pay_before_beauty_list'}`).innerHTML += `<div class="pay-before-beauty-item">
+                            if(body.type ==='dog'){
+                                document.getElementById(`${i >3 ? 'pay_before_beauty_list_more' : 'pay_before_beauty_list'}`).innerHTML += `<div class="pay-before-beauty-item">
                                                                                         <span class="pay-before-beauty-memo" >
                                                                                            ${el.booking_date.split(' ')[0].replaceAll('-','.')} / ${el.product_parsing?.base?.size} / ${el.product_parsing.base?.beauty_kind} / ${before_price.toLocaleString()}원
                                                                                         </span>
@@ -10179,6 +10190,21 @@ function pay_management_init(id,target,bool,bool2){
                                                                                             </svg>
                                                                                         </a>
                                                                                     </div>`
+                            }else{
+
+                                document.getElementById(`${i >3 ? 'pay_before_beauty_list_more' : 'pay_before_beauty_list'}`).innerHTML += `<div class="pay-before-beauty-item">
+                                                                                        <span class="pay-before-beauty-memo" >
+                                                                                           ${el.booking_date.split(' ')[0].replaceAll('-','.')} / ${el.product_parsing?.base?.hair_beauty} / ${el.product_parsing?.category} / ${before_price.toLocaleString()}원
+                                                                                        </span>
+                                                                                        <a href="#" class="pay-before-beauty-detail" data-payment_idx="${el.payment_idx}" onclick="localStorage.setItem('payment_idx','${el.payment_idx}');pay_management_init('${id}',this,true,true)">
+                                                                                            
+                                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="5.207" height="9.414" viewBox="0 0 5.207 9.414">
+                                                                                                <path data-name="Path" class="before-path" d="m-4 8 4-4-4-4" transform="translate(4.707 .707)" style="fill:none;stroke:#202020;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;"></path>
+                                                                                            </svg>
+                                                                                        </a>
+                                                                                    </div>`
+                            }
+
 
 
 
