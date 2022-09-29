@@ -200,21 +200,17 @@ if($artist_flag == 1){
                                 </form>
 								<!-- //전화번호 검색 -->								
 							</div>
-<!--							<div class="main-col-group main-banner">-->
-								<!-- 메인 배너 -->
-<!--								<div class="basic-swiper-banner">-->
-<!--									<div class="swiper-data">-->
-<!--										<div class="swiper-container">-->
-<!--											<div class="swiper-wrapper">-->
-<!--												<div class="swiper-slide"><a href="#" class="btn-basic-swiper-banner-nav"><img src="../../static/images/main_banner.png" alt=""/></a></div>-->
-<!---->
-<!--											</div>-->
-<!--										</div>-->
-<!--									</div>-->
-<!--									<div class="swiper-pagination"></div>-->
-<!--								</div>-->
-								<!-- //메인 배너 -->
-<!--							</div>-->
+							<div class="main-col-group main-banner">
+
+								<div class="basic-swiper-banner">
+									<div class="mall-wrap">
+                                        <a href="" onclick="window.open(`https://partner.banjjakpet.com/shop_mall?partner_pc=${artist_id}`,'','width=520,height=800,top=200,left=650')" id="mall_target" target="_blank">
+                                            <img src="https://partner.banjjakpet.com/images/partner_ban_04.png" alt="">
+                                        </a>
+                                    </div>
+								</div>
+
+							</div>
 							<div class="main-col-group main-customer">
 								<!-- 메인 상담 -->
 								<div class="basic-data-card">
@@ -342,6 +338,7 @@ if($artist_flag == 1){
         // stats();
         gnb_actived('gnb_home');
         break_time(artist_id);
+
 
         gallery.init()
 
