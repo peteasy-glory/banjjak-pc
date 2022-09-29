@@ -9578,12 +9578,12 @@ function pay_management_toggle(bool){
                 marginRight:`-${$('#pay_management').width()}px`,
                 opacity:'0'
 
-            },500,'swing')
+            },300,'swing')
             $('#pay_close_btn').stop().animate({
                 marginRight:`-${$('#pay_management').width()}px`,
                 opacity:'0'
 
-            },500,'swing')
+            },300,'swing')
 
             $('#shortcutWrap').stop().animate({
                 marginRight:`-${$('#pay_management').width()}px`,
@@ -9601,11 +9601,11 @@ function pay_management_toggle(bool){
                 $('#pay_management').stop().animate({
                     marginRight:`25px`,
                     opacity:'1'
-                },500,'swing')
+                },300,'swing')
                 $('#pay_close_btn').stop().animate({
                     marginRight:`-1px`,
                     opacity:'1'
-                },500,'swing')
+                },300,'swing')
                 $('#shortcutWrap').stop().animate({
                     marginRight:`0px`,
                     opacity:'1'
@@ -10885,7 +10885,7 @@ function pay_management_init(id,target,bool,bool2){
             }
 
         })
-    },500)
+    },0)
 
 
 
