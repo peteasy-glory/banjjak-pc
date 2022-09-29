@@ -147,6 +147,13 @@ if ($artist_flag == 1) {
 							</div>
 
 							<!-- //오늘의 예약 총 횟수 -->
+                            <div class="basic-data-card">
+                                <div class="mall-wrap">
+                                    <a href="" onclick="window.open(`https://partner.banjjakpet.com/shop_mall?partner_pc=${artist_id}`,'','width=520,height=800,top=200,left=650')" id="mall_target" target="_blank">
+                                        <img src="https://partner.banjjakpet.com/images/partner_ban_04.png" alt="">
+                                    </a>
+                                </div>
+                            </div>
 							<!-- 빈시간 판매하기 -->
 <!--							<div class="basic-data-card transparent">-->
 <!--								<button type="button" class="btn btn-outline-purple btn-basic-full btn-box-shadow"><strong>빈시간 판매하기</strong></button>-->
