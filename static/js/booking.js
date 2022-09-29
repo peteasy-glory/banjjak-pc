@@ -3406,7 +3406,7 @@ function reserve_search(id){
                                                                                                 <div class="item-info-wrap">
                                                                                                     <div class="item-thumb">
                                                                                                         <div class="user-thumb large">
-                                                                                                        <img src="${el.pet_photo === "" ? el.type === 'dog' ? `../static/images/icon/icon-pup-select-off.png` : `../static/images/icon/icon-cat-select-off.png` : `https://image.banjjakpet.com${el.pet_photo}`}" alt="">
+                                                                                                        <img src="${el.pet_photo === "" ? el.type === 'dog' ? `../static/images/icon/icon-pup-select-off.png` : `../static/images/icon/icon-cat-select-off.png` : `https://image.banjjakpet.com${el.pet_photo.replace('/pet/','/')}`}" alt="">
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     <div class="item-data">
@@ -3816,9 +3816,9 @@ function reserve_merchandise_load_event(artist_id){
     Array.from(document.getElementsByClassName('load-pet-type')).forEach(function (el){
 
         el.addEventListener('click',function (evt){
-            let id=artist_id;
+            // let id=artist_id;
 
-            reserve_merchandise_load_init(id).then(function(body){
+            reserve_merchandise_load_init(artist_id).then(function(body){
                 reserve_merchandise_load(body).then(function(base_svc){
 
                     reserve_merchandise_load_2(base_svc).then(function (base_svc){
@@ -3866,6 +3866,7 @@ function reserve_merchandise_load_init(id){
 
                     },
                     success:function (res){
+                        console.log(res)
                         let response = JSON.parse(res);
                         let head = response.data.head;
                         let body = response.data.body;
@@ -4769,6 +4770,7 @@ function reserve_regist_event(artist_id,session_id){
             let name_input = document.getElementById('reserve_name');
             let breed_select_input = document.getElementById('breed_select');
             let breed_input = document.querySelector('input[name="breed"]:checked')
+            let weight_input = document.querySelector('input[name="s2"]:checked');
             let breed_other_input = document.getElementById('breed_other');
             let cellphone = cellphone_input.value;
             let name = name_input.value;
@@ -4783,7 +4785,12 @@ function reserve_regist_event(artist_id,session_id){
 
             let worker = document.getElementById('reserveCalendarPop2').getAttribute('data-name');
 
+            if(cellphone === ''){
 
+                document.getElementById('msg1_txt').innerText = '전화번호를 입력해주세요.'
+                pop.open('reserveAcceptMsg1');
+                return;
+            }
             if(worker === '' || worker === null){
 
 
@@ -4792,30 +4799,18 @@ function reserve_regist_event(artist_id,session_id){
                 return;
 
             }
-
-
-            if(cellphone === ''){
-
-                document.getElementById('msg1_txt').innerText = '전화번호를 입력해주세요.'
-                pop.open('reserveAcceptMsg1');
-                return;
-            }
-
             if(name === '' ){
                 document.getElementById('msg1_txt').innerText = '펫 이름을 입력해주세요.'
                 pop.open('reserveAcceptMsg1');
                 return;
 
             }
-
-
             if(breed_input === null || breed_input === undefined || breed_input === ''){
 
                 document.getElementById('msg1_txt').innerText = '품종을 선택해주세요.'
                 pop.open('reserveAcceptMsg1');
                 return;
             }
-
             if(breed_select === "선택" || breed_select === ''){
                 document.getElementById('msg1_txt').innerText = '품종을 선택해주세요.'
                 pop.open('reserveAcceptMsg1');
@@ -4828,6 +4823,23 @@ function reserve_regist_event(artist_id,session_id){
                 return;
 
             }
+
+
+            if(weight_input === null){
+                document.getElementById('msg1_txt').innerText = '무게를 선택해주세요.'
+                pop.open('reserveAcceptMsg1');
+                return;
+                
+            }
+
+
+
+
+
+
+
+
+
 
             if(weight1 === "0" && weight2 ==="0"){
 
@@ -5346,12 +5358,14 @@ let beauty,bath,add_svc;
 
         },
         success:function(res){
+            console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
+
 
 
                 if(document.getElementById('notice_check').getAttribute('data-notice') === 'Y'){
@@ -5412,6 +5426,8 @@ let beauty,bath,add_svc;
 
 
 function reserve_pop_init(id){
+
+    console.log(id)
 
     let artist_id = id
 
@@ -5830,7 +5846,7 @@ function reserve_pop_init(id){
                         </div>
                     </div>
                 </div>
-                <button type="button" class="btn-pop-close" onclick="pop.close(); reserve_pop_init();">닫기</button>
+                <button type="button" class="btn-pop-close" onclick="pop.close(); reserve_pop_init('${artist_id}');">닫기</button>
             </div>
         </div>
     </div>`
