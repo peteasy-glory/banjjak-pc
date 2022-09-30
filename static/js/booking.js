@@ -4222,7 +4222,8 @@ function reserve_merchandise_load(body){
 
                 body.leg.forEach(function(el,i){
 
-                    document.getElementById('other_leg').innerHTML += `<div class="toggle-button-cell">
+                    if(el.price !== ''){
+                        document.getElementById('other_leg').innerHTML += `<div class="toggle-button-cell">
                                                                                     <label class="form-toggle-box form-toggle-price middle">
                                                                                         <input type="checkbox" name="f2" value="${el.type}" data-price="${el.price}" onclick="if(this.checked === true){reserve_service_list_2('service2_other_list_leg','+${el.type}','${el.price}')}else{reserve_service_list_2_delete('service2_other_list_leg','+${el.type}')}">
                                                                                         <em>
@@ -4231,6 +4232,9 @@ function reserve_merchandise_load(body){
                                                                                         </em>
                                                                                     </label>
                                                                                 </div>`
+
+                    }
+
 
 
                     if(i===body.leg.length-1){
@@ -8107,6 +8111,7 @@ function management_service_1(id,breed){
 
                         if(body.leg.length > 0){
 
+
                             other_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
                                                                         <div class="form-group-item">
                                                                             <div class="form-item-label font-size-12 display_flex_ju_center" >다리</div>
@@ -8315,7 +8320,8 @@ function management_service_2(body){
 
                 body.leg.forEach(function(el,i){
 
-                    document.getElementById('payment_other_leg').innerHTML += `<div class="toggle-button-cell">
+                    if(el.price !== ''){
+                        document.getElementById('payment_other_leg').innerHTML += `<div class="toggle-button-cell">
                                                                                     <label class="form-toggle-box form-toggle-price middle">
                                                                                         <input type="checkbox" id="${el.type}" name="payment_f2" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')" >
                                                                                         <em>
@@ -8324,6 +8330,9 @@ function management_service_2(body){
                                                                                         </em>
                                                                                     </label>
                                                                                 </div>`
+
+                    }
+
 
 
 
