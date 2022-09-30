@@ -640,7 +640,7 @@ function today_reserve(id,bool){
                                                                         <div class="icon icon-size-16 icon-time-purple"></div>
                                                                         ${am_pm_check(date_today_reserve.getHours())}:${fill_zero(date_today_reserve.getMinutes())} ~ ${am_pm_check(date_today_reserve_fi.getHours())}:${fill_zero(date_today_reserve_fi.getMinutes())}
                                                                     </div>
-                                                                    <div class="option-cell">${el.product.worker === artist_id? '실장' : el.product.worker}</div>
+                                                                    <div class="option-cell">${el.product.worker_nick === artist_id? '실장' : el.product.worker_nick}</div>
                                                                   
                                                                 </div>
                                                             </div>
