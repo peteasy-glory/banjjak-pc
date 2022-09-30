@@ -2931,6 +2931,35 @@ if($r_mode) {
 
 
 
+    }else if($r_mode === 'deposit_save'){
+
+        $artist_id = $_POST['artist_id'];
+        $reserve_price = $_POST['reserve_price'];
+        $deadline = $_POST['deadline'];
+        $bank_name = $_POST['bank_name'];
+        $account_num = $_POST['account_num'];
+
+        $data = array(
+            'artist_id'=>$artist_id,
+            'reserve_price'=>intval($reserve_price),
+            'deadline'=>intval($deadline),
+            'bank_name'=>$bank_name,
+            'account_num'=>$account_num
+        );
+
+        $data_json = json_encode($data);
+
+        $result = $api -> put('/partner/reserve/shop-reserve',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
+    }else if($r_mode === 'get_deposit'){
+
+        $artist_id = $_POST['artist_id'];
+
+        $result = $api -> get('/partner/reserve/shop-reserve/'.$artist_id);
+
+        $return_data = array("code"=>"000000","data"=>$result);
     }
 }
 

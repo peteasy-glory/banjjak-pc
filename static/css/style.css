@@ -1210,3 +1210,9 @@
     background: url(https://partner.banjjakpet.com/images/partner_ban_04_bg.png);
     border-radius: 5px;
 }
+
+#deposit_input{
+    background: url(/static/images/won.png) no-repeat;
+    background-size:25px;
+    background-position: right 17px center;
+}

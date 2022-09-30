@@ -126,6 +126,7 @@ function schedule_render(id){
                                     el_.setAttribute('data-payment_idx',el.product.payment_idx)
                                     el_.setAttribute('data-time_length',(new Date(el.product.date.booking_fi.replace(' ','T')).getTime()-new Date(el.product.date.booking_st.replace(' ','T')).getTime())/1000/60)
 
+
                                     let multiple = (new Date(el.product.date.booking_fi.replace(' ','T')).getTime() - new Date(el.product.date.booking_st.replace(' ','T')).getTime())/1800000;
                                     el_.innerHTML = `<div class="calendar-drag-item-group"  data-pet_name="${el.pet.name}" data-cellphone="${el.customer.phone}">
                                                                         <a href="#" onclick="pay_management_init(artist_id,this,false,${el.product.is_approve === 0 ? false : true}); pay_management_toggle(false); localStorage.setItem('payment_idx','${el_.getAttribute('data-payment_idx')}')" ${el.product.approve_idx === null ? '' : `data-approve_idx="${el.product.approve_idx}"`} data-tooltip_idx="${index}" data-cellphone="${el.customer.phone}" data-payment_idx="${el_.getAttribute('data-payment_idx')}" onclick="localStorage.setItem('payment_idx',${el_.getAttribute('data-payment_idx')})" class="calendar-week-time-item toggle ${color} ${el.product.is_no_show === 1 ? "red" : ''} ${el.product.is_approve === 0 ? 'gray': ''}" style="height: calc(100% * ${multiple}); " data-height="${multiple}">
@@ -150,7 +151,7 @@ function schedule_render(id){
                                                                                     <div class="item-memo" style="font-size:12px;">${el.product.memo === null ? '' : el.product.memo}</div>
                                                                                 </div>
                                                                                 <div class="item-stats">
-                                                                                ${el.product?.product_detail_parsing?.base?.size ? el.product.product_detail_parsing.base.size === '' || el.product.product_detail_parsing.base.size=== null ? `<div class="left">
+                                                                                ${el.product?.product_detail_parsing?.base?.size !== undefined ? (el.product.product_detail_parsing.base.size === '' || el.product.product_detail_parsing.base.size=== null) ? `<div class="left">
                                                                                                                                                                                                     <div class="item-master">
                                                                                                                                                                                                         <div class="icon icon-reservation-selfadd"></div>
                                                                                                                                                                                                     </div>
@@ -11836,4 +11837,100 @@ function change_check_reserve(target){
     $("#reserveCalendarPop4 input[name='log_a_start_min']").val(_thisMinutes);
 
     pop.open('reserveCalendarPop4');
+}
+
+function deposit_save(id){
+
+
+    if(parseInt(document.getElementById('deposit_input').value) < 1000){
+
+        document.getElementById('msg1_txt').innerText = '최소 예약금은 1,000원 입니다.';
+        pop.open('reserveAcceptMsg1');
+        return;
+    }
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:'deposit_save',
+            artist_id:id,
+            reserve_price:document.getElementById('deposit_input').value,
+            deadline:document.getElementById('deposit_time').value,
+            bank_name:document.getElementById('deposit_bank').value,
+            account_num:document.getElementById('deposit_bank_account').value
+        },success:function(res) {
+            console.log(res)
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+
+                document.getElementById('msg2_txt').innerText = '저장되었습니다.'
+                pop.open('reserveAcceptMsg2');
+
+            }
+
+
+        }
+
+    })
+
+
+}
+
+function get_deposit(id){
+
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:'get_deposit',
+            artist_id:id,
+        },success:function(res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                console.log(body)
+
+
+                document.getElementById('deposit_input').value = body[0].reserve_price;
+
+
+                for(let i=0; i<document.getElementById('deposit_time').options.length; i++){
+
+                    if(body[0].deadline == document.getElementById('deposit_time').options[i].value){
+
+                        document.getElementById('deposit_time').options[i].selected = true;
+
+                    }
+                }
+
+                for(let i=0; i<document.getElementById('deposit_bank').options.length; i++){
+
+                    if(body[0].bank_name == document.getElementById('deposit_bank').options[i].value){
+
+                        document.getElementById('deposit_bank').options[i].selected = true;
+
+                    }
+                }
+
+                document.getElementById('deposit_bank_account').value = body[0].account_num;
+            }
+
+
+        }
+
+    })
+
 }
