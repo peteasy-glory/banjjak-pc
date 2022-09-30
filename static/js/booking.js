@@ -5902,7 +5902,7 @@ function exist_user_reserve(id,cellphone){
 
                             document.getElementById('select_pet_list').innerHTML += `<div class="grid-layout-cell flex-auto">
                                                                                                 <label class="form-toggle-box">
-                                                                                                    <input name="pet_no" class="pet-no" type="radio" data-id="${el.detail.customer_id === '' ? el.detail.tmp_seq : el.detail.customer_id}" value="${el.pet_seq}" onclick="exist_user_reserve_('${el.pet_seq}').then(function(body){exist_user_reserve_init(body)})">
+                                                                                                    <input name="pet_no" class="pet-no" type="radio" data-id="${el.detail.customer_id}" value="${el.pet_seq}" onclick="exist_user_reserve_('${el.pet_seq}').then(function(body){exist_user_reserve_init(body)})">
                                                                                                     <em>${el.name}</em>
                                                                                                 </label>
                                                                                             </div>`
