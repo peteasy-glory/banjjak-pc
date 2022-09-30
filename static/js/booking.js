@@ -8745,7 +8745,7 @@ function get_coupon(id,data,payment_idx){
                                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                             } else if (head.code === 200) {
 
-                                //console.log(body_)
+                                console.log(body_)
                                 if(body_.length === undefined){
 
                                     body_ = [body_];
@@ -8754,13 +8754,13 @@ function get_coupon(id,data,payment_idx){
                                 let coupon = [];
                                 body_.forEach(function(el){
 
-                                    if(el.payment_log_seq === payment_idx){
+                                    // if(el.payment_log_seq === payment_idx){
 
                                         coupon.push(el)
-                                    }
+                                    // }
                                 })
 
-                                //console.log(coupon);
+                                console.log(coupon);
                                 if(coupon.length > 0){
 
 
@@ -8780,7 +8780,9 @@ function get_coupon(id,data,payment_idx){
                                     body.forEach(function(el_){
 
                                         if(el.coupon_seq === el_.idx){
-                                            if(el.del_yn === "N" && el.payment_log_seq === payment_idx){
+                                            if(el.del_yn === "N"
+                                                // && el.payment_log_seq === payment_idx
+                                            ){
 
                                                 document.getElementById('coupon_name').innerHTML += `<option data-given="${el.given}" data-type="${el.type}" data-use="${el.use}" data-coupon_seq="${el.coupon_seq}" value="${el.user_coupon_seq}" data-price="${el.price}">${el_.name}</option>`
 

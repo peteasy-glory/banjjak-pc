@@ -3175,10 +3175,13 @@ $(function(){
 		/* 확장용 */
 		if(e.type == 'mouseenter'){
 			$(this).addClass('actived');
+
             if(parseInt($(this).attr('data-height')) <4){
                 if($(this).children()[0].offsetHeight>95){
 
                     $(this).attr('style',`height:${$(this).children()[0].offsetHeight}px`)
+                }else{
+                    $(this).attr('style',`height:${$(this).children()[0].offsetHeight+20}px`)
                 }
             }else{
                 if($(this).children()[0].offsetHeight>95){
