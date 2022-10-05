@@ -3044,7 +3044,10 @@ function direct_reserve_regist(){
             is_vat:document.getElementById('d_is_vat').value,
             product:document.getElementById('d_product').value,
             reserve_yn : document.querySelector('input[name="msg_send"]:checked').value ,
-            aday_ago_yn : document.querySelector('input[name="msg_send1"]:checked').value
+            aday_ago_yn : document.querySelector('input[name="msg_send1"]:checked').value,
+            is_reserve_pay : 0,
+            reserve_pay_price : 0,
+            reserve_pay_deadline : ''
 
 
 

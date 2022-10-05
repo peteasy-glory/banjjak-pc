@@ -9506,9 +9506,11 @@ function last_price(){
     let discount =  parseInt(document.getElementById('total_discount_price').getAttribute('value'));
     let reserves =  parseInt(document.getElementById('total_reserves_use').getAttribute('value'))
 
-    let deposit = parseInt(document.getElementById('deposit_price').value);
+    console.log(document.getElementById('deposit_price').value)
+    let deposit = document.getElementById('deposit_price').value === null || document.getElementById('deposit_price').value === '' ||  document.getElementById('deposit_price').value === undefined ? 0 : parseInt(document.getElementById('deposit_price').value)
 
 
+    console.log(deposit)
     document.getElementById('last_price').innerText = `${(sum-discount-reserves-deposit).toLocaleString()}원`
 
     // document.getElementById('last_card').value = `${(sum-discount-reserves)}`
@@ -12180,7 +12182,7 @@ function deposit_finish(target){
         type:'post',
         data:{
             mode:'deposit_finish',
-            payment_log_seq:payment_idx,
+            payment_log_seq:payment_idx,햣 
         },
         success:function(res) {
             let response = JSON.parse(res);
@@ -12192,6 +12194,10 @@ function deposit_finish(target){
                 console.log(body)
 
                 target.checked = true;
+                let date_ = new Date();
+                document.getElementById('pay_deposit_title').innerText = '예약금 입금완료';
+                document.getElementById('pay_deposit_title').classList.add('actived');
+                document.getElementById('pay_deposit_date').innerText = `(입금처리 : ${date_.getFullYear()}. ${fill_zero(date_.getMonth()+1)}. ${fill_zero(date_.getDate())}. ${am_pm_check(date_.getHours())}시 ${fill_zero(date_.getMinutes())}분)`
 
             }
         }
