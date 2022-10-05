@@ -377,6 +377,11 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
                             }
 
 
+                            if(_el.product.reserve_pay_price === null || _el.product.reserve_pay_price ===''){
+
+                                _el.product.reserve_pay_price = 0;
+                            }
+
                             el__.setAttribute('data-payment_idx',_el.product.payment_idx);
 
                             el__.setAttribute('data-time_length',(new Date(_el.product.date.booking_fi.replace(' ','T')).getTime()-new Date(_el.product.date.booking_st.replace(' ','T')).getTime())/1000/60)
@@ -392,8 +397,8 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
                                                             ${_el.product.noshow_cnt > 0 ? `<div class="item-noshow"><img src="/static/images/noshow@2x.png" alt="">${_el.product.noshow_cnt}회</div>`:''}
                                                             </div>
                                                             
-                                                            <div class="item-cate">${_el.pet.type}</div>
-                                                            <div class="item-price">${(parseInt(_el.product.store_payment.card) + parseInt(_el.product.store_payment.cash)).toLocaleString()}원</div>
+                                                            <div class="item-cate">${_el.pet.type}${(_el.product.is_reserve_pay === 1 && _el.product.reserve_pay_yn === 0) ? `<div class="deposit-box">예약금 대기</div>` :''}${_el.product.is_reserve_pay === 1 && _el.product.reserve_pay_yn === 1 ? `<div class="deposit-box-fin">예약금입금완</div>`:''}</div>
+                                                            <div class="item-price">${(parseInt(_el.product.store_payment.card) + parseInt(_el.product.store_payment.cash)+ parseInt(_el.product.reserve_pay_price)).toLocaleString()}원</div>
                                                             <div class="item-option">${_el.product.category}${_el.product.category_sub !== '' ? '|':''}${_el.product.category_sub}</div>
                                                             <div class="item-memo" style="font-size:12px;">${_el.product.memo === null ? '' : _el.product.memo}</div>
                                                             <div class="item-stats">
@@ -3083,6 +3088,11 @@ function _schedule_render_list(body){
 
             if(el_.getAttribute(`id`).replaceAll('list-data-','') === el.product.worker && el.product.is_cancel === 0){
 
+
+                if(el.product.reserve_pay_price === null || el.product.reserve_pay_price ===''){
+
+                    el.product.reserve_pay_price = 0;
+                }
                 document.getElementById(`list-data-${el.product.worker}`).innerHTML +=`<a href="#" onclick="pay_management_init(artist_id,this,false,true); pay_management_toggle(false);localStorage.setItem('payment_idx',${el.product.payment_idx})" data-payment_idx="${el.product.payment_idx}" class="reserve-calendar-list-items ${color} ${el.product.is_no_show === 1 ? "red" : ''}">
                                                                                                         <div class="item-time">
                                                                                                             <div class="item-time-start">
@@ -3104,7 +3114,7 @@ function _schedule_render_list(body){
                                                                                                                 <div class="item-name-txt">${el.pet.type}</div>
                                                                                                             </div>
                                                                                                             <div class="item-options">
-                                                                                                                <div class="item-options-txt">카드 : ${el.product.store_payment.card === "" || el.product.store_payment.card === null ? '0' : el.product.store_payment.card}원</div>
+                                                                                                                <div class="item-options-txt">카드 : ${el.product.store_payment.card === "" || el.product.store_payment.card === null ? '0' : parseInt(el.product.store_payment.card)+parseInt(el.product.reserve_pay_price)}원</div>
                                                                                                                 <div class="item-options-division">/</div>
                                                                                                                 <div class="item-options-txt">현금 : ${el.product.store_payment.cash === "" || el.product.store_payment.cash === null ? '0' : el.product.store_payment.cash}원</div>
                                                                                                             </div>
