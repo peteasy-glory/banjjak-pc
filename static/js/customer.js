@@ -2927,7 +2927,7 @@ function direct_get_pet_info(id,target,pet_seq,session_id){
 
                 if(body.customer_id === ''){
 
-                    user_id = body.tmp_seq;
+                    user_id = '';
                 }else{
                     user_id = body.customer_id;
                 }

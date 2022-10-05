@@ -1216,3 +1216,86 @@
     background-size:25px;
     background-position: right 17px center;
 }
+
+.deposit_input{
+    background: url(/static/images/won.png) no-repeat;
+    background-size:25px;
+    background-position: right 17px center;
+
+}
+
+.toggle-wrap{
+
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+    width: 80%;
+    margin-bottom: 12px;
+}
+
+.notice_span{
+    width: 40px;
+}
+
+.item-cate{
+    display:flex;
+}
+
+.deposit-box{
+    margin-left:10px;
+    background: #fff;
+    border: 1px solid #666;
+    border-radius:5px;
+    font-size:10px;
+    padding-left: 5px;
+    padding-right:5px;
+
+}
+
+.deposit-box-fin{
+    margin-left:10px;
+    background: #FF4848;
+    border: 1px solid #fff;
+    border-radius:5px;
+    font-size:10px;
+    padding-left: 5px;
+    padding-right:5px;
+    color:#fff;
+
+
+}
+
+.pay-card-content-0{
+
+    margin-top:10px;
+    margin-bottom:30px;
+
+}
+
+.pay-deposit-box{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+
+}
+
+.pay-deposit-title{
+    margin-left:20px;
+    color:#ff4848;
+    font-size:17px;
+    font-weight:500;
+}
+
+.pay-deposit-title.actived{
+    color:#6840b1
+}
+
+.pay-deposit-date{
+    display:none;
+    font-size: 10px;
+    justify-content: flex-end;
+    margin-right: 20px;
+    margin-top: 10px;
+}

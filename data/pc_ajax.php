@@ -1985,6 +1985,9 @@ if($r_mode) {
         $product = $_POST['product'];
         $reserve_yn = $_POST['reserve_yn'];
         $aday_ago_yn = $_POST['aday_ago_yn'];
+        $is_reserve_pay = $_POST['is_reserve_pay'];
+        $reserve_pay_price = $_POST['reserve_pay_price'];
+        $reserve_pay_deadline = $_POST['reserve_pay_deadline'];
 
         $regist_data = array(
             'partner_id' => $partner_id,
@@ -2027,6 +2030,9 @@ if($r_mode) {
             'product' => $product,
             'reserve_yn' => $reserve_yn,
             'aday_ago_yn' => $aday_ago_yn,
+            'is_reserve_pay'=>intval($is_reserve_pay),
+            'reserve_pay_price'=>intval($reserve_pay_price),
+            'reserve_pay_deadline'=>$reserve_pay_deadline,
 
 
         );
@@ -2960,6 +2966,37 @@ if($r_mode) {
         $result = $api -> get('/partner/reserve/shop-reserve/'.$artist_id);
 
         $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === 'deposit_allim'){
+
+        $cellphone = $_POST['cellphone'];
+        $message = $_POST['message'];
+        $tem_code = "1000004530_20016_2";
+        $btn_link = '';
+
+        $data = array(
+
+            'cellphone'=>$cellphone,
+            'message'=>$message,
+            'tem_code'=>$tem_code,
+            'btn_link'=>$btn_link
+        );
+
+        $data_json = json_encode($data);
+        $result = $api ->post('/partner/allim/send',$data_json);
+
+        $return_date = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === 'deposit_finish') {
+
+
+        $payment_log_seq = $_POST['payment_log_seq'];
+
+        $data = array('payment_log_seq' => $payment_log_seq);
+
+        $data_json = json_encode($data);
+
+        $result = $api->put('/partner/reserve/payment-reserve', $data_json);
+
+        $return_data = array("code" => "000000", "data" => $result);
     }
 }
 
