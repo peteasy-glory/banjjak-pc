@@ -150,7 +150,7 @@ function schedule_render(id){
                                                                                 </div>
                                                                                 <div class="item-other">
                                                                                     <div class="item-cate">${el.pet.type}${(el.product.is_reserve_pay === 1 && el.product.reserve_pay_yn === 0) ? `<div class="deposit-box">예약금 대기</div>` :''}${el.product.is_reserve_pay === 1 && el.product.reserve_pay_yn === 1 ? `<div class="deposit-box-fin">예약금입금완</div>`:''}</div>
-                                                                                    <div class="item-price">${(el.product.store_payment.card + el.product.store_payment.cash + el.product.reserve_pay_price).toLocaleString()}원</div>
+                                                                                    <div class="item-price">${(el.product.store_payment.card + el.product.store_payment.cash).toLocaleString()}원</div>
                                                                                     <div class="item-option">${el.product.category} ${el.product.category_sub !== ''? '|':''}${el.product.category_sub}</div>
                                                                                     <div class="item-memo" style="font-size:12px;">${el.product.memo === null ? '' : el.product.memo}</div>
                                                                                 </div>
@@ -398,7 +398,7 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
                                                             </div>
                                                             
                                                             <div class="item-cate">${_el.pet.type}${(_el.product.is_reserve_pay === 1 && _el.product.reserve_pay_yn === 0) ? `<div class="deposit-box">예약금 대기</div>` :''}${_el.product.is_reserve_pay === 1 && _el.product.reserve_pay_yn === 1 ? `<div class="deposit-box-fin">예약금입금완</div>`:''}</div>
-                                                            <div class="item-price">${(parseInt(_el.product.store_payment.card) + parseInt(_el.product.store_payment.cash)+ parseInt(_el.product.reserve_pay_price)).toLocaleString()}원</div>
+                                                            <div class="item-price">${(parseInt(_el.product.store_payment.card) + parseInt(_el.product.store_payment.cash)).toLocaleString()}원</div>
                                                             <div class="item-option">${_el.product.category}${_el.product.category_sub !== '' ? '|':''}${_el.product.category_sub}</div>
                                                             <div class="item-memo" style="font-size:12px;">${_el.product.memo === null ? '' : _el.product.memo}</div>
                                                             <div class="item-stats">
@@ -3881,7 +3881,6 @@ function reserve_merchandise_load_init(id){
 
                     },
                     success:function (res){
-                        console.log(res)
                         let response = JSON.parse(res);
                         let head = response.data.head;
                         let body = response.data.body;
@@ -5488,7 +5487,7 @@ let beauty,bath,add_svc;
 
 
 
-                }else if(document.getElementById('deposit_btn').checked === true){
+                }else if(document.getElementById('deposit_check').checked === true){
 
                     let bank = document.getElementById('reserve_deposit_input').getAttribute('data-bank');
                     let account = document.getElementById('reserve_deposit_input').getAttribute('data-account');
@@ -5827,6 +5826,44 @@ function reserve_pop_init(id){
                                 </div>
                             </div>
                             <div class="basic-data-group">
+                                <div class="con-title-group" style="justify-content: flex-start;">
+                                    <h4 class="con-title">예약금 안내발송</h4>
+                                        <label for="switch-toggle" class="form-switch-toggle" style="margin-left:20px;"><input type="checkbox" id="deposit_btn" onclick="deposit_toggle(artist_id)"><span class="bar"></span></label>
+
+                                </div>
+                                <div class="form-group" id="deposit_form_1" style="display:none;">
+                                    <div class="grid-layout margin-14-17">
+                                        <div class="grid-layout-inner">
+                                            <div class="grid-layout-cell grid-2">
+                                                <div class="form-group-item">
+                                                    <div class="form-item-label">예약금</div>
+                                                    <div class="form-item-data type-2">
+                                                        <div class="form-datepicker-group">
+                                                            <div class="form-datepicker">
+                                                                <input type="number" placeholder="최소 예약금은 1천원" min="0" class="deposit_input" id="reserve_deposit_input">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="grid-layout-cell grid-2">
+                                                <div class="form-group-item">
+                                                    <div class="form-item-label">결제기한 설정</div>
+                                                    <div class="form-item-data type-2">
+                                                        <div class="form-datepicker-group">
+                                                            <div class="form-datepicker">
+                                                                <select id="reserve_deposit_time">
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-data-group">
                                 <div class="con-title-group">
                                     <h4 class="con-title">예약 시간</h4>
                                 </div>
@@ -5990,6 +6027,21 @@ function reserve_pop_init(id){
     reserve_regist_event(artist_id,session_id);
     reserve_time().then(function (){reserve_time_date()});
     reserve_time_init()
+    document.getElementById('reserve_deposit_time').innerHTML = '';
+    document.getElementById('deposit_time').innerHTML = '';
+    document.getElementById('deposit_bank').innerHTML = '';
+
+    for(let i=30; i<=1440; i+=30){
+        document.getElementById('reserve_deposit_time').innerHTML += `<option value=${i}>${minutes_to_hour(i)} 이내</option>`
+    }
+
+    for(let i=30; i<=1440; i+=30){
+        document.getElementById('deposit_time').innerHTML += `<option value=${i}>${minutes_to_hour(i)} 이내</option>`
+    }
+    banks.forEach(function(el){
+
+        document.getElementById('deposit_bank').innerHTML += `<option value="${el.name}" data-code="${el.code}">${el.name}</option>`
+    })
 
 
 }

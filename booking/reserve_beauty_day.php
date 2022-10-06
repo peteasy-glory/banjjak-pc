@@ -3216,6 +3216,10 @@ if ($artist_flag == 1) {
 
         gallery.init()
 
+        document.getElementById('reserve_deposit_time').innerHTML = '';
+        document.getElementById('deposit_time').innerHTML = '';
+        document.getElementById('deposit_bank').innerHTML = '';
+
         for(let i=30; i<=1440; i+=30){
             document.getElementById('reserve_deposit_time').innerHTML += `<option value=${i}>${minutes_to_hour(i)} 이내</option>`
         }
