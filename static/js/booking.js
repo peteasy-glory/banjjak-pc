@@ -10038,7 +10038,36 @@ function pay_management_init(id,target,bool,bool2){
                     document.getElementById('pay_deposit_btn').setAttribute('data-cellphone',body.cell_phone);
                     document.getElementById('pay_deposit_btn').setAttribute('data-date',body.beauty_date);
                     document.getElementById('pay_deposit_btn').setAttribute('data-pet_name',body.name);
-                    document.getElementById('pay_deposit_btn').removeAttribute('disabled');
+                    document.getElementById('pay_deposit_btn').setAttribute('data-reserve_pay_price',body.reserve_pay_price);
+                    document.getElementById('pay_deposit_btn').setAttribute('data-deadline',body.reserve_pay_deadline);
+
+                    $.ajax({
+
+                        url:'/data/pc_ajax.php',
+                        type:'post',
+                        data:{
+
+                            mode:'get_deposit',
+                            artist_id:id
+
+                        },success:function(res){
+
+                            let response = JSON.parse(res);
+                            let head = response.data.head;
+                            let body = response.data.body;
+                            if (head.code === 401) {
+                                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                            } else if (head.code === 200) {
+
+                                if(body.length >0){
+
+                                    document.getElementById('pay_deposit_btn').setAttribute('data-bank',body[0].bank_name);
+                                    document.getElementById('pay_deposit_btn').setAttribute('data-account',body[0].account_num);
+                                }
+                            }
+                        }
+                    })
+
 
                     if(body.reserve_pay_price === null || body.reserve_pay_price === ''){
 
@@ -10064,7 +10093,7 @@ function pay_management_init(id,target,bool,bool2){
                         document.getElementById('pay_deposit_date').style.display = 'none';
 
                     }else if(body.is_reserve_pay === 1 && body.reserve_pay_yn === 1){
-                        document.getElementById('pay_deposit_btn').disabled =true;
+                        // document.getElementById('pay_deposit_btn').disabled =true;
                         document.getElementById('pay_deposit_title').innerText = '예약금 입금완료';
                         if(!document.getElementById('pay_deposit_title').classList.contains('actived')){
                             document.getElementById('pay_deposit_title').classList.add('actived');
@@ -12266,8 +12295,14 @@ function deposit_toggle(id){
 
 function deposit_finish(target){
 
+    // event.preventDefault();
+    
+    let reserve_pay_yn = 0;
+
     if(target.checked === true){
-        target.disabled = true;
+        reserve_pay_yn = 1;
+    }else if(target.checked === false){
+        reserve_pay_yn = 0;
     }
 
     let payment_idx = target.getAttribute('data-payment_idx');
@@ -12283,6 +12318,18 @@ function deposit_finish(target){
 
     let hour = am_pm_check(beauty_date.split(' ')[1].split(':')[0]);
     let min = beauty_date.split(' ')[1].split(':')[1];
+
+    let reserve_pay_price = target.getAttribute('data-reserve_pay_price');
+    let deadline = target.getAttribute('data-deadline').replace(' ','T');
+
+    let deadline_date = new Date(deadline);
+    let bank = target.getAttribute('data-bank');
+    let account = target.getAttribute('data-account');
+
+
+
+
+
     $.ajax({
 
         url:'/data/pc_ajax.php',
@@ -12290,6 +12337,7 @@ function deposit_finish(target){
         data:{
             mode:'deposit_finish',
             payment_log_seq:payment_idx,
+            reserve_pay_yn:reserve_pay_yn,
         },
         success:function(res) {
             let response = JSON.parse(res);
@@ -12299,7 +12347,7 @@ function deposit_finish(target){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
                 console.log(body)
-                if(allim == 1){
+                if(reserve_pay_yn == 1){
 
                     document.getElementById('pay_deposit_btn').setAttribute('data-allim','0')
                     let message = `반려생활의 단짝, 반짝에서 ${cellphone.slice(-4)}님의 ${name} 미용예약 내용을 알려드립니다.\n` +
@@ -12331,14 +12379,64 @@ function deposit_finish(target){
                         }
                     })
 
+                }else{
+
+
+
+
+
+                    let message = `${name} 보호자님\n` +
+                        `${data.shop_name}에서 ${name} 미용예약 확정을 위한 예약금 입금 안내를 드립니다.\n` +
+                        '\n' +
+                        `저희 ${data.shop_name}에서는 예약금 ${reserve_pay_price}원 입금 후에 예약이 확정됩니다.\n` +
+                        '\n' +
+                        '1. 예약내용\n' +
+                        `- 예약일시 : ${year}년 ${month}월 ${day}일 ${hour}시 ${min}분\n` +
+                        '\n' +
+                        '2. 예약금 입금계좌\n' +
+                        `- 예약금 : ${reserve_pay_price}원\n` +
+                        `- ${bank} / ${account}\n` +
+                        `- 결제기한 : ${deadline_date.getFullYear()}년 ${fill_zero(deadline_date.getMonth()+1)}월 ${fill_zero(deadline_date.getDate())}일 ${am_pm_check(deadline_date.getHours())}시 ${fill_zero(deadline_date.getMinutes())}분\n` +
+                        '\n' +
+                        '▶ 결제기한 경과시 예약은 자동취소 되오니 기한 내 꼭 입금부탁드립니다. '
+
+                    $.ajax({
+
+                        url:'/data/pc_ajax.php',
+                        type:'post',
+                        data:{
+
+                            mode:'deposit_allim',
+                            cellphone:cellphone,
+                            message:message,
+
+
+                        },success:function(res){
+
+
+
+                        }
+                    })
                 }
 
-                target.checked = true;
+                // target.checked = true;
                 let date_ = new Date();
-                document.getElementById('pay_deposit_title').innerText = '예약금 입금완료';
-                document.getElementById('pay_deposit_title').classList.add('actived');
-                document.getElementById('pay_deposit_date').style.display = 'flex';
-                document.getElementById('pay_deposit_date').innerText = `(입금처리 : ${date_.getFullYear()}. ${fill_zero(date_.getMonth()+1)}. ${fill_zero(date_.getDate())}. ${am_pm_check(date_.getHours())}시 ${fill_zero(date_.getMinutes())}분)`
+                if(reserve_pay_yn == 0){
+                    target.checked = false;
+                    document.getElementById('pay_deposit_title').innerText = '예약금 미입금';
+                    document.getElementById('pay_deposit_title').classList.remove('actived');
+                    document.getElementById('pay_deposit_date').style.display = 'none';
+                    document.getElementById('pay_deposit_date').innerText = '';
+
+                }else{
+                    target.checked = true;
+                    document.getElementById('pay_deposit_title').innerText = '예약금 입금완료';
+                    document.getElementById('pay_deposit_title').classList.add('actived');
+                    document.getElementById('pay_deposit_date').style.display = 'flex';
+                    document.getElementById('pay_deposit_date').innerText = `(입금처리 : ${date_.getFullYear()}. ${fill_zero(date_.getMonth()+1)}. ${fill_zero(date_.getDate())}. ${am_pm_check(date_.getHours())}시 ${fill_zero(date_.getMinutes())}분)`
+
+                }
+
 
             }
         }

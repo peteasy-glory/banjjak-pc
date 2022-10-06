@@ -265,7 +265,6 @@ if ($artist_flag == 1) {
                                     </div>
                                     <div class="pay-card-body-inner" id="pay_card_body_inner">
 
-
                                         <div class="pay-card-content-0" id="pay_card_content_0">
                                             <div class="pay-deposit-box">
                                                 <div class="pay-deposit-title" id="pay_deposit_title"></div>
@@ -3375,10 +3374,8 @@ $(function(){
             }else{
                 if($(this).children()[0].offsetHeight>95){
 
-                    console.log($(this).offsetHeight);
-                    console.log($(this).children()[0].offsetHeight);
-                    console.log($(this).offsetHeight + $(this).children()[0].offsetHeight)
-                    $(this).attr('style',`height:${$(this).offsetHeight + $(this).children()[0].offsetHeight}}px`)
+
+                    $(this).attr('style',`height:${$(this).children()[0].offsetHeight+40}px`)
                 }else{
                     $(this).attr('style',`height:${$(this).children()[0].offsetHeight+40}px`)
 
