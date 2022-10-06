@@ -1749,7 +1749,7 @@ if ($artist_flag == 1) {
                         </div>
                     </div>
                 </div>
-                <button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
+                <button type="button" class="btn-pop-close" onclick="pop.close(); reserve_pop_init(artist_id);">닫기</button>
             </div>
         </div>
     </div>
@@ -1783,7 +1783,7 @@ if ($artist_flag == 1) {
                     </div>
                     <div class="toggle-wrap" id="deposit_notice" style="display:none;">
                         <div class="msg-txt">예약금 안내</div>
-                        <label for="switch-toggle" class="form-switch-toggle" style="margin-left:20px; margin-right:10px;"><input type="checkbox" checked id="deposit_check" onclick="if(this.checked===true){document.getElementById('deposit_check_span').innerText = '발송'}else{document.getElementById('deposit_check_span').innerText ='미발송'}"><span class="bar"></span></label>
+                        <label for="switch-toggle" class="form-switch-toggle" style="margin-left:20px; margin-right:10px;"><input type="checkbox" id="deposit_check" onclick="if(this.checked===true){document.getElementById('deposit_check_span').innerText = '발송'}else{document.getElementById('deposit_check_span').innerText ='미발송'}"><span class="bar"></span></label>
                         <span class="notice_span" id="deposit_check_span">발송</span>
                     </div>
                     <div class="toggle-wrap">

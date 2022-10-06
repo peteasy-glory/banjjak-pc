@@ -9574,14 +9574,17 @@ function data_change(){
     let sum =  parseInt(document.getElementById('real_total_price').getAttribute('value')) ;
     let discount =  parseInt(document.getElementById('total_discount_price').getAttribute('value'));
     let reserves =  parseInt(document.getElementById('total_reserves_use').getAttribute('value'))
+    let deposit = parseInt(document.getElementById('deposit_price').value);
+
+    console.log(deposit)
 
     if(document.getElementById('last_card').value == 0){
 
         document.getElementById('last_cash').value = '0';
-        document.getElementById('last_card').value =  `${(sum-discount-reserves)}`;
+        document.getElementById('last_card').value =  `${(sum-discount-reserves-deposit)}`;
 
     }else if(document.getElementById('last_cash').value == 0){
-        document.getElementById('last_cash').value = `${(sum-discount-reserves)}`;
+        document.getElementById('last_cash').value = `${(sum-discount-reserves-deposit)}`;
         document.getElementById('last_card').value = '0';
     }
 
@@ -10971,16 +10974,38 @@ function pay_management_init(id,target,bool,bool2){
 
 
 
-                        let card = body.local_price;
-                        let cash = body.local_price_cash;
-                        let deposit= 0;
+                        if(body.local_price === null || body.local_price === '' || body.local_price === undefined){
 
+                            body.local_price =0;
+                        }
+
+
+                        if(body.local_price_cash === null || body.local_price_cash === '' || body.local_price_cash === undefined){
+
+                            body.local_price_cash =0;
+                        }
+
+
+                        let card = parseInt(body.local_price);
+                        let cash = parseInt(body.local_price_cash);
+                        let deposit= 0;
                         if(body.reserve_pay_price !== '' || body.reserve_pay_price !== null || body.reserve_pay_price !== undefined){
                             deposit = body.reserve_pay_price
                         }
 
-                        document.getElementById('last_card').value = card-deposit;
-                        document.getElementById('last_cash').value = cash
+                        if(localStorage.getItem('is_vat') == '1'){
+                            document.getElementById('last_card').value = card+(card/10)-deposit;
+                            document.getElementById('last_cash').value = cash
+
+                        }else{
+                            document.getElementById('last_card').value = card-deposit;
+                            document.getElementById('last_cash').value = cash
+                        }
+
+
+
+
+
 
                     }else{
 

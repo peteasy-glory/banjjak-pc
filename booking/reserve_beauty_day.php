@@ -1770,7 +1770,7 @@ if ($artist_flag == 1) {
                     </div>
                     <div class="toggle-wrap" id="deposit_notice" style="display:none;">
                         <div class="msg-txt">예약금 안내</div>
-                        <label for="switch-toggle" class="form-switch-toggle" style="margin-left:20px; margin-right:10px;"><input type="checkbox" checked id="deposit_check" onclick="if(this.checked===true){document.getElementById('deposit_check_span').innerText = '발송'}else{document.getElementById('deposit_check_span').innerText ='미발송'}"><span class="bar"></span></label>
+                        <label for="switch-toggle" class="form-switch-toggle" style="margin-left:20px; margin-right:10px;"><input type="checkbox" id="deposit_check" onclick="if(this.checked===true){document.getElementById('deposit_check_span').innerText = '발송'}else{document.getElementById('deposit_check_span').innerText ='미발송'}"><span class="bar"></span></label>
                         <span class="notice_span" id="deposit_check_span">발송</span>
                     </div>
                     <div class="toggle-wrap">
@@ -3364,6 +3364,7 @@ $(function(){
 		if(e.type == 'mouseenter'){
 			$(this).addClass('actived');
 
+            console.log($(this).children()[0].offsetHeight)
             if(parseInt($(this).attr('data-height')) <4){
                 if($(this).children()[0].offsetHeight>95){
 
@@ -3373,7 +3374,11 @@ $(function(){
                 }
             }else{
                 if($(this).children()[0].offsetHeight>95){
-                    $(this).attr('style',`height:${$(this).children()[0].offsetHeight+20}px`)
+
+                    console.log($(this).offsetHeight);
+                    console.log($(this).children()[0].offsetHeight);
+                    console.log($(this).offsetHeight + $(this).children()[0].offsetHeight)
+                    $(this).attr('style',`height:${$(this).offsetHeight + $(this).children()[0].offsetHeight}}px`)
                 }else{
                     $(this).attr('style',`height:${$(this).children()[0].offsetHeight+40}px`)
 
