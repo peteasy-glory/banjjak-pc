@@ -9983,6 +9983,7 @@ function pay_management_init(id,target,bool,bool2){
                     document.getElementById('pay_deposit_btn').setAttribute('data-cellphone',body.cell_phone);
                     document.getElementById('pay_deposit_btn').setAttribute('data-date',body.beauty_date);
                     document.getElementById('pay_deposit_btn').setAttribute('data-pet_name',body.name);
+                    document.getElementById('pay_deposit_btn').removeAttribute('disabled');
 
                     if(body.reserve_pay_price === null || body.reserve_pay_price === ''){
 
@@ -10008,6 +10009,7 @@ function pay_management_init(id,target,bool,bool2){
                         document.getElementById('pay_deposit_date').style.display = 'none';
 
                     }else if(body.is_reserve_pay === 1 && body.reserve_pay_yn === 1){
+                        document.getElementById('pay_deposit_btn').disabled =true;
                         document.getElementById('pay_deposit_title').innerText = '예약금 입금완료';
                         if(!document.getElementById('pay_deposit_title').classList.contains('actived')){
                             document.getElementById('pay_deposit_title').classList.add('actived');
@@ -12186,6 +12188,10 @@ function deposit_toggle(id){
 }
 
 function deposit_finish(target){
+
+    if(target.checked === true){
+        target.disabled = true;
+    }
 
     let payment_idx = target.getAttribute('data-payment_idx');
     let allim = target.getAttribute('data-allim');
