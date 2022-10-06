@@ -9506,11 +9506,9 @@ function last_price(){
     let discount =  parseInt(document.getElementById('total_discount_price').getAttribute('value'));
     let reserves =  parseInt(document.getElementById('total_reserves_use').getAttribute('value'))
 
-    console.log(document.getElementById('deposit_price').value)
     let deposit = document.getElementById('deposit_price').value === null || document.getElementById('deposit_price').value === '' ||  document.getElementById('deposit_price').value === undefined ? 0 : parseInt(document.getElementById('deposit_price').value)
 
 
-    console.log(deposit)
     document.getElementById('last_price').innerText = `${(sum-discount-reserves-deposit).toLocaleString()}원`
 
     // document.getElementById('last_card').value = `${(sum-discount-reserves)}`
@@ -9884,6 +9882,7 @@ function pay_management_init(id,target,bool,bool2){
 
 
                     console.log(body)
+
                     let start_time ;
 
                     let end_time;
@@ -9980,6 +9979,11 @@ function pay_management_init(id,target,bool,bool2){
                     document.getElementById('pay_deposit_btn').setAttribute('data-payment_idx',payment_idx);
                     document.getElementById('deposit_price_list').style.display = 'none';
                     document.getElementById('deposit_price').value = 0;
+                    document.getElementById('pay_deposit_btn').setAttribute('data-allim','0');
+                    document.getElementById('pay_deposit_btn').setAttribute('data-cellphone',body.cell_phone);
+                    document.getElementById('pay_deposit_btn').setAttribute('data-date',body.beauty_date);
+                    document.getElementById('pay_deposit_btn').setAttribute('data-pet_name',body.name);
+
                     if(body.reserve_pay_price === null || body.reserve_pay_price === ''){
 
                         body.reserve_pay_price = 0;
@@ -9990,6 +9994,7 @@ function pay_management_init(id,target,bool,bool2){
 
                     }else{
                         document.getElementById('pay_card_content_0').style.display ='none';
+                        document.getElementById('pay_deposit_date').style.display = 'none';
                     }
 
                     if(body.is_reserve_pay === 1 && body.reserve_pay_yn === 0){
@@ -9999,13 +10004,16 @@ function pay_management_init(id,target,bool,bool2){
                             document.getElementById('pay_deposit_title').classList.remove('actived');
                         }
                         document.getElementById('pay_deposit_btn').checked = false;
+                        document.getElementById('pay_deposit_btn').setAttribute('data-allim','1');
+                        document.getElementById('pay_deposit_date').style.display = 'none';
+
                     }else if(body.is_reserve_pay === 1 && body.reserve_pay_yn === 1){
                         document.getElementById('pay_deposit_title').innerText = '예약금 입금완료';
                         if(!document.getElementById('pay_deposit_title').classList.contains('actived')){
                             document.getElementById('pay_deposit_title').classList.add('actived');
                         }
                         document.getElementById('pay_deposit_btn').checked = true;
-
+                        document.getElementById('pay_deposit_btn').setAttribute('data-allim','0');
                         document.getElementById('pay_deposit_date').style.display ='flex';
                         let deposit_date = body.reserve_pay_confirm_time;
                         let year = deposit_date.split(' ')[0].split('-')[0]
@@ -12175,14 +12183,25 @@ function deposit_toggle(id){
 function deposit_finish(target){
 
     let payment_idx = target.getAttribute('data-payment_idx');
+    let allim = target.getAttribute('data-allim');
 
+    let beauty_date = target.getAttribute('data-date');
+    let cellphone = target.getAttribute('data-cellphone');
+    let name = target.getAttribute('data-pet_name');
+
+    let year = beauty_date.split(' ')[0].split('-')[0];
+    let month = beauty_date.split(' ')[0].split('-')[1];
+    let day = beauty_date.split(' ')[0].split('-')[2];
+
+    let hour = am_pm_check(beauty_date.split(' ')[1].split(':')[0]);
+    let min = beauty_date.split(' ')[1].split(':')[1];
     $.ajax({
 
         url:'/data/pc_ajax.php',
         type:'post',
         data:{
             mode:'deposit_finish',
-            payment_log_seq:payment_idx,햣 
+            payment_log_seq:payment_idx,
         },
         success:function(res) {
             let response = JSON.parse(res);
@@ -12192,11 +12211,45 @@ function deposit_finish(target){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
                 console.log(body)
+                if(allim == 1){
+
+                    document.getElementById('pay_deposit_btn').setAttribute('data-allim','0')
+                    let message = `반려생활의 단짝, 반짝에서 ${cellphone.slice(-4)}님의 ${name} 미용예약 내용을 알려드립니다.\n` +
+                        '\n' +
+                        `- 예약펫샵 : ${data.shop_name}\n` +
+                        `- 예약일시 : ${year}년 ${month}월 ${day}일 ${hour}시 ${min}분\n` +
+                        '\n' +
+                        '예약내용 상세확인과 예약은\n' +
+                        '반려생활의 단짝, 반짝에서도 가능합니다.';
+
+
+
+                    $.ajax({
+
+                        url:'/data/pc_ajax.php',
+                        type:'post',
+                        data:{
+
+                            mode:'reserve_regist_allim',
+                            cellphone:cellphone,
+                            message:message,
+                            payment_idx:body.idx,
+
+
+                        },success:function(res){
+
+
+
+                        }
+                    })
+
+                }
 
                 target.checked = true;
                 let date_ = new Date();
                 document.getElementById('pay_deposit_title').innerText = '예약금 입금완료';
                 document.getElementById('pay_deposit_title').classList.add('actived');
+                document.getElementById('pay_deposit_date').style.display = 'flex';
                 document.getElementById('pay_deposit_date').innerText = `(입금처리 : ${date_.getFullYear()}. ${fill_zero(date_.getMonth()+1)}. ${fill_zero(date_.getDate())}. ${am_pm_check(date_.getHours())}시 ${fill_zero(date_.getMinutes())}분)`
 
             }
