@@ -124,7 +124,7 @@ if ($artist_flag == 1) {
                                                                 </div>
                                                                 <div class="form-item-data type-2" style="margin-top:0px; padding-top:10px; display: flex; align-items: center; justify-content: space-between">
 
-                                                                    <span>자동</span><label for="switch-toggle" class="form-switch-toggle"><input type="checkbox" onclick="event.preventDefault(); document.getElementById('msg1_txt').innerText = '열심히 오픈 준비중입니다. \n 조금만 기다려 주세요.'; pop.open('reserveAcceptMsg1') "><span class="bar"></span></label>
+                                                                    <span>자동</span><label for="switch-toggle" class="form-switch-toggle"><input type="checkbox" onclick="event.preventDefault(); document.getElementById('msg1_txt').innerText = '준비 중 입니다.'; pop.open('reserveAcceptMsg1') "><span class="bar"></span></label>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -213,128 +213,6 @@ if ($artist_flag == 1) {
         return `${hours !== 0 ? hours : ''}${hours !== 0 ? '시간 ':''}${min !== 0 ? min : ''}${min !== 0 ? '분' :''}`
 
     }
-
-    let banks = [
-        {
-            code : '003',
-            name : '기업은행'
-        },{
-            code : '004',
-            name : '국민은행'
-        },{
-            code : '011',
-            name : '농협중앙회회'
-       },{
-            code : '012',
-            name : '단위농협'
-        },{
-            code : '020',
-            name : '우리은행'
-        },{
-            code : '031',
-            name : '대구은행'
-        },{
-            code : '005',
-            name : '외환은행'
-        },{
-            code : '023',
-            name : 'SC제일은행'
-        },{
-            code : '032',
-            name : '부산은행'
-        },{
-            code : '045',
-            name : '새마을금고'
-        },{
-            code : '027',
-            name : '한국씨티은행'
-        },{
-            code : '034',
-            name : '광주은행'
-        },{
-            code : '039',
-            name : '경남은행'
-        },{
-            code : '007',
-            name : '수협'
-        },{
-            code : '048',
-            name : '신협'
-        },{
-            code : '037',
-            name : '전북은행'
-        },{
-            code : '035',
-            name : '제주은행'
-        },{
-            code : '064',
-            name : '산림조합'
-        },{
-            code : '071',
-            name : '우체국'
-        },{
-            code : '081',
-            name : '하나은행'
-        },{
-            code : '088',
-            name : '신한은행'
-        },{
-            code : '090',
-            name : '카카오뱅크'
-        },{
-            code : '209',
-            name : '동양종금증권'
-        },{
-            code : '243',
-            name : '한국투자증권'
-        },{
-            code : '240',
-            name : '삼성증권'
-        },{
-            code : '230',
-            name : '미래에셋'
-        },{
-            code : '247',
-            name : '우리투자증권'
-        },{
-            code : '218',
-            name : '현대증권'
-        },{
-            code : '266',
-            name : 'SK증권'
-        },{
-            code : '278',
-            name : '신한금융투자'
-        },{
-            code : '262',
-            name : '하이증권'
-        },{
-            code : '263',
-            name : 'HMC증권'
-        },{
-            code : '267',
-            name : '대신증권'
-        },{
-            code : '270',
-            name : '하나대투증권'
-        },{
-            code : '279',
-            name : '동부증권'
-        },{
-            code : '280',
-            name : '유진증권'
-        },{
-            code : '287',
-            name : '메리츠증권'
-        },{
-            code : '291',
-            name : '신영증권'
-        },{
-            code : '238',
-            name : '대우증권'
-        }
-
-    ]
 
 
 

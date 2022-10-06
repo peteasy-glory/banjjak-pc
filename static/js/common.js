@@ -315,16 +315,16 @@ var include = {
                                                     <div class="txt">판매 상품 관리</div>
                                                 </a>
                                             </div>
-<!--                                            <div class="snb-menu-cell" id="gnb_deposit">-->
-<!--                                                <a href="/setting/set_deposit.php" class="btn-snb-nav">-->
-<!--                                                    <div class="txt">예약금 설정</div>-->
-<!--                                                </a>-->
-<!--                                            </div>-->
                                             <div class="snb-menu-cell" id="gnb_deposit">
-                                                <a href="javascript:pop.open('firstRequestMsg1', '준비 중 입니다.');" class="btn-snb-nav">
+                                                <a href="/setting/set_deposit.php" class="btn-snb-nav">
                                                     <div class="txt">예약금 설정</div>
                                                 </a>
                                             </div>
+<!--                                            <div class="snb-menu-cell" id="gnb_deposit">-->
+<!--                                                <a href="javascript:pop.open('firstRequestMsg1', '준비 중 입니다.');" class="btn-snb-nav">-->
+<!--                                                    <div class="txt">예약금 설정</div>-->
+<!--                                                </a>-->
+<!--                                            </div>-->
                                             <div class="snb-menu-cell" id="gnb_keep">
                                                 <a href="/setting/set_save_money.php" class="btn-snb-nav">
                                                     <div class="txt">적립금 설정</div>
