@@ -10919,8 +10919,13 @@ function pay_management_init(id,target,bool,bool2){
 
                         let card = body.local_price;
                         let cash = body.local_price_cash;
+                        let deposit= 0;
 
-                        document.getElementById('last_card').value = card;
+                        if(body.reserve_pay_price !== '' || body.reserve_pay_price !== null || body.reserve_pay_price !== undefined){
+                            deposit = body.reserve_pay_price
+                        }
+
+                        document.getElementById('last_card').value = card-deposit;
                         document.getElementById('last_cash').value = cash
 
                     }else{
