@@ -302,11 +302,37 @@ if($artist_flag == 1){
     </div>
 </div>
 
+<div id="popup_wrap">
+    <div class="custom-modal-content">
+        <div class="popup_img">
+            <div class="swiper-container_front swiper-container">
+                <div class="swiper-wrapper" id="popup-wraper">
+                   <div class="swiper-slide">
+                        <a href="javascript:location.href='/etc/other_notice_view.php?type=공지&title=예약금%20설정%20기능%20OPEN&date=2022-10-06&img=/pet/upload/sally@peteasy.kr/notice_photo_20221006163326.jpg&notice=';">
+                            <img src="https://image.banjjakpet.com/images/event/deposit_pop.jpg" alt="" />
+                        </a>
+                    </div>
+                    <!--                            <div class="swiper-slide">-->
+                    <!--                                <a href="javascript:location.href='mypage_notice_view?notice_seq=';">-->
+                    <!--                                    <img src="/images/banner/pop_recommendation_event.jpg" alt="" />-->
+                    <!--                                </a>-->
+                    <!--                            </div>-->
+
+                </div>
+                <!-- Add Arrows -->
+                <div class="next"><i class="fa-solid fa-chevron-left"></i></div>
+                <div class="prev"><i class="fa-solid fa-chevron-right"></i></div>
+                <div class="swiper-pagination_front"></div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- //wrap -->
 <script src="../static/js/common.js"></script>
 <script src="../static/js/dev_common.js"></script>
 <script src="../static/js/booking.js"></script>
 <script src="/static/js/imagesloaded.pkgd.min.js"></script>
+<script src="/static/js/jquery-ui.min.js"></script>
 
 <script>
 
@@ -377,6 +403,73 @@ if($artist_flag == 1){
 
 
 
+    function getCookie_popup(name) {
+        var obj = name + "=";
+        var x = 0;
+        while (x <= document.cookie.length) {
+            var y = (x + obj.length);
+            if (document.cookie.substring(x, y) == obj) {
+                if ((endOfCookie = document.cookie.indexOf(";", y)) == -1)
+                    endOfCookie = document.cookie.length;
+                return unescape(document.cookie.substring(y, endOfCookie));
+            }
+            x = document.cookie.indexOf(" ", x) + 1;
+            if (x == 0)
+                break;
+        }
+        return "";
+    }
+    function setCookie_popup(name, value, expiredays) {
+        var todayDate = new Date();
+        todayDate.setDate(todayDate.getDate() + expiredays);
+        document.cookie = name + '=' + escape(value) + '; path=/; expires=' + todayDate.toGMTString() + '; SameSite=None; Secure';
+    }
+
+    $(document).ready(function(){
+
+            if (getCookie_popup('guide_beauty_shop') != 'Y') {
+                $("#popup_wrap").dialog({
+                    modal: true,
+                    title: "",
+                    autoOpen: true,
+                    //maxWidth: "96%",
+                    //minHeight: Number($(window).height()) - 40,
+                    //width: 'auto',
+                    //height: 'auto',
+                    autoSize: false,
+                    resize: 'auto',
+                    resizable: false,
+                    draggable: false,
+                    buttons: {
+                        '닫기': function() {
+                            // setCookie_popup('guide_beauty_shop ', 'Y', 1);
+                            $(this).dialog("close");
+                        },
+                        "오늘 그만보기": function() {
+                            // location.href = "mypage_notice_view?notice_seq=19";
+                            setCookie_popup('guide_beauty_shop', 'Y', 1);
+                            $(this).dialog("close");
+                        }
+                    },
+                    open: function(event, ui) {
+                        // swiper2.update();
+                        $(event.target).parent().css('position', 'fixed'); // dialog fixed
+                        $(event.target).parent().css('top', '50%'); // dialog fixed
+                        $(event.target).parent().css('left', '50%'); // dialog fixed
+                        $(event.target).parent().css('transform', 'translate(-50%, -50%)'); // dialog fixed
+                        // $('.ui-dialog').position({ my: "center", at: "center", of: window });
+                    },
+                    close: function() {
+                    }
+                });
+            }
+
+
+
+
+
+
+    });
 
 
 
