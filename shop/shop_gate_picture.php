@@ -151,74 +151,75 @@ if ($artist_flag == 1) {
 
 
         })
-        $.each(shop_array[0], function(i, v,i2){
-            if(shop_array[0].length){
+        if(shop_array[0].length){
+            $.each(shop_array[0], function(i, v){
+                console.log(1)
                 var img_path = img_link_change(v.image);
 
 
                 if(v.main_image == 1){
                     main = `
-                    <div class="list-cell">
-                        <div class="picture-thumb-view">
-                            <div class="picture-obj" onclick="showReviewGallery(${i},'${img_list}')" ><img src="${img_path}" alt=""></div>
-                            <div class="check-point"></div>
-                        </div>
+                <div class="list-cell">
+                    <div class="picture-thumb-view">
+                        <div class="picture-obj" onclick="showReviewGallery(${i},'${img_list}')" ><img src="${img_path}" alt=""></div>
+                        <div class="check-point"></div>
                     </div>
-                `;
+                </div>
+            `;
                 }else{
                     html += `
-                    <div class="list-cell">
-                        <div class="picture-thumb-view">
-                            <div class="picture-obj" onclick="showReviewGallery(${i},'${img_list}')"><img src="${img_path}" alt=""></div>
-                            <div class="picture-ui">
-                                <button type="button" class="btn-picture-ui"></button>
-                            </div>
-                            <div class="picture-ui-list">
-                                <div class="picture-ui-list-inner">
-                                    <a href="javascript:change_main('${artist_id}','${v.image}');" class="btn-picture-ui-nav">대표 사진 등록</a>
-                                    <a href="javascript:del_front('${artist_id}','${v.image}');" class="btn-picture-ui-nav">삭제</a>
-                                </div>
+                <div class="list-cell">
+                    <div class="picture-thumb-view">
+                        <div class="picture-obj" onclick="showReviewGallery(${i},'${img_list}')"><img src="${img_path}" alt=""></div>
+                        <div class="picture-ui">
+                            <button type="button" class="btn-picture-ui"></button>
+                        </div>
+                        <div class="picture-ui-list">
+                            <div class="picture-ui-list-inner">
+                                <a href="javascript:change_main('${artist_id}','${v.image}');" class="btn-picture-ui-nav">대표 사진 등록</a>
+                                <a href="javascript:del_front('${artist_id}','${v.image}');" class="btn-picture-ui-nav">삭제</a>
                             </div>
                         </div>
                     </div>
-                `;
+                </div>
+            `;
                 }
+            })
+        }else{
+            console.log(2)
+            var v = shop_array[0];
+            var img_path = img_link_change(v.image);
+
+
+
+            if(v.main_image == 1){
+                main = `
+                <div class="list-cell">
+                    <div class="picture-thumb-view">
+                        <div class="picture-obj" onclick="showReviewGallery(0,'${img_list}')" ><img src="${img_path}" alt=""></div>
+                        <div class="check-point"></div>
+                    </div>
+                </div>
+            `;
             }else{
-                var v = shop_array[0];
-                var img_path = img_link_change(v.image);
-
-
-
-                if(v.main_image == 1){
-                    main = `
-                    <div class="list-cell">
-                        <div class="picture-thumb-view">
-                            <div class="picture-obj" onclick="showReviewGallery(${i},'${img_list}')" ><img src="${img_path}" alt=""></div>
-                            <div class="check-point"></div>
+                html += `
+                <div class="list-cell">
+                    <div class="picture-thumb-view">
+                        <div class="picture-obj" onclick="showReviewGallery(0,'${img_list}')"><img src="${img_path}" alt=""></div>
+                        <div class="picture-ui">
+                            <button type="button" class="btn-picture-ui"></button>
                         </div>
-                    </div>
-                `;
-                }else{
-                    html += `
-                    <div class="list-cell">
-                        <div class="picture-thumb-view">
-                            <div class="picture-obj" onclick="showReviewGallery(${i},'${img_list}')"><img src="${img_path}" alt=""></div>
-                            <div class="picture-ui">
-                                <button type="button" class="btn-picture-ui"></button>
-                            </div>
-                            <div class="picture-ui-list">
-                                <div class="picture-ui-list-inner">
-                                    <a href="javascript:change_main('${artist_id}','${v.image}');" class="btn-picture-ui-nav">대표 사진 등록</a>
-                                    <a href="javascript:del_front('${artist_id}','${v.image}');" class="btn-picture-ui-nav">삭제</a>
-                                </div>
+                        <div class="picture-ui-list">
+                            <div class="picture-ui-list-inner">
+                                <a href="javascript:change_main('${artist_id}','${v.image}');" class="btn-picture-ui-nav">대표 사진 등록</a>
+                                <a href="javascript:del_front('${artist_id}','${v.image}');" class="btn-picture-ui-nav">삭제</a>
                             </div>
                         </div>
                     </div>
-                `;
-                }
+                </div>
+            `;
             }
-
-        })
+        }
         $(".img_wrap").append(main+html);
     })
 
