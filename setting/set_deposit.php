@@ -191,7 +191,7 @@ if ($artist_flag == 1) {
 <!--                    <div class="msg-txt"><span class="msg-text-date">예약금 설정을 초기화 합니다.</span></div>-->
 <!--                </div>-->
                 <div class="pop-footer">
-                    <button type="button" class="btn btn-confirm" id="deposit_reset_btn" onclick="reset_deposit(this); pop.close();">확인</button>
+                    <button type="button" class="btn btn-confirm" id="deposit_reset_btn" onclick="reset_deposit(this,artist_id); pop.close();">확인</button>
                     <button type="button" class="btn btn-confirm" onclick="document.getElementById('manual_btn').checked=true; pop.close();">취소</button>
                 </div>
             </div>

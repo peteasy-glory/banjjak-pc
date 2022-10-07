@@ -12209,13 +12209,11 @@ function get_deposit(id){
 
                 if(body[0].is_use === 0){
 
-                    document.getElementById('manual_btn').setAttribute('data-artist_id',body[0].artist_id);
                     document.getElementById('manual_btn').setAttribute('data-bank',body[0].bank_name);
-                    document.getElementById('manual_btn').setAttribute('data-bank',body[0].account_num);
+                    document.getElementById('manual_btn').setAttribute('data-account',body[0].account_num);
 
-                    document.getElementById('deposit_reset_btn').setAttribute('data-artist_id',body[0].artist_id);
                     document.getElementById('deposit_reset_btn').setAttribute('data-bank',body[0].bank_name);
-                    document.getElementById('deposit_reset_btn').setAttribute('data-bank',body[0].account_num);
+                    document.getElementById('deposit_reset_btn').setAttribute('data-account',body[0].account_num);
 
                     document.getElementById('deposit_input').value = body[0].reserve_price;
 
@@ -12490,9 +12488,9 @@ function reset_deposit_popup(target){
 
 }
 
-function reset_deposit(target){
+function reset_deposit(target,id){
 
-    let artist_id = target.getAttribute('data-artist_id');
+    let artist_id = id;
     let bank = target.getAttribute('data-bank');
     let account = target.getAttribute('data-account');
 
