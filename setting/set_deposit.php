@@ -120,7 +120,7 @@ if ($artist_flag == 1) {
                                                             <div class="form-group-item">
                                                                 <div class="form-item-data type-2" style="margin-top:0px; padding-top:10px; display: flex; align-items: center; justify-content: space-between">
 
-                                                                    <span>수동</span><label for="switch-toggle" class="form-switch-toggle"><input type="checkbox" checked onclick="return false;"><span class="bar"></span></label>
+                                                                    <span>수동</span><label for="switch-toggle" class="form-switch-toggle"><input type="checkbox"  id="manual_btn" onclick="reset_deposit_popup(this);" ><span class="bar"></span></label>
                                                                 </div>
                                                                 <div class="form-item-data type-2" style="margin-top:0px; padding-top:10px; display: flex; align-items: center; justify-content: space-between">
 
@@ -164,6 +164,7 @@ if ($artist_flag == 1) {
     </div>
 </article>
 
+
 <article id="reserveAcceptMsg2" class="layer-pop-wrap">
     <div class="layer-pop-parent">
         <div class="layer-pop-children">
@@ -173,6 +174,25 @@ if ($artist_flag == 1) {
                 </div>
                 <div class="pop-footer">
                     <button type="button" class="btn btn-confirm" onclick="location.reload()">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+
+<article id="deposit_reset_pop" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data alert-pop-data">
+                <div class="pop-header">
+                    <h4 class="con-title">예약금 설정을 초기화 합니다.</h4>
+                </div>
+<!--                <div class="pop-body type-3">-->
+<!--                    <div class="msg-txt"><span class="msg-text-date">예약금 설정을 초기화 합니다.</span></div>-->
+<!--                </div>-->
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm" id="deposit_reset_btn" onclick="reset_deposit(this); pop.close();">확인</button>
+                    <button type="button" class="btn btn-confirm" onclick="document.getElementById('manual_btn').checked=true; pop.close();">취소</button>
                 </div>
             </div>
         </div>

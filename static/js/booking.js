@@ -12138,6 +12138,20 @@ function deposit_save(id){
         return;
     }
 
+    if(document.getElementById('deposit_bank_account').value === ''){
+        document.getElementById('msg1_txt').innerText = '계좌번호를 입력해주세요.';
+        pop.open('reserveAcceptMsg1');
+        return;
+
+    }
+
+    if(document.getElementById('manual_btn').checked === false){
+        document.getElementById('msg1_txt').innerText = '예약금 결제관리를 선택해주세요.';
+        pop.open('reserveAcceptMsg1');
+        return;
+
+    }
+
     $.ajax({
 
         url:'/data/pc_ajax.php',
@@ -12193,28 +12207,47 @@ function get_deposit(id){
                 console.log(body)
 
 
-                document.getElementById('deposit_input').value = body[0].reserve_price;
+                if(body[0].is_use === 0){
+
+                    document.getElementById('manual_btn').setAttribute('data-artist_id',body[0].artist_id);
+                    document.getElementById('manual_btn').setAttribute('data-bank',body[0].bank_name);
+                    document.getElementById('manual_btn').setAttribute('data-bank',body[0].account_num);
+
+                    document.getElementById('deposit_reset_btn').setAttribute('data-artist_id',body[0].artist_id);
+                    document.getElementById('deposit_reset_btn').setAttribute('data-bank',body[0].bank_name);
+                    document.getElementById('deposit_reset_btn').setAttribute('data-bank',body[0].account_num);
+
+                    document.getElementById('deposit_input').value = body[0].reserve_price;
 
 
-                for(let i=0; i<document.getElementById('deposit_time').options.length; i++){
+                    for(let i=0; i<document.getElementById('deposit_time').options.length; i++){
 
-                    if(body[0].deadline == document.getElementById('deposit_time').options[i].value){
+                        if(body[0].deadline == document.getElementById('deposit_time').options[i].value){
 
-                        document.getElementById('deposit_time').options[i].selected = true;
+                            document.getElementById('deposit_time').options[i].selected = true;
 
+                        }
                     }
+
+                    for(let i=0; i<document.getElementById('deposit_bank').options.length; i++){
+
+                        if(body[0].bank_name == document.getElementById('deposit_bank').options[i].value){
+
+                            document.getElementById('deposit_bank').options[i].selected = true;
+
+                        }
+                    }
+
+                    document.getElementById('deposit_bank_account').value = body[0].account_num;
+
+
+                    if(body[0].is_manual === 0){
+
+                        document.getElementById('manual_btn').checked = true;
+                    }
+
                 }
 
-                for(let i=0; i<document.getElementById('deposit_bank').options.length; i++){
-
-                    if(body[0].bank_name == document.getElementById('deposit_bank').options[i].value){
-
-                        document.getElementById('deposit_bank').options[i].selected = true;
-
-                    }
-                }
-
-                document.getElementById('deposit_bank_account').value = body[0].account_num;
             }
 
 
@@ -12441,4 +12474,53 @@ function deposit_finish(target){
             }
         }
     })
+}
+
+function reset_deposit_popup(target){
+
+    if(target.checked === true){
+
+        return;
+    }else{
+
+
+        pop.open('deposit_reset_pop');
+    }
+
+
+}
+
+function reset_deposit(target){
+
+    let artist_id = target.getAttribute('data-artist_id');
+    let bank = target.getAttribute('data-bank');
+    let account = target.getAttribute('data-account');
+
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+            mode:'deposit_save',
+            artist_id:artist_id,
+            reserve_price:0,
+            deadline:0,
+            bank_name:bank,
+            account_num:account,
+
+        },
+        success:function(res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                location.reload();
+            }
+        }
+
+    })
+
 }
