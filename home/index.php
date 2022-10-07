@@ -327,6 +327,49 @@ if($artist_flag == 1){
         </div>
     </div>
 </div>
+
+<article id="allimi_pop" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data ">
+                <div class="allimi-container">
+                    <div class="allimi-wrap">
+
+                        <div class="allimi-left-wrap">
+
+                            <div class="allimi-title-box border-right">
+
+                                <div class="allimi-title-box-2">
+                                    <div class="allimi-title">
+                                        알리미 작성
+                                    </div>
+                                    <div class="allimi-title-right">
+                                        <img src="/static/images/icon/NoPath@2x.png" alt="">
+                                        <span>히스토리</span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="allimi-left-wrap-body">
+
+
+                            </div>
+
+
+                        </div>
+                        <div class="allimi-right-wrap">
+                            <div class="allimi-title-box">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+
 <!-- //wrap -->
 <script src="../static/js/common.js"></script>
 <script src="../static/js/dev_common.js"></script>
@@ -345,6 +388,7 @@ if($artist_flag == 1){
     $(document).ready(function(){
 
 
+        pop.open('allimi_pop')
         data_set(artist_id).then(function(){
 
         })
