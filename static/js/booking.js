@@ -6005,7 +6005,7 @@ function reserve_pop_init(id){
                         </div>
                     </div>
                 </div>
-                <button type="button" class="btn-pop-close" onclick="pop.close(); reserve_pop_init('${artist_id}');">닫기</button>
+                <button type="button" class="btn-pop-close" onclick="pop.close2('reserveAcceptUser'); reserve_pop_init('${artist_id}');">닫기</button>
             </div>
         </div>
     </div>`
@@ -12165,7 +12165,6 @@ function deposit_save(id){
             bank_name:document.getElementById('deposit_bank').value,
             account_num:document.getElementById('deposit_bank_account').value
         },success:function(res) {
-            console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -12173,8 +12172,9 @@ function deposit_save(id){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
-                document.getElementById('msg2_txt').innerText = '저장되었습니다.'
-                pop.open('reserveAcceptMsg2');
+                document.getElementById('deposit_btn').checked=false;
+                document.getElementById('msg1_txt').innerText = '저장되었습니다.'
+                pop.open('reserveAcceptMsg1');
 
             }
 

@@ -789,7 +789,9 @@ var pop = {
             $element = $(_item);
             $element.removeClass('actived');
         } else {
+
             $element = pop.elementArr[pop.elementArr.length - 1];
+            console.log($element)
             $element.removeClass('actived');
         }
         pop.elementArr.pop();
@@ -798,6 +800,21 @@ var pop = {
     },
 
     change: function () {
+
+    },
+
+    close2: function(_item){
+        var $element;
+        pop.isActive = false;
+        $('html').removeClass('fix');
+
+        if(_item){
+
+            document.getElementById(`${_item}`).classList.remove('actived');
+        }else{
+            pop.elementArr.pop();
+        }
+
 
     }
 };

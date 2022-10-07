@@ -1749,7 +1749,7 @@ if ($artist_flag == 1) {
                         </div>
                     </div>
                 </div>
-                <button type="button" class="btn-pop-close" onclick="pop.close(); reserve_pop_init(artist_id);">닫기</button>
+                <button type="button" class="btn-pop-close" onclick="pop.close2('reserveAcceptUser'); reserve_pop_init(artist_id);">닫기</button>
             </div>
         </div>
     </div>
@@ -1763,7 +1763,7 @@ if ($artist_flag == 1) {
                     <div class="msg-txt" id="msg1_txt"></div>
                 </div>
                 <div class="pop-footer">
-                    <button type="button" class="btn btn-confirm" onclick="pop.close(); pop.close('reserveCalendarPop11')">확인</button>
+                    <button type="button" class="btn btn-confirm" onclick="pop.close('reserveCalendarPop11');  pop.close2('reserveAcceptMsg1');">확인</button>
                 </div>
             </div>
         </div>
@@ -1825,7 +1825,7 @@ if ($artist_flag == 1) {
         <div class="layer-pop-children">
             <div class="pop-data alert-pop-data middle" style="width:400px;">
                 <div class="pop-body" style="flex-direction: row">
-
+                    <button type="button" class="btn-pop-close" onclick="pop.close2('deposit_set'); pop.close2('deposit_confirm'); document.getElementById('deposit_btn').checked = false;">닫기</button>
                     <div class="set-save-money"  id="shop_reserve">
                         <div class="basic-data-group">
                             <div class="con-title-group">
@@ -1885,7 +1885,7 @@ if ($artist_flag == 1) {
                                 <div class="form-group-item">
                                     <div class="form-item-data type-2" style="margin-top:0px; padding-top:10px; display: flex; align-items: center; justify-content: space-between">
 
-                                        <span>수동</span><label for="switch-toggle" class="form-switch-toggle"><input type="checkbox" checked onclick="return false;"><span class="bar"></span></label>
+                                        <span>수동</span><label for="switch-toggle" class="form-switch-toggle"><input type="checkbox" id="manual_btn"><span class="bar"></span></label>
                                     </div>
                                     <div class="form-item-data type-2" style="margin-top:0px; padding-top:10px; display: flex; align-items: center; justify-content: space-between">
 
@@ -1897,7 +1897,7 @@ if ($artist_flag == 1) {
                     </div>
                 </div>
                 <div class="pop-footer">
-                    <button type="button" class="btn btn-confirm" onclick="deposit_save(artist_id); pop.close('deposit_set');">저장</button>
+                    <button type="button" class="btn btn-confirm" onclick="deposit_save(artist_id); pop.close('deposit_set');" style="background:#FDD94E ">저장</button>
                 </div>
             </div>
         </div>
