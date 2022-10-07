@@ -1750,7 +1750,7 @@ let banks = [
         name : '국민은행'
     },{
         code : '011',
-        name : '농협중앙회회'
+        name : '농협중앙회'
     },{
         code : '012',
         name : '단위농협'

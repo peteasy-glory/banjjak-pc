@@ -12277,7 +12277,7 @@ function deposit_toggle(id){
             } else if (head.code === 200) {
                 console.log(body)
 
-                if(body.length >0){
+                if(body.length >0 && body[0].reserve_price !==0 ){
                     if(document.getElementById('deposit_form_1').style.display === 'none'){
 
                         document.getElementById('deposit_form_1').style.display = 'block'
