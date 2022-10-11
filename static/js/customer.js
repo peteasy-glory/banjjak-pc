@@ -3256,6 +3256,8 @@ function MemofocusNcursor() {
 
 }
 
+
+
 function customer_beauty_gallery_add(id,pet_data){
 
     let payment_idx = pet_data[0];

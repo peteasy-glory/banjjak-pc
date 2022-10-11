@@ -369,7 +369,7 @@ if($artist_flag == 1){
                                                 <span id="allimi_date"></span>
                                             </div>
                                             <div class="allimi-body-cell-icon">
-                                                <img src="/static/images/icon/10_ic-24-calendar@2x.png" alt="">
+<!--                                                <img src="/static/images/icon/10_ic-24-calendar@2x.png" alt="">-->
                                             </div>
                                         </div>
 
@@ -390,8 +390,8 @@ if($artist_flag == 1){
 
                                         <div class="allimi-body-cell">
 
-                                            <div class="allimi-gallery-wrap">
-                                                <div class="allimi-gallery-cell" style="cursor:pointer;" onclick="allimi_open_gallery()">
+                                            <div class="allimi-gallery-wrap" id="allimi_gallery_wrap">
+                                                <div class="allimi-gallery-cell allimi-gallery-cell-icon" id="allimi_open_gallery" style="cursor:pointer;" onclick="allimi_open_gallery(this)">
                                                     <img src="/static/images/icon/photo_icon.png" alt="">
                                                     <span class="allimi-gallery-span">사진첨부</span>
                                                 </div>
@@ -704,11 +704,11 @@ if($artist_flag == 1){
                                         <div class="allimi-gallery-list-cell"><a href="#" class="btn-gate-picture-register" onclick="MemofocusNcursor()"><span><em>이미지 추가</em></span></a></div>
 
                                     </div>
-                                    <div style="display:block;position:absolute;top:-150px;"><input type="file" accept="image/*" name="imgupfile" id="addimgfile"></div>
+                                    <div style="display:block;position:absolute;top:-150px;"><input type="file" accept="image/*" name="allimi_imgupfile" id="allimi_addimgfile"></div>
 
 
                                     <div class="allimi-gallery-footer">
-                                        <div class="allimi-footer-cell cell-fill-purple" style="width:100%; margin-bottom:30px;" onclick="allimi_select_photo()">사진 선택 완료</div>
+                                        <div class="allimi-footer-cell cell-fill-purple" style="width:100%; margin-bottom:30px; margin-top:30px;" id="allimi_select_photo" onclick="allimi_select_photo(this)">사진 선택 완료</div>
 
                                         <span>이미지는 최대 25개까지 등록할 수 있습니다.</span>
                                         <span>gif,png,jpg,jpeg 형식의 이미지만 등록됩니다.</span>

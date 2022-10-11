@@ -2042,10 +2042,20 @@ function allimi_send_pop(target,id){
 
     document.getElementById('allimi_pet_list').innerHTML ='';
     document.getElementById('allimi_pet_list').innerHTML += `<label class="allimi-form">
-                                                                            <input type="radio" name="allimi-pet" onclick="allimi_get_gallery(this,'${id}')" data-payment_idx="${payment_idx}" data-pet_seq="${pet_seq}">
+                                                                            <input type="radio" name="allimi-pet" onclick="allimi_get_gallery(this,'${id}')" data-pet_name="${pet_name}" data-cellphone="${cellphone}" data-payment_idx="${payment_idx}" data-pet_seq="${pet_seq}">
                                                                             <em></em>
                                                                             <span class="allimi-radio-span">${pet_name}</span>
                                                                         </label>`
+
+    document.getElementById('allimi_open_gallery').setAttribute('data-payment_idx',payment_idx);
+    document.getElementById('allimi_open_gallery').setAttribute('data-pet_seq',pet_seq);
+    document.getElementById('allimi_open_gallery').setAttribute('data-cellphone',cellphone);
+    document.getElementById('allimi_open_gallery').setAttribute('data-pet_name',pet_name);
+
+    document.getElementById('allimi_select_photo').setAttribute('data-payment_idx',payment_idx);
+    document.getElementById('allimi_select_photo').setAttribute('data-pet_seq',pet_seq);
+    document.getElementById('allimi_select_photo').setAttribute('data-cellphone',cellphone);
+    document.getElementById('allimi_select_photo').setAttribute('data-pet_name',pet_name);
 
 
     pop.open('allimi_pop')
@@ -2070,14 +2080,18 @@ function allimi_open_gallery(){
     },600)
 
 
+
+
 }
 
 function allimi_get_gallery(target,id){
 
     let payment_idx = target.getAttribute('data-payment_idx');
     let pet_seq = target.getAttribute('data-pet_seq');
+    let cellphone = target.getAttribute('data-cellphone');
+    let pet_name = target.getAttribute('data-pet_name');
 
-    document.getElementById('allimi_gallery_list').innerHTML = `<div class="allimi-gallery-list-cell"><a href="#" class="btn-gate-picture-register" onclick="MemofocusNcursor()"><span><em>이미지 추가</em></span></a></div>`
+    document.getElementById('allimi_gallery_list').innerHTML = `<div class="allimi-gallery-list-cell"><a href="#" class="btn-gate-picture-register" onclick="allimi_MemofocusNcursor()"><span><em>이미지 추가</em></span></a></div>`
 
     console.log(id)
 
@@ -2116,9 +2130,19 @@ function allimi_get_gallery(target,id){
             }
         }
     })
+
+    allimi_beauty_gallery_add(id,pet_seq,payment_idx);
+
 }
 
-function allimi_select_photo(){
+function allimi_select_photo(target){
+
+
+    let payment_idx = target.getAttribute('data-payment_idx');
+    let cellphone = target.getAttribute('data-cellphone');
+    let pet_name = target.getAttribute('data-pet_name');
+    let pet_seq = target.getAttribute('data-pet_seq');
+
 
     let elements = document.querySelectorAll('input[name="allimi-gallery-select"]:checked');
 
@@ -2129,8 +2153,191 @@ function allimi_select_photo(){
         photos.push(el.getAttribute('data-file_path'));
     })
 
+    console.log(photos);
+    document.getElementById('allimi_gallery_wrap').innerHTML = `<div class="allimi-gallery-cell allimi-gallery-cell-icon" style="cursor:pointer;" data-payment_idx="${payment_idx}" data-cellphone="${cellphone}" data-pet_name="${pet_name}" data-pet_seq="${pet_seq}" onclick="allimi_open_gallery()">
+                                                                            <img src="/static/images/icon/photo_icon.png" alt="">
+                                                                            <span class="allimi-gallery-span">사진첨부</span>
+                                                                        </div>`
+
+    if(photos.length >0){
+
+        photos.forEach(function(el){
+
+            document.getElementById('allimi_gallery_wrap').innerHTML += `<div class="allimi-gallery-cell" >
+                                                                                        <div class="allimi-gallery-cell-delete" onclick="allimi_delete_photo(this)">
+                                                                                            <img src="/static/images/icon/10-ic-24-close-white@2x.png" alt=""> 
+                                                                                        </div>
+                                                                                        <img src="${img_link_change(el)}" alt="">
+                                                                                    </div>`
+
+
+        })
+    }
 
 
 
 
+
+
+}
+
+function allimi_delete_photo(target){
+
+    target.parentElement.remove();
+}
+
+function allimi_beauty_gallery_add(id,pet_seq,payment_idx){
+
+
+
+    document.getElementById('allimi_addimgfile').addEventListener('change',function(e){
+
+        let ext = document.getElementById('allimi_addimgfile').value.split('.').pop().toLowerCase()
+
+        if(!ext.match(/png|jpg|jpeg/i)){
+
+            alert('gif,png,jpg,jpeg 파일만 업로드 할 수 있습니다.')
+            return;
+        }
+
+        let filename = document.querySelector('input[name="allimi_imgupfile"]').files[0]
+
+
+        let type = filename.type.split('/')[1];
+
+        let formData = new FormData();
+        formData.append('mode','beauty_gal_add');
+        formData.append('login_id',id);
+        formData.append('payment_log_seq',payment_idx);
+        formData.append('pet_seq',pet_seq);
+        formData.append('prnt_title',filename.name.split('.')[0])
+        formData.append('mime',type);
+        formData.append('image',filename);
+
+
+
+
+        $.ajax({
+
+            url:'/data/pc_ajax.php',
+            type:'post',
+            enctype:'multipart/form-data',
+            data:formData,
+            processData:false,
+            contentType:false,
+            success:function(res) {
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+                    console.log(body);
+                    if(body.err == 0){
+                        allimi_get_gallery2(id);
+
+                    }
+                }
+            }
+
+
+
+
+
+
+        })
+
+
+
+    })
+
+}
+function allimi_MemofocusNcursor() {
+    html = "<div id='upimgarea'></div>";
+    //document.getElementById('dmemo').focus();
+    var sel, range;
+    if (window.getSelection) {
+        // IE9 and non-IE
+        sel = window.getSelection();
+        if (sel.getRangeAt && sel.rangeCount) {
+            range = sel.getRangeAt(0);
+            range.deleteContents();
+
+            // Range.createContextualFragment() would be useful here but is
+            // non-standard and not supported in all browsers (IE9, for one)
+            var el = document.createElement("div");
+            el.innerHTML = html;
+            var frag = document.createDocumentFragment(),
+                node, lastNode;
+            while ((node = el.firstChild)) {
+                lastNode = frag.appendChild(node);
+            }
+            range.insertNode(frag);
+
+            // Preserve the selection
+            if (lastNode) {
+                range = range.cloneRange();
+                range.setStartAfter(lastNode);
+                range.collapse(true);
+                sel.removeAllRanges();
+                sel.addRange(range);
+            }
+        }
+    } else if (document.selection && document.selection.type != "Control") {
+        // IE < 9
+        document.selection.createRange().pasteHTML(html);
+    }
+
+    $("#allimi_addimgfile").trigger("click");
+
+}
+
+function allimi_get_gallery2(id){
+
+    let target = document.querySelector('input[name="allimi-pet"]:checked')
+
+    let payment_idx = target.getAttribute('data-payment_idx');
+    let pet_seq = target.getAttribute('data-pet_seq');
+    let cellphone = target.getAttribute('data-cellphone');
+    let pet_name = target.getAttribute('data-pet_name');
+
+    document.getElementById('allimi_gallery_list').innerHTML = `<div class="allimi-gallery-list-cell"><a href="#" class="btn-gate-picture-register" onclick="allimi_MemofocusNcursor()"><span><em>이미지 추가</em></span></a></div>`
+
+    console.log(id)
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+            mode:'beauty_gal_get',
+            idx:pet_seq,
+            artist_id:id,
+        },
+        success:function(res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                console.log(body);
+                body.forEach(function(el){
+
+                    document.getElementById('allimi_gallery_list').innerHTML += `<div class="allimi-gallery-list-cell list-cell">
+                                                                                                <label>
+                                                                                                    <div class="allimi-picture-thumb-view">
+                                                                                                        <div class="allimi-picture-obj" onclick=""><img src="${img_link_change(el.file_path)}" alt=""></div>
+                                                                                                        <div class="allimi-picture-date">${el.upload_dt.substr(0,4)}.${el.upload_dt.substr(4,2)}.${el.upload_dt.substr(6,2)}</div>
+                                                                                                        <div class="allimi-picture-ui">
+                                                                                                           <input type="checkbox" name="allimi-gallery-select" class="allimi-picture-select" data-file_path="${el.file_path}">
+                                                                                                           <em></em>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </label>
+                                                                                            </div>`
+                })
+            }
+        }
+    })
 }

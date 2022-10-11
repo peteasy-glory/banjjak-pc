@@ -74,6 +74,47 @@
             background: #b4b4b4;
         }
 
+        .allimi-right-body-gallery {
+            /*-ms-overflow-style: none; !* IE and Edge *!*/
+            /*scrollbar-width: none; !* Firefox *!*/
+        }
+
+        .allimi-right-body-gallery::-webkit-scrollbar {
+            width:3px;
+            /*display: none; !* Chrome, Safari, Opera*!*/
+            background: #b4b4b4;
+        }
+
+        .allimi-right-body-gallery::-webkit-scrollbar-thumb {
+            /*display: none; !* Chrome, Safari, Opera*!*/
+            background:#FDD94E;
+        }
+        .allimi-right-body-gallery::-webkit-scrollbar-track {
+            /*display: none; !* Chrome, Safari, Opera*!*/
+            background: #b4b4b4;
+        }
+
+        .allimi-left-body-left {
+            /*-ms-overflow-style: none; !* IE and Edge *!*/
+            /*scrollbar-width: none; !* Firefox *!*/
+        }
+
+        .allimi-left-body-left::-webkit-scrollbar {
+            width:3px;
+            /*display: none; !* Chrome, Safari, Opera*!*/
+            background: #b4b4b4;
+        }
+
+        .allimi-left-body-left::-webkit-scrollbar-thumb {
+            /*display: none; !* Chrome, Safari, Opera*!*/
+            background:#FDD94E;
+        }
+        .allimi-left-body-left::-webkit-scrollbar-track {
+            /*display: none; !* Chrome, Safari, Opera*!*/
+            background: #b4b4b4;
+        }
+
+
         .card-body {
             /*-ms-overflow-style: none; !* IE and Edge *!*/
             /*scrollbar-width: none; !* Firefox *!*/
@@ -1448,13 +1489,7 @@
     padding-left:20px;
     flex-direction: column;
     padding-right:20px;
-
-}
-.allimi-left-body-right{
-
-    width:calc(100% - 320px);
-    height:100%;
-    display: flex;
+    overflow-y:scroll;
 
 }
 
@@ -1462,6 +1497,7 @@
 
     width:100%;
     height:45px;
+    min-height:45px;
     background: #6840b1;
     color:#fff;
     font-size:18px;
@@ -1596,26 +1632,38 @@
 
 .allimi-gallery-wrap{
     display:flex;
+    flex-wrap: wrap;
 
 }
 
 .allimi-gallery-cell{
-    width:105px;
-    height:105px;
+    width:85px;
+    height:85px;
     border: 1px solid #ebebeb;
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    margin-right:10px;
+    margin-bottom:10px;
+    overflow:hidden;
+    position: relative;
 
 }
 
 .allimi-gallery-cell img{
+    width:100%;
+    height:100%;
+
+}
+
+.allimi-gallery-cell-icon img{
     width:20px;
     height:15px;
 
 }
+
 
 .allimi-gallery-span{
     margin-top:13px;
@@ -1671,7 +1719,11 @@
     overflow-y:scroll;
     overflow-x: hidden;
     /*padding-right:20px;*/
+    padding-left:20px;
 
+    width:calc(100% - 320px);
+    height:100%;
+    display: flex;
 }
 
 
@@ -1758,6 +1810,7 @@
     padding-top:20px;
     padding-bottom:20px;
     flex-direction: column;
+    overflow-y:scroll;
 
 }
 
@@ -1879,4 +1932,24 @@
 .allimi-picture-ui > input:checked + em{
     background: url(/static/images/icon/color_checked.png) no-repeat;
     background-size: cover;
+}
+.allimi-gallery-cell-delete{
+
+    position: absolute;
+    border-radius: 10px;
+    background: rgba(0,0,0,0.4);
+    width:20px;
+    height:20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    right:3px;
+    top:3px;
+    cursor: pointer;
+
+}
+
+.allimi-gallery-cell-delete img{
+    width:12px;
+    height:12px;
 }
