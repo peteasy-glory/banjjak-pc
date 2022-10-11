@@ -372,7 +372,7 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
 
             Array.from(document.getElementsByClassName('calendar-week-body-col-add')).forEach(function(el){
 
-                el.style.borderTop = 'none';
+                el.style.borderTop = '1px solid #ebebeb';
             })
             body_.forEach(function(_el, index){
 
