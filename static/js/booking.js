@@ -10800,7 +10800,7 @@ function pay_management_init(id,target,bool,bool2){
                     document.getElementById('change_check_worker_btn').setAttribute('data-worker',`${body.worker}`)
 
 
-                    document.getElementById('pay_allim_btn').setAttribute('onclick',`open_customer_allim(${body.cell_phone})`)
+                    document.getElementById('pay_allim_btn').setAttribute('onclick',`open_payment_allim('${body.cell_phone}','${payment_idx}','${body.name}')`)
 
                     document.getElementById('allim_send_btn').setAttribute('data-cellphone',`${body.cell_phone}`);
                     document.getElementById('allim_send_btn').setAttribute('data-pet_name',`${body.name}`);
@@ -12624,5 +12624,74 @@ function reset_deposit(target,id){
         }
 
     })
+
+}
+
+function open_payment_allim(cellphone,payment_idx,pet_name){
+
+
+
+    $.ajax({
+
+        url:'/data/reserve_alarm_inquiry.php',
+        type:'post',
+        data:{
+            cellphone:cellphone,
+            payment_log_seq:payment_idx,
+            pet_name:pet_name,
+        },
+        success:function(res) {
+
+            let response = JSON.parse(res);
+            let body = response.data;
+
+            if(body === null){
+                document.getElementById('allimtalk_exist').innerHTML = `<tr id="allimtalk_none">
+                                                                <td colspan="4" class="none">
+                                                                    <div class="common-none-data">
+                                                                        <div class="none-inner">
+                                                                            <div class="item-visual"><img src="../assets/images/icon/img-illust-3@2x.png" alt="" width="103"></div>
+                                                                            <div class="item-info">알림톡 발송 내역이 없습니다.</span></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>`
+            }else{
+
+
+                document.getElementById('allimtalk_exist').innerHTML = '';
+
+                body.forEach(function(el){
+
+                    let code = '';
+                    switch(el.template_code){
+
+                        case "1000004530_20001" : code = '예약등록'; break;
+                        case "1000004530_20002" : code = '예약변경'; break;
+                        case "1000004530_20003" : code = '하루 전 알림'; break;
+                        case "1000004530_20004": code = '미용종료'; break;
+                        case "1000004530_20005" : code = "미용즉시종료";break;
+                        case "1000004530_20006" : code = "예약취소"; break;
+                        case "1000004530_20007" : code = "미용신청승인";break;
+                        case "1000004530_14516" : code = "미용동의서";break;
+                        case "1000004530_20018" : code = "알림장 안내"; break;
+
+                    }
+                    document.getElementById('allimtalk_exist').innerHTML += `<tr>
+                                                                            <td class="">${el.date_client_req.split(' ')[0]}<br>${el.date_client_req.split(' ')[1]}</td>
+                                                                            <td class="">${code}</td>
+                                                                            <td class="text-align-left"><span style="white-space: pre-line">${el.content}</span></td>
+                                                                            <td class="">알림톡 발송</td>
+                                                                        </tr>`
+                })
+
+
+            }
+            console.log(body)
+        }
+    })
+    pop.open('reserveAlarmInquiryPop');
+
+
 
 }

@@ -1755,6 +1755,62 @@ if ($artist_flag == 1) {
     </div>
 </article>
 
+<article id="reserveAlarmInquiryPop" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data data-pop-view large">
+                <div class="pop-header">
+                    <h4 class="con-title">알림톡 발송이력 조회</h4>
+                </div>
+                <div class="pop-body">
+                    <div class="customer-alarm-inquiry">
+                        <div class="basic-data-group vvsmall3">
+                            <div>
+                                <div class="customer-alarm-result">
+                                    <table class="customer-table">
+                                        <colgroup>
+                                            <col style="width:20%">
+                                            <col style="width:15%">
+                                            <col style="width:46%">
+                                            <col style="width:19%">
+                                        </colgroup>
+                                        <thead>
+                                        <tr>
+                                            <th>발송시간</th>
+                                            <th>구분</th>
+                                            <th>내용</th>
+                                            <th>결과</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="allimtalk_exist">
+                                        <!-- 검색결과 있을 때 -->
+
+                                        <!-- //검색결과 있을 때 -->
+                                        <!-- 검색결과 없을 때 -->
+                                        <tr id="allimtalk_none">
+                                            <td colspan="4" class="none">
+                                                <div class="common-none-data">
+                                                    <div class="none-inner">
+                                                        <div class="item-visual"><img src="../assets/images/icon/img-illust-3@2x.png" alt="" width="103"></div>
+                                                        <div class="item-info">알림톡 발송 내역이 없습니다.</span></div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <!-- //검색결과 없을 때 -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn-pop-close" onclick="pop.close();">닫기</button>
+            </div>
+        </div>
+    </div>
+</article>
+
 <article id="reserveAcceptMsg1" class="layer-pop-wrap">
     <div class="layer-pop-parent">
         <div class="layer-pop-children">
