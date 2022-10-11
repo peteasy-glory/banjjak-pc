@@ -12650,7 +12650,7 @@ function open_payment_allim(cellphone,payment_idx,pet_name){
                                                                 <td colspan="4" class="none">
                                                                     <div class="common-none-data">
                                                                         <div class="none-inner">
-                                                                            <div class="item-visual"><img src="../assets/images/icon/img-illust-3@2x.png" alt="" width="103"></div>
+                                                                            <div class="item-visual"><img src="/static/images/icon/img-illust-3@2x.png" alt="" width="103"></div>
                                                                             <div class="item-info">알림톡 발송 내역이 없습니다.</span></div>
                                                                         </div>
                                                                     </div>
