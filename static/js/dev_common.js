@@ -2106,7 +2106,7 @@ function allimi_get_gallery(target,id){
                                                                                                         <div class="allimi-picture-obj" onclick=""><img src="${img_link_change(el.file_path)}" alt=""></div>
                                                                                                         <div class="allimi-picture-date">${el.upload_dt.substr(0,4)}.${el.upload_dt.substr(4,2)}.${el.upload_dt.substr(6,2)}</div>
                                                                                                         <div class="allimi-picture-ui">
-                                                                                                           <input type="checkbox" name="allimi-gallery-select" class="allimi-picture-select" data-file_path="${img_link_change(el.file_path)}">
+                                                                                                           <input type="checkbox" name="allimi-gallery-select" class="allimi-picture-select" data-file_path="${el.file_path}">
                                                                                                            <em></em>
                                                                                                         </div>
                                                                                                     </div>
@@ -2119,6 +2119,18 @@ function allimi_get_gallery(target,id){
 }
 
 function allimi_select_photo(){
+
+    let elements = document.querySelectorAll('input[name="allimi-gallery-select"]:checked');
+
+    let photos = [];
+
+    Array.from(elements).forEach(function(el){
+
+        photos.push(el.getAttribute('data-file_path'));
+    })
+
+
+
 
 
 }

@@ -391,7 +391,7 @@ if($artist_flag == 1){
                                         <div class="allimi-body-cell">
 
                                             <div class="allimi-gallery-wrap">
-                                                <div class="allimi-gallery-cell" onclick="allimi_open_gallery()">
+                                                <div class="allimi-gallery-cell" style="cursor:pointer;" onclick="allimi_open_gallery()">
                                                     <img src="/static/images/icon/photo_icon.png" alt="">
                                                     <span class="allimi-gallery-span">사진첨부</span>
                                                 </div>

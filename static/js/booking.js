@@ -12663,16 +12663,24 @@ function open_payment_allim(cellphone,payment_idx,pet_name){
 
                 body.forEach(function(el){
 
+                    console.log(el)
                     let code = '';
                     switch(el.template_code){
 
+                        case "1000004530_14040" : code = '예약등록'; break;
                         case "1000004530_20001" : code = '예약등록'; break;
                         case "1000004530_20002" : code = '예약변경'; break;
+                        case "1000004530_14041" : code = '예약변경'; break;
                         case "1000004530_20003" : code = '하루 전 알림'; break;
+                        case "1000004530_14043" : code = '하루 전 알림'; break;
                         case "1000004530_20004": code = '미용종료'; break;
+                        case "1000004530_14042": code = '미용종료'; break;
                         case "1000004530_20005" : code = "미용즉시종료";break;
+                        case "1000004530_14042_1" : code = "미용즉시종료";break;
                         case "1000004530_20006" : code = "예약취소"; break;
+                        case "1000004530_14044" : code = "예약취소"; break;
                         case "1000004530_20007" : code = "미용신청승인";break;
+                        case "1000004530_14045" : code = "미용신청승인";break;
                         case "1000004530_14516" : code = "미용동의서";break;
                         case "1000004530_20018" : code = "알림장 안내"; break;
 
