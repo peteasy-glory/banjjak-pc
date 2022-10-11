@@ -67,6 +67,53 @@ function schedule_render(id){
 
                     cols(id).then(function (body_data){
 
+
+                        if(localStorage.getItem('time_type') == '2'){
+
+                            $.ajax({
+
+                                url: '/data/pc_ajax.php',
+                                type: 'post',
+                                data: {
+                                    mode: 'get_part_time',
+                                    id: id,
+                                },
+                                success: function (res) {
+
+                                    let response = JSON.parse(res);
+                                    let head = response.data.head;
+                                    let body = response.data.body;
+                                    if (head.code === 401) {
+                                        pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                                    } else if (head.code === 200) {
+                                        body.forEach(function(el){
+                                            console.log(el)
+
+
+
+
+
+                                            el.res_time_off.forEach(function(el_){
+
+                                                Array.from(document.getElementsByClassName('time-compare-cols')).forEach(function(_el){
+
+
+                                                    if(_el.getAttribute('data-name') === el.name && _el.getAttribute('data-time-to') == el_.time.split('~')[0] ){
+
+                                                        _el.style.borderTop = '4px solid #828282';
+
+                                                    }
+
+                                                })
+                                            })
+                                        })
+                                    }
+                                }
+
+                            })
+                        }
+
+
                         console.log(body)
 
                         no_one(body_data);
@@ -322,6 +369,11 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
 
 
             console.log(body_)
+
+            Array.from(document.getElementsByClassName('calendar-week-body-col-add')).forEach(function(el){
+
+                el.style.borderTop = 'none';
+            })
             body_.forEach(function(_el, index){
 
 
@@ -495,6 +547,56 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
 
 
             week_holiday(parent,id).then(function(){
+
+                if(localStorage.getItem('time_type') == '2'){
+                    $.ajax({
+
+                        url:'/data/pc_ajax.php',
+                        type:'post',
+                        data:{
+                            mode:'get_part_time',
+                            id:id,
+                        },
+                        success:function(res) {
+
+                            let response = JSON.parse(res);
+                            let head = response.data.head;
+                            let body = response.data.body;
+                            if (head.code === 401) {
+                                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                            } else if (head.code === 200) {
+
+                                console.log(body);
+
+                                body.forEach(function(el){
+
+                                    Array.from(document.getElementsByClassName('header-worker')).forEach(function(el_){
+
+
+                                        if(el_.classList.contains('actived')){
+
+                                            if(el_.getAttribute('data-worker') === el.name){
+
+                                                el.res_time_off.forEach(function(_el){
+
+                                                    Array.from(document.getElementsByClassName('calendar-week-body-col-add')).forEach(function(__el){
+
+                                                        if(__el.getAttribute('data-time-to') == _el.time.split('~')[0]){
+
+                                                            __el.style.borderTop = '4px solid #828282';
+                                                        }
+                                                    })
+                                                })
+                                            }
+
+                                        }
+                                    })
+                                })
+                            }
+                        }
+                    })
+                }
+
 
                 Array.from(document.getElementsByClassName('week-day-check')).forEach(function(el){
 
@@ -1921,6 +2023,7 @@ function cols(id){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
+                    console.log(body)
 
                     document.getElementById('day_header_row').innerHTML = `<div class="calendar-day-header-col time"></div>`
 
@@ -1933,6 +2036,7 @@ function cols(id){
                             break_times += `${el.time.split('~')[0]} `
                         })
                     }
+
 
 
                     body.forEach(function (el){
