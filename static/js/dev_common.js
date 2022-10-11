@@ -594,7 +594,7 @@ function today_reserve(id,bool){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                //console.log(body)
+                console.log(body)
 
                 if(body.length === undefined){
 
@@ -643,6 +643,7 @@ function today_reserve(id,bool){
                                                                     <div class="option-cell">${el.product.worker_nick === artist_id? '실장' : el.product.worker_nick}</div>
                                                                   
                                                                 </div>
+                                                                
                                                             </div>
                                                         </div>
                                                         ${bool ? `<div class="item-state">
@@ -651,7 +652,11 @@ function today_reserve(id,bool){
                                                                 <div class="txt-2">${el.product.category_sub }</div>
                                                             </div>
                                                         </div>` : ''}
+                                                        
                                                     </div>
+                                                    <div class="item-diary">
+                                                                    ${el.product.diary_idx === null ? `<div class="diary-not-exist" data-cellphone="${el.customer.phone}" data-pet_seq="${el.pet.idx}" data-payment_idx="${el.product.payment_idx}" data-date="${el.product.date.booking_st}" data-pet_name="${el.pet.name}" onclick="allimi_send(this)">알리미 보내기</div>` : `<div class="diary-exist" data-cellphone="${el.customer.phone}" data-pet_seq="${el.pet.idx}" data-payment_idx="${el.product.payment_idx}">알리미 발송완료</div>`}
+                                                                </div>
                                                 </a>
                                             </div>`
                         }
@@ -1862,3 +1867,191 @@ let banks = [
     }
 
 ]
+
+
+function allimi_btn_event(){
+
+    Array.from(document.getElementsByClassName('allimi-check-title')).forEach(function(el){
+
+        el.addEventListener('click',function(){
+
+            Array.from(document.getElementsByClassName('allimi-check-list')).forEach(function(el_){
+                el_.style.display = 'none';
+
+            })
+            // Array.from(document.getElementsByClassName('allimi-check-title')).forEach(function(_el){
+            //     _el.classList.remove('actived');
+            // })
+            // el.classList.add('actived');
+
+
+
+
+            if(el.getAttribute('id') === 'attitude_btn'){
+
+                if(document.getElementById('check_list_attitude').style.display === 'none'){
+                    document.getElementById('check_list_attitude').style.display = 'inline-flex';
+                }
+            }else if(el.getAttribute('id') === 'tangle_btn'){
+                if(document.getElementById('check_list_tangle').style.display === 'none'){
+                    document.getElementById('check_list_tangle').style.display = 'inline-flex';
+                }
+
+            }else if(el.getAttribute('id')==='bath_btn'){
+                if(document.getElementById('check_list_bath').style.display === 'none'){
+                    document.getElementById('check_list_bath').style.display = 'inline-flex';
+
+                }
+
+            }else if(el.getAttribute('id')==='skin_btn'){
+                if(document.getElementById('check_list_skin').style.display === 'none'){
+                    document.getElementById('check_list_skin').style.display = 'inline-flex';
+
+                }
+            }else if(el.getAttribute('id')==='condition_btn'){
+                if(document.getElementById('check_list_condition').style.display === 'none'){
+                    document.getElementById('check_list_condition').style.display = 'inline-flex';
+
+                }
+            }else if(el.getAttribute('id')==='dislike_btn'){
+                if(document.getElementById('check_list_dislike').style.display === 'none'){
+                    document.getElementById('check_list_dislike').style.display = 'inline-flex';
+
+                }
+            }else if(el.getAttribute('id')==='self_btn'){
+                if(document.getElementById('check_list_self').style.display === 'none'){
+                    document.getElementById('check_list_self').style.display = 'inline-flex';
+
+                }
+            }
+
+        })
+    })
+
+    Array.from(document.getElementsByClassName('allimi-form-one')).forEach(function(el){
+
+        el.addEventListener('click',function(){
+
+
+            if(el.parentElement.getAttribute('id') === 'check_list_attitude'){
+
+                if(el.getAttribute('id') === 'attitude_etc'){
+
+                    document.getElementById('allimi_attitude_textarea').style.display = 'block';
+                }else{
+                    document.getElementById('allimi_attitude_textarea').style.display = 'none';
+                }
+
+
+            }
+
+            if(el.parentElement.getAttribute('id')==='check_list_tangle'){
+
+                if(el.getAttribute('id') === 'tangle_etc'){
+
+                    if(document.getElementById('allimi_tangle_textarea').style.display === 'block'){
+
+                        document.getElementById('allimi_tangle_textarea').style.display = 'none';
+                    }else{
+
+                        document.getElementById('allimi_tangle_textarea').style.display = 'block';
+                    }
+
+                }
+            }
+
+            if(el.parentElement.getAttribute('id')==='check_list_bath'){
+
+                if(el.getAttribute('id') === 'bath_etc'){
+
+                    document.getElementById('allimi_bath_textarea').style.display = 'block';
+                }else{
+                    document.getElementById('allimi_bath_textarea').style.display = 'none';
+                }
+            }
+
+            if(el.parentElement.getAttribute('id')==='check_list_skin'){
+
+                if(el.getAttribute('id') === 'skin_etc'){
+
+                    if(document.getElementById('allimi_skin_textarea').style.display === 'block'){
+
+                        document.getElementById('allimi_skin_textarea').style.display = 'none';
+                    }else{
+
+                        document.getElementById('allimi_skin_textarea').style.display = 'block';
+                    }
+
+                }
+            }
+
+            if(el.parentElement.getAttribute('id')==='check_list_condition'){
+
+                if(el.getAttribute('id') === 'condition_etc'){
+
+                    document.getElementById('allimi_condition_textarea').style.display = 'block';
+                }else{
+                    document.getElementById('allimi_condition_textarea').style.display = 'none';
+                }
+            }
+
+            if(el.parentElement.getAttribute('id')==='check_list_dislike'){
+
+                if(el.getAttribute('id') === 'dislike_etc'){
+
+                    if(document.getElementById('allimi_dislike_textarea').style.display === 'block'){
+
+                        document.getElementById('allimi_dislike_textarea').style.display = 'none';
+                    }else{
+
+                        document.getElementById('allimi_dislike_textarea').style.display = 'block';
+                    }
+
+                }
+            }
+
+
+        })
+    })
+}
+
+function allimi_send(target){
+
+    event.preventDefault()
+    event.stopPropagation();
+
+    let week = ['일','월','화','수','목','금','토']
+
+    let payment_idx = target.getAttribute('data-payment_idx');
+    let pet_seq = target.getAttribute('data-pet_seq');
+    let cellphone = target.getAttribute('data-cellphone');
+    let pet_name = target.getAttribute('data-pet_name');
+    let beauty_date = target.getAttribute('data-date').replace(' ','T');
+
+
+    let date_ = new Date(beauty_date);
+    let date = `${date_.getFullYear()}년 ${date_.getMonth()+1}월 ${date_.getDate()}일(${week[date_.getDay()]})`
+
+
+    document.getElementById('allimi_date').innerText = date;
+
+    document.getElementById('allimi_pet_list').innerHTML ='';
+    document.getElementById('allimi_pet_list').innerHTML += `<label class="allimi-form">
+                                                                            <input type="radio" name="allimi-pet">
+                                                                            <em></em>
+                                                                            <span class="allimi-radio-span">${pet_name}</span>
+                                                                        </label>`
+
+    pop.open('allimi_pop')
+}
+
+function allimi_open_gallery(){
+
+
+    document.getElementById('allimi_defalut').style.opacity = '0';
+    document.getElementById('allimi_preview').style.opacity = '0';
+
+    document.getElementById('allimi_gallery').style.opacity = '1';
+
+
+}

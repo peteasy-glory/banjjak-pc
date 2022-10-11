@@ -351,15 +351,356 @@ if($artist_flag == 1){
                             </div>
 
 
-                            <div class="allimi-left-wrap-body">
+                            <div class="allimi-left-body">
 
+                                <div class="allimi-left-body-left">
+
+                                    <div class="allimi-body-title">
+
+                                        <span>미용 알리미</span>
+
+                                    </div>
+                                    <div class="allimi-body-list">
+                                        <div class="allimi-body-cell">
+                                            <div class="allimi-body-cell-title">
+                                                <strong>이용일</strong>
+                                            </div>
+                                            <div class="allimi-body-cell-value">
+                                                <span id="allimi_date"></span>
+                                            </div>
+                                            <div class="allimi-body-cell-icon">
+                                                <img src="/static/images/icon/10_ic-24-calendar@2x.png" alt="">
+                                            </div>
+                                        </div>
+
+                                        <div class="allimi-body-cell">
+                                            <div class="allimi-body-cell-title">
+                                                <strong>이용펫</strong>
+                                            </div>
+                                            <div class="allimi-body-cell-value" id="allimi_pet_list">
+
+                                            </div>
+                                        </div>
+
+                                        <div class="allimi-body-cell">
+                                            <div class="allimi-body-cell-title">
+                                                <strong>미용사진</strong>
+                                            </div>
+                                        </div>
+
+                                        <div class="allimi-body-cell">
+
+                                            <div class="allimi-gallery-wrap">
+                                                <div class="allimi-gallery-cell" onclick="allimi_open_gallery()">
+                                                    <img src="/static/images/icon/photo_icon.png" alt="">
+                                                    <span class="allimi-gallery-span">사진첨부</span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <div class="allimi-left-body-right">
+                                    <div class="allimi-check-container">
+                                        <div class="allimi-check-wrap">
+                                            <div class="allimi-check-title" id="attitude_btn">
+                                                <strong>미용예절</strong>
+                                            </div>
+                                            <div class="allimi-check-list flex-column" id="check_list_attitude">
+
+                                                <label class="allimi-form-one">
+
+                                                        <input type="radio" name="attitude" value="1">
+                                                        <em></em>
+                                                        <span class="allimi-radio-span">아주 잘 했어요. 칭찬해 주세요.</span>
+                                                </label>
+                                                <label class="allimi-form-one">
+                                                    <input type="radio" name="attitude" value="2">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">좋아요.</span>
+                                                </label>
+                                                <label class="allimi-form-one">
+                                                    <input type="radio" name="attitude" value="3">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">힘들어해요.</span>
+                                                </label>
+                                                <label class="allimi-form-one" id="attitude_etc">
+                                                    <input type="radio" name="attitude" value="0">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">기타</span>
+
+                                                </label>
+                                                <textarea id="allimi_attitude_textarea" class="allimi-textarea" ></textarea>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="allimi-check-wrap">
+                                            <div class="allimi-check-title" id="tangle_btn">
+                                                <strong>엉킴(부위)</strong>
+                                            </div>
+                                            <div class="allimi-check-list flex-column" id="check_list_tangle">
+
+                                                <label class="allimi-form-one">
+
+                                                    <input type="checkbox" name="tangle" value="1">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">없어요.</span>
+                                                </label>
+                                                <label class="allimi-form-one">
+                                                    <input type="checkbox" name="tangle" value="2">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">얼굴</span>
+                                                </label>
+                                                <label class="allimi-form-one">
+                                                    <input type="checkbox" name="tangle" value="3">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">귀</span>
+                                                </label>
+                                                <label class="allimi-form-one">
+                                                    <input type="checkbox" name="tangle" value="4">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">겨드랑이</span>
+                                                </label>
+                                                <label class="allimi-form-one">
+                                                    <input type="checkbox" name="tangle" value="5">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">다리</span>
+                                                </label>
+                                                <label class="allimi-form-one">
+                                                    <input type="checkbox" name="tangle" value="6">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">꼬리</span>
+                                                </label>
+                                                <label class="allimi-form-one" id="tangle_etc">
+                                                    <input type="checkbox" name="tangle" value="0">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">기타</span>
+                                                </label>
+
+                                                <textarea id="allimi_tangle_textarea" class="allimi-textarea" ></textarea>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="allimi-check-wrap">
+                                            <div class="allimi-check-title" id="bath_btn">
+                                                <strong>목욕/드라이</strong>
+                                            </div>
+                                            <div class="allimi-check-list flex-column" id="check_list_bath">
+
+                                                <label class="allimi-form-one">
+
+                                                    <input type="radio" name="bath" value="1">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">잘해요.</span>
+                                                </label>
+                                                <label class="allimi-form-one">
+                                                    <input type="radio" name="bath" value="2">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">조금 싫어해요.</span>
+                                                </label>
+                                                <label class="allimi-form-one">
+                                                    <input type="radio" name="bath" value="3">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">거부감이 있어요.</span>
+                                                </label>
+                                                <label class="allimi-form-one" id="bath_etc">
+                                                    <input type="radio" name="bath" value="0">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span" >기타</span>
+
+                                                </label>
+                                                <textarea id="allimi_bath_textarea" class="allimi-textarea" ></textarea>
+
+                                            </div>
+                                        </div>
+                                        <div class="allimi-check-wrap">
+                                            <div class="allimi-check-title" id="skin_btn">
+                                                <strong>피부</strong>
+                                            </div>
+                                            <div class="allimi-check-list flex-column" id="check_list_skin">
+
+                                                <label class="allimi-form-one">
+
+                                                    <input type="checkbox" name="skin" value="1">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">깨끗해요.</span>
+                                                </label>
+                                                <label class="allimi-form-one">
+                                                    <input type="checkbox" name="skin" value="2">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">피부염</span>
+                                                </label>
+                                                <label class="allimi-form-one">
+                                                    <input type="checkbox" name="skin" value="3">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">각질</span>
+                                                </label>
+                                                <label class="allimi-form-one">
+                                                    <input type="checkbox" name="skin" value="4">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">붉은기</span>
+                                                </label>
+                                                <label class="allimi-form-one">
+                                                    <input type="checkbox" name="skin" value="5">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">습진</span>
+                                                </label>
+                                                <label class="allimi-form-one">
+                                                    <input type="checkbox" name="skin" value="6">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">농피증</span>
+                                                </label>
+                                                <label class="allimi-form-one">
+                                                    <input type="checkbox" name="skin" value="7">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">알로페시아</span>
+                                                </label>
+                                                <label class="allimi-form-one" id="skin_etc">
+                                                    <input type="checkbox" name="skin" value="0">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span" >기타</span>
+
+                                                </label>
+                                                <textarea id="allimi_skin_textarea" class="allimi-textarea" ></textarea>
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="allimi-check-container" style="margin-left:20px;">
+                                        <div class="allimi-check-wrap">
+                                            <div class="allimi-check-title" id="condition_btn">
+                                                <strong>컨디션</strong>
+                                            </div>
+                                            <div class="allimi-check-list flex-column" id="check_list_condition">
+
+                                                <label class="allimi-form-one">
+
+                                                    <input type="radio" name="condition" value="1">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">좋아요.</span>
+                                                </label>
+                                                <label class="allimi-form-one">
+                                                    <input type="radio" name="condition" value="2">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">긴장했어요.</span>
+                                                </label>
+                                                <label class="allimi-form-one">
+                                                    <input type="radio" name="condition" value="3">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">피곤해 해요.</span>
+                                                </label>
+                                                <label class="allimi-form-one" id="condition_etc">
+                                                    <input type="radio" name="condition" value="0">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">기타</span>
+
+                                                </label>
+                                                <textarea id="allimi_condition_textarea" class="allimi-textarea" ></textarea>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="allimi-check-wrap">
+                                            <div class="allimi-check-title" id="dislike_btn">
+                                                <strong>싫어했던 부위</strong>
+                                            </div>
+                                            <div class="allimi-check-list flex-column" id="check_list_dislike">
+
+                                                <label class="allimi-form-one">
+
+                                                    <input type="checkbox" name="dislike" value="1">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">없어요.</span>
+                                                </label>
+                                                <label class="allimi-form-one">
+                                                    <input type="checkbox" name="dislike" value="2">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">얼굴</span>
+                                                </label>
+                                                <label class="allimi-form-one">
+                                                    <input type="checkbox" name="dislike" value="3">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">귀</span>
+                                                </label>
+                                                <label class="allimi-form-one">
+                                                    <input type="checkbox" name="dislike" value="4">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">앞발</span>
+                                                </label>
+                                                <label class="allimi-form-one">
+                                                    <input type="checkbox" name="dislike" value="5">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">뒷발</span>
+                                                </label>
+                                                <label class="allimi-form-one">
+                                                    <input type="checkbox" name="dislike" value="6">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">발톱</span>
+                                                </label>
+                                                <label class="allimi-form-one">
+                                                    <input type="checkbox" name="dislike" value="7">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">꼬리</span>
+                                                </label>
+                                                <label class="allimi-form-one" id="dislike_etc">
+                                                    <input type="checkbox" name="dislike" value="0">
+                                                    <em></em>
+                                                    <span class="allimi-radio-span">기타</span>
+                                                </label>
+
+                                                <textarea id="allimi_dislike_textarea" class="allimi-textarea" ></textarea>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="allimi-check-wrap">
+                                            <div class="allimi-check-title" id="self_btn">
+                                                <strong>직접입력</strong>
+                                            </div>
+                                            <div class="allimi-check-list flex-column" id="check_list_self">
+
+                                                <textarea id="allimi_self_textarea" class="allimi-textarea" style="display: block" ></textarea>
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
 
                             </div>
+                            <div class="allimi-left-footer">
+
+                                <div class="allimi-footer-cell cell-border-purple">미리보기</div>
+                                <div class="allimi-footer-cell" onclick="pop.close2('allimi_pop')">취소</div>
+                                <div class="allimi-footer-cell cell-fill-purple">보내기</div>
+
+
+                           </div>
+
+
 
 
                         </div>
                         <div class="allimi-right-wrap">
                             <div class="allimi-title-box">
+
+                            </div>
+                            <div class="allimi-right-body-default" id="allimi_defalut">
+                                <img src="/static/images/ic_dog00_b.png" alt="">
+                            </div>
+                            <div class="allimi-right-body-gallery" id="allimi_gallery">
+
+                            </div>
+                            <div class="allimi-right-body-preview" id="allimi_preview">
+
 
                             </div>
                         </div>
@@ -406,6 +747,7 @@ if($artist_flag == 1){
         // stats();
         gnb_actived('gnb_home');
         break_time(artist_id);
+        allimi_btn_event();
 
 
         gallery.init()
