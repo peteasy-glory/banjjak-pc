@@ -572,6 +572,7 @@ function today_reserve(id,bool){
 
     let reserve_list = document.getElementById('main_reserve_list');
 
+    let artist_id = id;
 
 
     $.ajax({
@@ -655,7 +656,7 @@ function today_reserve(id,bool){
                                                         
                                                     </div>
                                                     <div class="item-diary">
-                                                                    ${el.product.diary_idx === null ? `<div class="diary-not-exist" data-cellphone="${el.customer.phone}" data-pet_seq="${el.pet.idx}" data-payment_idx="${el.product.payment_idx}" data-date="${el.product.date.booking_st}" data-pet_name="${el.pet.name}" onclick="allimi_send(this)">알리미 보내기</div>` : `<div class="diary-exist" data-cellphone="${el.customer.phone}" data-pet_seq="${el.pet.idx}" data-payment_idx="${el.product.payment_idx}">알리미 발송완료</div>`}
+                                                                    ${el.product.diary_idx === null ? `<div class="diary-not-exist" data-cellphone="${el.customer.phone}" data-pet_seq="${el.pet.idx}" data-payment_idx="${el.product.payment_idx}" data-date="${el.product.date.booking_st}" data-pet_name="${el.pet.name}" onclick="allimi_send_pop(this,'${artist_id}')">알리미 보내기</div>` : `<div class="diary-exist" data-cellphone="${el.customer.phone}" data-pet_seq="${el.pet.idx}" data-payment_idx="${el.product.payment_idx}">알리미 발송완료</div>`}
                                                                 </div>
                                                 </a>
                                             </div>`
@@ -2015,10 +2016,11 @@ function allimi_btn_event(){
     })
 }
 
-function allimi_send(target){
+function allimi_send_pop(target,id){
 
     event.preventDefault()
     event.stopPropagation();
+
 
     let week = ['일','월','화','수','목','금','토']
 
@@ -2037,10 +2039,11 @@ function allimi_send(target){
 
     document.getElementById('allimi_pet_list').innerHTML ='';
     document.getElementById('allimi_pet_list').innerHTML += `<label class="allimi-form">
-                                                                            <input type="radio" name="allimi-pet">
+                                                                            <input type="radio" name="allimi-pet" onclick="allimi_get_gallery(this,'${id}')" data-payment_idx="${payment_idx}" data-pet_seq="${pet_seq}">
                                                                             <em></em>
                                                                             <span class="allimi-radio-span">${pet_name}</span>
                                                                         </label>`
+
 
     pop.open('allimi_pop')
 }
@@ -2048,10 +2051,71 @@ function allimi_send(target){
 function allimi_open_gallery(){
 
 
+    document.getElementById('allimi-right-title').innerText = '미용 갤러리';
+
+
     document.getElementById('allimi_defalut').style.opacity = '0';
     document.getElementById('allimi_preview').style.opacity = '0';
 
     document.getElementById('allimi_gallery').style.opacity = '1';
+
+    setTimeout(function(){
+        document.getElementById('allimi_defalut').style.display ='none';
+        document.getElementById('allimi_preview').style.display ='none';
+
+
+    },600)
+
+
+}
+
+function allimi_get_gallery(target,id){
+
+    let payment_idx = target.getAttribute('data-payment_idx');
+    let pet_seq = target.getAttribute('data-pet_seq');
+
+    document.getElementById('allimi_gallery_list').innerHTML = `<div class="allimi-gallery-list-cell"><a href="#" class="btn-gate-picture-register" onclick="MemofocusNcursor()"><span><em>이미지 추가</em></span></a></div>`
+
+    console.log(id)
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+            mode:'beauty_gal_get',
+            idx:pet_seq,
+            artist_id:id,
+        },
+        success:function(res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                console.log(body);
+                body.forEach(function(el){
+
+                    document.getElementById('allimi_gallery_list').innerHTML += `<div class="allimi-gallery-list-cell list-cell">
+                                                                                                <label>
+                                                                                                    <div class="allimi-picture-thumb-view">
+                                                                                                        <div class="allimi-picture-obj" onclick=""><img src="${img_link_change(el.file_path)}" alt=""></div>
+                                                                                                        <div class="allimi-picture-date">${el.upload_dt.substr(0,4)}.${el.upload_dt.substr(4,2)}.${el.upload_dt.substr(6,2)}</div>
+                                                                                                        <div class="allimi-picture-ui">
+                                                                                                           <input type="checkbox" name="allimi-gallery-select" class="allimi-picture-select" data-file_path="${img_link_change(el.file_path)}">
+                                                                                                           <em></em>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </label>
+                                                                                            </div>`
+                })
+            }
+        }
+    })
+}
+
+function allimi_select_photo(){
 
 
 }

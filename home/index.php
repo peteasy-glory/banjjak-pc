@@ -690,14 +690,29 @@ if($artist_flag == 1){
 
                         </div>
                         <div class="allimi-right-wrap">
-                            <div class="allimi-title-box">
+                            <div class="allimi-title-box" style="justify-content: center">
+                                <div class="allimi-title" id="allimi-right-title">
 
+                                </div>
                             </div>
                             <div class="allimi-right-body-default" id="allimi_defalut">
                                 <img src="/static/images/ic_dog00_b.png" alt="">
                             </div>
                             <div class="allimi-right-body-gallery" id="allimi_gallery">
 
+                                    <div class="allimi-gallery-list" id="allimi_gallery_list">
+                                        <div class="allimi-gallery-list-cell"><a href="#" class="btn-gate-picture-register" onclick="MemofocusNcursor()"><span><em>이미지 추가</em></span></a></div>
+
+                                    </div>
+                                    <div style="display:block;position:absolute;top:-150px;"><input type="file" accept="image/*" name="imgupfile" id="addimgfile"></div>
+
+
+                                    <div class="allimi-gallery-footer">
+                                        <div class="allimi-footer-cell cell-fill-purple" style="width:100%; margin-bottom:30px;" onclick="allimi_select_photo()">사진 선택 완료</div>
+
+                                        <span>이미지는 최대 25개까지 등록할 수 있습니다.</span>
+                                        <span>gif,png,jpg,jpeg 형식의 이미지만 등록됩니다.</span>
+                                    </div>
                             </div>
                             <div class="allimi-right-body-preview" id="allimi_preview">
 
@@ -712,9 +727,10 @@ if($artist_flag == 1){
 </article>
 
 <!-- //wrap -->
-<script src="../static/js/common.js"></script>
-<script src="../static/js/dev_common.js"></script>
-<script src="../static/js/booking.js"></script>
+<script src="/static/js/common.js"></script>
+<script src="/static/js/dev_common.js"></script>
+<script src="/static/js/booking.js"></script>
+<script src="/static/js/customer.js"></script>
 <script src="/static/js/imagesloaded.pkgd.min.js"></script>
 <script src="/static/js/jquery-ui.min.js"></script>
 
@@ -728,8 +744,6 @@ if($artist_flag == 1){
 
     $(document).ready(function(){
 
-
-        pop.open('allimi_pop')
         data_set(artist_id).then(function(){
 
         })
