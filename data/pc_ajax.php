@@ -2998,6 +2998,22 @@ if($r_mode) {
         $result = $api->put('/partner/reserve/payment-reserve', $data_json);
 
         $return_data = array("code" => "000000", "data" => $result);
+    }else if($r_mode === 'get_part_time_set'){
+
+
+        $artist_id = $_POST['id'];
+
+        $result = $api->get('/partner/setting/part-time-set/'.$artist_id);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
+    }else if($r_mode === 'get_part_time'){
+
+        $artist_id = $_POST['id'];
+        $result = $api->get('/partner/setting/part-time/'.$artist_id);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
     }
 }
 

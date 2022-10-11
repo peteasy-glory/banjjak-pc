@@ -1154,6 +1154,9 @@ function _renderCalendar_mini(id,session_id){
                                 reserve_schedule_week(id,body_data).then(function(_body){
 
 
+
+
+
                                     if(document.getElementById('week_schedule_card_body')){
                                         document.getElementById('week_schedule_card_body').style.display = 'block';
                                         document.getElementById('week_schedule_loading').style.display ='none';

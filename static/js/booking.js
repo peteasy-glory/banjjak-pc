@@ -67,6 +67,53 @@ function schedule_render(id){
 
                     cols(id).then(function (body_data){
 
+
+                        if(localStorage.getItem('time_type') == '2'){
+
+                            $.ajax({
+
+                                url: '/data/pc_ajax.php',
+                                type: 'post',
+                                data: {
+                                    mode: 'get_part_time',
+                                    id: id,
+                                },
+                                success: function (res) {
+
+                                    let response = JSON.parse(res);
+                                    let head = response.data.head;
+                                    let body = response.data.body;
+                                    if (head.code === 401) {
+                                        pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                                    } else if (head.code === 200) {
+                                        body.forEach(function(el){
+                                            console.log(el)
+
+
+
+
+
+                                            el.res_time_off.forEach(function(el_){
+
+                                                Array.from(document.getElementsByClassName('time-compare-cols')).forEach(function(_el){
+
+
+                                                    if(_el.getAttribute('data-name') === el.name && _el.getAttribute('data-time-to') == el_.time.split('~')[0] ){
+
+                                                        _el.style.borderTop = '4px solid #828282';
+
+                                                    }
+
+                                                })
+                                            })
+                                        })
+                                    }
+                                }
+
+                            })
+                        }
+
+
                         console.log(body)
 
                         no_one(body_data);
@@ -322,6 +369,11 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
 
 
             console.log(body_)
+
+            Array.from(document.getElementsByClassName('calendar-week-body-col-add')).forEach(function(el){
+
+                el.style.borderTop = '1px solid #ebebeb';
+            })
             body_.forEach(function(_el, index){
 
 
@@ -495,6 +547,56 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
 
 
             week_holiday(parent,id).then(function(){
+
+                if(localStorage.getItem('time_type') == '2'){
+                    $.ajax({
+
+                        url:'/data/pc_ajax.php',
+                        type:'post',
+                        data:{
+                            mode:'get_part_time',
+                            id:id,
+                        },
+                        success:function(res) {
+
+                            let response = JSON.parse(res);
+                            let head = response.data.head;
+                            let body = response.data.body;
+                            if (head.code === 401) {
+                                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                            } else if (head.code === 200) {
+
+                                console.log(body);
+
+                                body.forEach(function(el){
+
+                                    Array.from(document.getElementsByClassName('header-worker')).forEach(function(el_){
+
+
+                                        if(el_.classList.contains('actived')){
+
+                                            if(el_.getAttribute('data-worker') === el.name){
+
+                                                el.res_time_off.forEach(function(_el){
+
+                                                    Array.from(document.getElementsByClassName('calendar-week-body-col-add')).forEach(function(__el){
+
+                                                        if(__el.getAttribute('data-time-to') == _el.time.split('~')[0]){
+
+                                                            __el.style.borderTop = '4px solid #828282';
+                                                        }
+                                                    })
+                                                })
+                                            }
+
+                                        }
+                                    })
+                                })
+                            }
+                        }
+                    })
+                }
+
 
                 Array.from(document.getElementsByClassName('week-day-check')).forEach(function(el){
 
@@ -1921,6 +2023,7 @@ function cols(id){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
+                    console.log(body)
 
                     document.getElementById('day_header_row').innerHTML = `<div class="calendar-day-header-col time"></div>`
 
@@ -1933,6 +2036,7 @@ function cols(id){
                             break_times += `${el.time.split('~')[0]} `
                         })
                     }
+
 
 
                     body.forEach(function (el){
@@ -10696,7 +10800,7 @@ function pay_management_init(id,target,bool,bool2){
                     document.getElementById('change_check_worker_btn').setAttribute('data-worker',`${body.worker}`)
 
 
-                    document.getElementById('pay_allim_btn').setAttribute('onclick',`open_customer_allim(${body.cell_phone})`)
+                    document.getElementById('pay_allim_btn').setAttribute('onclick',`open_payment_allim('${body.cell_phone}','${payment_idx}','${body.name}')`)
 
                     document.getElementById('allim_send_btn').setAttribute('data-cellphone',`${body.cell_phone}`);
                     document.getElementById('allim_send_btn').setAttribute('data-pet_name',`${body.name}`);
@@ -12520,5 +12624,74 @@ function reset_deposit(target,id){
         }
 
     })
+
+}
+
+function open_payment_allim(cellphone,payment_idx,pet_name){
+
+
+
+    $.ajax({
+
+        url:'/data/reserve_alarm_inquiry.php',
+        type:'post',
+        data:{
+            cellphone:cellphone,
+            payment_log_seq:payment_idx,
+            pet_name:pet_name,
+        },
+        success:function(res) {
+
+            let response = JSON.parse(res);
+            let body = response.data;
+
+            if(body === null){
+                document.getElementById('allimtalk_exist').innerHTML = `<tr id="allimtalk_none">
+                                                                <td colspan="4" class="none">
+                                                                    <div class="common-none-data">
+                                                                        <div class="none-inner">
+                                                                            <div class="item-visual"><img src="../assets/images/icon/img-illust-3@2x.png" alt="" width="103"></div>
+                                                                            <div class="item-info">알림톡 발송 내역이 없습니다.</span></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>`
+            }else{
+
+
+                document.getElementById('allimtalk_exist').innerHTML = '';
+
+                body.forEach(function(el){
+
+                    let code = '';
+                    switch(el.template_code){
+
+                        case "1000004530_20001" : code = '예약등록'; break;
+                        case "1000004530_20002" : code = '예약변경'; break;
+                        case "1000004530_20003" : code = '하루 전 알림'; break;
+                        case "1000004530_20004": code = '미용종료'; break;
+                        case "1000004530_20005" : code = "미용즉시종료";break;
+                        case "1000004530_20006" : code = "예약취소"; break;
+                        case "1000004530_20007" : code = "미용신청승인";break;
+                        case "1000004530_14516" : code = "미용동의서";break;
+                        case "1000004530_20018" : code = "알림장 안내"; break;
+
+                    }
+                    document.getElementById('allimtalk_exist').innerHTML += `<tr>
+                                                                            <td class="">${el.date_client_req.split(' ')[0]}<br>${el.date_client_req.split(' ')[1]}</td>
+                                                                            <td class="">${code}</td>
+                                                                            <td class="text-align-left"><span style="white-space: pre-line">${el.content}</span></td>
+                                                                            <td class="">알림톡 발송</td>
+                                                                        </tr>`
+                })
+
+
+            }
+            console.log(body)
+        }
+    })
+    pop.open('reserveAlarmInquiryPop');
+
+
 
 }

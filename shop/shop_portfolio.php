@@ -135,30 +135,31 @@ if ($artist_flag == 1) {
         gnb_init();
         gnb_actived('gnb_shop_wrap','gnb_portfolio');
         get_portfolio(artist_id);
-        allim_reserve_test('600990','01086331776','범shop수정');
-        allim_customer_test('2022-08-01','2022-09-01','01086331776');
         console.log(shop_array);
 
         var html = '';
         let img_list = '';
-        $.each(shop_array[0],function(i,v){
+
+        if(shop_array[0].length > 1){
+
+            $.each(shop_array[0],function(i,v){
 
 
-            var img_path = img_link_change(v.image);
+                var img_path = img_link_change(v.image);
 
-            if( i === shop_array[0].length-1){
+                if( i === shop_array[0].length-1){
 
 
-                img_list += `${img_path.replace('https://image.banjjakpet.com','')}`
-            }else{
+                    img_list += `${img_path.replace('https://image.banjjakpet.com','')}`
+                }else{
 
-                img_list += `${img_path.replace('https://image.banjjakpet.com','')}|`
-            }
+                    img_list += `${img_path.replace('https://image.banjjakpet.com','')}|`
+                }
 
-        })
-        $.each(shop_array[0], function(i, v){
-            var img_path = img_link_change(v.image);
-            html += `
+            })
+            $.each(shop_array[0], function(i, v){
+                var img_path = img_link_change(v.image);
+                html += `
                 <li class="list-cell">
                     <div class="master-portfolio-item">
                         <div class="item-thumb" onclick="showReviewGallery(${i},'${img_list}')"><img src="${img_path}" alt=""></div>
@@ -170,8 +171,29 @@ if ($artist_flag == 1) {
                     </div>
                 </li>
             `;
-        })
-        $(".img_wrap").append(html);
+            })
+            $(".img_wrap").append(html);
+        }else{
+            var v = shop_array[0];
+            var img_path = img_link_change(v.image);
+
+            img_list += `${img_path.replace('https://image.banjjakpet.com','')}|`
+
+            html += `
+            <li class="list-cell">
+                <div class="master-portfolio-item">
+                    <div class="item-thumb" onclick="showReviewGallery(0,'${img_list}')"><img src="${img_path}" alt=""></div>
+                    <div class="item-info">
+                        <!--<div class="item-number">${v.sort_number}</div>-->
+<!--                            <button type="button" class="btn-item-hand"></button>-->
+                    </div>
+                    <button type="button" class="btn-data-del" data-idx=${v.idx}>데이타삭제</button>
+                </div>
+            </li>
+        `;
+            $(".img_wrap").append(html);
+        }
+
     })
 
     // 이미지 추가

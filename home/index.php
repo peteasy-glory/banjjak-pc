@@ -764,6 +764,34 @@ if($artist_flag == 1){
         allimi_btn_event();
 
 
+        $.ajax({
+
+            url:'/data/pc_ajax.php',
+            type:'post',
+            data:{
+                mode:'get_part_time_set',
+                id:artist_id,
+            },
+            success: function (res) {
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+                    console.log(body)
+
+                    if(body.is_time_Type == 2){
+
+                        localStorage.setItem('time_type','2');
+                    }else{
+                        localStorage.setItem('time_type','1');
+                    }
+
+                }
+            }
+        })
+
         gallery.init()
 
         $.ajax({
