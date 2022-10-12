@@ -58,7 +58,7 @@ if ($artist_flag == 1) {
 												<div class="card-header">
 													<div class="user-grade-item">
 														<div class="icon icon-grade-normal"></div>
-														<div class="icon-grade-label">Normal</div>
+														<div class="icon-grade-label">GOLD</div>
 													</div>
 												</div>
 												<div class="card-body">
@@ -71,7 +71,7 @@ if ($artist_flag == 1) {
 												<div class="card-header">
 													<div class="user-grade-item">
 														<div class="icon icon-grade-normalb"></div>
-														<div class="icon-grade-label">Normal_B</div>
+														<div class="icon-grade-label">Normal</div>
 													</div>
 												</div>
 												<div class="card-body">

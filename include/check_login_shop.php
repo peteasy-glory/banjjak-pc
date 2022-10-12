@@ -20,7 +20,8 @@
 		?>
 		<script>
             // 입점신청 or 권한요청 페이지
-		    location.href="/home/index_none.html";
+            alert('입점신청 및 미용사 권한 요청을 해주세요.');
+		    location.href="/data/logout_process.php";
 		</script>
 		<?
 		exit;
