@@ -50,6 +50,8 @@ if ($artist_flag == 1) {
 
 											</div>
 										</div>
+
+
 									</div>
 									<div class="basic-data-group large">
 										<div class="con-title-group">
@@ -213,10 +215,23 @@ if ($artist_flag == 1) {
 												<button type="button" class="btn-detail-toggle">펫 정보 자세히 보기</button>
 											</div>
 										</div>
-										<div class="basic-data-group middle text-align-center">
-											<a href="#" class="btn btn-purple btn-inline btn-basic-wide" id="direct_reserve_btn" onclick="direct_reserve(this)">즉시 예약</a>
+
+										<div class="basic-data-group middle" style="display: flex; justify-content: space-between">
+                                            <div class="btn-wrap-custom">
+											<a href="#" class="btn btn-yellow btn-inline btn-basic-wide" id="direct_reserve_btn" onclick="direct_reserve(this)">즉시 예약</a>
+                                                <div class="form-bottom-info text-align-center" ><strong>*[즉시예약]</strong>은 주간 스케줄에서만 사용 가능</div>
+                                            </div>
+                                            <div class="btn-wrap-custom">
+
+                                                <a href="#" class="btn btn-purple btn-inline btn-basic-wide" >알리미 보내기</a>
+                                                <div class="form-bottom-info text-align-center" style="display:flex; justify-content: flex-end;"><span id="diary_recent"></span> <div class="allimi-title-right" style="cursor: pointer; margin-right:0px; margin-left:10px;" id="allimi_history_btn" onclick="allimi_open_history(this)">
+                                                        <img src="/static/images/icon/NoPath@2x.png" alt="">
+                                                        <span>히스토리</span>
+                                                    </div></div>
+                                            </div>
 										</div>
-										<div class="form-bottom-info text-align-center" ><strong>*[즉시예약]</strong>은 주간 스케줄에서만 사용 가능</div>
+
+
 									</div>
 									<div class="basic-data-group large">
 										<div class="con-title-group">

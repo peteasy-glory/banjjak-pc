@@ -1427,6 +1427,8 @@ function customer_view_(id){
         insert_customer_grade(id,body_data);
         insert_customer_memo(id,body_data);
         //insert_customer_special(id);
+        allimi_recent(id,`${localStorage.getItem('customer_select')}`)
+
 
 
 
@@ -1607,6 +1609,7 @@ function pet_reserve_info(data){
 
 
                 pet_list.forEach(function(el_){
+                    console.log(el_)
                     if(parseInt(el.getAttribute('data-pet_seq'))  === el_.pet_seq){
 
                         ////console.log(el_)

@@ -27,6 +27,7 @@
     <!-- custom css -->
     <link href="/static/css/style.css" rel="stylesheet">
     <!-- jquery js -->
+    <script src="https://kit.fontawesome.com/28b36311e4.js"></script>
     <script src="/static/js/jquery-3.4.1.min.js"></script>
     <script src="/static/js/swiper.min.js"></script>
     <script>
