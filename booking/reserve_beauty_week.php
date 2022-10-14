@@ -3597,7 +3597,7 @@ if ($artist_flag == 1) {
                             </div>
                             <div class="allimi-left-footer">
 
-                                <div class="allimi-footer-cell cell-border-purple" id="allimi_preview_btn" onclick="allimi_open_preview(this)">미리보기</div>
+                                <div class="allimi-footer-cell cell-border-purple" id="allimi_preview_btn" onclick="allimi_open_preview(this,'',true)">미리보기</div>
                                 <div class="allimi-footer-cell" onclick="pop.close2('allimi_pop')">취소</div>
                                 <div class="allimi-footer-cell cell-fill-purple" onclick="allimi_send()">보내기</div>
 
@@ -3623,11 +3623,11 @@ if ($artist_flag == 1) {
                                     <div class="allimi-gallery-list-cell"><a href="#" class="btn-gate-picture-register" onclick="MemofocusNcursor()"><span><em>이미지 추가</em></span></a></div>
 
                                 </div>
-                                <div style="display:block;position:absolute;top:-150px;"><input type="file" accept="image/*" name="allimi_imgupfile" id="allimi_addimgfile"></div>
+                                <div style="display:block;position:absolute;top:-150px;" id="allimi_imgupfile_wrap"><input type="file" accept="image/*" name="allimi_imgupfile" id="allimi_addimgfile"></div>
 
 
                                 <div class="allimi-gallery-footer">
-                                    <div class="allimi-footer-cell cell-fill-purple" style="width:100%; margin-bottom:30px; margin-top:30px;" id="allimi_select_photo" onclick="allimi_select_photo(this)">사진 선택 완료</div>
+                                    <div class="allimi-footer-cell cell-fill-purple" style="width:100%; margin-bottom:30px; margin-top:30px;" id="allimi_select_photo" onclick="allimi_select_photo(this,true)">사진 선택 완료</div>
 
                                     <span>이미지는 최대 25개까지 등록할 수 있습니다.</span>
                                     <span>gif,png,jpg,jpeg 형식의 이미지만 등록됩니다.</span>
@@ -3782,6 +3782,7 @@ if ($artist_flag == 1) {
         setInputFilter(document.getElementById("reserve_cellphone"), function(value) {
             return /^\d*\.?\d*$/.test(value);
         })
+        wide_tab();
 
 
         input_enter('reserve_search','reserve_search_btn');

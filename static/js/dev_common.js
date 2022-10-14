@@ -2088,6 +2088,116 @@ function allimi_send_pop(target,id){
     pop.open('allimi_pop')
 }
 
+function allimi_send_pop_customer(target,id){
+
+
+    let cellphone = target.getAttribute('data-cellphone');
+
+    document.getElementById('allimi_date_select').innerHTML ='';
+
+    document.getElementById('allimi_history_btn').setAttribute('data-artist_id',id);
+    document.getElementById('allimi_history_btn').setAttribute('data-cellphone',cellphone);
+
+    document.getElementById('allimi_history_btn_2').setAttribute('data-artist_id',id);
+    document.getElementById('allimi_history_btn_2').setAttribute('data-cellphone',cellphone);
+
+
+    document.getElementById('allimi_preview_btn').setAttribute('data-artist_id',id);
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+            mode:'get_diary_date',
+            artist_id:id,
+            cellphone:cellphone
+        },
+        success:function(res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+
+                if(body.length === undefined){
+                    body = [body];
+                }
+                console.log(body)
+                if(body.length>0){
+
+                    let week = ['일','월','화','수','목','금','토'];
+                    body.forEach(function(el){
+
+                        let beauty_date = new Date(`${el.beauty_date.substr(0,4)}`,`${el.beauty_date.substr(4,2)}`,`${el.beauty_date.substr(6,2)}`);
+
+
+
+                        document.getElementById('allimi_date_select').innerHTML += `<option value="${el.beauty_date}">${beauty_date.getFullYear()}년 ${beauty_date.getMonth()}월 ${beauty_date.getDate()}일 (${week[beauty_date.getDay()]})</option>`
+                    })
+                }
+
+                setTimeout(function(){
+
+                    document.getElementById('allimi_date_select').dispatchEvent(new Event('change'));
+                },200);
+
+            }
+        }
+    })
+
+    pop.open('allimi_pop');
+
+}
+
+function allimi_date_select(target,id){
+
+    let date = target.value;
+
+    let cellphone = target.getAttribute('data-cellphone');
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+            mode:'get_diary_date_pet',
+            artist_id:id,
+            cellphone:cellphone,
+            date:date,
+        },
+        success:function(res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                console.log(body)
+                if(body.length === undefined){
+                    body = [body];
+                }
+
+                if(body.length>0){
+                    document.getElementById('allimi_pet_list').innerHTML = '';
+
+                    body.forEach(function(el){
+
+                        document.getElementById('allimi_pet_list').innerHTML += `<label class="allimi-form">
+                                                                                                <input type="checkbox" name="allimi-pet" data-artist_id="${id}" data-pet_name="${el.name}" data-cellphone="${cellphone}" data-payment_idx="${el.payment_log_seq}" data-pet_seq="${el.pet_seq}">
+                                                                                                <em></em>
+                                                                                                <span class="allimi-radio-span">${el.name}</span>
+                                                                                            </label>`
+                    })
+                }
+            }
+        }
+
+    })
+
+
+}
 function allimi_open_gallery(){
 
 
@@ -2142,7 +2252,32 @@ function allimi_open_history(target){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
+
+
+                if(body.length === undefined){
+
+                    body = [body];
+                }
                 console.log(body)
+                if(body.length > 0){
+
+                    document.getElementById('allimi_history_select').innerHTML ='<option data-pet_seq="0">전체보기</option>'
+
+                    let pet_list = [];
+                    body.forEach(function(el){
+
+
+                        if(pet_list.includes(`${el.pet_seq}`)){
+
+                            return;
+                        }
+
+                        pet_list.push(`${el.pet_seq}`);
+
+
+                        document.getElementById('allimi_history_select').innerHTML += `<option data-cellphone="${cellphone}" data-artist_id="${artist_id}" data-pet_seq="${el.pet_seq}" >${el.name}</option>`
+                    })
+                }
             }
         }
 
@@ -2173,10 +2308,76 @@ function allimi_open_history(target){
 
 }
 
-function allimi_open_preview(target){
+function allimi_history_change(target){
 
 
-    let artist_id = target.getAttribute('data-artist_id');
+    let artist_id = target.options[target.selectedIndex].getAttribute('data-artist_id');
+    let pet_seq = target.options[target.selectedIndex].getAttribute('data-pet_seq');
+    let cellphone = target.options[target.selectedIndex].getAttribute('data-cellphone');
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+            mode:'get_allimi_history',
+            artist_id:artist_id,
+            cellphone:cellphone,
+            pet_seq:pet_seq,
+        },
+        success:function(res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                console.log(body)
+                if(body.length === undefined){
+                    body = [body];
+                }
+
+                let week = ['일','월','화','수','목','금','토'];
+                if(body.length> 0){
+
+                    document.getElementById('allimi_history_list').innerHTML = ''
+                    body.forEach(function(el){
+
+
+                        let date = new Date(`${el.beauty_date.substr(0,4)}`,`${el.beauty_date.substr(4,2)}`,`${el.beauty_date.substr(6,2)}`);
+
+
+                        document.getElementById('allimi_history_list').innerHTML += ` <div class="allimi-history-cell-wrap">
+                                                                                                    <div class="allimi-history-img-wrap">
+                                                                                                        <img src="${el.main_photo !== '' ? img_link_change(el.main_photo) : ''}">    
+                                                                                                    </div>
+                                                                                                    <div class="allimi-history-info-wrap" data-payment_log="${el.payment_log_seq}" onclick="allimi_get_history_one(${el.payment_log_seq},'${artist_id}')">
+                                                                                                        <strong class="allimi-history-date">${date.getFullYear()}년 ${fill_zero(date.getMonth())}월 ${fill_zero(date.getDate())}일(${week[date.getDay()]})</strong>
+                                                                                                        <span class="allimi-history-name">${el.name}</span>
+                                                                                                    </div>
+                                                                                                </div>`
+
+                    })
+                }
+            }
+        }
+
+    })
+
+}
+
+function allimi_open_preview(target,id,bool){
+
+    let artist_id = '';
+    if(target === ''){
+
+        artist_id = id;
+
+    }else{
+        artist_id = target.getAttribute('data-artist_id');
+    }
+
+
 
     $.ajax({
         url:'/data/pc_ajax.php',
@@ -2233,11 +2434,16 @@ function allimi_open_preview(target){
         }
     })
 
-    if(document.querySelector('input[name="allimi-pet"]:checked') === null){
+    if(bool){
 
-        document.getElementById('msg1_txt').innerText = '이용펫을 선택해주세요.';
-        pop.open('reserveAcceptMsg1');
-        return;
+
+        if(document.querySelector('input[name="allimi-pet"]:checked') === null){
+
+            document.getElementById('msg1_txt').innerText = '이용펫을 선택해주세요.';
+            pop.open('reserveAcceptMsg1');
+            return;
+        }
+
     }
     let attitude = document.querySelector('input[name="attitude"]:checked') === null ? '' : document.querySelector('input[name="attitude"]:checked').value
     let tangle = document.querySelectorAll('input[name="tangle"]:checked') === null ? '' : document.querySelectorAll('input[name="tangle"]:checked');
@@ -2450,8 +2656,42 @@ function allimi_open_preview(target){
 
     document.getElementById('allimi-preview-swiper').innerHTML = '';
 
-    document.getElementById('allimi_preview_date').innerText = document.getElementById('allimi_date').innerText;
-    document.getElementById('allimi_preview_name').innerText = document.querySelector('input[name="allimi-pet"]:checked').getAttribute('data-pet_name');
+    if(document.getElementById('allimi_date_select')){
+
+        document.getElementById('allimi_preview_date').innerText = document.getElementById('allimi_date_select').options[document.getElementById('allimi_date_select').selectedIndex].text;
+    }else{
+
+        document.getElementById('allimi_preview_date').innerText = document.getElementById('allimi_date').innerText;
+
+    }
+
+    if(bool){
+
+
+        if(document.querySelectorAll('input[name="allimi-pet"]:checked').length>1){
+
+            let pet_name_list = [];
+
+            Array.from(document.querySelectorAll('input[name="allimi-pet"]:checked')).forEach(function(el){
+
+                pet_name_list.push(el.getAttribute('data-pet_name'));
+            })
+            document.getElementById('allimi_preview_name').innerText = '';
+
+            pet_name_list.forEach(function(el){
+
+                document.getElementById('allimi_preview_name').innerText += `${el} `;
+            })
+
+
+        }else{
+
+            document.getElementById('allimi_preview_name').innerText = document.querySelector('input[name="allimi-pet"]:checked').getAttribute('data-pet_name');
+        }
+    }else{
+
+
+    }
 
     preview_photos.forEach(function(el){
 
@@ -2469,6 +2709,80 @@ function allimi_open_preview(target){
 
 }
 
+function allimi_get_gallerys(id){
+
+
+    document.getElementById('allimi_gallery_list').innerHTML = '';
+
+    let pets = document.querySelectorAll('input[name="allimi-pet"]:checked') === null ? '' : document.querySelectorAll('input[name="allimi-pet"]:checked');
+
+    if(pets === ''){
+
+        document.getElementById('msg1_txt').innerText = '이용펫을 선택해주세요.'
+        pop.open('reserveAccpetMsg1');
+        return;
+
+    }else{
+
+        let pet_list = [];
+
+        Array.from(pets).forEach(function(el){
+
+            pet_list.push(el.getAttribute('data-pet_seq'));
+        });
+
+        pet_list.forEach(function(el){
+
+            $.ajax({
+
+                url:'/data/pc_ajax.php',
+                type:'post',
+                data:{
+                    mode:'beauty_gal_get',
+                    idx:el,
+                    artist_id:id,
+                },
+                success:function(res) {
+                    let response = JSON.parse(res);
+                    let head = response.data.head;
+                    let body = response.data.body;
+                    if (head.code === 401) {
+                        pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                    } else if (head.code === 200) {
+                        console.log(body);
+
+                        if(body.length === undefined){
+                            body = [body];
+                        }
+
+                        if(body.length>0){
+                            body.forEach(function(el){
+
+                                document.getElementById('allimi_gallery_list').innerHTML += `<div class="allimi-gallery-list-cell list-cell">
+                                                                                                <label>
+                                                                                                    <div class="allimi-picture-thumb-view">
+                                                                                                        <div class="allimi-picture-obj" onclick=""><img src="${img_link_change(el.file_path)}" alt=""></div>
+                                                                                                        <div class="allimi-picture-date">${el.upload_dt.substr(0,4)}.${el.upload_dt.substr(4,2)}.${el.upload_dt.substr(6,2)}</div>
+                                                                                                        <div class="allimi-picture-ui">
+                                                                                                           <input type="checkbox" name="allimi-gallery-select" class="allimi-picture-select" data-file_path="${el.file_path}">
+                                                                                                           <em></em>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </label>
+                                                                                            </div>`
+                            })
+
+                        }
+
+                    }
+                }
+            })
+        })
+
+
+    }
+
+}
 function allimi_get_gallery(target,id){
 
     let payment_idx = target.getAttribute('data-payment_idx');
@@ -2477,6 +2791,15 @@ function allimi_get_gallery(target,id){
     let pet_name = target.getAttribute('data-pet_name');
 
     document.getElementById('allimi_gallery_list').innerHTML = `<div class="allimi-gallery-list-cell"><a href="#" class="btn-gate-picture-register" onclick="allimi_MemofocusNcursor()"><span><em>이미지 추가</em></span></a></div>`
+
+    document.getElementById('allimi_imgupfile_wrap').innerHTML = '';
+    document.getElementById('allimi_imgupfile_wrap').innerHTML = `<input type="file" accept="image/*" name="allimi_imgupfile" id="allimi_addimgfile">`
+    document.getElementById('allimi_open_gallery').setAttribute('data-payment_idx',payment_idx);
+    document.getElementById('allimi_open_gallery').setAttribute('data-pet_seq',pet_seq);
+    document.getElementById('allimi_open_gallery').setAttribute('data-cellphone',cellphone);
+    document.getElementById('allimi_open_gallery').setAttribute('data-pet_name',pet_name);
+
+
 
     console.log(id)
 
@@ -2497,9 +2820,15 @@ function allimi_get_gallery(target,id){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
                 console.log(body);
-                body.forEach(function(el){
 
-                    document.getElementById('allimi_gallery_list').innerHTML += `<div class="allimi-gallery-list-cell list-cell">
+                if(body.length === undefined){
+                    body = [body];
+                }
+
+                if(body.length>0){
+                    body.forEach(function(el){
+
+                        document.getElementById('allimi_gallery_list').innerHTML += `<div class="allimi-gallery-list-cell list-cell">
                                                                                                 <label>
                                                                                                     <div class="allimi-picture-thumb-view">
                                                                                                         <div class="allimi-picture-obj" onclick=""><img src="${img_link_change(el.file_path)}" alt=""></div>
@@ -2511,7 +2840,10 @@ function allimi_get_gallery(target,id){
                                                                                                     </div>
                                                                                                 </label>
                                                                                             </div>`
-                })
+                    })
+
+                }
+
             }
         }
     })
@@ -2520,7 +2852,7 @@ function allimi_get_gallery(target,id){
 
 }
 
-function allimi_select_photo(target){
+function allimi_select_photo(target,bool){
 
 
     let payment_idx = target.getAttribute('data-payment_idx');
@@ -2539,10 +2871,20 @@ function allimi_select_photo(target){
     })
 
     console.log(photos);
-    document.getElementById('allimi_gallery_wrap').innerHTML = `<div class="allimi-gallery-cell allimi-gallery-cell-icon" style="cursor:pointer;" data-payment_idx="${payment_idx}" data-cellphone="${cellphone}" data-pet_name="${pet_name}" data-pet_seq="${pet_seq}" onclick="allimi_open_gallery()">
+
+
+    if(bool){
+
+        document.getElementById('allimi_gallery_wrap').innerHTML = `<div class="allimi-gallery-cell allimi-gallery-cell-icon" style="cursor:pointer;" data-payment_idx="${payment_idx}" data-cellphone="${cellphone}" data-pet_name="${pet_name}" data-pet_seq="${pet_seq}" onclick="allimi_open_gallery()">
                                                                             <img src="/static/images/icon/photo_icon.png" alt="">
                                                                             <span class="allimi-gallery-span">사진첨부</span>
                                                                         </div>`
+    }else{
+
+
+    }
+
+
 
     if(photos.length >0){
 
@@ -2574,6 +2916,20 @@ function allimi_delete_photo(target){
 function allimi_beauty_gallery_add(id,pet_seq,payment_idx){
 
 
+    console.log(id);
+    console.log(pet_seq);
+    console.log(payment_idx);
+    if(payment_idx === null){
+
+        payment_idx = 0;
+    }
+
+    if(document.getElementById('allimi_addimgfile').classList.contains('event')){
+
+        return;
+    }
+
+    document.getElementById('allimi_addimgfile').classList.add('event');
 
     document.getElementById('allimi_addimgfile').addEventListener('change',function(e){
 
@@ -2679,7 +3035,7 @@ function allimi_MemofocusNcursor() {
 
 function allimi_get_gallery2(id){
 
-    let target = document.querySelector('input[name="allimi-pet"]:checked')
+    let target = document.getElementById('allimi_open_gallery');
 
     let payment_idx = target.getAttribute('data-payment_idx');
     let pet_seq = target.getAttribute('data-pet_seq');
@@ -2707,9 +3063,14 @@ function allimi_get_gallery2(id){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
                 console.log(body);
-                body.forEach(function(el){
 
-                    document.getElementById('allimi_gallery_list').innerHTML += `<div class="allimi-gallery-list-cell list-cell">
+                if(body.length === undefined){
+                    body = [body];
+                }
+                if(body.length >0 ){
+                    body.forEach(function(el){
+
+                        document.getElementById('allimi_gallery_list').innerHTML += `<div class="allimi-gallery-list-cell list-cell">
                                                                                                 <label>
                                                                                                     <div class="allimi-picture-thumb-view">
                                                                                                         <div class="allimi-picture-obj" onclick=""><img src="${img_link_change(el.file_path)}" alt=""></div>
@@ -2721,7 +3082,10 @@ function allimi_get_gallery2(id){
                                                                                                     </div>
                                                                                                 </label>
                                                                                             </div>`
-                })
+                    })
+
+                }
+
             }
         }
     })
@@ -3014,19 +3378,395 @@ function allimi_recent(id,cellphone){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
+                if(body.length === undefined){
+
+                    body = [body];
+                }
                 console.log(body);
+                if(body.length>0){
 
-                let year = body.diary_recent_time.substr(0,4);
-                let month = body.diary_recent_time.substr(4,2);
-                let date = body.diary_recent_time.substr(6,2);
-                let hour = body.diary_recent_time.substr(8,2);
-                let min = body.diary_recent_time.substr(10,2);
 
-                let recent_date = new Date(year,parseInt(month)-1,date,hour,min);
-                console.log(recent_date);
-                document.getElementById('diary_recent').innerText = `( 최근발송 : ${recent_date.getFullYear()}. ${fill_zero(recent_date.getMonth()+1)}. ${fill_zero(recent_date.getDate())} ${am_pm_check(recent_date.getHours())}시 ${fill_zero(recent_date.getMinutes())}분 )`
+                    let year = body[0].diary_recent_time.substr(0,4);
+                    let month = body[0].diary_recent_time.substr(4,2);
+                    let date = body[0].diary_recent_time.substr(6,2);
+                    let hour = body[0].diary_recent_time.substr(8,2);
+                    let min = body[0].diary_recent_time.substr(10,2);
+
+                    let recent_date = new Date(year,parseInt(month)-1,date,hour,min);
+                    console.log(recent_date);
+                    document.getElementById('diary_recent').innerText = `( 최근발송 : ${recent_date.getFullYear()}. ${fill_zero(recent_date.getMonth()+1)}. ${fill_zero(recent_date.getDate())} ${am_pm_check(recent_date.getHours())}시 ${fill_zero(recent_date.getMinutes())}분 )`
+                }
             }
         }
     })
 
+}
+
+function allimi_select_pet_pop(){
+
+    document.getElementById('allimi_select_pet_list').innerHTML ='';
+    Array.from(document.querySelectorAll('input[name="allimi-pet"]')).forEach(function(el){
+
+
+        document.getElementById('allimi_select_pet_list').innerHTML +=`<label class="form-toggle-box small">
+                                                                                    <input type="radio" name="select_pet_btn" data-pet_name="${el.getAttribute('data-pet_name')}" data-artist_id="${el.getAttribute('data-artist_id')}" data-cellphone="${el.getAttribute('data-cellphone')}" data-pet_seq="${el.getAttribute('data-pet_seq')}">
+                                                                                    <em class="font-size-12">${el.getAttribute('data-pet_name')}</em>
+                                                                                </label>`;
+    })
+
+
+
+    pop.open('allimi_select_pet')
+}
+
+function allimi_select_pet_pop_confirm(id){
+
+
+    let target = document.querySelector('input[name="select_pet_btn"]:checked') === null ? '' : document.querySelector('input[name="select_pet_btn"]:checked');
+
+    if(target === ''){
+
+        document.getElementById('msg1_txt').innerText = '펫을 선택해주세요.';
+        pop.open('reserveAcceptMsg1');
+        return;
+
+    }
+
+
+    console.log(target);
+    allimi_get_gallery(target,id);
+    allimi_open_gallery();
+    pop.close2('allimi_select_pet');
+
+}
+
+function allimi_get_history_one(payment_idx,id){
+
+
+    //여기서부터
+    $.ajax({
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+            mode:'get_allimi',
+            payment_log_seq:payment_idx
+        },
+        success:function(res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                console.log(body);
+
+                document.getElementById('allimi-right-title').innerText = '알리미 미리보기';
+
+                document.getElementById('allimi_preview').style.display = 'flex';
+                document.getElementById('allimi_defalut').style.opacity = '0';
+                document.getElementById('allimi_history').style.opacity = '0';
+
+
+                document.getElementById('allimi_gallery').style.opacity = '0';
+
+                setTimeout(function(){
+                    document.getElementById('allimi_preview').style.opacity = '1';
+                    document.getElementById('allimi_defalut').style.display ='none';
+                    document.getElementById('allimi_gallery').style.display ='none';
+                    document.getElementById('allimi_history').style.display ='none';
+
+
+                },200)
+
+                document.getElementById('allimi_preview_name').innerText = body.pet_name;
+
+                let beauty_date = new Date(body.beauty_date.substr(0,4),body.beauty_date.substr(4,2),body.beauty_date.substr(6,2));
+
+                beauty_date.setMonth(beauty_date.getMonth() -1);
+                let week = ['일','월','화','수','목','금','토'];
+
+                document.getElementById('allimi_preview_date').innerText = `${beauty_date.getFullYear()}년 ${fill_zero(beauty_date.getMonth()+1)}월 ${fill_zero(beauty_date.getDate())}일(${week[beauty_date.getDay()]})`
+
+
+                if(body.etiquette_1 === 0 && body.etiquette_2 === 0 && body.etiquette_3 === 0 && body.etiquette_etc === 0){
+
+                    document.getElementById('allimi_preview_attitude_wrap').style.display = 'none';
+
+
+                }
+
+                if(body.tangles_1 === 0 && body.tangles_2 === 0 && body.tangles_3 === 0 && body.tangles_4 === 0 && body.tangles_5 === 0 &&body.tangles_6 === 0 && body.tangles_7 === 0  && body.tangles_etc === 0  ){
+
+                    document.getElementById('allimi_preview_tangle_wrap').style.display = 'none';
+
+
+                }
+
+                if(body.bath_1 === 0 && body.bath_2 === 0 && body.bath_3 === 0 && body.bath_etc === 0){
+
+                    document.getElementById('allimi_preview_bath_wrap').style.display = 'none';
+
+
+                }
+
+
+                if(body.skin_1 === 0 && body.skin_2 === 0 && body.skin_3 === 0 && body.skin_4 === 0 && body.skin_5 === 0 && body.skin_6 === 0 && body.skin_7 === 0 && body.skin_etc === 0){
+
+                    document.getElementById('allimi_preview_skin_wrap').style.display = 'none';
+
+
+                }
+
+                if(body.condition_1 === 0 && body.condition_2 === 0 && body.condition_3 === 0 && body.condition_etc === 0){
+
+                    document.getElementById('allimi_preview_condition_wrap').style.display = 'none';
+
+
+                }
+
+
+
+                if(body.part_1 === 0 && body.part_2 === 0 && body.part_3 === 0 && body.part_4 === 0 && body.part_5 === 0 && body.part_6 === 0 && body.part_etc === 0){
+
+                    document.getElementById('allimi_preview_dislike_wrap').style.display = 'none';
+
+
+                }
+
+                if(body.notice_1 === 0 && body.notice_2 === 0 && body.notice_3 === 0 && body.notice_etc === 0){
+
+                    document.getElementById('allimi_preview_self_wrap').style.display = 'none';
+
+
+                }
+
+                let none_count = 0;
+                Array.from(document.getElementsByClassName('list-style-basic')).forEach(function(el){
+
+                    if(el.style.display === 'none'){
+
+                        none_count++;
+
+                    }
+                })
+
+
+
+                if(none_count === 8){
+
+                    document.getElementById('allimi_preview_none').style.display = 'list-item';
+                }
+
+
+                document.getElementById('allimi_preview_shop_title').innerText = body.shop_name;
+                document.getElementById('allimi_preview_shop_phone').innerText =body.shop_phone;
+                document.getElementById('allimi_preview_shop_address').innerText =body.shop_address.split('|')[1];
+
+
+
+                if(body.etiquette_1 === 1){
+                    document.getElementById('allimi_preview_attitude').innerText= '아주 잘 했어요. 칭찬해 주세요.'
+                }
+
+                if(body.etiquette_2 === 1){
+                    document.getElementById('allimi_preview_attitude').innerText= '잘해요.'
+                }
+
+                if(body.etiquette_3 === 1){
+                    document.getElementById('allimi_preview_attitude').innerText= '힘들어해요.'
+                }
+                if(body.etiquette_etc === 1){
+                    document.getElementById('allimi_preview_attitude').innerText= body.etiquette_etc_memo;
+                }
+
+                if(body.bath_1 === 1){
+                    document.getElementById('allimi_preview_bath').innerText = '잘해요.';
+                }
+
+                if(body.bath_2 === 1){
+                    document.getElementById('allimi_preview_bath').innerText = '조금 싫어해요.';
+                }
+                if(body.bath_3 === 1){
+                    document.getElementById('allimi_preview_bath').innerText = '거부감이 있어요.';
+                }
+                if(body.bath_etc === 1){
+                    document.getElementById('allimi_preview_bath').innerText = body.bath_etc_memo;
+                }
+
+                if(body.condition_1 ===1){
+                    document.getElementById('allimi_preview_condition').innerText = '잘해요.';
+
+                }
+                if(body.condition_2 ===1){
+                    document.getElementById('allimi_preview_condition').innerText = '조금 싫어해요.';
+
+                }
+                if(body.condition_3 ===1){
+                    document.getElementById('allimi_preview_condition').innerText = '거부감이 있어요.';
+
+                }
+                if(body.condition_etc ===1){
+                    document.getElementById('allimi_preview_condition').innerText = body.condition_etc_memo;
+
+                }
+
+                let tangles_text ='';
+
+                if(body.tangles_1 === 1){
+
+                    tangles_text += '없어요. '
+                }
+
+                if(body.tangles_2 === 1){
+
+                    tangles_text += '얼굴 '
+                }
+                if(body.tangles_3 === 1){
+
+                    tangles_text += '귀 '
+                }
+                if(body.tangles_4 === 1){
+
+                    tangles_text += '겨드랑이 '
+                }
+                if(body.tangles_5 === 1){
+
+                    tangles_text += '다리 '
+                }
+                if(body.tangles_6 === 1){
+
+                    tangles_text += '꼬리 '
+                }
+                if(body.tangles_etc === 1){
+
+                    tangles_text += body.tangles_etc_memo;
+                }
+
+                let skin_text = '';
+
+                if(body.skin_1 === 1){
+
+                    skin_text += '깨끗해요. ';
+
+                }
+                if(body.skin_2 === 1){
+
+                    skin_text += '피부염 ';
+
+                }
+                if(body.skin_3 === 1){
+
+                    skin_text += '각질 ';
+
+                }
+                if(body.skin_4 === 1){
+
+                    skin_text += '붉은기 ';
+
+                }
+                if(body.skin_5 === 1){
+
+                    skin_text += '습진 ';
+
+                }
+                if(body.skin_6 === 1){
+
+                    skin_text += '농피증 ';
+
+                }
+                if(body.skin_7 === 1){
+
+                    skin_text += '알로페시아 ';
+
+                }
+                if(body.skin_etc === 1){
+
+                    skin_text += body.skin_etc_memo;
+
+                }
+
+                let part_text = '';
+
+                if(body.part_1 === 1){
+
+                    part_text += '얼굴 ';
+                }
+
+                if(body.part_2 === 1){
+
+                    part_text += '귀 ';
+                }
+                if(body.part_3 === 1){
+
+                    part_text += '앞발 ';
+                }
+                if(body.part_4 === 1){
+
+                    part_text += '뒷발 ';
+                }
+                if(body.part_5 === 1){
+
+                    part_text += '발톱 ';
+                }
+                if(body.part_6 === 1){
+
+                    part_text += '꼬리 ';
+                }
+                if(body.part_etc === 1){
+
+                    part_text += body.part_etc_memo;
+                }
+
+                let notice_text = '';
+
+                if(body.notice_1 === 1){
+
+                    notice_text += '피부 자극으로 긁거나 핥을 수 있으니 주의해주세요. \n';
+                }
+
+                if(body.notice_2 === 1){
+
+                    notice_text += '스트레스로 인하여 식욕 부진, 구토 및 설사 증상을 보일 수 있습니다. \n';
+                }
+                if(body.notice_3 === 1){
+
+                    notice_text += '항문을 끌고 다니거나 꼬리를 감추는 증상을 보일 수 있습니다. \n';
+                }
+                if(body.notice_4 === 1){
+
+                    notice_text += '이중모(포메,스피츠 등)의 경우 미용 후 알로페시아(클리퍼 증후군) 현상이 나타날 수 있습니다. \n';
+                }
+                if(body.notice_etc === 1){
+
+                    notice_text += body.notice_etc_memo;
+                }
+
+                document.getElementById('allimi_preview_tangle').innerText = tangles_text;
+                document.getElementById('allimi_preview_skin').innerText = skin_text;
+                document.getElementById('allimi_preview_dislike').innerText = part_text;
+                document.getElementById('allimi_preview_self').innerText = notice_text;
+
+
+
+
+                let file_path;
+                if(body.file_path === ''){
+                    document.getElementById('allimi_preview_gallery').style.display ='none';
+                }else{
+                    file_path = body.file_path.split('|');
+                    file_path.forEach(function(el){
+                        document.getElementById('allimi-preview-swiper').innerHTML += `<div class="swiper-slide allimi-slide">
+                                                                                            <img src="${img_link_change(el)}" alt="" />
+                                                                                    </div>`
+                    })
+                }
+
+
+
+
+
+
+            }
+        }
+    })
 }

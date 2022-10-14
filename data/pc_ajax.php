@@ -11,9 +11,9 @@ $user_name = (isset($_SESSION['gobeauty_user_nickname'])) ? $_SESSION['gobeauty_
 
 
 
-//$api = new TRestAPI("https://partnerapi.banjjakpet.com:8080","Token 2156d1824c98f27a1f163a102cf742002b15e624");
-$api = new TRestAPI("http://stg-partnerapi.banjjakpet.com:8080","Token 55dda3818c897ef163b09a13d37199a7d211b6d2");
-//$api2 = new TRestAPI("http://192.168.20.216:8080","Token 2156d1824c98f27a1f163a102cf742002b15e624");
+$api = new TRestAPI("https://partnerapi.banjjakpet.com:8080","Token 2156d1824c98f27a1f163a102cf742002b15e624");
+//$api = new TRestAPI("http://stg-partnerapi.banjjakpet.com:8080","Token 55dda3818c897ef163b09a13d37199a7d211b6d2");
+//$api = new TRestAPI("http://192.168.20.216:8080","Token 2156d1824c98f27a1f163a102cf742002b15e624");
 
 
 $data = array();
@@ -38,7 +38,7 @@ if($r_mode) {
         $login_remember = $_POST['login_remember'];
 
 
-        $login_data = array(id => $login_id, pw => $login_pw);
+        $login_data = array('id' => $login_id, 'pw' => $login_pw);
         $login_data_json = json_encode($login_data);
 
 
@@ -3187,6 +3187,46 @@ if($r_mode) {
         $result = $api -> get('/partner/reserve/diary-recent',$data_json);
 
         $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === 'get_diary_date'){
+
+        $artist_id = $_POST['artist_id'];
+        $cellphone = $_POST['cellphone'];
+
+        $data = array(
+            'artist_id'=>$artist_id,
+            'cellphone'=>$cellphone,
+        );
+        $data_json = json_encode($data);
+
+        $result = $api -> get ('/partner/reserve/diary-list',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === 'get_diary_date_pet') {
+        $artist_id = $_POST['artist_id'];
+        $cellphone = $_POST['cellphone'];
+
+        $date = $_POST['date'];
+
+        $data = array(
+            'artist_id' => $artist_id,
+            'cellphone' => $cellphone,
+            'date' => $date
+        );
+
+        $data_json = json_encode($data);
+
+        $result = $api->get('/partner/reserve/diary-select', $data_json);
+
+        $return_data = array("code" => "000000", "data" => $result);
+    }else if($r_mode === "get_allimi"){
+
+        $payment_log_seq = $_POST['payment_log_seq'];
+
+        $result = $api ->get('/partner/reserve/diary/'.$payment_log_seq);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
+
     }
 
 }

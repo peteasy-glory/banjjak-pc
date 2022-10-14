@@ -164,6 +164,7 @@ function schedule_render(id){
                                         el.product.reserve_pay_price = 0;
                                     }
 
+
                                     if(el.product.store_payment.card == '' || el.product.store_payment.card == null){
                                         el.product.store_payment.card = 0;
 
