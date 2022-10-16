@@ -1424,6 +1424,7 @@ function customer_view_(id){
         console.log(body_data);
         document.getElementById('allimi_customer_btn').setAttribute('data-cellphone',localStorage.getItem('customer_select'))
         document.getElementById('allimi_date_select').setAttribute('data-cellphone',localStorage.getItem('customer_select'))
+        document.getElementById('allimi_history_btn_2').setAttribute('data-cellphone',localStorage.getItem('customer_select'))
         document.getElementById('customer_cellphone').value = localStorage.getItem('customer_select');
         pet_reserve_info(body_data)
         noshow_initialize(id,body_data);

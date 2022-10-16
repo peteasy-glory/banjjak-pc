@@ -2069,7 +2069,7 @@ function allimi_send_pop(target,id){
 
     document.getElementById('allimi_pet_list').innerHTML ='';
     document.getElementById('allimi_pet_list').innerHTML += `<label class="allimi-form">
-                                                                            <input type="checkbox" name="allimi-pet" onclick="allimi_get_gallery(this,'${id}')" data-artist_id="${id}" data-pet_name="${pet_name}" data-cellphone="${cellphone}" data-payment_idx="${payment_idx}" data-pet_seq="${pet_seq}">
+                                                                            <input type="radio" name="allimi-pet" onclick="allimi_get_gallery(this,'${id}')" data-artist_id="${id}" data-pet_name="${pet_name}" data-cellphone="${cellphone}" data-payment_idx="${payment_idx}" data-pet_seq="${pet_seq}">
                                                                             <em></em>
                                                                             <span class="allimi-radio-span">${pet_name}</span>
                                                                         </label>`
@@ -2261,8 +2261,9 @@ function allimi_open_history(target){
                 console.log(body)
                 if(body.length > 0){
 
-                    document.getElementById('allimi_history_select').innerHTML ='<option data-pet_seq="0">전체보기</option>'
+                    document.getElementById('allimi_history_select').innerHTML =`<option data-pet_seq="0" data-artist_id="${artist_id}" data-cellphone="${cellphone}">전체보기</option>`
 
+                    document.getElementById('allimi_history_select').dispatchEvent(new Event('change'));
                     let pet_list = [];
                     body.forEach(function(el){
 
@@ -2341,15 +2342,15 @@ function allimi_history_change(target){
                 if(body.length> 0){
 
                     document.getElementById('allimi_history_list').innerHTML = ''
-                    body.forEach(function(el){
+                    body.forEach(function(el,i){
 
 
                         let date = new Date(`${el.beauty_date.substr(0,4)}`,`${el.beauty_date.substr(4,2)}`,`${el.beauty_date.substr(6,2)}`);
 
 
-                        document.getElementById('allimi_history_list').innerHTML += ` <div class="allimi-history-cell-wrap">
+                        document.getElementById('allimi_history_list').innerHTML += ` <div class="allimi-history-cell-wrap" style="cursor: pointer; ${i === body.length-1 ? 'margin-bottom:50px': ''}">
                                                                                                     <div class="allimi-history-img-wrap">
-                                                                                                        <img src="${el.main_photo !== '' ? img_link_change(el.main_photo) : ''}">    
+                                                                                                        <img src="${el.main_photo !== '' ? img_link_change(el.main_photo) : '/static/images/icon/icon-pup-select-off.png'}">    
                                                                                                     </div>
                                                                                                     <div class="allimi-history-info-wrap" data-payment_log="${el.payment_log_seq}" onclick="allimi_get_history_one(${el.payment_log_seq},'${artist_id}')">
                                                                                                         <strong class="allimi-history-date">${date.getFullYear()}년 ${fill_zero(date.getMonth())}월 ${fill_zero(date.getDate())}일(${week[date.getDay()]})</strong>
@@ -3102,256 +3103,266 @@ function allimi_send(){
     }
 
 
-    let selected = document.querySelector('input[name="allimi-pet"]:checked')
+    let selected = document.querySelectorAll('input[name="allimi-pet"]:checked');
+
+
+    Array.from(selected).forEach(function(el,i){
 
 
 
-    let payment_log_seq = selected.getAttribute('data-payment_idx');
-    let artist_id = selected.getAttribute('data-artist_id');
-    let pet_seq = selected.getAttribute('data-pet_seq');
-    let cellphone = selected.getAttribute('data-cellphone');
-    let pet_name = selected.getAttribute('data-pet_name');
 
-    let etiquette = document.querySelector('input[name="attitude"]:checked') === null ? '' : document.querySelector('input[name="attitude"]:checked');
-    let etiquette_1 = etiquette.value == '1' ? '1':'0';
-    let etiquette_2 = etiquette.value == '2' ? '1':'0';
-    let etiquette_3 = etiquette.value == '3' ? '1':'0';
-    let etiquette_etc = etiquette.value == '0' ? '1':'0';
-    let etiquette_etc_memo = etiquette.value == '0' ? document.getElementById('allimi_attitude_textarea').value : '';
+        let payment_log_seq = el.getAttribute('data-payment_idx');
+        let artist_id = el.getAttribute('data-artist_id');
+        let pet_seq = el.getAttribute('data-pet_seq');
+        let cellphone = el.getAttribute('data-cellphone');
+        let pet_name = el.getAttribute('data-pet_name');
 
-    let condition = document.querySelector('input[name="condition"]:checked') === null ? '' :document.querySelector('input[name="condition"]:checked');
-    let condition_1 = condition.value == '1' ? '1':'0';
-    let condition_2 = condition.value == '2' ? '1':'0';
-    let condition_3 = condition.value == '3' ? '1':'0';
-    let condition_etc = condition.value == '0' ? '1':'0';
-    let condition_etc_memo = condition.value == '0' ? document.getElementById('allimi_condition_textarea').value : '';
+        let etiquette = document.querySelector('input[name="attitude"]:checked') === null ? '' : document.querySelector('input[name="attitude"]:checked');
+        let etiquette_1 = etiquette.value == '1' ? '1':'0';
+        let etiquette_2 = etiquette.value == '2' ? '1':'0';
+        let etiquette_3 = etiquette.value == '3' ? '1':'0';
+        let etiquette_etc = etiquette.value == '0' ? '1':'0';
+        let etiquette_etc_memo = etiquette.value == '0' ? document.getElementById('allimi_attitude_textarea').value : '';
 
-    let tangles = document.querySelectorAll('input[name="tangle"]:checked').length === 0 ? '' : document.querySelectorAll('input[name="tangle"]:checked') ;
+        let condition = document.querySelector('input[name="condition"]:checked') === null ? '' :document.querySelector('input[name="condition"]:checked');
+        let condition_1 = condition.value == '1' ? '1':'0';
+        let condition_2 = condition.value == '2' ? '1':'0';
+        let condition_3 = condition.value == '3' ? '1':'0';
+        let condition_etc = condition.value == '0' ? '1':'0';
+        let condition_etc_memo = condition.value == '0' ? document.getElementById('allimi_condition_textarea').value : '';
 
-
-    let tangles_arr = [];
-    if(tangles !== ''){
-
-        tangles.forEach(function(el){
-
-            tangles_arr.push(el.value);
-
-        })
-    }
-
-    let tangles_1 = tangles_arr.includes('1') ? '1' : '0';
-    let tangles_2 = tangles_arr.includes('2') ? '1' : '0';
-    let tangles_3 = tangles_arr.includes('3') ? '1' : '0';
-    let tangles_4= tangles_arr.includes('4') ? '1' : '0';
-    let tangles_5 = tangles_arr.includes('5') ? '1' : '0';
-    let tangles_6 = tangles_arr.includes('6') ? '1' : '0';
-    let tangles_7 = tangles_arr.includes('7') ? '1' : '0';
-    let tangles_etc = tangles_arr.includes('0') ? '1' : '0';
-    let tangles_etc_memo = tangles_arr.includes('0') ? document.getElementById('allimi_tangle_textarea').value : '';
+        let tangles = document.querySelectorAll('input[name="tangle"]:checked').length === 0 ? '' : document.querySelectorAll('input[name="tangle"]:checked') ;
 
 
-    let part = document.querySelectorAll('input[name="dislike"]:checked').length === 0 ? '' : document.querySelectorAll('input[name="dislike"]:checked') ;
+        let tangles_arr = [];
+        if(tangles !== ''){
 
-    let part_arr = [];
+            tangles.forEach(function(el){
 
-    if(part !== ''){
+                tangles_arr.push(el.value);
 
-        part.forEach(function(el){
-
-            part_arr.push(el.value);
-        })
-    }
-
-    let part_1 = part_arr.includes('1') ? '1':'0';
-    let part_2 = part_arr.includes('2') ? '1':'0';
-    let part_3 = part_arr.includes('3') ? '1':'0';
-    let part_4 = part_arr.includes('4') ? '1':'0';
-    let part_5 = part_arr.includes('5') ? '1':'0';
-    let part_6 = part_arr.includes('6') ? '1':'0';
-    let part_etc = part_arr.includes('0') ? '1':'0';
-    let part_etc_memo = part_arr.includes('0') ? document.getElementById('allimi_dislike_textarea').value :'';
-
-
-    let skin = document.querySelectorAll('input[name="skin"]:checked').length === 0 ? '' : document.querySelectorAll('input[name="skin"]:checked') ;
-
-    let skin_arr = [];
-    if(skin !== ''){
-
-        skin.forEach(function(el){
-            skin_arr.push(el.value);
-        })
-    }
-
-    let skin_1 = skin_arr.includes('1') ? '1' : '0';
-    let skin_2 = skin_arr.includes('2') ? '1' : '0';
-    let skin_3 = skin_arr.includes('3') ? '1' : '0';
-    let skin_4 = skin_arr.includes('4') ? '1' : '0';
-    let skin_5 = skin_arr.includes('5') ? '1' : '0';
-    let skin_6 = skin_arr.includes('6') ? '1' : '0';
-    let skin_7 = skin_arr.includes('7') ? '1' : '0';
-    let skin_etc = skin_arr.includes('0') ? '1' : '0';
-    let skin_etc_memo = skin_arr.includes('0') ? document.getElementById('allimi_skin_textarea').value : '';
-
-    console.log(skin_etc_memo);
-
-    let bath = document.querySelector('input[name="bath"]:checked') === null ? '' : document.querySelector('input[name="bath"]:checked');
-    let bath_1 = bath.value == '1' ? '1':'0';
-    let bath_2 = bath.value == '2' ? '1':'0';
-    let bath_3 = bath.value == '3' ? '1':'0';
-    let bath_etc = bath.value == '0' ? '1':'0';
-    let bath_etc_memo = bath.value == '0' ? document.getElementById('allimi_bath_textarea').value :'';
-
-
-    let notice = document.querySelectorAll('input[name="self"]:checked').length === 0 ? '' : document.querySelectorAll('input[name="self"]:checked') ;
-
-
-    let notice_arr = [];
-    if(notice !== ''){
-
-        notice.forEach(function(el){
-            notice_arr.push(el.value);
-        })
-    }
-
-    let notice_1 = notice_arr.includes('1') ? '1':'0';
-    let notice_2 = notice_arr.includes('2') ? '1':'0';
-    let notice_3 = notice_arr.includes('3') ? '1':'0';
-    let notice_4 = notice_arr.includes('4') ? '1':'0';
-    let notice_etc = notice_arr.includes('0') ? '1':'0';
-    let notice_etc_memo = notice_arr.includes('0') ? document.getElementById('allimi_self_textarea').value :'';
-
-    let file_path = '';
-
-    Array.from(document.getElementsByClassName('allimi-gallery-cell')).forEach(function(el,i){
-
-        if(!el.classList.contains('allimi-gallery-cell-icon')){
-
-            if(i === document.getElementsByClassName('allimi-gallery-cell').length-1){
-
-                file_path += `${el.getAttribute('data-file_path')}`
-            }else{
-
-                file_path += `${el.getAttribute('data-file_path')}|`
-            }
-
+            })
         }
-    })
 
-    console.log(file_path)
-
-    // console.log(etiquette)
-    // console.log(etiquette_1)
-    // console.log(etiquette_2)
-    // console.log(etiquette_3)
-    // console.log(etiquette_etc)
-    // console.log(etiquette_etc_memo)
-
-    $.ajax({
-
-        url:'/data/pc_ajax.php',
-        type:'post',
-        data: {
-            mode: 'post_allimi',
-            payment_log_seq: payment_log_seq,
-            artist_id: artist_id,
-            pet_seq: pet_seq,
-            cellphone:cellphone,
-            etiquette_1: etiquette_1,
-            etiquette_2: etiquette_2,
-            etiquette_3: etiquette_3,
-            etiquette_etc: etiquette_etc,
-            etiquette_etc_memo: etiquette_etc_memo,
-            condition_1: condition_1,
-            condition_2: condition_2,
-            condition_3: condition_3,
-            condition_etc: condition_etc,
-            condition_etc_memo: condition_etc_memo,
-            tangles_1: tangles_1,
-            tangles_2: tangles_2,
-            tangles_3: tangles_3,
-            tangles_4: tangles_4,
-            tangles_5: tangles_5,
-            tangles_6: tangles_6,
-            tangles_7: tangles_7,
-            tangles_etc: tangles_etc,
-            tangles_etc_memo: tangles_etc_memo,
-            part_1: part_1,
-            part_2: part_2,
-            part_3: part_3,
-            part_4: part_4,
-            part_5: part_5,
-            part_6: part_6,
-            part_etc: part_etc,
-            part_etc_memo: part_etc_memo,
-            skin_1: skin_1,
-            skin_2: skin_2,
-            skin_3: skin_3,
-            skin_4: skin_4,
-            skin_5: skin_5,
-            skin_6: skin_6,
-            skin_7: skin_7,
-            skin_etc: skin_etc,
-            skin_etc_memo: skin_etc_memo,
-            bath_1: bath_1,
-            bath_2: bath_2,
-            bath_3: bath_3,
-            bath_etc: bath_etc,
-            bath_etc_memo: bath_etc_memo,
-            notice_1: notice_1,
-            notice_2: notice_2,
-            notice_3: notice_3,
-            notice_4: notice_4,
-            notice_etc: notice_etc,
-            notice_etc_memo: notice_etc_memo,
-            file_path: file_path,
-        },
-        success:function(res) {
-            console.log(res)
-            let response = JSON.parse(res);
-            let head = response.data.head;
-            let body = response.data.body;
-            if (head.code === 401) {
-                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-            } else if (head.code === 200) {
-                console.log(body);
-
-                let message = `${pet_name} 보호자님 안녕하세요.\n` +
-                    `${data.shop_name}에서 ${pet_name}의 컨디션과 활동에 대한 알리미가 도착했어요.\n` +
-                    '\n' +
-                    '아래 알리미보기 버튼을 눌러 확인해보세요.'
-
-                $.ajax({
-
-                    url:'/data/pc_ajax.php',
-                    type:'post',
-                    data:{
-
-                        mode:'allimi_talk',
-                        cellphone:cellphone,
-                        message:message,
-                        payment_log_seq:payment_log_seq,
+        let tangles_1 = tangles_arr.includes('1') ? '1' : '0';
+        let tangles_2 = tangles_arr.includes('2') ? '1' : '0';
+        let tangles_3 = tangles_arr.includes('3') ? '1' : '0';
+        let tangles_4= tangles_arr.includes('4') ? '1' : '0';
+        let tangles_5 = tangles_arr.includes('5') ? '1' : '0';
+        let tangles_6 = tangles_arr.includes('6') ? '1' : '0';
+        let tangles_7 = tangles_arr.includes('7') ? '1' : '0';
+        let tangles_etc = tangles_arr.includes('0') ? '1' : '0';
+        let tangles_etc_memo = tangles_arr.includes('0') ? document.getElementById('allimi_tangle_textarea').value : '';
 
 
-                    },
-                    success:function(res) {
-                        let response = JSON.parse(res);
-                        let head = response.data.head;
-                        let body = response.data.body;
-                        if (head.code === 401) {
-                            pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-                        } else if (head.code === 200) {
-                            console.log(body);
-                        }
+        let part = document.querySelectorAll('input[name="dislike"]:checked').length === 0 ? '' : document.querySelectorAll('input[name="dislike"]:checked') ;
+
+        let part_arr = [];
+
+        if(part !== ''){
+
+            part.forEach(function(el){
+
+                part_arr.push(el.value);
+            })
+        }
+
+        let part_1 = part_arr.includes('1') ? '1':'0';
+        let part_2 = part_arr.includes('2') ? '1':'0';
+        let part_3 = part_arr.includes('3') ? '1':'0';
+        let part_4 = part_arr.includes('4') ? '1':'0';
+        let part_5 = part_arr.includes('5') ? '1':'0';
+        let part_6 = part_arr.includes('6') ? '1':'0';
+        let part_etc = part_arr.includes('0') ? '1':'0';
+        let part_etc_memo = part_arr.includes('0') ? document.getElementById('allimi_dislike_textarea').value :'';
+
+
+        let skin = document.querySelectorAll('input[name="skin"]:checked').length === 0 ? '' : document.querySelectorAll('input[name="skin"]:checked') ;
+
+        let skin_arr = [];
+        if(skin !== ''){
+
+            skin.forEach(function(el){
+                skin_arr.push(el.value);
+            })
+        }
+
+        let skin_1 = skin_arr.includes('1') ? '1' : '0';
+        let skin_2 = skin_arr.includes('2') ? '1' : '0';
+        let skin_3 = skin_arr.includes('3') ? '1' : '0';
+        let skin_4 = skin_arr.includes('4') ? '1' : '0';
+        let skin_5 = skin_arr.includes('5') ? '1' : '0';
+        let skin_6 = skin_arr.includes('6') ? '1' : '0';
+        let skin_7 = skin_arr.includes('7') ? '1' : '0';
+        let skin_etc = skin_arr.includes('0') ? '1' : '0';
+        let skin_etc_memo = skin_arr.includes('0') ? document.getElementById('allimi_skin_textarea').value : '';
+
+        console.log(skin_etc_memo);
+
+        let bath = document.querySelector('input[name="bath"]:checked') === null ? '' : document.querySelector('input[name="bath"]:checked');
+        let bath_1 = bath.value == '1' ? '1':'0';
+        let bath_2 = bath.value == '2' ? '1':'0';
+        let bath_3 = bath.value == '3' ? '1':'0';
+        let bath_etc = bath.value == '0' ? '1':'0';
+        let bath_etc_memo = bath.value == '0' ? document.getElementById('allimi_bath_textarea').value :'';
+
+
+        let notice = document.querySelectorAll('input[name="self"]:checked').length === 0 ? '' : document.querySelectorAll('input[name="self"]:checked') ;
+
+
+        let notice_arr = [];
+        if(notice !== ''){
+
+            notice.forEach(function(el){
+                notice_arr.push(el.value);
+            })
+        }
+
+        let notice_1 = notice_arr.includes('1') ? '1':'0';
+        let notice_2 = notice_arr.includes('2') ? '1':'0';
+        let notice_3 = notice_arr.includes('3') ? '1':'0';
+        let notice_4 = notice_arr.includes('4') ? '1':'0';
+        let notice_etc = notice_arr.includes('0') ? '1':'0';
+        let notice_etc_memo = notice_arr.includes('0') ? document.getElementById('allimi_self_textarea').value :'';
+
+        let file_path = '';
+
+        Array.from(document.getElementsByClassName('allimi-gallery-cell')).forEach(function(el,i){
+
+            if(!el.classList.contains('allimi-gallery-cell-icon')){
+
+                if(i === document.getElementsByClassName('allimi-gallery-cell').length-1){
+
+                    file_path += `${el.getAttribute('data-file_path')}`
+                }else{
+
+                    file_path += `${el.getAttribute('data-file_path')}|`
+                }
+
+            }
+        })
+
+        console.log(file_path)
+
+        // console.log(etiquette)
+        // console.log(etiquette_1)
+        // console.log(etiquette_2)
+        // console.log(etiquette_3)
+        // console.log(etiquette_etc)
+        // console.log(etiquette_etc_memo)
+
+        $.ajax({
+
+            url:'/data/pc_ajax.php',
+            type:'post',
+            data: {
+                mode: 'post_allimi',
+                payment_log_seq: payment_log_seq,
+                artist_id: artist_id,
+                pet_seq: pet_seq,
+                cellphone:cellphone,
+                etiquette_1: etiquette_1,
+                etiquette_2: etiquette_2,
+                etiquette_3: etiquette_3,
+                etiquette_etc: etiquette_etc,
+                etiquette_etc_memo: etiquette_etc_memo,
+                condition_1: condition_1,
+                condition_2: condition_2,
+                condition_3: condition_3,
+                condition_etc: condition_etc,
+                condition_etc_memo: condition_etc_memo,
+                tangles_1: tangles_1,
+                tangles_2: tangles_2,
+                tangles_3: tangles_3,
+                tangles_4: tangles_4,
+                tangles_5: tangles_5,
+                tangles_6: tangles_6,
+                tangles_7: tangles_7,
+                tangles_etc: tangles_etc,
+                tangles_etc_memo: tangles_etc_memo,
+                part_1: part_1,
+                part_2: part_2,
+                part_3: part_3,
+                part_4: part_4,
+                part_5: part_5,
+                part_6: part_6,
+                part_etc: part_etc,
+                part_etc_memo: part_etc_memo,
+                skin_1: skin_1,
+                skin_2: skin_2,
+                skin_3: skin_3,
+                skin_4: skin_4,
+                skin_5: skin_5,
+                skin_6: skin_6,
+                skin_7: skin_7,
+                skin_etc: skin_etc,
+                skin_etc_memo: skin_etc_memo,
+                bath_1: bath_1,
+                bath_2: bath_2,
+                bath_3: bath_3,
+                bath_etc: bath_etc,
+                bath_etc_memo: bath_etc_memo,
+                notice_1: notice_1,
+                notice_2: notice_2,
+                notice_3: notice_3,
+                notice_4: notice_4,
+                notice_etc: notice_etc,
+                notice_etc_memo: notice_etc_memo,
+                file_path: file_path,
+            },
+            success:function(res) {
+                console.log(res)
+                let response = JSON.parse(res);
+                let head = response.data.head;
+                let body = response.data.body;
+                if (head.code === 401) {
+                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                } else if (head.code === 200) {
+                    console.log(body);
+                    if(i === 0){
+
+
+                        let message = `${pet_name} 보호자님 안녕하세요.\n` +
+                            `${data.shop_name}에서 ${pet_name}의 컨디션과 활동에 대한 알리미가 도착했어요.\n` +
+                            '\n' +
+                            '아래 알리미보기 버튼을 눌러 확인해보세요.'
+
+                        $.ajax({
+
+                            url:'/data/pc_ajax.php',
+                            type:'post',
+                            data:{
+
+                                mode:'allimi_talk',
+                                cellphone:cellphone,
+                                message:message,
+                                payment_log_seq:payment_log_seq,
+
+
+                            },
+                            success:function(res) {
+                                let response = JSON.parse(res);
+                                let head = response.data.head;
+                                let body = response.data.body;
+                                if (head.code === 401) {
+                                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                                } else if (head.code === 200) {
+                                    console.log(body);
+                                }
+                            }
+
+                        })
                     }
 
-                })
-
-                document.getElementById('msg1_txt').innerText = '알리미가 전송되었습니다.';
-                pop.open('reserveAcceptMsg1');
-                pop.close2('allimi_pop');
+                    document.getElementById('msg1_txt').innerText = '알리미가 전송되었습니다.';
+                    pop.open('reserveAcceptMsg1');
+                    pop.close2('allimi_pop');
+                }
             }
-        }
 
+
+
+        })
 
 
     })
@@ -3443,7 +3454,6 @@ function allimi_select_pet_pop_confirm(id){
 function allimi_get_history_one(payment_idx,id){
 
 
-    //여기서부터
     $.ajax({
         url:'/data/pc_ajax.php',
         type:'post',
@@ -3748,11 +3758,15 @@ function allimi_get_history_one(payment_idx,id){
 
 
 
+                document.getElementById('allimi-preview-swiper').innerHTML = '';
 
                 let file_path;
                 if(body.file_path === ''){
                     document.getElementById('allimi_preview_gallery').style.display ='none';
+
                 }else{
+                    document.getElementById('allimi_preview_gallery').style.display = 'block';
+
                     file_path = body.file_path.split('|');
                     file_path.forEach(function(el){
                         document.getElementById('allimi-preview-swiper').innerHTML += `<div class="swiper-slide allimi-slide">

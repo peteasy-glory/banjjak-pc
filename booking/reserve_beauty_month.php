@@ -3563,14 +3563,15 @@ if ($artist_flag == 1) {
                             </div>
 
                             <div class="allimi-right-body-history" id="allimi_history">
-
                                 <div class="allimi-history-wrap">
 
-                                    <div class="allimi-body-title">
-                                        <span>전체보기</span>
+                                    <select class="allimi-body-title" id="allimi_history_select" onchange="allimi_history_change(this);">
+                                    </select>
+
+                                    <div class="allimi-history-list" id="allimi_history_list">
+
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
