@@ -1325,3 +1325,13 @@
 .ui-widget-overlay{
     z-index:9998; !important;
 }
+
+.allimi-wrap-bg-purple{
+
+    background: #EEE7FA;
+}
+
+.allimi-wrap-bg-gray{
+
+    background: #F4F4F4;
+}

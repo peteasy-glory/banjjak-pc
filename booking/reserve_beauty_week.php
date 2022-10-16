@@ -1569,11 +1569,11 @@ if ($artist_flag == 1) {
                                 </div>
                             </div>
 
-                            <div class="basic-data-group">
-                                <div class="con-title-group" style="justify-content: flex-start;">
+                            <div class="basic-data-group allimi-wrap-bg-gray" style="width:100%; left:-20px;padding:20px;">
+                                <div class="con-title-group" style="justify-content: flex-start; background: transparent">
                                     <h4 class="con-title">예약금 안내발송</h4>
-                                    <label for="switch-toggle" class="form-switch-toggle" style="margin-left:20px;"><input type="checkbox" id="deposit_btn" onclick="deposit_toggle(artist_id)"><span class="bar"></span></label>
-
+                                    <label for="switch-toggle" class="form-switch-toggle" style="margin-left:10px;"><input type="checkbox" id="deposit_btn" onclick="deposit_background(this); deposit_toggle(artist_id)"><span class="bar"></span></label>
+                                    <div class="grid-layout-cell grid-4" style="margin-left:20px;"><button type="button" class="btn btn-outline-gray btn-middle-size btn-round" onclick="pop.open('depositExam');">미리보기</button></div>
                                 </div>
                                 <div class="form-group" id="deposit_form_1" style="display:none;">
                                     <div class="grid-layout margin-14-17">
@@ -1970,6 +1970,24 @@ if ($artist_flag == 1) {
                     <button type="button" class="btn btn-confirm" onclick="location.reload()">확인</button>
                 </div>
             </div>
+        </div>
+    </div>
+</article>
+<article id="depositExam" class="layer-pop-wrap" style="z-index: 100002;">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+
+            <div class="pop-data alert-pop-data">
+                <div class="pop-body">
+                    <div class="msg-txt">
+                        <img src="/static/images/exam_deposit.jpg" alt="">
+                    </div>
+                </div>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm" onclick="pop.close2('depositExam');">확인</button>
+                </div>
+            </div>
+
         </div>
     </div>
 </article>

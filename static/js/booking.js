@@ -174,6 +174,10 @@ function schedule_render(id){
 
                                     }
 
+                                    if(el.pet.idx === 0){
+                                        return;
+                                    }
+
                                     el_.setAttribute('data-payment_idx',el.product.payment_idx)
                                     el_.setAttribute('data-time_length',(new Date(el.product.date.booking_fi.replace(' ','T')).getTime()-new Date(el.product.date.booking_st.replace(' ','T')).getTime())/1000/60)
 
@@ -432,6 +436,10 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
                             if(_el.product.reserve_pay_price === null || _el.product.reserve_pay_price ===''){
 
                                 _el.product.reserve_pay_price = 0;
+                            }
+
+                            if(_el.pet.idx === 0){
+                                return;
                             }
 
                             el__.setAttribute('data-payment_idx',_el.product.payment_idx);
@@ -5929,11 +5937,11 @@ function reserve_pop_init(id){
                                     </div>
                                 </div>
                             </div>
-                            <div class="basic-data-group">
-                                <div class="con-title-group" style="justify-content: flex-start;">
+                            <div class="basic-data-group allimi-wrap-bg-gray" style="width:100%; left:-20px;padding:20px;">
+                                <div class="con-title-group" style="justify-content: flex-start; background: transparent">
                                     <h4 class="con-title">예약금 안내발송</h4>
-                                        <label for="switch-toggle" class="form-switch-toggle" style="margin-left:20px;"><input type="checkbox" id="deposit_btn" onclick="deposit_toggle(artist_id)"><span class="bar"></span></label>
-
+                                    <label for="switch-toggle" class="form-switch-toggle" style="margin-left:10px;"><input type="checkbox" id="deposit_btn" onclick="deposit_background(this); deposit_toggle(artist_id)"><span class="bar"></span></label>
+                                    <div class="grid-layout-cell grid-4" style="margin-left:20px;"><button type="button" class="btn btn-outline-gray btn-middle-size btn-round" onclick="pop.open('depositExam');">미리보기</button></div>
                                 </div>
                                 <div class="form-group" id="deposit_form_1" style="display:none;">
                                     <div class="grid-layout margin-14-17">
@@ -12699,6 +12707,20 @@ function open_payment_allim(cellphone,payment_idx,pet_name){
     })
     pop.open('reserveAlarmInquiryPop');
 
+
+
+}
+
+function deposit_background(target){
+
+    if(target.checked === true){
+
+        target.parentElement.parentElement.parentElement.classList.add('allimi-wrap-bg-purple')
+        target.parentElement.parentElement.parentElement.classList.remove('allimi-wrap-bg-gray')
+    }else{
+        target.parentElement.parentElement.parentElement.classList.add('allimi-wrap-bg-gray')
+        target.parentElement.parentElement.parentElement.classList.remove('allimi-wrap-bg-purple')
+    }
 
 
 }
