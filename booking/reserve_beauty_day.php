@@ -1179,7 +1179,7 @@ if ($artist_flag == 1) {
                                             <td colspan="4" class="none">
                                                 <div class="common-none-data">
                                                     <div class="none-inner">
-                                                        <div class="item-visual"><img src="../assets/images/icon/img-illust-3@2x.png" alt="" width="103"></div>
+                                                        <div class="item-visual"><img src="/static/images/icon/img-illust-3@2x.png" alt="" width="103"></div>
                                                         <div class="item-info">알림톡 발송 내역이 없습니다.</span></div>
                                                     </div>
                                                 </div>
@@ -3171,6 +3171,36 @@ if ($artist_flag == 1) {
     // data_set(artist_id)
 
 
+    $.ajax({
+
+        url: '/data/pc_ajax.php',
+        type: 'post',
+        data: {
+            mode: 'open_close',
+            login_id: artist_id,
+
+        },
+        success: function (res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                console.log(body)
+
+                if(body.length > 0){
+
+
+                    let open = body[0].open_time;
+                    let close = body[0].close_time;
+                    localStorage.setItem('open_close', `${open}/${close}`)
+                }
+            }
+        }
+    })
+    break_time(artist_id);
+
     $(document).ready(function(){
         var artist_flag = "<?=$artist_flag?>";
         if(artist_flag == 1){
@@ -3287,6 +3317,7 @@ if ($artist_flag == 1) {
 
             document.getElementById('deposit_bank').innerHTML += `<option value="${el.name}" data-code="${el.code}">${el.name}</option>`
         })
+
 
 
     })

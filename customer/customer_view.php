@@ -39,7 +39,10 @@ if ($artist_flag == 1) {
 									<a href="#" class="btn btn-small-size btn-outline-gray btn-basic-vsmall btn-inline" onclick="pop.open('deleteCustomer')">삭제</a>
 								</div>
 							</div>
-							<div class="card-body">
+                            <div class="loading-container" id="customer_view_loading">
+                                <img src="/static/images/loading.gif" alt="">
+                            </div>
+							<div class="card-body" id="customer_card_body">
 								<div class="card-body-inner">
 									<div class="basic-data-group large">
 										<div class="con-title-group">
