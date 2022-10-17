@@ -2270,3 +2270,16 @@
     display: flex;
     margin-top:20px;
 }
+
+.allimi-check-title.actived{
+
+    background: url('/static/images/icon/10-ic-16-upside@2x.png') no-repeat;
+    background-size:13px;
+    background-position: calc(100% - 20px);
+}
+
+.allimi-check-title{
+    background: url('/static/images/icon/10-ic-16-downside@2x.png') no-repeat;
+    background-size:13px;
+    background-position: calc(100% - 20px);
+}
