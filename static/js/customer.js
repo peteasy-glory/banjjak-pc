@@ -445,8 +445,8 @@ function customer_list(id,customers){
                                         <div class="customer-table-txt">${el.use_count}</div>
                                     </td>
                                     <td>
-                                        <div class="customer-table-txt">${el.sum_card}원</div>
-                                        <div class="customer-table-txt">${el.sum_cash}원</div>
+                                        <div class="customer-table-txt">${el.sum_card.toLocaleString()}원</div>
+                                        <div class="customer-table-txt">${el.sum_cash.toLocaleString()}원</div>
                                     </td>
                                     <td>
                                         <div class="customer-table-txt">
@@ -1155,6 +1155,19 @@ function customer_view(id){
                 login_id:id,
                 cellphone:localStorage.getItem('customer_select'),
             },
+            beforeSend:function(){
+                    let height;
+                    if(document.getElementById('customer_view_loading')){
+                        height = document.getElementById('customer_card_body').offsetHeight;
+                        document.getElementById('customer_card_body').style.display = 'none';
+                        document.getElementById('customer_view_loading').style.height =`${height}px`;
+                        document.getElementById('customer_view_loading').style.display ='flex';
+
+
+                    }
+
+
+            },
             success:function(res){
                 ////console.log(res)
                 let response = JSON.parse(res);
@@ -1351,18 +1364,19 @@ function customer_view(id){
                                                                                                                     </div>
                                                                                                                 </div>
                                                                                                             </div>
-                                                                                                            <div class="flex-table-cell">
+                                                                                                            ${el.is_cancel === 1 ? `<div class="flex-table-cell">
                                                                                                                 <div class="flex-table-item">
                                                                                                                     <div class="flex-table-title">
                                                                                                                         <div class="txt">취소일시</div>
                                                                                                                     </div>
                                                                                                                     <div class="flex-table-data">
                                                                                                                         <div class="flex-table-data-inner">
-                                                                                                                            ${el.is_cancel === 1 ? el.cancel_time.substr(0, 4)+'.'+el.cancel_time.substr(4, 2)+'.'+el.cancel_time.substr(6, 2)+' '+el.cancel_time.substr(8, 2)+':'+el.cancel_time.substr(10, 2) : 'X'}
+                                                                                                                            ${el.is_cancel === 1 ? el.cancel_time.substr(0, 4)+'.'+el.cancel_time.substr(4, 2)+'.'+el.cancel_time.substr(6, 2)+' '+el.cancel_time.substr(8, 2)+':'+el.cancel_time.substr(10, 2) : ''}
                                                                                                                         </div>
                                                                                                                     </div>
                                                                                                                 </div>
-                                                                                                            </div>
+                                                                                                            </div>`: ''}
+                                                                                                            
                                                                                                             <div class="flex-table-cell">
                                                                                                                 <div class="flex-table-item">
                                                                                                                     <div class="flex-table-title">
@@ -2399,6 +2413,13 @@ function sub_phone_pop_init(id,bool,cellphone){
                 }
             }
 
+        },complete:function(){
+
+            if(document.getElementById('customer_view_loading')){
+                document.getElementById('customer_card_body').style.display = 'block';
+                document.getElementById('customer_view_loading').style.display ='none';
+
+            }
         }
 
     })
