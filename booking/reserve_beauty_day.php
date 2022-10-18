@@ -1617,7 +1617,7 @@ if ($artist_flag == 1) {
                             <div class="basic-data-group allimi-wrap-bg-gray" style="width:100%; left:-20px;padding:20px;">
                                 <div class="con-title-group" style="justify-content: flex-start; background: transparent">
                                     <h4 class="con-title">예약금 안내발송</h4>
-                                        <label for="switch-toggle" class="form-switch-toggle" style="margin-left:10px;"><input type="checkbox" id="deposit_btn" onclick="deposit_background(this); deposit_toggle(artist_id)"><span class="bar"></span></label>
+                                        <label for="switch-toggle" class="form-switch-toggle" style="margin-left:10px;"><input type="checkbox" id="deposit_btn" onclick="deposit_toggle(artist_id,this)"><span class="bar"></span></label>
                                     <div class="grid-layout-cell grid-4" style="margin-left:20px;"><button type="button" class="btn btn-outline-gray btn-middle-size btn-round" onclick="pop.open('depositExam');">미리보기</button></div>
                                 </div>
                                 <div class="form-group" id="deposit_form_1" style="display:none;">

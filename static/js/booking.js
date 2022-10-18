@@ -5941,7 +5941,7 @@ function reserve_pop_init(id){
                             <div class="basic-data-group allimi-wrap-bg-gray" style="width:100%; left:-20px;padding:20px;">
                                 <div class="con-title-group" style="justify-content: flex-start; background: transparent">
                                     <h4 class="con-title">예약금 안내발송</h4>
-                                    <label for="switch-toggle" class="form-switch-toggle" style="margin-left:10px;"><input type="checkbox" id="deposit_btn" onclick="deposit_background(this); deposit_toggle(artist_id)"><span class="bar"></span></label>
+                                    <label for="switch-toggle" class="form-switch-toggle" style="margin-left:10px;"><input type="checkbox" id="deposit_btn" onclick="deposit_toggle(artist_id,this)"><span class="bar"></span></label>
                                     <div class="grid-layout-cell grid-4" style="margin-left:20px;"><button type="button" class="btn btn-outline-gray btn-middle-size btn-round" onclick="pop.open('depositExam');">미리보기</button></div>
                                 </div>
                                 <div class="form-group" id="deposit_form_1" style="display:none;">
@@ -12298,9 +12298,13 @@ function deposit_save(id){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
-                document.getElementById('deposit_btn').checked=false;
+                document.getElementById('deposit_btn').checked = false;
+
                 document.getElementById('msg1_txt').innerText = '저장되었습니다.'
                 pop.open('reserveAcceptMsg1');
+                pop.close2('deposit_set')
+                pop.close2('deposit_confirm')
+
 
             }
 
@@ -12381,8 +12385,9 @@ function get_deposit(id){
 
 }
 
-function deposit_toggle(id){
+function deposit_toggle(id,target){
 
+    event.preventDefault();
 
 
 
@@ -12433,6 +12438,8 @@ function deposit_toggle(id){
 
                     document.getElementById('reserve_deposit_input').setAttribute('data-bank',`${body[0].bank_name}`)
                     document.getElementById('reserve_deposit_input').setAttribute('data-account',`${body[0].account_num}`)
+
+                    deposit_background(target);
                 }else{
 
                     pop.open('deposit_confirm')
@@ -12796,13 +12803,17 @@ function pay_management_shortcut(target) {
 
 function deposit_background(target) {
 
-    if (target.checked === true) {
+
+
+    if (target.checked === false) {
 
         target.parentElement.parentElement.parentElement.classList.add('allimi-wrap-bg-purple')
         target.parentElement.parentElement.parentElement.classList.remove('allimi-wrap-bg-gray')
+        target.checked =true;
     } else {
         target.parentElement.parentElement.parentElement.classList.add('allimi-wrap-bg-gray')
         target.parentElement.parentElement.parentElement.classList.remove('allimi-wrap-bg-purple')
+        target.checked = false;
     }
 }
 
