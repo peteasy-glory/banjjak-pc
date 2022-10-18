@@ -1566,7 +1566,7 @@
 }
 
 .allimi-body-cell-title{
-
+    min-width:60px;
 }
 
 .allimi-body-cell-value{

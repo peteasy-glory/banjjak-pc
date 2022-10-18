@@ -1302,7 +1302,6 @@ function customer_view(id){
 
 
                                     body_.forEach(function (el, i) {
-                                        console.log(el);
                                         var is_cancel = (el.is_cancel != 0 || el.is_no_show != 0)? 'style="color: red;"' : '';
                                         document.getElementById('usage_history_list').innerHTML += `<tr class="customer-table-cell gallery-check" data-payment_idx="${el.payment_log_seq}" data-pet_seq="${el.pet_seq}" onclick="if(document.getElementById('customer_table_view_${i}').classList.contains('actived')){document.getElementById('customer_table_view_${i}').classList.remove('actived')}else{document.getElementById('customer_table_view_${i}').classList.add('actived')}; if(document.getElementById('customer_table_cell_${i}').classList.contains('actived')){document.getElementById('customer_table_cell_${i}').classList.remove('actived')}else{document.getElementById('customer_table_cell_${i}').classList.add('actived')}">
                                                                                                     <td>
@@ -1629,7 +1628,6 @@ function pet_reserve_info(data){
 
 
                 pet_list.forEach(function(el_){
-                    console.log(el_)
                     if(parseInt(el.getAttribute('data-pet_seq'))  === el_.pet_seq){
 
                         ////console.log(el_)

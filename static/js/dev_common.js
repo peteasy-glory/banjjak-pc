@@ -2269,7 +2269,6 @@ function allimi_open_history(target){
 
                     body = [body];
                 }
-                console.log(body)
                 if(body.length > 0){
 
                     document.getElementById('allimi_history_select').innerHTML =`<option data-pet_seq="0" data-artist_id="${artist_id}" data-cellphone="${cellphone}">전체보기</option>`
@@ -2323,6 +2322,7 @@ function allimi_open_history(target){
 function allimi_history_change(target){
 
 
+    console.log(1)
     let artist_id = target.options[target.selectedIndex].getAttribute('data-artist_id');
     let pet_seq = target.options[target.selectedIndex].getAttribute('data-pet_seq');
     let cellphone = target.options[target.selectedIndex].getAttribute('data-cellphone');
@@ -2338,6 +2338,7 @@ function allimi_history_change(target){
             pet_seq:pet_seq,
         },
         success:function(res) {
+            console.log(res);
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -3511,6 +3512,7 @@ function allimi_get_history_one(payment_idx,id){
             payment_log_seq:payment_idx
         },
         success:function(res) {
+            console.log(res);
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
