@@ -2044,7 +2044,7 @@ if($r_mode) {
 
 
 
-        $return_data = array("code" => "000000","data"=>$regist_data);
+        $return_data = array("code" => "000000","data"=>$reserve_regist);
 
 
     }else if($r_mode === "pet_info"){
