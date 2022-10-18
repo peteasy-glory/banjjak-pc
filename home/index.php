@@ -312,6 +312,11 @@ if($artist_flag == 1){
                             <img src="https://image.banjjakpet.com/images/event/deposit_pop.jpg" alt="" />
                         </a>
                     </div>
+                    <div class="swiper-slide">
+                        <a href="javascript:location.href='/etc/other_notice_view.php?type=업데이트&title=알리미%20기능%20오픈&date=2022-10-18&img=/pet/upload/sally@peteasy.kr/notice_photo_20221018175556.jpg&notice=';">
+                            <img src="/static/images/allimi_notice.jpg" alt="" />
+                        </a>
+                    </div>
                     <!--                            <div class="swiper-slide">-->
                     <!--                                <a href="javascript:location.href='mypage_notice_view?notice_seq=';">-->
                     <!--                                    <img src="/images/banner/pop_recommendation_event.jpg" alt="" />-->
@@ -933,6 +938,37 @@ if($artist_flag == 1){
 
     })
 
+
+
+    let slide_length = document.querySelector("#popup-wraper").children.length-1;
+
+    let random = Math.floor(Math.random()*10);
+
+    while(random > slide_length){
+
+        random = Math.floor(Math.random()*10);
+
+    }
+
+
+
+    let popup_swiper_1 = new Swiper('.swiper-container_front', {
+
+        direction:'horizontal',
+        slidesPerView:1,
+
+        observer:true,
+        observeParents:true,
+
+        navigation:{
+            nextEl:".prev",
+            prevEl:".next",
+        },
+        watchOverflow:true,
+        initialSlide:random
+
+
+    });
 
     let popup_swiper = new Swiper('.allimi-swiper-container', {
 
