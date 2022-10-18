@@ -10487,10 +10487,10 @@ function pay_management_init(id,target,bool,bool2){
 
 
 
-                    let time = new Date().getTime() - new Date(body.birth.replace(' ','T')).getTime();
+                    // let time = new Date().getTime() - new Date(body.birth.replace(' ','T')).getTime();
 
-                    let time_year = Math.floor(time/1000/60/60/24/30/12);
-                    let time_month = Math.floor(time/1000/60/60/24/30%12);
+                    let time_year = new Date().getFullYear() - new Date(body.birth.replace(' ','T')).getFullYear();
+                    let time_month = (new Date().getMonth()+1) - new Date(body.birth.replace(' ','T')).getMonth();
 
                     let special = '';
 
@@ -12701,4 +12701,21 @@ function open_payment_allim(cellphone,payment_idx,pet_name){
 
 
 
+}
+
+function pay_management_shortcut(target){
+
+    event.preventDefault();
+
+    if(target.getAttribute('id') === 'pay_card_header_short'){
+
+        console.log(target.offsetHeight);
+
+
+    }else if(target.getAttribute('id') === 'scroll_short'){
+
+    }else{
+
+
+    }
 }

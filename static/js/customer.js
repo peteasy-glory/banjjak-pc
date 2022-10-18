@@ -1628,8 +1628,11 @@ function pet_reserve_info(data){
                         let time = new Date(el_.detail.year,el_.detail.month+1,el_.detail.day).getTime()
                         let now = new Date().getTime();
 
-                        let subtract_year= Math.floor((now-time)/1000/60/60/24/30/11);
-                        let subtract_month = Math.floor((now-time)/1000/60/60/24/30%11) ;
+
+                        let subtract_year= Math.floor((now-time)/1000/60/60/24/30/12);
+                        console.log((now-time)/1000/60/60/24/30%12);
+                        let subtract_month = (new Date().getMonth()+1) - (new Date(el_.detail.year, el_.detail.month, el_.detail.day).getMonth()) ;
+                        // let subtract_month = Math.round((now-time)/1000/60/60/24/30%12) ;
 
 
 
