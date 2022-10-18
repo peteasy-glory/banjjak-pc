@@ -222,13 +222,14 @@ if ($artist_flag == 1) {
 						</div>
                         <article id="pay_management" class="pay_management">
                             <div class="shortcut-wrap" id="shortcutWrap" style="display: flex; opacity: 1;">
-                                <a href="#pay_card_header" class=""><img src="/static/images/icon-page-top.png" alt="" id="shortcut1" style="display: block;"></a>
-                                <a href="#scroll_target"><img src="/static/images/icon-reserve.png" alt="" "></a>
-                                <a href="#sticky-tab-group-target"><img src="/static/images/icon-pay.png" alt="" "></a>
+                                <a href="#pay_card_header" class="" onclick="pay_management_shortcut(this)" id="pay_card_header_short"><img src="/static/images/icon-page-top.png" alt="" id="shortcut1" style="display: block;"></a>
+                                <a href="#scroll_target" onclick="pay_management_shortcut(this)" id="scroll_short"><img src="/static/images/icon-reserve.png" alt=""></a>
+                                <a href="#sticky-tab-group-target" onclick="pay_management_shortcut(this)" id="sticky_tab_group_short"><img src="/static/images/icon-pay.png" alt=""></a>
+
 
                             </div>
                             <div class="pay-data-card">
-                                <div class="pay-card-header" id="pay_card_header">
+                                <div class="pay-card-content pay-card-header" id="pay_card_header">
                                     <div class="pay-card-header-title">작업/결제 관리</div>
                                     <div class="pay-close-btn" id="pay_close_btn" onclick="pay_management_toggle(true)">></div>
                                 </div>
@@ -626,8 +627,8 @@ if ($artist_flag == 1) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="sticky-tab-group is_approve" id="sticky-tab-group-target">
-                                            <div class="pay-card-content-6">
+                                        <div class="sticky-tab-group is_approve">
+                                            <div class="pay-card-content-6" id="sticky-tab-group-target">
                                                 <div class="pay-card-body-title">
                                                     <h4 class="con-title">결제 정보</h4>
                                                 </div>

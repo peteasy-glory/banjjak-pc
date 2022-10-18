@@ -12707,15 +12707,67 @@ function pay_management_shortcut(target){
 
     event.preventDefault();
 
-    if(target.getAttribute('id') === 'pay_card_header_short'){
-
-        console.log(target.offsetHeight);
 
 
-    }else if(target.getAttribute('id') === 'scroll_short'){
 
-    }else{
+    let href = target.getAttribute('href').replace('#','');
+
+    if(href === 'pay_card_header'){
+        $("#pay_management").stop().animate({ scrollTop : 0 } , 500, "easeInOutExpo");
+    }else if(href === 'scroll_target'){
+        let scroll=0;
+        let scroll_2 =0;
+        try{
+            Array.from($("[class*='pay-card-content']")).forEach(function(el){
+
+                if(el.getAttribute('id') === 'scroll_target'){
+                    throw new Error("stop!");
+                }
+                if(el.scrollHeight === undefined){
+                    el.scrollHeight= 0;
+                }
+                scroll += $(el).outerHeight(true);
+
+                if(document.getElementById('pay_card_content_0').style.display === 'none'){
+                    scroll_2=0;
+                }else{
+                    scroll_2=50;
+                }
+
+            })
+        }catch(e){
+
+        }
 
 
+        $("#pay_management").stop().animate({ scrollTop : Math.floor(scroll)+scroll_2 } , 500, "easeInOutExpo");
+
+    }else if(href === 'sticky-tab-group-target'){
+        let scroll=0;
+        let scroll_2=0;
+        try{
+            Array.from($("[class*='pay-card-content']")).forEach(function(el){
+
+                if(el.getAttribute('id') === 'sticky-tab-group-target'){
+                    throw new Error("stop!");
+                }
+                if(el.scrollHeight === undefined){
+                    el.scrollHeight= 0;
+                }
+                scroll += $(el).outerHeight(true);
+
+                if(document.getElementById('pay_card_content_0').style.display === 'none'){
+                    scroll_2=0;
+                }else{
+                    scroll_2=50;
+                }
+            })
+        }catch(e){
+
+        }
+
+
+        $("#pay_management").stop().animate({ scrollTop : Math.floor(scroll)+scroll_2 } , 500, "easeInOutExpo");
     }
+
 }
