@@ -1427,7 +1427,6 @@
 }
 
 
-
 .allimi-container{
 
     position: relative;
@@ -2282,4 +2281,13 @@
     background: url('/static/images/icon/10-ic-16-downside@2x.png') no-repeat;
     background-size:13px;
     background-position: calc(100% - 20px);
+}
+.allimi-wrap-bg-purple{
+
+    background: #EEE7FA;
+}
+
+.allimi-wrap-bg-gray{
+
+    background: #F4F4F4;
 }
