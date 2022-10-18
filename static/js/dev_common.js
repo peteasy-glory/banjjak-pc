@@ -2079,7 +2079,7 @@ function allimi_send_pop(target,id){
 
     document.getElementById('allimi_pet_list').innerHTML ='';
     document.getElementById('allimi_pet_list').innerHTML += `<label class="allimi-form">
-                                                                            <input type="radio" name="allimi-pet" checked onclick="allimi_get_gallery(this,'${id}')" data-artist_id="${id}" data-pet_name="${pet_name}" data-cellphone="${cellphone}" data-payment_idx="${payment_idx}" data-pet_seq="${pet_seq}">
+                                                                            <input type="radio" name="allimi-pet" onclick="allimi_get_gallery(this,'${id}')" data-artist_id="${id}" data-pet_name="${pet_name}" data-cellphone="${cellphone}" data-payment_idx="${payment_idx}" data-pet_seq="${pet_seq}">
                                                                             <em></em>
                                                                             <span class="allimi-radio-span">${pet_name}</span>
                                                                         </label>`
@@ -2094,6 +2094,8 @@ function allimi_send_pop(target,id){
     document.getElementById('allimi_select_photo').setAttribute('data-cellphone',cellphone);
     document.getElementById('allimi_select_photo').setAttribute('data-pet_name',pet_name);
 
+
+    document.querySelector('input[name="allimi-pet"]').dispatchEvent(new Event('click'))
 
     pop.open('allimi_pop')
 }

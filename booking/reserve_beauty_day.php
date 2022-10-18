@@ -3628,7 +3628,7 @@ if ($artist_flag == 1) {
                                     <select class="allimi-body-title" style="display:none;" id="allimi_history_select" onchange="allimi_history_change(this);">
                                     </select>
 
-                                    <div class="allimi-history-list" style="display:none;" id="allimi_history_list">
+                                    <div class="allimi-history-list" id="allimi_history_list">
 
                                     </div>
                                     <div class="common-none-data" id="allimi_history_none">
