@@ -1887,15 +1887,18 @@ function allimi_btn_event(){
 
         el.addEventListener('click',function(){
 
-            Array.from(document.getElementsByClassName('allimi-check-list')).forEach(function(el_){
-                el_.style.display = 'none';
 
-            })
-            Array.from(document.getElementsByClassName('allimi-check-title')).forEach(function(e){
 
-                e.classList.remove('actived');
-            })
-            el.classList.add('actived');
+
+            if(el.classList.contains('actived')){
+                document.getElementById(`${el.getAttribute('id')}`).parentElement.children[1].style.display = 'none';
+                el.classList.remove('actived');
+
+            }else{
+
+                el.classList.add('actived');
+                siblings(el,1).style.display = 'inline-flex';
+            }
 
             // Array.from(document.getElementsByClassName('allimi-check-title')).forEach(function(_el){
             //     _el.classList.remove('actived');
@@ -1903,45 +1906,45 @@ function allimi_btn_event(){
             // el.classList.add('actived');
 
 
-
-
-            if(el.getAttribute('id') === 'attitude_btn'){
-
-                if(document.getElementById('check_list_attitude').style.display === 'none'){
-                    document.getElementById('check_list_attitude').style.display = 'inline-flex';
-                }
-            }else if(el.getAttribute('id') === 'tangle_btn'){
-                if(document.getElementById('check_list_tangle').style.display === 'none'){
-                    document.getElementById('check_list_tangle').style.display = 'inline-flex';
-                }
-
-            }else if(el.getAttribute('id')==='bath_btn'){
-                if(document.getElementById('check_list_bath').style.display === 'none'){
-                    document.getElementById('check_list_bath').style.display = 'inline-flex';
-
-                }
-
-            }else if(el.getAttribute('id')==='skin_btn'){
-                if(document.getElementById('check_list_skin').style.display === 'none'){
-                    document.getElementById('check_list_skin').style.display = 'inline-flex';
-
-                }
-            }else if(el.getAttribute('id')==='condition_btn'){
-                if(document.getElementById('check_list_condition').style.display === 'none'){
-                    document.getElementById('check_list_condition').style.display = 'inline-flex';
-
-                }
-            }else if(el.getAttribute('id')==='dislike_btn'){
-                if(document.getElementById('check_list_dislike').style.display === 'none'){
-                    document.getElementById('check_list_dislike').style.display = 'inline-flex';
-
-                }
-            }else if(el.getAttribute('id')==='self_btn'){
-                if(document.getElementById('check_list_self').style.display === 'none'){
-                    document.getElementById('check_list_self').style.display = 'inline-flex';
-
-                }
-            }
+            //
+            //
+            // if(el.getAttribute('id') === 'attitude_btn'){
+            //
+            //     if(document.getElementById('check_list_attitude').style.display === 'none'){
+            //         document.getElementById('check_list_attitude').style.display = 'inline-flex';
+            //     }
+            // }else if(el.getAttribute('id') === 'tangle_btn'){
+            //     if(document.getElementById('check_list_tangle').style.display === 'none'){
+            //         document.getElementById('check_list_tangle').style.display = 'inline-flex';
+            //     }
+            //
+            // }else if(el.getAttribute('id')==='bath_btn'){
+            //     if(document.getElementById('check_list_bath').style.display === 'none'){
+            //         document.getElementById('check_list_bath').style.display = 'inline-flex';
+            //
+            //     }
+            //
+            // }else if(el.getAttribute('id')==='skin_btn'){
+            //     if(document.getElementById('check_list_skin').style.display === 'none'){
+            //         document.getElementById('check_list_skin').style.display = 'inline-flex';
+            //
+            //     }
+            // }else if(el.getAttribute('id')==='condition_btn'){
+            //     if(document.getElementById('check_list_condition').style.display === 'none'){
+            //         document.getElementById('check_list_condition').style.display = 'inline-flex';
+            //
+            //     }
+            // }else if(el.getAttribute('id')==='dislike_btn'){
+            //     if(document.getElementById('check_list_dislike').style.display === 'none'){
+            //         document.getElementById('check_list_dislike').style.display = 'inline-flex';
+            //
+            //     }
+            // }else if(el.getAttribute('id')==='self_btn'){
+            //     if(document.getElementById('check_list_self').style.display === 'none'){
+            //         document.getElementById('check_list_self').style.display = 'inline-flex';
+            //
+            //     }
+            // }
 
         })
     })
@@ -2062,6 +2065,7 @@ function allimi_send_pop(target,id){
     let pet_name = target.getAttribute('data-pet_name');
     let beauty_date = target.getAttribute('data-date').replace(' ','T');
 
+
     document.getElementById('allimi_history_btn').setAttribute('data-artist_id',id);
     document.getElementById('allimi_history_btn').setAttribute('data-cellphone',cellphone);
     document.getElementById('allimi_history_btn').setAttribute('data-pet_seq',pet_seq);
@@ -2075,7 +2079,7 @@ function allimi_send_pop(target,id){
 
     document.getElementById('allimi_pet_list').innerHTML ='';
     document.getElementById('allimi_pet_list').innerHTML += `<label class="allimi-form">
-                                                                            <input type="radio" name="allimi-pet" onclick="allimi_get_gallery(this,'${id}')" data-artist_id="${id}" data-pet_name="${pet_name}" data-cellphone="${cellphone}" data-payment_idx="${payment_idx}" data-pet_seq="${pet_seq}">
+                                                                            <input type="radio" name="allimi-pet" checked onclick="allimi_get_gallery(this,'${id}')" data-artist_id="${id}" data-pet_name="${pet_name}" data-cellphone="${cellphone}" data-payment_idx="${payment_idx}" data-pet_seq="${pet_seq}">
                                                                             <em></em>
                                                                             <span class="allimi-radio-span">${pet_name}</span>
                                                                         </label>`
