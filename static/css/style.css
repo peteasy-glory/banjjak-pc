@@ -1712,11 +1712,18 @@
 .allimi-check-list{
     position: relative;
     display: none;
+
+}
+.allimi-check-container{
+    width:45%;
+}
+.allimi-check-wrap{
+    width:100%;
 }
 
 .allimi-check-title{
 
-    width:260px;
+    width:100%;
     height:45px;
     border:1px solid #ebebeb;
     border-radius:5px;
