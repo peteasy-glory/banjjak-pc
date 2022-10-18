@@ -2256,7 +2256,6 @@ function allimi_open_history(target){
 
         },
         success:function(res) {
-            console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -2264,13 +2263,15 @@ function allimi_open_history(target){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
+                console.log(body);
 
                 if(body.length === undefined){
 
                     body = [body];
                 }
                 if(body.length > 0){
-
+                    document.getElementById('allimi_history_none').style.display = 'none';
+                    document.getElementById('allimi_history_select').style.display='flex';
                     document.getElementById('allimi_history_select').innerHTML =`<option data-pet_seq="0" data-artist_id="${artist_id}" data-cellphone="${cellphone}">전체보기</option>`
 
                     document.getElementById('allimi_history_select').dispatchEvent(new Event('change'));
@@ -2288,7 +2289,12 @@ function allimi_open_history(target){
 
                         document.getElementById('allimi_history_select').innerHTML += `<option data-cellphone="${cellphone}" data-artist_id="${artist_id}" data-pet_seq="${el.pet_seq}" >${el.name}</option>`
                     })
+                }else{
+                    document.getElementById('allimi_history_none').style.display = 'flex';
+                    document.getElementById('allimi_history_select').style.display='none';
+
                 }
+
             }
         }
 
