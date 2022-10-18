@@ -3615,7 +3615,7 @@ if ($artist_flag == 1) {
 
                             </div>
                             <div class="allimi-left-footer">
-
+                                <div class="allimi-alert">&#8251; 알리미 전송시 샵에 등록된 펫이름이 <br> 고객에게 발송되니 주의 부탁드립니다. &#8251;</div>
                                 <div class="allimi-footer-cell cell-border-purple" id="allimi_preview_btn" onclick="allimi_open_preview(this,'',true)">미리보기</div>
                                 <div class="allimi-footer-cell" onclick="pop.close2('allimi_pop')">취소</div>
                                 <div class="allimi-footer-cell cell-fill-purple" onclick="allimi_send()">보내기</div>
