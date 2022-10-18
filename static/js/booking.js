@@ -12794,15 +12794,17 @@ function pay_management_shortcut(target){
         $("#pay_management").stop().animate({ scrollTop : Math.floor(scroll)+scroll_2 } , 500, "easeInOutExpo");
     }
 
-function deposit_background(target){
+function deposit_background(target) {
 
-    if(target.checked === true){
+    if (target.checked === true) {
 
         target.parentElement.parentElement.parentElement.classList.add('allimi-wrap-bg-purple')
         target.parentElement.parentElement.parentElement.classList.remove('allimi-wrap-bg-gray')
-    }else{
+    } else {
         target.parentElement.parentElement.parentElement.classList.add('allimi-wrap-bg-gray')
         target.parentElement.parentElement.parentElement.classList.remove('allimi-wrap-bg-purple')
     }
+}
+    
 
 
