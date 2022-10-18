@@ -1435,12 +1435,18 @@ function customer_view_(id){
 
     customer_view(id).then(function(body_data){
 
+        console.log(body_data);
+        document.getElementById('allimi_customer_btn').setAttribute('data-cellphone',localStorage.getItem('customer_select'))
+        document.getElementById('allimi_date_select').setAttribute('data-cellphone',localStorage.getItem('customer_select'))
+        document.getElementById('allimi_history_btn_2').setAttribute('data-cellphone',localStorage.getItem('customer_select'))
         document.getElementById('customer_cellphone').value = localStorage.getItem('customer_select');
         pet_reserve_info(body_data)
         noshow_initialize(id,body_data);
         insert_customer_grade(id,body_data);
         insert_customer_memo(id,body_data);
         //insert_customer_special(id);
+        allimi_recent(id,`${localStorage.getItem('customer_select')}`)
+
 
 
 
@@ -1621,6 +1627,7 @@ function pet_reserve_info(data){
 
 
                 pet_list.forEach(function(el_){
+                    console.log(el_)
                     if(parseInt(el.getAttribute('data-pet_seq'))  === el_.pet_seq){
 
                         ////console.log(el_)
@@ -3279,6 +3286,8 @@ function MemofocusNcursor() {
     $("#addimgfile").trigger("click");
 
 }
+
+
 
 function customer_beauty_gallery_add(id,pet_data){
 

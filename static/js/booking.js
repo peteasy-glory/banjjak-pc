@@ -164,6 +164,7 @@ function schedule_render(id){
                                         el.product.reserve_pay_price = 0;
                                     }
 
+
                                     if(el.product.store_payment.card == '' || el.product.store_payment.card == null){
                                         el.product.store_payment.card = 0;
 
@@ -10172,6 +10173,19 @@ function pay_management_init(id,target,bool,bool2){
                         }
                     })
 
+                    let diary_time ;
+                    if(body.diary_idx !== null ){
+
+                        diary_time = new Date(body.diary_time.replace(' ','T'));
+
+                    }
+
+                    if(body.diary_idx !== null && body.diary_idx != 0){
+                        document.getElementById('diary_wrap').innerHTML = `<div class="diary-exist" data-cellphone="${body.cell_phone}" data-pet_seq="${body.pet_seq}" data-payment_idx="${payment_idx}">알리미 발송완료</div><div class="diary-date"><span>(${diary_time.getFullYear()}. ${fill_zero(diary_time.getMonth()+1)}. ${fill_zero(diary_time.getDate())}. ${am_pm_check(diary_time.getHours())}시 ${fill_zero(diary_time.getMinutes())}분)</span></div>`
+                    }else if(body.diary_idx === null || body.diary_idx == 0){
+                        document.getElementById('diary_wrap').innerHTML = `<div class="diary-not-exist" data-cellphone="${body.cell_phone}" data-pet_seq="${body.pet_seq}" data-payment_idx="${payment_idx}" data-date="${body.beauty_date}" data-pet_name="${body.name}" onclick="allimi_send_pop(this,'${artist_id}')">알리미 보내기</div>`
+
+                    }
 
                     if(body.reserve_pay_price === null || body.reserve_pay_price === ''){
 
@@ -12663,6 +12677,7 @@ function open_payment_allim(cellphone,payment_idx,pet_name){
 
                 body.forEach(function(el){
 
+                    console.log(el)
                     let code = '';
                     switch(el.template_code){
 
