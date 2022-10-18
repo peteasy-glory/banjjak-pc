@@ -3360,11 +3360,20 @@ function allimi_send(){
                     console.log(body);
                     if(i === 0){
 
+                        let message= '';
+                        if(pet_name_owner === '' || pet_name_owner === undefined || pet_name_owner === null){
+                            message = `${pet_name} 보호자님 안녕하세요.\n` +
+                                `${data.shop_name}에서 ${pet_name}의 컨디션과 활동에 대한 알리미가 도착했어요.\n` +
+                                '\n' +
+                                '아래 알리미보기 버튼을 눌러 확인해보세요.'
+                        }else{
+                            message = `${pet_name_owner} 보호자님 안녕하세요.\n` +
+                                `${data.shop_name}에서 ${pet_name_owner}의 컨디션과 활동에 대한 알리미가 도착했어요.\n` +
+                                '\n' +
+                                '아래 알리미보기 버튼을 눌러 확인해보세요.'
+                        }
 
-                        let message = `${pet_name_owner} 보호자님 안녕하세요.\n` +
-                            `${data.shop_name}에서 ${pet_name_owner}의 컨디션과 활동에 대한 알리미가 도착했어요.\n` +
-                            '\n' +
-                            '아래 알리미보기 버튼을 눌러 확인해보세요.'
+
 
                         $.ajax({
 

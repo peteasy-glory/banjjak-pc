@@ -3638,6 +3638,10 @@ if ($artist_flag == 1) {
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</article>
+
 <article id="depositExam" class="layer-pop-wrap" style="z-index: 100002;">
     <div class="layer-pop-parent">
         <div class="layer-pop-children">
