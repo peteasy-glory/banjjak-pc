@@ -2084,10 +2084,18 @@ function allimi_send_pop(target,id){
                                                                             <span class="allimi-radio-span">${pet_name}</span>
                                                                         </label>`
 
-    document.getElementById('allimi_open_gallery').setAttribute('data-payment_idx',payment_idx);
-    document.getElementById('allimi_open_gallery').setAttribute('data-pet_seq',pet_seq);
-    document.getElementById('allimi_open_gallery').setAttribute('data-cellphone',cellphone);
-    document.getElementById('allimi_open_gallery').setAttribute('data-pet_name',pet_name);
+
+
+    document.getElementById('allimi_gallery_wrap').innerHTML = `<div class="allimi-gallery-cell allimi-gallery-cell-icon" id="allimi_open_gallery" style="cursor:pointer;" data-payment_idx="${payment_idx}" data-cellphone="${cellphone}" data-pet_name="${pet_name}" data-pet_seq="${pet_seq}" onclick="allimi_open_gallery()">
+                                                                            <img src="/static/images/icon/photo_icon.png" alt="">
+                                                                            <span class="allimi-gallery-span">사진첨부</span>
+                                                                        </div>`
+
+    // document.getElementById('allimi_open_gallery').setAttribute('data-payment_idx',payment_idx);
+    // document.getElementById('allimi_open_gallery').setAttribute('data-pet_seq',pet_seq);
+    // document.getElementById('allimi_open_gallery').setAttribute('data-cellphone',cellphone);
+    // document.getElementById('allimi_open_gallery').setAttribute('data-pet_name',pet_name);
+
 
     document.getElementById('allimi_select_photo').setAttribute('data-payment_idx',payment_idx);
     document.getElementById('allimi_select_photo').setAttribute('data-pet_seq',pet_seq);
@@ -2896,7 +2904,7 @@ function allimi_select_photo(target,bool){
 
     if(bool){
 
-        document.getElementById('allimi_gallery_wrap').innerHTML = `<div class="allimi-gallery-cell allimi-gallery-cell-icon" style="cursor:pointer;" data-payment_idx="${payment_idx}" data-cellphone="${cellphone}" data-pet_name="${pet_name}" data-pet_seq="${pet_seq}" onclick="allimi_open_gallery()">
+        document.getElementById('allimi_gallery_wrap').innerHTML = `<div class="allimi-gallery-cell allimi-gallery-cell-icon" id="allimi_open_gallery" style="cursor:pointer;" data-payment_idx="${payment_idx}" data-cellphone="${cellphone}" data-pet_name="${pet_name}" data-pet_seq="${pet_seq}" onclick="allimi_open_gallery()">
                                                                             <img src="/static/images/icon/photo_icon.png" alt="">
                                                                             <span class="allimi-gallery-span">사진첨부</span>
                                                                         </div>`
