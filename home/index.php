@@ -209,6 +209,17 @@ if($artist_flag == 1){
 								</div>
 
 							</div>
+                            <div class="main-col-group main-notice-group">
+                                <!-- 메인 공지사항 -->
+                                <div class="basic-data-card">
+                                    <div class="main-notice">
+                                        <div class="main-notice-title">공지</div>
+                                        <div class="main-notice-list">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- //메인 공지사항 -->
+                            </div>
 							<div class="main-col-group main-customer">
 								<!-- 메인 상담 -->
 								<div class="basic-data-card">
@@ -236,17 +247,7 @@ if($artist_flag == 1){
 								</div>
 								<!-- //메인 상담 -->
 							</div>
-							<div class="main-col-group main-notice-group">
-								<!-- 메인 공지사항 -->
-								<div class="basic-data-card">
-									<div class="main-notice">
-										<div class="main-notice-title">공지</div>
-										<div class="main-notice-list">
-										</div>
-									</div>
-								</div>
-								<!-- //메인 공지사항 -->
-							</div>
+
 						</div>
 					</div>
 				</div>

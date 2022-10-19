@@ -2095,7 +2095,7 @@ function allimi_send_pop(target,id){
     document.getElementById('allimi_select_photo').setAttribute('data-pet_name',pet_name);
 
 
-    document.querySelector('input[name="allimi-pet"]').dispatchEvent(new Event('click'))
+    document.querySelector('input[name="allimi-pet"]').click();
 
     pop.open('allimi_pop')
 }
