@@ -2046,8 +2046,8 @@
 .allimi-preview-gallery{
 
 
-    width:calc(100% - 40px);
-    height:250px;
+    width:300px;
+    height:300px;
     border-radius: 16px;
     position: relative;
 }

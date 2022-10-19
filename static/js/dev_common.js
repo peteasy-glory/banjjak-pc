@@ -2057,6 +2057,87 @@ function allimi_send_pop(target,id){
     event.stopPropagation();
 
 
+
+    document.getElementById('allimi-right-title').innerText = '';
+    document.getElementById('allimi_gallery').style.display = 'none';
+    document.getElementById('allimi_preview').style.display = 'none';
+    document.getElementById('allimi_history').style.display = 'none';
+
+
+    document.getElementById('allimi_defalut').style.opacity = '1';
+    document.getElementById('allimi_preview').style.opacity = '0';
+    document.getElementById('allimi_history').style.opacity = '0';
+    document.getElementById('allimi_gallery').style.opacity = '0';
+    document.getElementById('allimi_defalut').style.display='flex';
+
+
+    Array.from(document.getElementsByClassName('allimi-check-title')).forEach(function(el){
+
+        if(el.classList.contains('actived')){
+
+            el.classList.remove('actived');
+            siblings(el,1).style.display = 'none';
+        }
+    })
+
+
+    Array.from(document.querySelectorAll('input[name="attitude"]')).forEach(function(el){
+
+        if(el.checked === true){
+
+            el.checked = false;
+        }
+    })
+
+    Array.from(document.querySelectorAll('input[name="tangle"]')).forEach(function(el){
+
+        if(el.checked === true){
+
+            el.checked = false;
+        }
+    })
+
+
+    Array.from(document.querySelectorAll('input[name="bath"]')).forEach(function(el){
+
+        if(el.checked === true){
+
+            el.checked = false;
+        }
+    })
+
+
+    Array.from(document.querySelectorAll('input[name="skin"]')).forEach(function(el){
+
+        if(el.checked === true){
+
+            el.checked = false;
+        }
+    })
+    Array.from(document.querySelectorAll('input[name="condition"]')).forEach(function(el){
+
+        if(el.checked === true){
+
+            el.checked = false;
+        }
+    })
+
+    Array.from(document.querySelectorAll('input[name="dislike"]')).forEach(function(el){
+
+        if(el.checked === true){
+
+            el.checked = false;
+        }
+    })
+
+    Array.from(document.querySelectorAll('input[name="self"]')).forEach(function(el){
+
+        if(el.checked === true){
+
+            el.checked = false;
+        }
+    })
+
     let week = ['일','월','화','수','목','금','토']
 
     let payment_idx = target.getAttribute('data-payment_idx');

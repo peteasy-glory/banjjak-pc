@@ -821,7 +821,7 @@ var pop = {
 
 $(function () {
     common.init();
-    pop.init();
+    // pop.init();
 
     /******************************************************
      @ Window Scroll
