@@ -3699,6 +3699,7 @@ if ($artist_flag == 1) {
 
         agree_view_birthday().then(function(){ agree_view_birthday_date()})
         agree_view_pet_type(artist_id);
+        get_part_time(artist_id);
 
         for(let i=0; i<=100;i++){
 

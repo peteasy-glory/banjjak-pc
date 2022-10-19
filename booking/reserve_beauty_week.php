@@ -3784,6 +3784,7 @@ if ($artist_flag == 1) {
     })
     break_time(artist_id);
 
+
     $(document).ready(function(){
 
         var artist_flag = "<?=$artist_flag?>";
@@ -3811,6 +3812,7 @@ if ($artist_flag == 1) {
             return /^\d*\.?\d*$/.test(value);
         })
         wide_tab();
+        get_part_time(artist_id);
 
 
         input_enter('reserve_search','reserve_search_btn');

@@ -3932,3 +3932,35 @@ function allimi_get_history_one(payment_idx,id){
         }
     })
 }
+
+function get_part_time(id){
+
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+            mode:'get_part_time_set',
+            id:id,
+        },
+        success: function (res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+
+                if(body.is_time_Type == 2){
+
+                    localStorage.setItem('time_type','2');
+                }else{
+                    localStorage.setItem('time_type','1');
+                }
+
+            }
+        }
+    })
+
+}

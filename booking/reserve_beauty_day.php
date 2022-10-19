@@ -3737,7 +3737,7 @@ if ($artist_flag == 1) {
 
 
             })
-
+        get_part_time(artist_id);
         input_enter('reserve_search','reserve_search_btn');
         gnb_actived('gnb_reserve_wrap','gnb_beauty');
         btn_schedule(artist_id);

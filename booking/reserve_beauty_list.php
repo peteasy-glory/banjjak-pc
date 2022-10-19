@@ -3691,7 +3691,7 @@ if ($artist_flag == 1) {
         waiting(artist_id)
         allimi_btn_event();
 
-
+        get_part_time(artist_id);
         customer_new_birthday().then(function(){ customer_new_birthday_date()})
         customer_pet_type();
         customer_new_weight()
