@@ -3667,6 +3667,21 @@ if ($artist_flag == 1) {
     </div>
 </article>
 
+<article id="reserveFail" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data alert-pop-data">
+                <div class="pop-body">
+                    <div class="msg-txt" id="reserve_fail">예약시간을 확인해주세요.</div>
+                </div>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm" onclick="pop.close2('reserveCalendarPop11'); pop.close2('reserveFail');">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+
 <script src="/static/js/common.js"></script>
 <script src="/static/js/dev_common.js"></script>
 <script src="/static/js/Sortable.min.js"></script>

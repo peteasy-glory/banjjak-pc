@@ -4738,7 +4738,7 @@ function reserve_time(){
 
     return new Promise(function (resolve){
 
-        for(let i = 2000; i<=new Date().getFullYear(); i++){
+        for(let i = 2000; i<=new Date().getFullYear()+10; i++){
 
             document.getElementById('reserve_time_year').innerHTML += `<option value="${fill_zero(i)}" ${i===2022 ? 'selected':''}>${i}</option>`
         }
@@ -5558,93 +5558,102 @@ let beauty,bath,add_svc;
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
-                let year = document.getElementById('reserve_time_year').value;
-                let month = document.getElementById('reserve_time_month').value;
-                let day = document.getElementById('reserve_time_date').value;
-                let hour = document.getElementById('reserve_st_time').value.split(':')[0];
-                let min = document.getElementById('reserve_st_time').value.split(':')[1];
+                if(parseInt(body.err) === 401){
 
-                if(document.getElementById('notice_check').checked === true && document.getElementById('deposit_btn').checked === false){
+                    pop.open('reserveFail');
+                    return;
 
+                }else{
 
+                    let year = document.getElementById('reserve_time_year').value;
+                    let month = document.getElementById('reserve_time_month').value;
+                    let day = document.getElementById('reserve_time_date').value;
+                    let hour = document.getElementById('reserve_st_time').value.split(':')[0];
+                    let min = document.getElementById('reserve_st_time').value.split(':')[1];
 
-                    let message = `반려생활의 단짝, 반짝에서 ${cellphone.slice(-4)}님의 ${name} 미용예약 내용을 알려드립니다.\n` +
-                        '\n' +
-                        `- 예약펫샵 : ${shop_name}\n` +
-                        `- 예약일시 : ${year}년 ${month}월 ${day}일 ${hour}시 ${min}분\n` +
-                        '\n' +
-                        '예약내용 상세확인과 예약은\n' +
-                        '반려생활의 단짝, 반짝에서도 가능합니다.';
+                    if(document.getElementById('notice_check').checked === true && document.getElementById('deposit_btn').checked === false){
 
 
 
-                    $.ajax({
-
-                        url:'/data/pc_ajax.php',
-                        type:'post',
-                        data:{
-
-                            mode:'reserve_regist_allim',
-                            cellphone:cellphone,
-                            message:message,
-                            payment_idx:body.idx,
-
-
-                        },success:function(res){
+                        let message = `반려생활의 단짝, 반짝에서 ${cellphone.slice(-4)}님의 ${name} 미용예약 내용을 알려드립니다.\n` +
+                            '\n' +
+                            `- 예약펫샵 : ${shop_name}\n` +
+                            `- 예약일시 : ${year}년 ${month}월 ${day}일 ${hour}시 ${min}분\n` +
+                            '\n' +
+                            '예약내용 상세확인과 예약은\n' +
+                            '반려생활의 단짝, 반짝에서도 가능합니다.';
 
 
 
-                        }
-                    })
+                        $.ajax({
+
+                            url:'/data/pc_ajax.php',
+                            type:'post',
+                            data:{
+
+                                mode:'reserve_regist_allim',
+                                cellphone:cellphone,
+                                message:message,
+                                payment_idx:body.idx,
+
+
+                            },success:function(res){
+
+
+
+                            }
+                        })
 
 
 
 
-                }else if(document.getElementById('deposit_check').checked === true){
+                    }else if(document.getElementById('deposit_check').checked === true){
 
-                    let bank = document.getElementById('reserve_deposit_input').getAttribute('data-bank');
-                    let account = document.getElementById('reserve_deposit_input').getAttribute('data-account');
+                        let bank = document.getElementById('reserve_deposit_input').getAttribute('data-bank');
+                        let account = document.getElementById('reserve_deposit_input').getAttribute('data-account');
 
-                    let deposit_time = parseInt(document.getElementById('reserve_deposit_time').value);
-                    let deposit_date = new Date();
+                        let deposit_time = parseInt(document.getElementById('reserve_deposit_time').value);
+                        let deposit_date = new Date();
 
-                    deposit_date.setMinutes(deposit_date.getMinutes() + deposit_time);
+                        deposit_date.setMinutes(deposit_date.getMinutes() + deposit_time);
 
-                    let message = `${name} 보호자님\n` +
-                        `${shop_name}에서 ${name} 미용예약 확정을 위한 예약금 입금 안내를 드립니다.\n` +
-                        '\n' +
-                        `저희 ${shop_name}에서는 예약금 ${reserve_pay_price}원 입금 후에 예약이 확정됩니다.\n` +
-                        '\n' +
-                        '1. 예약내용\n' +
-                        `- 예약일시 : ${year}년 ${month}월 ${day}일 ${hour}시 ${min}분\n` +
-                        '\n' +
-                        '2. 예약금 입금계좌\n' +
-                        `- 예약금 : ${reserve_pay_price}원\n` +
-                        `- ${bank} / ${account}\n` +
-                        `- 결제기한 : ${deposit_date.getFullYear()}년 ${deposit_date.getMonth()+1}월 ${deposit_date.getDate()}일 ${deposit_date.getHours()}시 ${deposit_date.getMinutes()}분\n` +
-                        '\n' +
-                        '▶ 결제기한 경과시 예약은 자동취소 되오니 기한 내 꼭 입금부탁드립니다. '
+                        let message = `${name} 보호자님\n` +
+                            `${shop_name}에서 ${name} 미용예약 확정을 위한 예약금 입금 안내를 드립니다.\n` +
+                            '\n' +
+                            `저희 ${shop_name}에서는 예약금 ${reserve_pay_price}원 입금 후에 예약이 확정됩니다.\n` +
+                            '\n' +
+                            '1. 예약내용\n' +
+                            `- 예약일시 : ${year}년 ${month}월 ${day}일 ${hour}시 ${min}분\n` +
+                            '\n' +
+                            '2. 예약금 입금계좌\n' +
+                            `- 예약금 : ${reserve_pay_price}원\n` +
+                            `- ${bank} / ${account}\n` +
+                            `- 결제기한 : ${deposit_date.getFullYear()}년 ${deposit_date.getMonth()+1}월 ${deposit_date.getDate()}일 ${deposit_date.getHours()}시 ${deposit_date.getMinutes()}분\n` +
+                            '\n' +
+                            '▶ 결제기한 경과시 예약은 자동취소 되오니 기한 내 꼭 입금부탁드립니다. '
 
-                    $.ajax({
+                        $.ajax({
 
-                        url:'/data/pc_ajax.php',
-                        type:'post',
-                        data:{
+                            url:'/data/pc_ajax.php',
+                            type:'post',
+                            data:{
 
-                            mode:'deposit_allim',
-                            cellphone:cellphone,
-                            message:message,
-
-
-                        },success:function(res){
+                                mode:'deposit_allim',
+                                cellphone:cellphone,
+                                message:message,
 
 
+                            },success:function(res){
 
-                        }
-                    })
+
+
+                            }
+                        })
+                    }
+
+                    location.reload()
                 }
 
-                location.reload()
 
 
 
