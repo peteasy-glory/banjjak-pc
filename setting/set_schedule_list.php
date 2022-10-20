@@ -116,26 +116,6 @@ if ($artist_flag == 1) {
 												<h4 class="con-title">임시휴무</h4>
 											</div>
 											<div class="flex-table read w-90 vacation_wrap">
-												<div class="flex-table-cell">
-													<div class="flex-table-item">
-														<div class="flex-table-title"><div class="txt">실장</div></div>
-														<div class="flex-table-data">
-															<div class="flex-table-data-inner">
-																2021.10.04 ~ 2021.10.04
-															</div>														
-														</div>
-													</div>
-												</div>
-												<div class="flex-table-cell">
-													<div class="flex-table-item">
-														<div class="flex-table-title"><div class="txt">이름이 길경우 줄바꿈 됩니다</div></div>
-														<div class="flex-table-data">
-															<div class="flex-table-data-inner">
-																2021.10.04 / 오후 02:00 ~ 오후 03:00
-															</div>														
-														</div>
-													</div>
-												</div>
 											</div>
 										</div>
 										<!-- //내용이 있을 경우 -->
