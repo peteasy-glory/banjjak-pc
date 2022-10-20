@@ -12429,7 +12429,7 @@ function deposit_toggle(id,target){
 
                     }
 
-                    if(document.getElementById('deposit_btn').checked === true){
+                    if(document.getElementById('deposit_btn').checked === false){
                         document.getElementById('deposit_notice').style.display = 'flex';
                     }else{
                         document.getElementById('deposit_notice').style.display = 'none';
