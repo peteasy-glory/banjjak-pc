@@ -1835,7 +1835,7 @@ if ($artist_flag == 1) {
         <div class="layer-pop-children">
             <div class="pop-data alert-pop-data">
                 <div class="pop-body">
-                    <div class="msg-txt" id="reserve_fail">예약시간을 확인해주세요.</div>
+                    <div class="msg-txt" id="reserve_fail">다른 예약과 시간이 중복됩니다.<br>예약시간을 확인해주세요.</div>
                 </div>
                 <div class="pop-footer">
                     <button type="button" class="btn btn-confirm" onclick="pop.close2('reserveCalendarPop11');pop.close2('reserveFail');">확인</button>
