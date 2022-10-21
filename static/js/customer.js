@@ -302,7 +302,6 @@ function customer_all(id){
                 let customers =response.data
                 let head = response.data.head;
                 let body = response.data.body;
-                console.log(body);
 
                 if(body.length === undefined){
                     body = [body];
@@ -1298,7 +1297,6 @@ function customer_view(id){
 
 
                                 if(body_.length > 0) {
-////console.log(body_);
 
 
                                     body_.forEach(function (el, i) {
@@ -1360,7 +1358,7 @@ function customer_view(id){
                                                                                                                     </div>
                                                                                                                     <div class="flex-table-data">
                                                                                                                         <div class="flex-table-data-inner">
-                                                                                                                            ${el.product.split('|')[6].split(':')[0]}
+                                                                                                                            ${el.product.split('|')[6].split(':')[0]}${el.product.split('|')[6].split(':')[0] == '' ? '':'/'}${el.product.split('|')[7] !== '' ? el.product.split('|')[7].split(':')[0].match('mm') ? `${el.product.split('|')[7].split(':')[0]}` : `${el.product.split('|')[7].split(':')[0]}mm` : ''}
                                                                                                                         </div>
                                                                                                                     </div>
                                                                                                                 </div>
@@ -1436,7 +1434,6 @@ function customer_view_(id){
 
     customer_view(id).then(function(body_data){
 
-        console.log(body_data);
         document.getElementById('allimi_customer_btn').setAttribute('data-cellphone',localStorage.getItem('customer_select'))
         document.getElementById('allimi_date_select').setAttribute('data-cellphone',localStorage.getItem('customer_select'))
         document.getElementById('allimi_history_btn_2').setAttribute('data-cellphone',localStorage.getItem('customer_select'))
@@ -1637,7 +1634,6 @@ function pet_reserve_info(data){
 
 
                         let subtract_year= Math.floor((now-time)/1000/60/60/24/30/12);
-                        console.log((now-time)/1000/60/60/24/30%12);
                         let subtract_month = (new Date().getMonth()+1) - (new Date(el_.detail.year, el_.detail.month, el_.detail.day).getMonth()) ;
                         // let subtract_month = Math.round((now-time)/1000/60/60/24/30%12) ;
 
@@ -3084,7 +3080,6 @@ function direct_reserve_regist(){
 
         },
         success:function(res){
-            //console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
