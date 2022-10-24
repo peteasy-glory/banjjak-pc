@@ -41,7 +41,7 @@ $img = (isset($_GET['img']))? img_link_change($_GET['img']) : "";
 							<div class="card-header">
 								<h3 class="card-header-title">공지사항</h3>
 								<div class="card-header-right small">
-									<button type="button" class="btn-page-ui btn-page-action" onclick="javascript:history.back();">목록</button>
+									<button type="button" class="btn-page-ui btn-page-action" onclick="location.href ='/etc/other_notice_list.php'">목록</button>
 								</div>
 							</div>
 							<div class="card-body">
