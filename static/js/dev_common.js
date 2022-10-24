@@ -1341,18 +1341,51 @@ function wide_tab_3(){
 
 
 //notice
-function notice(){
+function notice(id){
 
     let main_notice_list = document.querySelector('.main-notice-list');
+    //
+    // for (let i = 0; i < data.notice.length; i++) {
+    //     main_notice_list.innerHTML += `<div class="main-notice-cell">
+    //                                     <a href="/etc/other_notice_list.php" class="btn-main-notice-item">
+    //                                         <div class="txt">${data.notice[i].title}</div>
+    //                                         <div class="date">${data.notice[i].reg_date.split(" ")[0]}</div>
+    //                                     </a>
+    //                                </div>`
+    // }
 
-    for (let i = 0; i < data.notice.length; i++) {
-        main_notice_list.innerHTML += `<div class="main-notice-cell">
+
+
+    $.ajax({
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+            mode:'get_notice',
+            login_id:id
+        },success:function(res) {
+            let response = JSON.parse(res);
+            let head = response.data.head;
+            let body = response.data.body;
+            if (head.code === 401) {
+                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+            } else if (head.code === 200) {
+                console.log(body);
+                body.forEach(function(notice){
+
+                    let notice_date = new Date(notice.req_date);
+
+                    main_notice_list.innerHTML += `<div class="main-notice-cell">
                                         <a href="/etc/other_notice_list.php" class="btn-main-notice-item">
-                                            <div class="txt">${data.notice[i].title}</div>
-                                            <div class="date">${data.notice[i].reg_date.split(" ")[0]}</div>
+                                            <div class="txt">${notice.title}</div>
+                                            <div class="date">${notice_date.getFullYear()}-${fill_zero(notice_date.getMonth()+1)}-${fill_zero(notice_date.getDate())}</div>
                                         </a>
                                    </div>`
-    }
+                })
+            }
+        }
+
+
+    })
 }
 
 

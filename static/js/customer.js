@@ -132,6 +132,7 @@ function search(search_value,id) {
 
 //보조연락처(가족)
 function search_fam(search_value,id){
+    localStorage.setItem('search_value',search_value);
     search(search_value,id).then(function(body){
         body.forEach(function (el,i){
             document.getElementById(`grid_layout_inner_${i}`).innerHTML = ''
@@ -1625,6 +1626,7 @@ function pet_reserve_info(data){
 
 
                 pet_list.forEach(function(el_){
+                    console.log(el_);
                     if(parseInt(el.getAttribute('data-pet_seq'))  === el_.pet_seq){
 
                         ////console.log(el_)

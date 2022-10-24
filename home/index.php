@@ -873,7 +873,7 @@ if($artist_flag == 1){
         consulting();
         update();
         wide_tab();
-        notice();
+        notice(artist_id);
         today_reserve(artist_id,true);
         set_image('front_image');
         prepend_data('consulting_count schedule_count new_review_count total_count nick');

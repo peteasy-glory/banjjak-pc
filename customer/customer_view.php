@@ -2012,6 +2012,11 @@ if ($artist_flag == 1) {
         pop.open('deletePet');
     })
 
+    window.addEventListener('beforeunload',function(){
+
+        localStorage.setItem('search_history','1');
+
+    })
     // 이미지 추가
     $(document).on("change", "#addimgfile", function(e){
         var ext = $('#addimgfile').val().split('.').pop().toLowerCase();

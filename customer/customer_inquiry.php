@@ -169,6 +169,22 @@ $search = ($_GET['search'] && $_GET['search'] !== "") ? $_GET['search']:"";
 
     })
 
+    window.onpageshow = function(event) {
+        if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+
+            if(localStorage.getItem('search_history') === '1'){
+
+                document.getElementById('search').value = localStorage.getItem('search_value');
+
+                search_fam(localStorage.getItem('search_value'),artist_id);
+                localStorage.removeItem('search_history');
+
+
+            }
+        }
+    }
+
+
 
 
 </script>
