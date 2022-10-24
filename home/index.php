@@ -213,6 +213,8 @@ if($artist_flag == 1){
                                 <!-- 메인 공지사항 -->
                                 <div class="basic-data-card">
                                     <div class="main-notice" id="main_notice_list">
+                                        <div class="main-notice-list-title">공지사항<div class="card-header-ui"><a href="/etc/other_notice_list.php" class="btn-card-header-more">더보기</a></div></div>
+
                                     </div>
                                 </div>
                                 <!-- //메인 공지사항 -->

@@ -2039,6 +2039,18 @@ body {background:#fafafa;}
 	padding-right:20px;
 	font-weight: 500;
 }
+.main-notice-list-title{
+	flex: 0 0 auto;
+	font-size: 18px;
+	font-weight: 500;
+	display: flex;
+	align-items: center;
+	box-sizing: border-box;
+	padding-left:20px;
+	border-bottom:1px solid #ebebeb;
+	width:100%;
+
+}
 .main-notice-group {flex:0 0 auto;}
 .main-notice {display:flex; height:100%; align-items:flex-start; flex-direction: column}
 .main-notice-title {flex:0 0 auto; font-size:14px; font-weight:500; color:#6840b1; display:flex; align-items:center; justify-content:flex-end; box-sizing:border-box; padding:0 8px 0 20px;}
