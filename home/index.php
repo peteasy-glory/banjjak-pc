@@ -871,7 +871,6 @@ if($artist_flag == 1){
         wide_tab();
         // notice(artist_id);
         get_notice(artist_id);
-        console.log(etc_array);
         today_reserve(artist_id,true);
         set_image('front_image');
         prepend_data('consulting_count schedule_count new_review_count total_count nick');
