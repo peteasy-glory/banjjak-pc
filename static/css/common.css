@@ -2013,16 +2013,23 @@ body {background:#fafafa;}
 	display:flex;
 	width:100%;
 
+
 }
 .notice-text{
 	flex: 1;
 	width: 100%;
-	font-size: 16px;
+	font-size: 14px;
 	font-weight: 500;
 	color: #202020;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
+
+}
+.notice-text img{
+	width:15px;
+	margin-left:10px;
+	margin-top:5px;
 }
 
 .notice-date{

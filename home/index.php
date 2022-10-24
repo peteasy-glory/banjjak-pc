@@ -891,13 +891,21 @@ if($artist_flag == 1){
 
             if(i<3){
                 let date = new Date(v.req_date);
+                let now_date = new Date();
+                let new_check = false;
+                if((now_date.getTime() - date.getTime())/1000/60/60/24 <= 14){
+
+                    new_check =true;
+                }
+
+
                 let link_date = v.req_date.substr(0,10);
                 let type = v.type ==='1' ? '업데이트':'공지';
                 main_notice_list.innerHTML += `<div class="main-notice-wrap">
                                                 <div class="main-notice-title">${type}</div>
                                                 <div class="main-notice-cell">
                                                     <a href="/etc/other_notice_view.php?type=${type}&title=${v.title}&date=${link_date}&img=${v.image}&notice=${v.notice}" class="btn-main-notice-item">
-                                                        <div class="txt notice-text">${v.title}</div>
+                                                        <div class="txt notice-text">${v.title}${new_check ? `<img src="https://image.banjjakpet.com/images/icon/icon_new.png" alt="">`:''}</div>
                                                         <div class="date notice-date">${date.getFullYear()}-${fill_zero(date.getMonth()+1)}-${fill_zero(date.getDate())}</div>
                                                     </a>
                                                 </div>
