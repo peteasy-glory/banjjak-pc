@@ -212,10 +212,7 @@ if($artist_flag == 1){
                             <div class="main-col-group main-notice-group">
                                 <!-- 메인 공지사항 -->
                                 <div class="basic-data-card">
-                                    <div class="main-notice">
-                                        <div class="main-notice-title">공지</div>
-                                        <div class="main-notice-list">
-                                        </div>
+                                    <div class="main-notice" id="main_notice_list">
                                     </div>
                                 </div>
                                 <!-- //메인 공지사항 -->
@@ -843,14 +840,13 @@ if($artist_flag == 1){
 </article>
 
 <!-- //wrap -->
-<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=f2cf1f3b7e2ca88cb298196078ef550f&libraries=services"></script>
-
 <script src="/static/js/common.js"></script>
 <script src="/static/js/dev_common.js"></script>
 <script src="/static/js/booking.js"></script>
 <script src="/static/js/customer.js"></script>
 <script src="/static/js/imagesloaded.pkgd.min.js"></script>
 <script src="/static/js/jquery-ui.min.js"></script>
+<script src="/static/js/etc.js"></script>
 
 <script>
 
@@ -873,7 +869,9 @@ if($artist_flag == 1){
         consulting();
         update();
         wide_tab();
-        notice(artist_id);
+        // notice(artist_id);
+        get_notice(artist_id);
+        console.log(etc_array);
         today_reserve(artist_id,true);
         set_image('front_image');
         prepend_data('consulting_count schedule_count new_review_count total_count nick');
@@ -885,6 +883,31 @@ if($artist_flag == 1){
         get_part_time(artist_id);
 
         gallery.init()
+
+        let main_notice_list = document.getElementById('main_notice_list');
+
+
+        etc_array[0].forEach(function(v,i){
+
+            if(i<3){
+                let date = new Date(v.req_date);
+                let link_date = v.req_date.substr(0,10);
+                let type = v.type ==='1' ? '업데이트':'공지';
+                main_notice_list.innerHTML += `<div class="main-notice-wrap">
+                                                <div class="main-notice-title">${type}</div>
+                                                <div class="main-notice-cell">
+                                                    <a href="/etc/other_notice_view.php?type=${type}&title=${v.title}&date=${link_date}&img=${v.image}&notice=${v.notice}" class="btn-main-notice-item">
+                                                        <div class="txt notice-text">${v.title}</div>
+                                                        <div class="date notice-date">${date.getFullYear()}-${fill_zero(date.getMonth()+1)}-${fill_zero(date.getDate())}</div>
+                                                    </a>
+                                                </div>
+                                            </div>`
+            }
+
+
+        })
+
+
 
         $.ajax({
 

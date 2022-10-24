@@ -1355,7 +1355,6 @@ function notice(id){
     // }
 
 
-
     $.ajax({
         url:'/data/pc_ajax.php',
         type:'post',
@@ -1369,7 +1368,6 @@ function notice(id){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body);
                 body.forEach(function(notice){
 
                     let notice_date = new Date(notice.req_date);
