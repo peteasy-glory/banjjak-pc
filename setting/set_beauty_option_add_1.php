@@ -106,7 +106,7 @@ if ($artist_flag == 1) {
 																			</div>
 																		</td>
 																		<td class="no-padding text-align-center vertical-center">
-																			<button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
+																			<button type="button" class="btn-item-del"></button>
 																		</td>
 																	</tr>
                                                                     <tr class="drag-sort-cell">
@@ -126,7 +126,7 @@ if ($artist_flag == 1) {
                                                                             </div>
                                                                         </td>
                                                                         <td class="no-padding text-align-center vertical-center">
-                                                                            <button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
+                                                                            <button type="button" class="btn-item-del"></button>
                                                                         </td>
                                                                     </tr>
                                                                     <tr class="drag-sort-cell">
@@ -146,7 +146,7 @@ if ($artist_flag == 1) {
                                                                             </div>
                                                                         </td>
                                                                         <td class="no-padding text-align-center vertical-center">
-                                                                            <button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
+                                                                            <button type="button" class="btn-item-del"></button>
                                                                         </td>
                                                                     </tr>
                                                                     <tr class="drag-sort-cell">
@@ -166,7 +166,7 @@ if ($artist_flag == 1) {
                                                                             </div>
                                                                         </td>
                                                                         <td class="no-padding text-align-center vertical-center">
-                                                                            <button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
+                                                                            <button type="button" class="btn-item-del"></button>
                                                                         </td>
                                                                     </tr>
 																</tbody>
@@ -201,26 +201,6 @@ if ($artist_flag == 1) {
 																	</tr>
 																</thead>
 																<tbody class="drag-sort-wrap hair_len_table">
-																	<tr class="drag-sort-cell">
-<!--																		<td class="no-padding">-->
-<!--																			<div class="form-table-select">-->
-<!--																				<button type="button" class="btn-data-handler">드래그바</button>-->
-<!--																			</div>-->
-<!--																		</td>-->
-																		<td class="no-padding">
-																			<div class="form-table-select">
-																				<input type="text" placeholder="입력">
-																			</div>
-																		</td>
-																		<td class="no-padding">
-																			<div class="form-table-select">
-                                                                                <input type="number">
-																			</div>
-																		</td>
-																		<td class="no-padding text-align-center vertical-center">
-																			<button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
-																		</td>
-																	</tr>
 																</tbody>
 															</table>
 														</div>
@@ -270,7 +250,7 @@ if ($artist_flag == 1) {
 																			</div>
 																		</td>
 																		<td class="no-padding text-align-center vertical-center">
-																			<button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
+																			<button type="button" class="btn-item-del"></button>
 																		</td>
 																	</tr>
                                                                     <tr class="drag-sort-cell">
@@ -290,7 +270,7 @@ if ($artist_flag == 1) {
                                                                             </div>
                                                                         </td>
                                                                         <td class="no-padding text-align-center vertical-center">
-                                                                            <button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
+                                                                            <button type="button" class="btn-item-del"></button>
                                                                         </td>
                                                                     </tr>
                                                                     <tr class="drag-sort-cell">
@@ -310,7 +290,7 @@ if ($artist_flag == 1) {
                                                                             </div>
                                                                         </td>
                                                                         <td class="no-padding text-align-center vertical-center">
-                                                                            <button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
+                                                                            <button type="button" class="btn-item-del"></button>
                                                                         </td>
                                                                     </tr>
 																</tbody>
@@ -362,7 +342,7 @@ if ($artist_flag == 1) {
 																			</div>
 																		</td>
 																		<td class="no-padding text-align-center vertical-center">
-																			<button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
+																			<button type="button" class="btn-item-del"></button>
 																		</td>
 																	</tr>
                                                                     <tr class="drag-sort-cell">
@@ -382,7 +362,7 @@ if ($artist_flag == 1) {
                                                                             </div>
                                                                         </td>
                                                                         <td class="no-padding text-align-center vertical-center">
-                                                                            <button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
+                                                                            <button type="button" class="btn-item-del"></button>
                                                                         </td>
                                                                     </tr>
                                                                     <tr class="drag-sort-cell">
@@ -402,7 +382,7 @@ if ($artist_flag == 1) {
                                                                             </div>
                                                                         </td>
                                                                         <td class="no-padding text-align-center vertical-center">
-                                                                            <button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
+                                                                            <button type="button" class="btn-item-del"></button>
                                                                         </td>
                                                                     </tr>
 																</tbody>
@@ -460,11 +440,11 @@ if ($artist_flag == 1) {
 																			</td>
 																			<td class="no-padding">
 																				<div class="form-table-select">
-																					<input type="number" name="tonail_price" class="tonail_price">
+																					<input type="number" name="toenail_price" class="toenail_price">
 																				</div>
 																			</td>
 																			<td class="no-padding text-align-center vertical-center">
-																				<button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
+																				<button type="button" class="btn-item-del"></button>
 																			</td>
 																		</tr>
                                                                         <tr class="drag-sort-cell">
@@ -484,7 +464,7 @@ if ($artist_flag == 1) {
                                                                                 </div>
                                                                             </td>
                                                                             <td class="no-padding text-align-center vertical-center">
-                                                                                <button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
+                                                                                <button type="button" class="btn-item-del"></button>
                                                                             </td>
                                                                         </tr>
                                                                         <tr class="drag-sort-cell">
@@ -504,7 +484,7 @@ if ($artist_flag == 1) {
                                                                                 </div>
                                                                             </td>
                                                                             <td class="no-padding text-align-center vertical-center">
-                                                                                <button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
+                                                                                <button type="button" class="btn-item-del"></button>
                                                                             </td>
                                                                         </tr>
 																	</tbody>
@@ -536,26 +516,6 @@ if ($artist_flag == 1) {
                                                                     </tr>
                                                                     </thead>
                                                                     <tbody class="drag-sort-wrap spa_table">
-                                                                    <tr class="drag-sort-cell">
-<!--                                                                        <td class="no-padding">-->
-<!--                                                                            <div class="form-table-select">-->
-<!--                                                                                <button type="button" class="btn-data-handler">드래그바</button>-->
-<!--                                                                            </div>-->
-<!--                                                                        </td>-->
-                                                                        <td class="no-padding">
-                                                                            <div class="form-table-select">
-                                                                                <input type="text" placeholder="입력">
-                                                                            </div>
-                                                                        </td>
-                                                                        <td class="no-padding">
-                                                                            <div class="form-table-select">
-                                                                                <input type="number" name="">
-                                                                            </div>
-                                                                        </td>
-                                                                        <td class="no-padding text-align-center vertical-center">
-                                                                            <button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
-                                                                        </td>
-                                                                    </tr>
                                                                     </tbody>
                                                                 </table>
                                                             </div>
@@ -585,26 +545,6 @@ if ($artist_flag == 1) {
                                                                     </tr>
                                                                     </thead>
                                                                     <tbody class="drag-sort-wrap dyeing_table">
-                                                                    <tr class="drag-sort-cell">
-<!--                                                                        <td class="no-padding">-->
-<!--                                                                            <div class="form-table-select">-->
-<!--                                                                                <button type="button" class="btn-data-handler">드래그바</button>-->
-<!--                                                                            </div>-->
-<!--                                                                        </td>-->
-                                                                        <td class="no-padding">
-                                                                            <div class="form-table-select">
-                                                                                <input type="text" placeholder="입력">
-                                                                            </div>
-                                                                        </td>
-                                                                        <td class="no-padding">
-                                                                            <div class="form-table-select">
-                                                                                <input type="number" name="">
-                                                                            </div>
-                                                                        </td>
-                                                                        <td class="no-padding text-align-center vertical-center">
-                                                                            <button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
-                                                                        </td>
-                                                                    </tr>
                                                                     </tbody>
                                                                 </table>
                                                             </div>
@@ -634,26 +574,6 @@ if ($artist_flag == 1) {
                                                                     </tr>
                                                                     </thead>
                                                                     <tbody class="drag-sort-wrap etc_table">
-                                                                    <tr class="drag-sort-cell">
-<!--                                                                        <td class="no-padding">-->
-<!--                                                                            <div class="form-table-select">-->
-<!--                                                                                <button type="button" class="btn-data-handler">드래그바</button>-->
-<!--                                                                            </div>-->
-<!--                                                                        </td>-->
-                                                                        <td class="no-padding">
-                                                                            <div class="form-table-select">
-                                                                                <input type="text" placeholder="입력">
-                                                                            </div>
-                                                                        </td>
-                                                                        <td class="no-padding">
-                                                                            <div class="form-table-select">
-                                                                                <input type="number" name="">
-                                                                            </div>
-                                                                        </td>
-                                                                        <td class="no-padding text-align-center vertical-center">
-                                                                            <button type="button" class="btn-item-del"><span class="icon icon-size-36 icon-trash"></span></button>
-                                                                        </td>
-                                                                    </tr>
                                                                     </tbody>
                                                                 </table>
                                                             </div>
@@ -664,7 +584,7 @@ if ($artist_flag == 1) {
 													<div class="form-group-item">
 														<div class="form-item-label">추가설명</div>
 														<div class="form-item-data type-2">
-															<textarea style="height:100px;" name="comment" class="comment" placeholder="입력"></textarea>
+															<textarea style="height:100px;" class="comment" placeholder="입력"></textarea>
 <!--															<div class="form-input-info">0/1000</div>-->
 														</div>
 													</div>
@@ -717,32 +637,34 @@ if ($artist_flag == 1) {
         gnb_actived('gnb_detail_wrap', 'gnb_merchandise');
         get_option_product(artist_id);
 
+        //console.log(setting_array[0]);
         var option_array = setting_array[0].option;
         console.log(option_array);
 
-        // 제공방식
-        if(option_array.in_shop == 1 && option_array.out_shop == 1){
-            $(".offer2").prop("checked", true);
-        }else if(option_array.in_shop == 1){
-            $(".offer0").prop("checked", true);
-        }else if(option_array.out_shop == 1){
-            $(".offer1").prop("checked", true);
-        }
+        if(option_array != ''){
+            // 제공방식
+            if(option_array.in_shop == 1 && option_array.out_shop == 1){
+                $(".offer2").prop("checked", true);
+            }else if(option_array.in_shop == 1){
+                $(".offer0").prop("checked", true);
+            }else if(option_array.out_shop == 1){
+                $(".offer1").prop("checked", true);
+            }
 
-        // 얼굴컷
-        if(option_array.face != ''){
-            var add_html = '';
-            $.each(option_array.face, function(i,v){
-                if(i == 'basic') {
-                    $(".basic_price").val(v);
-                }else if(i == 'bear'){
-                    $(".bear_price").val(v);
-                }else if(i== 'broccoli'){
-                    $(".brocoli_price").val(v);
-                }else if(i == 'highba'){
-                    $(".highba_price").val(v);
-                }else{
-                    add_html += `
+            // 얼굴컷
+            if(option_array.face != ''){
+                var add_html = '';
+                $.each(option_array.face, function(i,v){
+                    if(i == 'basic') {
+                        $(".basic_price").val(v);
+                    }else if(i == 'bear'){
+                        $(".bear_price").val(v);
+                    }else if(i== 'broccoli'){
+                        $(".brocoli_price").val(v);
+                    }else if(i == 'highba'){
+                        $(".highba_price").val(v);
+                    }else{
+                        add_html += `
                         <tr class="drag-sort-cell">
 <!--                            <td class="no-padding">-->
 <!--                                <div class="form-table-select">-->
@@ -764,16 +686,16 @@ if ($artist_flag == 1) {
                             </td>
                         </tr>
                     `;
-                }
-            })
-            $(".face_table").append(add_html);
-        }
+                    }
+                })
+                $(".face_table").append(add_html);
+            }
 
-        // 털길이
-        if(option_array.hair_len != ''){
-            var add_html = '';
-            $.each(option_array.hair_len, function(i,v){
-                add_html += `
+            // 털길이
+            if(option_array.hair_len != ''){
+                var add_html = '';
+                $.each(option_array.hair_len, function(i,v){
+                    add_html += `
                     <tr class="drag-sort-cell">
 <!--                        <td class="no-padding">-->
 <!--                            <div class="form-table-select">-->
@@ -795,22 +717,22 @@ if ($artist_flag == 1) {
                         </td>
                     </tr>
                 `;
-            })
-            $(".hair_len_table").html(add_html);
-        }
+                })
+                $(".hair_len_table").html(add_html);
+            }
 
-        // 털특징별 추가
-        if(option_array.plus != ''){
-            var add_html = '';
-            $.each(option_array.plus, function(i,v){
-                if(i == 'short_bath') {
-                    $(".short_bath_price").val(v);
-                }else if(i == 'long_bath'){
-                    $(".long_bath_price").val(v);
-                }else if(i== 'double_bath'){
-                    $(".double_bath_price").val(v);
-                }else{
-                    add_html += `
+            // 털특징별 추가
+            if(option_array.plus != ''){
+                var add_html = '';
+                $.each(option_array.plus, function(i,v){
+                    if(i == 'short_bath') {
+                        $(".short_bath_price").val(v);
+                    }else if(i == 'long_bath'){
+                        $(".long_bath_price").val(v);
+                    }else if(i== 'double_bath'){
+                        $(".double_bath_price").val(v);
+                    }else{
+                        add_html += `
                         <tr class="drag-sort-cell">
 <!--                            <td class="no-padding">-->
 <!--                                <div class="form-table-select">-->
@@ -832,23 +754,23 @@ if ($artist_flag == 1) {
                             </td>
                         </tr>
                     `;
-                }
-            })
-            $(".plus_table").append(add_html);
-        }
+                    }
+                })
+                $(".plus_table").append(add_html);
+            }
 
-        // 현장판단후
-        if(option_array.place_plus != ''){
-            var add_html = '';
-            $.each(option_array.place_plus, function(i,v){
-                if(i == 'hair_clot') {
-                    $(".hair_clot_price").val(v);
-                }else if(i == 'ferocity'){
-                    $(".ferocity_price").val(v);
-                }else if(i== 'tick'){
-                    $(".tick_price").val(v);
-                }else{
-                    add_html += `
+            // 현장판단후
+            if(option_array.place_plus != ''){
+                var add_html = '';
+                $.each(option_array.place_plus, function(i,v){
+                    if(i == 'hair_clot') {
+                        $(".hair_clot_price").val(v);
+                    }else if(i == 'ferocity'){
+                        $(".ferocity_price").val(v);
+                    }else if(i== 'tick'){
+                        $(".tick_price").val(v);
+                    }else{
+                        add_html += `
                         <tr class="drag-sort-cell">
 <!--                            <td class="no-padding">-->
 <!--                                <div class="form-table-select">-->
@@ -870,25 +792,25 @@ if ($artist_flag == 1) {
                             </td>
                         </tr>
                     `;
-                }
-            })
-            $(".place_plus_table").append(add_html);
-        }
+                    }
+                })
+                $(".place_plus_table").append(add_html);
+            }
 
-        // 기타
-        console.log(option_array.etc);
-        // 다리
-        if(option_array.etc.leg != ''){
-            var add_html = '';
-            $.each(option_array.etc.leg, function(i,v){
-                if(i == 'tonail') {
-                    $(".tonail_price").val(v);
-                }else if(i == 'boots'){
-                    $(".bell_price").val(v);
-                }else if(i== 'bell'){
-                    $(".bell_price").val(v);
-                }else{
-                    add_html += `
+            // 기타
+            console.log(option_array.etc);
+            // 다리
+            if(option_array.etc.leg != ''){
+                var add_html = '';
+                $.each(option_array.etc.leg, function(i,v){
+                    if(i == 'toenail') {
+                        $(".toenail_price").val(v);
+                    }else if(i == 'boots'){
+                        $(".boots_price").val(v);
+                    }else if(i== 'bell'){
+                        $(".bell_price").val(v);
+                    }else{
+                        add_html += `
                         <tr class="drag-sort-cell">
 <!--                            <td class="no-padding">-->
 <!--                                <div class="form-table-select">-->
@@ -910,16 +832,16 @@ if ($artist_flag == 1) {
                             </td>
                         </tr>
                     `;
-                }
-            })
-            $(".leg_table").append(add_html);
-        }
+                    }
+                })
+                $(".leg_table").append(add_html);
+            }
 
-        // 스파
-        if(option_array.etc.spa != ''){
-            var add_html = '';
-            $.each(option_array.etc.spa, function(i,v){
-                add_html += `
+            // 스파
+            if(option_array.etc.spa != ''){
+                var add_html = '';
+                $.each(option_array.etc.spa, function(i,v){
+                    add_html += `
                     <tr class="drag-sort-cell">
 <!--                        <td class="no-padding">-->
 <!--                            <div class="form-table-select">-->
@@ -941,15 +863,15 @@ if ($artist_flag == 1) {
                         </td>
                     </tr>
                 `;
-            })
-            $(".spa_table").html(add_html);
-        }
+                })
+                $(".spa_table").html(add_html);
+            }
 
-        // 염색
-        if(option_array.etc.dyeing != ''){
-            var add_html = '';
-            $.each(option_array.etc.dyeing, function(i,v){
-                add_html += `
+            // 염색
+            if(option_array.etc.dyeing != ''){
+                var add_html = '';
+                $.each(option_array.etc.dyeing, function(i,v){
+                    add_html += `
                     <tr class="drag-sort-cell">
 <!--                        <td class="no-padding">-->
 <!--                            <div class="form-table-select">-->
@@ -971,15 +893,15 @@ if ($artist_flag == 1) {
                         </td>
                     </tr>
                 `;
-            })
-            $(".dyeing_table").html(add_html);
-        }
+                })
+                $(".dyeing_table").html(add_html);
+            }
 
-        // 기타
-        if(option_array.etc.etc_etc != ''){
-            var add_html = '';
-            $.each(option_array.etc.etc_etc, function(i,v){
-                add_html += `
+            // 기타
+            if(option_array.etc.etc_etc != ''){
+                var add_html = '';
+                $.each(option_array.etc.etc_etc, function(i,v){
+                    add_html += `
                     <tr class="drag-sort-cell">
 <!--                        <td class="no-padding">-->
 <!--                            <div class="form-table-select">-->
@@ -1001,14 +923,16 @@ if ($artist_flag == 1) {
                         </td>
                     </tr>
                 `;
-            })
-            $(".etc_table").html(add_html);
+                })
+                $(".etc_table").html(add_html);
+            }
+
+            // 코멘트
+            $(".comment").val(db_to_str(option_array.comment));
+            // idx
+            $(".option_product_idx").val(option_array.idx);
         }
 
-        // 코멘트
-        $(".comment").val(option_array.comment);
-        // idx
-        $(".option_product_idx").val(option_array.idx);
 
     })
 
@@ -1072,12 +996,18 @@ if ($artist_flag == 1) {
         }
     }
 
+    // 구간삭제
+    $(document).on("click",".icon-trash",function(){
+        $(this).parents('.drag-sort-cell').remove();
+    })
+
     function open_pop(){
         pop.open('saveOptionProduct');
     }
 
     function save_option_product(){
         var postData = decodeURIComponent($("#optionProductForm").serialize());
+        postData += '&comment='+str_to_db($(".comment").val());
         postData += '&mode=put_option_product';
         //console.log(postData);
         put_option_product(postData);

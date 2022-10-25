@@ -62,7 +62,10 @@ if ($artist_flag == 1) {
     $(document).ready(function() {
         var artist_flag = "<?=$artist_flag?>";
         if(artist_flag == 1){
-            view_artist();
+            $("#gnb_home").css("display","none");
+            $("#gnb_shop_wrap").css("display","none");
+            $("#gnb_detail_wrap").css("display","none");
+            $("#gnb_stats_wrap").css("display","none");
         }
         get_navi(artist_id);
         gnb_init();
@@ -77,7 +80,7 @@ if ($artist_flag == 1) {
             var type_txt = (v.type == '1')? "업데이트" : "공지";
             html += `
                 <li>
-                    <a href="other_notice_view.php?type=${type_txt}&title=${v.title}&date=${date}&img=${v.image}" class="btn-board-item">
+                    <a href="other_notice_view.php?type=${type_txt}&title=${v.title}&date=${date}&img=${v.image}&notice=${v.notice}" class="btn-board-item">
                         <div class="item-cate">${type_txt}</div>
                         <div class="item-info">
                             <div class="item-subject">${v.title}</div>

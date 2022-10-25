@@ -350,6 +350,10 @@ function get_artist_list(id){
 
 // 미용사 숨김 수정
 function show_modify_artist(id, name, is_view){
+    if(id == name && is_view == '1'){
+        pop.open('firstRequestMsg1', '대표 미용사는 숨김 처리가 불가능합니다. 닉네임을 수정하여 사용해주세요.');
+        return false;
+    }
     $.ajax({
         url: '../data/pc_ajax.php',
         data: {
@@ -375,6 +379,10 @@ function show_modify_artist(id, name, is_view){
 
 // 미용사 퇴사 수정
 function leave_modify_artist(id, name, is_out){
+    if(id == name && is_out == '1'){
+        pop.open('firstRequestMsg1', '대표 미용사는 퇴사 처리가 불가능합니다. 닉네임을 수정하여 사용해주세요.');
+        return false;
+    }
     $.ajax({
         url: '../data/pc_ajax.php',
         data: {
@@ -744,7 +752,7 @@ function view_beauty_product(){
     $(".append_dog_service_wrap").append(dog_total_html);
 
     // 공통 안내사항
-    $(".etc_comment").text(setting_array[0].etc_comment);
+    $(".etc_comment").text(db_to_str(setting_array[0].etc_comment));
 
     // 부가세
     if(setting_array[0].is_vat == 0){
@@ -855,7 +863,7 @@ function view_beauty_product(){
             `;
         })
         $(".option_append_wrap").append(cat_option_html);
-        $(".cat_comment").text(setting_array[0].cat.comment);
+        $(".cat_comment").text(db_to_str(setting_array[0].cat.comment));
 
         $(".total_cat_wrap").css("display","block");
         $(".cat_none_wrap").css("display","none");
@@ -898,7 +906,7 @@ $(document).on("click",".del_dog_product",function(){
 
 // 공통 설명 수정 및 등록
 function put_common_etc_comment(artist_id){
-    var comment = $(".common_etc_comment").val();
+    var comment = str_to_db($(".common_etc_comment").val());
     $.ajax({
         url: '../data/pc_ajax.php',
         data: {
@@ -1099,7 +1107,7 @@ function view_option_product(){
             $.each(setting_array[1].option.etc.leg, function(i,v){
                 var txt = '';
                 switch (i){
-                    case 'tonail' : txt = '발톱'; break;
+                    case 'toenail' : txt = '발톱'; break;
                     case 'boots' : txt = '장화'; break;
                     case 'bell' : txt = '방울'; break;
                     default : txt = i;
@@ -1175,7 +1183,7 @@ function view_option_product(){
         $(".no_option_product").css("display","none");
         $(".do_option_product").css("display","block");
 
-        $(".option_product_comment").text(setting_array[1].option.comment);
+        $(".option_product_comment").text(db_to_str(setting_array[1].option.comment));
     }
 }
 
@@ -1220,7 +1228,7 @@ function view_beauty_coupon(){
                         <td>${(v.price).format()}</td>
                     </tr>
                 `;
-                $(".coupon_c_memo").text(v.memo);
+                $(".coupon_c_memo").text(db_to_str(v.memo));
             }else{
                 coupon_f_tbody_html += `
                     <tr>
@@ -1229,7 +1237,7 @@ function view_beauty_coupon(){
                         <td>${(v.price).format()}</td>
                     </tr>
                 `;
-                $(".coupon_f_memo").text(v.memo);
+                $(".coupon_f_memo").text(db_to_str(v.memo));
             }
         })
         coupon_c_tbody_html += `</tbody>`;
@@ -1807,6 +1815,9 @@ function view_add_product(){
     $(".is_over_kgs0").prop("checked",true);
     $(".dog_over_kgs_wrap").css("display","none");
 
+    // 코멘트 초기화
+    $(".dog_add_comment").val('');
+
     //////////////////////////////////////////////////////// 고양이상품 뿌려주기
     if(setting_array[0].cat != ''){
         if(setting_array[0].cat.in_shop == 1 && setting_array[0].cat.out_shop == 1){
@@ -1984,172 +1995,256 @@ function get_dog_type_product(artist_id,second_type,direct_title){
             } else if (head.code === 200) {
                 //setting_array.push(body);
                 console.log(body);
-                var kg_array = (body.kgs).split(',');
-                console.log(kg_array);
-                $.each(kg_array,function(i,v){
-                    // 아무것도 없는 row 복사
-                    var bt_div = $('.dog_table_tr:last-child').clone();
+                if(body != ''){
+                    var kg_array = (body.kgs).split(',');
+                    //console.log(kg_array);
+                    view_add_product();
+                    $.each(kg_array,function(i,v){
+                        // 아무것도 없는 row 복사
+                        var bt_div = $('.dog_table_tr:last-child').clone();
 
-                    // row에 값 넣기
-                    $('.dog_table_tr:last-child .kgs_arr').val(parseInt(kg_array[i]).toFixed(1));
+                        // row에 값 넣기
+                        $('.dog_table_tr:last-child .kgs_arr').val((parseFloat(kg_array[i]).toFixed(1)));
 
-                    // 목욕
-                    if(body.bath.price != ''){
-                        var price_array = (body.bath.price).split(',');
-                        $('.dog_table_tr:last-child .bath_price').val(price_array[i]);
-                        var bath_consult_array = (body.bath.is_consult).split(',');
-                        if(bath_consult_array[i] == '1'){
-                            $('.dog_table_tr:last-child .is_consult_bath').prop("checked", true);
-                            $('.dog_table_tr:last-child .not_consult_bath').prop("disabled", true);
+                        // 목욕
+                        if(body.bath.price != ''){
+                            var price_array = (body.bath.price).split(',');
+                            $('.dog_table_tr:last-child .bath_price').val(price_array[i]);
+                            var bath_consult_array = (body.bath.is_consult).split(',');
+                            if(bath_consult_array[i] == '1'){
+                                $('.dog_table_tr:last-child .is_consult_bath').prop("checked", true);
+                                $('.dog_table_tr:last-child .not_consult_bath').prop("disabled", true);
+                            }
                         }
-                    }
-                    // 부분미용
-                    if(body.part.price != ''){
-                        var part_array = (body.part.price).split(',');
-                        $('.dog_table_tr:last-child .part_price').val(part_array[i]);
-                        var part_consult_array = (body.part.is_consult).split(',');
-                        if(part_consult_array[i] == '1'){
-                            $('.dog_table_tr:last-child .is_consult_part').prop("checked", true);
-                            $('.dog_table_tr:last-child .not_consult_part').prop("disabled", true);
+                        // 부분미용
+                        if(body.part.price != ''){
+                            var part_array = (body.part.price).split(',');
+                            $('.dog_table_tr:last-child .part_price').val(part_array[i]);
+                            var part_consult_array = (body.part.is_consult).split(',');
+                            if(part_consult_array[i] == '1'){
+                                $('.dog_table_tr:last-child .is_consult_part').prop("checked", true);
+                                $('.dog_table_tr:last-child .not_consult_part').prop("disabled", true);
+                            }
                         }
-                    }
-                    // 부분+목욕
-                    if(body.bath_part.price != ''){
-                        var bath_part_array = (body.bath_part.price).split(',');
-                        $('.dog_table_tr:last-child .bath_part_price').val(bath_part_array[i]);
-                        var bath_part_consult_array = (body.bath_part.is_consult).split(',');
-                        if(bath_part_consult_array[i] == '1'){
-                            $('.dog_table_tr:last-child .is_consult_bath_part').prop("checked", true);
-                            $('.dog_table_tr:last-child .not_consult_bath_part').prop("disabled", true);
+                        // 부분+목욕
+                        if(body.bath_part.price != ''){
+                            var bath_part_array = (body.bath_part.price).split(',');
+                            $('.dog_table_tr:last-child .bath_part_price').val(bath_part_array[i]);
+                            var bath_part_consult_array = (body.bath_part.is_consult).split(',');
+                            if(bath_part_consult_array[i] == '1'){
+                                $('.dog_table_tr:last-child .is_consult_bath_part').prop("checked", true);
+                                $('.dog_table_tr:last-child .not_consult_bath_part').prop("disabled", true);
+                            }
                         }
-                    }
-                    // 위생
-                    if(body.sanitation.price != ''){
-                        var sanitation_array = (body.sanitation.price).split(',');
-                        $('.dog_table_tr:last-child .sanitation_price').val(sanitation_array[i]);
-                        var sanitation_consult_array = (body.sanitation.is_consult).split(',');
-                        if(sanitation_consult_array[i] == '1'){
-                            $('.dog_table_tr:last-child .is_consult_sanitation').prop("checked", true);
-                            $('.dog_table_tr:last-child .not_consult_sanitation').prop("disabled", true);
+                        // 위생
+                        if(body.sanitation.price != ''){
+                            var sanitation_array = (body.sanitation.price).split(',');
+                            $('.dog_table_tr:last-child .sanitation_price').val(sanitation_array[i]);
+                            var sanitation_consult_array = (body.sanitation.is_consult).split(',');
+                            if(sanitation_consult_array[i] == '1'){
+                                $('.dog_table_tr:last-child .is_consult_sanitation').prop("checked", true);
+                                $('.dog_table_tr:last-child .not_consult_sanitation').prop("disabled", true);
+                            }
                         }
-                    }
-                    // 위생+목욕
-                    if(body.sanitation_bath.price != ''){
-                        var sanitation_bath_array = (body.sanitation_bath.price).split(',');
-                        $('.dog_table_tr:last-child .sanitation_bath_price').val(sanitation_bath_array[i]);
-                        var sanitation_bath_consult_array = (body.sanitation_bath.is_consult).split(',');
-                        if(sanitation_bath_consult_array[i] == '1'){
-                            $('.dog_table_tr:last-child .is_consult_sanitation_bath').prop("checked", true);
-                            $('.dog_table_tr:last-child .not_consult_sanitation_bath').prop("disabled", true);
+                        // 위생+목욕
+                        if(body.sanitation_bath.price != ''){
+                            var sanitation_bath_array = (body.sanitation_bath.price).split(',');
+                            $('.dog_table_tr:last-child .sanitation_bath_price').val(sanitation_bath_array[i]);
+                            var sanitation_bath_consult_array = (body.sanitation_bath.is_consult).split(',');
+                            if(sanitation_bath_consult_array[i] == '1'){
+                                $('.dog_table_tr:last-child .is_consult_sanitation_bath').prop("checked", true);
+                                $('.dog_table_tr:last-child .not_consult_sanitation_bath').prop("disabled", true);
+                            }
                         }
-                    }
-                    // 전체미용
-                    if(body.all.price != ''){
-                        var all_array = (body.all.price).split(',');
-                        $('.dog_table_tr:last-child .all_price').val(all_array[i]);
-                        var all_consult_array = (body.all.is_consult).split(',');
-                        if(all_consult_array[i] == '1'){
-                            $('.dog_table_tr:last-child .is_consult_all').prop("checked", true);
-                            $('.dog_table_tr:last-child .not_consult_all').prop("disabled", true);
+                        // 전체미용
+                        if(body.all.price != ''){
+                            var all_array = (body.all.price).split(',');
+                            $('.dog_table_tr:last-child .all_price').val(all_array[i]);
+                            var all_consult_array = (body.all.is_consult).split(',');
+                            if(all_consult_array[i] == '1'){
+                                $('.dog_table_tr:last-child .is_consult_all').prop("checked", true);
+                                $('.dog_table_tr:last-child .not_consult_all').prop("disabled", true);
+                            }
                         }
-                    }
-                    // 스포팅
-                    if(body.spoting.price != ''){
-                        var spoting_array = (body.spoting.price).split(',');
-                        $('.dog_table_tr:last-child .spoting_price').val(spoting_array[i]);
-                        var spoting_consult_array = (body.spoting.is_consult).split(',');
-                        if(spoting_consult_array[i] == '1'){
-                            $('.dog_table_tr:last-child .is_consult_spoting').prop("checked", true);
-                            $('.dog_table_tr:last-child .not_consult_spoting').prop("disabled", true);
+                        // 스포팅
+                        if(body.spoting.price != ''){
+                            var spoting_array = (body.spoting.price).split(',');
+                            $('.dog_table_tr:last-child .spoting_price').val(spoting_array[i]);
+                            var spoting_consult_array = (body.spoting.is_consult).split(',');
+                            if(spoting_consult_array[i] == '1'){
+                                $('.dog_table_tr:last-child .is_consult_spoting').prop("checked", true);
+                                $('.dog_table_tr:last-child .not_consult_spoting').prop("disabled", true);
+                            }
                         }
-                    }
-                    // 가위컷
-                    if(body.scissors.price != ''){
-                        var scissors_array = (body.scissors.price).split(',');
-                        $('.dog_table_tr:last-child .scissors_price').val(scissors_array[i]);
-                        var scissors_consult_array = (body.scissors.is_consult).split(',');
-                        if(scissors_consult_array[i] == '1'){
-                            $('.dog_table_tr:last-child .is_consult_scissors').prop("checked", true);
-                            $('.dog_table_tr:last-child .not_consult_scissors').prop("disabled", true);
+                        // 가위컷
+                        if(body.scissors.price != ''){
+                            var scissors_array = (body.scissors.price).split(',');
+                            $('.dog_table_tr:last-child .scissors_price').val(scissors_array[i]);
+                            var scissors_consult_array = (body.scissors.is_consult).split(',');
+                            if(scissors_consult_array[i] == '1'){
+                                $('.dog_table_tr:last-child .is_consult_scissors').prop("checked", true);
+                                $('.dog_table_tr:last-child .not_consult_scissors').prop("disabled", true);
+                            }
                         }
-                    }
-                    // 써머컷
-                    if(body.summercut.price != ''){
-                        var summercut_array = (body.summercut.price).split(',');
-                        $('.dog_table_tr:last-child .summercut_price').val(summercut_array[i]);
-                        var summercut_consult_array = (body.summercut.is_consult).split(',');
-                        if(summercut_consult_array[i] == '1'){
-                            $('.dog_table_tr:last-child .is_consult_summercut').prop("checked", true);
-                            $('.dog_table_tr:last-child .not_consult_summercut').prop("disabled", true);
+                        // 써머컷
+                        if(body.summercut.price != ''){
+                            var summercut_array = (body.summercut.price).split(',');
+                            $('.dog_table_tr:last-child .summercut_price').val(summercut_array[i]);
+                            var summercut_consult_array = (body.summercut.is_consult).split(',');
+                            if(summercut_consult_array[i] == '1'){
+                                $('.dog_table_tr:last-child .is_consult_summercut').prop("checked", true);
+                                $('.dog_table_tr:last-child .not_consult_summercut').prop("disabled", true);
+                            }
                         }
-                    }
-                    // 추가1
-                    if(body.beauty1.price != ''){
-                        var beauty1_array = (body.beauty1.price).split(',');
-                        $('.dog_table_tr:last-child .beauty1_price').val(beauty1_array[i]);
-                        var beauty1_consult_array = (body.beauty1.is_consult).split(',');
-                        if(beauty1_consult_array[i] == '1'){
-                            $('.dog_table_tr:last-child .is_consult_beauty1').prop("checked", true);
-                            $('.dog_table_tr:last-child .not_consult_beauty1').prop("disabled", true);
+                        // 추가1
+                        if(body.beauty1.price != ''){
+                            var beauty1_array = (body.beauty1.price).split(',');
+                            $('.dog_table_tr:last-child .beauty1_price').val(beauty1_array[i]);
+                            var beauty1_consult_array = (body.beauty1.is_consult).split(',');
+                            if(beauty1_consult_array[i] == '1'){
+                                $('.dog_table_tr:last-child .is_consult_beauty1').prop("checked", true);
+                                $('.dog_table_tr:last-child .not_consult_beauty1').prop("disabled", true);
+                            }
                         }
-                    }
-                    // 추가2
-                    if(body.beauty2.price != ''){
-                        var beauty2_array = (body.beauty2.price).split(',');
-                        $('.dog_table_tr:last-child .beauty2_price').val(beauty2_array[i]);
-                        var beauty2_consult_array = (body.beauty2.is_consult).split(',');
-                        if(beauty2_consult_array[i] == '1'){
-                            $('.dog_table_tr:last-child .is_consult_beauty2').prop("checked", true);
-                            $('.dog_table_tr:last-child .not_consult_beauty2').prop("disabled", true);
+                        // 추가2
+                        if(body.beauty2.price != ''){
+                            var beauty2_array = (body.beauty2.price).split(',');
+                            $('.dog_table_tr:last-child .beauty2_price').val(beauty2_array[i]);
+                            var beauty2_consult_array = (body.beauty2.is_consult).split(',');
+                            if(beauty2_consult_array[i] == '1'){
+                                $('.dog_table_tr:last-child .is_consult_beauty2').prop("checked", true);
+                                $('.dog_table_tr:last-child .not_consult_beauty2').prop("disabled", true);
+                            }
                         }
-                    }
-                    // 추가1
-                    if(body.beauty3.price != ''){
-                        var beauty3_array = (body.beauty3.price).split(',');
-                        $('.dog_table_tr:last-child .beauty3_price').val(beauty3_array[i]);
-                        var beauty3_consult_array = (body.beauty3.is_consult).split(',');
-                        if(beauty3_consult_array[i] == '1'){
-                            $('.dog_table_tr:last-child .is_consult_beauty3').prop("checked", true);
-                            $('.dog_table_tr:last-child .not_consult_beauty3').prop("disabled", true);
+                        // 추가1
+                        if(body.beauty3.price != ''){
+                            var beauty3_array = (body.beauty3.price).split(',');
+                            $('.dog_table_tr:last-child .beauty3_price').val(beauty3_array[i]);
+                            var beauty3_consult_array = (body.beauty3.is_consult).split(',');
+                            if(beauty3_consult_array[i] == '1'){
+                                $('.dog_table_tr:last-child .is_consult_beauty3').prop("checked", true);
+                                $('.dog_table_tr:last-child .not_consult_beauty3').prop("disabled", true);
+                            }
                         }
-                    }
-                    // 추가1
-                    if(body.beauty4.price != ''){
-                        var beauty4_array = (body.beauty4.price).split(',');
-                        $('.dog_table_tr:last-child .beauty4_price').val(beauty4_array[i]);
-                        var beauty4_consult_array = (body.beauty4.is_consult).split(',');
-                        if(beauty4_consult_array[i] == '1'){
-                            $('.dog_table_tr:last-child .is_consult_beauty4').prop("checked", true);
-                            $('.dog_table_tr:last-child .not_consult_beauty4').prop("disabled", true);
+                        // 추가1
+                        if(body.beauty4.price != ''){
+                            var beauty4_array = (body.beauty4.price).split(',');
+                            $('.dog_table_tr:last-child .beauty4_price').val(beauty4_array[i]);
+                            var beauty4_consult_array = (body.beauty4.is_consult).split(',');
+                            if(beauty4_consult_array[i] == '1'){
+                                $('.dog_table_tr:last-child .is_consult_beauty4').prop("checked", true);
+                                $('.dog_table_tr:last-child .not_consult_beauty4').prop("disabled", true);
+                            }
                         }
-                    }
-                    // 추가1
-                    if(body.beauty5.price != ''){
-                        var beauty5_array = (body.beauty5.price).split(',');
-                        $('.dog_table_tr:last-child .beauty5_price').val(beauty5_array[i]);
-                        var beauty5_consult_array = (body.beauty5.is_consult).split(',');
-                        if(beauty5_consult_array[i] == '1'){
-                            $('.dog_table_tr:last-child .is_consult_beauty5').prop("checked", true);
-                            $('.dog_table_tr:last-child .not_consult_beauty5').prop("disabled", true);
+                        // 추가1
+                        if(body.beauty5.price != ''){
+                            var beauty5_array = (body.beauty5.price).split(',');
+                            $('.dog_table_tr:last-child .beauty5_price').val(beauty5_array[i]);
+                            var beauty5_consult_array = (body.beauty5.is_consult).split(',');
+                            if(beauty5_consult_array[i] == '1'){
+                                $('.dog_table_tr:last-child .is_consult_beauty5').prop("checked", true);
+                                $('.dog_table_tr:last-child .not_consult_beauty5').prop("disabled", true);
+                            }
                         }
+
+                        // 복사한 row 붙여넣기
+                        $('.dog_table_wrap').append(bt_div);
+                    })
+                    // 마지막 row 삭제
+                    $('.dog_table_tr:last-child').remove();
+
+                    // 무게 추가요금 설정일시
+                    if(body.is_over_kgs == 1){
+                        $(".is_over_kgs1").prop("checked",true);
+                        $(".dog_over_kgs_wrap").css("display","block");
+                        $(".what_over_kgs").val(body.what_over_kgs);
+                        $(".over_kgs_price").val(body.over_kgs_price);
                     }
 
-                    // 복사한 row 붙여넣기
-                    $('.dog_table_wrap').append(bt_div);
-                })
-                // 마지막 row 삭제
-                $('.dog_table_tr:last-child').remove();
+                    // 대형견 키로당 무게 설정일시
+                    if(body.is_kgs_by_price == 1 && body.second_type == '대형견미용'){
+                        $(".add_del_wrap").css("display","none");
+                        $(".is_kgs_by_price1").prop("checked",true);
+                        //$(".kgs_arr").val('1.0');
+                        //$(".kgs_arr").prop("disabled",true);
+                        $(".is_over_kgs_warp").css("display","none");
+                    }
 
-                // 무게 추가요금 설정일시
-                if(body.is_over_kgs == 1){
-                    $(".is_over_kgs1").prop("checked",true);
-                    $(".dog_over_kgs_wrap").css("display","block");
-                    $(".what_over_kgs").val(body.what_over_kgs);
-                    $(".over_kgs_price").val(body.over_kgs_price);
+                    $(".dog_add_comment").val(db_to_str(body.add_comment));
+                }else{
+                    view_add_product();
                 }
-                $(".dog_add_comment").val(body.add_comment);
+
 
             }
         }
     })
+}
+
+//달력
+function renderCalendar(date) {
+
+        let viewYear = date.getFullYear();
+        let viewMonth = date.getMonth();
+
+        // year-month 채우기
+        document.querySelector('.year_month').innerText = `${viewYear}.${fill_zero(viewMonth+1)}`;
+
+        // 지난 달 마지막 Date, 이번 달 마지막 Date
+        let prevLast = new Date(viewYear, viewMonth, 0);
+        let thisLast = new Date(viewYear, viewMonth + 1, 0);
+        let PLDate = prevLast.getDate();
+        let PLDay = prevLast.getDay();
+        let TLDate = thisLast.getDate();
+        let TLDay = thisLast.getDay();
+
+        // Dates 기본 배열들
+        let prevDates = [];
+        let thisDates = [...Array(TLDate + 1).keys()].slice(1);
+        let nextDates = [];
+
+        // prevDates 계산
+        if (PLDay !== 6) {
+            for (let i = 0; i < PLDay + 1; i++) {
+                prevDates.unshift(PLDate - i);
+            }
+        }
+
+        // nextDates 계산
+        for (let i = 1; i < 7 - TLDay; i++) {
+            nextDates.push(i)
+        }
+
+        // Dates 합치기
+        let dates = prevDates.concat(thisDates, nextDates);
+
+        // Dates 정리
+        dates.forEach(function(_date, i){
+            dates[i] = `
+            
+            <div class="calendar-month-body-col ${prevDates.indexOf(_date) >= 0 && i <= 7 ? "before" : ""} ${nextDates.indexOf(_date) >= 0 && i >= dates.length - 7 ? "after" : ""} ${new Date(date.getFullYear(),date.getMonth(),_date).getDay() === 0 ? 'sunday' : ''} ${new Date(date.getFullYear(),date.getMonth(),_date).getDay() === 6 ? 'saturday' : '' } ">
+                <div class="calendar-col-inner">
+                    <div class="calendar-day-value"><div class="number ${new Date(date.getFullYear(),date.getMonth(),_date).getDay() === 0 ? 'sunday' : ''} ${new Date(date.getFullYear(),date.getMonth(),_date).getDay() === 6 ? 'saturday' : '' }">${_date}</div><div class="state"></div></div>
+                    <div class="calendar-total-value"></div>
+                </div>
+            </div>
+            
+            `;
+        })
+        //7일단위로 나눔
+        const div_dates = dates.division(7);
+
+        //row 생성
+        document.getElementById(`calendar-month-body`).innerHTML = '';
+        for (let i = 0; i < div_dates.length; i++) {
+            document.getElementById(`calendar-month-body`).innerHTML += ` <div class="calendar-month-body-row ${i > 0 && i < 5 ? "op-1" : ""} ${i === 0 || i === 2 ? '1or3' : i === 1 || i === 3 ? '2or4':""} " id="calendar-month-body-row-${i}" ></div>`
+        }
+        //console.log(div_dates);
+        for (let i = 0; i < div_dates.length; i++) {
+            document.getElementById(`calendar-month-body-row-${i}`).innerHTML = '';
+            for (let j = 0; j < div_dates[i].length; j++) {
+                document.getElementById(`calendar-month-body-row-${i}`).innerHTML += div_dates[i][j]
+            }
+        }
+
 }

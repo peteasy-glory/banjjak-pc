@@ -1,3 +1,6 @@
+var customer_id = '';
+var tmp_seq = '';
+
 //펫이름or 전화번호검색
 function search(search_value,id) {
 
@@ -33,7 +36,7 @@ function search(search_value,id) {
                         body = [body];
                     }
 
-                    console.log(body)
+                    //console.log(body)
                     if(body.length > 0){
                         document.getElementById('search_phone_none_data').style.display = 'none';
                         document.getElementById('search_phone_inner').innerHTML = ''
@@ -52,13 +55,13 @@ function search(search_value,id) {
                                 }
 
 
-                            }else if(el.pet_photo !== null && el.pet_photo !== ""){
-                                if(el.pet_photo.substr(0,4) === '/pet'){
-
-                                    image = `https://image.banjjakpet.com${el.pet_photo.replace('/pet','')}`;
-                                }else{
-                                    image = `https://image.banjjakpet.com${el.pet_photo}`;
-                                }
+                            // }else if(el.pet_photo !== null && el.pet_photo !== ""){
+                            //     if(el.pet_photo.substr(0,4) === '/pet'){
+                            //
+                            //         image = `https://image.banjjakpet.com${el.pet_photo.replace('/pet','')}`;
+                            //     }else{
+                            //         image = `https://image.banjjakpet.com${el.pet_photo}`;
+                            //     }
                             }else{
                                 if(el.type === 'dog'){
                                     image = `/static/images/icon/icon-pup-select-off.png`
@@ -79,10 +82,10 @@ function search(search_value,id) {
 
 
                             document.getElementById('search_phone_inner').innerHTML += `<div class="grid-layout-cell grid-2">
-                                                                                                <a href="/customer/customer_view.php" onclick="localStorage.setItem('customer_select','${el.cellphone}'); localStorage.setItem('noshow_cnt','${el.no_show_count > 0 ? el.no_show_count : 0}'); localStorage.setItem('sub_cellphone','${sub_cellphone}')" class="customer-card-item">
+                                                                                                <a href="/customer/customer_view.php" onclick="localStorage.setItem('user_pet_seq','${el.pet_seq}'); localStorage.setItem('customer_select','${el.cellphone}'); localStorage.setItem('noshow_cnt','${el.no_show_count > 0 ? el.no_show_count : 0}'); localStorage.setItem('sub_cellphone','${sub_cellphone}')" class="customer-card-item">
                                                                                                     <div class="item-info-wrap">
                                                                                                         <div class="item-thumb">
-                                                                                                            <div class="user-thumb large">
+                                                                                                            <div class="user-thumb large" onclick="thumb_view(this,\`${el.beauty_photo}\`)">
                                                                                                                 <img src="${image}" alt="">
                                                                                                             </div>
                                                                                                         </div>
@@ -129,6 +132,7 @@ function search(search_value,id) {
 
 //보조연락처(가족)
 function search_fam(search_value,id){
+    localStorage.setItem('search_value',search_value);
     search(search_value,id).then(function(body){
         body.forEach(function (el,i){
             document.getElementById(`grid_layout_inner_${i}`).innerHTML = ''
@@ -167,11 +171,11 @@ function customer_all_scroll_paging(id){
 
 
     list.addEventListener('scroll',function(){
-        // console.log('-------------------------')
-        // console.log('list.offsetHeight = ' + list.offsetHeight);
-        // console.log('list.scrollTop = ' + list.scrollTop);
-        // console.log('list.scrollHeight = ' + list.scrollHeight);
-        // console.log(list.offsetHeight + list.scrollTop >= (list.scrollHeight - 200));
+        // //console.log('-------------------------')
+        // //console.log('list.offsetHeight = ' + list.offsetHeight);
+        // //console.log('list.scrollTop = ' + list.scrollTop);
+        // //console.log('list.scrollHeight = ' + list.scrollHeight);
+        // //console.log(list.offsetHeight + list.scrollTop >= (list.scrollHeight - 200));
 
         if(list.offsetHeight + list.scrollTop >= (list.scrollHeight - 200)){
 
@@ -181,7 +185,10 @@ function customer_all_scroll_paging(id){
 
                     time = null;
                     customer_all(id).then(function(customers){
-                        customer_list(id,customers)
+                        customer_list(id,customers).then(function(){
+
+                            document.getElementById('customer_select').removeAttribute('disabled')
+                        })
                     });
                 },100)
             }
@@ -206,7 +213,10 @@ function customer_select_(id){
             list_loging = false;
             list_end = false;
             customer_all(id).then(function(customers) {
-                customer_list(customers);
+                customer_list(id,customers).then(function(){
+
+                    document.getElementById('customer_select').removeAttribute('disabled')
+                });
             })
         })
 
@@ -218,12 +228,16 @@ let offset = 1;
 
 function customer_all(id){
 
-    offset =1;
-
     return new Promise(function (resolve){
         if(list_loging || list_end){
             return false;
         }
+
+        if(offset !== 1){
+
+            document.getElementById('customer_select').setAttribute('disabled',true);
+        }
+
 
         list_loging = true;
         // document.getElementById('tbody').innerHTML ='';
@@ -256,6 +270,11 @@ function customer_all(id){
             case 'e' : ord = 4; break;
         }
 
+        //console.log(id)
+        //console.log(type)
+        //console.log(ord)
+        //console.log(offset)
+        //console.log(number);
 
         $.ajax({
 
@@ -271,22 +290,41 @@ function customer_all(id){
                 number:number,
 
             },
+            beforeSend:function(){
+
+                if(document.getElementById('loading_wrap')){
+
+                    document.getElementById('loading_wrap').style.display = 'flex';
+                }
+            },
             success:function (res){
+                //console.log(res)
                 let response = JSON.parse(res);
                 let customers =response.data
                 let head = response.data.head;
                 let body = response.data.body;
 
+                if(body.length === undefined){
+                    body = [body];
+                }
                 if(body.length <=0){
 
                     list_end = true;
                 }
 
-                console.log(body);
+                //console.log(body);
                 resolve(customers)
             }
             ,complete:function(){
+
+                if(document.getElementById('loading_wrap')){
+
+                    document.getElementById('loading_wrap').style.display = 'none';
+
+                }
+
                 offset +=20
+                //console.log(offset)
                 list_loging=false;
             }
         })
@@ -322,70 +360,10 @@ function customer_count(id){
     })
 }
 
-function customer_graph(customers){
-
-    let all = (customers[0].body.length === undefined ? 0 : customers[0].body.length)+(customers[1].body.length === undefined ? 0 : customers[1].body.length)+(customers[2].body.length === undefined ? 0 : customers[2].body.length)
-    let beauty = (customers[0].body.length === undefined ? 0 : (customers[0].body.length/all*100).toFixed(1));
-    let hotel = (customers[1].body.length === undefined ? 0 : (customers[1].body.length/all*100).toFixed(1));
-    let kinder = (customers[2].body.length === undefined ? 0 : (customers[2].body.length/all*100).toFixed(1));
-
-    var chart = bb.generate({
-        size: {
-            height: 285,
-            width: 285
-        },
-        data: {
-            columns: [
-                ["유치원", kinder],
-                ["호텔", hotel],
-                ["미용", beauty]
-            ],
-            colors: {
-                유치원: "#7AE19A",
-                호텔: "#FDD94E",
-                미용: "#8667c1",
-
-            },
-            type: "pie",
-            labels: {
-                show: false
-            }
-        },
-        /* order: "asc", */ // 그래프 순서 변경하기
-        legend: {
-            show: false
-        },
-        // tooltip: {
-        //     show: false
-        // },
-        pie: {
-            startingAngle: 0.75,
-            innerRadius: {  // 차트 두께
-                유치원: 90,
-                호텔: 90,
-                미용: 90,
-            },
-            label: {   // text 위치
-                ratio: 1,
-                format: function(value, id) {		return value +"%";       }
-            }
-        },
-        tooltip: {
-            format: {
-                value:
-                    function(value, id) {		return value +"%";    }
-            }
-        },
-        bindto: "#labelRatio"
-    });
-}
 
 function customer_list(id,customers){
 
-
-
-
-
+    return new Promise(function(resolve){
         let beauty = customers.body;
 
         if(beauty.length === undefined){
@@ -398,18 +376,18 @@ function customer_list(id,customers){
 
 
 
-                let y = el.ymdhm.substr(0, 4);
-                let M = el.ymdhm.substr(4, 2);
-                let d = el.ymdhm.substr(6, 2);
-                let h = el.ymdhm.substr(8, 2);
-                let m = el.ymdhm.substr(10, 2);
-                let product = el.product.split('|');
-                let size = product[3];
-                let b_product = product[4];
-                let grade = parseInt(el.grade.split('|')[1]);
+            let y = el.ymdhm.substr(0, 4);
+            let M = el.ymdhm.substr(4, 2);
+            let d = el.ymdhm.substr(6, 2);
+            let h = el.ymdhm.substr(8, 2);
+            let m = el.ymdhm.substr(10, 2);
+            let product = el.product.split('|');
+            let size = product[3];
+            let b_product = product[4];
+            let grade = el.grade === null || el.grade === '' ? 3 : el.grade;
 
 
-                console.log(el)
+            //console.log(el)
 
 
             $.ajax({
@@ -438,7 +416,7 @@ function customer_list(id,customers){
                                             <strong>${el.name}</strong>
                                         </div>
                                         <div class="customer-table-txt">
-                                            <span class="icon icon-grade-${grade ===  1 ? 'vip' : grade === 2 ? 'normal' : 'normalb'}"></span>
+                                            <span class="icon icon-grade-${grade ===  1 ? 'vip' : grade === 3 ? 'normalb' : 'normal'}"></span>
                                         </div>
                                     </td>
                                     <td>
@@ -467,8 +445,8 @@ function customer_list(id,customers){
                                         <div class="customer-table-txt">${el.use_count}</div>
                                     </td>
                                     <td>
-                                        <div class="customer-table-txt">${el.sum_card}원</div>
-                                        <div class="customer-table-txt">${el.sum_cash}원</div>
+                                        <div class="customer-table-txt">${el.sum_card.toLocaleString()}원</div>
+                                        <div class="customer-table-txt">${el.sum_cash.toLocaleString()}원</div>
                                     </td>
                                     <td>
                                         <div class="customer-table-txt">
@@ -481,8 +459,20 @@ function customer_list(id,customers){
                 }
 
 
+
+
+
             })
         })
+
+        resolve();
+
+    })
+
+
+
+
+
 
 
 
@@ -1015,8 +1005,8 @@ function customer_new(id){
     let mounting = '0';
     let submit_and_reserve = document.querySelector('input[name="submit_and_reserve"]:checked') === null ? false : true;
 
-    console.log(breed_select);
-    console.log(breed_value);
+    //console.log(breed_select);
+    //console.log(breed_value);
 
     let special = [];
     for(let i =0; i<special_input.length;i++){
@@ -1139,7 +1129,7 @@ function customer_new(id){
                     location.href='/booking/reserve_beauty_week.php'
 
                 }else{
-                    location.reload();
+                    pop.open('reloadPop', '등록되었습니다.');
                 }
             }
         }
@@ -1147,6 +1137,9 @@ function customer_new(id){
 
 
 }
+
+
+
 
 function customer_view(id){
 
@@ -1162,8 +1155,21 @@ function customer_view(id){
                 login_id:id,
                 cellphone:localStorage.getItem('customer_select'),
             },
+            beforeSend:function(){
+                    let height;
+                    if(document.getElementById('customer_view_loading')){
+                        height = document.getElementById('customer_card_body').offsetHeight;
+                        document.getElementById('customer_card_body').style.display = 'none';
+                        document.getElementById('customer_view_loading').style.height =`${height}px`;
+                        document.getElementById('customer_view_loading').style.display ='flex';
+
+
+                    }
+
+
+            },
             success:function(res){
-                console.log(res)
+                ////console.log(res)
                 let response = JSON.parse(res);
                 let head = response.data.head;
                 let body = response.data.body;
@@ -1175,7 +1181,7 @@ function customer_view(id){
 
                         body =[body];
                     }
-                    console.log(body)
+                    //console.log(body)
 
                     $.ajax({
 
@@ -1187,7 +1193,7 @@ function customer_view(id){
                             login_id:id,
                             cellphone:localStorage.getItem('customer_select')
                         },success:function(res) {
-                            console.log(res)
+                            //console.log(res)
                             let response = JSON.parse(res);
                             let head_ = response.data.head;
                             let body_ = response.data.body;
@@ -1201,8 +1207,6 @@ function customer_view(id){
                                 }
 
                                 let body_data= [body,body_]
-
-
 
                                 document.getElementById('customer_view_cellphone').innerText = phone_edit(localStorage.getItem('customer_select'));
                                 document.getElementById('allim_cellphone').innerText = phone_edit(localStorage.getItem('customer_select'));
@@ -1241,6 +1245,7 @@ function customer_view(id){
                                                                                 <button type="button" class="font-color-purple font-underline btn-text" onclick="open_customer_allim('${localStorage.getItem('customer_select')}');">알림톡 발송 조회
                                                                                 </button>
                                                                             </div>
+                                                                            
                                                                         </div>
                                                                     </div>
                                                                     <div class="customer-user-table-row">
@@ -1278,7 +1283,7 @@ function customer_view(id){
 
                                     document.getElementById('pet_table').innerHTML += `<div class="grid-layout-cell flex-auto">
                                                                                                     <label class="form-toggle-box" for="pet_list_${i}">
-                                                                                                        <input type="radio" name="pet_list" class="btn-toggle-button pet-list-btn" data-pet_seq="${el.pet_seq}" id="pet_list_${i}">
+                                                                                                        <input type="radio" name="pet_list" data-pet_name="${el.name}" class="btn-toggle-button pet-list-btn" data-pet_seq="${el.pet_seq}" id="pet_list_${i}">
                                                                                                         <em>${el.name}</em>
                                                                                                     </label>
                                                                                                 </div>`
@@ -1296,12 +1301,12 @@ function customer_view(id){
 
 
                                     body_.forEach(function (el, i) {
-
+                                        var is_cancel = (el.is_cancel != 0 || el.is_no_show != 0)? 'style="color: red;"' : '';
                                         document.getElementById('usage_history_list').innerHTML += `<tr class="customer-table-cell gallery-check" data-payment_idx="${el.payment_log_seq}" data-pet_seq="${el.pet_seq}" onclick="if(document.getElementById('customer_table_view_${i}').classList.contains('actived')){document.getElementById('customer_table_view_${i}').classList.remove('actived')}else{document.getElementById('customer_table_view_${i}').classList.add('actived')}; if(document.getElementById('customer_table_cell_${i}').classList.contains('actived')){document.getElementById('customer_table_cell_${i}').classList.remove('actived')}else{document.getElementById('customer_table_cell_${i}').classList.add('actived')}">
                                                                                                     <td>
                                                                                                         <!-- customer-table-toggle 클래스에 actived클래스 추가시 활성화 -->
                                                                                                         <button type="button" class="customer-table-toggle type-2 actived" id="customer_table_cell_${i}">
-                                                                                                            <span class="toggle-title"><span class="ellipsis">${el?.product.split('|')[0]}</span></span>
+                                                                                                            <span class="toggle-title" ${is_cancel}><span class="ellipsis">${el?.product.split('|')[0]}</span></span>
                                                                                                         </button>
                                                                                                     </td>
                                                                                                     <td>
@@ -1342,7 +1347,7 @@ function customer_view(id){
                                                                                                                     </div>
                                                                                                                     <div class="flex-table-data">
                                                                                                                         <div class="flex-table-data-inner">
-                                                                                                                            ${el.worker}
+                                                                                                                            ${(el.worker == artist_id)? '실장' : el.worker}
                                                                                                                         </div>
                                                                                                                     </div>
                                                                                                                 </div>
@@ -1354,23 +1359,24 @@ function customer_view(id){
                                                                                                                     </div>
                                                                                                                     <div class="flex-table-data">
                                                                                                                         <div class="flex-table-data-inner">
-                                                                                                                            ${el.product.split('|')[8]}
+                                                                                                                            ${el.product.split('|')[6].split(':')[0]}${el.product.split('|')[6].split(':')[0] == '' ? '':'/'}${el.product.split('|')[7] !== '' ? el.product.split('|')[7].split(':')[0].match('mm') ? `${el.product.split('|')[7].split(':')[0]}` : `${el.product.split('|')[7].split(':')[0]}mm` : ''}
                                                                                                                         </div>
                                                                                                                     </div>
                                                                                                                 </div>
                                                                                                             </div>
-                                                                                                            <div class="flex-table-cell">
+                                                                                                            ${el.is_cancel === 1 ? `<div class="flex-table-cell">
                                                                                                                 <div class="flex-table-item">
                                                                                                                     <div class="flex-table-title">
                                                                                                                         <div class="txt">취소일시</div>
                                                                                                                     </div>
                                                                                                                     <div class="flex-table-data">
                                                                                                                         <div class="flex-table-data-inner">
-                                                                                                                            ${el.is_cancel === 1 ? el.cancel_time : 'X'}
+                                                                                                                            ${el.is_cancel === 1 ? el.cancel_time.substr(0, 4)+'.'+el.cancel_time.substr(4, 2)+'.'+el.cancel_time.substr(6, 2)+' '+el.cancel_time.substr(8, 2)+':'+el.cancel_time.substr(10, 2) : ''}
                                                                                                                         </div>
                                                                                                                     </div>
                                                                                                                 </div>
-                                                                                                            </div>
+                                                                                                            </div>`: ''}
+                                                                                                            
                                                                                                             <div class="flex-table-cell">
                                                                                                                 <div class="flex-table-item">
                                                                                                                     <div class="flex-table-title">
@@ -1378,7 +1384,7 @@ function customer_view(id){
                                                                                                                     </div>
                                                                                                                     <div class="flex-table-data">
                                                                                                                         <div class="flex-table-data-inner">
-                                                                                                                            사용:0 누적:0
+                                                                                                                            사용:${el.use_reserve === '' ? '0' : el.use_reserve} 누적:${el.add_reserve === '' ? '0' : el.add_reserve}
                                                                                                                         </div>
                                                                                                                     </div>
                                                                                                                 </div>
@@ -1429,12 +1435,17 @@ function customer_view_(id){
 
     customer_view(id).then(function(body_data){
 
+        document.getElementById('allimi_customer_btn').setAttribute('data-cellphone',localStorage.getItem('customer_select'))
+        document.getElementById('allimi_date_select').setAttribute('data-cellphone',localStorage.getItem('customer_select'))
+        document.getElementById('allimi_history_btn_2').setAttribute('data-cellphone',localStorage.getItem('customer_select'))
         document.getElementById('customer_cellphone').value = localStorage.getItem('customer_select');
         pet_reserve_info(body_data)
         noshow_initialize(id,body_data);
-        insert_customer_memo(id,body_data);
         insert_customer_grade(id,body_data);
-        insert_customer_special(id);
+        insert_customer_memo(id,body_data);
+        //insert_customer_special(id);
+        allimi_recent(id,`${localStorage.getItem('customer_select')}`)
+
 
 
 
@@ -1475,7 +1486,7 @@ function get_grade(id){
             } else if (head.code === 200) {
                 body.forEach(function (el){
 
-                    console.log(body)
+                    ////console.log(body)
                     if(el.is_delete === 0){
                         switch (el.grade_ord){
 
@@ -1546,8 +1557,40 @@ function customer_delete(id){
 
 }
 
+function pet_delete(id){
+
+    var idx = $('input[name=pet_list]:checked').data("pet_seq");
+    var pet_cnt = $(".pet-list-btn").length;
+
+    $.ajax({
+
+        url:'/data/pc_ajax.php',
+        type:'post',
+        data:{
+
+            mode:'pet_delete',
+            partner_id:id,
+            idx:idx
+        },
+        success:function(res){
+            if(pet_cnt == '1'){
+                pop.close();
+                document.getElementById('msg3_txt').innerText = '삭제되었습니다.'
+                pop.open('reserveAcceptMsg3');
+            }else{
+                pop.close();
+                pop.open('reloadPop','삭제되었습니다.');
+            }
+
+        }
+
+    })
+
+}
+
 function pet_reserve_info(data){
 
+    //console.log(data)
 
 
         let pet_list = data[0];
@@ -1583,19 +1626,22 @@ function pet_reserve_info(data){
 
 
                 pet_list.forEach(function(el_){
+                    console.log(el_);
                     if(parseInt(el.getAttribute('data-pet_seq'))  === el_.pet_seq){
 
-                        console.log(el_)
+                        ////console.log(el_)
 
                         let time = new Date(el_.detail.year,el_.detail.month+1,el_.detail.day).getTime()
                         let now = new Date().getTime();
 
+
                         let subtract_year= Math.floor((now-time)/1000/60/60/24/30/12);
-                        let subtract_month = Math.floor((now-time)/1000/60/60/24/30%12) ;
+                        let subtract_month = (new Date().getMonth()+1) - (new Date(el_.detail.year, el_.detail.month, el_.detail.day).getMonth()) ;
+                        // let subtract_month = Math.round((now-time)/1000/60/60/24/30%12) ;
 
 
 
-
+                        insert_customer_special(artist_id, el_.pet_seq);
 
                         document.getElementById('target_pet_name').innerText = el_.name;
                         document.getElementById('target_pet_type').innerText = el_.detail.pet_type;
@@ -1618,18 +1664,28 @@ function pet_reserve_info(data){
                         document.getElementById('target_pet_etc').innerText = `${el_.detail.etc}`;
 
 
-                        let image = '';
-                        if(el_.detail.photo === ""){
-                            if(el_.detail.type ==="dog"){
-                                image = '/static/images/icon/icon-pup-select-off.png'
+                        if(el_.detail.photo === ''){
+                            document.getElementById('target_pet_img').removeAttribute('onclick');
+
+
+                            if(el_.detail.type === 'dog'){
+
+                                document.getElementById('target_pet_img').setAttribute('src','/static/images/icon/icon-pup-select-off.png');
+
+
                             }else{
-                                image = '/static/images/icon/icon-cat-select-off.png'
+                                document.getElementById('target_pet_img').setAttribute('src','/static/images/icon/icon-cat-select-off.png');
+
+
                             }
+
                         }else{
 
-                            image = img_link_change(el_.detail.photo);
+                            document.getElementById('target_pet_img').setAttribute('src',img_link_change(el_.detail.photo));
+                            document.getElementById('target_pet_img').setAttribute('onclick',`thumb_view(this,\`${el_.detail.photo}\`)`);
+
                         }
-                        document.getElementById('target_pet_img').setAttribute('src',image);
+
 
 
                         agree_birthday().then(function(){ agree_birthday_date()})
@@ -1697,10 +1753,10 @@ function noshow_initialize(id,data){
 function insert_customer_memo(id,data){
 
 
-    let customer_id = data[0][0].customer_id;
-    let tmp_seq = data[0][0].tmp_seq;
+    // let customer_id = data[0][0].customer_id;
+    // let tmp_seq = data[0][0].tmp_seq;
     let cellphone = localStorage.getItem('customer_select');
-
+//console.log(id,customer_id,tmp_seq,cellphone);
     $.ajax({
 
         url:'/data/pc_ajax.php',
@@ -1709,40 +1765,39 @@ function insert_customer_memo(id,data){
 
             mode:'get_customer_memo',
             login_id:id,
-            customer_id:"",
-            tmp_seq:"",
+            customer_id:customer_id,
+            tmp_seq:tmp_seq,
             cellphone:cellphone
         },
         success:function (res){
             let response = JSON.parse(res);
+            //console.log(response);
             let head = response.data.head;
             let body = response.data.body;
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
-
+//console.log(body);
                 document.getElementById('customer_memo').innerText = body.memo;
 
-                document.getElementById('customer_memo').addEventListener('focusout',function(){
-
-
-
-                    $.ajax({
-
-                        url:'/data/pc_ajax.php',
-                        type:'post',
-                        data:{
-                            mode:'put_customer_memo',
-                            idx:body.scm_seq,
-                            memo:document.getElementById('customer_memo').value,
-                        },
-                        success:function (res){
-
-                        }
-                    })
-
-                })
+                // document.getElementById('customer_memo').addEventListener('keyup',function(){
+                //
+                //     $.ajax({
+                //
+                //         url:'/data/pc_ajax.php',
+                //         type:'post',
+                //         data:{
+                //             mode:'put_customer_memo',
+                //             idx:body.scm_seq,
+                //             memo:document.getElementById('customer_memo').value,
+                //         },
+                //         success:function (res){
+                //
+                //         }
+                //     })
+                //
+                // })
 
             }
 
@@ -1757,8 +1812,9 @@ function insert_customer_memo(id,data){
 function insert_customer_grade(id,data){
 
 
-    console.log(data);
-    let customer_id = data[0][0].customer_id !== "" ? data[0][0].customer_id : '';
+    //console.log(data);
+    customer_id = data[0][0].detail.customer_id !== "" ? data[0][0].detail.customer_id : '';
+    tmp_seq = data[0][0].detail.tmp_seq !== "" ? data[0][0].detail.tmp_seq : '';
     $.ajax({
 
         url:'/data/pc_ajax.php',
@@ -1809,7 +1865,7 @@ function insert_customer_grade(id,data){
                         if (head.code === 401) {
                             pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                         } else if (head.code === 200) {
-                            console.log(body);
+                            //console.log(body);
 
                             body_.forEach(function(el){
 
@@ -1916,7 +1972,7 @@ function set_grade(data,customer_id){
     }
 }
 
-function insert_customer_special(id){
+function insert_customer_special(id, seq){
 
 
     $.ajax({
@@ -1927,7 +1983,7 @@ function insert_customer_special(id){
 
             mode:'get_customer_special',
             partner_id:id,
-            cellphone:localStorage.getItem('customer_select')
+            pet_seq:seq
         },
         success:function(res) {
             let response = JSON.parse(res);
@@ -1942,11 +1998,12 @@ function insert_customer_special(id){
                     body = [body];
                 }
 
+                document.getElementById('special_note').innerHTML = '';
                 body.forEach(function(el){
 
-                    document.getElementById('special_note').innerHTML =`<div class="grid-layout-cell grid-2 note-toggle-cell">
+                    document.getElementById('special_note').innerHTML +=`<div class="grid-layout-cell grid-2 note-toggle-cell">
                                                                                         <div class="special-note">
-                                                                                            <div class="note-desc"><em>${el.recent}</em>
+                                                                                            <div class="note-desc"><em>${(el.recent != '')? el.recent : '신규등록'}</em>
                                                                                                 <div class="txt">${el.etc_memo}
                                                                                                 </div>
                                                                                             </div>
@@ -1964,6 +2021,7 @@ function insert_customer_special(id){
 function customer_beauty_agree(id,el){
 
     return new Promise(function(resolve){
+        //console.log(el)
 
         let pet_seq = el.detail.pet_seq;
 
@@ -1983,6 +2041,7 @@ function customer_beauty_agree(id,el){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
+                    //console.log(body)
 
                     if(body.length ===0){
 
@@ -1992,13 +2051,17 @@ function customer_beauty_agree(id,el){
 
                         document.getElementById('beauty_agree_btn').addEventListener('click',function(){
 
+                            document.getElementById('agree_pet_name').value = document.querySelector('input[name="pet_list"]:checked').getAttribute('data-pet_name');
+                            document.getElementById('cview').style.display = 'block';
+                            document.getElementById('sign_img').style.display = 'none';
                             pop.open('beautyAgreeWritePop')
                         })
                         document.getElementById('beauty_agree_all_btn').removeAttribute('checked');
                         document.getElementById('beauty_agree_1_btn').removeAttribute('checked');
                         document.getElementById('beauty_agree_2_btn').removeAttribute('checked');
                         document.getElementById('agree_cellphone').value = localStorage.getItem('customer_select');
-                        if(el.type==='dog'){
+                        //console.log(el.detail.type);
+                        if(el.detail.type==='dog'){
 
                             document.getElementById('agree_breed1').click();
                         }else{
@@ -2010,25 +2073,25 @@ function customer_beauty_agree(id,el){
                             
                             pet_seq})">저장</a>`
 
-
-                        document.getElementById('user_sign_wrap').innerHTML = `<canvas id="cview2"></canvas>`
-                        let wrapper = document.getElementById('signature_pad');
-                        let clear_btn = document.getElementById('signature_clear');
-
-                        let canvas = document.getElementById('cview2');
-
-                        let signature_pad = new SignaturePad(canvas,{
-
-                            backgroundColor:'rgb(255,255,255)'
-                        })
-
-                        canvas.width = canvas.parentElement.offsetWidth-2;
-                        canvas.height=canvas.parentElement.offsetHeight-2;
-
-
-                        clear_btn.addEventListener("click", function (event) {
-                            signature_pad.clear();
-                        });
+                        //
+                        // document.getElementById('user_sign_wrap').innerHTML = `<canvas id="cview2"></canvas>`
+                        // let wrapper = document.getElementById('signature_pad');
+                        // let clear_btn = document.getElementById('signature_clear');
+                        //
+                        // let canvas = document.getElementById('cview2');
+                        //
+                        // let signature_pad = new SignaturePad(canvas,{
+                        //
+                        //     backgroundColor:'rgb(255,255,255)'
+                        // })
+                        //
+                        // canvas.width = canvas.parentElement.offsetWidth-2;
+                        // canvas.height=canvas.parentElement.offsetHeight-2;
+                        //
+                        //
+                        // clear_btn.addEventListener("click", function (event) {
+                        //     signature_pad.clear();
+                        // });
 
 
 
@@ -2049,7 +2112,7 @@ function customer_beauty_agree(id,el){
                                     document.getElementById('beauty_agree_title').innerText ='미용 동의서 보기';
                                     document.getElementById('agree_name').value = body.customer_name;
                                 document.getElementById('agree_cellphone').value = localStorage.getItem('customer_select');
-                                if(el.type==='dog'){
+                                if(el.detail.type==='dog'){
 
                                     document.getElementById('agree_breed1').click();
                                 }else{
@@ -2064,7 +2127,10 @@ function customer_beauty_agree(id,el){
                                     document.getElementById('beauty_agree_2_btn').setAttribute('checked',true);
                                     document.getElementById('agree_date').innerText= `${body.reg_date.substr(0,4)}.${body.reg_date.substr(4,2)}.${body.reg_date.substr(6,2)}`
                                     // document.getElementById('signature_clear').remove();
-                                    document.getElementById('user_sign_wrap').innerHTML = `<img src="https://image.banjjakpet.com${body.image}" alt="">`
+                                    document.getElementById('cview').style.display = 'none';
+                                    document.getElementById('sign_img').style.display = 'block';
+                                    document.getElementById('sign_img').setAttribute('src',img_link_change(body.image));
+
                                 pop.open('beautyAgreeWritePop');
 
                                     setTimeout(function(){
@@ -2094,7 +2160,7 @@ function customer_beauty_agree(id,el){
 function customer_beauty_agree_(_data){
 
 
-    console.log(_data)
+    //console.log(_data)
     document.getElementById('agree_date').innerText = `${new Date().getFullYear()}.${fill_zero(new Date().getMonth()+1)}.${fill_zero(new Date().getDate())}`
     document.getElementById('agree_name').addEventListener('change',function(){
 
@@ -2116,10 +2182,10 @@ function customer_beauty_agree_(_data){
 
     if(_data.detail.gender === '남아'){
 
-        document.getElementById('agree_gender1').checked = true;
+        document.getElementById('agree_gender1').click()
     }else{
 
-        document.getElementById('agree_gender2').checked = true;
+        document.getElementById('agree_gender2').click()
     }
 
 
@@ -2234,7 +2300,7 @@ function sub_phone_pop_init(id,bool,cellphone){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
-                console.log(body)
+                //console.log(body)
 
 
 
@@ -2286,7 +2352,7 @@ function sub_phone_pop_init(id,bool,cellphone){
 
                 body.forEach(function(el,i){
 
-                    console.log(el)
+                    //console.log(el)
 
                     if(!bool){
                         if(i <3){
@@ -2355,6 +2421,13 @@ function sub_phone_pop_init(id,bool,cellphone){
                 }
             }
 
+        },complete:function(){
+
+            if(document.getElementById('customer_view_loading')){
+                document.getElementById('customer_card_body').style.display = 'block';
+                document.getElementById('customer_view_loading').style.display ='none';
+
+            }
         }
 
     })
@@ -2383,7 +2456,7 @@ function delete_sub_phone(){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
-                console.log(body);
+                //console.log(body);
 
                 document.getElementById('msg2_txt').innerText = '삭제되었습니다.'
                 pop.open('reserveAcceptMsg2');
@@ -2428,7 +2501,7 @@ function add_sub_phone(id,bool){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body)
+                //console.log(body)
 
                 if(body.err === 0){
                     document.getElementById('msg2_txt').innerText = '등록되었습니다.'
@@ -2452,12 +2525,12 @@ function add_sub_phone(id,bool){
 
 function representative(target,id){
 
-    console.log(target);
+    //console.log(target);
 
     let nick = target.getAttribute('data-nick');
     let old_phone = target.getAttribute('data-to_cellphone');
     let new_phone = target.getAttribute('data-cellphone');
-    let client_id = target.getAttribute('data-idx');
+    let client_id = target.getAttribute('data-idx').match('신규등록') ? target.getAttribute('data-idx').split('(')[1].replace(')','') : target.getAttribute('data-idx');
 
     $.ajax({
 
@@ -2487,8 +2560,8 @@ function representative(target,id){
                         return;
 
                     }else{
-                        document.getElementById('msg2_txt').innerText = '잠시 후 다시 시도 해주세요.'
-                        pop.open('reserveAcceptMsg2');
+                        document.getElementById('msg3_txt').innerText = '잠시 후 다시 시도 해주세요.'
+                        pop.open('reserveAcceptMsg3');
                         return;
                     }
                 }
@@ -2529,7 +2602,7 @@ function customer_modify_pet(pet_seq){
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
 
-                    console.log(body)
+                    //console.log(body)
                     document.getElementById('modify_customer_name').value = body.name;
 
                     if(body.type === 'dog'){
@@ -2561,7 +2634,7 @@ function customer_modify_pet(pet_seq){
 function customer_modify_pet_(body){
 
 
-    console.log(body);
+    //console.log(body);
 
 
     for(let i=0; i<document.getElementById('modify_customer_breed_select').options.length; i++){
@@ -2821,8 +2894,8 @@ function direct_get_pet_info(id,target,pet_seq,session_id){
     let thisWorker;
     let thisWorker2;
 
-    console.log(thisHour)
-    console.log(thisMinutes);
+    //console.log(thisHour)
+    //console.log(thisMinutes);
 
     Array.from(document.getElementsByClassName('header-worker')).forEach(function (el){
 
@@ -2852,7 +2925,7 @@ function direct_get_pet_info(id,target,pet_seq,session_id){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body);
+                //console.log(body);
 
                 let is_vat;
                 $.ajax({
@@ -2883,7 +2956,7 @@ function direct_get_pet_info(id,target,pet_seq,session_id){
 
                 if(body.customer_id === ''){
 
-                    user_id = body.tmp_seq;
+                    user_id = '';
                 }else{
                     user_id = body.customer_id;
                 }
@@ -3000,20 +3073,22 @@ function direct_reserve_regist(){
             is_vat:document.getElementById('d_is_vat').value,
             product:document.getElementById('d_product').value,
             reserve_yn : document.querySelector('input[name="msg_send"]:checked').value ,
-            aday_ago_yn : document.querySelector('input[name="msg_send1"]:checked').value
+            aday_ago_yn : document.querySelector('input[name="msg_send1"]:checked').value,
+            is_reserve_pay : 0,
+            reserve_pay_price : 0,
+            reserve_pay_deadline : ''
 
 
 
         },
         success:function(res){
-            console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                // location.reload()
+                location.reload()
             }
 
         }
@@ -3072,7 +3147,7 @@ function customer_beauty_gallery(){
 
 
         if(payment_idx_list === null){
-            document.getElementById('beauty_gal_wrap').innerHTML ='';
+            document.getElementById('beauty_gal_wrap').innerHTML ='<div class="list-cell"><a href="#" class="btn-gate-picture-register" onclick="MemofocusNcursor();"><span><em>이미지 추가</em></span></a></div>';
             return;
         }
 
@@ -3080,12 +3155,12 @@ function customer_beauty_gallery(){
         let payment_idxs = payment_idx_list.split('|');
 
 
-        payment_idxs.forEach(function(el,i){
+        //payment_idxs.forEach(function(el,i){
 
-            if(i === payment_idxs.length-1){
-
-                return;
-            }
+            // if(i === payment_idxs.length-1){
+            //
+            //     return;
+            // }
 
 
             $.ajax({
@@ -3094,7 +3169,8 @@ function customer_beauty_gallery(){
                 type:'post',
                 data:{
                     mode:'beauty_gal_get',
-                    idx:el,
+                    idx:$('input[name=pet_list]:checked').data("pet_seq"),
+                    artist_id:artist_id
                 },
                 success:function(res){
                     let response = JSON.parse(res);
@@ -3122,13 +3198,15 @@ function customer_beauty_gallery(){
                         })
 
 
-
+                        //console.log('test');
+                        //console.log(body);
+                        var html = `<div class="list-cell"><a href="#" class="btn-gate-picture-register" onclick="MemofocusNcursor();"><span><em>이미지 추가</em></span></a></div>`;
                         body.forEach(function(el,i){
 
 
-                            document.getElementById('beauty_gal_wrap').innerHTML += `<div class="list-cell">
+                            html += `<div class="list-cell">
                                                                                     <div class="picture-thumb-view">
-                                                                                        <div class="picture-obj" onclick="showReviewGallery(${i},'${imgs}')"><img src="https://image.banjjakpet.com${el.file_path}" alt=""></div>
+                                                                                        <div class="picture-obj" onclick="showReviewGallery(${i},'${imgs}')"><img src="${img_link_change(el.file_path)}" alt=""></div>
                                                                                         <div class="picture-date">${el.upload_dt.substr(0,4)}.${el.upload_dt.substr(4,2)}.${el.upload_dt.substr(6,2)}</div>
                                                                                         <div class="picture-ui">
                                                                                             <button type="button" class="btn-picture-ui"></button>
@@ -3140,7 +3218,9 @@ function customer_beauty_gallery(){
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>`
+                            // document.getElementById('target_pet_img').setAttribute('src',img_link_change(el.file_path));
                         })
+                        $("#beauty_gal_wrap").append(html);
 
 
                     }
@@ -3149,7 +3229,7 @@ function customer_beauty_gallery(){
 
             })
 
-        })
+       // })
 
 
 
@@ -3162,6 +3242,49 @@ function customer_beauty_gallery(){
 
 
 }
+
+// 이미지 추가 클릭시
+function MemofocusNcursor() {
+    html = "<div id='upimgarea'></div>";
+    //document.getElementById('dmemo').focus();
+    var sel, range;
+    if (window.getSelection) {
+        // IE9 and non-IE
+        sel = window.getSelection();
+        if (sel.getRangeAt && sel.rangeCount) {
+            range = sel.getRangeAt(0);
+            range.deleteContents();
+
+            // Range.createContextualFragment() would be useful here but is
+            // non-standard and not supported in all browsers (IE9, for one)
+            var el = document.createElement("div");
+            el.innerHTML = html;
+            var frag = document.createDocumentFragment(),
+                node, lastNode;
+            while ((node = el.firstChild)) {
+                lastNode = frag.appendChild(node);
+            }
+            range.insertNode(frag);
+
+            // Preserve the selection
+            if (lastNode) {
+                range = range.cloneRange();
+                range.setStartAfter(lastNode);
+                range.collapse(true);
+                sel.removeAllRanges();
+                sel.addRange(range);
+            }
+        }
+    } else if (document.selection && document.selection.type != "Control") {
+        // IE < 9
+        document.selection.createRange().pasteHTML(html);
+    }
+
+    $("#addimgfile").trigger("click");
+
+}
+
+
 
 function customer_beauty_gallery_add(id,pet_data){
 
@@ -3236,9 +3359,9 @@ function customer_allim_inquiry(st_time, fi_time, cellphone){
         type: 'POST',
         async:false,
         success: function (res) {
-            //console.log(res);
+            ////console.log(res);
             let response = JSON.parse(res);
-            //console.log(response);
+            ////console.log(response);
             // let head = response.data.head;
             let body = response.data;
             // if (head.code === 401) {
@@ -3246,11 +3369,11 @@ function customer_allim_inquiry(st_time, fi_time, cellphone){
             // } else if (head.code === 200) {
             //     shop_array.push(body);
             // }
-            console.log(body);
+            //console.log(body);
             var html = '';
             if(body != null){
                 $.each(body, function(i,v){
-                    //console.log(v.date_client_req.split(' ')[0]);
+                    ////console.log(v.date_client_req.split(' ')[0]);
                     var template_code = "";
                     switch(v.template_code){
                         case "1000004530_14040" : template_code = "예약알림";
@@ -3340,7 +3463,7 @@ function customer_all_agree(id,target){
                         body = [body]
                     }
 
-                    console.log(body)
+                    //console.log(body)
                     if(body.length === 0 ){
 
                         document.getElementById('msg1_txt').innerText = '작성된 동의서가 없습니다.'
@@ -3348,7 +3471,7 @@ function customer_all_agree(id,target){
                     }else{
 
                         let data = body.at(-1);
-                        console.log(data)
+                        //console.log(data)
 
                         let reg_date = `${data.reg_date.substr(0,4)}.${data.reg_date.substr(4,2)}.${data.reg_date.substr(6,2)}`;
 

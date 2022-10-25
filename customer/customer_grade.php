@@ -58,7 +58,7 @@ if ($artist_flag == 1) {
 												<div class="card-header">
 													<div class="user-grade-item">
 														<div class="icon icon-grade-normal"></div>
-														<div class="icon-grade-label">Normal</div>
+														<div class="icon-grade-label">GOLD</div>
 													</div>
 												</div>
 												<div class="card-body">
@@ -71,7 +71,7 @@ if ($artist_flag == 1) {
 												<div class="card-header">
 													<div class="user-grade-item">
 														<div class="icon icon-grade-normalb"></div>
-														<div class="icon-grade-label">Normal_B</div>
+														<div class="icon-grade-label">Normal</div>
 													</div>
 												</div>
 												<div class="card-body">
@@ -127,7 +127,10 @@ if ($artist_flag == 1) {
     $(document).ready(function(){
         var artist_flag = "<?=$artist_flag?>";
         if(artist_flag == 1){
-            view_artist();
+            $("#gnb_home").css("display","none");
+            $("#gnb_shop_wrap").css("display","none");
+            $("#gnb_detail_wrap").css("display","none");
+            $("#gnb_stats_wrap").css("display","none");
         }
 
         get_navi(artist_id);

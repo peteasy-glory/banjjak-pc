@@ -31,7 +31,12 @@ if ($artist_flag == 1) {
 			<div class="view">
 				<div class="data-row">
 					<div class="data-col-middle wide">
-						<div class="basic-data-card">
+						<div class="basic-data-card" style="position: relative">
+                            <div class="sales-loading-wrap" id="loading_wrap">
+                                <div class="loading-container-2">
+                                    <img src="/static/images/loading.gif" alt="">
+                                </div>
+                            </div>
 							<div class="card-header">
 								<h3 class="card-header-title">전체 고객 조회</h3>
 							</div>
@@ -41,7 +46,7 @@ if ($artist_flag == 1) {
 										<div class="basic-data-group">
 											<div class="con-title-group">
 												<h5 class="con-title"><strong>정렬방식</strong></h5>
-												<select class="arrow" id="customer_select" onchange="customer_all(artist_id).then(function(customers){customer_list(artist_id,customers);})">
+												<select class="arrow" id="customer_select">
 													<option value="a">최신순</option>
 													<option value="b">가나다순</option>
 													<option value="c">이용횟수별</option>
@@ -49,7 +54,7 @@ if ($artist_flag == 1) {
 													<option value="e">등급별</option>
 												</select>
 											</div>
-											<div class="customer-state-graph">
+											<!--<div class="customer-state-graph">
 												<div class="new-doughnut-graph">
 													<div class="new-doughnutgraph-view">
 														<div class="new-doughnutgraph-subject">
@@ -70,7 +75,7 @@ if ($artist_flag == 1) {
 														</div>
 													</div>
 												</div>
-											</div>
+											</div>-->
 										</div>										
 										<div class="basic-data-group large">
 											<div class="customer-all-inquiry-result">
@@ -78,7 +83,7 @@ if ($artist_flag == 1) {
 													<div class="sort-tab-inner" id="sort_inner">
 														<!-- 활성화시 actived클래스 추가 -->
 														<div class="tab-cell actived"><a href="#" class="btn-tab-item" style="cursor:default"><strong id="count_people"></strong></a></div>
-														<div class="tab-cell"><a href="#" class="btn-tab-item" style="cursor:default"><strong id="count_animal"></strong> </a></div>
+														<div class="tab-cell actived"><a href="#" class="btn-tab-item" style="cursor:default"><strong id="count_animal"></strong> </a></div>
 													</div>
                                                     <div class="sort-tab big toggle-button-cell">
                                                         <label class="form-toggle-box" style="margin-left:6px;"><input type="radio" name="customer_type" value="beauty" checked><em><span>미용</span></em></label>
@@ -460,7 +465,10 @@ if ($artist_flag == 1) {
     $(document).ready(function(){
         var artist_flag = "<?=$artist_flag?>";
         if(artist_flag == 1){
-            view_artist();
+            $("#gnb_home").css("display","none");
+            $("#gnb_shop_wrap").css("display","none");
+            $("#gnb_detail_wrap").css("display","none");
+            $("#gnb_stats_wrap").css("display","none");
         }
 
         get_navi(artist_id)
@@ -479,7 +487,88 @@ if ($artist_flag == 1) {
         agree_view_birthday().then(function(){ agree_view_birthday_date()})
         agree_view_pet_type(artist_id);
 
+        //customer_graph();
     })
+
+    function customer_graph(){
+
+        $.ajax({
+            url: '../data/pc_ajax.php',
+            data: {
+                mode: 'all_inquiry_graph',
+                login_id: artist_id,
+            },
+            type: 'POST',
+            async:false,
+            success: function (res) {
+                console.log(res);
+                let response = JSON.parse(res);
+
+                let head = response.code;
+                let body = response.data;
+                if (head == '000000') {
+                    console.log(response);
+                    let all = parseInt(body.beauty_cnt) + parseInt(body.hotel_cnt) + parseInt(body.playroom_cnt);
+                    let beauty = ((parseInt(body.beauty_cnt)/parseInt(all)) * 100).toFixed(1);
+                    let hotel = ((parseInt(body.hotel_cnt)/parseInt(all)) * 100).toFixed(1);
+                    let kinder = ((parseInt(body.playroom_cnt)/parseInt(all)) * 100).toFixed(1);
+
+                    var chart = bb.generate({
+                        size: {
+                            height: 285,
+                            width: 285
+                        },
+                        data: {
+                            columns: [
+                                ["유치원", kinder],
+                                ["호텔", hotel],
+                                ["미용", beauty]
+                            ],
+                            colors: {
+                                유치원: "#7AE19A",
+                                호텔: "#FDD94E",
+                                미용: "#8667c1",
+
+                            },
+                            type: "pie",
+                            labels: {
+                                show: false
+                            }
+                        },
+                        /* order: "asc", */ // 그래프 순서 변경하기
+                        legend: {
+                            show: false
+                        },
+                        // tooltip: {
+                        //     show: false
+                        // },
+                        pie: {
+                            startingAngle: 0.75,
+                            innerRadius: {  // 차트 두께
+                                유치원: 90,
+                                호텔: 90,
+                                미용: 90,
+                            },
+                            label: {   // text 위치
+                                ratio: 1,
+                                format: function(value, id) {		return value +"%";       }
+                            }
+                        },
+                        tooltip: {
+                            format: {
+                                value:
+                                    function(value, id) {		return value +"%";    }
+                            }
+                        },
+                        bindto: "#labelRatio"
+                    });
+                }else{
+
+                }
+            }
+        })
+
+    }
 
 
 

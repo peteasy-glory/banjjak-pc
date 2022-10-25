@@ -14,6 +14,7 @@ if ($artist_flag == 1) {
 $type = (isset($_GET['type']))? $_GET['type'] : "";
 $title = (isset($_GET['title']))? $_GET['title'] : "";
 $date = (isset($_GET['date']))? $_GET['date'] : "";
+$notice = (isset($_GET['notice']))? $_GET['notice'] : "";
 $img = (isset($_GET['img']))? img_link_change($_GET['img']) : "";
 
 
@@ -40,7 +41,7 @@ $img = (isset($_GET['img']))? img_link_change($_GET['img']) : "";
 							<div class="card-header">
 								<h3 class="card-header-title">공지사항</h3>
 								<div class="card-header-right small">
-									<button type="button" class="btn-page-ui btn-page-action" onclick="javascript:history.back();">목록</button>
+									<button type="button" class="btn-page-ui btn-page-action" onclick="location.href ='/etc/other_notice_list.php'">목록</button>
 								</div>
 							</div>
 							<div class="card-body">
@@ -56,6 +57,8 @@ $img = (isset($_GET['img']))? img_link_change($_GET['img']) : "";
 									</div>
 									<div class="board-view-detail">
 										<img src="https://image.banjjakpet.com<?=$img?>" alt="">
+                                        </br></br>
+                                        <?=$notice ?>
 									</div>
 								</div>
 							</div>
@@ -78,7 +81,10 @@ $img = (isset($_GET['img']))? img_link_change($_GET['img']) : "";
     $(document).ready(function() {
         var artist_flag = "<?=$artist_flag?>";
         if(artist_flag == 1){
-            view_artist();
+            $("#gnb_home").css("display","none");
+            $("#gnb_shop_wrap").css("display","none");
+            $("#gnb_detail_wrap").css("display","none");
+            $("#gnb_stats_wrap").css("display","none");
         }
         get_navi(artist_id);
         gnb_init();

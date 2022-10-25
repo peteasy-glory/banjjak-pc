@@ -329,6 +329,44 @@ $search = ($_POST['search'] && $_POST['search'] !== "") ? $_POST['search']:"";
                                                 </div>
                                             </div>
                                             <div class="basic-data-group">
+                                                <div class="con-title-group" style="justify-content: flex-start;">
+                                                    <h4 class="con-title">예약금 안내발송</h4>
+                                                    <label for="switch-toggle" class="form-switch-toggle" style="margin-left:20px;"><input type="checkbox" id="deposit_btn" onclick="deposit_toggle(artist_id)"><span class="bar"></span></label>
+
+                                                </div>
+                                                <div class="form-group" id="deposit_form_1" style="display:none;">
+                                                    <div class="grid-layout margin-14-17">
+                                                        <div class="grid-layout-inner">
+                                                            <div class="grid-layout-cell grid-2">
+                                                                <div class="form-group-item">
+                                                                    <div class="form-item-label">예약금</div>
+                                                                    <div class="form-item-data type-2">
+                                                                        <div class="form-datepicker-group">
+                                                                            <div class="form-datepicker">
+                                                                                <input type="number" placeholder="최소 예약금은 1천원" min="0" class="deposit_input" id="reserve_deposit_input">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="grid-layout-cell grid-2">
+                                                                <div class="form-group-item">
+                                                                    <div class="form-item-label">결제기한 설정</div>
+                                                                    <div class="form-item-data type-2">
+                                                                        <div class="form-datepicker-group">
+                                                                            <div class="form-datepicker">
+                                                                                <select id="reserve_deposit_time">
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="basic-data-group">
                                                 <div class="con-title-group">
                                                     <h4 class="con-title">예약 시간</h4>
                                                 </div>
@@ -485,16 +523,32 @@ $search = ($_POST['search'] && $_POST['search'] !== "") ? $_POST['search']:"";
     <!-- //container -->
 </div>
 <!-- //wrap -->
+
 <article id="reserveCalendarPop11" class="layer-pop-wrap">
     <div class="layer-pop-parent">
         <div class="layer-pop-children">
             <div class="pop-data alert-pop-data">
                 <div class="pop-body">
-                    <div class="msg-txt">미용 예약 하루 전 알림은 발송 하시겠습니까?</div>
+                    <div class="toggle-wrap">
+                        <div class="msg-txt">예약접수 알림</div>
+                        <label for="switch-toggle" class="form-switch-toggle" style="margin-left:5px; margin-right:10px;"><input type="checkbox" id="notice_check" onclick="if(this.checked===true){document.getElementById('notice_check_span').innerText = '발송'}else{document.getElementById('notice_check_span').innerText ='미발송'}"><span class="bar"></span></label>
+                        <span  class="notice_span" id="notice_check_span">미발송</span>
+
+                    </div>
+                    <div class="toggle-wrap" id="deposit_notice" style="display:none;">
+                        <div class="msg-txt">예약금 안내</div>
+                        <label for="switch-toggle" class="form-switch-toggle" style="margin-left:20px; margin-right:10px;"><input type="checkbox" checked id="deposit_check" onclick="if(this.checked===true){document.getElementById('deposit_check_span').innerText = '발송'}else{document.getElementById('deposit_check_span').innerText ='미발송'}"><span class="bar"></span></label>
+                        <span class="notice_span" id="deposit_check_span">발송</span>
+                    </div>
+                    <div class="toggle-wrap">
+                        <div class="msg-txt">하루전 알림</div>
+                        <label for="switch-toggle" class="form-switch-toggle" style="margin-left:20px; margin-right:10px;"><input type="checkbox" checked id="yesterday_check" onclick="if(this.checked===true){document.getElementById('yesterday_check_span').innerText = '발송'}else{document.getElementById('yesterday_check_span').innerText ='미발송'}"><span class="bar"></span></label>
+                        <span  class="notice_span" id="yesterday_check_span">발송</span>
+                    </div>
                 </div>
-                <div class="pop-footer" id="notice_check">
-                    <button type="button" class="btn btn-confirm btn-reserv-block" onclick="reserve_regist(artist_id,session_id,true);">발송</button>
-                    <button type="button" class="btn btn-confirm btn-reserv-send" onclick="reserve_regist(artist_id,session_id,false);">미발송</button>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm btn-reserv-block" onclick="reserve_regist(artist_id,session_id,true);">확인</button>
+                    <button type="button" class="btn btn-confirm btn-reserv-send" onclick="pop.close()">취소</button>
                 </div>
             </div>
         </div>
@@ -521,6 +575,7 @@ $search = ($_POST['search'] && $_POST['search'] !== "") ? $_POST['search']:"";
         </div>
     </div>
 </article>
+
 <script src="/static/js/common.js"></script>
 <script src="/static/js/dev_common.js"></script>
 <script src="/static/js/customer.js"></script>
@@ -554,11 +609,40 @@ $search = ($_POST['search'] && $_POST['search'] !== "") ? $_POST['search']:"";
         customer_pet_type()
         reserve_merchandise_load_event(artist_id);
         reserve_regist_tab();
-        reserve_time().then(function (){reserve_time_date()});
+        reserve_time().then(function (){reserve_time_date().then(function(){
+
+            for(let i=0; i<document.getElementById('reserve_time_month').options.length; i++){
+
+                if(document.getElementById('reserve_time_month').options[i].value === fill_zero(new Date().getMonth()+1)){
+
+                    document.getElementById('reserve_time_month').options[i].selected = true;
+                }
+            }
+
+            for(let i=0; i<document.getElementById('reserve_time_date').options.length; i++){
+
+                if(document.getElementById('reserve_time_date').options[i].value == fill_zero(new Date().getDate())){
+
+                    document.getElementById('reserve_time_date').options[i].selected = true;
+                }
+            }
+        });
+
+
+
+
+        });
         get_worker(artist_id);
         customer_new_birthday().then(function(){ customer_new_birthday_date()})
         reserve_time_init();
         new_exist_check(artist_id);
+
+        for(let i=30; i<=1440; i+=30){
+            document.getElementById('reserve_deposit_time').innerHTML += `<option value=${i}>${minutes_to_hour(i)} 이내</option>`
+        }
+
+
+
 
 
     })

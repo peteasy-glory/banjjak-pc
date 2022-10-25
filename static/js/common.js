@@ -182,7 +182,7 @@ var include = {
                                         </a>
                                     </div>
                                     <div class="gnb-menu-cell " id="gnb_reserve_wrap">
-                                        <a href="#" class="btn-gnb-nav">
+                                        <a href="/booking/reserve_beauty_day.php" class="btn-gnb-nav">
                                             <span class="nav-icons">
                                                 <span class="icon icon-size-24 icon-calendar-black off"></span>
                                                 <span class="icon icon-size-24 icon-calendar-black-fill on"></span>
@@ -220,7 +220,7 @@ var include = {
                                         </div>
                                     </div>
                                     <div class="gnb-menu-cell " id="gnb_customer_wrap">
-                                        <a href="#" class="btn-gnb-nav">
+                                        <a href="/customer/customer_inquiry.php" class="btn-gnb-nav">
                                             <span class="nav-icons">
                                                 <span class="icon icon-size-24 icon-dubble-user-black off"></span>
                                                 <span class="icon icon-size-24 icon-dubble-user-black-fill on"></span>
@@ -251,7 +251,7 @@ var include = {
                                         </div>
                                     </div>
                                     <div class="gnb-menu-cell" id="gnb_shop_wrap">
-                                        <a href="#" class="btn-gnb-nav">
+                                        <a href="/shop/shop_gate_picture.php" class="btn-gnb-nav">
                                             <span class="nav-icons">
                                                 <span class="icon icon-size-24 icon-shop-black off"></span>
                                                 <span class="icon icon-size-24 icon-shop-black-fill on"></span>
@@ -287,7 +287,7 @@ var include = {
                                         </div>
                                     </div>
                                     <div class="gnb-menu-cell" id="gnb_detail_wrap">
-                                        <a href="#" class="btn-gnb-nav">
+                                        <a href="/setting/set_schedule_list.php" class="btn-gnb-nav">
                                             <span class="nav-icons">
                                                 <span class="icon icon-size-24 icon-set-black off"></span>
                                                 <span class="icon icon-size-24 icon-set-black-fill on"></span>
@@ -315,11 +315,22 @@ var include = {
                                                     <div class="txt">판매 상품 관리</div>
                                                 </a>
                                             </div>
+                                            <div class="snb-menu-cell" id="gnb_deposit">
+                                                <a href="/setting/set_deposit.php" class="btn-snb-nav">
+                                                    <div class="txt">예약금 설정</div>
+                                                </a>
+                                            </div>
+<!--                                            <div class="snb-menu-cell" id="gnb_deposit">-->
+<!--                                                <a href="javascript:pop.open('firstRequestMsg1', '준비 중 입니다.');" class="btn-snb-nav">-->
+<!--                                                    <div class="txt">예약금 설정</div>-->
+<!--                                                </a>-->
+<!--                                            </div>-->
                                             <div class="snb-menu-cell" id="gnb_keep">
                                                 <a href="/setting/set_save_money.php" class="btn-snb-nav">
                                                     <div class="txt">적립금 설정</div>
                                                 </a>
                                             </div>
+                                            
                                             <div class="snb-menu-cell" id="gnb_payment">
                                                 <a href="/setting/set_pay_type.php" class="btn-snb-nav">
                                                     <div class="txt">결제 방식</div>
@@ -328,7 +339,7 @@ var include = {
                                         </div>
                                     </div>
                                     <div class="gnb-menu-cell" id="gnb_stats_wrap">
-                                        <a href="#" class="btn-gnb-nav">
+                                        <a href="/report/stats_sale_1.php" class="btn-gnb-nav">
                                             <span class="nav-icons">
                                                 <span class="icon icon-size-24 icon-money-black off"></span>
                                                 <span class="icon icon-size-24 icon-money-black-fill on"></span>
@@ -344,7 +355,7 @@ var include = {
                                         </div>
                                     </div>
                                     <div class="gnb-menu-cell" id="gnb_etc_wrap">
-                                        <a href="#" class="btn-gnb-nav">
+                                        <a href="/etc/other_notice_list.php" class="btn-gnb-nav">
                                             <span class="nav-icons">
                                                 <span class="icon icon-size-24 icon-other off"></span>
                                                 <span class="icon icon-size-24 icon-other-fill on"></span>
@@ -379,11 +390,10 @@ var include = {
     },
 
     footer: function () {
-        var _html = '<div class="footer-wrap"><div class="footer-title">(주)펫이지 사업자 정보</div><div class="footer-info-wrap"><div class="footer-info-cell"><div class="footer-info-list"><div class="footer-info-item">대표: 신동찬</div><div class="footer-info-item">사업자등록번호: 157-86-01070 <a href="#" class="font-underline">사업자정보확인</a></div><div class="footer-info-item">통신판매업 제 2021-서울종로-0183호</div><div class="footer-info-item">개인정보 담당자: 이석범 <a href="mailTo:privacy@peteasy.kr">privacy@peteasy.kr</a></div><div class="footer-info-item">서울시 종로구 종로6 5층 서울창조경제혁신센터</div></div></div><div class="footer-info-cell"><div class="footer-info-list"><div class="footer-info-item"><a href="#"><strong>이용약관</strong></a></div><div class="footer-info-item"><a href="#"><strong>개인정보처리방침</strong></a></div></div></div></div></div>';
+        var _html = '<div class="footer-wrap"><div class="footer-title">(주)펫이지 사업자 정보</div><div class="footer-info-wrap"><div class="footer-info-cell"><div class="footer-info-list"><div class="footer-info-item">대표: 신동찬</div><div class="footer-info-item">사업자등록번호: 157-86-01070 <a href="#" class="font-underline" onClick="window.open(\'https://www.ftc.go.kr/bizCommPop.do?wrkr_no=1578601070\');">사업자정보확인</a></div><div class="footer-info-item">통신판매업 제 2021-서울종로-0183호</div><div class="footer-info-item">개인정보 담당자: 이석범 <a href="mailTo:privacy@peteasy.kr">privacy@peteasy.kr</a></div><div class="footer-info-item">서울시 종로구 종로6 5층 서울창조경제혁신센터</div></div></div><div class="footer-info-cell"><div class="footer-info-list"><div class="footer-info-item"><a href="/etc/other_terms4.php"><strong>이용약관</strong></a></div><div class="footer-info-item"><a href="/etc/other_terms3.php"><strong>개인정보처리방침</strong></a></div></div></div></div></div>';
         this.footerContainer.innerHTML = _html;
     }
 };
-
 /**********************************
  @ common
  **********************************/
@@ -663,22 +673,9 @@ var common = {
         if ($('#gnb').hasClass('hide')) {
             $('#gnb').removeClass('hide');
             $('#container').removeClass('hide');
-            document.getElementById('gnb_reserve_wrap').removeAttribute('onclick');
-            document.getElementById('gnb_customer_wrap').removeAttribute('onclick');
-            document.getElementById('gnb_shop_wrap').removeAttribute('onclick');
-            document.getElementById('gnb_detail_wrap').removeAttribute('onclick');
-            document.getElementById('gnb_stats_wrap').removeAttribute('onclick');
-            document.getElementById('gnb_etc_wrap').removeAttribute('onclick');
         } else {
             $('#gnb').addClass('hide');
-            $('#container').addClass('hide');
-            document.getElementById('gnb_reserve_wrap').setAttribute('onclick','location.href ="/booking/reserve_beauty_day.php"')
-            document.getElementById('gnb_customer_wrap').setAttribute('onclick','location.href ="/customer/customer_inquiry.php"')
-            document.getElementById('gnb_shop_wrap').setAttribute('onclick','location.href ="/shop/shop_gate_picture.php"')
-            document.getElementById('gnb_detail_wrap').setAttribute('onclick','location.href ="/setting/set_schedule_list.php"')
-            document.getElementById('gnb_stats_wrap').setAttribute('onclick','location.href ="/report/stats_sale_1.php"')
-            document.getElementById('gnb_etc_wrap').setAttribute('onclick','location.href ="/etc/other_notice_list.php"')
-        }
+            $('#container').addClass('hide'); }
         common.gnbDataSort();
     },
     gnbDataSet: function () {
@@ -792,7 +789,9 @@ var pop = {
             $element = $(_item);
             $element.removeClass('actived');
         } else {
+
             $element = pop.elementArr[pop.elementArr.length - 1];
+            console.log($element)
             $element.removeClass('actived');
         }
         pop.elementArr.pop();
@@ -802,12 +801,27 @@ var pop = {
 
     change: function () {
 
+    },
+
+    close2: function(_item){
+        var $element;
+        pop.isActive = false;
+        $('html').removeClass('fix');
+
+        if(_item){
+
+            document.getElementById(`${_item}`).classList.remove('actived');
+        }else{
+            pop.elementArr.pop();
+        }
+
+
     }
 };
 
 $(function () {
     common.init();
-    pop.init();
+    // pop.init();
 
     /******************************************************
      @ Window Scroll
@@ -852,10 +866,3 @@ $(document).ready(function(){
 
     stopProp();
 })
-
-function view_artist(){
-    $("#gnb_home").css("display","none");
-    $("#gnb_shop_wrap").css("display","none");
-    $("#gnb_detail_wrap").css("display","none");
-    $("#gnb_stats_wrap").css("display","none");
-}

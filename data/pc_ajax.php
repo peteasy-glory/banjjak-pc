@@ -11,9 +11,9 @@ $user_name = (isset($_SESSION['gobeauty_user_nickname'])) ? $_SESSION['gobeauty_
 
 
 
-//$api = new TRestAPI("https://partnerapi.banjjakpet.com","Token 2156d1824c98f27a1f163a102cf742002b15e624");
-$api = new TRestAPI("http://stg-partnerapi.banjjakpet.com:8080","Token 55dda3818c897ef163b09a13d37199a7d211b6d2");
-//$api2 = new TRestAPI("http://192.168.20.216:8080","Token 2156d1824c98f27a1f163a102cf742002b15e624");
+//$api = new TRestAPI("https://partnerapi.banjjakpet.com:8080","Token 2156d1824c98f27a1f163a102cf742002b15e624");
+$api = new TRestAPI("http://stg-partnerapi.banjjakpet.com:8080","Token 3bc516d50d61f7c52f5da64b753a2488a02bd67c");
+//$api = new TRestAPI("http://192.168.20.216:8080","Token 2156d1824c98f27a1f163a102cf742002b15e624");
 
 
 $data = array();
@@ -38,7 +38,7 @@ if($r_mode) {
         $login_remember = $_POST['login_remember'];
 
 
-        $login_data = array(id => $login_id, pw => $login_pw);
+        $login_data = array('id' => $login_id, 'pw' => $login_pw);
         $login_data_json = json_encode($login_data);
 
 
@@ -102,14 +102,27 @@ if($r_mode) {
 
         $return_data = array("code" => "000000", "data" => $home);
 
+    } else if ($r_mode === "cal_count") {
+
+
+        $login_id = $_POST['login_id'];
+        $st_date = $_POST['st_date'];
+        $fi_date = $_POST['fi_date'];
+
+        $home = $api->get('/partner/booking/count/' . $login_id. '?st_date=' . $st_date . '&fi_date=' . $fi_date);
+
+        $return_data = array("code" => "000000", "data" => $home);
+
     } else if ($r_mode === "month_book") {
 
 
         $login_id = $_POST['login_id'];
         $year = $_POST['year'];
         $month = $_POST['month'];
+        $month_1 = $_POST['month_1'];
 
-        $month_book = $api->get('/partner/home/' . $login_id . '?y=' . $year . '&m=' . $month);
+        $month_book = $api->get('/partner/booking/b/'.$login_id.'?st_date='.$year.'-'.$month.'-01&fi_date='.$year.'-'.$month_1.'-01');
+//        $month_book = $api->get('/partner/home/' . $login_id . '?y=' . $year . '&m=' . $month);
 
         $return_data = array("code" => "000000", "data" => $month_book);
     } else if ($r_mode === "holiday") {
@@ -197,6 +210,22 @@ if($r_mode) {
         $data_json = json_encode($data);
 
         $post = $api ->post('/partner/shop/front',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$post);
+    }else if($r_mode === "post_beauty_gallery"){
+
+        $payment_log_seq = ($_POST['payment_log_seq'] > 0)? intval($_POST['payment_log_seq']) : 0;
+        $login_id = $_POST['login_id'];
+        $pet_seq = intval($_POST['pet_seq']);
+        $prnt_title = $_POST['prnt_title'];
+        $mime = $_POST['mime'];
+        $image = $_FILES['image']['tmp_name'];
+        $base_img = base64_encode(file_get_contents($image));
+
+        $data = array('payment_log_seq'=>$payment_log_seq,'partner_id'=>$login_id,'pet_seq'=>$pet_seq,'prnt_title'=>$prnt_title,'mime'=>$mime,'image'=>$base_img);
+        $data_json = json_encode($data);
+
+        $post = $api ->post('/partner/booking/beauty-gallery',$data_json);
 
         $return_data = array("code"=>"000000","data"=>$post);
     }else if($r_mode === "put_front_main"){
@@ -850,7 +879,7 @@ if($r_mode) {
         }
 
         // 기타 - 다리
-        $tonail_price = $_POST['tonail_price'];
+        $tonail_price = $_POST['toenail_price'];
         $boots_price = $_POST['boots_price'];
         $bell_price = $_POST['bell_price'];
         $leg_name = $_POST['leg_name'];
@@ -1264,7 +1293,8 @@ if($r_mode) {
 
         $is_over_kgs = $_POST['is_over_kgs'];
         $what_over_kgs = (isset($_POST['what_over_kgs']))? $_POST['what_over_kgs'] : '';
-        $over_kgs_price = (isset($_POST['over_kgs_price']))? $_POST['over_kgs_price'] : '';
+        $over_kgs_price = (isset($_POST['over_kgs_price']))? $_POST['over_kgs_price'] : '0';
+        $is_kgs_by_price = $_POST['is_kgs_by_price'];
         $add_comment = $_POST['add_comment'];
 
 
@@ -1274,7 +1304,7 @@ if($r_mode) {
         ,'beauty3_price'=>$beauty3_price,'beauty4_price'=>$beauty4_price,'beauty5_price'=>$beauty5_price,'is_consult_bath'=>$is_consult_bath,'is_consult_part'=>$is_consult_part,'is_consult_bath_part'=>$is_consult_bath_part
         ,'is_consult_sanitation'=>$is_consult_sanitation,'is_consult_sanitation_bath'=>$is_consult_sanitation_bath,'is_consult_all'=>$is_consult_all,'is_consult_spoting'=>$is_consult_spoting,'is_consult_scissors'=>$is_consult_scissors
         ,'is_consult_summercut'=>$is_consult_summercut,'is_consult_beauty1'=>$is_consult_beauty1,'is_consult_beauty2'=>$is_consult_beauty2,'is_consult_beauty3'=>$is_consult_beauty3,'is_consult_beauty4'=>$is_consult_beauty4
-        ,'is_consult_beauty5'=>$is_consult_beauty5,'is_over_kgs'=>$is_over_kgs,'what_over_kgs'=>$what_over_kgs,'over_kgs_price'=>$over_kgs_price,'add_comment'=>$add_comment);
+        ,'is_consult_beauty5'=>$is_consult_beauty5,'is_over_kgs'=>$is_over_kgs,'what_over_kgs'=>$what_over_kgs,'over_kgs_price'=>$over_kgs_price,'is_kgs_by_price'=>$is_kgs_by_price,'add_comment'=>$add_comment);
         $data_json = json_encode($data);
         $result = $api ->put('/partner/setting/b/product/add-opt/dog' ,$data_json);
 
@@ -1442,10 +1472,21 @@ if($r_mode) {
 
         // 정기휴일 설정
         $is_tb_regular_holiday = $api -> get('/partner/setting/regular-holiday/'.$partner_id);
-        $week_day = 0;
+        $week_day = 1000000;
         for($i=0;$i<count($week);$i++){
             $week_day += intval($week[$i]);
         }
+        if($week_day == 1000000){
+            $week_day = "0000000";
+        }else if($week_day > 2000000){
+            $week_day = '1'.substr(strval($week_day),1);
+        }else if($week_day > 1000000){
+            $week_day = '0'.substr(strval($week_day),1);
+        }
+        $week_day = ($week_day == 1000000)? "0000000" : $week_day;
+        $week_day = ($week_day > 2000000)? $week_day - 1000000 : $week_day;
+
+
         if(count($is_tb_regular_holiday['body']) > 0){
             $regular_data = array('partner_id'=>$partner_id,'week'=>$week_day);
             $regular_data_json = json_encode($regular_data);
@@ -1546,6 +1587,57 @@ if($r_mode) {
         $result = mysqli_query($connection, $query);
 
         $return_data = array("code"=>"000000",'data'=>$result);
+
+    }else if($r_mode === "customer_memo_sql"){
+
+        $artist_id = $_POST['artist_id'];
+        $customer_id = $_POST['customer_id'];
+        $tmp_seq = $_POST['tmp_seq'];
+        $cellphone = $_POST['cellphone'];
+        $comment = $_POST['comment'];
+
+        $que = "
+            SELECT * FROM tb_shop_customer_memo WHERE artist_id = '{$artist_id}' AND cellphone = '{$cellphone}' AND customer_id = '{$customer_id}' AND tmp_seq = '{$tmp_seq}'
+        ";
+        $res = mysqli_query($connection, $que);
+        $cnt = mysqli_num_rows($res);
+        if($cnt > 0){
+            $query = "
+                UPDATE tb_shop_customer_memo SET
+                memo = '{$comment}',
+                update_dt = NOW()
+                WHERE artist_id = '{$artist_id}'
+                AND customer_id = '{$customer_id}'
+                AND tmp_seq = '{$tmp_seq}'
+                AND cellphone = '{$cellphone}'
+            ";
+        }else{
+            $query = "
+                INSERT INTO tb_shop_customer_memo 
+                (artist_id, customer_id, tmp_seq, cellphone, memo)
+                VALUES
+                ('{$artist_id}', '{$customer_id}', '{$tmp_seq}', '{$cellphone}', '{$comment}')
+            ";
+        }
+        $result = mysqli_query($connection, $query);
+
+        $return_data = array("code"=>"000000",'data'=>$result);
+
+    }else if($r_mode === "all_inquiry_graph"){
+
+        $artist_id = $_POST['login_id'];
+
+        $sql = "
+            SELECT 
+            (SELECT ifnull(SUM(ifnull(total_price,0)),0) FROM tb_hotel_payment_log WHERE artist_id = '{$artist_id}' AND is_delete = '2' AND is_no_show = '2' AND data_delete = 0) hotel_cnt,
+            (SELECT ifnull(SUM(ifnull(total_price,0)),0) FROM tb_playroom_payment_log WHERE artist_id = '{$artist_id}' AND is_delete = '2' AND is_no_show = '2' AND data_delete = 0) playroom_cnt,
+            SUM(ifnull(total_price,0)) + SUM(ifnull(local_price,0)) + SUM(ifnull(local_price_cash,0)) beauty_cnt
+            FROM tb_payment_log WHERE artist_id = '{$artist_id}' AND is_no_show = 0 AND is_cancel = 0 AND data_delete = 0
+        ";
+        $res = mysqli_query($connection, $sql);
+        $row = mysqli_fetch_assoc($res);
+
+        $return_data = array("code"=>"000000",'data'=>$row);
 
     }else if($r_mode === "put_vat"){
 
@@ -1672,7 +1764,7 @@ if($r_mode) {
     }else if($r_mode === "get_tooltip"){
 
         $payment_idx = $_POST['payment_idx'];
-        $is_beauty_false = array("is_beauty" => false, "get_count" => 5);
+        $is_beauty_false = array("is_beauty" => false, "get_count" => 3);
 
         $is_beauty_false_data_json = json_encode($is_beauty_false);
 
@@ -1730,7 +1822,7 @@ if($r_mode) {
         $customer_all = $api->get('/partner/customer/search/' . $login_id . '?type=' . $type . '&ord_type=' . $ord . '&offset=' . $offset . '&number=' . $number);
 
 
-        $return_data = array("code" => "000000", "data" => $customer_all);
+        $return_data = array("code" => "000000", "data" => $customer_all,"type"=>$type, "ord"=>$ord,"offset"=>$offset,"number"=>$number);
     } else if ($r_mode === "customer_count") {
 
         $login_id = $_POST['login_id'];
@@ -1893,6 +1985,9 @@ if($r_mode) {
         $product = $_POST['product'];
         $reserve_yn = $_POST['reserve_yn'];
         $aday_ago_yn = $_POST['aday_ago_yn'];
+        $is_reserve_pay = $_POST['is_reserve_pay'];
+        $reserve_pay_price = $_POST['reserve_pay_price'];
+        $reserve_pay_deadline = $_POST['reserve_pay_deadline'];
 
         $regist_data = array(
             'partner_id' => $partner_id,
@@ -1935,6 +2030,9 @@ if($r_mode) {
             'product' => $product,
             'reserve_yn' => $reserve_yn,
             'aday_ago_yn' => $aday_ago_yn,
+            'is_reserve_pay'=>intval($is_reserve_pay),
+            'reserve_pay_price'=>intval($reserve_pay_price),
+            'reserve_pay_deadline'=>$reserve_pay_deadline,
 
 
         );
@@ -1943,6 +2041,8 @@ if($r_mode) {
 
 
         $reserve_regist = $api ->post('/partner/booking/b/join/', $regist_data_json);
+
+
 
         $return_data = array("code" => "000000","data"=>$reserve_regist);
 
@@ -2094,9 +2194,9 @@ if($r_mode) {
     }else if($r_mode === "get_customer_memo"){
 
         $login_id = $_POST['login_id'];
-        $customer_id = $_POST['customer_id'];
-        $tmp_seq = $_POST['tmp_seq'];
-        $cellphone = $_POST['cellphone'];
+        $customer_id = (isset($_POST['customer_id']))? $_POST['customer_id'] : '';
+        $tmp_seq = (isset($_POST['tmp_seq']))? $_POST['tmp_seq'] : '';
+        $cellphone = (isset($_POST['cellphone']))? $_POST['cellphone'] : '';
 
 
         $get_memo_data = array(
@@ -2202,7 +2302,7 @@ if($r_mode) {
 
     }else if($r_mode === "beauty_gal_add"){
 
-        $payment_log_seq = $_POST['payment_log_seq'];
+        $payment_log_seq = ($_POST['payment_log_seq'] != '')? $_POST['payment_log_seq'] : 0;
         $partner_id = $_POST['login_id'];
         $pet_seq = $_POST['pet_seq'];
         $prnt_title = $_POST['prnt_title'];
@@ -2225,9 +2325,14 @@ if($r_mode) {
         $return_data = array("code"=>"000000","data"=>$result);
     }else if($r_mode === "beauty_gal_get"){
 
-        $payment_idx = $_POST['idx'];
+        $pet_seq = $_POST['idx'];
 
-        $result = $api ->get('/partner/booking/beauty-gallery/'.$payment_idx);
+        $artist_id = $_POST['artist_id'];
+
+        $data = array('artist_id'=>$artist_id);
+        $data_json = json_encode($data);
+
+        $result = $api ->get('/partner/booking/beauty-gallery/'.$pet_seq,$data_json);
 
         $return_data = array("code"=>"000000","data"=>$result);
 
@@ -2352,6 +2457,19 @@ if($r_mode) {
 
         $return_data = array("code"=>"000000","data"=>$result);
 
+    }else if($r_mode === "pet_delete"){
+
+        $partner_id = $_POST['partner_id'];
+        $idx = intval($_POST['idx']);
+
+        $data = array('partner_id'=>$partner_id,'pet_idx'=>$idx);
+
+        $data_json = json_encode($data);
+
+        $result = $api -> delete('/partner/customer/pet',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
     }else if($r_mode === "get_customer_grade"){
 
         $partner_id = $_POST['partner_id'];
@@ -2370,7 +2488,7 @@ if($r_mode) {
         $customer_idx=$_POST['customer_idx'];
         $grade_idx=$_POST['grade_idx'];
 
-        $data= array(customer_idx=>$customer_idx,grade_idx=>intval($grade_idx));
+        $data= array(customer_idx=>intval($customer_idx),grade_idx=>intval($grade_idx));
 
         $data_json = json_encode($data);
 
@@ -2390,9 +2508,9 @@ if($r_mode) {
     }else if($r_mode ==='get_customer_special'){
 
         $partner_id=$_POST['partner_id'];
-        $cellphone = $_POST['cellphone'];
+        $pet_seq = $_POST['pet_seq'];
 
-        $data = array(cellphone=>$cellphone);
+        $data = array(pet_seq=>$pet_seq);
 
         $data_json = json_encode($data);
 
@@ -2639,7 +2757,478 @@ if($r_mode) {
         $result = $api->put('/partner/booking/payment-discount',$data_json);
         $return_data = array("code"=>"000000","data"=>$result);
 
+    }else if($r_mode === 'reserve_get_time'){
+
+        $pay['worker'] = $_POST['worker'];
+        $artist_id = $_POST['artist_id'];
+        $pay['year']=$_POST['year'];
+        $pay['month']=$_POST['month'];
+        $pay['day']=$_POST['day'];
+        $pay['hour']=$_POST['hour'];
+        $pay['minute'] = $_POST['minute'];
+
+        $start_time = $_POST['start_time'];
+        $end_time = $_POST['end_time'];
+
+
+        $from_time_sql = "
+	SELECT * FROM (
+		SELECT to_hour end_hour, to_minute end_minute FROM tb_payment_log WHERE artist_id = '".$artist_id."'
+		AND worker = '".$pay['worker']."' AND is_cancel = '0'
+		AND YEAR = ".$pay['year']." AND MONTH = ".$pay['month']." AND DAY = ".$pay['day']."
+		UNION
+		SELECT end_hour, end_minute FROM tb_private_holiday WHERE customer_id = '".$artist_id."'
+		AND worker = '".$pay['worker']."'
+		AND start_YEAR = ".$pay['year']." AND start_MONTH = ".$pay['month']." AND start_DAY = ".$pay['day']."
+		AND end_MONTH = ".$pay['month']." AND end_DAY = ".$pay['day']."
+	) a
+		WHERE time_format(CONCAT(a.end_hour,':',a.end_minute),'%H:%i') <= TIME_FORMAT('".$pay['hour'].':'.$pay['minute']."','%H:%i')
+		ORDER BY time_format(CONCAT(a.end_hour,':',a.end_minute),'%H:%i') DESC
+		LIMIT 1
+";
+        $from_time_result = sql_query($from_time_sql);
+        $from_time_row = sql_fetch($from_time_result);
+        $from_hour = (count($from_time_row)>0&&$from_time_row['end_hour']<10)?'0'.$from_time_row['end_hour']:$from_time_row['end_hour'];
+        $from_minute = (count($from_time_row)>0&&$from_time_row['end_minute']<10)?'0'.$from_time_row['end_minute']:$from_time_row['end_minute'];
+// 뒤 타임 미용 및 휴무 있는지 확인
+        $to_time_sql = "
+	SELECT * FROM (
+		SELECT hour start_hour, minute start_minute FROM tb_payment_log WHERE artist_id = '".$artist_id."'
+		AND worker = '".$pay['worker']."' AND is_cancel = '0'
+		AND YEAR = ".$pay['year']." AND MONTH = ".$pay['month']." AND DAY = ".$pay['day']."
+		UNION
+		SELECT start_hour, start_minute FROM tb_private_holiday WHERE customer_id = '".$artist_id."'
+		AND worker = '".$pay['worker']."'
+		AND start_YEAR = ".$pay['year']." AND start_MONTH = ".$pay['month']." AND start_DAY = ".$pay['day']."
+		AND end_MONTH = ".$pay['month']." AND end_DAY = ".$pay['day']."
+	) a
+		WHERE time_format(CONCAT(a.start_hour,':',a.start_minute),'%H:%i') > TIME_FORMAT('".$pay['hour'].':'.$pay['minute']."','%H:%i')
+		ORDER BY time_format(CONCAT(a.start_hour,':',a.start_minute),'%H:%i')
+		LIMIT 1
+";
+        $to_time_result = sql_query($to_time_sql);
+        $to_time_row = sql_fetch($to_time_result);
+        $to_hour = (count($to_time_row)>0&&$to_time_row['start_hour']<10)?'0'.$to_time_row['start_hour']:$to_time_row['start_hour'];
+        $to_minute = (count($to_time_row)>0&&$to_time_row['start_minute']<10)?'0'.$to_time_row['start_minute']:$to_time_row['start_minute'];
+        $workDate = date('Y-m-d',strtotime($pay['year'].'-'.$pay['month'].'-'.$pay['day']));
+
+
+        $start_date = ($from_hour)? $workDate.' '.$from_hour.':'.$from_minute : $workDate.' '.$start_time;
+        $end_date = ($to_minute)? $workDate.' '.$to_hour.':'.$to_minute : $workDate.' '.$end_time;
+        $rev_from_date = strtotime($pay['year'].'-'.$pay['month'].'-'.$pay['day'].' '.$pay['hour'].':'.$pay['minute']);
+        $rev_to_date = strtotime($pay['year'].'-'.$pay['month'].'-'.$pay['day'].' '.$pay['to_hour'].':'.$pay['to_minute']);
+
+        $return_data = array("code"=>"000000","start_date"=>$start_date,"end_date"=>$end_date);
+    }else if($r_mode === 'product_change'){
+
+        $payment_idx = $_POST['payment_idx'];
+        $use_coupon = $_POST['use_coupon'];
+        $price = $_POST['price'];
+        $product = $_POST['product'];
+
+
+        $data = array(
+            'payment_idx'=>intval($payment_idx),
+            'use_coupon'=>$use_coupon,
+            'price'=>intval($price),
+            'product'=>$product
+
+        );
+
+        $data_json = json_encode($data);
+
+        $result = $api ->put('/partner/booking/payment-product',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
+
+    }else if($r_mode === 'stats'){
+        $login_id = $_POST['login_id'];
+        $st_date = $_POST['st_date'];
+        $fi_date = $_POST['fi_date'];
+
+        $stats = $api->get('/partner/booking/pet-pay/' . $login_id. '?st_date=' . $st_date . '&fi_date=' . $fi_date);
+
+        $return_data = array("code" => "000000", "data" => $stats);
+
+    }else if($r_mode === 'reserve_regist_allim'){
+
+
+        $cellphone = $_POST['cellphone'];
+        $message = $_POST['message'];
+        $tem_code = "1000004530_20001";
+        $payment_idx = $_POST['payment_idx'];
+
+        $btn_link = "{\"button\":[{\"name\":\"예약정보\",\"type\":\"WL\",\"url_pc\":\"\",\"url_mobile\":\"https://customer.banjjakpet.com/allim/reserve_info?payment_log_seq=".$payment_idx."\"}]}";
+
+        $data = array('cellphone'=>$cellphone,'message'=>$message,'tem_code'=>$tem_code,'btn_link'=>$btn_link);
+
+        $data_json = json_encode($data);
+
+        $result = $api -> post('/partner/allim/send',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$data);
+
+
+    }else if($r_mode === 'beauty_gal_allim'){
+
+        $cellphone = $_POST['cellphone'];
+        $message = $_POST['message'];
+        $tem_code = "1000004530_14516";
+        $idx = $_POST['idx'];
+
+        $btn_link = "{\"button\":[{\"name\":\"미용동의서 자세히 보기\",\"type\":\"WL\",\"url_pc\":\"\",\"url_mobile\":\"https://gopet.kr/pet/docba/?k=".$idx."\"}]}";
+
+        $data = array('cellphone'=>$cellphone,'message'=>$message,'tem_code'=>$tem_code,'btn_link'=>$btn_link);
+
+        $data_json = json_encode($data);
+
+        $result = $api -> post('/partner/allim/send',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
+    }else if($r_mode === 'reserve_regist_change_allim'){
+
+        $cellphone = $_POST['cellphone'];
+        $message = $_POST['message'];
+        $tem_code = "1000004530_20002";
+        $payment_idx = $_POST['payment_idx'];
+
+        $btn_link = "{\"button\":[{\"name\":\"예약변경\",\"type\":\"WL\",\"url_pc\":\"\",\"url_mobile\":\"https://customer.banjjakpet.com/allim/reserve_info?payment_log_seq=".$payment_idx."\"}]}";
+
+        $data = array('cellphone'=>$cellphone,'message'=>$message,'tem_code'=>$tem_code,'btn_link'=>$btn_link);
+
+        $data_json = json_encode($data);
+
+        $result = $api -> post('/partner/allim/send',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === 'reserve_cancel_allim'){
+
+        $cellphone = $_POST['cellphone'];
+        $message = $_POST['message'];
+        $tem_code = "1000004530_20006";
+        $payment_idx = $_POST['payment_idx'];
+
+        $btn_link = "{\"button\":[{\"name\":\"취소정보\",\"type\":\"WL\",\"url_pc\":\"\",\"url_mobile\":\"https://customer.banjjakpet.com/allim/reserve_info?payment_log_seq=".$payment_idx."\"}]}";
+
+        $data = array('cellphone'=>$cellphone,'message'=>$message,'tem_code'=>$tem_code,'btn_link'=>$btn_link);
+
+        $data_json = json_encode($data);
+
+        $result = $api -> post('/partner/allim/send',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode ==='use_coupon'){
+
+
+        $payment_idx = $_POST['payment_idx'];
+        $user_coupon_idx = $_POST['user_coupon_idx'];
+        $amount = $_POST['amount'];
+        $balance = $_POST['balance'];
+
+        $data = array('payment_idx'=>intval($payment_idx),'user_coupon_idx'=>intval($user_coupon_idx),'amount'=>intval($amount), 'balance'=>intval($balance));
+
+        $data_json = json_encode($data);
+
+        $result = $api -> put('/partner/booking/payment-coupon',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
+
+
+    }else if($r_mode === 'deposit_save'){
+
+        $artist_id = $_POST['artist_id'];
+        $reserve_price = $_POST['reserve_price'];
+        $deadline = $_POST['deadline'];
+        $bank_name = $_POST['bank_name'];
+        $account_num = $_POST['account_num'];
+
+        $data = array(
+            'artist_id'=>$artist_id,
+            'reserve_price'=>intval($reserve_price),
+            'deadline'=>intval($deadline),
+            'bank_name'=>$bank_name,
+            'account_num'=>$account_num
+        );
+
+        $data_json = json_encode($data);
+
+        $result = $api -> put('/partner/reserve/shop-reserve',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
+    }else if($r_mode === 'get_deposit'){
+
+        $artist_id = $_POST['artist_id'];
+
+        $result = $api -> get('/partner/reserve/shop-reserve/'.$artist_id);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === 'deposit_allim'){
+
+        $cellphone = $_POST['cellphone'];
+        $message = $_POST['message'];
+        $tem_code = "1000004530_20016_2";
+        $btn_link = '';
+
+        $data = array(
+
+            'cellphone'=>$cellphone,
+            'message'=>$message,
+            'tem_code'=>$tem_code,
+            'btn_link'=>$btn_link
+        );
+
+        $data_json = json_encode($data);
+        $result = $api ->post('/partner/allim/send',$data_json);
+
+        $return_date = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === 'deposit_finish') {
+
+
+        $payment_log_seq = $_POST['payment_log_seq'];
+        $reserve_pay_yn = $_POST['reserve_pay_yn'];
+
+        $data = array('payment_log_seq' => $payment_log_seq,'reserve_pay_yn'=>intval($reserve_pay_yn));
+
+        $data_json = json_encode($data);
+
+        $result = $api->put('/partner/reserve/payment-reserve', $data_json);
+
+        $return_data = array("code" => "000000", "data" => $result);
+    }else if($r_mode === 'get_part_time_set'){
+
+
+        $artist_id = $_POST['id'];
+
+        $result = $api->get('/partner/setting/part-time-set/'.$artist_id);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
+    }else if($r_mode === 'get_part_time'){
+
+        $artist_id = $_POST['id'];
+        $result = $api->get('/partner/setting/part-time/'.$artist_id);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
+    }else if($r_mode === 'get_allimi_history'){
+
+        $artist_id = $_POST['artist_id'];
+        $cellphone = $_POST['cellphone'];
+        $pet_seq = $_POST['pet_seq'];
+
+        $data = array('artist_id'=>$artist_id,'cellphone'=>$cellphone,'pet_seq'=>$pet_seq);
+
+        $data_json = json_encode($data);
+
+        $result = $api -> get('/partner/reserve/diary-history',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
+    }else if($r_mode === 'post_allimi'){
+
+        $payment_log_seq = $_POST['payment_log_seq'];
+        $artist_id = $_POST['artist_id'];
+        $pet_seq = $_POST['pet_seq'];
+        $cellphone = $_POST['cellphone'];
+        $etiquette_1 = $_POST['etiquette_1'];
+        $etiquette_2 = $_POST['etiquette_2'];
+        $etiquette_3 = $_POST['etiquette_3'];
+        $etiquette_etc = $_POST['etiquette_etc'];
+        $etiquette_etc_memo = $_POST['etiquette_etc_memo'];
+        $condition_1 = $_POST['condition_1'];
+        $condition_2 = $_POST['condition_2'];
+        $condition_3 = $_POST['condition_3'];
+        $condition_etc = $_POST['condition_etc'];
+        $condition_etc_memo = $_POST['condition_etc_memo'];
+        $tangles_1 = $_POST['tangles_1'];
+        $tangles_2 = $_POST['tangles_2'];
+        $tangles_3 = $_POST['tangles_3'];
+        $tangles_4 = $_POST['tangles_4'];
+        $tangles_5 = $_POST['tangles_5'];
+        $tangles_6 = $_POST['tangles_6'];
+        $tangles_7 = $_POST['tangles_7'];
+        $tangles_etc = $_POST['tangles_etc'];
+        $tangles_etc_memo = $_POST['tangles_etc_memo'];
+        $part_1 = $_POST['part_1'];
+        $part_2 = $_POST['part_2'];
+        $part_3 = $_POST['part_3'];
+        $part_4 = $_POST['part_4'];
+        $part_5 = $_POST['part_5'];
+        $part_6 = $_POST['part_6'];
+        $part_etc = $_POST['part_etc'];
+        $part_etc_memo = $_POST['part_etc_memo'];
+        $skin_1 = $_POST['skin_1'];
+        $skin_2 = $_POST['skin_2'];
+        $skin_3 = $_POST['skin_3'];
+        $skin_4 = $_POST['skin_4'];
+        $skin_5 = $_POST['skin_5'];
+        $skin_6 = $_POST['skin_6'];
+        $skin_7 = $_POST['skin_7'];
+        $skin_etc = $_POST['skin_etc'];
+        $skin_etc_memo = $_POST['skin_etc_memo'];
+        $bath_1 = $_POST['bath_1'];
+        $bath_2 = $_POST['bath_2'];
+        $bath_3 = $_POST['bath_3'];
+        $bath_etc = $_POST['bath_etc'];
+        $bath_etc_memo = $_POST['bath_etc_memo'];
+        $notice_1 = $_POST['notice_1'];
+        $notice_2 = $_POST['notice_2'];
+        $notice_3 = $_POST['notice_3'];
+        $notice_4 = $_POST['notice_4'];
+        $notice_etc = $_POST['notice_etc'];
+        $notice_etc_memo = $_POST['notice_etc_memo'];
+        $file_path = $_POST['file_path'];
+
+
+        $data = array(
+            'payment_log_seq'=>intval($payment_log_seq),
+            'artist_id'=>$artist_id,
+            'pet_seq'=>intval($pet_seq),
+            'cellphone'=>$cellphone,
+            'etiquette_1'=>intval($etiquette_1),
+            'etiquette_2'=>intval($etiquette_2),
+            'etiquette_3'=>intval($etiquette_3),
+            'etiquette_etc'=>intval($etiquette_etc),
+            'etiquette_etc_memo'=>$etiquette_etc_memo,
+            'condition_1'=>intval($condition_1),
+            'condition_2'=>intval($condition_2),
+            'condition_3'=>intval($condition_3),
+            'condition_etc'=>intval($condition_etc),
+            'condition_etc_memo'=>$condition_etc_memo,
+            'tangles_1'=>intval($tangles_1),
+            'tangles_2'=>intval($tangles_2),
+            'tangles_3'=>intval($tangles_3),
+            'tangles_4'=>intval($tangles_4),
+            'tangles_5'=>intval($tangles_5),
+            'tangles_6'=>intval($tangles_6),
+            'tangles_7'=>intval($tangles_7),
+            'tangles_etc'=>intval($tangles_etc),
+            'tangles_etc_memo'=>$tangles_etc_memo,
+            'part_1'=>intval($part_1),
+            'part_2'=>intval($part_2),
+            'part_3'=>intval($part_3),
+            'part_4'=>intval($part_4),
+            'part_5'=>intval($part_5),
+            'part_6'=>intval($part_6),
+            'part_etc'=>intval($part_etc),
+            'part_etc_memo'=>$part_etc_memo,
+            'skin_1'=>intval($skin_1),
+            'skin_2'=>intval($skin_2),
+            'skin_3'=>intval($skin_3),
+            'skin_4'=>intval($skin_4),
+            'skin_5'=>intval($skin_5),
+            'skin_6'=>intval($skin_6),
+            'skin_7'=>intval($skin_7),
+            'skin_etc'=>intval($skin_etc),
+            'skin_etc_memo'=>$skin_etc_memo,
+            'bath_1'=>intval($bath_1),
+            'bath_2'=>intval($bath_2),
+            'bath_3'=>intval($bath_3),
+            'bath_etc'=>intval($bath_etc),
+            'bath_etc_memo'=>$bath_etc_memo,
+            'notice_1'=>intval($notice_1),
+            'notice_2'=>intval($notice_2),
+            'notice_3'=>intval($notice_3),
+            'notice_4'=>intval($notice_4),
+            'notice_etc'=>intval($notice_etc),
+            'notice_etc_memo'=>$notice_etc_memo,
+            'file_path'=>$file_path,
+        );
+
+        $data_json = json_encode($data);
+
+        $result = $api -> post('/partner/reserve/diary',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === 'allimi_talk'){
+
+
+        $cellphone = $_POST['cellphone'];
+        $message = $_POST['message'];
+        $payment_log_seq = $_POST['payment_log_seq'];
+        $tem_code = '1000004530_20018';
+        $btn_link = "{\"button\":[{\"name\":\"알리미 보기\",\"type\":\"WL\",\"url_pc\":\"\",\"url_mobile\":\"https://customer.banjjakpet.com/allim/diary_info?payment_log_seq=".$payment_log_seq."\"}]}";
+
+        $data = array(
+            'cellphone'=>$cellphone,
+            'message'=>$message,
+            'tem_code'=>$tem_code,
+            'btn_link'=>$btn_link,
+        );
+
+        $data_json = json_encode($data);
+
+        $result = $api ->post('/partner/allim/send',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
+    }else if($r_mode === 'get_shop_info_2'){
+
+        $artist_id = $_POST['artist_id'];
+
+        $result = $api -> get('/partner/shop/info/'.$artist_id);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === 'allimi_recent'){
+
+        $artist_id=$_POST['artist_id'];
+        $cellphone = $_POST['cellphone'];
+
+        $data = array(
+            'artist_id'=>$artist_id,
+            'cellphone'=>$cellphone
+        );
+        $data_json = json_encode($data);
+
+        $result = $api -> get('/partner/reserve/diary-recent',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === 'get_diary_date'){
+
+        $artist_id = $_POST['artist_id'];
+        $cellphone = $_POST['cellphone'];
+
+        $data = array(
+            'artist_id'=>$artist_id,
+            'cellphone'=>$cellphone,
+        );
+        $data_json = json_encode($data);
+
+        $result = $api -> get ('/partner/reserve/diary-list',$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+    }else if($r_mode === 'get_diary_date_pet') {
+        $artist_id = $_POST['artist_id'];
+        $cellphone = $_POST['cellphone'];
+
+        $date = $_POST['date'];
+
+        $data = array(
+            'artist_id' => $artist_id,
+            'cellphone' => $cellphone,
+            'date' => $date
+        );
+
+        $data_json = json_encode($data);
+
+        $result = $api->get('/partner/reserve/diary-select', $data_json);
+
+        $return_data = array("code" => "000000", "data" => $result);
+    }else if($r_mode === "get_allimi"){
+
+        $payment_log_seq = $_POST['payment_log_seq'];
+
+        $result = $api ->get('/partner/reserve/diary/'.$payment_log_seq);
+
+        $return_data = array("code"=>"000000","data"=>$result);
+
+
     }
+
 }
 
 function resizeImage($file, $newfile) {
