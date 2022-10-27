@@ -5659,7 +5659,7 @@ let beauty,bath,add_svc;
                         })
                     }
 
-                    // location.reload()
+                    location.reload()
                 }
 
 
@@ -9653,9 +9653,9 @@ function reserves(id){
 
 function reserves_set(){
 
-    let now = parseInt(document.querySelector('.now_reserves').getAttribute('value'));
+    let now = parseInt(document.querySelector('.now_reserves').innerText);
 
-    let use = parseInt(document.getElementById('use_reserves').value);
+    let use = parseInt(document.getElementById('use_reserves').value === '' ? 0 : document.getElementById('use_reserves').value);
 
 
     if (use === 0){
@@ -9739,6 +9739,7 @@ function waiting(id){
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
 
+                    console.log(body);
                     if(body.length === undefined){
                         body = [body]
                     }
