@@ -429,7 +429,7 @@
 .pay-flex-table-cell{
     display: flex;
     align-items: center;
-    border-bottom: 1px solid #f4f4f4;
+    border-bottom: 1px solid #cecece;
     padding-top:8px;
     padding-bottom:8px;
 }
@@ -500,7 +500,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 5px;
-    border: 1px solid #ebebeb;
+    border: 1px solid #cecece;
     cursor: pointer;
 }
 .pay-noshow{
@@ -748,7 +748,7 @@
     display:flex;
     justify-content: space-between;
     background: #fff;
-    border:1px solid #f4f4f4;
+    border:1px solid #cecece;
     font-size:13px;
     font-weight: 300;
     border-radius: 5px;
@@ -762,7 +762,7 @@
 .pay-text-list-wrap{
     border-radius: 12px;
     padding : 22px 24px;
-    border:1px solid #ebebeb;
+    border:1px solid #cecece;
     margin-top:10px;
     margin-left:20px;
     margin-right:20px;
@@ -818,7 +818,7 @@
     height: 35px;
     font-size:13px;
     color:#202020;
-    border:1px solid #ebebeb;
+    border:1px solid #cecece;
     background-image: url(../images/icon/icon_select_arrow.png);
     background-position: right 17px center;
     background-repeat: no-repeat;
@@ -1461,7 +1461,7 @@
 .allimi-title-box{
     width:100%;
     height:68px;
-    border-bottom: 1px solid #ebebeb;
+    border-bottom: 1px solid #cecece;
     background:#fff;
     display: flex;
     align-items: center;
@@ -1476,7 +1476,7 @@
 }
 
 .border-right{
-    border-right:1px solid #ebebeb;
+    border-right:1px solid #cecece;
     box-sizing: border-box;
 
 }
@@ -1511,8 +1511,8 @@
 
     width:100%;
     height:85px;
-    border-top:1px solid #ebebeb;
-    border-right:1px solid #ebebeb;
+    border-top:1px solid #cecece;
+    border-right:1px solid #cecece;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -1650,7 +1650,7 @@
     text-align: center;
     box-sizing: border-box;
     border-radius: 0;
-    border: 1px solid #ebebeb;
+    border: 1px solid #b4b4b4;
     border-radius: 5px;
     margin-right:7px;
 
@@ -1683,7 +1683,7 @@
 .allimi-gallery-cell{
     width:85px;
     height:85px;
-    border: 1px solid #ebebeb;
+    border: 1px solid #cecece;
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -1731,7 +1731,7 @@
 
     width:100%;
     height:45px;
-    border:1px solid #ebebeb;
+    border:1px solid #cecece;
     border-radius:5px;
     display: flex;
     justify-content: center;
@@ -1787,7 +1787,7 @@
     justify-content: center;
     align-items: center;
     border-radius: 5px;
-    border:1px solid #ebebeb;
+    border:1px solid #8f8f8f;
     margin-right:20px;
     cursor: pointer;
 
@@ -1795,7 +1795,7 @@
 
 .cell-border-purple{
 
-    border:1px solid #6840b1;
+    border:1.5px solid #6840b1;
     color:#6840b1;
 }
 
@@ -2135,7 +2135,7 @@
 }
 
 .allimi-preview-info{
-    border:1px solid #ebebeb;
+    border:1px solid #cecece;
     border-radius: 10px;
     width:calc(100% - 40px);
     margin-top:30px;
@@ -2149,7 +2149,7 @@
 .allimi-preview-info-title{
     height:45px;
     width:100%;
-    border-bottom:1px solid #ebebeb;
+    border-bottom:1px solid #cecece;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2303,4 +2303,23 @@
 .allimi-wrap-bg-gray{
 
     background: #F4F4F4;
+}
+
+
+/* 고객조회 상세 */
+.btn.btn-inline01 {
+    display: inline-flex;
+    width: 50%;
+}
+
+.btn-wrap-custom {
+    text-align: center;
+}
+
+.btn-alimtalk {
+    font-size: 14px;
+    background: #FEE500;
+    width: 126px;
+    border-radius: 16px;
+    height: 26px;
 }
