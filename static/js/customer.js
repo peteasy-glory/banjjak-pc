@@ -1242,7 +1242,7 @@ function customer_view(id){
                                                                                 <div class="table-data-txt">${body_.length === (undefined || 0) ? '' : body_[0].product.split('|')[3]   }</div>
                                                                             </div>
                                                                             <div class="table-data-side">
-                                                                                <button type="button" class="font-color-purple font-underline btn-text" onclick="open_customer_allim('${localStorage.getItem('customer_select')}');">알림톡 발송 조회
+                                                                                <button type="button" class="font-color-purple btn-alimtalk" onclick="open_customer_allim('${localStorage.getItem('customer_select')}');">알림톡 발송 조회
                                                                                 </button>
                                                                             </div>
                                                                             
