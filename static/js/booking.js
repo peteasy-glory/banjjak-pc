@@ -3621,6 +3621,9 @@ function reserve_toggle(){
         document.getElementById('new_user').style.display = 'none';
         document.getElementById('exist_user').style.display = 'block'
         document.getElementById('reserve_footer').style.display = 'none';
+        if(document.getElementById('reserve_name').disabled === true){
+            document.getElementById('reserve_name').disabled = false;
+        }
     })
 
     document.getElementById('new_btn').addEventListener('click',function(){
@@ -3630,6 +3633,10 @@ function reserve_toggle(){
         document.getElementById('select_pet').style.display = 'none';
         document.getElementById('new_user').style.display = 'block';
         document.getElementById('reserve_footer').style.display = 'block';
+        if(document.getElementById('pet_no_wrap')){
+
+            document.getElementById('pet_no_wrap').remove();
+        }
     })
 
 }
@@ -5493,6 +5500,7 @@ let beauty,bath,add_svc;
 
 
 
+    console.log(pet_seq);
 
 
     $.ajax({
@@ -5651,7 +5659,7 @@ let beauty,bath,add_svc;
                         })
                     }
 
-                    location.reload()
+                    // location.reload()
                 }
 
 
@@ -6152,6 +6160,7 @@ function reserve_pop_init(id){
     document.getElementById('reserve_deposit_time').innerHTML = '';
     document.getElementById('deposit_time').innerHTML = '';
     document.getElementById('deposit_bank').innerHTML = '';
+    new_exist_check(artist_id);
 
     for(let i=30; i<=1440; i+=30){
         document.getElementById('reserve_deposit_time').innerHTML += `<option value=${i}>${minutes_to_hour(i)} 이내</option>`
@@ -6196,7 +6205,7 @@ function exist_user_reserve(id,cellphone){
                         document.getElementById('select_pet').style.display = 'block';
                         body.forEach(function(el){
 
-                            document.getElementById('select_pet_list').innerHTML += `<div class="grid-layout-cell flex-auto">
+                            document.getElementById('select_pet_list').innerHTML += `<div class="grid-layout-cell flex-auto" id="pet_no_wrap">
                                                                                                 <label class="form-toggle-box">
                                                                                                     <input name="pet_no" class="pet-no" type="radio" data-id="${el.detail.customer_id}" value="${el.pet_seq}" onclick="exist_user_reserve_('${el.pet_seq}').then(function(body){exist_user_reserve_init(body)})">
                                                                                                     <em>${el.name}</em>
@@ -9843,7 +9852,11 @@ function new_exist_check(id){
                             if(el.cellphone === document.getElementById('reserve_cellphone').value){
 
                                 document.getElementById('msg1_txt').innerText = '이 번호의 고객이 샵 이용 이력이 있습니다.\n 기존고객예약을 이용해주세요.'
+
                                 pop.open('reserveAcceptMsg1');
+                                document.getElementById('reserve_name').disabled = true;
+                                document.getElementById('reserve_search').value = document.getElementById('reserve_cellphone').value;
+                                document.getElementById('exist_btn').click();
                             }
                         })
 

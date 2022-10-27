@@ -83,7 +83,7 @@ if ($payment_log_seq != "" && $cellphone != "") {
             $plus_query .= "
 				UNION ALL
 				SELECT date_client_req, template_code, report_code, content, SUBSTRING_INDEX(SUBSTRING_INDEX(kko_btn_info, '=', '-1' ), '\"', '1') AS payment_log FROM ita_talk_log_".$str_union." WHERE recipient_num = '".$cellphone."' 
-				AND template_code IN ('1000004530_14040', '1000004530_14041', '1000004530_14042', '1000004530_14042_1', '1000004530_14043', '1000004530_14044', '1000004530_20001', '1000004530_20002', '1000004530_20003', '1000004530_20018')
+				AND template_code IN ('1000004530_14040', '1000004530_14041', '1000004530_14042', '1000004530_14042_1', '1000004530_14043', '1000004530_14044', '1000004530_20001', '1000004530_20002', '1000004530_20003', '1000004530_20018','1000004530_20003_1)
 				AND SUBSTRING_INDEX(SUBSTRING_INDEX(kko_btn_info, '=', '-1' ), '\"', '1') = '".$payment_log_seq."'
 			";
         }
@@ -92,7 +92,7 @@ if ($payment_log_seq != "" && $cellphone != "") {
     $startYearMonth = str_replace('-', '', $startYearMonth);
     $query = "
 		SELECT date_client_req, template_code, report_code, content, SUBSTRING_INDEX(SUBSTRING_INDEX(kko_btn_info, '=', '-1' ), '\"', '1') AS payment_log FROM ita_talk_log_".$startYearMonth." WHERE recipient_num = '".$cellphone."' 
-		AND template_code IN ('1000004530_14040', '1000004530_14041', '1000004530_14042', '1000004530_14042_1', '1000004530_14043', '1000004530_14044', '1000004530_20001', '1000004530_20002', '1000004530_20003', '1000004530_20018') 
+		AND template_code IN ('1000004530_14040', '1000004530_14041', '1000004530_14042', '1000004530_14042_1', '1000004530_14043', '1000004530_14044', '1000004530_20001', '1000004530_20002', '1000004530_20003', '1000004530_20018','1000004530_20003_1') 
 		AND SUBSTRING_INDEX(SUBSTRING_INDEX(kko_btn_info, '=', '-1' ), '\"', '1') = '".$payment_log_seq."'
 		".$plus_query."
 		ORDER BY date_client_req
