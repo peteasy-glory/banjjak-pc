@@ -47,7 +47,7 @@ if ($artist_flag == 1) {
                                     <div class="btn-wrap-custom">
 
                                         <a href="#" class="btn btn-purple btn-inline01" id="allimi_customer_btn" onclick="allimi_send_pop_customer(this,artist_id)">알리미 보내기</a>
-                                        <div class="form-bottom-info text-align-center" style="display:flex; justify-content: flex-end; width: 75%"><span id="diary_recent"></span> <div class="allimi-title-right" style="cursor: pointer; margin-right:0px; margin-left:10px;" id="allimi_history_btn_2" onclick="allimi_send_pop_customer(this,artist_id); setTimeout(function(){document.getElementById('allimi_history_btn').click();},100)">
+                                        <div class="form-bottom-info text-align-center" style="display:flex; justify-content: center;"><span id="diary_recent"></span> <div class="allimi-title-right" style="cursor: pointer; margin-right:0px; margin-left:10px;" id="allimi_history_btn_2" onclick="allimi_send_pop_customer(this,artist_id); setTimeout(function(){document.getElementById('allimi_history_btn').click();},100)">
                                                 <img src="/static/images/icon/NoPath@2x.png" alt="">
                                                 <span>히스토리</span>
                                             </div></div>
@@ -228,7 +228,7 @@ if ($artist_flag == 1) {
 											</div>
 										</div>
 
-										<div class="basic-data-group middle" style="display: flex; justify-content: right;">
+										<div class="basic-data-group middle">
                                             <div class="btn-wrap-custom">
 											<a href="#" class="btn btn-yellow btn-inline btn-basic-wide" id="direct_reserve_btn" onclick="direct_reserve(this)">즉시 예약</a>
                                                 <div class="form-bottom-info text-align-center" ><strong>*[즉시예약]</strong>은 주간 스케줄에서만 사용 가능</div>
