@@ -12764,6 +12764,7 @@ function open_payment_allim(cellphone,payment_idx,pet_name){
                         case "1000004530_20002" : code = '예약변경'; break;
                         case "1000004530_14041" : code = '예약변경'; break;
                         case "1000004530_20003" : code = '하루 전 알림'; break;
+                        case "1000004530_20003_1" : code = '하루 전 알림'; break;
                         case "1000004530_14043" : code = '하루 전 알림'; break;
                         case "1000004530_20004": code = '미용종료'; break;
                         case "1000004530_14042": code = '미용종료'; break;
