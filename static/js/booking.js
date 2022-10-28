@@ -2371,6 +2371,7 @@ function btn_schedule(id){
                 select_low = parseInt(localStorage.getItem('select_row'));
                 this.setAttribute('disabled', true);
 
+
                 if (select_low !== lows.length - 1) {
                     lows[select_low + 1].children[0].click();
                     localStorage.setItem('select_row', select_low + 1)
@@ -2378,8 +2379,8 @@ function btn_schedule(id){
 
                 } else if (select_low === lows.length - 1) {
 
-                    date.setMonth(date.getMonth() + 1);
-                    localStorage.setItem('day_select',`${date.getFullYear()}.${fill_zero(date.getMonth()+1)}.01`)
+                    date.setDate(date.getDate() + 7);
+                    localStorage.setItem('day_select',`${date.getFullYear()}.${date.getMonth()+1}.01`)
                     _renderCalendar_mini(id);
 
                 }
@@ -3645,16 +3646,24 @@ function reserve_prohibition_list(id){
 
     let st_date;
     let fi_date;
+    let fi_date_;
     if(location.href.match('reserve_beauty_day')){
 
         st_date = `${date.getFullYear()}-${fill_zero(date.getMonth()+1)}-${fill_zero(date.getDate())}`;
-        fi_date = `${date.getFullYear()}-${fill_zero(date.getMonth()+1)}-${fill_zero(date.getDate()+1)}`
+
+        fi_date_ = new Date(date.getFullYear(),date.getMonth(),date.getDate());
+        fi_date_.setDate(fi_date_.getDate()+1);
+        fi_date = `${fi_date_.getFullYear()}-${fill_zero(fi_date_.getMonth()+1)}-${fill_zero(fi_date_.getDate())}`
+        // fi_date = `${date.getFullYear()}-${fill_zero(date.getMonth()+1)}-${fill_zero(date.getDate()+1)}`
     }else if(location.href.match('reserve_beauty_week')){
 
         let dates = document.getElementById('schedule_day').innerText.replaceAll('.','-').split(' ~ ');
 
         st_date = `${date.getFullYear()}-${dates[0]}`;
-        fi_date = `${date.getFullYear()}-${dates[1]}`;
+
+        fi_date_ = new Date(st_date);
+        fi_date_.setDate(fi_date_.getDate()+2);
+        fi_date = `${fi_date_.getFullYear()}-${fill_zero(fi_date_.getMonth()+1)}-${fill_zero(fi_date_.getDate())}`
 
 
     }
@@ -3680,6 +3689,7 @@ function reserve_prohibition_list(id){
             } else if (head.code === 200) {
 
 
+                console.log(body);
 
                 if(body.length === undefined){
                     body = [body];
@@ -4971,6 +4981,24 @@ function reserve_regist_event(artist_id,session_id){
                 return;
                 
             }
+            let year = document.getElementById('reserve_time_year').value;
+            let month = document.getElementById('reserve_time_month').value;
+            let day = document.getElementById('reserve_time_date').value;
+            let hour = document.getElementById('reserve_st_time').value.split(':')[0];
+            let min = document.getElementById('reserve_st_time').value.split(':')[1];
+
+            let to_hour = document.getElementById('reserve_fi_time').value.split(':')[0];
+            let to_min = document.getElementById('reserve_fi_time').value.split(':')[1];
+
+            let start = new Date(year,month,day,hour,min).getTime();
+            let end = new Date(year,month,day,to_hour,to_min).getTime();
+
+            if(start>=end){
+                document.getElementById('msg1_txt').innerText = '예약 종료 시간을 확인해주세요.'
+                pop.open('reserveAcceptMsg1');
+                return;
+
+            }
 
 
 
@@ -5500,7 +5528,19 @@ let beauty,bath,add_svc;
 
 
 
-    console.log(pet_seq);
+
+    let year = document.getElementById('reserve_time_year').value;
+    let month = document.getElementById('reserve_time_month').value;
+    let day = document.getElementById('reserve_time_date').value;
+    let hour = document.getElementById('reserve_st_time').value.split(':')[0];
+    let min = document.getElementById('reserve_st_time').value.split(':')[1];
+
+    let to_hour = document.getElementById('reserve_fi_time').value.split(':')[0];
+    let to_min = document.getElementById('reserve_fi_time').value.split(':')[1];
+
+
+
+
 
 
     $.ajax({
@@ -5532,19 +5572,19 @@ let beauty,bath,add_svc;
             heart_trouble:heart_trouble,
             marking:marking,
             mounting:mounting,
-            year:document.getElementById('reserve_time_year').value,
-            month:document.getElementById('reserve_time_month').value,
-            day:document.getElementById('reserve_time_date').value,
-            hour:document.getElementById('reserve_st_time').value.split(':')[0],
-            min:document.getElementById('reserve_st_time').value.split(':')[1],
+            year:year,
+            month:month,
+            day:day,
+            hour:hour,
+            min:min,
             session_id:session,
             order_id:'',
             local_price:total_price,
             pay_type:'pos-card',
             pay_status:'pos',
             pay_data:JSON.stringify(pay_data),
-            to_hour:document.getElementById('reserve_fi_time').value.split(':')[0],
-            to_min:document.getElementById('reserve_fi_time').value.split(':')[1],
+            to_hour:to_hour,
+            to_min:to_min,
             use_coupon_yn:'N', // 수정필
             is_vat:is_vat,
             product:product,
