@@ -1129,7 +1129,7 @@ function _renderCalendar_mini(id,session_id,bool){
 
                         localStorage.setItem('select_row',el.parentElement.getAttribute('data-row'))
 
-                        schedule_render_week(el,id).then(function(data){
+                        schedule_render_week(el,id,bool).then(function(data){
 
                             let body_ = data[0];
                             let parent = data[1]

@@ -1032,13 +1032,16 @@ function reserve_schedule_week(id,body_data) {
 })
 }
 
-function schedule_render_week(el,id){
+function schedule_render_week(el,id,bool){
 
 
 return new Promise(function (resolve){
 
 
-    pay_management_toggle(true);
+    if(bool){
+
+        pay_management_toggle(true);
+    }
 
 
 
@@ -11186,7 +11189,7 @@ function pay_management_init(id,target,bool,bool2,bool3){
                             if(bool && !bool3){
                                 document.getElementById('pay_management').scrollTop = document.getElementById('scroll_target').offsetTop;
                             }else if(bool && bool3){
-                                document.getElementById('pay_management').scrollTop = document.querySelector('.sticky-tab-group').offsetTop;
+                                document.getElementById('pay_management').scrollTop = document.querySelector('#pet_shop_coupon').offsetTop-document.getElementById('pay_management').offsetHeight;
                             }
                         });
 

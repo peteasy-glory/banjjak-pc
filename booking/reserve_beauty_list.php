@@ -3638,6 +3638,7 @@ if ($artist_flag == 1) {
 
 <script>
     let artist_id = "<?=$artist_id?>";
+    let session_id = "<?=session_id()?>"
     // data_set(artist_id)
     $.ajax({
 
