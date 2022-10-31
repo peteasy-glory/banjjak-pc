@@ -12139,6 +12139,7 @@ function pay_management_product_change(target,id,session_id){
 
     let price = document.getElementById('real_total_price').getAttribute('value');
 
+    console.log(product);
 
 
 
@@ -12792,6 +12793,10 @@ function open_payment_allim(cellphone,payment_idx,pet_name){
                         case "1000004530_14042_1" : code = "미용즉시종료";break;
                         case "1000004530_20006" : code = "예약취소"; break;
                         case "1000004530_14044" : code = "예약취소"; break;
+                        case "1000004530_20016_2" : code = "예약금안내"; break;
+                        case "1000004530_20016_1" : code = "예약금안내"; break;
+                        case "1000004530_20017" : code = "예약금 미입금 취소안내"; break;
+
                         case "1000004530_20007" : code = "미용신청승인";break;
                         case "1000004530_14045" : code = "미용신청승인";break;
                         case "1000004530_14516" : code = "미용동의서";break;

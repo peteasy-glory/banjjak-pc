@@ -3694,6 +3694,8 @@ if ($artist_flag == 1) {
 <script src="/static/js/customer.js"></script>
 <script>
 
+    localStorage.removeItem('select_row');
+    localStorage.removeItem('row');
     let artist_id = "<?=$artist_id?>";
     let session_id = "<?=session_id()?>"
 
@@ -3847,6 +3849,8 @@ if ($artist_flag == 1) {
 
             document.getElementById('deposit_bank').innerHTML += `<option value="${el.name}" data-code="${el.code}">${el.name}</option>`
         })
+
+
 
 
 
