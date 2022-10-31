@@ -1227,6 +1227,7 @@ if ($artist_flag == 1) {
                     <button type="button" class="btn btn-confirm btn-reserv-block" onclick="pop.close(); reserve_prohibition_init().then(function(){reserve_prohibition_select()}); ">예약금지설정</button>
                     <button type="button" class="btn btn-confirm btn-reserv-send" onclick="pop.close(); pop.open('reserveAcceptUser'); reserve_time_select()">예약접수</button>
                 </div>
+                <button type="button" class="btn-pop-close" style="top:0px; background-size:15px auto;" onclick="pop.close2('reserveAcceptUser'); reserve_pop_init(artist_id);">닫기</button>
             </div>
         </div>
     </div>
