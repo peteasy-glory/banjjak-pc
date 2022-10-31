@@ -141,8 +141,11 @@ if ($artist_flag == 1) {
 
     function save_worktime(){
         var postData = decodeURIComponent($("#workTimeForm").serialize());
+
+        // partner_id=pettester@peteasy.kr&work_time1=30&work_time2=60&work_time3=60&work_time4=120&work_time5=150&work_time6=180&work_time7=180&work_time8=30&work_time9=30&work_time10=90&work_time11=90&work_time12=90&work_time13=90&mode=put_work_time
+
         postData += '&mode=put_work_time';
-        //console.log(postData);
+        console.log(postData);
         put_work_time(postData);
     }
 </script>

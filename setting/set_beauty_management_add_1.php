@@ -969,7 +969,7 @@ $pet_type = (isset($_GET['is_cat']))? $_GET['is_cat'] : "dog";
     // 미용구분 추가
     $(document).on("click",".beauty_add_table_add", function(){
         if(add_worktime < 5){
-            add_worktime ++;
+
             var html = `
             <div class="form-vertical-cell">
                 <div class="grid-layout basic">
@@ -997,6 +997,7 @@ $pet_type = (isset($_GET['is_cat']))? $_GET['is_cat'] : "dog";
                 </div>
             </div>
         `;
+            add_worktime ++;
         $(".beauty_add_table_wrap").append(html);
         }
     })
@@ -1014,7 +1015,7 @@ $pet_type = (isset($_GET['is_cat']))? $_GET['is_cat'] : "dog";
     function save_worktime(){
         var postData = decodeURIComponent($("#setBeautyDivision").serialize());
         postData += '&mode=put_worktime_type';
-        //console.log(postData);
+        console.log(postData);
         put_worktime_type(postData);
     }
 

@@ -1908,9 +1908,8 @@ function mini_calendar_init(){
 
             select = localStorage.getItem('day_select').split('.');
 
-            date.setFullYear(parseInt(select[0]));
-            date.setMonth(parseInt(select[1])-1);
-            date.setDate(parseInt(select[2]));
+            date = new Date(parseInt(select[0]),parseInt(select[1])-1,parseInt(select[2]))
+
 
 
         }
@@ -4017,6 +4016,7 @@ function reserve_merchandise_load_init(id){
 
                     },
                     success:function (res){
+                        console.log(res)
                         let response = JSON.parse(res);
                         let head = response.data.head;
                         let body = response.data.body;
@@ -8822,6 +8822,7 @@ function management_service_2(body){
 function management_service_3(base_svc){
 
 
+    console.log(base_svc);
 
 
     return new Promise(function (resolve){
@@ -11088,8 +11089,17 @@ function pay_management_init(id,target,bool,bool2,bool3){
                                 if(!array_empty(parsing.add.etc[0])){
 
                                     parsing.add.etc.forEach(function(el){
+                                        setTimeout(function(){
 
-                                        document.getElementById(`${el.unit}`).click();
+                                            document.getElementById(`${el.name}`).click();
+
+                                            document.getElementById(`${el.name}`).parentElement.children[1].children[1].children[1].children[0].value = el.ea-1;
+                                            document.getElementById(`${el.name}`).parentElement.children[1].children[1].children[2].click();
+
+
+
+                                            },300)
+
                                     })
                                 }
                             }
@@ -11229,8 +11239,11 @@ function pay_management_init(id,target,bool,bool2,bool3){
                             deposit = body.reserve_pay_price
                         }
 
+                        console.log(card)
+                        console.log(cash)
+
                         if(localStorage.getItem('is_vat') == '1'){
-                            document.getElementById('last_card').value = card+(card/10)-deposit;
+                            document.getElementById('last_card').value = card-deposit;
                             document.getElementById('last_cash').value = cash
 
                         }else{
@@ -12048,8 +12061,7 @@ function pay_management_product_change(target,id,session_id){
         });
 
 
-
-        product = `${name}|${type}|${data.shop_name}|${size}|${service}|${weight}:${weight_price}|${face}${face_price === '' ? '' : ':'}${face_price}|${length.replace('mm','')}${length_price === '' ? '' : ':'}${length_price}|${hair}|${nail}|${boots}|${bell}|||${leg_count}${leg_count >0 ? '|':''}${leg_add.toString().replaceAll(',','|')}|${spa_count}${spa_count >0 ? '|':''}${spa.toString().replaceAll(',','|')}|${dyeing_count}${dyeing_count > 0 ? '|':''}${dyeing.toString().replaceAll(',','|')}|${etc_count}${etc_count>0?'|':''}${etc.toString().replaceAll(',','|')}|${coupon_count}${coupon_count>0?'|':''}${coupon.toString().replaceAll(',','|')}|${options_count}${options_count > 0? '|':''}${options.toString().replaceAll(',','|')}|`
+        product = `${name}|${type}|${data.shop_name}|${size}|${service}|${weight}:${weight_price}|${face}${face_price === '' ? '' : ':'}${face_price}|${length.replace('mm','')}${length_price === '' ? '' : ':'}${length_price}|${hair}|${nail}|${boots}|${bell}|||${leg_count}${leg_count >0 ? '|':''}${leg_add.toString().replaceAll(',','|')}|${spa_count}${spa_count >0 ? '|':''}${spa.toString().replaceAll(',','|')}|${dyeing_count}${dyeing_count > 0 ? '|':''}${dyeing.toString().replaceAll(',','|')}|${etc_count}${etc_count>0?'|':''}${etc.toString().replaceAll(',','|')}|${options_count}${options_count > 0? '|':''}${options.toString().replaceAll(',','|')}|${coupon_count}${coupon_count>0?'|':''}${coupon.toString().replaceAll(',','|')}|`
     }else{
 
         let beauty = document.querySelector('input[name="payment_beauty"]:checked').value !== '' ? '미용' : '';
@@ -12131,7 +12143,7 @@ function pay_management_product_change(target,id,session_id){
 
 
 
-        product = `${name}|${type}|${data.shop_name}|${beauty}|all:0|${beauty_}:${beauty_price}|${nail}|${short}|${long}|${add_count}|${add.toString().replaceAll(',','|')}|${coupon_count}${coupon_count>0?'|':''}${coupon.toString().replaceAll(',','|')}|${options_count}${options_count > 0? '|':''}${options.toString().replaceAll(',','|')}|`
+        product = `${name}|${type}|${data.shop_name}|${beauty}|all:0|${beauty_}:${beauty_price}|${nail}|${short}|${long}|${add_count}|${add.toString().replaceAll(',','|')}|${options_count}${options_count > 0? '|':''}${options.toString().replaceAll(',','|')}|${coupon_count}${coupon_count>0?'|':''}${coupon.toString().replaceAll(',','|')}|`
 
 
     }
