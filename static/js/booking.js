@@ -11089,20 +11089,19 @@ function pay_management_init(id,target,bool,bool2,bool3){
                                 if(!array_empty(parsing.add.etc[0])){
 
                                     parsing.add.etc.forEach(function(el){
-                                        setTimeout(function(){
 
-                                            document.getElementById(`${el.name}`).click();
-
-                                            document.getElementById(`${el.name}`).parentElement.children[1].children[1].children[1].children[0].value = el.ea-1;
-                                            document.getElementById(`${el.name}`).parentElement.children[1].children[1].children[2].click();
+                                            document.getElementById(`${el.unit}`).click();
 
 
 
-                                            },300)
 
                                     })
                                 }
                             }
+
+
+
+
 
                         }
                         if(body.type !== 'dog'){
@@ -12061,7 +12060,7 @@ function pay_management_product_change(target,id,session_id){
         });
 
 
-        product = `${name}|${type}|${data.shop_name}|${size}|${service}|${weight}:${weight_price}|${face}${face_price === '' ? '' : ':'}${face_price}|${length.replace('mm','')}${length_price === '' ? '' : ':'}${length_price}|${hair}|${nail}|${boots}|${bell}|||${leg_count}${leg_count >0 ? '|':''}${leg_add.toString().replaceAll(',','|')}|${spa_count}${spa_count >0 ? '|':''}${spa.toString().replaceAll(',','|')}|${dyeing_count}${dyeing_count > 0 ? '|':''}${dyeing.toString().replaceAll(',','|')}|${etc_count}${etc_count>0?'|':''}${etc.toString().replaceAll(',','|')}|${options_count}${options_count > 0? '|':''}${options.toString().replaceAll(',','|')}|${coupon_count}${coupon_count>0?'|':''}${coupon.toString().replaceAll(',','|')}|`
+        product = `${name}|${type}|${data.shop_name}|${size}|${service}|${weight}:${weight_price}|${face}${face_price === '' ? '' : ':'}${face_price}|${length.replace('mm','')}${length_price === '' ? '' : ':'}${length_price}|${hair}|${nail}|${boots}|${bell}|||${leg_count}${leg_count >0 ? '|':''}${leg_add.toString().replaceAll(',','|')}|${spa_count}${spa_count >0 ? '|':''}${spa.toString().replaceAll(',','|')}|${dyeing_count}${dyeing_count > 0 ? '|':''}${dyeing.toString().replaceAll(',','|')}|${etc_count}${etc_count>0?'|':''}${etc.toString().replaceAll(',','|')}|${coupon_count}${coupon_count>0?'|':''}${coupon.toString().replaceAll(',','|')}|${options_count}${options_count > 0? '|':''}${options.toString().replaceAll(',','|')}|`
     }else{
 
         let beauty = document.querySelector('input[name="payment_beauty"]:checked').value !== '' ? '미용' : '';
@@ -12167,6 +12166,7 @@ function pay_management_product_change(target,id,session_id){
             product:product,
         },
         success:function(res) {
+            console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
