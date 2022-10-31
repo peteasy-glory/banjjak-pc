@@ -779,7 +779,7 @@ if ($artist_flag == 1) {
                                                 <div class="pay-product-save-btn-wrap sticky-bottom" style="position:sticky; bottom:40px; margin-bottom:50px;">
 
 
-                                                    <button type="button" class="sticky-bottom-inner pay-product-save btn btn-outline-purple btn-middle-size btn-round" id="sticky-bottom" onclick="pay_management_product_change(this)">변경</button>
+                                                    <button type="button" class="sticky-bottom-inner pay-product-save btn btn-outline-purple btn-middle-size btn-round" id="sticky-bottom" onclick="pay_management_product_change(this,artist_id,session_id)">변경</button>
                                                 </div>
 
                                                 <div class="pay-basic-data-group-2  basic-data-group vvsmall2" id="receipt">

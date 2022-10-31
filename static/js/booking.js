@@ -2,7 +2,7 @@
 var memo_array = [];
 
 //일간 예약관리 렌더
-function schedule_render(id){
+function schedule_render(id,bool){
     memo_array = [];
     $.ajax({
 
@@ -15,7 +15,9 @@ function schedule_render(id){
             fi_date:`${date.getFullYear()}-${fill_zero(date.getMonth()+1)}-${fill_zero(date.getDate()+1)}`,
         },
         beforeSend:function(){
-            pay_management_toggle(true);
+            if(bool){
+                pay_management_toggle(true);
+            }
             let height;
 
 
@@ -2234,8 +2236,8 @@ function btn_schedule(id){
                     _schedule_render_list(body)
                 })
             }else{
-
-                schedule_render(id);
+                let bool = true;
+                schedule_render(id,bool);
             }
 
 
@@ -2352,7 +2354,8 @@ function btn_schedule(id){
                 })
             }else{
 
-                schedule_render(id);
+                let bool = true;
+                schedule_render(id,bool);
             }
 
 
@@ -8817,6 +8820,7 @@ function management_service_3(base_svc){
 
 
 
+
     return new Promise(function (resolve){
         //console.log(base_svc)
 
@@ -8832,6 +8836,7 @@ function management_service_3(base_svc){
                 let value = el.getAttribute('data-value');
 
                 base_svc.forEach(function(el_){
+                    console.log(el_);
 
 
                     if(value === el_.size ){
@@ -10034,9 +10039,17 @@ function pay_management_toggle(bool){
 
 }
 
-function pay_management_init(id,target,bool,bool2){
+function pay_management_init(id,target,bool,bool2,bool3){
 
-    let payment_idx = target.getAttribute('data-payment_idx');
+    let payment_idx = '';
+    if(typeof target === 'string'){
+
+        payment_idx = target;
+    }else{
+
+
+        payment_idx = target.getAttribute('data-payment_idx');
+    }
 
     if(document.getElementById('pay_card_body_inner')){
 
@@ -11170,8 +11183,10 @@ function pay_management_init(id,target,bool,bool2){
 
 
 
-                            if(bool){
+                            if(bool && !bool3){
                                 document.getElementById('pay_management').scrollTop = document.getElementById('scroll_target').offsetTop;
+                            }else if(bool && bool3){
+                                document.getElementById('pay_management').scrollTop = document.querySelector('.sticky-tab-group').offsetTop;
                             }
                         });
 
@@ -11841,7 +11856,7 @@ function reserve_confirm(target){
 
 }
 
-function pay_management_product_change(target){
+function pay_management_product_change(target,id,session_id){
 
     let payment_idx = target.getAttribute('data-payment_idx')
     let partner_id = target.getAttribute('data-partner_id')
@@ -12143,10 +12158,12 @@ function pay_management_product_change(target){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
-                document.getElementById('msg2_txt').innerText = '서비스 정보가 변경되었습니다.'
-                pop.open('reserveAcceptMsg2');
+                // document.getElementById('msg2_txt').innerText = '서비스 정보가 변경되었습니다.'
+                // pop.open('reserveAcceptMsg2');
 
+                pay_management_init(id,payment_idx,true,true,true);
 
+                _renderCalendar_mini(id,session_id,false);
             }
         }
     })

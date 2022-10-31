@@ -1041,7 +1041,7 @@ function renderCalendar_mini(id) {
 }
 
 //새로고침 달력
-function _renderCalendar_mini(id,session_id){
+function _renderCalendar_mini(id,session_id,bool){
     renderCalendar_mini(id)
         .then(function (div_dates){
             for (let i = 0; i < div_dates.length; i++) {
@@ -1123,7 +1123,7 @@ function _renderCalendar_mini(id,session_id){
 
 
                     if(location.href.match('reserve_beauty_day')){
-                        schedule_render(id);
+                        schedule_render(id,bool);
                     }else if(location.href.match('reserve_beauty_week')){
 
 
