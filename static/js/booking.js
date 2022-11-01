@@ -4232,7 +4232,7 @@ function reserve_merchandise_load_init(id){
                                                                         </div>`
                                 }
 
-                                if(body.add_svc.length > 0){
+                                if(body.add_svc.length > 0 ){
 
 
                                     other_service_inner.innerHTML += `<div class="grid-layout-cell grid-5">
@@ -4508,7 +4508,8 @@ function reserve_merchandise_load(body){
 
                 body.add_svc.forEach(function(el,i){
 
-                    document.getElementById('other_add_svc').innerHTML += `<div class="toggle-button-cell">
+                    if(el.price !== ''){
+                        document.getElementById('other_add_svc').innerHTML += `<div class="toggle-button-cell">
                                                                             <label class="form-toggle-box form-toggle-price middle">
                                                                                 <input type="checkbox" name="add_svc" value="${el.type}" data-price="${el.price}" onclick="if(this.checked === true){reserve_service_list_2('service2_other_list_add_svc','+${el.type}','${el.price}')}else{reserve_service_list_2_delete('service2_other_list_add_svc','+${el.type}')}">
                                                                                 <em>
@@ -4517,6 +4518,8 @@ function reserve_merchandise_load(body){
                                                                                </em>
                                                                             </label>
                                                                         </div>`
+                    }
+
 
                     if(i===body.add_svc.length-1){
 
@@ -4971,7 +4974,7 @@ function reserve_regist_event(artist_id,session_id){
             }
 
 
-            if(weight_input === null){
+            if(weight_input === null  && breed_input.value === 'dog'){
                 document.getElementById('msg1_txt').innerText = '무게를 선택해주세요.'
                 pop.open('reserveAcceptMsg1');
                 return;
@@ -5437,14 +5440,21 @@ let beauty,bath,add_svc;
 
     }else{
 
-        product += `${name}|${breed === 'cat' ? '고양이': ''}|${shop_name}|${beauty === '' ? '' : '미용'}|all:0|${beauty.replace('_미용','')}:${document.getElementById('service2_basic_beauty').getAttribute('data-price')}|`
+        product += `${name}|${breed === 'cat' ? '고양이': ''}|${shop_name}||all:0|${beauty.replace('_미용','')}:${document.getElementById('service2_basic_beauty').getAttribute('data-price')}|`
 
-        if(document.querySelectorAll('input[name="add_svc"]')[0].checked === true){
 
-            product += `${document.querySelectorAll('input[name="add_svc"]')[0].getAttribute('data-price')}|`
-        }else{
-            product += `0|`
-        }
+        Array.from(document.querySelectorAll('input[name="add_svc"]')).forEach(function(el){
+
+            if(el.checked === true ) {
+
+                if (el.value === '발톱') {
+                    product += `${el.getAttribute('data-price')}`
+                }
+
+            }
+        })
+
+        product += '|';
 
 
         if(bath_input.getAttribute('data-price') === "" || bath_input.getAttribute('data-price') === undefined || bath_input.getAttribute('data-price') === null || bath_input.getAttribute('data-price') === '0'){
@@ -5487,7 +5497,7 @@ let beauty,bath,add_svc;
             product += `${el}|`
         })
 
-        product += `0|0|`
+        product += `0|`
 
 
     }
@@ -5534,6 +5544,7 @@ let beauty,bath,add_svc;
 
 
 
+    console.log(product);
 
 
 
@@ -5592,6 +5603,7 @@ let beauty,bath,add_svc;
 
         },
         success:function(res){
+            console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -8773,7 +8785,8 @@ function management_service_2(body){
 
                 body.add_svc.forEach(function(el,i){
 
-                    document.getElementById('payment_other_add_svc').innerHTML += `<div class="toggle-button-cell">
+                    if(el.price !== ''){
+                        document.getElementById('payment_other_add_svc').innerHTML += `<div class="toggle-button-cell">
                                                                             <label class="form-toggle-box form-toggle-price middle">
                                                                                 <input type="checkbox" id="${el.type}" name="payment_add_svc" value="${el.type}" data-price="${el.price}" onclick="set_product(this,'${el.type}','${el.price}')">
                                                                                 <em>
@@ -8782,6 +8795,8 @@ function management_service_2(body){
                                                                                </em>
                                                                             </label>
                                                                         </div>`
+
+                    }
 
 
                 })
@@ -10099,14 +10114,18 @@ function pay_management_init(id,target,bool,bool2,bool3){
                 } else if (head.code === 200) {
                     console.log(body)
 
-                    if(target.getAttribute('data-status') && target.getAttribute('data-status').toLowerCase() === 'r1') {
+                    if(typeof target !== 'string'){
 
-                        document.getElementById('in_advance_value').innerText = `${(parseInt(body.local_price) + parseInt(body.local_price_cash)).toLocaleString()}원`
+                        if(target.getAttribute('data-status') && target.getAttribute('data-status').toLowerCase() === 'r1') {
 
-                        document.getElementById('pay_card_content_0_1').style.display = 'flex';
-                    }else{
-                        document.getElementById('pay_card_content_0_1').style.display = 'none';
+                            document.getElementById('in_advance_value').innerText = `${(parseInt(body.local_price) + parseInt(body.local_price_cash)).toLocaleString()}원`
+
+                            document.getElementById('pay_card_content_0_1').style.display = 'flex';
+                        }else{
+                            document.getElementById('pay_card_content_0_1').style.display = 'none';
+                        }
                     }
+
 
                     let start_time ;
 
