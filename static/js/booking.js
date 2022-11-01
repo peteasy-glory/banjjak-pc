@@ -881,7 +881,7 @@ function week_working(id){
 
 
                             document.getElementById('grid_layout_inner').innerHTML += `<div class="grid-layout-cell flex-auto" >
-                                                                                                        <button type="button" class="btn-toggle-button header-worker"  ${localStorage.getItem('select_worker') === el.name ? 'checked':''} data-worker="${el.name}" data-nick="${el.nick}" data-week-0="0|${open}|${close}" data-week-1="1|${open}|${close}" data-week-2="2|${open}|${close}" data-week-3="3|${open}|${close}" data-week-4="4|${open}|${close}" data-week-5="5|${open}|${close}" data-week-6="6|${open}|${close}">${el.nick}</button>
+                                                                                                        <button type="button" class="btn-toggle-button header-worker"data-worker="${el.name}" data-nick="${el.nick}" data-week-0="0|${open}|${close}" data-week-1="1|${open}|${close}" data-week-2="2|${open}|${close}" data-week-3="3|${open}|${close}" data-week-4="4|${open}|${close}" data-week-5="5|${open}|${close}" data-week-6="6|${open}|${close}">${el.nick}</button>
                                                                                                   </div>`
 
 

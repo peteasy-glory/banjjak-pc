@@ -1163,7 +1163,23 @@ function _renderCalendar_mini(id,session_id,bool){
 
 
 
-                                    document.getElementById('grid_layout_inner').children[0].children[0].click();
+
+                                    Array.from(document.getElementsByClassName('header-worker')).forEach(function(el){
+
+                                        if(localStorage.getItem('select_worker') !== null){
+
+
+                                            if(el.getAttribute('data-worker') === localStorage.getItem('select_worker')){
+
+                                                el.click();
+
+                                            }
+                                        }else{
+                                            document.getElementById('grid_layout_inner').children[0].children[0].click();
+                                        }
+
+                                    })
+
                                     let test = document.getElementsByClassName('week-date');
 
                                     let text = [''];
