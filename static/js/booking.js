@@ -866,6 +866,7 @@ function week_working(id){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
+                    console.log(body);
 
                     let open = `${fill_zero(localStorage.getItem('open_close').split('/')[0])}:00`;
                     let close = `${fill_zero(localStorage.getItem('open_close').split('/')[1])}:00`;
