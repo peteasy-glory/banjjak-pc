@@ -38,7 +38,6 @@ function schedule_render(id,bool){
             } else if (head.code === 200) {
                 document.getElementById('day_today').innerHTML = `${date.getFullYear()}.${fill_zero(date.getMonth()+1)}.${fill_zero(date.getDate())}`
                 let day_count = 0;
-                console.log(body)
 
                 let cancel = 0;
                 let noshow = 0;
@@ -89,7 +88,6 @@ function schedule_render(id,bool){
                                         pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                                     } else if (head.code === 200) {
                                         body.forEach(function(el){
-                                            console.log(el)
 
 
 
@@ -116,7 +114,6 @@ function schedule_render(id,bool){
                         }
 
 
-                        console.log(body)
 
                         no_one(body_data);
 
@@ -351,6 +348,7 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
                 el_.classList.remove('actived');
 
             })
+            localStorage.setItem('select_worker',el.getAttribute('data-worker'));
 
             Array.from(body_col).forEach(function(__el){
 
@@ -375,7 +373,6 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
             el.classList.add('actived');
 
 
-            console.log(body_)
 
             Array.from(document.getElementsByClassName('calendar-week-body-col-add')).forEach(function(el){
 
@@ -577,7 +574,6 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
                                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                             } else if (head.code === 200) {
 
-                                console.log(body);
 
                                 body.forEach(function(el){
 
@@ -885,7 +881,7 @@ function week_working(id){
 
 
                             document.getElementById('grid_layout_inner').innerHTML += `<div class="grid-layout-cell flex-auto" >
-                                                                                                        <button type="button" class="btn-toggle-button header-worker" data-worker="${el.name}" data-nick="${el.nick}" data-week-0="0|${open}|${close}" data-week-1="1|${open}|${close}" data-week-2="2|${open}|${close}" data-week-3="3|${open}|${close}" data-week-4="4|${open}|${close}" data-week-5="5|${open}|${close}" data-week-6="6|${open}|${close}">${el.nick}</button>
+                                                                                                        <button type="button" class="btn-toggle-button header-worker"  ${localStorage.getItem('select_worker') === el.name ? 'checked':''} data-worker="${el.name}" data-nick="${el.nick}" data-week-0="0|${open}|${close}" data-week-1="1|${open}|${close}" data-week-2="2|${open}|${close}" data-week-3="3|${open}|${close}" data-week-4="4|${open}|${close}" data-week-5="5|${open}|${close}" data-week-6="6|${open}|${close}">${el.nick}</button>
                                                                                                   </div>`
 
 
@@ -895,6 +891,7 @@ function week_working(id){
 
 
                     document.getElementById('grid_layout_inner').innerHTML+= `<div class="grid-layout-cell flex-auto"><button type="button" onclick="location.href = '/setting/set_teacher.php'" class="btn-toggle-button btn-toggle-basic"><span class="icon icon-plus-more-small"></span></button></div>`
+
 
                     resolve(body);
                 }
@@ -2036,7 +2033,6 @@ function cols(id){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
-                    console.log(body)
 
                     document.getElementById('day_header_row').innerHTML = `<div class="calendar-day-header-col time"></div>`
 
@@ -3042,7 +3038,7 @@ function schedule_render_list(id){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
-                    //console.log(body)
+
 
 
                     document.getElementById('day_today').innerHTML = `${date.getFullYear()}.${fill_zero(date.getMonth() + 1)}.${fill_zero(date.getDate())}`
@@ -3105,13 +3101,11 @@ function schedule_render_list(id){
 
                                             if(el.is_show && !el.is_leave && el.name === _el){
 
-                                                //console.log(el)
 
                                                 el.work.forEach(function(el_){
 
                                                     if(el_.week == date.getDay()){
 
-                                                        //console.log(el_)
                                                         list_inner.innerHTML +=`<div class="reserve-calendar-list-group">
                                                                                 <div class="con-title-group">
                                                                                     <h5 class="con-title worker_id" data-worker="${_el}" data-start="${el_.time_st}" data-end="${el_.time_fi}" >${el.nick}</h5>
@@ -3187,7 +3181,6 @@ function schedule_render_list(id){
 function _schedule_render_list(body){
 
 
-    //console.log(body)
 
 
 
@@ -3472,7 +3465,6 @@ function reserve_prohibition(id){
             fi_date:end,
         },
         success:function(res){
-
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -3694,7 +3686,6 @@ function reserve_prohibition_list(id){
             } else if (head.code === 200) {
 
 
-                console.log(body);
 
                 if(body.length === undefined){
                     body = [body];
@@ -4016,7 +4007,7 @@ function reserve_merchandise_load_init(id){
 
                     },
                     success:function (res){
-                        console.log(res)
+
                         let response = JSON.parse(res);
                         let head = response.data.head;
                         let body = response.data.body;
@@ -4026,10 +4017,8 @@ function reserve_merchandise_load_init(id){
 
 
                             if(body.is_vat == 1){
-                                //console.log('1이야')
                                 localStorage.setItem('is_vat','1');
                             }else{
-                                //console.log('0이야');
                                 localStorage.setItem('is_vat','0');
                             }
                             let service = document.getElementById('service');
@@ -5529,8 +5518,6 @@ let beauty,bath,add_svc;
         reserve_pay_deadline = '';
     }
 
-    console.log(reserve_pay_deadline);
-
 
 
 
@@ -5604,7 +5591,6 @@ let beauty,bath,add_svc;
 
         },
         success:function(res){
-            console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -5724,7 +5710,6 @@ let beauty,bath,add_svc;
 
 function reserve_pop_init(id){
 
-    console.log(id)
 
     let artist_id = id
 
@@ -7959,7 +7944,6 @@ function beauty_agree_submit(id,pet_seq){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                //console.log(body)
 
 
                 let message = `반려생활의 단짝, 반짝에서 ${cellphone.slice(-4)}님이 작성해주신 미용동의서를 공유해 드립니다.\n` +
@@ -7982,7 +7966,6 @@ function beauty_agree_submit(id,pet_seq){
                         idx:body.idx
 
                     },success:function(res){
-                        //console.log(res)
                     }
 
 
@@ -8133,7 +8116,6 @@ function tooltip(arr){
             success: function (res) {
                 //
                 let response = JSON.parse(res);
-                //////console.log(response);
                 let head = response.data.head;
                 let body = response.data.body;
                 if (head.code === 401) {
@@ -8581,7 +8563,6 @@ function management_service_1(id,breed){
 function management_service_2(body){
 
 
-    console.log(body)
     return new Promise(function(resolve){
 
         document.getElementById('is_vat').value = body.is_vat;
@@ -8822,11 +8803,9 @@ function management_service_2(body){
 function management_service_3(base_svc){
 
 
-    console.log(base_svc);
 
 
     return new Promise(function (resolve){
-        //console.log(base_svc)
 
         Array.from(document.getElementsByClassName('pay-toggle-button-cell-size')).forEach(function(el){
 
@@ -8840,7 +8819,6 @@ function management_service_3(base_svc){
                 let value = el.getAttribute('data-value');
 
                 base_svc.forEach(function(el_){
-                    console.log(el_);
 
 
                     if(value === el_.size ){
@@ -9106,7 +9084,6 @@ function get_coupon(id,data,payment_idx){
                                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                             } else if (head.code === 200) {
 
-                                console.log(body_)
                                 if(body_.length === undefined){
 
                                     body_ = [body_];
@@ -9121,7 +9098,6 @@ function get_coupon(id,data,payment_idx){
                                     // }
                                 })
 
-                                console.log(coupon);
                                 if(coupon.length > 0){
 
 
@@ -9403,7 +9379,6 @@ function set_etc_product_count(target,name,price,bool){
 
 function set_etc_product_count_(target,name,price,bool){
 
-    //console.log(price);
 
 
     name =name.trim();
@@ -9491,7 +9466,6 @@ function management_total_price(){
 
     let target = document.getElementById('service_list');
 
-    //console.log(target)
     let observer = new MutationObserver(function(mutations){
 
         mutations.forEach(function(mutation){
@@ -9534,7 +9508,6 @@ function management_total_price(){
         characterData:true,
         subtree:true
     }
-    //console.log(observer)
 
 
     observer.observe(target,config);
@@ -9642,7 +9615,6 @@ function reserves(id){
 
             let data = response.data;
 
-            //console.log(data);
             // if(bool2){
             //     if(data.is_use === '1'){
             //
@@ -9756,8 +9728,6 @@ function data_change(){
     let reserves =  parseInt(document.getElementById('total_reserves_use').getAttribute('value'))
     let deposit = parseInt(document.getElementById('deposit_price').value);
 
-    console.log(deposit)
-
     if(document.getElementById('last_card').value == 0){
 
         document.getElementById('last_cash').value = '0';
@@ -9780,7 +9750,6 @@ function waiting(id){
                 partner_id:id,
             },
             success:function(res) {
-                //console.log(res)
                 let response = JSON.parse(res);
                 let head = response.data.head;
                 let body = response.data.body;
@@ -9788,7 +9757,6 @@ function waiting(id){
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
 
-                    console.log(body);
                     if(body.length === undefined){
                         body = [body]
                     }
@@ -9839,7 +9807,6 @@ function set_approve(target,bool){
 
         },
         success:function(res){
-            //console.log(res)
 
 
             let response = JSON.parse(res);
@@ -10129,8 +10096,6 @@ function pay_management_init(id,target,bool,bool2,bool3){
                 } else if (head.code === 200) {
 
 
-                    console.log(body)
-
                     let start_time ;
 
                     let end_time;
@@ -10202,7 +10167,6 @@ function pay_management_init(id,target,bool,bool2,bool3){
 
                                                 if(new Date(body.beauty_date.replace(' ','T')).getDay() === parseInt(el_.week)){
 
-                                                    //console.log(el_)
 
                                                     start_time = el_.time_st;
                                                     end_time = el_.time_fi;
@@ -10520,11 +10484,9 @@ function pay_management_init(id,target,bool,bool2,bool3){
                             } else if (head.code === 200) {
 
 
-                                ////console.log(body_)
 
                                 if(body_.length === 0){
 
-                                    ////console.log(body)
                                     document.getElementById('beauty_agree_view').innerHTML =  `<button type="button" class="btn btn-outline-gray btn-middle-size btn-round" id="beauty_agree_btn">미용 동의서 작성</button>`
                                     document.getElementById('beauty_agree_all_btn').checked = false;
                                     document.getElementById('beauty_agree_1_btn').checked = false;
@@ -10544,7 +10506,6 @@ function pay_management_init(id,target,bool,bool2,bool3){
 
                                 }else{
 
-                                    ////console.log(body_)
                                     document.getElementById('agree_view_disease1').checked = false;
                                     document.getElementById('agree_view_disease2').checked = false;
                                     document.getElementById('agree_view_disease3').checked = false;
@@ -10682,8 +10643,6 @@ function pay_management_init(id,target,bool,bool2,bool3){
 
 
                     let before_price = 0;
-
-                    console.log(body_3)
                     if(body_3.length >0){
 
                         body_3.forEach(function(el,i){
@@ -10778,7 +10737,6 @@ function pay_management_init(id,target,bool,bool2,bool3){
                             end_time:end_time
 
                         },success:function(res){
-                            //console.log(res)
                             let response = JSON.parse(res);
                             let start = response.start_date.split(' ')[1];
                             let end = response.end_date.split(' ')[1];
@@ -10806,9 +10764,6 @@ function pay_management_init(id,target,bool,bool2,bool3){
                             })
 
                             new_times.forEach(function(el){
-                                //console.log(el)
-
-                                //console.log(document.getElementById('start_time'))
                                 document.getElementById('start_time').innerHTML += `<option value="${el.replace(':','')}">${am_pm_check_time(el)}</option>`
                             })
 
@@ -11238,8 +11193,6 @@ function pay_management_init(id,target,bool,bool2,bool3){
                             deposit = body.reserve_pay_price
                         }
 
-                        console.log(card)
-                        console.log(cash)
 
                         if(localStorage.getItem('is_vat') == '1'){
                             document.getElementById('last_card').value = card-deposit;
@@ -11692,7 +11645,6 @@ function allim_talk_send_change_time(target){
 
         },
         success:function(res) {
-            ////console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -12150,7 +12102,6 @@ function pay_management_product_change(target,id,session_id){
 
     let price = document.getElementById('real_total_price').getAttribute('value');
 
-    console.log(product);
 
 
 
@@ -12166,7 +12117,6 @@ function pay_management_product_change(target,id,session_id){
             product:product,
         },
         success:function(res) {
-            console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -12430,7 +12380,6 @@ function get_deposit(id){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body)
 
 
                 if(body[0].is_use === 0){
@@ -12502,7 +12451,6 @@ function deposit_toggle(id,target){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body)
 
                 if(body.length >0 && body[0].reserve_price !==0 ){
                     if(document.getElementById('deposit_form_1').style.display === 'none'){
@@ -12606,7 +12554,6 @@ function deposit_finish(target){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body)
                 if(reserve_pay_yn == 1){
 
                     document.getElementById('pay_deposit_btn').setAttribute('data-allim','0')
@@ -12788,7 +12735,6 @@ function open_payment_allim(cellphone,payment_idx,pet_name){
 
                 body.forEach(function(el){
 
-                    console.log(el)
                     let code = '';
                     switch(el.template_code){
 
@@ -12825,7 +12771,6 @@ function open_payment_allim(cellphone,payment_idx,pet_name){
 
 
             }
-            console.log(body)
         }
     })
     pop.open('reserveAlarmInquiryPop');

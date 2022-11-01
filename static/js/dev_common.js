@@ -80,7 +80,6 @@ function get_navi(id){
         type: 'POST',
         async:false,
         success: function (res) {
-            ////console.log(res);
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -112,7 +111,6 @@ function data_set(id){
                 type: 'POST',
                 async:false,
                 success: function (res) {
-                    //console.log(res)
                     let response = JSON.parse(res);
                     let head = response.data.head;
                     let body = response.data.body;
@@ -267,19 +265,11 @@ function home_stats(id){
                     let card_ = Math.round(card / total_price * 100)
                     let cash_ = Math.round(cash / total_price *100)
 
-                    //console.log(card_);
-                    //console.log(cash_)
 
-                    //console.log(dog)
-                    //console.log(cat)
                     let total_pet = cat+dog;
                     let cat_ = Math.round(cat/total_pet*100)
                     let dog_ = Math.round(dog/total_pet*100)
 
-                    //console.log(total_pet);
-
-                    //console.log(cat_)
-                    //console.log(dog_)
 
 
                     document.querySelector('.main-reserve-graph').innerHTML = `<div class="graph-cell">
@@ -595,7 +585,6 @@ function today_reserve(id,bool){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body)
 
                 if(body.length === undefined){
 
@@ -617,7 +606,6 @@ function today_reserve(id,bool){
                             &&el.product.is_cancel !== 1
                         ){
 
-                            //console.log(el)
                             document.getElementById('reserve_after_none').style.display = 'none';
                             if(el.pet.photo !== null && el.pet.photo.substr(0,4) === '/pet'){
                                 el.pet.photo = el.pet.photo.replace('/pet','');
@@ -812,7 +800,6 @@ function _renderCalendar(id) {
         })
        $(document).ready( function () {
             setTimeout(function () {
-                //console.log(1)
                 document.getElementById('wrap').style.display = 'block';
                 document.getElementById('splash').style.display = 'none';
                 sessionStorage.setItem('splash', '1');
@@ -836,7 +823,6 @@ function statutory_holiday(id){
             month: 0
         },
         success: function (res) {
-            //console.log(res)
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
@@ -844,7 +830,6 @@ function statutory_holiday(id){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
-                //console.log(body)
 
                 Array.from(document.getElementsByClassName('main-calendar-month-body-col')).forEach(function (el){
 
@@ -1140,6 +1125,7 @@ function _renderCalendar_mini(id,session_id,bool){
 
 
 
+
                                 body_data.forEach(function(el){
 
                                     Array.from(document.getElementsByClassName('header-worker')).forEach(function(el_){
@@ -1174,8 +1160,6 @@ function _renderCalendar_mini(id,session_id,bool){
                                         week_drag();
 
                                     }
-
-                                        //console.log(new Date().toISOString())
 
 
 
@@ -1543,9 +1527,7 @@ function mms_log(cellphone,date,seq){
         type: 'POST',
         async:false,
         success: function (res) {
-            ////console.log(res);
             let response = JSON.parse(res);
-            ////console.log(response);
             txt = response.data;
         }
     })
@@ -1630,11 +1612,9 @@ var gallery = {
 
         gallery.element.find('.swiper-wrapper .slider-item').each(function(){
             $(this).imagesLoaded().always(function(instance){
-                ////console.log('model image loaded');
             }).done(function(instance){
                 $(instance.elements).removeClass('hide');
             }).fail( function(){
-                //alert('프로필 이미지가 없습니다.');
             }).progress(function(instance,image){
 
             });
@@ -1714,10 +1694,7 @@ function showReviewGallery(startIndex, img_list){
             imgs[i] = img_link_change(imgs[i]);
         }
     });
-    // imgs.forEach(element => {
-    //     element = img_link_change(element);
-    // });
-    //console.log(imgs);
+
     gallery.dataSet(imgs);
     gallery.open(startIndex);
 };
@@ -2209,7 +2186,6 @@ function allimi_send_pop_customer(target,id){
                 if(body.length === undefined){
                     body = [body];
                 }
-                console.log(body)
                 if(body.length>0){
 
                     let week = ['일','월','화','수','목','금','토'];
@@ -2259,7 +2235,6 @@ function allimi_date_select(target,id){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body)
                 if(body.length === undefined){
                     body = [body];
                 }
@@ -2338,7 +2313,6 @@ function allimi_open_history(target){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
-                console.log(body);
 
                 if(body.length === undefined){
 
@@ -2403,7 +2377,6 @@ function allimi_open_history(target){
 function allimi_history_change(target){
 
 
-    console.log(1)
     let artist_id = target.options[target.selectedIndex].getAttribute('data-artist_id');
     let pet_seq = target.options[target.selectedIndex].getAttribute('data-pet_seq');
     let cellphone = target.options[target.selectedIndex].getAttribute('data-cellphone');
@@ -2419,14 +2392,12 @@ function allimi_history_change(target){
             pet_seq:pet_seq,
         },
         success:function(res) {
-            console.log(res);
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body)
                 if(body.length === undefined){
                     body = [body];
                 }
@@ -2548,9 +2519,6 @@ function allimi_open_preview(target,id,bool){
     let self = document.querySelectorAll('input[name="self"]:checked') === null ? '' : document.querySelectorAll('input[name="self"]:checked');
 
 
-    console.log(tangle);
-    console.log(skin);
-    console.log(dislike);
 
 
 
@@ -2594,7 +2562,6 @@ function allimi_open_preview(target,id,bool){
         default : condition_text = ''; document.getElementById('allimi_preview_condition_wrap').style.display ='none'; break;
     }
 
-    console.log(tangle);
     let tangle_values = [];
     let skin_values = [];
     let dislike_values = [];
@@ -2665,8 +2632,6 @@ function allimi_open_preview(target,id,bool){
         }
     })
 
-    console.log(tangle_values);
-    console.log(tangle_text);
 
     if(tangle_text === ''){
 
@@ -2742,7 +2707,6 @@ function allimi_open_preview(target,id,bool){
     })
 
 
-    console.log(preview_photos);
 
     if(preview_photos.length === 0){
         document.getElementById('allimi_preview_gallery').style.display ='none';
@@ -2843,8 +2807,6 @@ function allimi_get_gallerys(id){
                     if (head.code === 401) {
                         pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                     } else if (head.code === 200) {
-                        console.log(body);
-
                         if(body.length === undefined){
                             body = [body];
                         }
@@ -2895,8 +2857,6 @@ function allimi_get_gallery(target,id){
 
 
 
-    console.log(id)
-
     $.ajax({
 
         url:'/data/pc_ajax.php',
@@ -2913,8 +2873,6 @@ function allimi_get_gallery(target,id){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body);
-
                 if(body.length === undefined){
                     body = [body];
                 }
@@ -2964,7 +2922,6 @@ function allimi_select_photo(target,bool){
         photos.push(el.getAttribute('data-file_path'));
     })
 
-    console.log(photos);
 
 
     if(bool){
@@ -3010,9 +2967,7 @@ function allimi_delete_photo(target){
 function allimi_beauty_gallery_add(id,pet_seq,payment_idx){
 
 
-    console.log(id);
-    console.log(pet_seq);
-    console.log(payment_idx);
+
     if(payment_idx === null){
 
         payment_idx = 0;
@@ -3067,7 +3022,6 @@ function allimi_beauty_gallery_add(id,pet_seq,payment_idx){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
-                    console.log(body);
                     if(body.err == 0){
                         allimi_get_gallery2(id);
 
@@ -3138,7 +3092,6 @@ function allimi_get_gallery2(id){
 
     document.getElementById('allimi_gallery_list').innerHTML = `<div class="allimi-gallery-list-cell"><a href="#" class="btn-gate-picture-register" onclick="allimi_MemofocusNcursor()"><span><em>이미지 추가</em></span></a></div>`
 
-    console.log(id)
 
     $.ajax({
 
@@ -3156,8 +3109,6 @@ function allimi_get_gallery2(id){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body);
-
                 if(body.length === undefined){
                     body = [body];
                 }
@@ -3226,7 +3177,6 @@ function allimi_send(){
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
-                    console.log(body)
                     if(body.length === undefined){
                         body = [body];
                     }
@@ -3319,7 +3269,6 @@ function allimi_send(){
         let skin_etc = skin_arr.includes('0') ? '1' : '0';
         let skin_etc_memo = skin_arr.includes('0') ? document.getElementById('allimi_skin_textarea').value : '';
 
-        console.log(skin_etc_memo);
 
         let bath = document.querySelector('input[name="bath"]:checked') === null ? '' : document.querySelector('input[name="bath"]:checked');
         let bath_1 = bath.value == '1' ? '1':'0';
@@ -3364,14 +3313,7 @@ function allimi_send(){
             }
         })
 
-        console.log(file_path)
 
-        // console.log(etiquette)
-        // console.log(etiquette_1)
-        // console.log(etiquette_2)
-        // console.log(etiquette_3)
-        // console.log(etiquette_etc)
-        // console.log(etiquette_etc_memo)
 
         $.ajax({
 
@@ -3433,14 +3375,12 @@ function allimi_send(){
                 file_path: file_path,
             },
             success:function(res) {
-                console.log(res)
                 let response = JSON.parse(res);
                 let head = response.data.head;
                 let body = response.data.body;
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
-                    console.log(body);
                     if(i === 0){
 
                         let message= '';
@@ -3478,7 +3418,6 @@ function allimi_send(){
                                 if (head.code === 401) {
                                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                                 } else if (head.code === 200) {
-                                    console.log(body);
                                 }
                             }
 
@@ -3524,7 +3463,6 @@ function allimi_recent(id,cellphone){
 
                     body = [body];
                 }
-                console.log(body);
                 if(body.length>0){
 
 
@@ -3535,7 +3473,6 @@ function allimi_recent(id,cellphone){
                     let min = body[0].diary_recent_time.substr(10,2);
 
                     let recent_date = new Date(year,parseInt(month)-1,date,hour,min);
-                    console.log(recent_date);
                     document.getElementById('diary_recent').innerText = `( 최근발송 : ${recent_date.getFullYear()}. ${fill_zero(recent_date.getMonth()+1)}. ${fill_zero(recent_date.getDate())} ${am_pm_check(recent_date.getHours())}시 ${fill_zero(recent_date.getMinutes())}분 )`
                 }
             }
@@ -3575,7 +3512,6 @@ function allimi_select_pet_pop_confirm(id){
     }
 
 
-    console.log(target);
     allimi_get_gallery(target,id);
     allimi_open_gallery();
     pop.close2('allimi_select_pet');
@@ -3593,14 +3529,12 @@ function allimi_get_history_one(payment_idx,id){
             payment_log_seq:payment_idx
         },
         success:function(res) {
-            console.log(res);
             let response = JSON.parse(res);
             let head = response.data.head;
             let body = response.data.body;
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body);
 
                 document.getElementById('allimi-right-title').innerText = '알리미 미리보기';
 
