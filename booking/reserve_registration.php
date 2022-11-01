@@ -507,7 +507,7 @@ $search = ($_POST['search'] && $_POST['search'] !== "") ? $_POST['search']:"";
                                     <div class="grid-layout btn-grid-group">
                                         <div class="grid-layout-inner">
                                             <div class="grid-layout-cell grid-2 reserve_regist_btn" id="reserve_regist_1"><a href="#" class="btn btn-outline-purple"><strong>알림없이 등록</strong></a></div>
-                                            <div class="grid-layout-cell grid-2 reserve_regist_btn" id="reserve_regist_2"><a href="#" class="btn btn-outline-purple"><strong>등록</strong></a></div>
+                                            <div class="grid-layout-cell grid-2 reserve_regist_btn" id="reserve_regist_2"><a href="#" class="btn btn-purple"><strong>등록</strong></a></div>
                                         </div>
                                     </div>
                                 </div>

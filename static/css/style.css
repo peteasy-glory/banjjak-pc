@@ -345,8 +345,8 @@
     margin-right: -373px;
     z-index: 5000;
     background: #fff;
-    box-shadow: -8px 11px 9px -3px #f4f4f4f4;
-    border: solid 1px #eaeaea;
+    box-shadow: -8px 11px 9px -3px #f4f4f4;
+    border: solid 1px #cecece;
     border-radius: 5px;
     box-sizing: border-box;
     overflow-x: hidden;
@@ -365,7 +365,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 52px;
+    height: 64px;
     z-index: 100;
     padding: 0 20px;
     box-sizing: border-box;
@@ -378,14 +378,15 @@
 
 .pay-close-btn{
     width: 40px;
-    height: 53px;
+    height: 60px;
     background: #fff;
-    box-shadow: -8px -5px 9px -3px #f4f4f4f4;
+    box-shadow: -8px -5px 9px -3px #f4f4f4;
     position: fixed;
     right: calc(25px + 373px);
+    top: 101px;
     margin-right: -373px;
     opacity: 0;
-    border: solid 1px #eaeaea;
+    border: solid 1px #cecece;
     /* border-radius: 5px; */
     box-sizing: border-box;
     /* border-right: none; */
@@ -703,7 +704,7 @@
 }
 
 .pay-service-selected-wrap{
-    border : 1px solid #ebebeb;
+    border : 1px solid #cecece;
     border-radius:12px;
     padding:24px;
     margin-top:16px;
@@ -723,7 +724,7 @@
 .pay-service-selected-group + .pay-service-selected-group{
     margin-top:16px;
     padding-top:16px;
-    border-top:1px solid #f4f4f4;
+    border-top:1px solid #cecece;
 }
 
 .pay-btn-detail-toggle.actived:after{
@@ -1811,21 +1812,20 @@
 .diary-not-exist{
 
     width:100%;
-    height:30px;
+    height:40px;
     background: #6840b1;
     color:#fff;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top:10px;
+    margin:10px 0;
     border-radius: 5px;
 }
-
 
 .diary-exist{
 
     width:100%;
-    height:30px;
+    height:40px;
     background: #ebebeb;
     display: flex;
     justify-content: center;
@@ -2322,4 +2322,41 @@
     width: 126px;
     border-radius: 16px;
     height: 26px;
+}
+
+/* 작업결제관리 알리미 */
+.diary-not-exist1{
+
+    width:40%;
+    height:40px;
+    background: #6840b1;
+    color:#fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin:10px 0;
+    border-radius: 5px;
+}
+
+.diary-exist1{
+
+    width:40%;
+    height:40px;
+    background: #ebebeb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top:10px;
+    border-radius: 5px;
+}
+
+.alim_btn {
+    position: fixed;
+    background: #fff;
+    width: 328px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    top: 102px;
 }

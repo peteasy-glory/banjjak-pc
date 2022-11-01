@@ -327,7 +327,7 @@ h6.con-title + .form-group-item {margin-top:20px;}
 .form-vertical-group textarea:disabled{background-color:#f4f4f4; border-color:#f4f4f4; color:#202020;} 
 .card-check-group .card-check-box + .card-check-box {margin-top:12px;}
 .card-check-box {display:flex; height:45px; align-items:center; padding:13px 14px; box-sizing:border-box; background:#f4f4f4; border-radius:5px; text-align:left; border:1px solid #f4f4f4;}
-.card-check-box.white {background:#fff; border-color:#ebebeb;}
+.card-check-box.white {background:#fff; border-color:#cecece;}
 .card-check-box > label {flex:0 0 auto;}
 .card-check-box > input {width:100%;margin-left:6px;}
 .card-check-box .form-transparent {height:30px; border:none;padding:0;}
@@ -497,7 +497,7 @@ h6.con-title + .form-group-item {margin-top:20px;}
 .form-week-select .form-toggle-box.circle:hover > em {background:rgba(211, 211, 211, 0.38);}
 .form-week-select .form-toggle-box.circle > input:disabled:checked + em ,
 .form-week-select .form-toggle-box.circle > input:checked + em {font-weight:500; background-color:#6840b1; border-color:#6840b1; color:#fff;}
-.form-week-select .form-toggle-box.circle > input:disabled + em {background:rgba(211, 211, 211, 0.18); border-color:#ebebeb; color:#202020;}
+.form-week-select .form-toggle-box.circle > input:disabled + em {background:rgba(211, 211, 211, 0.18); border-color:#cecece; color:#202020;}
 .form-week-select .form-toggle-box.circle > input:disabled {cursor:default;}
 .form-inpus-inner {display:flex; margin:0 -5px;}
 .form-inputs-cell {flex:1; padding:0 5px; box-sizing:border-box;}
