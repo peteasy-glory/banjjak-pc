@@ -3793,8 +3793,6 @@ if ($artist_flag == 1) {
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
-                console.log(body)
-
                 if(body.length > 0){
 
 
@@ -4068,7 +4066,6 @@ $(function(){
         if(e.type == 'mouseenter'){
             $(this).addClass('actived');
 
-            console.log($(this).children()[0].offsetHeight)
             if(parseInt($(this).attr('data-height')) <4){
                 if($(this).children()[0].offsetHeight>95){
 

@@ -257,7 +257,7 @@ if ($artist_flag == 1) {
                                                 </div>
 
                                             </div>
-                                            
+
                                             <div class="pay-card-content-2">
                                                 <div class="pay-card-body-title">
                                                     <h4 class="con-title">예약동물 정보</h4>
