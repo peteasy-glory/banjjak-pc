@@ -230,7 +230,12 @@ if ($artist_flag == 1) {
                             </div>
                             <div class="pay-data-card">
                                 <div class="pay-card-content pay-card-header" id="pay_card_header">
-                                    <div class="pay-card-header-title">작업/결제 관리</div>
+<!--                                    <div class="pay-card-header-title">작업/결제 관리</div>-->
+                                    <!-- 알리미 -->
+                                    <div class="diary-wrap alim_btn" id="diary_wrap">
+
+                                    </div>
+                                    <!-- /알리미 -->
                                     <div class="pay-close-btn" id="pay_close_btn" onclick="pay_management_toggle(true)">></div>
                                 </div>
                                 <div class="pay-card-body">
@@ -569,9 +574,6 @@ if ($artist_flag == 1) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="diary-wrap" id="diary_wrap">
-
                                             </div>
 
                                         </div>
