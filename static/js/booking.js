@@ -11000,7 +11000,7 @@ function pay_management_init(id,target,bool,bool2,bool3){
                             }
 
                             
-                            if(parsing.base.hair_lenth.unit !== '0'){
+                            if(parsing.base.hair_lenth.unit !== '0' && parsing.base.hair_lenth.price !== 'null'){
                                 document.getElementById(`${parsing.base.hair_lenth.unit.replace('mm','')}mm${parsing.base.hair_lenth.price}`).click();
                             }
                             if(parsing.add.face.unit !== '0'){
