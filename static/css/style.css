@@ -2358,6 +2358,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-end;
-    top: 102px;
-    border-bottom: 1px solid #cecece;
+    top: 101px;
+    border: 1px solid #cecece;
 }
