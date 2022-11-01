@@ -253,6 +253,12 @@ if ($artist_flag == 1) {
                                             <div class="pay-deposit-date" id="pay_deposit_date">
                                             </div>
                                         </div>
+                                        <div class="pay-card-content-0-1" id="pay_card_content_0_1">
+                                            <div class="in-advance-box btn btn-yellow btn-middle-size btn-round">
+                                                사전 결제완료 : <span class="font-color-red" id="in_advance_value"></span>
+                                            </div>
+
+                                        </div>
 
                                         <div class="pay-card-content-2">
                                             <div class="pay-card-body-title">

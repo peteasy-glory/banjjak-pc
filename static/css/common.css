@@ -3042,6 +3042,7 @@ a.calendar-month-day-item,
 .calendar-week-body-col.break2 {display:flex;align-items:center;justify-content:center;font-size:12px;line-height:17px;font-weight:500;color:#8f8f8f; text-align:center;background:#f4f4f4;  border-top-width:0;}
 .calendar-week-body-col.break3 {display:flex;align-items:center;justify-content:center;font-size:12px;line-height:17px;font-weight:500;color:#8f8f8f; text-align:center;background:#f4f4f4;  border-top-width:0;}
 .calendar-week-body-col.break4 {display:flex;align-items:center;justify-content:center;font-size:12px;line-height:17px;font-weight:500;color:#8f8f8f; text-align:center;background:#f4f4f4;  border-top-width:0;}
+.calendar-week-body-col.break5 {display:flex;align-items:center;justify-content:center;font-size:12px;line-height:17px;font-weight:500;color:#8f8f8f; text-align:center;background:#f4f4f4;  border-top-width:0;}
 .calendar-week-body-col.break1-1:before {content:'휴게시간'; position: absolute}
 .calendar-week-body-col.break2-1:before {content:'정기휴일'; position: absolute}
 .calendar-week-body-col.break3-1:before {content:'예약금지'; position: absolute}
@@ -3184,6 +3185,7 @@ a.btn-calendar-add:hover,
 .break2 .btn-calendar-add {display:none;}
 .break3 .btn-calendar-add {display:none;}
 .break4 .btn-calendar-add {display:none;}
+.break5 .btn-calendar-add {display:none;}
 
 /* 예약하기 > 캘린더 (리스트) */
 .reserve-calendar-list {padding:13px 44px 65px 44px; /*border-top:1px solid #ebebeb;*/}

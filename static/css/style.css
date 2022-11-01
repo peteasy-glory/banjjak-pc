@@ -1374,6 +1374,22 @@
 
 }
 
+.pay-card-content-0-1{
+
+    margin-top:10px;
+    margin-bottom:10px;
+    justify-content: center;
+    align-items: center;
+    padding-left: 20px;
+    display:noen;
+    padding-right: 20px;
+
+}
+.in-advance-box{
+
+    font-weight: 500;
+    width:100%;
+}
 .pay-deposit-box{
     display: flex;
     justify-content: space-between;
