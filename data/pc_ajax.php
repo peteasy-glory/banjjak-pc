@@ -1921,6 +1921,7 @@ if($r_mode) {
 
         $customer_new = $api->post('/partner/customer/search', $customer_data_json);
 
+        //return에 만들어진 펫의 seq가 있다면..
 
         $return_data = array("code" => "000000", "data" => $customer_new);
 

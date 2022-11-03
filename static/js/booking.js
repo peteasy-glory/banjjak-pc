@@ -5065,6 +5065,7 @@ function reserve_regist(artist_id,session_id){
 
     let customer_id = document.querySelector('input[name="pet_no"]:checked') === null ? '' : document.querySelector('input[name="pet_no"]:checked').getAttribute('data-id');
     let pet_seq = document.querySelector('input[name="pet_no"]:checked') === null ? '' :document.querySelector('input[name="pet_no"]:checked').getAttribute('value')
+    //pet_seq를 새로 만들어줘야..
     const shop_name = data.shop_name;
     const login = artist_id;
     const session = session_id;
@@ -12125,7 +12126,7 @@ function pay_management_product_change(target,id,session_id){
 
 
 
-        product = `${name}|${type}|${data.shop_name}|${beauty}|all:0|${beauty_}:${beauty_price}|${nail}|${short}|${long}|${add_count}|${add.toString().replaceAll(',','|')}|${options_count}${options_count > 0? '|':''}${options.toString().replaceAll(',','|')}|${coupon_count}${coupon_count>0?'|':''}${coupon.toString().replaceAll(',','|')}|`
+        product = `${name}|${type}|${data.shop_name}||all:0|${beauty_}:${beauty_price}|${nail}|${short}|${long}|${add_count}|${add.toString().replaceAll(',','|')}|${options_count}${options_count > 0? '|':''}${options.toString().replaceAll(',','|')}|${coupon_count}${coupon_count>0?'|':''}${coupon.toString().replaceAll(',','|')}|`
 
 
     }
@@ -12745,6 +12746,7 @@ function open_payment_allim(cellphone,payment_idx,pet_name){
         },
         success:function(res) {
 
+            console.log(res)
             let response = JSON.parse(res);
             let body = response.data;
 
@@ -12765,6 +12767,7 @@ function open_payment_allim(cellphone,payment_idx,pet_name){
                 document.getElementById('allimtalk_exist').innerHTML = '';
 
                 body.forEach(function(el){
+
 
                     let code = '';
                     switch(el.template_code){

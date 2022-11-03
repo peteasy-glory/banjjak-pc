@@ -1177,6 +1177,7 @@ function customer_view(id){
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
 
+                    console.log(body)
                     if(body.length === undefined){
 
                         body =[body];
@@ -1435,6 +1436,7 @@ function customer_view_(id){
 
     customer_view(id).then(function(body_data){
 
+
         document.getElementById('allimi_customer_btn').setAttribute('data-cellphone',localStorage.getItem('customer_select'))
         document.getElementById('allimi_date_select').setAttribute('data-cellphone',localStorage.getItem('customer_select'))
         document.getElementById('allimi_history_btn_2').setAttribute('data-cellphone',localStorage.getItem('customer_select'))
@@ -1526,6 +1528,7 @@ function post_grade(){
                 name:el.value,
             },
             success:function(res){
+                console.log(res)
 
                 
             }
@@ -1833,6 +1836,7 @@ function insert_customer_grade(id,data){
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
 
+                console.log(body);
 
                 let grade= '';
                 switch(body.grade_ord){
@@ -1882,7 +1886,7 @@ function insert_customer_grade(id,data){
                             document.getElementById('set_grade_btn').addEventListener('click',function(){
 
 
-                                set_grade(body,customer_id);
+                                set_grade(body,customer_id,tmp_seq);
                             })
                         }
                     }
@@ -1896,7 +1900,7 @@ function insert_customer_grade(id,data){
 }
 
 
-function set_grade(data,customer_id){
+function set_grade(data,customer_id,tmp_seq){
 
     let customer_idx;
     if(typeof data === 'object'){
@@ -1904,6 +1908,8 @@ function set_grade(data,customer_id){
     }else{
         customer_idx = data;
     }
+
+
 
 
     let grade_idx = document.getElementById('memberGradeSelect').value;
@@ -1942,6 +1948,10 @@ function set_grade(data,customer_id){
         })
 
     }else{
+
+        if(customer_id === ''){
+            customer_id = tmp_seq;
+        }
 
         $.ajax({
 
