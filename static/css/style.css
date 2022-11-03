@@ -2383,3 +2383,65 @@ html, body {
     top: 101px;
     border: 1px solid #cecece;
 }
+
+.plus-pet{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 20px 20px;
+    max-width:none !important;
+    min-width:30px !important;
+    width:30px !important;
+
+}
+.form-toggle-box:hover > .plus-pet{
+    background: url(../images/icon/icon-plus-more-small.png) no-repeat;!important;
+    background-position: center;
+    background-size: 20px 20px;
+    max-width:none;
+    min-width:30px;
+    width:30px;
+}
+
+.form-toggle-box > input:checked + .plus-pet {
+    background-color: #6840b1 !important;
+    border-color: #6840b1;
+
+    background: url(../images/icon/icon-plus-more-small-dark.png) no-repeat;
+
+    background-position: center;
+    background-size: 20px 20px;
+    max-width:none;
+    min-width:30px;
+    width:30px;
+
+}
+
+.appr-title-wrap{
+
+    height: 62px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    flex:1;
+
+
+}
+
+.label-add-purple{
+    display: inline-block;
+    height: 25px;
+    padding: 0 9px;
+    font-size: 12px;
+    line-height: 25px;
+    font-weight: 700;
+    border-radius: 15px;
+    color: #fff;
+    border: 1px solid #6840b1;
+    box-sizing: border-box;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #6840b1;
+    max-width:68px;
+}
+

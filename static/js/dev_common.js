@@ -3187,12 +3187,14 @@ function allimi_send(){
                 pet_seq:pet_seq,
             },
             success:function(res) {
+                console.log(res);
                 let response = JSON.parse(res);
                 let head = response.data.head;
                 let body = response.data.body;
                 if (head.code === 401) {
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
+                    console.log(body);
                     if(body.length === undefined){
                         body = [body];
                     }
@@ -3391,6 +3393,7 @@ function allimi_send(){
                 file_path: file_path,
             },
             success:function(res) {
+                console.log(res);
                 let response = JSON.parse(res);
                 let head = response.data.head;
                 let body = response.data.body;

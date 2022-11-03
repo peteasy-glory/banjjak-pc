@@ -6264,6 +6264,13 @@ function exist_user_reserve(id,cellphone,name){
                                                                                                 </label>
                                                                                             </div>`
                         })
+
+                        document.getElementById('select_pet_list').innerHTML += `<div class="grid-layout-cell flex-auto">
+                                                                                                <label class="form-toggle-box">
+                                                                                                    <input name="pet_no" class="pet-no" type="radio" onclick="reset_reserve_input();">
+                                                                                                    <em class="icon-plus-more-small plus-pet"></em>
+                                                                                                </label>
+                                                                                            </div>`
                         resolve();
 
                     }
@@ -10087,6 +10094,16 @@ function pay_management_init(id,target,bool,bool2,bool3){
         payment_idx = target.getAttribute('data-payment_idx');
     }
 
+    if(bool2){
+
+        document.getElementById('diary_wrap').style.display='flex';
+        document.getElementById('appr_title').style.display='none';
+
+    }else if(!bool2){
+        document.getElementById('diary_wrap').style.display='none';
+        document.getElementById('appr_title').style.display='flex';
+    }
+
     if(document.getElementById('pay_card_body_inner')){
 
         document.getElementById('pay_card_body_inner').style.display = 'none';
@@ -11303,9 +11320,11 @@ function pay_management_init(id,target,bool,bool2,bool3){
                                                                                     <div class="list-value appr_sum_target">${(parsing.base.hair_lenth.price)}</div>원
                                                                                 </div>`
 
-                        if(parsing.base.hair_features.length > 0){
+                        if(parsing.base.hair_features[0].length > 0){
+                            console.log(parsing.base.hair_features.length);
 
                             parsing.base.hair_features.forEach(function(el){
+                                console.log(el)
 
                                 document.getElementById('appr_service_list').innerHTML += `<div class="list-cell">
                                                                                     <div class="list-title">${el.unit}</div>
@@ -12956,4 +12975,10 @@ function exist_user_click(name){
 
         }
     })
+}
+
+function reset_reserve_input(){
+
+    document.getElementById('reserve_name').value ='';
+
 }
