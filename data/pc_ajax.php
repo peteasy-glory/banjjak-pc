@@ -3228,6 +3228,17 @@ if($r_mode) {
         $return_data = array("code"=>"000000","data"=>$result);
 
 
+    }else if($r_mode ==="get_tmp_user_exist"){
+
+        $artist_id = $_POST['artist_id'];
+
+        $phone_num = $_POST['phone_num'];
+
+        $data = array('phone_num'=>$phone_num);
+        $data_json = json_encode($data);
+        $result = $api -> get('/partner/booking/beauty-chkphone/'.$artist_id,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
     }
 
 }
