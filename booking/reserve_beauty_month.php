@@ -235,6 +235,14 @@ if ($artist_flag == 1) {
                                     <div class="diary-wrap alim_btn" id="diary_wrap">
 
                                     </div>
+                                    <div class="diary-wrap alim_btn" id="appr_title" style="display:none; flex-direction: row; justify-content: center; align-items: center">
+                                        <div class="appr-title-wrap">
+
+                                            <div class="pay-card-header-title" style="margin-left:60px;">예약 승인</div>
+
+                                        </div>
+                                        <div class="label-add-purple"><em>승인대기</em></div>
+                                    </div>
                                     <!-- /알리미 -->
                                     <div class="pay-close-btn" id="pay_close_btn" onclick="pay_management_toggle(true)">></div>
                                 </div>
