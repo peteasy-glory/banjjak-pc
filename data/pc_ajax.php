@@ -1921,6 +1921,7 @@ if($r_mode) {
 
         $customer_new = $api->post('/partner/customer/search', $customer_data_json);
 
+        //return에 만들어진 펫의 seq가 있다면..
 
         $return_data = array("code" => "000000", "data" => $customer_new);
 
@@ -3227,6 +3228,17 @@ if($r_mode) {
         $return_data = array("code"=>"000000","data"=>$result);
 
 
+    }else if($r_mode ==="get_tmp_user_exist"){
+
+        $artist_id = $_POST['artist_id'];
+
+        $phone_num = $_POST['phone_num'];
+
+        $data = array('phone_num'=>$phone_num);
+        $data_json = json_encode($data);
+        $result = $api -> get('/partner/booking/beauty-chkphone/'.$artist_id,$data_json);
+
+        $return_data = array("code"=>"000000","data"=>$result);
     }
 
 }

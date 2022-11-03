@@ -4,6 +4,8 @@ var memo_array = [];
 //일간 예약관리 렌더
 function schedule_render(id,bool){
     memo_array = [];
+    date.setHours(new Date().getHours());
+    date.setMinutes(new Date().getMinutes())
     $.ajax({
 
         url:'/data/pc_ajax.php',
@@ -36,6 +38,7 @@ function schedule_render(id,bool){
             if (head.code === 401) {
                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
             } else if (head.code === 200) {
+                console.log(date);
                 document.getElementById('day_today').innerHTML = `${date.getFullYear()}.${fill_zero(date.getMonth()+1)}.${fill_zero(date.getDate())}`
                 let day_count = 0;
 
@@ -178,6 +181,7 @@ function schedule_render(id,bool){
                                         return;
                                     }
 
+                                    console.log(el)
                                     el_.setAttribute('data-payment_idx',el.product.payment_idx)
                                     el_.setAttribute('data-time_length',(new Date(el.product.date.booking_fi.replace(' ','T')).getTime()-new Date(el.product.date.booking_st.replace(' ','T')).getTime())/1000/60)
 
@@ -202,7 +206,7 @@ function schedule_render(id,bool){
                                                                                 <div class="item-other">
                                                                                     <div class="item-cate">${el.pet.type}${(el.product.is_reserve_pay === 1 && el.product.reserve_pay_yn === 0) ? `<div class="deposit-box">예약금 대기</div>` :''}${el.product.is_reserve_pay === 1 && el.product.reserve_pay_yn === 1 ? `<div class="deposit-box-fin">예약금입금완</div>`:''}</div>
                                                                                     <div class="item-price">${(el.product.store_payment.card + el.product.store_payment.cash).toLocaleString()}원</div>
-                                                                                    <div class="item-option">${el.product.category} ${el.product.category_sub !== ''? '|':''}${el.product.category_sub}</div>
+                                                                                    <div class="item-option">${el.pet.animal !== 'cat' ? el.product.category : ''} ${el.pet.animal !== 'cat' ? el.product.category_sub !== ''? '|':'' : ''}${el.pet.animal !== 'cat' ? el.product.category_sub : ''}</div>
                                                                                     <div class="item-memo" style="font-size:12px;">${el.product.memo === null ? '' : el.product.memo}</div>
                                                                                 </div>
                                                                                 <div class="item-stats">
@@ -459,7 +463,7 @@ function reserve_schedule_week_cols(body,body_,parent,id,session_id){
                                                             
                                                             <div class="item-cate">${_el.pet.type}${(_el.product.is_reserve_pay === 1 && _el.product.reserve_pay_yn === 0) ? `<div class="deposit-box">예약금 대기</div>` :''}${_el.product.is_reserve_pay === 1 && _el.product.reserve_pay_yn === 1 ? `<div class="deposit-box-fin">예약금입금완</div>`:''}</div>
                                                             <div class="item-price">${(parseInt(_el.product.store_payment.card) + parseInt(_el.product.store_payment.cash)).toLocaleString()}원</div>
-                                                            <div class="item-option">${_el.product.category}${_el.product.category_sub !== '' ? '|':''}${_el.product.category_sub}</div>
+                                                            <div class="item-option">${_el.pet.animal !== 'cat' ? _el.product.category : '' }${_el.pet.animal !== 'cat' ? _el.product.category_sub !== '' ? '|':'' : ''}${_el.pet.animal !== 'cat' ? _el.product.category_sub : ''}</div>
                                                             <div class="item-memo" style="font-size:12px;">${_el.product.memo === null ? '' : _el.product.memo}</div>
                                                             <div class="item-stats">
                                                                                
@@ -1031,6 +1035,8 @@ function reserve_schedule_week(id,body_data) {
 
 function schedule_render_week(el,id,bool){
 
+    date.setHours(new Date().getHours());
+    date.setMinutes(new Date().getMinutes())
 
 return new Promise(function (resolve){
 
@@ -2381,6 +2387,7 @@ function btn_schedule(id){
                 } else if (select_low === lows.length - 1) {
 
                     date.setDate(date.getDate() + 7);
+
                     localStorage.setItem('day_select',`${date.getFullYear()}.${date.getMonth()+1}.01`)
                     _renderCalendar_mini(id);
 
@@ -3529,7 +3536,7 @@ function reserve_search(id){
                         body.forEach(function(el,i){
 
                             document.getElementById('reserve_inner').innerHTML += `<div class="grid-layout-cell grid-2">
-                                                                                            <a href="#" onclick="exist_user_reserve(artist_id,'${el.cellphone}')" class="customer-card-item">
+                                                                                            <a href="#" onclick="exist_user_reserve(artist_id,'${el.cellphone}','${el.name}').then(function(){exist_user_click('${el.name}')})" class="customer-card-item">
                                                                                                 <div class="item-info-wrap">
                                                                                                     <div class="item-thumb">
                                                                                                         <div class="user-thumb large" ${el.pet_photo !== '' ? `onclick="thumb_view(this,'${el.pet_photo.replace('/pet/','/')}')"`:''}>
@@ -5065,6 +5072,7 @@ function reserve_regist(artist_id,session_id){
 
     let customer_id = document.querySelector('input[name="pet_no"]:checked') === null ? '' : document.querySelector('input[name="pet_no"]:checked').getAttribute('data-id');
     let pet_seq = document.querySelector('input[name="pet_no"]:checked') === null ? '' :document.querySelector('input[name="pet_no"]:checked').getAttribute('value')
+    //pet_seq를 새로 만들어줘야..
     const shop_name = data.shop_name;
     const login = artist_id;
     const session = session_id;
@@ -6220,10 +6228,10 @@ function reserve_pop_init(id){
 
 
 }
-function exist_user_reserve(id,cellphone){
+function exist_user_reserve(id,cellphone,name){
 
 
-
+    return new Promise(function(resolve){
         $.ajax({
 
             url:'/data/pc_ajax.php',
@@ -6251,12 +6259,16 @@ function exist_user_reserve(id,cellphone){
 
                             document.getElementById('select_pet_list').innerHTML += `<div class="grid-layout-cell flex-auto" id="pet_no_wrap">
                                                                                                 <label class="form-toggle-box">
-                                                                                                    <input name="pet_no" class="pet-no" type="radio" data-id="${el.detail.customer_id}" value="${el.pet_seq}" onclick="exist_user_reserve_('${el.pet_seq}').then(function(body){exist_user_reserve_init(body)})">
+                                                                                                    <input name="pet_no" class="pet-no" type="radio" data-name="${el.name}" data-id="${el.detail.customer_id}" value="${el.pet_seq}" onclick="exist_user_reserve_('${el.pet_seq}').then(function(body){exist_user_reserve_init(body)})">
                                                                                                     <em>${el.name}</em>
                                                                                                 </label>
                                                                                             </div>`
                         })
+                        resolve();
+
                     }
+
+
 
                 }
             }
@@ -6268,6 +6280,12 @@ function exist_user_reserve(id,cellphone){
         document.getElementById('new_user').style.display = 'block';
 
         document.getElementById('reserve_footer').style.display = 'block';
+
+
+
+
+    })
+
 
 
 
@@ -9855,50 +9873,79 @@ function set_approve(target,bool){
 
 function new_exist_check(id){
 
+
     document.getElementById('reserve_cellphone').addEventListener('focusout',function(){
 
 
-        $.ajax({
+        if(document.getElementById('reserve_cellphone').value !== ''){
+            $.ajax({
 
-            url:'/data/pc_ajax.php',
-            type:'post',
-            data:{
-                mode:'search',
-                login_id:id,
-                search:document.getElementById('reserve_cellphone').value,
-            },
-            success:function(res){
-                let response = JSON.parse(res);
-                let head = response.data.head;
-                let body = response.data.body;
-                if (head.code === 401) {
-                    pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-                } else if (head.code === 200) {
+                url:'/data/pc_ajax.php',
+                type:'post',
+                data:{
+                    mode:'search',
+                    login_id:id,
+                    search:document.getElementById('reserve_cellphone').value,
+                },
+                success:function(res){
+                    let response = JSON.parse(res);
+                    let head = response.data.head;
+                    let body = response.data.body;
+                    if (head.code === 401) {
+                        pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                    } else if (head.code === 200) {
 
-                    if(body.length === undefined){
-                        body = [body];
+                        if(body.length === undefined){
+                            body = [body];
+                        }
+                        if(body.length > 0){
+
+                            body.forEach(function(el){
+
+                                if(el.cellphone === document.getElementById('reserve_cellphone').value){
+
+                                    document.getElementById('msg1_txt').innerText = '이 번호의 고객이 샵 이용 이력이 있습니다.\n 기존고객예약을 이용해주세요.'
+
+                                    pop.open('reserveAcceptMsg1');
+                                    document.getElementById('reserve_name').disabled = true;
+                                    document.getElementById('reserve_search').value = document.getElementById('reserve_cellphone').value;
+                                    document.getElementById('exist_btn').click();
+                                }
+                            })
+
+                        }else{
+
+                            // $.ajax({
+                            //     url:'/data/pc_ajax.php',
+                            //     type:'post',
+                            //     data:{
+                            //         mode:'get_tmp_user_exist',
+                            //         artist_id:id,
+                            //         phone_num:document.getElementById('reserve_cellphone').value,
+                            //     },
+                            //     success:function(res) {
+                            //         console.log(res)
+                            //         let response = JSON.parse(res);
+                            //         let head = response.data.head;
+                            //         let body = response.data.body;
+                            //         if (head.code === 401) {
+                            //             pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                            //         } else if (head.code === 200) {
+                            //             console.log(body)
+                            //         }
+                            //     }
+                            // })
+
+                        }
+
                     }
-                    if(body.length > 0){
-
-                        body.forEach(function(el){
-
-                            if(el.cellphone === document.getElementById('reserve_cellphone').value){
-
-                                document.getElementById('msg1_txt').innerText = '이 번호의 고객이 샵 이용 이력이 있습니다.\n 기존고객예약을 이용해주세요.'
-
-                                pop.open('reserveAcceptMsg1');
-                                document.getElementById('reserve_name').disabled = true;
-                                document.getElementById('reserve_search').value = document.getElementById('reserve_cellphone').value;
-                                document.getElementById('exist_btn').click();
-                            }
-                        })
-
-                    }
-
                 }
-            }
 
-        })
+            })
+        }
+
+
+
     })
 }
 
@@ -12091,27 +12138,27 @@ function pay_management_product_change(target,id,session_id){
 
             options_count++;
 
-            options.push(`${el.value}:${el.getAttribute('data-price')}:${siblings(el,1).children[1].children[1].children[0].value}`)
+            options.push(`${el.getAttribute('data-idx')}:${el.value}:${el.getAttribute('data-price')}:${siblings(el,1).children[1].children[1].children[0].value}`)
         });
 
         Array.from(options2).forEach(function(el){
 
             options_count++;
 
-            options.push(`${el.value}:${el.getAttribute('data-price')}:${siblings(el,1).children[1].children[1].children[0].value}`)
+            options.push(`${el.getAttribute('data-idx')}:${el.value}:${el.getAttribute('data-price')}:${siblings(el,1).children[1].children[1].children[0].value}`)
         });
         Array.from(options3).forEach(function(el){
 
             options_count++;
 
-            options.push(`${el.value}:${el.getAttribute('data-price')}:${siblings(el,1).children[1].children[1].children[0].value}`)
+            options.push(`${el.getAttribute('data-idx')}:${el.value}:${el.getAttribute('data-price')}:${siblings(el,1).children[1].children[1].children[0].value}`)
         });
 
         Array.from(options4).forEach(function(el){
 
             options_count++;
 
-            options.push(`${el.value}:${el.getAttribute('data-price')}:${siblings(el,1).children[1].children[1].children[0].value}`)
+            options.push(`${el.getAttribute('data-idx')}:${el.value}:${el.getAttribute('data-price')}:${siblings(el,1).children[1].children[1].children[0].value}`)
         });
 
         document.querySelectorAll('input[name="payment_add_svc"]:checked').forEach(function(el){
@@ -12125,7 +12172,7 @@ function pay_management_product_change(target,id,session_id){
 
 
 
-        product = `${name}|${type}|${data.shop_name}|${beauty}|all:0|${beauty_}:${beauty_price}|${nail}|${short}|${long}|${add_count}|${add.toString().replaceAll(',','|')}|${options_count}${options_count > 0? '|':''}${options.toString().replaceAll(',','|')}|${coupon_count}${coupon_count>0?'|':''}${coupon.toString().replaceAll(',','|')}|`
+        product = `${name}|${type}|${data.shop_name}||all:0|${beauty_}:${beauty_price}|${nail}|${short}|${long}|${add_count}|${add.toString().replaceAll(',','|')}|${coupon_count}${coupon_count>0?'|':''}${coupon.toString().replaceAll(',','|')}|${options_count}${options_count > 0? '|':''}${options.toString().replaceAll(',','|')}|`
 
 
     }
@@ -12745,6 +12792,7 @@ function open_payment_allim(cellphone,payment_idx,pet_name){
         },
         success:function(res) {
 
+            console.log(res)
             let response = JSON.parse(res);
             let body = response.data;
 
@@ -12765,6 +12813,7 @@ function open_payment_allim(cellphone,payment_idx,pet_name){
                 document.getElementById('allimtalk_exist').innerHTML = '';
 
                 body.forEach(function(el){
+
 
                     let code = '';
                     switch(el.template_code){
@@ -12896,3 +12945,15 @@ function deposit_background(target) {
 
 
 
+function exist_user_click(name){
+
+    Array.from(document.getElementsByClassName('pet-no')).forEach(function(el){
+
+
+        if(el.getAttribute('data-name') === name){
+
+            el.click();
+
+        }
+    })
+}

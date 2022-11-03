@@ -8,6 +8,11 @@
 @import url(insight.min.css);
 
 
+html, body {
+    position:relative;
+    overflow-x:hidden;
+}
+
 /*disabled 커서 기본으로 변경*/
 .disabled {
     cursor: default !important;
@@ -378,7 +383,7 @@
 
 .pay-close-btn{
     width: 40px;
-    height: 60px;
+    height: 62px;
     background: #fff;
     box-shadow: -8px -5px 9px -3px #f4f4f4;
     position: fixed;
@@ -394,6 +399,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    z-index:-3;
 
 }
 
