@@ -9937,29 +9937,37 @@ function new_exist_check(id){
                                     if (head.code === 401) {
                                         pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                                     } else if (head.code === 200) {
-                                        console.log(body)
+
 
                                         if(body.length === undefined){
                                             body = [body];
                                         }
 
+                                        console.log(body)
+
                                         if(body.length >0){
 
+                                            if(body[0].pet_seq !== 0){
 
+                                                document.getElementById('select_pet_list').innerHTML = '';
+                                                document.getElementById('select_pet').style.display = 'block';
 
-                                            document.getElementById('select_pet_list').innerHTML = '';
-                                            document.getElementById('select_pet').style.display = 'block';
-                                            body.forEach(function(el){
+                                                body.forEach(function(el){
 
-                                                document.getElementById('select_pet_list').innerHTML += `<div class="grid-layout-cell flex-auto" id="pet_no_wrap">
+                                                    document.getElementById('select_pet_list').innerHTML += `<div class="grid-layout-cell flex-auto" id="pet_no_wrap">
                                                                                                 <label class="form-toggle-box">
                                                                                                     <input name="pet_no" class="pet-no" type="radio" data-name="${el.name}" value="${el.pet_seq}" onclick="exist_user_reserve_('${el.pet_seq}').then(function(body){exist_user_reserve_init(body)})">
                                                                                                     <em>${el.name}</em>
                                                                                                 </label>
                                                                                             </div>`
-                                            })
+                                                })
 
-                                            pop.open('reserveCalendarPop23');
+                                                pop.open('reserveCalendarPop23');
+                                            }
+
+
+
+
 
                                         }
 
