@@ -3193,6 +3193,22 @@ if ($artist_flag == 1) {
     </div>
 </article>
 
+<article id="reserveCalendarPop23" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data alert-pop-data">
+                <div class="pop-body">
+                    <div class="msg-txt">이 번호의 고객이 이미 반짝에 등록되어 있어 펫정보를 불러올 수 있습니다.<p>(반짝의 다른 입점샵 이용이력이 있는 고객으로 펫정보만 불러옵니다_다른샵 미용이력/메모제외)</div>
+                </div>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm btn-reserv-block" onclick="pop.close2('reserveCalendarPop23');">확인</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+
 <article id="reservePayManagementMsg8" class="layer-pop-wrap">
     <div class="layer-pop-parent">
         <div class="layer-pop-children">

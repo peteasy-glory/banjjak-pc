@@ -6264,13 +6264,13 @@ function exist_user_reserve(id,cellphone,name){
                                                                                                 </label>
                                                                                             </div>`
                         })
-
-                        document.getElementById('select_pet_list').innerHTML += `<div class="grid-layout-cell flex-auto">
-                                                                                                <label class="form-toggle-box">
-                                                                                                    <input name="pet_no" class="pet-no" type="radio" onclick="reset_reserve_input();">
-                                                                                                    <em class="icon-plus-more-small plus-pet"></em>
-                                                                                                </label>
-                                                                                            </div>`
+                        //
+                        // document.getElementById('select_pet_list').innerHTML += `<div class="grid-layout-cell flex-auto">
+                        //                                                                         <label class="form-toggle-box">
+                        //                                                                             <input name="pet_no" class="pet-no" type="radio" onclick="reset_reserve_input();">
+                        //                                                                             <em class="icon-plus-more-small plus-pet"></em>
+                        //                                                                         </label>
+                        //                                                                     </div>`
                         resolve();
 
                     }
@@ -9922,26 +9922,50 @@ function new_exist_check(id){
 
                         }else{
 
-                            // $.ajax({
-                            //     url:'/data/pc_ajax.php',
-                            //     type:'post',
-                            //     data:{
-                            //         mode:'get_tmp_user_exist',
-                            //         artist_id:id,
-                            //         phone_num:document.getElementById('reserve_cellphone').value,
-                            //     },
-                            //     success:function(res) {
-                            //         console.log(res)
-                            //         let response = JSON.parse(res);
-                            //         let head = response.data.head;
-                            //         let body = response.data.body;
-                            //         if (head.code === 401) {
-                            //             pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-                            //         } else if (head.code === 200) {
-                            //             console.log(body)
-                            //         }
-                            //     }
-                            // })
+                            $.ajax({
+                                url:'/data/pc_ajax.php',
+                                type:'post',
+                                data:{
+                                    mode:'get_tmp_user_exist',
+                                    artist_id:id,
+                                    phone_num:document.getElementById('reserve_cellphone').value,
+                                },
+                                success:function(res) {
+                                    let response = JSON.parse(res);
+                                    let head = response.data.head;
+                                    let body = response.data.body;
+                                    if (head.code === 401) {
+                                        pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                                    } else if (head.code === 200) {
+                                        console.log(body)
+
+                                        if(body.length === undefined){
+                                            body = [body];
+                                        }
+
+                                        if(body.length >0){
+
+
+
+                                            document.getElementById('select_pet_list').innerHTML = '';
+                                            document.getElementById('select_pet').style.display = 'block';
+                                            body.forEach(function(el){
+
+                                                document.getElementById('select_pet_list').innerHTML += `<div class="grid-layout-cell flex-auto" id="pet_no_wrap">
+                                                                                                <label class="form-toggle-box">
+                                                                                                    <input name="pet_no" class="pet-no" type="radio" data-name="${el.name}" value="${el.pet_seq}" onclick="exist_user_reserve_('${el.pet_seq}').then(function(body){exist_user_reserve_init(body)})">
+                                                                                                    <em>${el.name}</em>
+                                                                                                </label>
+                                                                                            </div>`
+                                            })
+
+                                            pop.open('reserveCalendarPop23');
+
+                                        }
+
+                                    }
+                                }
+                            })
 
                         }
 
