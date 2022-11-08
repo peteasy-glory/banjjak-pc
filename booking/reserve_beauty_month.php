@@ -1007,6 +1007,10 @@ if ($artist_flag == 1) {
                                                             <div class="list-title"><strong style="color:#ff4848">예약금 선입금</strong></div>
                                                             <div class="list-value"><strong style="color:#ff4848">(-)<span id="deposit_price" style="color:#ff4848"></span></strong></div>
                                                         </div>
+                                                        <div class="list-cell" id="deposit_price_list_2" style="display: none;">
+                                                            <div class="list-title"><strong style="color:blue; font-size:18px;">받을 금액</strong></div>
+                                                            <div class="list-value"><strong style="color:blue; font-size:18px;">(-)<span id="deposit_price_2" style="color:blue;  font-size:18px;"></span></strong></div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="receipt-buy-detail result-price">

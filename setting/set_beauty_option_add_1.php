@@ -624,6 +624,21 @@ if ($artist_flag == 1) {
     </section>
     <!-- //container -->
 </div>
+
+<article id="reserveAcceptMsg1" class="layer-pop-wrap">
+    <div class="layer-pop-parent">
+        <div class="layer-pop-children">
+            <div class="pop-data alert-pop-data">
+                <div class="pop-body">
+                    <div class="msg-txt" id="msg1_txt">상품이름이 중복되었습니다.</div>
+                </div>
+                <div class="pop-footer">
+                    <button type="button" class="btn btn-confirm" onclick="pop.close2('reserveAcceptMsg1');">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
 <!-- //wrap -->
 <script src="../static/js/Sortable.min.js"></script>
 <script src="../static/js/common.js"></script>
@@ -673,7 +688,7 @@ if ($artist_flag == 1) {
 <!--                            </td>-->
                             <td class="no-padding">
                                 <div class="form-table-select">
-                                    <input type="text" placeholder="입력" name="face_name[]" value="${i}">
+                                    <input type="text" placeholder="입력" name="face_name[]" value="${i}" onfocusout="check_name(this)">
                                 </div>
                             </td>
                             <td class="no-padding">
@@ -704,7 +719,7 @@ if ($artist_flag == 1) {
 <!--                        </td>-->
                         <td class="no-padding">
                             <div class="form-table-select">
-                                <input type="text" placeholder="입력" name="hair_len_name[]" value="${i}">
+                                <input type="text" placeholder="입력" name="hair_len_name[]" value="${i}" onfocusout="check_name(this)">
                             </div>
                         </td>
                         <td class="no-padding">
@@ -741,7 +756,7 @@ if ($artist_flag == 1) {
 <!--                            </td>-->
                             <td class="no-padding">
                                 <div class="form-table-select">
-                                    <input type="text" placeholder="입력" name="plus_name[]" value="${i}">
+                                    <input type="text" placeholder="입력" name="plus_name[]" value="${i}" onfocusout="check_name(this)">
                                 </div>
                             </td>
                             <td class="no-padding">
@@ -779,7 +794,7 @@ if ($artist_flag == 1) {
 <!--                            </td>-->
                             <td class="no-padding">
                                 <div class="form-table-select">
-                                    <input type="text" placeholder="입력" name="place_plus_name[]" value="${i}">
+                                    <input type="text" placeholder="입력" name="place_plus_name[]" value="${i}" onfocusout="check_name(this)">
                                 </div>
                             </td>
                             <td class="no-padding">
@@ -819,7 +834,7 @@ if ($artist_flag == 1) {
 <!--                            </td>-->
                             <td class="no-padding">
                                 <div class="form-table-select">
-                                    <input type="text" placeholder="입력" name="leg_name[]" value="${i}">
+                                    <input type="text" placeholder="입력" name="leg_name[]" value="${i}" onfocusout="check_name(this)">
                                 </div>
                             </td>
                             <td class="no-padding">
@@ -850,7 +865,7 @@ if ($artist_flag == 1) {
 <!--                        </td>-->
                         <td class="no-padding">
                             <div class="form-table-select">
-                                <input type="text" placeholder="입력" name="spa_name[]" value="${i}">
+                                <input type="text" placeholder="입력" name="spa_name[]" value="${i}" onfocusout="check_name(this)">
                             </div>
                         </td>
                         <td class="no-padding">
@@ -880,7 +895,7 @@ if ($artist_flag == 1) {
 <!--                        </td>-->
                         <td class="no-padding">
                             <div class="form-table-select">
-                                <input type="text" placeholder="입력" name="dyeing_name[]" value="${i}">
+                                <input type="text" placeholder="입력" name="dyeing_name[]" value="${i}" onfocusout="check_name(this)">
                             </div>
                         </td>
                         <td class="no-padding">
@@ -910,7 +925,7 @@ if ($artist_flag == 1) {
 <!--                        </td>-->
                         <td class="no-padding">
                             <div class="form-table-select">
-                                <input type="text" placeholder="입력" name="etc_name[]" value="${i}">
+                                <input type="text" placeholder="입력" name="etc_name[]" value="${i}" onfocusout="check_name(this)">
                             </div>
                         </td>
                         <td class="no-padding">
@@ -964,7 +979,7 @@ if ($artist_flag == 1) {
 <!--                </td>-->
                 <td class="no-padding">
                     <div class="form-table-select">
-                        <input type="text" placeholder="입력" name="${idx}_name[]" value="">
+                        <input type="text" placeholder="입력" name="${idx}_name[]" value="" onfocusout="check_name(this)">
                     </div>
                 </td>
                 <td class="no-padding">
@@ -1002,6 +1017,11 @@ if ($artist_flag == 1) {
     })
 
     function open_pop(){
+
+        if(document.querySelector('.btn-page-bottom').classList.contains('disabled')){
+
+            return;
+        }
         pop.open('saveOptionProduct');
     }
 
@@ -1047,6 +1067,40 @@ $(function(){
 		});
 	});
 });
+
+    function check_name(target){
+
+
+
+        let count = 0;
+
+        Array.from($(':input[type=text]')).forEach(function(el){
+
+
+            
+            if(target.value !== ''){
+
+                if(el.value.trim() === target.value.trim()){
+
+                    count++;
+
+                    if(count > 1){
+
+                        document.querySelector('.btn-page-bottom').classList.add('disabled');
+
+                        pop.open('reserveAcceptMsg1');
+                    }else{
+                        document.querySelector('.btn-page-bottom').classList.remove('disabled');
+                    }
+
+
+                }
+            }
+        })
+
+
+    }
+
 </script>
 </body>
 </html>

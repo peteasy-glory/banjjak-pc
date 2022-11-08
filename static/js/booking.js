@@ -9540,6 +9540,7 @@ function management_total_price(){
 
 
 
+
             last_price()
 
        })
@@ -9757,6 +9758,9 @@ function last_price(){
 
     let deposit = document.getElementById('deposit_price').value === null || document.getElementById('deposit_price').value === '' ||  document.getElementById('deposit_price').value === undefined ? 0 : parseInt(document.getElementById('deposit_price').value)
 
+    document.getElementById('deposit_price_2').innerText = `${(parseInt(document.getElementById('real_total_price').getAttribute('value')) - deposit).toLocaleString()}원`;
+    document.getElementById('deposit_price_2').value = (parseInt(document.getElementById('real_total_price').getAttribute('value')) - deposit);
+
 
     document.getElementById('last_price').innerText = `${(sum-discount-reserves).toLocaleString()}원`
 
@@ -9781,7 +9785,18 @@ function data_change(){
     }else if(document.getElementById('last_cash').value == 0){
         document.getElementById('last_cash').value = `${(sum-discount-reserves-deposit)}`;
         document.getElementById('last_card').value = '0';
+    }else{
+
+        let cash = document.getElementById('last_cash').value;
+        let card = document.getElementById('last_card').value;
+
+        document.getElementById('last_cash').value = card;
+        document.getElementById('last_card').value = cash;
+
+
     }
+
+
 
 }
 
@@ -10326,6 +10341,7 @@ function pay_management_init(id,target,bool,bool2,bool3){
 
                     document.getElementById('pay_deposit_btn').setAttribute('data-payment_idx',payment_idx);
                     document.getElementById('deposit_price_list').style.display = 'none';
+                    document.getElementById('deposit_price_list_2').style.display = 'none';
                     document.getElementById('deposit_price').value = 0;
                     document.getElementById('pay_deposit_btn').setAttribute('data-allim','0');
                     document.getElementById('pay_deposit_btn').setAttribute('data-cellphone',body.cell_phone);
@@ -10421,6 +10437,10 @@ function pay_management_init(id,target,bool,bool2,bool3){
                         document.getElementById('deposit_price_list').style.display = 'flex';
                         document.getElementById('deposit_price').innerText = `${body.reserve_pay_price.toLocaleString()}원`
                         document.getElementById('deposit_price').value = body.reserve_pay_price;
+
+
+                        document.getElementById('deposit_price_list_2').style.display = 'flex';
+
 
                     }
 
@@ -11332,14 +11352,16 @@ function pay_management_init(id,target,bool,bool2,bool3){
                         }
 
 
-                        if(localStorage.getItem('is_vat') == '1'){
+
+                        if(body.is_reserve_pay === 1){
+
                             document.getElementById('last_card').value = card;
                             document.getElementById('last_cash').value = cash
-
                         }else{
                             document.getElementById('last_card').value = card;
                             document.getElementById('last_cash').value = cash
                         }
+
 
 
 
