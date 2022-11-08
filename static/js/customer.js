@@ -1760,6 +1760,7 @@ function insert_customer_memo(id,data){
     // let tmp_seq = data[0][0].tmp_seq;
     let cellphone = localStorage.getItem('customer_select');
 //console.log(id,customer_id,tmp_seq,cellphone);
+    console.log(customer_id,tmp_seq);
     $.ajax({
 
         url:'/data/pc_ajax.php',
@@ -3404,6 +3405,15 @@ function customer_allim_inquiry(st_time, fi_time, cellphone){
                             break;
                         case "1000004530_14044" : template_code = "예약취소알림";
                             break;
+                        case "1000004530_20018" : template_code = "알리미";
+                            break;
+                        case "1000004530_20016_2" : template_code = "예약금안내_계좌이체";
+                            break;
+                        case "1000004530_20016_1" : template_code = "예약금안내_계좌이체";
+                            break;
+                        case "1000004530_20017" : template_code = "예약금 미입금 취소안내";
+                            break;
+
 
                     }
                     html += `

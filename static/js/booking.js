@@ -122,6 +122,7 @@ function schedule_render(id,bool){
 
                         let color;
                         body.forEach(function (el, index){
+                            console.log(el);
 
                             if(el.product.store_payment.card === null || el.product.store_payment.card === ''){
 
@@ -1436,7 +1437,7 @@ function consulting_toggle(bool){
 
 }
 //상담대기 리스트
-function consulting_hold_list(id){
+function    consulting_hold_list(id){
 
 
 
@@ -1470,6 +1471,7 @@ function consulting_hold_list(id){
                     },
                     success: function (res) {
 
+                        console.log(res);
 
                         let response = JSON.parse(res);
                         let head = response.data.head;
@@ -1478,6 +1480,7 @@ function consulting_hold_list(id){
                             pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                         } else if (head.code === 200) {
 
+                            console.log(body);
                             if(body_.length === undefined){
 
                                 body_ = [body_];
@@ -1519,6 +1522,7 @@ function consulting_hold_list(id){
                                                                                         </div>
                                                                                     </div>`
                                 }else{
+
 
                                     document.getElementById('consulting_list_2').innerHTML += `<div class="grid-layout-cell grid-2">
                                                                                          <div class="thema-gray-item white consulting-select ${(el.pet_name + el.phone).toString() === localStorage.getItem('consulting_select') ? 'actived' : ''}" data-pet_name="${el.pet_name}" data-phone="${el.phone}">
@@ -9754,7 +9758,7 @@ function last_price(){
     let deposit = document.getElementById('deposit_price').value === null || document.getElementById('deposit_price').value === '' ||  document.getElementById('deposit_price').value === undefined ? 0 : parseInt(document.getElementById('deposit_price').value)
 
 
-    document.getElementById('last_price').innerText = `${(sum-discount-reserves-deposit).toLocaleString()}원`
+    document.getElementById('last_price').innerText = `${(sum-discount-reserves).toLocaleString()}원`
 
     // document.getElementById('last_card').value = `${(sum-discount-reserves)}`
     // document.getElementById('last_cash').value ='0';
@@ -9931,6 +9935,7 @@ function new_exist_check(id){
                                     phone_num:document.getElementById('reserve_cellphone').value,
                                 },
                                 success:function(res) {
+                                    console.log(res);
                                     let response = JSON.parse(res);
                                     let head = response.data.head;
                                     let body = response.data.body;
@@ -10116,6 +10121,7 @@ function pay_management_init(id,target,bool,bool2,bool3){
 
 
 
+    console.log(1);
     let payment_idx = '';
     if(typeof target === 'string'){
 
@@ -10143,6 +10149,8 @@ function pay_management_init(id,target,bool,bool2,bool3){
 
     }
     document.getElementById('pay_management').scrollTop = 0
+
+
 
     setTimeout(function(){
         $.ajax({
@@ -10199,7 +10207,7 @@ function pay_management_init(id,target,bool,bool2,bool3){
 
             },
             success:function (res){
-
+                console.log(res);
                 let response = JSON.parse(res);
                 let head = response.data.head;
                 let body = response.data.body;
@@ -10209,7 +10217,7 @@ function pay_management_init(id,target,bool,bool2,bool3){
                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                 } else if (head.code === 200) {
                     console.log(body)
-
+                    console.log(1)
                     if(typeof target !== 'string'){
 
                         if(target.getAttribute('data-status') && target.getAttribute('data-status').toLowerCase() === 'r1') {
@@ -10278,6 +10286,7 @@ function pay_management_init(id,target,bool,bool2,bool3){
                                 login_id:id
                             },
                             success:function(res){
+                                console.log(res);
                                 let response = JSON.parse(res);
                                 let head = response.data.head;
                                 let body_ = response.data.body;
@@ -10335,13 +10344,14 @@ function pay_management_init(id,target,bool,bool2,bool3){
                             artist_id:id
 
                         },success:function(res){
-
+                            console.log(res);
                             let response = JSON.parse(res);
                             let head = response.data.head;
                             let body = response.data.body;
                             if (head.code === 401) {
                                 pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                             } else if (head.code === 200) {
+                                console.log(2)
 
                                 if(body.length >0){
 
@@ -10351,6 +10361,7 @@ function pay_management_init(id,target,bool,bool2,bool3){
                             }
                         }
                     })
+
 
                     let diary_time ;
                     if(body.diary_idx !== null ){
@@ -10536,35 +10547,36 @@ function pay_management_init(id,target,bool,bool2,bool3){
 
                     })
 
-                    $.ajax({
 
-                        url:'/data/pc_ajax.php',
-                        type:'post',
-                        data:{
-                            mode:'get_customer_memo',
-                            login_id:id,
-                            customer_id : body.customer_Id,
-                            tmp_seq : body.tmp_id,
-                            cellphone: body.cell_phone
-                        },
-                        success:function(res) {
-
-                            let response = JSON.parse(res);
-                            let head = response.data.head;
-                            let body = response.data.body;
-                            if (head.code === 401) {
-                                pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
-                            } else if (head.code === 200) {
-
-
-                                document.getElementById('pay_customer_memo_text').value = body.memo;
-                                document.getElementById('pay_customer_memo_text').setAttribute('data-scm_seq',body.scm_seq);
-
-                            }
-                        }
-
-
-                    })
+                    // $.ajax({
+                    //
+                    //     url:'/data/pc_ajax.php',
+                    //     type:'post',
+                    //     data:{
+                    //         mode:'get_customer_memo',
+                    //         login_id:id,
+                    //         customer_id : body.customer_Id,
+                    //         tmp_seq : body.tmp_id,
+                    //         cellphone: body.cell_phone
+                    //     },
+                    //     success:function(res) {
+                    //         console.log(res);
+                    //         let response = JSON.parse(res);
+                    //         let head = response.data.head;
+                    //         let body = response.data.body;
+                    //         if (head.code === 401) {
+                    //             pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
+                    //         } else if (head.code === 200) {
+                    //
+                    //
+                    //             document.getElementById('pay_customer_memo_text').value = body.memo;
+                    //             document.getElementById('pay_customer_memo_text').setAttribute('data-scm_seq',body.scm_seq);
+                    //
+                    //         }
+                    //     }
+                    //
+                    //
+                    // })
 
                     document.getElementById('pay_customer_memo_text').value = body.owner_memo;
                     document.getElementById('beauty_img_target').setAttribute('src','');
@@ -11097,7 +11109,6 @@ function pay_management_init(id,target,bool,bool2,bool3){
 
                                         parsing.base.hair_features.forEach(function(el){
                                             if(document.getElementById(`${el.unit.replace('_','')}목욕`)){
-
                                                 document.getElementById(`${el.unit.replace('_','')}목욕`).click()
                                             }else if(document.getElementById(`${el.unit.replace('_','')}`)){
                                                 document.getElementById(`${el.unit.replace('_','')}`).click();
@@ -11322,11 +11333,11 @@ function pay_management_init(id,target,bool,bool2,bool3){
 
 
                         if(localStorage.getItem('is_vat') == '1'){
-                            document.getElementById('last_card').value = card-deposit;
+                            document.getElementById('last_card').value = card;
                             document.getElementById('last_cash').value = cash
 
                         }else{
-                            document.getElementById('last_card').value = card-deposit;
+                            document.getElementById('last_card').value = card;
                             document.getElementById('last_cash').value = cash
                         }
 
@@ -12685,6 +12696,7 @@ function deposit_finish(target){
             } else if (head.code === 200) {
                 if(reserve_pay_yn == 1){
 
+
                     document.getElementById('pay_deposit_btn').setAttribute('data-allim','0')
                     let message = `반려생활의 단짝, 반짝에서 ${cellphone.slice(-4)}님의 ${name} 미용예약 내용을 알려드립니다.\n` +
                         '\n' +
@@ -12705,7 +12717,7 @@ function deposit_finish(target){
                             mode:'reserve_regist_allim',
                             cellphone:cellphone,
                             message:message,
-                            payment_idx:body.idx,
+                            payment_idx:payment_idx,
 
 
                         },success:function(res){

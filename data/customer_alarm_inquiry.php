@@ -1,5 +1,18 @@
 <?php
 include($_SERVER['DOCUMENT_ROOT']."/include/global.php");
+$artist_flag = (isset($_SESSION['artist_flag'])) ? $_SESSION['artist_flag'] : "";
+
+
+if ($artist_flag === true) {
+    $artist_id = (isset($_SESSION['shop_user_id'])) ? $_SESSION['shop_user_id'] : "";
+    $user_id = (isset($_SESSION['shop_user_id'])) ? $_SESSION['shop_user_id'] : "";
+    $user_name = (isset($_SESSION['shop_user_nickname'])) ? $_SESSION['shop_user_nickname'] : "";
+} else {
+    $artist_id = (isset($_SESSION['gobeauty_user_id'])) ? $_SESSION['gobeauty_user_id'] : "";
+    $user_id = (isset($_SESSION['gobeauty_user_id'])) ? $_SESSION['gobeauty_user_id'] : "";
+    $user_name = (isset($_SESSION['gobeauty_user_nickname'])) ? $_SESSION['gobeauty_user_nickname'] : "";
+}
+
 
 $startDate = ($_POST['startDate'] && $_POST['startDate'] != "")? $_POST['startDate'] : date('Y-m-d', strtotime(DATE('Y-m-d')."-1 days")); // 달력검색 시작 날짜
 $endDate = ($_POST['endDate'] && $_POST['endDate'] != "")? $_POST['endDate'] : DATE('Y-m-d'); // 달력검색 끝 날짜
@@ -37,9 +50,11 @@ if (($startDate != "" && $startDate != null) && ($endDate != "" && $endDate != n
         for($i=0; $i<=$count; $i++){
             $test = str_replace('-', '', $endYearMonth);
             $plus_query .= "
-				UNION ALL
-				SELECT date_client_req, template_code, report_code, content, SUBSTRING_INDEX(SUBSTRING_INDEX(kko_btn_info, '=', '-1' ), '\"', '1') AS payment_log FROM ita_talk_log_".$test." WHERE recipient_num = '".$cellphone."'
-				AND template_code IN ('1000004530_14040', '1000004530_14041', '1000004530_14042', '1000004530_14042_1', '1000004530_14043', '1000004530_14044', '1000004530_20001', '1000004530_20002', '1000004530_20003', '1000004530_20018','1000004530_20003_1')
+				UNION
+				SELECT a.*, SUBSTRING_INDEX(SUBSTRING_INDEX(kko_btn_info, '=', '-1' ), '\"', '1') AS payment_log FROM ita_talk_log_".$test." a
+				JOIN tb_payment_log b ON b.artist_id = '".$artist_id."'
+				WHERE a.recipient_num = '".$cellphone."' AND b.payment_log_seq = SUBSTRING_INDEX(SUBSTRING_INDEX(a.kko_btn_info, '=', '-1' ), '\"', '1')
+				AND template_code IN ('1000004530_14040', '1000004530_14041', '1000004530_14042', '1000004530_14042_1', '1000004530_14043', '1000004530_14044', '1000004530_20001', '1000004530_20002', '1000004530_20003', '1000004530_20018')
 				AND DATE_FORMAT(date_client_req, '%Y-%m-%d')
 					BETWEEN DATE_FORMAT('".$startDate."', '%Y-%m-%d')
 					AND DATE_FORMAT('".$endDate."', '%Y-%m-%d')
@@ -52,14 +67,16 @@ if (($startDate != "" && $startDate != null) && ($endDate != "" && $endDate != n
 
     // 상세내역
     $query = "
-		SELECT date_client_req, template_code, report_code, content, SUBSTRING_INDEX(SUBSTRING_INDEX(kko_btn_info, '=', '-1' ), '\"', '1') AS payment_log FROM ita_talk_log_".$startYearMonth." WHERE recipient_num = '".$cellphone."'
-		AND template_code IN ('1000004530_14040', '1000004530_14041', '1000004530_14042', '1000004530_14042_1', '1000004530_14043', '1000004530_14044', '1000004530_20001', '1000004530_20002', '1000004530_20003', '1000004530_20018','1000004530_20003_1')
-		AND DATE_FORMAT(date_client_req, '%Y-%m-%d')
+		SELECT a.*, SUBSTRING_INDEX(SUBSTRING_INDEX(kko_btn_info, '=', '-1' ), '\"', '1') AS payment_log FROM ita_talk_log_".$startYearMonth." a
+		JOIN tb_payment_log b ON b.artist_id ='".$artist_id."'
+		WHERE a.recipient_num = '".$cellphone."' AND b.payment_log_seq = SUBSTRING_INDEX(SUBSTRING_INDEX(a.kko_btn_info, '=', '-1' ), '\"', '1')
+		AND a.template_code IN ('1000004530_14040', '1000004530_14041', '1000004530_14042', '1000004530_14042_1', '1000004530_14043', '1000004530_14044', '1000004530_20001', '1000004530_20002', '1000004530_20003', '1000004530_20018')
+		AND DATE_FORMAT(a.date_client_req, '%Y-%m-%d')
 			BETWEEN DATE_FORMAT('".$startDate."', '%Y-%m-%d')
 			AND DATE_FORMAT('".$endDate."', '%Y-%m-%d')
 		".$plus_query."
 		ORDER BY date_client_req
-	";
+";
     $result = mysqli_query($connection,$query);
 
     while ($data = mysqli_fetch_array($result)) {

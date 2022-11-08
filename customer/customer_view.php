@@ -2003,6 +2003,7 @@ if ($artist_flag == 1) {
                 comment:str_to_db($(this).val())
             },
             success:function (res){
+                console.log(res);
             }
         })
     })
