@@ -132,7 +132,7 @@ if ($payment_log_seq != "" && $cellphone != "") {
 //			$searchList[] = $data;
 //		}
 //	}
-    $return_data = array("code"=>"000000","data"=>$searchList);
+    $return_data = array("code"=>"000000","data"=>$searchList,"sql"=>$query);
 }
 
 echo json_encode($return_data, JSON_UNESCAPED_UNICODE);

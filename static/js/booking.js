@@ -247,6 +247,7 @@ function schedule_render(id,bool){
                                 if (head.code === 401) {
                                     pop.open('firstRequestMsg1', '잠시 후 다시 시도 해주세요.');
                                 } else if (head.code === 200) {
+                                    console.log(body);
 
 
 
@@ -4019,7 +4020,6 @@ function reserve_merchandise_load_init(id){
 
                     },
                     success:function (res){
-
                         let response = JSON.parse(res);
                         let head = response.data.head;
                         let body = response.data.body;
@@ -4028,6 +4028,7 @@ function reserve_merchandise_load_init(id){
                         } else if (head.code === 200) {
 
 
+                            console.log(body);
                             if(body.is_vat == 1){
                                 localStorage.setItem('is_vat','1');
                             }else{

@@ -2019,7 +2019,7 @@ if ($artist_flag == 1) {
             <div class="pop-data alert-pop-data">
                 <div class="pop-body">
                     <div class="msg-txt">
-                        <img src="/static/images/exam_deposit.jpg" alt="">
+                        <img src="/static/images/exam_deposit.png" alt="">
                     </div>
                 </div>
                 <div class="pop-footer">
